@@ -115,8 +115,8 @@ namespace rtt::BB {
         const std::vector<world::view::RobotView> theirRobots = world->getWorld()->getThem();
 
         // Loop through all pathPoints
-        for (int i = 0; i < pathPoints.size(); i++) {
-
+        int maxSteps = velocityPoints.size() * velTimeStep / pathTimeStep;
+        for (int i = 0; i < maxSteps; i++) {
             double currentTime = i * pathTimeStep;
             // The >= 2 is used for checking for collisions within 2 seconds
             // TODO: fine tune maximum collision check time

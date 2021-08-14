@@ -109,18 +109,22 @@ namespace rtt::ai::control {
         ai::RuleSet ruleSet = gameState.getRuleSet();
 
         bool targetBool;
-        if(!computedPathsBB[robotId].second.has_value()){
-            targetBool = (targetPosition - computedPathsBB[robotId].first.value().getPosition(computedPathsBB[robotId].first.value().getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN;
-        } else {
-            targetBool = (targetPosition - computedPathsBB[robotId].second.value().getPosition(computedPathsBB[robotId].second.value().getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN;
-        }
+
+        //Check if there already has been a path calculated for the robot
+        if(computedPathsBB.contains(robotId)) {
+            //Check if the targetPosition differs by a certain margin from the end of the calculated path
+            if (!computedPathsBB[robotId].second.has_value()) {
+                targetBool = (targetPosition - computedPathsBB[robotId].first.value().getPosition(computedPathsBB[robotId].first.value().getTotalTime())).length() >
+                             stp::control_constants::GO_TO_POS_ERROR_MARGIN;
+            } else {
+                targetBool = (targetPosition - computedPathsBB[robotId].second.value().getPosition(computedPathsBB[robotId].second.value().getTotalTime())).length() >
+                             stp::control_constants::GO_TO_POS_ERROR_MARGIN;
+            }
+        } else return true;
 
         return
-            //Check if there already has been a path calculated for the robot
-            (!computedPathsBB.contains(robotId) ||
-
              //Check if the targetPosition differs by a certain margin from the end of the calculated path
-             targetBool ||
+             (targetBool ||
 
              //Check if currentPosition differs by a certain margin from the start of the calculated path
              (currentPosition - computedPaths[robotId].front()).length() > 3 * Constants::ROBOT_RADIUS() ||
