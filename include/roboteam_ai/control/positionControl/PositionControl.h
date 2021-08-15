@@ -94,6 +94,8 @@ namespace rtt::ai::control {
          * @param targetPosition the desired position that the robot has to reach
          * @param ballAvoidanceDistance the distance the robot should keep from the ball
          * @param robotId the ID of the robot for which the path is calculated
+         * @param pathTimeStep time between the points in computedPaths
+         * @param velTimeStep time between the points in computedVelocities
          * @return A bool which is true if the path needs to be recalculated
          */
         bool shouldRecalculateBBTPath(const rtt::world::World *world, const rtt::world::Field &field,
@@ -103,7 +105,6 @@ namespace rtt::ai::control {
         /**
          * @brief Calculates the velocities for tracking the path. Edits the velocity in the
          * commandCollision structure which is passed as a reference.
-         *
          * @param robotId the ID of the robot for which the path is calculated
          * @param currentPosition the current position of the aforementioned robot
          * @param currentVelocity current robot velocity
@@ -123,7 +124,8 @@ namespace rtt::ai::control {
          * @param firstCollision location of the first collision on the current path
          * @param targetPosition the desired position that the robot has to reach
          * @param ballAvoidanceDistance the distance the robot should keep from the ball
-         * @param timeStep the time between path points when approaching the path
+         * @param pathTimeStep time between the points in computedPaths
+         * @param velTimeStep time between the points in computedVelocities
          * @return An optional with a new bang bang trajectory
          */
         std::pair<std::optional<BB::BBTrajectory2D>,std::optional<BB::BBTrajectory2D>>
@@ -160,18 +162,25 @@ namespace rtt::ai::control {
          * otherwise return nothing.
          * @param world the world object
          * @param field the field object, used onwards by the collision detector
-         * @param intermediatePathCollision if intermediatePathCollision has no value returns std::nullopt
          * @param pathToIntermediatePoint used for getting new start points of the BBT to the targetPosition
          * @param targetPosition the desired position that the robot has to reach
          * @param ballAvoidanceDistance the distance the robot should keep from the ball
          * @param robotId the ID of the robot for which the path is calculated
-         * @param timeStep time in seconds between new start points on the BBT to the intermediatePoint
+         * @param pathTimeStep time between the points in computedPaths
+         * @param velTimeStep time between the points in computedVelocities
          * @return optional BangBangTrajectory if a new path was found
          */
         std::optional<BB::BBTrajectory2D>
         calculatePathFromNewStart(const rtt::world::World *world, const rtt::world::Field &field, BB::BBTrajectory2D pathToIntermediatePoint,
                                   Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, int robotId, double pathTimeStep, double velTimeStep);
 
+        /**
+         * @brief Makes a path and velocity approach of two bang bang trajectories and adds these together
+         * when computedPathsBB.first and .second both have a value
+         * @param robotId
+         * @param pathTimeStep time between the points in computedPaths
+         * @param velTimeStep time between the points in computedVelocities
+         */
         void makeApproaches(int robotId, double pathTimeStep, double velTimeStep);
     };
 

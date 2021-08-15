@@ -54,14 +54,16 @@ namespace rtt::BB {
         WorldObjects();
 
         /**
-         * Takes a BangBangTrajectory of a robot and checks the path in certain intervals for collisions
+         * Takes the path approach of a BangBangTrajectory and velocity approach of a robot and checks the path in pathTimeStep intervals for collisions
          * @brief Calculates the position of the first collision and the obstacle position on a BangBangTrajectory
          * @param world the world object used for information about the robots
          * @param field used for checking collisions with the field
-         * @param BBTrajectory the trajectory to check for collisions
-         * @param computedPaths the paths of our robots
+         * @param computedPaths the approached paths of our robots
+         * @param computedVelocities the approached velocities of our robots
          * @param ballAvoidanceDistance the distance the robot should keep from the ball
          * @param robotId
+         * @param pathTimeStep interval on which to check collisions but also the time between the points in computedPaths
+         * @param velTimeStep interval between points in computedVelocities
          * @return optional with rtt::BB::CollisionData
          */
         std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field,
@@ -77,10 +79,10 @@ namespace rtt::BB {
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
          * @param pathPoints, std::vector with path points
          * @param robotId
-         * @param timeStep in seconds
+         * @param pathTimeStep interval on which to check collisions but also the time between the points in pathPoints
          */
         void calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
-                                      int robotId, double timeStep);
+                                      int robotId, double pathTimeStep);
 
         /**
          * @brief Takes a calculated path and checks points along the path if they are inside the defensearea if
@@ -89,34 +91,35 @@ namespace rtt::BB {
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
          * @param pathPoints, std::vector with path points
          * @param robotId
-         * @param timeStep in seconds
+         * @param pathTimeStep interval on which to check collisions but also the time between the points in pathPoints
          */
         void calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
-                                            int robotId, double timeStep);
+                                            int robotId, double pathTimeStep);
 
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are too close to an
-         * approximation of the ball trajactory. If the play is "ball_placement_them" also checks for the path
+         * approximation of the ball trajectory. If the play is "ball_placement_them" also checks for the path
          * being inside the balltube. If a ballAvoidanceDistance is passed it will overwrite the distance from the ruleset.
          * Adds these points and the time to collisionDatas and collisionTimes
          * @param world Used for information about the ball
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
          * @param pathPoints, std::vector with path points
          * @param ballAvoidanceDistance the distance the robot should keep from the ball
-         * @param timeStep in seconds
+         * @param pathTimeStep interval on which to check collisions but also the time between the points in pathPoints
          */
         void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints,
-                                     std::optional<double> ballAvoidanceDistance, double timeStep);
+                                     std::optional<double> ballAvoidanceDistance, double pathTimeStep);
 
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are too close to an
          * approximation of the enemy robot paths. Adds these points and the time to collisionDatas and collisionTimes if
          * the difference in velocity between the two robots is more than 1.5 ms/s and we are driving faster
          * @param world Used for information about the enemy robots
-         * @param BBTrajectory BBTrajectory which is used for getting the velocity of the robot
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
          * @param pathPoints, std::vector with path points
-         * @param timeStep in seconds
+         * @param velocityPoints, std::vector with velocity points
+         * @param pathTimeStep interval on which to check collisions but also the time between the points in pathPoints
+         * @param velTimeStep interval between the points in velocityPoints
          */
         void calculateEnemyRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                            const std::vector<Vector2> &velocityPoints, double pathTimeStep, double velTimeStep);
@@ -130,10 +133,10 @@ namespace rtt::BB {
          * @param pathPoints, std::vector with path points
          * @param computedPaths The paths of our own robots
          * @param robotId
-         * @param timeStep in seconds
+         * @param pathTimeStep interval on which to check collisions but also the time between the points in pathPoints
          */
         void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,const std::vector<Vector2> &pathPoints,
-                                         const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
+                                         const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double pathTimeStep);
 
         /**
          * @brief returns true if robotId is equal to the keeperId and otherwise checks the ruleSet if the robot is allowed to enter the defense area

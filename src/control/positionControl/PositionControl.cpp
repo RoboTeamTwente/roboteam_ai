@@ -56,7 +56,7 @@ namespace rtt::ai::control {
 
     rtt::BB::CommandCollision PositionControl::computePathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
                                                                       Vector2 currentVelocity, Vector2 targetPosition, std::optional<double> ballAvoidanceDistance, stp::PIDType pidType) {
-        //TODO: find a good value for the timeStep
+        //TODO: find a good value for both timeSteps
         double pathTimeStep = 0.1;
         double velTimeStep = 1.0 / 60.0;
 
@@ -78,6 +78,7 @@ namespace rtt::ai::control {
                 //Create intermediate points, return a collision-free path originating from the best option of these points
                 std::pair<std::optional<BB::BBTrajectory2D>,std::optional<BB::BBTrajectory2D>> newPath =
                     findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, ballAvoidanceDistance, pathTimeStep, velTimeStep);
+
                 if (newPath.first.has_value()) {
                     //If a new path is found update computedPathsBB
                     computedPathsBB[robotId] = newPath;
@@ -153,6 +154,7 @@ namespace rtt::ai::control {
                                  std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, double pathTimeStep, double velTimeStep) {
         // Create and score intermediate points
         std::vector<Vector2> intermediatePoints = createIntermediatePoints(field, robotId, firstCollision, targetPosition);
+        // Priority queue that sorts itself from best to worst intermediate point
         std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>> intermediatePointsSorted = scoreIntermediatePoints(intermediatePoints, firstCollision);
         std::pair<std::optional<BB::BBTrajectory2D>,std::optional<BB::BBTrajectory2D>> pathPair;
 
@@ -165,13 +167,17 @@ namespace rtt::ai::control {
                                                          intermediatePointsSorted.top().second,
                                                          ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
+            // Temporarily save current path and velocity approach
             std::vector<Vector2> previousPath = computedPaths[robotId];
             std::vector<Vector2> previousVel = computedVelocities[robotId];
+
+            // Put the to be tested path and velocity approach in computedPaths and computedVelocities
             computedPaths[robotId] = pathToIntermediatePoint.getPathApproach(pathTimeStep);
             computedVelocities[robotId] = pathToIntermediatePoint.getVelocityApproach(velTimeStep);
 
             // Check path for collisions
             std::optional<BB::CollisionData> intermediatePathCollision = worldObjects.getFirstCollision(world, field, computedPaths, computedVelocities, ballAvoidanceDistance, robotId, pathTimeStep, velTimeStep);
+
             std::optional<BB::BBTrajectory2D> intermediateToTarget;
             // If there are no collisions, tries to calculate a path from points on the pathToIntermediatePoint to the targetPosition
             if(!intermediatePathCollision.has_value()) {
@@ -189,6 +195,8 @@ namespace rtt::ai::control {
                 pathPair.second = intermediateToTarget;
                 break;
             }
+
+            // If the path was no success put the temporarily saved path and velocity approach back in computedPaths and computedVelocities and pop the intermediate point
             computedPaths[robotId] = previousPath;
             computedVelocities[robotId] = previousVel;
             intermediatePointsSorted.pop();
@@ -253,6 +261,7 @@ namespace rtt::ai::control {
         // Increase in timeStep size to decrease calculation time
         double pathTimeStepIncrease = 2;
         pathTimeStep *= pathTimeStepIncrease;
+
         int numberOfTimeSteps = floor(pathToIntermediatePoint.getTotalTime() / pathTimeStep);
         for (int i = 1; i < numberOfTimeSteps; i++) {
             //TODO: Only create newStart's up to point where we dont decelerate yet
@@ -267,6 +276,7 @@ namespace rtt::ai::control {
             // Temporarily save previous path and velocity
             std::vector<Vector2> previousPath = computedPaths[robotId];
             std::vector<Vector2> previousVel = computedVelocities[robotId];
+
             // Erase part that comes after intermediate path
             computedPaths[robotId].erase(computedPaths[robotId].begin() + i * pathTimeStepIncrease,computedPaths[robotId].end());
             computedVelocities[robotId].erase(computedVelocities[robotId].begin() + (int)((double)i * pathTimeStep / velTimeStep) ,computedVelocities[robotId].end());
@@ -279,6 +289,7 @@ namespace rtt::ai::control {
             auto newStartCollisions = worldObjects.getFirstCollision(world, field, computedPaths, computedVelocities, ballAvoidanceDistance, robotId, pathTimeStep / pathTimeStepIncrease, velTimeStep);
 
             if (newStartCollisions.has_value()) {
+                // If the path has a collision on it put the previous path and velocity approach back in computedPaths and computedVelocities
                 computedPaths[robotId] = previousPath;
                 computedVelocities[robotId] = previousVel;
                 continue;
