@@ -2,14 +2,15 @@
 // Created by Dawid Kulikowski on 08/08/2021.
 //
 
-#include "interface/Interface.h"
+#include "interface/InterfaceController.h"
+
 #include "roboteam_utils/Print.h"
 
-void Interface::registerChange() {
-    this->doesNeedUpdate.store(true);
-}
+namespace rbtt::Interface {
 
-std::optional<proto::ModuleState> Interface::getChanges() {
+void InterfaceController::registerChange() { this->doesNeedUpdate.store(true); }
+
+std::optional<proto::ModuleState> InterfaceController::getChanges() {
     bool expect = true;
 
     // It's not very important that this succeeds
@@ -20,7 +21,12 @@ std::optional<proto::ModuleState> Interface::getChanges() {
     }
 
     RTT_WARNING("AI changed interface value!");
-//    TODO: Go through each component and compile new ModuleState
+    //    TODO: Go through each component and compile new ModuleState
 
     return std::nullopt;
+}
+
+//void Interface::handleUpdate(proto::ModuleState) {
+//    this->
+//}
 }

@@ -6,30 +6,41 @@
 #define RTT_INTERFACEDECLARATIONS_H
 
 #include <roboteam_proto/UiOptions.pb.h>
+
+#include <nlohmann/json.hpp>
+
+#include "InterfaceController.h"
 #include "InterfaceDeclaration.h"
 
+namespace rbtt::Interface {
 class InterfaceDeclarations {
    private:
     std::vector<InterfaceDeclaration> decls = {};
 
+    std::weak_ptr<Interface> iface;
+
     mutable std::mutex mtx;
 
-    void _unsafeAddDeclaration(const InterfaceDeclaration);
-    void _unsafeRemoveDeclaration(const std::string);
+    void _unsafeAddDeclaration(InterfaceDeclaration);
+    void _unsafeRemoveDeclaration(std::string);
 
-    std::optional<InterfaceDeclaration> _unsafeGetDeclaration(const std::string) const;
+    std::optional<InterfaceDeclaration> _unsafeGetDeclaration(std::string) const;
+
    public:
-    void addDeclaration(const InterfaceDeclaration);
-    void removeDeclaration(const std::string);
+    InterfaceDeclarations() = default;
+    InterfaceDeclarations(const proto::UiOptionDeclarations& pdecls) {this->handleData(pdecls);}
+    explicit InterfaceDeclarations(const std::vector<InterfaceDeclaration> vec, const std::weak_ptr<Interface> piface) : decls(vec), iface(piface){};
+
+    void addDeclaration(InterfaceDeclaration);
+    void removeDeclaration(std::string);
 
     std::vector<InterfaceDeclaration> getDeclarations() const;
-    std::optional<InterfaceDeclaration> getDeclaration(const std::string) const;
-
+    std::optional<InterfaceDeclaration> getDeclaration(std::string) const;
 
     void handleData(const proto::UiOptionDeclarations&);
 
-
-
+    proto::UiOptionDeclarations toProtoMessage();
 };
 
+}
 #endif  // RTT_INTERFACEDECLARATIONS_H

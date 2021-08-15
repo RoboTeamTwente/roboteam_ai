@@ -5,8 +5,8 @@
 #ifndef RTT_INTERFACEDRAWER_H
 #define RTT_INTERFACEDRAWER_H
 
-class InterfaceDrawer {
-
-};
+namespace rbtt::Interface {
+class InterfaceDrawer {};
+}  // namespace rbtt::Interface
 
 #endif  // RTT_INTERFACEDRAWER_H

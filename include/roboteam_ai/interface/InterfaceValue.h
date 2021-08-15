@@ -6,21 +6,25 @@
 #define RTT_INTERFACEVALUE_H
 
 #include <string>
+#include <variant>
+#include <iostream>
 #include <roboteam_proto/UiOptions.pb.h>
+#include <nlohmann/json.hpp>
+#include <exception>
 
+namespace rbtt::Interface {
 struct InterfaceValue {
    public:
+    InterfaceValue() = default;
     InterfaceValue(const proto::UiValue&);
 
-    InterfaceValue(const int64_t v): intValue{v} {};
-    InterfaceValue(const bool v): boolValue{v} {};
-    InterfaceValue(const float v): floatValue{v} {};
-    InterfaceValue(const std::string v): textValue{v} {};
+    InterfaceValue(const int64_t v) : variant{v} {};
+    InterfaceValue(const bool v) : variant{v} {};
+    InterfaceValue(const float v) : variant{v} {};
+    InterfaceValue(const std::string v) : variant{v} {};
 
-    std::optional<int64_t> intValue = std::nullopt;
-    std::optional<bool> boolValue = std::nullopt;
-    std::optional<float> floatValue = std::nullopt;
-    std::optional<std::string> textValue = std::nullopt;
+    std::variant<int64_t, bool, float, std::string> variant;
 };
+}  // namespace rbtt::Interface
 
 #endif  // RTT_INTERFACEVALUE_H

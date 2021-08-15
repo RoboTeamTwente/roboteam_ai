@@ -5,8 +5,8 @@
 #ifndef RTT_INTERFACEJOYSTICK_H
 #define RTT_INTERFACEJOYSTICK_H
 
-class InterfaceJoystick {
-
-};
+namespace rbtt::Interface {
+class InterfaceJoystick {};
+}  // namespace rbtt::Interface
 
 #endif  // RTT_INTERFACEJOYSTICK_H
