@@ -6,27 +6,29 @@
 
 #include "roboteam_utils/Print.h"
 
-namespace rbtt::Interface {
-
-void InterfaceController::registerChange() { this->doesNeedUpdate.store(true); }
+namespace rtt::Interface {
 
 std::optional<proto::ModuleState> InterfaceController::getChanges() {
-    bool expect = true;
-
-    // It's not very important that this succeeds
-    bool didExchange = this->doesNeedUpdate.compare_exchange_strong(expect, false);
-
-    if (!didExchange && !expect) {
+    if (!this->stateHandler->getState()) {
         return std::nullopt;
     }
 
     RTT_WARNING("AI changed interface value!");
-    //    TODO: Go through each component and compile new ModuleState
 
-    return std::nullopt;
+    proto::ModuleState state;
+    proto::Handshake handshake;
+
+    handshake.set_module_name("_INTERFACE");
+    handshake.mutable_declarations()->CopyFrom(this->declarations->toProto());
+    handshake.mutable_values()->CopyFrom(this->settings->toProto());
+
+    state.mutable_handshakes()->AddAllocated(&handshake);
+
+    return state;
 }
 
-//void Interface::handleUpdate(proto::ModuleState) {
-//    this->
-//}
+void InterfaceController::handleUpdate(proto::UiValues val) {
+    this->settings->handleData(val);
+//    this->declarations->handleData(state.handshakes(0).declarations());
+}
 }

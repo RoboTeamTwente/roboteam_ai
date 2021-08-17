@@ -10,6 +10,7 @@
 #include "AI.h"
 #include "utilities/IOManager.h"
 #include "AppSettings.h"
+#include "interface/InterfaceController.h"
 
 namespace rtt {
 
@@ -23,6 +24,7 @@ class ApplicationManager {
     bool robotsInitialized = false;
 
     AppSettings settings;
+    Interface::InterfaceController iface;
     std::unique_ptr<AI> ai;
     std::unique_ptr<rtt::ai::io::IOManager> io;
 

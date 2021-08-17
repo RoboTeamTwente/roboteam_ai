@@ -50,9 +50,20 @@ void ApplicationManager::runOneLoopCycle() {
     auto received_values = io->centralServerReceive();
     if(received_values.has_value()){
       settings.updateValuesFromInterface(received_values.value());
-      ai->updateSettings(received_values.value());
+      iface.handleUpdate(received_values.value());
+//      ai->updateSettings(received_values.value());
     }
-    std::vector<proto::Handshake> handshakes = {settings.getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
+//    std::vector<proto::Handshake> handshakes = {settings.getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
+std::vector<proto::Handshake> handshakes = {};
+    if (const auto& decls = iface.getDeclarations().lock()) {
+        proto::Handshake handshake;
+
+        handshake.mutable_declarations()->CopyFrom(decls->toProto());
+        handshakes.emplace_back(handshake);
+    } else {
+        RTT_ERROR("Can't get access to interface declarations!");
+    }
+
     io->centralServerSend(handshakes);
 
     proto::AICommand command = ai->decidePlay();

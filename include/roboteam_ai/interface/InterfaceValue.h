@@ -12,7 +12,7 @@
 #include <nlohmann/json.hpp>
 #include <exception>
 
-namespace rbtt::Interface {
+namespace rtt::Interface {
 struct InterfaceValue {
    public:
     InterfaceValue() = default;
@@ -24,7 +24,12 @@ struct InterfaceValue {
     InterfaceValue(const std::string v) : variant{v} {};
 
     std::variant<int64_t, bool, float, std::string> variant;
+
+    proto::UiValue toProto() const;
 };
+void from_json(const nlohmann::json& j, InterfaceValue& p);
+void to_json(nlohmann::json& j, const InterfaceValue& p);
+
 }  // namespace rbtt::Interface
 
 #endif  // RTT_INTERFACEVALUE_H

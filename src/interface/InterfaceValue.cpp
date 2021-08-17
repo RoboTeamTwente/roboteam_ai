@@ -2,8 +2,9 @@
 // Created by Dawid Kulikowski on 08/08/2021.
 //
 #include "interface/InterfaceValue.h"
+#include "roboteam_utils/Print.h"
 
-namespace rbtt::Interface {
+namespace rtt::Interface {
 
 InterfaceValue::InterfaceValue(const proto::UiValue& val) {
     switch (val.value_case()) {
@@ -28,6 +29,23 @@ InterfaceValue::InterfaceValue(const proto::UiValue& val) {
             std::terminate();
             break;
     }
+}
+proto::UiValue InterfaceValue::toProto() const {
+    proto::UiValue value;
+
+    if (auto* intVal = std::get_if<int64_t>(&this->variant)) {
+        value.set_integer_value(*intVal);
+    } else if (auto* boolVal = std::get_if<bool>(&this->variant)) {
+        value.set_bool_value(*boolVal);
+    } else if (auto* floatVal = std::get_if<float>(&this->variant)) {
+        value.set_float_value(*floatVal);
+    } else if (auto* stringVal = std::get_if<std::string>(&this->variant)) {
+        value.set_text_value(*stringVal);
+    } else {
+        throw std::logic_error{"Invalid state of InterfaceValue during serialization!"};
+    }
+
+    return value;
 }
 
 void to_json(nlohmann::json& j, const InterfaceValue& p) {

@@ -3,10 +3,12 @@
 //
 
 #include "interface/InterfaceDeclaration.h"
+#include "interface/InterfaceValue.h"
 #include <roboteam_utils/Print.h>
+#include <nlohmann/json.hpp>
 #include <exception>
 
-namespace rbtt::Interface {
+namespace rtt::Interface {
 
 InterfaceDeclaration::InterfaceDeclaration(const proto::UiOptionDeclaration& decl) : defaultValue(InterfaceValue(decl.default_())) {
     this->path = decl.path();
@@ -39,16 +41,16 @@ void to_json(nlohmann::json& j, const InterfaceDeclaration& declaration) {
     nlohmann::json tmpJson =
         nlohmann::json{{"path", declaration.path}, {"description", declaration.description}, {"isMutable", declaration.isMutable}, {"defaultValue", declaration.defaultValue}};
 
-    if (const auto* slider = std::get_if<rbtt::Interface::InterfaceSlider>(&declaration.options)) {
-        tmpJson["slider"] = slider;
+    if (const auto* slider = std::get_if<InterfaceSlider>(&declaration.options)) {
+        tmpJson["slider"] = *slider;
     } else if (const auto* checkbox = std::get_if<InterfaceCheckbox>(&declaration.options)) {
-        tmpJson["checkbox"] = checkbox;
+        tmpJson["checkbox"] = *checkbox;
     } else if (const auto* dropdown = std::get_if<InterfaceDropdown>(&declaration.options)) {
-        tmpJson["dropdown"] = dropdown;
+        tmpJson["dropdown"] = *dropdown;
     } else if (const auto* radio = std::get_if<InterfaceRadio>(&declaration.options)) {
-        tmpJson["radio"] = radio;
+        tmpJson["radio"] = *radio;
     } else if (const auto* text = std::get_if<InterfaceText>(&declaration.options)) {
-        tmpJson["text"] = text;
+        tmpJson["text"] = *text;
     } else {
         throw std::logic_error{"Variant was in an invalid state when serialising InterfaceDeclaration to JSON!"};
     }
@@ -65,7 +67,7 @@ void from_json(const nlohmann::json& json, InterfaceDeclaration& declaration) {
 
     //    TODO: Replace keys with constants
     if (json.contains("slider")) {
-        declaration.options = json.at("slider").get<rbtt::Interface::InterfaceSlider>();
+        declaration.options = json.at("slider").get<Interface::InterfaceSlider>();
     } else if (json.contains("checkbox")) {
         declaration.options = json.at("checkbox").get<InterfaceCheckbox>();
     } else if (json.contains("dropdown")) {
@@ -86,6 +88,31 @@ InterfaceDeclaration::InterfaceDeclaration(const std::string path, const std::st
     this->description = description;
     this->isMutable = isMutable;
     this->options = options;
+}
+proto::UiOptionDeclaration InterfaceDeclaration::toProto() const {
+
+    proto::UiOptionDeclaration protoDecl;
+
+    protoDecl.set_path(this->path);
+    protoDecl.set_description(this->description);
+    protoDecl.set_is_mutable(this->isMutable);
+    protoDecl.mutable_default_()->CopyFrom(this->defaultValue.toProto());
+
+    if (const auto* slider = std::get_if<Interface::InterfaceSlider>(&this->options)) {
+        protoDecl.mutable_slider()->CopyFrom(slider->toProto());
+    } else if (const auto* checkbox = std::get_if<InterfaceCheckbox>(&this->options)) {
+        protoDecl.mutable_checkbox()->CopyFrom(checkbox->toProto());
+    } else if (const auto* dropdown = std::get_if<InterfaceDropdown>(&this->options)) {
+        protoDecl.mutable_dropdown()->CopyFrom(dropdown->toProto());
+    } else if (const auto* radio = std::get_if<InterfaceRadio>(&this->options)) {
+        protoDecl.mutable_radiobutton()->CopyFrom(radio->toProto());
+    } else if (const auto* text = std::get_if<InterfaceText>(&this->options)) {
+        protoDecl.mutable_textfield()->CopyFrom(text->toProto());
+    } else {
+        throw std::logic_error{"Variant was in an invalid state when serialising InterfaceDeclaration to JSON!"};
+    }
+
+    return protoDecl;
 }
 
 InterfaceText::InterfaceText(const proto::TextField& protoTextField) { this->text = protoTextField.text(); }
@@ -114,14 +141,14 @@ InterfaceCheckbox::InterfaceCheckbox(const proto::Checkbox& protoCheckbox) { thi
 
 InterfaceCheckbox::InterfaceCheckbox(const std::string text) { this->text = text; }
 
-rbtt::Interface::InterfaceSlider::InterfaceSlider(const proto::Slider& protoSlider) {
+Interface::InterfaceSlider::InterfaceSlider(const proto::Slider& protoSlider) {
     this->text = protoSlider.text();
     this->min = protoSlider.min();
     this->max = protoSlider.max();
     this->interval = protoSlider.interval();
 }
 
-rbtt::Interface::InterfaceSlider::InterfaceSlider(const std::string text, const float min, const float max, const float interval) {
+Interface::InterfaceSlider::InterfaceSlider(const std::string text, const float min, const float max, const float interval) {
     this->text = text;
     this->min = min;
     this->max = max;

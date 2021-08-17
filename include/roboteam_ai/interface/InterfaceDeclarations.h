@@ -9,17 +9,17 @@
 
 #include <nlohmann/json.hpp>
 
-#include "InterfaceController.h"
 #include "InterfaceDeclaration.h"
+#include "InterfaceStateHandler.h"
 
-namespace rbtt::Interface {
+namespace rtt::Interface {
 class InterfaceDeclarations {
    private:
     std::vector<InterfaceDeclaration> decls = {};
 
-    std::weak_ptr<Interface> iface;
-
     mutable std::mutex mtx;
+
+    std::weak_ptr<InterfaceStateHandler> stateHandler;
 
     void _unsafeAddDeclaration(InterfaceDeclaration);
     void _unsafeRemoveDeclaration(std::string);
@@ -28,8 +28,10 @@ class InterfaceDeclarations {
 
    public:
     InterfaceDeclarations() = default;
-    InterfaceDeclarations(const proto::UiOptionDeclarations& pdecls) {this->handleData(pdecls);}
-    explicit InterfaceDeclarations(const std::vector<InterfaceDeclaration> vec, const std::weak_ptr<Interface> piface) : decls(vec), iface(piface){};
+    InterfaceDeclarations(std::weak_ptr<InterfaceStateHandler> sts): stateHandler(sts) {}
+
+    InterfaceDeclarations(const proto::UiOptionDeclarations& pdecls, std::weak_ptr<InterfaceStateHandler> sts): stateHandler(sts) {this->handleData(pdecls);}
+    explicit InterfaceDeclarations(const std::vector<InterfaceDeclaration> vec, std::weak_ptr<InterfaceStateHandler> sts) : decls(vec), stateHandler(sts) {};
 
     void addDeclaration(InterfaceDeclaration);
     void removeDeclaration(std::string);
@@ -39,7 +41,7 @@ class InterfaceDeclarations {
 
     void handleData(const proto::UiOptionDeclarations&);
 
-    proto::UiOptionDeclarations toProtoMessage();
+    proto::UiOptionDeclarations toProto() const;
 };
 
 }

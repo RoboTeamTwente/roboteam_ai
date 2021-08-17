@@ -47,11 +47,13 @@ std::optional<proto::UiValues> IOManager::centralServerReceive(){
   int numReceivedMessages = 0;
   stx::Result<proto::UiValues, std::string> last_message = stx::Err(std::string(""));
   while(received){
-    last_message = central_server_connection->read_next<proto::UiValues>();
-    if (last_message.is_ok()){
-      last_message.value().PrintDebugString();
-      numReceivedMessages ++;
-    }else{
+    auto tmp_last_message = central_server_connection->read_next<proto::UiValues>();
+    if (tmp_last_message.is_ok()) {
+        last_message = std::move(tmp_last_message);
+        last_message.value().PrintDebugString();
+        numReceivedMessages ++;
+
+    } else {
       received = false;
       //we don't print the errors as they mark there are no more messages
     }

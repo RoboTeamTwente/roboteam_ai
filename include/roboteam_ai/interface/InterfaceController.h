@@ -5,30 +5,33 @@
 #ifndef RTT_INTERFACECONTROLLER_H
 #define RTT_INTERFACECONTROLLER_H
 
-#include "InterfaceSettings.h"
+#include "interface/InterfaceSettings.h"
+#include "interface/InterfaceStateHandler.h"
+#include "interface/InterfaceDeclarations.h"
 
 #include <roboteam_proto/State.pb.h>
 #include <atomic>
 #include <optional>
 
-namespace rbtt::Interface {
+
+namespace rtt::Interface {
 class InterfaceController {
    private:
     std::shared_ptr<InterfaceSettings> settings;
     std::shared_ptr<InterfaceDeclarations> declarations;
-
-    std::atomic<bool> doesNeedUpdate = false;
+//
+    std::shared_ptr<InterfaceStateHandler> stateHandler;
 
    public:
-    InterfaceController(): settings(std::make_shared<InterfaceSettings>()), declarations(std::make_shared<InterfaceDeclarations>()) {}
-    InterfaceController(InterfaceSettings npsettings, InterfaceDeclarations decls): settings(std::make_shared<InterfaceSettings>(npsettings)), declarations(std::make_shared<InterfaceDeclarations>(decls)) {}
+    InterfaceController(): declarations(std::make_shared<InterfaceDeclarations>(stateHandler)), settings(std::make_shared<InterfaceSettings>(stateHandler)) {}
 
-    void handleUpdate(proto::ModuleState);
+    void handleUpdate(proto::UiValues);
 
-    void registerChange();
+
     std::optional<proto::ModuleState> getChanges();
 
     std::weak_ptr<InterfaceSettings> getSettings() {return settings;}
+    std::weak_ptr<InterfaceDeclarations> getDeclarations() {return declarations;}
 };
 }
 
