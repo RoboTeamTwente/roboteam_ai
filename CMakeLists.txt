@@ -242,15 +242,13 @@ set(AI_SOURCES
         ${COMPUTATION_SOURCES}
         src/AISettings.cpp
         src/AppSettings.cpp
-#        src/interface/InterfaceSettings.cpp
-        src/interface/InterfaceController.cpp
-        src/interface/InterfaceValue.cpp src/interface/InterfaceSettings.cpp include/roboteam_ai/interface/InterfaceDeclaration.h src/interface/InterfaceDeclarations.cpp src/interface/InterfaceDeclaration.cpp include/roboteam_ai/interface/InterfaceStateHandler.h)
+        src/interface/InterfaceController.cpp)
 
 set(AI_LIBS
         PRIVATE roboteam_utils
         PRIVATE NFParam
         PRIVATE SDL2
-        PRIVATE nlohmann_json::nlohmann_json
+        PRIVATE roboteam_interface_lib
         )
 
 set(AI_INCLUDES

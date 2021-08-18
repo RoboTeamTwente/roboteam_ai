@@ -5,9 +5,9 @@
 #ifndef RTT_INTERFACECONTROLLER_H
 #define RTT_INTERFACECONTROLLER_H
 
-#include "interface/InterfaceSettings.h"
-#include "interface/InterfaceStateHandler.h"
-#include "interface/InterfaceDeclarations.h"
+#include "roboteam_interface/InterfaceSettings.h"
+#include "roboteam_interface/InterfaceStateHandler.h"
+#include "roboteam_interface/InterfaceDeclarations.h"
 
 #include <roboteam_proto/State.pb.h>
 #include <atomic>
