@@ -24,7 +24,7 @@ class ApplicationManager {
     bool robotsInitialized = false;
 
     AppSettings settings;
-    Interface::InterfaceController iface;
+    InterfaceController iface = {"interface_declarations.json"};
     std::unique_ptr<AI> ai;
     std::unique_ptr<rtt::ai::io::IOManager> io;
 

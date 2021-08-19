@@ -42,7 +42,8 @@ class IOManager {
     explicit IOManager() = default;
     void publishAICommand(const proto::AICommand& ai_command);
     void publishSettings(proto::Setting setting);
-    std::optional<proto::UiValues> centralServerReceive();
+    std::vector<proto::UiValues> centralServerReceiveDeltas();
+    std::optional<proto::UiValues> centralServerReceiveLastMessage();
     void centralServerSend(std::vector<proto::Handshake> handshakes);
     void init(int teamId);
     proto::State getState();

@@ -6,7 +6,7 @@
 
 #include "roboteam_utils/Print.h"
 
-namespace rtt::Interface {
+namespace rtt {
 
 std::optional<proto::ModuleState> InterfaceController::getChanges() {
     if (!this->stateHandler->getState()) {
@@ -29,6 +29,16 @@ std::optional<proto::ModuleState> InterfaceController::getChanges() {
 
 void InterfaceController::handleUpdate(proto::UiValues val) {
     this->settings->handleData(val);
-//    this->declarations->handleData(state.handshakes(0).declarations());
 }
+
+InterfaceController::InterfaceController(const std::string pathToDecls) {
+
+    std::ifstream jsonFile(pathToDecls);
+    nlohmann::json decls;
+    jsonFile >> decls;
+
+    declarations = std::make_shared<Interface::InterfaceDeclarations>(decls, stateHandler);
+    settings = std::make_shared<Interface::InterfaceSettings>(stateHandler);
+}
+
 }

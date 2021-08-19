@@ -41,31 +41,47 @@ void IOManager::handleState(proto::State &stateMsg) {
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-std::optional<proto::UiValues> IOManager::centralServerReceive(){
-  //first receive any setting changes
+std::optional<proto::UiValues> IOManager::centralServerReceiveLastMessage(){
   bool received = true;
-  int numReceivedMessages = 0;
   stx::Result<proto::UiValues, std::string> last_message = stx::Err(std::string(""));
+
   while(received){
     auto tmp_last_message = central_server_connection->read_next<proto::UiValues>();
+
     if (tmp_last_message.is_ok()) {
         last_message = std::move(tmp_last_message);
-        last_message.value().PrintDebugString();
-        numReceivedMessages ++;
-
     } else {
       received = false;
       //we don't print the errors as they mark there are no more messages
     }
   }
-  if(numReceivedMessages>0){
-    std::cout<<"received " << numReceivedMessages <<" packets from central server"<<std::endl;
-  }
-  if(last_message.is_ok()){
+
+  if(last_message.is_ok()) {
     return last_message.value();
   }
+
   return std::nullopt;
 }
+
+std::vector<proto::UiValues> IOManager::centralServerReceiveDeltas() {
+    bool received = true;
+    std::vector<proto::UiValues> messages = {};
+
+    while(received){
+        auto tmp_message = central_server_connection->read_next<proto::UiValues>();
+
+        if (tmp_message.is_ok()) {
+            messages.emplace_back(std::move(tmp_message.value()));
+        } else {
+            received = false;
+            //we don't print the errors as they mark there are no more messages
+        }
+    }
+
+    return messages;
+}
+
+
 proto::State IOManager::getState(){
   std::lock_guard<std::mutex> lock(stateMutex);//read lock
   proto::State copy = state;
