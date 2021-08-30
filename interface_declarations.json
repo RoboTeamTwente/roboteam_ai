@@ -1,0 +1,24 @@
+[
+  {
+    "path": "/hello/hello",
+    "description": "Some random button",
+    "isMutable": true,
+    "defaultValue": {
+      "string": "I work!"
+    },
+    "text": {
+      "text": "Some Text"
+    }
+  },
+  {
+    "path": "/hello/world",
+    "description": "Some random button",
+    "isMutable": true,
+    "defaultValue": {
+      "string": "I work!"
+    },
+    "text": {
+      "text": "Some Text"
+    }
+  }
+]
