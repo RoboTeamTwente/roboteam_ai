@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory1D.h>
+#include <roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory1D.h>
 
 namespace rtt::BB {
 // A profile that only decellerates from the start
