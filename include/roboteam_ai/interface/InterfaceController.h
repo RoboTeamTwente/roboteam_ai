@@ -36,6 +36,7 @@ class InterfaceController {
 
     std::weak_ptr<Interface::InterfaceSettings> getSettings() {return settings;}
     std::weak_ptr<Interface::InterfaceDeclarations> getDeclarations() {return declarations;}
+    std::weak_ptr<Interface::InterfaceStateHandler> getDeclarationChangeHandler() {return this->declarationChanges;}
 };
 }
 
