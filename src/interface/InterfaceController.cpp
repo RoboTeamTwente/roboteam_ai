@@ -9,7 +9,7 @@
 namespace rtt {
 
 std::optional<proto::ModuleState> InterfaceController::getChanges() {
-    if (!this->stateHandler->getState()) {
+    if (!this->declarationChanges->getState()) {
         return std::nullopt;
     }
 
@@ -37,8 +37,8 @@ InterfaceController::InterfaceController(const std::string pathToDecls) {
     nlohmann::json decls;
     jsonFile >> decls;
 
-    declarations = std::make_shared<Interface::InterfaceDeclarations>(decls, stateHandler);
-    settings = std::make_shared<Interface::InterfaceSettings>(stateHandler);
+    declarations = std::make_shared<Interface::InterfaceDeclarations>(decls, declarationChanges);
+    settings = std::make_shared<Interface::InterfaceSettings>(declarationChanges);
 }
 
 }

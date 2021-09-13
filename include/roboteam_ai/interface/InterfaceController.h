@@ -21,12 +21,13 @@ class InterfaceController {
    private:
     std::shared_ptr<Interface::InterfaceSettings> settings;
     std::shared_ptr<Interface::InterfaceDeclarations> declarations;
-//
-std::shared_ptr<Interface::InterfaceStateHandler> stateHandler;
+
+    std::shared_ptr<Interface::InterfaceStateHandler> declarationChanges;
 
    public:
     InterfaceController(const std::string);
-    InterfaceController(): declarations(std::make_shared<Interface::InterfaceDeclarations>(stateHandler)), settings(std::make_shared<Interface::InterfaceSettings>(stateHandler)) {}
+    // We don't need status updates from values, only declarations
+    InterfaceController(): declarations(std::make_shared<Interface::InterfaceDeclarations>(declarationChanges)), settings(std::make_shared<Interface::InterfaceSettings>(std::weak_ptr<Interface::InterfaceStateHandler>())) {}
 
     void handleUpdate(proto::UiValues);
 
