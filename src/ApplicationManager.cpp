@@ -68,10 +68,9 @@ void ApplicationManager::runOneLoopCycle() {
         handshakes.emplace_back(handshake);
 
         changes->clear();
-    } else {
-        RTT_ERROR("Can't get access to interface declarations!");
     }
 
+    // The field gets added by IOManager
     io->centralServerSend(handshakes);
 
     proto::AICommand command = ai->decidePlay();

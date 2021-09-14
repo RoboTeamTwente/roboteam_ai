@@ -37,8 +37,9 @@ InterfaceController::InterfaceController(const std::string pathToDecls) {
     nlohmann::json decls;
     jsonFile >> decls;
 
+    declarationChanges = std::make_shared<Interface::InterfaceStateHandler>();
     declarations = std::make_shared<Interface::InterfaceDeclarations>(decls, declarationChanges);
-    settings = std::make_shared<Interface::InterfaceSettings>(declarationChanges);
+    settings = std::make_shared<Interface::InterfaceSettings>(std::weak_ptr<Interface::InterfaceStateHandler>());
 }
 
 }
