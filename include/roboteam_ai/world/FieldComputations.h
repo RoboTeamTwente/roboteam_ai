@@ -5,7 +5,6 @@
 #include <cmath>
 #include <mutex>
 #include "control/ControlUtils.h"
-#include "interface/api/Input.h"
 #include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include "world/Field.h"
 

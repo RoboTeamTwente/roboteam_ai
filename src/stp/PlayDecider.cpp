@@ -6,7 +6,7 @@
 
 namespace rtt::ai::stp {
 
-    bool PlayDecider::interfacePlayChanged = false;
+
 
     Play *PlayDecider::decideBestPlay(const std::vector<Play *>& plays, PlayEvaluator& playEvaluator) noexcept {
         if (interfacePlay) {
@@ -29,7 +29,7 @@ namespace rtt::ai::stp {
 
     // This is only used by the interface to force new plays
     void PlayDecider::lockInterfacePlay(Play *play) {
-        PlayDecider::interfacePlayChanged = true;
+        interfacePlayChanged = true;
         interfacePlay = play;
     }
 }  // namespace rtt::ai::stp

@@ -183,7 +183,10 @@ protected:
      */
     void initRoles() noexcept;
 
-private:
+    static bool ignore_invariants(){ //TODO: make a proper settting
+      return false;
+    }
+   private:
     /**
      * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
      * This is necessary because the views are stored for a limited time; not refreshing will lead to UB

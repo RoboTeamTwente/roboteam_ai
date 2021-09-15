@@ -40,16 +40,16 @@ class IOManager {
    public:
     ~IOManager();
     explicit IOManager() = default;
-    void publishAllRobotCommands(const std::vector<proto::RobotCommand>& vector);
+    void publishAICommand(const proto::AICommand& ai_command);
     void publishSettings(proto::Setting setting);
-    void handleCentralServerConnection();
+    std::vector<proto::UiValues> centralServerReceiveDeltas();
+    std::optional<proto::UiValues> centralServerReceiveLastMessage();
+    void centralServerSend(std::vector<proto::Handshake> handshakes);
     void init(int teamId);
     proto::State getState();
 
     std::mutex stateMutex;
 };
-
-    extern IOManager io;
 
 }  // namespace io
 }  // namespace rtt::ai

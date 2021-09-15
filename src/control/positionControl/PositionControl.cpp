@@ -29,9 +29,11 @@ namespace rtt::ai::control {
         if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
             computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
         }
-        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
-        interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
-        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
+
+        //TODO: replace with new interface
+//        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
+//        interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
+//        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
 
 
         RobotCommand command = RobotCommand();
@@ -84,9 +86,10 @@ namespace rtt::ai::control {
             }
             computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);
         }
-        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
-        interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::darkMagenta, robotId, interface::Drawing::LINES_CONNECTED);
-        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::magenta, robotId, interface::Drawing::DOTS);
+        //TODO: replace with new interface
+//        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
+//        interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::darkMagenta, robotId, interface::Drawing::LINES_CONNECTED);
+//        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::magenta, robotId, interface::Drawing::DOTS);
 
         // TODO: let the robot properly follow the BBT
         //Current method is very hacky
@@ -124,18 +127,19 @@ namespace rtt::ai::control {
             auto intermediateToTarget = calculatePathFromNewStart(world, field, intermediatePathCollision, pathToIntermediatePoint,
                                                                   targetPosition, robotId, timeStep);
             if (intermediateToTarget.has_value()) {
-                interface::Input::drawData(interface::Visual::PATHFINDING, intermediatePoints, Qt::green, robotId,
-                                           interface::Drawing::CROSSES);
-                interface::Input::drawData(interface::Visual::PATHFINDING, {firstCollision->collisionPosition},
-                                           Qt::red, robotId, interface::Drawing::CROSSES);
-
-                interface::Input::drawData(interface::Visual::PATHFINDING,
-                                           pathToIntermediatePoint.getPathApproach(timeStep),
-                                           Qt::white, robotId,
-                                           interface::Drawing::LINES_CONNECTED);
-                interface::Input::drawData(interface::Visual::PATHFINDING,
-                                           intermediateToTarget.value().getPathApproach(timeStep),
-                                           Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
+                //TODO: replace with new interface
+//                interface::Input::drawData(interface::Visual::PATHFINDING, intermediatePoints, Qt::green, robotId,
+//                                           interface::Drawing::CROSSES);
+//                interface::Input::drawData(interface::Visual::PATHFINDING, {firstCollision->collisionPosition},
+//                                           Qt::red, robotId, interface::Drawing::CROSSES);
+//
+//                interface::Input::drawData(interface::Visual::PATHFINDING,
+//                                           pathToIntermediatePoint.getPathApproach(timeStep),
+//                                           Qt::white, robotId,
+//                                           interface::Drawing::LINES_CONNECTED);
+//                interface::Input::drawData(interface::Visual::PATHFINDING,
+//                                           intermediateToTarget.value().getPathApproach(timeStep),
+//                                           Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
                 return intermediateToTarget.value();
             }
             intermediatePointsSorted.pop();

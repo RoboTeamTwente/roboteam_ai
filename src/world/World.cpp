@@ -62,7 +62,7 @@ namespace rtt::world {
     }
 
     void World::updateWorld(proto::World &protoWorld) {
-        WorldData data{this, protoWorld, *settings, updateMap};
+        WorldData data{this, protoWorld,we_are_yellow, updateMap};
         setWorld(data);
     }
 
@@ -75,7 +75,7 @@ namespace rtt::world {
         this->currentField = protoField;
     }
 
-    World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {
+    World::World(bool is_yellow) : we_are_yellow{is_yellow}, currentWorld{std::nullopt}, lastTick{0} {
         history.reserve(HISTORY_SIZE);
     }
 
@@ -98,9 +98,15 @@ namespace rtt::world {
     }
 
     void World::updatePositionControl() {
+      if(auto world = getWorld(); world && !world->getRobotsNonOwning().empty()){
         std::vector<Vector2> robotPositions(getWorld()->getRobotsNonOwning().size());
         std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robotPositions.begin(), [](const auto& robot) -> Vector2 { return (robot->getPos()); });
         positionControl.setRobotPositions(robotPositions);
+      }else{
+        std::vector<Vector2> positions{};
+        positionControl.setRobotPositions(positions);
+      }
+
     }
 
     uint64_t World::getTimeDifference() const noexcept { return tickDuration; }

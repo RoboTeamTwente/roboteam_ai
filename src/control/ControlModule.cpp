@@ -5,11 +5,10 @@
 #include "control/ControlModule.h"
 #include <roboteam_utils/Print.h>
 #include "control/ControlUtils.h"
-#include "utilities/IOManager.h"
-#include "utilities/Settings.h"
 #include "world/World.hpp"
 #include "iostream"
 #include "utilities/Constants.h"
+#include "AISettings.h"
 
 namespace rtt::ai::control {
 
@@ -62,39 +61,23 @@ namespace rtt::ai::control {
     }
 
     void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World *data) noexcept {
+      //TODO: check for double commands
         proto::RobotCommand robot_command = command;
-
-        if(robot && robot->get()){
-            Angle target(robot_command.w());
-            interface::Input::drawData(interface::Visual::PATHFINDING,{robot->get()->getPos(),robot->get()->getPos() + Vector2(target)},Qt::red,robot->get()->getId(),interface::Drawing::LINES_CONNECTED);
-        }
-        // If we are not left, commands should be rotated (because we play as right)
-        if (!SETTINGS.isLeft()) {
-            rotateRobotCommand(robot_command);
-        }
 
         if(robot)
             limitRobotCommand(robot_command, robot);
 
-        //if we are in simulation; adjust w() to be angular velocity)
-        if(!SETTINGS.isSerialMode()){
-            simulator_angular_control(robot, robot_command);
-        }
-
-        // Only add commands with a robotID that is not in the vector yet
-        // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
-        std::lock_guard<std::mutex> guard(robotCommandsMutex);
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
         }
     }
 
-    void ControlModule::simulator_angular_control(const std::optional<::rtt::world::view::RobotView> &robot,
+    void ControlModule::simulator_angular_control(const AISettings& settings, const std::optional<::rtt::world::view::RobotView> &robot,
                                                   proto::RobotCommand &robot_command) {
         double ang_velocity_out = 0.0;//in case there is no robot visible, we just adjust the command to not have any angular velocity
         if(robot) {
             Angle current_angle = robot->get()->getAngle();
-            if(!SETTINGS.isLeft()){
+            if(!settings.isLeft()){
                 current_angle+=M_PI;
             }
             Angle target_angle(robot_command.w());
@@ -121,12 +104,26 @@ namespace rtt::ai::control {
         robot_command.set_w(static_cast<float>(ang_velocity_out));
     }
 
-    void ControlModule::sendAllCommands() {
-          //TODO: check for double commands
 
-          // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
-          std::lock_guard<std::mutex> guard(robotCommandsMutex);
-          io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
-          robotCommands.clear();
+    std::vector<proto::RobotCommand> ControlModule::sendAllCommands(const AISettings& settings) {
+      // If we are not left, commands should be rotated (because we play as right)
+
+        std::vector<proto::RobotCommand> commands = robotCommands;
+
+
+
+//        TODO: Check if is simulator
+        //if we are in simulation; adjust w() to be angular velocity)
+//        if(!settings.isSerialMode()){
+//            simulator_angular_control(robot, robot_command);
+//        }
+
+        for(auto& command : commands){
+            if (!settings.isLeft()) {
+                rotateRobotCommand(command);
+            }
+        }
+      robotCommands.clear();
+      return commands;
     }
 }  // namespace rtt::ai::stp

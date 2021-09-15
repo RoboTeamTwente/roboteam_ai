@@ -1,23 +1,18 @@
 #include "utilities/IOManager.h"
-#include "utilities/Settings.h"
 
 #include "utilities/GameStateManager.hpp"
 
-#include "interface/api/Input.h"
 #include "roboteam_utils/normalize.h"
-#include "utilities/Pause.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::io {
 
 
-IOManager io;
-
 IOManager::~IOManager() {
-    delete worldSubscriber;
-    delete robotCommandPublisher;
-    delete settingsPublisher;
-    delete central_server_connection;
+  delete central_server_connection;
+  delete settingsPublisher;
+  delete robotCommandPublisher;
+  delete worldSubscriber;
 }
 
 void IOManager::init(int teamId) {
@@ -41,65 +36,74 @@ void IOManager::init(int teamId) {
 void IOManager::handleState(proto::State &stateMsg) {
     std::unique_lock<std::mutex> lock(stateMutex); //write lock
     this->state.CopyFrom(stateMsg);
-    if(state.has_referee()){
-        roboteam_utils::rotate(state.mutable_referee());
-        // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
-        std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
-        if (state.referee().yellow().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(true);
-        } else if (state.referee().blue().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(false);
-        }
-        SETTINGS.setLeft(!(state.referee().blue_team_on_positive_half() ^ SETTINGS.isYellow()));
-        auto const& [_, data] = World::instance();
-        ai::GameStateManager::setRefereeData(state.referee(), data);
-    }
+    //TODO: move this to the ai
 }
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
-    if(!pause->getPause()) {
-        proto::AICommand command;
-        for(const auto& robotCommand : robotCommands){
-          proto::RobotCommand * protoCommand = command.mutable_commands()->Add();
-          protoCommand->CopyFrom(robotCommand);
-        }
-        command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
-        robotCommandPublisher->send(command);
-    }
-}
-void IOManager::handleCentralServerConnection(){
-  //first receive any setting changes
+std::optional<proto::UiValues> IOManager::centralServerReceiveLastMessage(){
   bool received = true;
-  int numReceivedMessages = 0;
+  stx::Result<proto::UiValues, std::string> last_message = stx::Err(std::string(""));
+
   while(received){
-    auto receivedUIOptions = central_server_connection->read_next<proto::UiSettings>();
-    if (receivedUIOptions.is_ok()){
-      //TODO: process value
-      receivedUIOptions.value().PrintDebugString();
-      numReceivedMessages ++;
-    }else{
+    auto tmp_last_message = central_server_connection->read_next<proto::UiValues>();
+
+    if (tmp_last_message.is_ok()) {
+        last_message = std::move(tmp_last_message);
+    } else {
       received = false;
       //we don't print the errors as they mark there are no more messages
     }
   }
-  if(numReceivedMessages>0){
-    std::cout<<"received " << numReceivedMessages <<" packets from central server"<<std::endl;
+
+  if(last_message.is_ok()) {
+    return last_message.value();
   }
-  //TODO: actually change settings at the relevant places within our AI
-  //TODO: make sure to write/add relevant debug information/visualizations (strategy debug, etc.)
-  //then, send the current state once
-  proto::ModuleState module_state;
-  {
-    std::lock_guard<std::mutex> lock(stateMutex); //read lock
-    module_state.mutable_system_state()->mutable_state()->CopyFrom(state);
-  }
-    central_server_connection->write(module_state,true);
+
+  return std::nullopt;
 }
+
+std::vector<proto::UiValues> IOManager::centralServerReceiveDeltas() {
+    bool received = true;
+    std::vector<proto::UiValues> messages = {};
+
+    while(received){
+        auto tmp_message = central_server_connection->read_next<proto::UiValues>();
+
+        if (tmp_message.is_ok()) {
+            messages.emplace_back(std::move(tmp_message.value()));
+        } else {
+            received = false;
+            //we don't print the errors as they mark there are no more messages
+        }
+    }
+
+    return messages;
+}
+
+
 proto::State IOManager::getState(){
   std::lock_guard<std::mutex> lock(stateMutex);//read lock
   proto::State copy = state;
   return copy;
+}
+void IOManager::publishAICommand(const proto::AICommand& command) {
+  proto::AICommand ai_command;
+  ai_command.CopyFrom(command);
+  ai_command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world()); //TODO: move this responsibility to the AI
+  robotCommandPublisher->send(command);
+}
+
+void IOManager::centralServerSend(std::vector<proto::Handshake> handshakes) {
+  //then, send the current state once
+  proto::ModuleState module_state;
+  {
+    std::lock_guard<std::mutex> lock(stateMutex); //read lock
+    module_state.mutable_system_state()->CopyFrom(state);
+  }
+  for(const auto& handshake : handshakes){
+    module_state.mutable_handshakes()->Add()->CopyFrom(handshake);
+  }
+  central_server_connection->write(module_state,true);
 }
 }  // namespace rtt::ai::io

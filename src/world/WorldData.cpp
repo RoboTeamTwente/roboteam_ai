@@ -5,9 +5,9 @@
 #include "world/WorldData.hpp"
 
 namespace rtt::world {
-    WorldData::WorldData(const World* data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {
-        auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
-        auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
+    WorldData::WorldData(const World* data, proto::World &protoMsg, bool we_are_yellow, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {
+        auto &ours = we_are_yellow ? protoMsg.yellow() : protoMsg.blue();
+        auto &others = we_are_yellow ? protoMsg.blue() : protoMsg.yellow();
 
         // If there is a ball in the protobuf message, add it to the world
         ball = ball::Ball{protoMsg.ball(), data};

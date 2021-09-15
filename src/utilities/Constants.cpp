@@ -211,21 +211,6 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
 bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) { return ROBOTS_WITH_WORKING_BALL_SENSOR()[id]; }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER()[id]; }
-QColor Constants::FIELD_COLOR() { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); }
-
-QColor Constants::FIELD_LINE_COLOR() { return Qt::white; }
-
-QColor Constants::ROBOT_COLOR_BLUE() { return {150, 150, 255, 255}; }
-
-QColor Constants::ROBOT_COLOR_YELLOW() { return {255, 255, 0, 255}; }
-
-QColor Constants::BALL_COLOR() { return {255, 120, 50, 255}; }
-
-QColor Constants::TEXT_COLOR() { return Qt::white; }
-
-QColor Constants::SELECTED_ROBOT_COLOR() { return Qt::magenta; }
-
-std::vector<QColor> Constants::TACTIC_COLORS() { return {{255, 0, 255, 50}, {0, 255, 255, 50}, {255, 255, 0, 50}, {0, 255, 0, 50}, {0, 0, 255, 100}}; }
 
 pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(2.5, 0.0, 0) : pidVals(2.5, 0.0, 0); }
 

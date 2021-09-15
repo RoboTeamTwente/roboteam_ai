@@ -10,12 +10,13 @@
 #include "RefGameState.h"
 #include "StrategyManager.h"
 #include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+#include <AISettings.h>
 
 namespace rtt::ai {
 
 class GameStateManager {
    public:
-    static void setRefereeData(proto::SSL_Referee refMsg, const rtt::world::World* data);
+    static void setRefereeData(proto::SSL_Referee refMsg, const rtt::world::World* data, const AISettings& settings);
     static proto::SSL_Referee getRefereeData();
     static GameState getCurrentGameState();
     static bool canEnterDefenseArea(int robotId);
@@ -25,7 +26,9 @@ class GameStateManager {
 
    private:
     static proto::SSL_Referee refMsg;
+    static int keeperID;
     static StrategyManager strategymanager;
+    static GameState interface_gamestate; //TODO: port/refactor
     static std::mutex refMsgLock;
 };
 

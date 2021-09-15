@@ -4,8 +4,6 @@
 
 #include "stp/Play.hpp"
 
-#include "interface/widgets/MainControlsWidget.h"
-
 namespace rtt::ai::stp {
 
     void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
@@ -114,14 +112,14 @@ namespace rtt::ai::stp {
     std::unordered_map<Role *, Status> const &Play::getRoleStatuses() const { return roleStatuses; }
 
     bool Play::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept {
-        return (interface::MainControlsWidget::ignoreInvariants || shouldEndPlay() ||
+        return (ignore_invariants() || shouldEndPlay() ||
                 std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator](auto &x) {
                     return playEvaluator.checkEvaluation(x);
                 }));
     }
 
     bool Play::isValidPlayToStart(PlayEvaluator &playEvaluator) const noexcept {
-        return (interface::MainControlsWidget::ignoreInvariants ||
+        return (ignore_invariants() ||
                 std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [&playEvaluator](auto &x) {
                     return playEvaluator.checkEvaluation(x);
                 }));

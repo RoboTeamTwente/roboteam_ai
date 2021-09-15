@@ -11,6 +11,8 @@
 
 #include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
+#include "utilities/IOManager.h"
+#include <AISettings.h>
 #include "control/AnglePID.h"
 
 namespace rtt::ai::control {
@@ -59,10 +61,11 @@ namespace rtt::ai::control {
         /**
          *
          */
-        static void sendAllCommands();
 
-        static void simulator_angular_control(const std::optional<::rtt::world::view::RobotView> &robot,
+        static void simulator_angular_control(const AISettings& settings, const std::optional<::rtt::world::view::RobotView> &robot,
                                               proto::RobotCommand &robot_command);
+
+        static std::vector<proto::RobotCommand> sendAllCommands(const AISettings& settings);
     };
 }  // namespace rtt::ai::control
 

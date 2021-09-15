@@ -3,13 +3,8 @@ project(roboteam_ai)
 
 add_subdirectory(src)
 
-set(CMAKE_AUTORCC OFF)
-set(CMAKE_AUTOUIC OFF)
-set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directories
-
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
-    set(CMAKE_AUTOMOC OFF)
     set(GTEST_LIB
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a
@@ -17,23 +12,18 @@ if (APPLE)
             /usr/local/lib/libgmock_main.a
             )
 else (NOT APPLE)
-    set(CMAKE_AUTOMOC ON)
     set(GTEST_LIB
             PRIVATE gtest
             PRIVATE gmock)
 endif ()
 
-find_package(Qt5 COMPONENTS Core Widgets Gui Charts REQUIRED)
-
 
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         )
 
@@ -222,42 +212,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
         test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp)
 
-set(INTERFACE_HEADERS
-        #QT wants to know about these headers
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/STPVisualizerWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h
-        )
-
-set(INTERFACE_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/widget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/api/Input.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/api/Output.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/STPVisualizerWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidBox.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/MainControlsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/VisualizationSettingsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/GraphWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
-        )
-
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
@@ -270,9 +224,11 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/views/BallView.cpp
         )
 
+# TODO: Clean up interface cmake
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
+        src/AI.cpp
         ${UTILS_SOURCES}
         ${SKILLS_SOURCES}
         ${TACTICS_SOURCES}
@@ -284,16 +240,15 @@ set(AI_SOURCES
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
         ${COMPUTATION_SOURCES}
-        )
+        src/AISettings.cpp
+        src/AppSettings.cpp
+        src/interface/InterfaceController.cpp)
 
 set(AI_LIBS
-        PRIVATE Qt5::Core
-        PRIVATE Qt5::Widgets
-        PRIVATE Qt5::Gui
-        PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE NFParam
         PRIVATE SDL2
+        PRIVATE roboteam_interface_lib
         )
 
 set(AI_INCLUDES
@@ -301,18 +256,6 @@ set(AI_INCLUDES
         PRIVATE include/roboteam_ai
         )
 
-# Apple-specific fixes and separate out old interface for performance
-if(APPLE)
-    # AUTOMOC is borked on CMAKE 3.21.0 + moc 5.15.2 + libprotoc 3.17.3
-    # AUTOMOC tries to moc *.pb.h and fails because ./moc dislikes strange enums?
-    QT5_WRAP_CPP(ai_iface_moc ${INTERFACE_HEADERS})
-    add_library(ai_iface ${ai_iface_moc})
-else()
-    add_library(ai_iface ${INTERFACE_HEADERS})
-endif()
-
-target_link_libraries(ai_iface ${AI_LIBS})
-target_include_directories(ai_iface ${AI_INCLUDES})
 
 add_library(ai_lib ${AI_SOURCES})
 target_link_libraries(ai_lib ${AI_LIBS})
@@ -320,7 +263,7 @@ target_include_directories(ai_lib ${AI_INCLUDES})
 
 # Main Executable
 add_executable(roboteam_ai src/roboteam_ai.cpp)
-target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib ai_iface)
+target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib)
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
