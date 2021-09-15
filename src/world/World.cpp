@@ -98,7 +98,7 @@ namespace rtt::world {
     }
 
     void World::updatePositionControl() {
-      if(!getWorld()->getRobotsNonOwning().empty()){
+      if(auto world = getWorld(); world && !world->getRobotsNonOwning().empty()){
         std::vector<Vector2> robotPositions(getWorld()->getRobotsNonOwning().size());
         std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robotPositions.begin(), [](const auto& robot) -> Vector2 { return (robot->getPos()); });
         positionControl.setRobotPositions(robotPositions);
