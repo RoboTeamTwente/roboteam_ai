@@ -8,12 +8,12 @@
 #include <roboteam_proto/AICommand.pb.h>
 #include <roboteam_proto/Setting.pb.h>
 
-#include <Subscriber.h>
-#include <Publisher.h>
+#include <networking/Subscriber.h>
+#include <networking/Publisher.h>
 
 #include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"
-#include <roboteam_utils/networking/include/Pair.hpp>
+#include <networking/Pair.hpp>
 
 namespace rtt::world {
 class World;
