@@ -28,10 +28,17 @@ Status PenaltyKeeper::update(StpInfo const& info) noexcept {
         return Status::Failure;
     }
 
-    // Stop Formation tactic when ball is moving, start getting the ball and pass
-    if (info.getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-        forceNextTactic();
-    }
+    bool stopBlockBall = isBallInOurDefenseAreaAndStill(info.getField().value(), info.getBall().value()->getPos(), info.getBall().value()->getVelocity());
+
+    // Stop Formation tactic when ball is moving, start blocking, getting the ball and pass
+    if (robotTactics.current_num() == 0 && info.getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL )  forceNextTactic();
+
+    //stop block tactic when the ball is still in our defense area, then get ball and pass
+    if (robotTactics.current_num() == 1 && stopBlockBall) forceNextTactic();
+
+    //when the robot has the ball, blocking has stopped, go pass the ball
+    if (robotTactics.current_num() == 2 && info.getRobot().value().hasBall(0.09,0.2) && stopBlockBall) forceNextTactic();
+
 
     currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
@@ -66,4 +73,6 @@ Status PenaltyKeeper::update(StpInfo const& info) noexcept {
     // Return running by default
     return Status::Running;
 }
+
+
 }  // namespace rtt::ai::stp::role
