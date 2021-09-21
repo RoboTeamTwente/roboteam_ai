@@ -6,12 +6,13 @@
 #ifndef RTT_PENALTYKEEPER_H
 #define RTT_PENALTYKEEPER_H
 
+#include "Keeper.h"
 #include "stp/Role.hpp"
 #include "world/Field.h"
 
 namespace rtt::ai::stp::role {
 
-class PenaltyKeeper : public Role {
+class PenaltyKeeper : public Keeper {
    public:
     /**
      * Ctor that sets the name of the role and creates a state machine of tactics
@@ -25,6 +26,7 @@ class PenaltyKeeper : public Role {
      * @return The status that the current tactic returns
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
+
 };
 }  // namespace rtt::ai::stp::role
 
