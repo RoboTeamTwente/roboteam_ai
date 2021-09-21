@@ -10,7 +10,7 @@
 
 namespace rtt::ai::stp::tactic {
 
-KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
+KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
 std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
@@ -19,18 +19,13 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
-    auto keeper = info.getRobot().value();
     auto enemyRobot = info.getEnemyRobot().value();
 
-    auto keeperToBall = ball->getPos() - keeper->getPos();
 
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
-    auto targetAngle = keeperToBall.angle();
-    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,targetPosition.first.y));
-    skillStpInfo.setPidType(targetPosition.second);
-    skillStpInfo.setAngle(targetAngle);
 
+    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,targetPosition.first.y));
     return skillStpInfo;
 }
 
