@@ -24,6 +24,20 @@ class Keeper : public Role {
      * @return The status that the current tactic returns
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
+
+
+   private:
+
+
+
+
+   protected:
+
+    //
+    //These functions are changed from private to protected, since they need to be used by inherited classes
+    // like PenaltyKeeper
+    //
+
     /**
      * Checks if ball is in our defense area and still
      * @param field Field
@@ -32,18 +46,13 @@ class Keeper : public Role {
      * @return True if ball is in our defense area and still
      */
 
-   private:
-
-
-
-   protected:
+    [[nodiscard]] static bool isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept;
 
     /**
      * Resets state machine when ball is in our defense area and still and current tactic is not KeeperBlockBall
      * @param isBallInOurDefenseAreaAndStill True if ball is in our defense area and still
      * @return True if isBallInOurDefenseAreaAndStill and current tactic is not KeeperBlockBall
      */
-    [[nodiscard]] static bool isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept;
     [[nodiscard]] bool shouldRoleReset(bool isBallInOurDefenseAreaAndStill) noexcept;
 };
 }  // namespace rtt::ai::stp::role
