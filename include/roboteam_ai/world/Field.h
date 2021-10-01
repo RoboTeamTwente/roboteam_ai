@@ -1,9 +1,10 @@
 #ifndef RTT_FIELD_H
 #define RTT_FIELD_H
 
-#include <roboteam_utils/Vector2.h>
-#include "gtest/gtest_prod.h"
 #include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
+#include <roboteam_utils/Vector2.h>
+
+#include "gtest/gtest_prod.h"
 
 namespace rtt::world {
 
@@ -269,15 +270,15 @@ class Field {
      * Trivial copies, skips the 3 unordered maps.
      * @return
      */
-    Field& operator=(Field const&) noexcept;
-    Field(Field const&) noexcept;
+    Field &operator=(Field const &) noexcept;
+    Field(Field const &) noexcept;
 
     /**
      * Move constructors that copy every member except for the first map
      * Please keep in mind that it _does_ allocate.
      */
-    Field& operator=(Field&&) noexcept;
-    Field(Field&&) noexcept;
+    Field &operator=(Field &&) noexcept;
+    Field(Field &&) noexcept;
 
     /**
      * Constructor that converts a protobuf message into a Field Message object.

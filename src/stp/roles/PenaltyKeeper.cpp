@@ -7,11 +7,11 @@
 
 #include <roboteam_utils/Print.h>
 
-#include "stp/tactics/passive/Formation.h"
+#include "stp/tactics/KeeperBlockBall.h"
+#include "stp/tactics/active/ChipAtPos.h"
 #include "stp/tactics/active/GetBall.h"
 #include "stp/tactics/active/KickAtPos.h"
-#include "stp/tactics/active/ChipAtPos.h"
-#include "stp/tactics/KeeperBlockBall.h"
+#include "stp/tactics/passive/Formation.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::role {

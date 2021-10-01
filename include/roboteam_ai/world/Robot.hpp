@@ -8,8 +8,8 @@
 #include <roboteam_proto/RobotFeedback.pb.h>
 #include <roboteam_proto/WorldRobot.pb.h>
 
-#include "roboteam_utils/Angle.h"
 #include "Team.hpp"
+#include "roboteam_utils/Angle.h"
 #include "world/views/BallView.hpp"
 
 namespace rtt::world::robot {

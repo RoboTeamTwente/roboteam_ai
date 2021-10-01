@@ -18,7 +18,7 @@ class AttackingPass : public Play {
      */
     AttackingPass();
 
-/**
+    /**
      * Gets the score for the current play
      *
      * On the contrary to isValidPlay() this checks how good the play actually is
@@ -70,7 +70,7 @@ class AttackingPass : public Play {
      */
     void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
 
-    bool isValidPlayToStart(PlayEvaluator *playEvaluator) noexcept;
+    bool isValidPlayToStart(PlayEvaluator* playEvaluator) noexcept;
 
    private:
     /**

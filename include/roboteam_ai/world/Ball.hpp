@@ -6,10 +6,11 @@
 #define RTT_BALL_HPP
 
 #include <roboteam_proto/WorldBall.pb.h>
+
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt::world {
-    class World;
+class World;
 }
 
 namespace rtt::world::ball {
@@ -79,29 +80,29 @@ class Ball {
      *  Sets position if it's currently unknown
      *  Updates position
      */
-    void initializeCalculations(const world::World* data) noexcept;
+    void initializeCalculations(const world::World *data) noexcept;
 
     /**
      * Initializes ball at the robot's position if `this` does not have a position
      */
-    void initBallAtRobotPosition(const world::World* data) noexcept;
+    void initBallAtRobotPosition(const world::World *data) noexcept;
 
     /**
      * Sets filteredVelocity
      */
-    void filterBallVelocity(const world::World* data) noexcept;
+    void filterBallVelocity(const world::World *data) noexcept;
 
     /**
      * Updates the expected ball end position
      */
-    void updateExpectedBallEndPosition(const world::World* data) noexcept;
+    void updateExpectedBallEndPosition(const world::World *data) noexcept;
 
     /**
      * Updates expectedEndPosition and draws to interface
      * If ball not visible -> get last position if robot can confirm
      * Also updates which robot has the ball and the location
      */
-    void updateBallAtRobotPosition(const world::World* data) noexcept;
+    void updateBallAtRobotPosition(const world::World *data) noexcept;
 
    public:
     [[nodiscard]] const Vector2 &getPos() const noexcept;
@@ -123,7 +124,7 @@ class Ball {
      * Create a Ball object with the current data about the ball.
      * @param copy The current data about the ball
      */
-    explicit Ball(const proto::WorldBall &copy, const world::World* data);
+    explicit Ball(const proto::WorldBall &copy, const world::World *data);
 
     /**
      * Defaulted constructors

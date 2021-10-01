@@ -19,15 +19,15 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     bool useOldPathPlanning = true;
     rtt::BB::CommandCollision commandCollision;
 
-    if(useOldPathPlanning) {
+    if (useOldPathPlanning) {
         // Calculate commands from path planning and tracking
         commandCollision.robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
-        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
-            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
-            info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(info.getCurrentWorld(), info.getField().value(),
+                                                                                                        info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+                                                                                                        info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     }
 
     if (commandCollision.collisionData.has_value()) {

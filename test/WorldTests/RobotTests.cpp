@@ -2,6 +2,7 @@
 // Created by john on 1/22/20.
 //
 #include <gtest/gtest.h>
+
 #include "include/roboteam_ai/world/Robot.hpp"
 #include "world/views/RobotView.hpp"
 
