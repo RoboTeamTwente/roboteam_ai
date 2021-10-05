@@ -83,6 +83,4 @@ Status PenaltyKeeper::update(StpInfo const& info) noexcept {
     // Return running by default
     return Status::Running;
 }
-
-
 }  // namespace rtt::ai::stp::role

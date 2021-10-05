@@ -30,7 +30,6 @@ class PenaltyKeeper : public Keeper {
      * @return The status that the current tactic returns
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
-
 };
 }  // namespace rtt::ai::stp::role
 

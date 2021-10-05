@@ -25,19 +25,6 @@ class Keeper : public Role {
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
 
-
-   private:
-
-
-
-
-   protected:
-
-    //
-    //These functions are changed from private to protected, since they need to be used by inherited classes
-    // like PenaltyKeeper
-    //
-
     /**
      * Checks if ball is in our defense area and still
      * @param field Field
