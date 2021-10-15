@@ -1,0 +1,34 @@
+name: Doxygen Documentation
+
+on:
+  # Triggers the original on push or pull request events but only for the development branch
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+  # Allows you to run this original manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy_doxy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Build'
+        uses: mattnotmitt/doxygen-action@v1.3.1  # action to create the documentation from the specified doxygen config file
+        with:
+          working-directory: "."
+          doxyfile-path: "doxygen"
+          enable-latex: true
+
+      - name: 'Deploy'
+        uses: peaceiris/actions-gh-pages@v3.8.0  # action to deploy the documentation in a separate branch
+        with:
+          publish_branch: doxygen_docs  # documentation can be found in this branch
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "."
+          commit_message: ${{ github.event.head_commit.message }}
+          enable_jekyll: false
+          keep_files: true
