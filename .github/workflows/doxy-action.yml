@@ -3,7 +3,7 @@ name: Doxygen Documentation
 on:
   # Triggers the original on push or pull request events but only for the development branch
   push:
-    branches: [ development ]
+    branches: [ documentation ]
   pull_request:
     branches: [ development ]
 
