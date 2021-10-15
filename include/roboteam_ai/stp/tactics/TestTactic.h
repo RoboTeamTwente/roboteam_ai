@@ -24,6 +24,12 @@ class TestTactic : public Tactic {
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
+    [[maybe_unused]] std::optional<StpInfo> GoToBall(const StpInfo &info);
+
+    [[maybe_unused]] std::optional<StpInfo> RotateToBall(const StpInfo &info);
+
+    [[maybe_unused]] std::optional<StpInfo> TurnOnDribbler(const StpInfo &info, double dribblerSpeed);
+
     /**
      * Is this tactic failing during execution (go back to the previous tactic)
      * @param info StpInfo can be used to check some data
@@ -40,6 +46,8 @@ class TestTactic : public Tactic {
      */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
+    bool forceTacticSuccess(const StpInfo &info) noexcept override;;
+
     /**
      * Is this tactic an end tactic?
      * @return This will always return false, since it is NOT an endTactic
@@ -51,6 +59,7 @@ class TestTactic : public Tactic {
      * @return The name of this tactic
      */
     const char *getName() override;
+
 };
 }  // namespace rtt::ai::stp
 

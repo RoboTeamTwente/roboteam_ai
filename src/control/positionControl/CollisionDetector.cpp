@@ -3,6 +3,7 @@
 //
 
 #include "control/positionControl/CollisionDetector.h"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::control {
 
@@ -16,7 +17,10 @@ bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, co
 std::optional<Vector2> CollisionDetector::getCollisionBetweenPoints(const Vector2& point, const Vector2& nextPoint){
     auto robotCollision = getRobotCollisionBetweenPoints(point, nextPoint);
     auto defenseCollision = getDefenseAreaCollision(point, nextPoint);
-
+    if (robotCollision){
+    }
+    if (defenseCollision){
+    }
     return (defenseCollision.value_or(nextPoint) - point).length2() < (robotCollision.value_or(nextPoint) - point).length2() ?
             defenseCollision :
             robotCollision;
