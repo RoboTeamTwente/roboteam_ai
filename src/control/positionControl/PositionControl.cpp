@@ -13,7 +13,7 @@ namespace rtt::ai::control {
     PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, Vector2 &targetPosition,
                                      stp::PIDType pidType) {
         collisionDetector.setField(field);
-
+        RTT_DEBUG("Running computeandtrackpath");
         // if the target position is outside of the field (i.e. bug in AI), do nothing
         if (!collisionDetector.isPointInsideField(targetPosition)) {
             RTT_WARNING("Target point not in field for robot ID ", robotId)
@@ -27,6 +27,7 @@ namespace rtt::ai::control {
             return {};
         }
         if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
+            RTT_DEBUG("Recalculating path");
             computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
         }
         interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);

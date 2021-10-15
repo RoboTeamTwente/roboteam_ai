@@ -97,6 +97,8 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
 
 std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
                                                                             double margin) {
+    RTT_WARNING("Not checking for collisions with defence area!");
+    return nullptr;
     auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
     auto intersections = defenseArea.intersections({lineStart, lineEnd});
 
