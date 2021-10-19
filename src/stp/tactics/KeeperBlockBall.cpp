@@ -15,19 +15,25 @@ KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Sk
 std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot()) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
     auto keeper = info.getRobot().value();
-    auto enemyRobot = info.getEnemyRobot().value();
-
     auto keeperToBall = ball->getPos() - keeper->getPos();
+
+    if (!skillStpInfo.getEnemyRobot()){
+        auto targetAngle = keeperToBall.angle();
+        skillStpInfo.setAngle(targetAngle);
+        return skillStpInfo;
+    }
+
+    auto enemyRobot = info.getEnemyRobot().value();
 
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
     auto targetAngle = keeperToBall.angle();
-    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,targetPosition.first.y));
+    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2,targetPosition.first.y));
     skillStpInfo.setPidType(targetPosition.second);
     skillStpInfo.setAngle(targetAngle);
 

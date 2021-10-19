@@ -16,7 +16,7 @@ namespace rtt::ai::stp::role {
 
 Keeper::Keeper(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::KeeperBlockBall(), tactic::GetBall(), tactic::ChipAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::KeeperBlockBall()};//, tactic::GetBall(), tactic::ChipAtPos()};
 }
 
 Status Keeper::update(StpInfo const& info) noexcept {
