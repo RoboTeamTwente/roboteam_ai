@@ -63,7 +63,7 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
 
             auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
             if (intersection) {
-                return std::make_pair(intersection.value(), PIDType::DEFAULT);
+                return std::make_pair(intersection.value(), PIDType::KEEPER);
             }
         }
 
