@@ -35,7 +35,8 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN) {
+    if (!info.getRobot()->hasBall()) {
+        RTT_DEBUG("Kicked");
         kickAttempts = 0;
         return Status::Success;
     }
