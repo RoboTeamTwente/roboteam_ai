@@ -56,7 +56,7 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         // Intercept ball when it is moving towards the goal
         if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
             auto start = ball->getPos();
-            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.2);
+            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength());
             auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
             auto endGoal = field.getOurBottomGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
 
@@ -70,8 +70,8 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         // Block the ball by staying on the shot line of the opponent
         if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
             auto start = enemyRobot->getPos();
-            auto enemyToBall = ball->getPos() - start;
-            auto end = start + enemyToBall.stretchToLength(field.getFieldLength() * 0.5);
+            auto robotAngle = enemyRobot->getAngle();
+            auto end = start + robotAngle.toVector2().stretchToLength(field.getFieldLength());
             const auto &startGoal = field.getOurTopGoalSide();
             const auto &endGoal = field.getOurBottomGoalSide();
 
