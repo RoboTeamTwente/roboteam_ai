@@ -16,7 +16,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     command.set_w(static_cast<float>(targetAngle));
 
     // Clamp and set dribbler speed
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 30);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
 
     // Set dribbler speed command
@@ -38,10 +38,12 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     RTT_DEBUG("Error margin: ", stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI * 2);*/
 
     // Check if successful
-    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI * 2;
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+        RTT_DEBUG("Done rotating");
         return Status::Success;
     } else {
+        RTT_DEBUG("Rotating");
         return Status::Running;
     }
 }
