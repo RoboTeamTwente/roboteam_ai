@@ -1,5 +1,5 @@
 #
-# Merged by Max Thielen on
+# Created by Max Thielen on Oct. 15, 2021
 #
 
 name: Doxygen Documentation
@@ -7,7 +7,7 @@ name: Doxygen Documentation
 on:
   # Triggers the action on push or pull request events but only for the development branch
   push:
-    branches: [ documentation ]
+    branches: [ development ]
   pull_request:
     branches: [ development ]
 
