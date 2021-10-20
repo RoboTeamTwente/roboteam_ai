@@ -47,6 +47,14 @@ class KickAtPos : public Tactic {
     bool isEndTactic() noexcept override;
 
     /**
+     * Checks if this tactic should be forced success
+     * It is forced success whenever the has enough velocity to assert it has been kicked
+     * @param info
+     * @return whether the tactic is forced success
+     */
+    bool forceTacticSuccess(const StpInfo &info) noexcept override;
+
+    /**
      * Gets the tactic name
      * @return The name of this tactic
      */

@@ -11,6 +11,7 @@
 #include "control/ControlUtils.h"
 #include "stp/skills/Kick.h"
 #include "stp/skills/Rotate.h"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -21,7 +22,8 @@ KickAtPos::KickAtPos() {
 
 std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
-
+    RTT_DEBUG(skillStpInfo.getRobot()->hasBall() ? "Has ball" : "Does not have ball");
+    RTT_DEBUG("In skill: ", skills.current_num() ? "Kick" : "Rotate");
     if (!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     // Calculate the angle the robot needs to aim
@@ -47,16 +49,27 @@ bool KickAtPos::isEndTactic() noexcept {
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
+    if (!info.getRobot()->hasBall() || !info.getPositionToShootAt()){
+        RTT_DEBUG("Tactic failing!");
+    }
     return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
     if (skills.current_num() != 0) {
+        RTT_DEBUG("Tactic resetting!");
         double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
         return info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle()) > errorMargin;
     }
     return false;
+}
+
+bool KickAtPos::forceTacticSuccess(const StpInfo &info) noexcept {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN){
+        RTT_DEBUG("Forcing tactic success!");
+    }
+    return info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN;
 }
 
 const char *KickAtPos::getName() { return "Kick At Pos"; }
