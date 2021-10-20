@@ -25,7 +25,6 @@ jobs:
         with:
           working-directory: "."
           doxyfile-path: "doxygen"
-          enable-latex: true
 
       - name: 'Deploy'
         uses: peaceiris/actions-gh-pages@v3.8.0  # action to deploy the documentation in a separate branch
