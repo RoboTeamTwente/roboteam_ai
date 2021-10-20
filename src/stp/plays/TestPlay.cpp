@@ -5,6 +5,8 @@
 #include "stp/plays/TestPlay.h"
 
 #include "stp/roles/TestRole.h"
+#include "stp/roles/active/Attacker.h"
+#include "stp/computations/GoalComputations.h"
 
 namespace rtt::ai::stp {
 
@@ -18,7 +20,7 @@ TestPlay::TestPlay() : Play() {
 
     /// Role creation, the names should be unique. The names are used in the stpInfos-map.
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<TestRole>("role_0"),
+        std::make_unique<role::Attacker>("role_0"),
         std::make_unique<TestRole>("role_1"),
         std::make_unique<TestRole>("role_2"),
         std::make_unique<TestRole>("role_3"),
@@ -36,7 +38,7 @@ uint8_t TestPlay::score(PlayEvaluator &playEvaluator) noexcept { return 0; }
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    flagMap.insert({"role_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_0", {DealerFlagPriority::REQUIRED, {}}});
     flagMap.insert({"role_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"role_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"role_3", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
@@ -51,7 +53,12 @@ Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-void TestPlay::calculateInfoForRoles() noexcept {}
+void TestPlay::calculateInfoForRoles() noexcept {
+    //auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
+    auto goalTarget = field.getTheirGoalCenter();
+    stpInfos["role_0"].setPositionToShootAt(goalTarget);
+    stpInfos["role_0"].setShotType(ShotType::PASS);
+}
 
 const char *TestPlay::getName() { return "Test Play"; }
 
