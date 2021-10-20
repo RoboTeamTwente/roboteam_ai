@@ -15,10 +15,15 @@ KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Sk
 std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot()) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
+    if (!skillStpInfo.getEnemyRobot()){
+        skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2, 0));
+        return skillStpInfo;
+    }
+
     auto enemyRobot = info.getEnemyRobot().value();
 
 
