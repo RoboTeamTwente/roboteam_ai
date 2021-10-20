@@ -29,8 +29,7 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
 
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
-
-    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,targetPosition.first.y));
+    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2,targetPosition.first.y));
     return skillStpInfo;
 }
 
@@ -88,18 +87,10 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
             }
         }
 
-        // Stay between the ball and the center of the goal
-        auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
-
-        if (targetPositions.first) {
-            return std::make_pair(targetPositions.first.value(), PIDType::DEFAULT);
-        } else if (targetPositions.second) {
-            return std::make_pair(targetPositions.second.value(), PIDType::DEFAULT);
-        }
+        auto targetPosition = Vector2(field.getOurGoalCenter().x,
+                                      std::clamp(ball->getPos().y, field.getOurGoalCenter().y - field.getGoalWidth() / 2, field.getOurGoalCenter().y + field.getGoalWidth() / 2));
+        return std::make_pair(targetPosition, PIDType::DEFAULT);
     }
-
-    // Default position
-    return std::make_pair(field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0), PIDType::DEFAULT);
 }
 
 }  // namespace rtt::ai::stp::tactic
