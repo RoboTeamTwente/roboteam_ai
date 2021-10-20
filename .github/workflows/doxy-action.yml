@@ -1,13 +1,17 @@
+#
+# Merged by Max Thielen on
+#
+
 name: Doxygen Documentation
 
 on:
-  # Triggers the original on push or pull request events but only for the development branch
+  # Triggers the action on push or pull request events but only for the development branch
   push:
     branches: [ documentation ]
   pull_request:
     branches: [ development ]
 
-  # Allows you to run this original manually from the Actions tab
+  # Allows you to run this action manually from the Actions tab
   workflow_dispatch:
 
 jobs:
