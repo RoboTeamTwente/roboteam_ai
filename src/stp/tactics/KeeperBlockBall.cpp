@@ -7,6 +7,7 @@
 #include "control/ControlUtils.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -23,6 +24,7 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
     auto keeperToBall = ball->getPos() - keeper->getPos();
 
     if (!skillStpInfo.getEnemyRobot()){
+        RTT_WARNING("No enemy robot found in KeeperBlockBall");
         auto targetAngle = keeperToBall.angle();
         skillStpInfo.setAngle(targetAngle);
         return skillStpInfo;
@@ -56,12 +58,12 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
     const double DISTANCE_FROM_GOAL_FAR = field.getGoalWidth() / 1.5;
 
     // Ball is on our side
-    if (ball->getPos().x < 0) {
+    //if (ball->getPos().x < 0) {
         auto keeperArc = Arc(field.getOurGoalCenter(), DISTANCE_FROM_GOAL_FAR, -M_PI / 2, M_PI / 2);
 
         // Ball is moving
         // Intercept ball when it is moving towards the goal
-        if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+        if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
             auto start = ball->getPos();
             auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.2);
             auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
@@ -76,9 +78,10 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         // Opponent is close to ball
         // Block the ball by staying on the shot line of the opponent
         if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
+            RTT_DEBUG("enemy close to ball");
             auto start = enemyRobot->getPos();
             auto enemyToBall = ball->getPos() - start;
-            auto end = start + enemyToBall.stretchToLength(field.getFieldLength() * 0.5);
+            auto end = start + enemyToBall.stretchToLength(field.getFieldLength());
             const auto &startGoal = field.getOurTopGoalSide();
             const auto &endGoal = field.getOurBottomGoalSide();
 
@@ -92,8 +95,10 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
                     return std::make_pair(targetPositions.second.value(), PIDType::DEFAULT);
                 }
             }
+            RTT_DEBUG("No intersections found");
         }
 
+        RTT_WARNING("Calculate Target position did not calculate based on enemy, defaulting to between ball and centre of goal");
         // Stay between the ball and the center of the goal
         auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
 
@@ -102,8 +107,8 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         } else if (targetPositions.second) {
             return std::make_pair(targetPositions.second.value(), PIDType::DEFAULT);
         }
-    }
-
+    //}
+    RTT_WARNING("Calculate Target position did not succeed, defaulting to standard location");
     // Default position
     return std::make_pair(field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0), PIDType::DEFAULT);
 }
