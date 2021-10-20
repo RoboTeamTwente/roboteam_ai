@@ -41,7 +41,7 @@ constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 constexpr double MAX_VEL_CMD = 8;
 constexpr double MAX_DRIBBLER_CMD = 31;
 // Angle increment per tick
-constexpr double ANGLE_RATE = 0.1 * M_PI;
+constexpr double ANGLE_RATE = 0.05 * M_PI;
 constexpr double MAX_VEL_WHEN_HAS_BALL = 3.0;
 
 /// HasBall margins
@@ -56,7 +56,7 @@ constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.11;
 // Distance margin for 'goToPos'. If the robot is within this margin, goToPos is successful
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.08;
 // Angle margin for 'goToPos'. If the robot is within this margin, goToPos is successful
-constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.009;
+constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.08;
 
 /// Invariant constants
 constexpr uint8_t FUZZY_TRUE = 255;
