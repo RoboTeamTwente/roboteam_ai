@@ -5,6 +5,7 @@
 #ifndef RTT_STPINFO_H
 #define RTT_STPINFO_H
 
+#include <optional>
 #include "world/Field.h"
 #include "world/views/BallView.hpp"
 #include "world/views/RobotView.hpp"

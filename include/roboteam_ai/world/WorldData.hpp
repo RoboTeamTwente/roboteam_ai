@@ -5,6 +5,7 @@
 #ifndef RTT_WORLD_DATA_HPP
 #define RTT_WORLD_DATA_HPP
 
+#include <optional>
 #include <vector>
 #include "world/views/RobotView.hpp"
 
