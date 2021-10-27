@@ -20,7 +20,7 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
     auto field = info.getField().value();
     auto ball = info.getBall().value();
     if (!skillStpInfo.getEnemyRobot()){
-        skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2, 0));
+        skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + Constants::KEEPER_CENTREGOAL_MARGIN(), 0));
         return skillStpInfo;
     }
 
