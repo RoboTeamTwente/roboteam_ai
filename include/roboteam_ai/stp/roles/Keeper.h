@@ -24,7 +24,7 @@ class Keeper : public Role {
      * @return The status that the current tactic returns
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
-
+   protected:
     /**
      * Checks if ball is in our defense area and still
      * @param field Field
