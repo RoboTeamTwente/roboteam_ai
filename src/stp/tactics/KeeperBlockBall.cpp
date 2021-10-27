@@ -10,27 +10,27 @@
 
 namespace rtt::ai::stp::tactic {
 
-KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
+KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
 
 std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot()) return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
-    if (!skillStpInfo.getEnemyRobot()){
-        skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2, 0));
-        return skillStpInfo;
-    }
-
+    auto keeper = info.getRobot().value();
     auto enemyRobot = info.getEnemyRobot().value();
 
+    auto keeperToBall = ball->getPos() - keeper->getPos();
 
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
+    auto targetAngle = keeperToBall.angle();
+    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,targetPosition.first.y));
     skillStpInfo.setPidType(targetPosition.second);
-    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2,targetPosition.first.y));
+    skillStpInfo.setAngle(targetAngle);
+
     return skillStpInfo;
 }
 
@@ -57,13 +57,13 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         // Intercept ball when it is moving towards the goal
         if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
             auto start = ball->getPos();
-            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength());
+            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.2);
             auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
             auto endGoal = field.getOurBottomGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
 
             auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
             if (intersection) {
-                return std::make_pair(intersection.value(), PIDType::KEEPER);
+                return std::make_pair(intersection.value(), PIDType::DEFAULT);
             }
         }
 
@@ -71,8 +71,8 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         // Block the ball by staying on the shot line of the opponent
         if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
             auto start = enemyRobot->getPos();
-            auto robotAngle = enemyRobot->getAngle();
-            auto end = start + robotAngle.toVector2().stretchToLength(field.getFieldLength());
+            auto enemyToBall = ball->getPos() - start;
+            auto end = start + enemyToBall.stretchToLength(field.getFieldLength() * 0.5);
             const auto &startGoal = field.getOurTopGoalSide();
             const auto &endGoal = field.getOurBottomGoalSide();
 
@@ -88,10 +88,18 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
             }
         }
 
-        auto targetPosition = Vector2(field.getOurGoalCenter().x,
-                                      std::clamp(ball->getPos().y, field.getOurGoalCenter().y - field.getGoalWidth() / 2, field.getOurGoalCenter().y + field.getGoalWidth() / 2));
-        return std::make_pair(targetPosition, PIDType::DEFAULT);
+        // Stay between the ball and the center of the goal
+        auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
+
+        if (targetPositions.first) {
+            return std::make_pair(targetPositions.first.value(), PIDType::DEFAULT);
+        } else if (targetPositions.second) {
+            return std::make_pair(targetPositions.second.value(), PIDType::DEFAULT);
+        }
     }
+
+    // Default position
+    return std::make_pair(field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0), PIDType::DEFAULT);
 }
 
 }  // namespace rtt::ai::stp::tactic
