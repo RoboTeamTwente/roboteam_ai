@@ -33,16 +33,8 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     if (commandCollision.collisionData.has_value()) {
         return Status::Failure;
     }
-
-    double targetVelocityLength;
-    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS/2){
-        RTT_DEBUG("Setting max vel");
-        targetVelocityLength = stp::control_constants::MAX_VEL_CMD;
-    }
-    else{
-        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
-    }
     // Clamp and set velocity
+    double targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     Vector2 targetVelocity = commandCollision.robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands

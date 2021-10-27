@@ -17,7 +17,7 @@ namespace rtt::ai::stp::play {
         keepPlayEvaluation.emplace_back(GlobalEvaluation::PenaltyThemGameState);
 
         roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-                std::make_unique<role::PenaltyKeeper>(role::PenaltyKeeper("keeper")),
+                std::make_unique<role::Keeper>(role::Keeper("keeper")),
                 std::make_unique<role::Halt>(role::Halt("halt_0")),
                 std::make_unique<role::Halt>(role::Halt("halt_1")),
                 std::make_unique<role::Halt>(role::Halt("halt_2")),
@@ -55,11 +55,10 @@ namespace rtt::ai::stp::play {
     }
 
     void PenaltyThem::calculateInfoForRoles() noexcept {
-        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + Constants::KEEPER_CENTREGOAL_MARGIN(), 0));
+        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,world->getWorld()->getBall()->get()->getPos().y));
         stpInfos["keeper"].setPositionToShootAt(
                 world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-        stpInfos["keeper"].setPidType(stp::PIDType::DEFAULT);
     }
 
     const char *PenaltyThem::getName() { return "Penalty Them"; }

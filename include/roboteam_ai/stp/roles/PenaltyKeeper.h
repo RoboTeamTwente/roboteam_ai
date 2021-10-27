@@ -6,17 +6,12 @@
 #ifndef RTT_PENALTYKEEPER_H
 #define RTT_PENALTYKEEPER_H
 
-#include "Keeper.h"
 #include "stp/Role.hpp"
 #include "world/Field.h"
 
 namespace rtt::ai::stp::role {
 
-//
-//Role inherited from the Keeper
-//
-
-class PenaltyKeeper : public Keeper {
+class PenaltyKeeper : public Role {
    public:
     /**
      * Ctor that sets the name of the role and creates a state machine of tactics
