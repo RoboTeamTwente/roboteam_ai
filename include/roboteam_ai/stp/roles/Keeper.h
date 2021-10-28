@@ -24,6 +24,7 @@ class Keeper : public Role {
      * @return The status that the current tactic returns
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
+
    protected:
     /**
      * Checks if ball is in our defense area and still
@@ -34,6 +35,7 @@ class Keeper : public Role {
      */
 
     [[nodiscard]] static bool isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept;
+    
    private:
     /**
      * Resets state machine when ball is in our defense area and still and current tactic is not KeeperBlockBall
