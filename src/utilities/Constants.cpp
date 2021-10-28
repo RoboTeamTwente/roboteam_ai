@@ -125,7 +125,7 @@ double Constants::DEFAULT_BALLCOLLISION_RADIUS() { return 0.27; }
 
 double Constants::KEEPER_POST_MARGIN() { return 0.08; }
 
-double Constants::KEEPER_CENTREGOAL_MARGIN() { return 0.5; }
+double Constants::KEEPER_CENTREGOAL_MARGIN() { return 0.2; }
 
 double Constants::KEEPER_PENALTY_LINE_MARGIN() { return 0.06; }
 
