@@ -20,8 +20,8 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
     if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
-    Vector2 robotPosition = info.getRobot().value()->getPos();
-    Vector2 ballPosition = info.getBall().value()->getPos();
+    Vector2 robotPosition = skillStpInfo.getRobot().value()->getPos();
+    Vector2 ballPosition = skillStpInfo.getBall().value()->getPos();
     double ballDistance = (ballPosition - robotPosition).length();
 
     // If this robot is not the keeper, don't get the ball inside a defense area
@@ -50,7 +50,7 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
 bool GetBall::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return !info.getRobot()->hasBall(); }
+bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return info.getRobot()->get()->getAngleDiffToBall() < control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI; }
 
 bool GetBall::isEndTactic() noexcept {
     // This is not an end tactic
