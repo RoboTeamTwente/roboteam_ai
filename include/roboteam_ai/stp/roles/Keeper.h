@@ -25,7 +25,7 @@ class Keeper : public Role {
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
 
-   private:
+   protected:
     /**
      * Checks if ball is in our defense area and still
      * @param field Field
@@ -33,8 +33,10 @@ class Keeper : public Role {
      * @param ballVel Ball velocity
      * @return True if ball is in our defense area and still
      */
-    [[nodiscard]] static bool isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept;
 
+    [[nodiscard]] static bool isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept;
+    
+   private:
     /**
      * Resets state machine when ball is in our defense area and still and current tactic is not KeeperBlockBall
      * @param isBallInOurDefenseAreaAndStill True if ball is in our defense area and still
