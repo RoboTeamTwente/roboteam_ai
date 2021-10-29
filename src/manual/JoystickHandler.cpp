@@ -46,11 +46,9 @@ void JoystickHandler::handleEvent(SDL_Event &event) {
 
 void JoystickHandler::changeRobotID() {
     if (joystickState.back) {
-
         /* Add minimal delay of 100ms between id switching to deal with button bouncing */
         int msFromPreviousSwitch = (int)duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - id_switched_timestamp).count();
-        if(msFromPreviousSwitch < 100)
-            return;
+        if (msFromPreviousSwitch < 100) return;
 
         if (joystickState.dpadLeft) {
             if (0 < robotId) {
@@ -213,10 +211,10 @@ void JoystickHandler::handleJoystickHat(SDL_Event &event) {
 
     uint32_t value = event.jhat.value;
 
-    joystickState.dpadUp    = (value & 1) > 0;
+    joystickState.dpadUp = (value & 1) > 0;
     joystickState.dpadRight = (value & 2) > 0;
-    joystickState.dpadDown  = (value & 4) > 0;
-    joystickState.dpadLeft  = (value & 8) > 0;
+    joystickState.dpadDown = (value & 4) > 0;
+    joystickState.dpadLeft = (value & 8) > 0;
 }
 
 /* Sets dribber speed */

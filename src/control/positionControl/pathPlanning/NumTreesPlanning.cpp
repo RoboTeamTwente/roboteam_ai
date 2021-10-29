@@ -71,9 +71,9 @@ std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition,
 }
 
 std::vector<PathPointNode> NumTreesPlanning::branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition, Vector2 &destination) const {
-    //const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin
+    // const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin
     if (collisionPosition.x > 1.9 && abs(collisionPosition.y) < 1.1) {
-        destination = (destination - Vector2(4,0)).stretchToLength(0.5) + destination;
+        destination = (destination - Vector2(4, 0)).stretchToLength(0.5) + destination;
     }
     Vector2 deltaPosition = collisionPosition - parentPoint.getPosition();
 

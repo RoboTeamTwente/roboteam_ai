@@ -265,14 +265,13 @@ Field Field::createTestField() {
     FieldLineSegment bottomRightPenaltyStretch = {{5.9900000000000002, -1.2}, {4.79, -1.2}, "bottom_right_penalty_stretch", 0.00999999978};
     FieldArc centerCircle = {{0, 0}, 0.495000005, 0, 0.00628318544, "center_circle", 0.00999999978};
     return Field(fieldWidth, fieldLength, goalWidth, goalDepth, boundaryWidth, topLine, bottomLine, leftLine, rightLine, halfLine, centerLine, leftPenaltyLine, rightPenaltyLine,
-        topLeftPenaltyStretch, bottomLeftPenaltyStretch, topRightPenaltyStretch, bottomRightPenaltyStretch, centerCircle);
+                 topLeftPenaltyStretch, bottomLeftPenaltyStretch, topRightPenaltyStretch, bottomRightPenaltyStretch, centerCircle);
 }
 
 Field::Field(double fieldWidth, double fieldLength, double goalWidth, double goalDepth, double boundaryWidth, FieldLineSegment &topLine, FieldLineSegment &bottomLine,
-    FieldLineSegment &leftLine, FieldLineSegment &rightLine, FieldLineSegment &halfLine, FieldLineSegment &centerLine, FieldLineSegment &leftPenaltyLine,
-    FieldLineSegment &rightPenaltyLine, FieldLineSegment &topLeftPenaltyStretch, FieldLineSegment &bottomLeftPenaltyStretch, FieldLineSegment &topRightPenaltyStretch,
-    FieldLineSegment &bottomRightPenaltyStretch, FieldArc &centerCircle) {
-
+             FieldLineSegment &leftLine, FieldLineSegment &rightLine, FieldLineSegment &halfLine, FieldLineSegment &centerLine, FieldLineSegment &leftPenaltyLine,
+             FieldLineSegment &rightPenaltyLine, FieldLineSegment &topLeftPenaltyStretch, FieldLineSegment &bottomLeftPenaltyStretch, FieldLineSegment &topRightPenaltyStretch,
+             FieldLineSegment &bottomRightPenaltyStretch, FieldArc &centerCircle) {
     this->fieldWidth = fieldWidth;
     this->fieldLength = fieldLength;
     this->goalWidth = goalWidth;
@@ -295,87 +294,85 @@ Field::Field(double fieldWidth, double fieldLength, double goalWidth, double goa
     initFieldOthers();
 }
 
-    Field &Field::operator=(const Field & old) noexcept {
-        if (this == &old) {
-            return *this;
-        }
-        // this->NAME_MAP already properly set
-        // this->RELATED_FIELD_LINE already properly set.
-        // this->RELATED_FIELD_ARC already properly set
-        /**
-         * If only padding in C++ was guaranteed and i could just do
-         * auto maps_size = sizeof(std::decay_t<decltype(this->NAME_MAP)>) * 3;
-         * auto copy_bytes = sizeof(std::decay_t<*this>) - maps_size;
-         * std::memcpy((char*)this + maps_size, (const char*)&old + maps_size, copy_bytes);
-         * I cri, haico pls never make something like an internal map with pointers to members of `this` again
-         *
-         * or @bjarne please add reflection ;) ;) ;) <3
-         */
-        allFieldLines = old.allFieldLines;
-        fieldWidth = old.fieldWidth;
-        fieldLength = old.fieldLength;
-        goalWidth = old.goalWidth;
-        goalDepth = old.goalDepth;
-        boundaryWidth = old.boundaryWidth;
-        centerY = old.centerY;
-        leftmostX = old.leftmostX;
-        rightmostX = old.rightmostX;
-        bottommostY = old.bottommostY;
-        topmostY = old.topmostY;
-        leftPenaltyX = old.leftPenaltyX;
-        rightPenaltyX = old.rightPenaltyX;
-        penaltyTopY = old.penaltyTopY;
-        penaltyBottomY = old.penaltyBottomY;
-        topLine = old.topLine;
-        bottomLine = old.bottomLine;
-        leftLine = old.leftLine;
-        rightLine = old.rightLine;
-        halfLine = old.halfLine;
-        centerLine = old.centerLine;
-        leftPenaltyLine = old.leftPenaltyLine;
-        rightPenaltyLine = old.rightPenaltyLine;
-        topLeftPenaltyStretch = old.topLeftPenaltyStretch;
-        bottomLeftPenaltyStretch = old.bottomLeftPenaltyStretch;
-        topRightPenaltyStretch = old.topRightPenaltyStretch;
-        bottomRightPenaltyStretch = old.bottomRightPenaltyStretch;
-        ourGoalCenter = old.ourGoalCenter;
-        theirGoalCenter = old.theirGoalCenter;
-        leftPenaltyPoint = old.leftPenaltyPoint;
-        rightPenaltyPoint = old.rightPenaltyPoint;
-        ourBottomGoalSide = old.ourBottomGoalSide;
-        ourTopGoalSide = old.ourTopGoalSide;
-        theirBottomGoalSide = old.theirBottomGoalSide;
-        theirTopGoalSide = old.theirTopGoalSide;
-        leftPenaltyLineTop = old.leftPenaltyLineTop;
-        leftPenaltyLineBottom = old.leftPenaltyLineBottom;
-        rightPenaltyLineTop = old.rightPenaltyLineTop;
-        rightPenaltyLineBottom = old.rightPenaltyLineBottom;
-        bottomLeftCorner = old.bottomLeftCorner;
-        topLeftCorner = old.topLeftCorner;
-        bottomRightCorner = old.bottomRightCorner;
-        topRightCorner = old.topRightCorner;
-        centerCircle = old.centerCircle;
-        topLeftOurDefenceArea = old.topLeftOurDefenceArea;
-        bottomLeftOurDefenceArea = old.bottomLeftOurDefenceArea;
-        topRightTheirDefenceArea = old.topRightTheirDefenceArea;
-        bottomRightTheirDefenceArea = old.bottomRightTheirDefenceArea;
-
+Field &Field::operator=(const Field &old) noexcept {
+    if (this == &old) {
         return *this;
     }
+    // this->NAME_MAP already properly set
+    // this->RELATED_FIELD_LINE already properly set.
+    // this->RELATED_FIELD_ARC already properly set
+    /**
+     * If only padding in C++ was guaranteed and i could just do
+     * auto maps_size = sizeof(std::decay_t<decltype(this->NAME_MAP)>) * 3;
+     * auto copy_bytes = sizeof(std::decay_t<*this>) - maps_size;
+     * std::memcpy((char*)this + maps_size, (const char*)&old + maps_size, copy_bytes);
+     * I cri, haico pls never make something like an internal map with pointers to members of `this` again
+     *
+     * or @bjarne please add reflection ;) ;) ;) <3
+     */
+    allFieldLines = old.allFieldLines;
+    fieldWidth = old.fieldWidth;
+    fieldLength = old.fieldLength;
+    goalWidth = old.goalWidth;
+    goalDepth = old.goalDepth;
+    boundaryWidth = old.boundaryWidth;
+    centerY = old.centerY;
+    leftmostX = old.leftmostX;
+    rightmostX = old.rightmostX;
+    bottommostY = old.bottommostY;
+    topmostY = old.topmostY;
+    leftPenaltyX = old.leftPenaltyX;
+    rightPenaltyX = old.rightPenaltyX;
+    penaltyTopY = old.penaltyTopY;
+    penaltyBottomY = old.penaltyBottomY;
+    topLine = old.topLine;
+    bottomLine = old.bottomLine;
+    leftLine = old.leftLine;
+    rightLine = old.rightLine;
+    halfLine = old.halfLine;
+    centerLine = old.centerLine;
+    leftPenaltyLine = old.leftPenaltyLine;
+    rightPenaltyLine = old.rightPenaltyLine;
+    topLeftPenaltyStretch = old.topLeftPenaltyStretch;
+    bottomLeftPenaltyStretch = old.bottomLeftPenaltyStretch;
+    topRightPenaltyStretch = old.topRightPenaltyStretch;
+    bottomRightPenaltyStretch = old.bottomRightPenaltyStretch;
+    ourGoalCenter = old.ourGoalCenter;
+    theirGoalCenter = old.theirGoalCenter;
+    leftPenaltyPoint = old.leftPenaltyPoint;
+    rightPenaltyPoint = old.rightPenaltyPoint;
+    ourBottomGoalSide = old.ourBottomGoalSide;
+    ourTopGoalSide = old.ourTopGoalSide;
+    theirBottomGoalSide = old.theirBottomGoalSide;
+    theirTopGoalSide = old.theirTopGoalSide;
+    leftPenaltyLineTop = old.leftPenaltyLineTop;
+    leftPenaltyLineBottom = old.leftPenaltyLineBottom;
+    rightPenaltyLineTop = old.rightPenaltyLineTop;
+    rightPenaltyLineBottom = old.rightPenaltyLineBottom;
+    bottomLeftCorner = old.bottomLeftCorner;
+    topLeftCorner = old.topLeftCorner;
+    bottomRightCorner = old.bottomRightCorner;
+    topRightCorner = old.topRightCorner;
+    centerCircle = old.centerCircle;
+    topLeftOurDefenceArea = old.topLeftOurDefenceArea;
+    bottomLeftOurDefenceArea = old.bottomLeftOurDefenceArea;
+    topRightTheirDefenceArea = old.topRightTheirDefenceArea;
+    bottomRightTheirDefenceArea = old.bottomRightTheirDefenceArea;
 
-    Field &Field::operator=(Field && old) noexcept {
-        NAME_MAP = std::move(old.NAME_MAP);
-        *this = old;
-        return *this;
-    }
+    return *this;
+}
 
-    Field::Field(Field && old) noexcept {
-        NAME_MAP = std::move(old.NAME_MAP);
-        *this = old;
-    }
+Field &Field::operator=(Field &&old) noexcept {
+    NAME_MAP = std::move(old.NAME_MAP);
+    *this = old;
+    return *this;
+}
 
-    Field::Field(Field const& old) noexcept{
-        *this = old;
-    }
+Field::Field(Field &&old) noexcept {
+    NAME_MAP = std::move(old.NAME_MAP);
+    *this = old;
+}
+
+Field::Field(Field const &old) noexcept { *this = old; }
 
 }  // namespace rtt::world

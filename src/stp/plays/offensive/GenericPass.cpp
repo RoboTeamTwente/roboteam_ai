@@ -7,13 +7,13 @@
 
 #include <roboteam_utils/Tube.h>
 
-#include "stp/roles/passive/Formation.h"
-#include "stp/roles/passive/Halt.h"
+#include "stp/computations/PositionComputations.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/PassReceiver.h"
 #include "stp/roles/active/Passer.h"
 #include "stp/roles/passive/Defender.h"
-#include "stp/computations/PositionComputations.h"
+#include "stp/roles/passive/Formation.h"
+#include "stp/roles/passive/Halt.h"
 
 namespace rtt::ai::stp::play {
 
@@ -23,7 +23,7 @@ void GenericPass::onInitialize() noexcept {
 
     // Make sure we calculate pass positions at least once
     receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridLeftTop, gen::GoalShootPosition, field, world);
-    receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(),gen::gridRightTop, gen::GoalShootPosition, field, world);
+    receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world);
     passingPosition = receiverPositionRight.position;
 }
 
@@ -37,21 +37,20 @@ GenericPass::GenericPass() : Play() {
     keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(eval::FreedomOfRobots);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Passer>(role::Passer("passer")),
-        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
-        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Halt>(role::Halt("halt_3")),
-        std::make_unique<role::Halt>(role::Halt("halt_4")),
-        std::make_unique<role::Halt>(role::Halt("halt_5")),
-        std::make_unique<role::Halt>(role::Halt("halt_6")),
-        std::make_unique<role::Halt>(role::Halt("halt_7"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                 std::make_unique<role::Passer>(role::Passer("passer")),
+                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
+                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_3")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_4")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_5")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_6")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(PlayEvaluator &playEvaluator) noexcept { return 130; }
+uint8_t GenericPass::score(PlayEvaluator& playEvaluator) noexcept { return 130; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
@@ -76,8 +75,9 @@ void GenericPass::calculateInfoForRoles() noexcept {
     }
     auto fieldWidth = field.getFieldWidth();
     auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
-    //TODO: check if SafePosition is the right profile to use
-    stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),gen::gridMidFieldMid, gen::SafePosition, field, world));
+    // TODO: check if SafePosition is the right profile to use
+    stpInfos["midfielder_1"].setPositionToMoveTo(
+        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), gen::gridMidFieldMid, gen::SafePosition, field, world));
 }
 
 Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
@@ -87,8 +87,8 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{closeToBallFlag}}});
-    flagMap.insert({"receiver_left", {DealerFlagPriority::REQUIRED,{receiverFlag}}});
+    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
+    flagMap.insert({"receiver_left", {DealerFlagPriority::REQUIRED, {receiverFlag}}});
     flagMap.insert({"receiver_right", {DealerFlagPriority::REQUIRED, {receiverFlag}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
@@ -116,7 +116,7 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
         /// For the receive locations, divide the field up into grids where the passers should stand,
         /// and find the best locations in those grids
         receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridLeftTop, gen::GoalShootPosition, field, world);
-        receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(),gen::gridRightTop, gen::GoalShootPosition, field, world);
+        receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world);
 
         /// From the available receivers, select the best
         if (receiverPositionLeft.score > receiverPositionRight.score) {
@@ -160,12 +160,11 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     stpInfos["passer"].setShotType(ShotType::PASS);
 }
 
-bool GenericPass::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept {
+bool GenericPass::isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept {
     world::Field field = world->getField().value();
     auto closestToBall = world->getWorld()->getRobotClosestToBall();
 
-    auto canKeep = std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator](auto& x) {
-        return playEvaluator.checkEvaluation(x);}) && !passFinished();
+    auto canKeep = std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator](auto& x) { return playEvaluator.checkEvaluation(x); }) && !passFinished();
     if (canKeep) {
         if (closestToBall && closestToBall->get()->getTeam() == world::us) {
             return true;
