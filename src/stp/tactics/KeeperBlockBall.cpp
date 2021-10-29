@@ -24,8 +24,11 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
         return skillStpInfo;
     }
 
-    auto enemyRobot = info.getEnemyRobot().value();
+    //Look towards ball to ensure ball hits the front assembly to reduce odds of ball reflecting in goal
+    auto keeperToBall = ball->getPos() - skillStpInfo.getRobot()->get()->getPos();
+    skillStpInfo.setAngle(keeperToBall.angle());
 
+    auto enemyRobot = info.getEnemyRobot().value();
 
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
