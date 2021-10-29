@@ -83,7 +83,7 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
     command.set_id(info.getRobot().value()->getId());
 
     // publish the generated command
-    forwardRobotCommand(info.getCurrentWorld());
+        forwardRobotCommand(info.getCurrentWorld());
 
     if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
         shootAttempts = 0;

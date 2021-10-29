@@ -5,13 +5,14 @@
 #ifndef ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 #define ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 
-#include <QLayout>
+#include "ApplicationManager.h"
+
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QShortcut>
 
-#include "ApplicationManager.h"
+#include <QLayout>
 #include "widget.h"
 
 namespace rtt::ai::interface {
@@ -19,7 +20,7 @@ namespace rtt::ai::interface {
 class MainControlsWidget : public QWidget {
     Q_OBJECT
 
-   public:
+public:
     void updatePlays();
     explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager *manager = nullptr);
 

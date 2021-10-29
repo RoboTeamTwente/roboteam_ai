@@ -11,18 +11,26 @@
 class trueInvariant : public rtt::ai::stp::evaluation::BaseEvaluation {
     uint8_t metricCheck(rtt::world::view::WorldDataView world, const rtt::world::Field *field) const noexcept override { return 255; }
 
-    const char *getName() override { return "true"; }
+	const char* getName() override
+    {
+        return "true";
+    }
 };
 
 class falseInvariant : public rtt::ai::stp::evaluation::BaseEvaluation {
     uint8_t metricCheck(rtt::world::view::WorldDataView world, const rtt::world::Field *field) const noexcept override { return 0; }
 
-    const char *getName() override { return "false"; }
+	const char* getName() override
+    {
+        return "false";
+    }
 };
 
 class AlwaysValid : public rtt::ai::stp::Play {
    public:
-    AlwaysValid() : Play() { startPlayInvariants.emplace_back(std::make_unique<trueInvariant>()); }
+    AlwaysValid() : Play() {
+        startPlayInvariants.emplace_back(std::make_unique<trueInvariant>());
+    }
 
     uint8_t score() noexcept override { return 100; }
 
@@ -37,7 +45,9 @@ class AlwaysValid : public rtt::ai::stp::Play {
 
 class AlwaysFalse : public rtt::ai::stp::Play {
    public:
-    AlwaysFalse() : Play() { startPlayInvariants.emplace_back(std::make_unique<falseInvariant>()); }
+    AlwaysFalse() : Play() {
+        startPlayInvariants.emplace_back(std::make_unique<falseInvariant>());
+    }
 
     uint8_t score() noexcept override { return 0; }
 
@@ -63,9 +73,9 @@ TEST(PlayCheckerTests, testHighestScore) {
     plays.emplace_back(std::make_unique<AlwaysFalse>());
     plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
-    auto const &[_, instance] = rtt::world::World::instance();
+    auto const& [_, instance] = rtt::world::World::instance();
 
-    proto::SSL_GeometryFieldSize size{};
+    proto::SSL_GeometryFieldSize size {};
     size.set_field_length(250);
 
     auto world_msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);

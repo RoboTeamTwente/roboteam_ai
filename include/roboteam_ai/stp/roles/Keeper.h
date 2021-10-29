@@ -35,7 +35,7 @@ class Keeper : public Role {
      */
 
     [[nodiscard]] static bool isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept;
-
+    
    private:
     /**
      * Resets state machine when ball is in our defense area and still and current tactic is not KeeperBlockBall

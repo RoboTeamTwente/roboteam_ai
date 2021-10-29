@@ -3,7 +3,6 @@
 //
 
 #include "world/views/WorldDataView.hpp"
-
 #include "world/WorldData.hpp"
 
 namespace rtt::world::view {
@@ -64,12 +63,9 @@ rtt::world::view::WorldDataView::operator bool() const noexcept { return get() !
 std::optional<RobotView> WorldDataView::getRobotClosestToPoint(const Vector2 &point, Team team) const noexcept {
     std::vector<RobotView> robots{};
     robots.reserve(ai::stp::control_constants::MAX_ROBOT_COUNT * 2);
-    if (team == us)
-        robots.assign(getUs().begin(), getUs().end());
-    else if (team == them)
-        robots.assign(getThem().begin(), getThem().end());
-    else
-        robots.assign(getRobotsNonOwning().begin(), getRobotsNonOwning().end());
+    if (team == us) robots.assign(getUs().begin(), getUs().end());
+    else if (team == them) robots.assign(getThem().begin(), getThem().end());
+    else robots.assign(getRobotsNonOwning().begin(), getRobotsNonOwning().end());
 
     return getRobotClosestToPoint(point, robots);
 }

@@ -1,31 +1,30 @@
 #include "ApplicationManager.h"
 
+#include <chrono>
+
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
 #include <stp/plays/referee_specific/TimeOut.h>
 
-#include <chrono>
-
-#include "control/ControlModule.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
+#include "control/ControlModule.h"
 
 /**
  * Plays are included here
  */
-#include "stp/plays/ReflectKick.h"
-#include "stp/plays/contested/GetBallPossession.h"
-#include "stp/plays/contested/GetBallRisky.h"
-#include "stp/plays/defensive/DefendPass.h"
-#include "stp/plays/defensive/DefendShot.h"
+#include "stp/plays/referee_specific/AggressiveStopFormation.h"
 #include "stp/plays/offensive/Attack.h"
 #include "stp/plays/offensive/AttackingPass.h"
-#include "stp/plays/offensive/GenericPass.h"
-#include "stp/plays/referee_specific/AggressiveStopFormation.h"
 #include "stp/plays/referee_specific/BallPlacementThem.h"
 #include "stp/plays/referee_specific/BallPlacementUs.h"
+#include "stp/plays/defensive/DefendPass.h"
+#include "stp/plays/defensive/DefendShot.h"
 #include "stp/plays/referee_specific/DefensiveStopFormation.h"
 #include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/plays/offensive/GenericPass.h"
+#include "stp/plays/contested/GetBallPossession.h"
+#include "stp/plays/contested/GetBallRisky.h"
 #include "stp/plays/referee_specific/Halt.h"
 #include "stp/plays/referee_specific/KickOffThem.h"
 #include "stp/plays/referee_specific/KickOffThemPrepare.h"
@@ -35,7 +34,8 @@
 #include "stp/plays/referee_specific/PenaltyThemPrepare.h"
 #include "stp/plays/referee_specific/PenaltyUs.h"
 #include "stp/plays/referee_specific/PenaltyUsPrepare.h"
-//#include "stp/plays/TestPlay.h"
+#include "stp/plays/ReflectKick.h"
+#include "stp/plays/TestPlay.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -52,7 +52,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    //    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
@@ -82,6 +82,8 @@ void ApplicationManager::start() {
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
 
+
+
     t.loop(
         [&]() {
             std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
@@ -90,8 +92,8 @@ void ApplicationManager::start() {
 
             int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
 
-            //            RTT_WARNING("Time : ", loopcycleDuration, " ms")
-            //            RTT_WARNING("Time allowed: 16 ms")
+//            RTT_WARNING("Time : ", loopcycleDuration, " ms")
+//            RTT_WARNING("Time allowed: 16 ms")
 
             amountOfCycles++;
 
@@ -117,7 +119,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
         fieldInitialized = true;
 
-        // Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
+        //Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
         auto worldMessage = state.last_seen_world();
         auto fieldMessage = state.field().field();
         if (!SETTINGS.isLeft()) {
@@ -132,10 +134,11 @@ void ApplicationManager::runOneLoopCycle() {
             }
             robotsInitialized = true;
 
+
             world->updateField(fieldMessage);
             world->updatePositionControl();
 
-            // world->updateFeedback(feedbackMap);
+            //world->updateFeedback(feedbackMap);
             decidePlay(world);
 
         } else {
@@ -157,8 +160,8 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
-    // TODO make a clear function
-    playEvaluator.clearGlobalScores();  // reset all evaluations
+    //TODO make a clear function
+    playEvaluator.clearGlobalScores(); //reset all evaluations
     ai::stp::PositionComputations::calculatedScores.clear();
     ai::stp::PositionComputations::calculatedWallPositions.clear();
 
@@ -166,12 +169,12 @@ void ApplicationManager::decidePlay(world::World *_world) {
     playChecker.update(playEvaluator);
 
     // Here for manual change with the interface
-    if (rtt::ai::stp::PlayDecider::interfacePlayChanged) {
+    if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
         ai::stp::gen::PlayInfos previousPlayInfo{};
-        if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+        if(currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
 
-        // Before a new play is possibly chosen: save all info of current Play that is necessary for a next Play
+        //Before a new play is possibly chosen: save all info of current Play that is necessary for a next Play
         currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
         currentPlay->initialize(previousPlayInfo);
@@ -182,12 +185,11 @@ void ApplicationManager::decidePlay(world::World *_world) {
     if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
         ai::stp::gen::PlayInfos previousPlayInfo{};
-        if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+        if(currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
 
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
-            currentPlay =
-                playChecker.getPlayForName("Defend Shot");  // TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
+            currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
             if (!currentPlay) {
                 return;
             }

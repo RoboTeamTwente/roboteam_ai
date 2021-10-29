@@ -1,7 +1,5 @@
 #include "manual/JoystickManager.h"
-
 #include <roboteam_utils/Print.h>
-
 #include "world/World.hpp"
 #include "world/views/RobotView.hpp"
 
@@ -105,8 +103,9 @@ void JoystickManager::loop() {
 
             /* PANIC BUTTON! STOP EVERYTHING! */
             // Prevent std::out_of_range in joystickHandlers when handler was removed in handleEvent()
-            if (joystickHandlers.count(event.jdevice.which) == 1)
-                if (joystickHandlers.at(event.jdevice.which)->getJoystickState().XBOX) std::terminate();
+            if(joystickHandlers.count(event.jdevice.which) == 1)
+                if (joystickHandlers.at(event.jdevice.which)->getJoystickState().XBOX)
+                    std::terminate();
 
             /* Check if there is time for another event, of if it is time for the next tick */
             msToNextTick = (int)duration_cast<milliseconds>(tTickNext - steady_clock::now()).count();
@@ -120,9 +119,9 @@ void JoystickManager::loop() {
 void JoystickManager::tickJoystickHandlers() {
     for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
-        auto const &[_, world] = world::World::instance();
-        auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id());
-        //      rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
+        auto const& [_, world] = world::World::instance();
+      auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id());
+//      rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
     }
 }
 
