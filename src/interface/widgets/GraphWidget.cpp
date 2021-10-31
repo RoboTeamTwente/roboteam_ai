@@ -41,10 +41,8 @@ GraphWidget::GraphWidget(QWidget *parent) {
         }
 
         if (x < fpsGraphXMin || x > fpsGraphXMax) {
-            if (x < fpsGraphXMin)
-                fpsGraphXMin = x;
-            if (x > fpsGraphXMax)
-                fpsGraphXMax = x;
+            if (x < fpsGraphXMin) fpsGraphXMin = x;
+            if (x > fpsGraphXMax) fpsGraphXMax = x;
 
             if (fpsGraphXMax - fpsGraphXMin > 30) {
                 fpsGraphXMin = fpsGraphXMax - 30;
@@ -64,4 +62,3 @@ void GraphWidget::updateContents() {
 }
 
 }  // namespace rtt::ai::interface
-

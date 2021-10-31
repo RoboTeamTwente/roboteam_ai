@@ -7,9 +7,10 @@
 #ifndef ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 #define ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+
 #include "RefGameState.h"
 #include "StrategyManager.h"
-#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 
 namespace rtt::ai {
 

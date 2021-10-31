@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_ROBOTSWIDGET_H
 
 #include <QLayout>
+
 #include "widget.h"
 #include "world/Field.h"
 
