@@ -6,12 +6,13 @@
 #define RTT_WORLD_DATA_VIEW_HPP
 
 #include <vector>
+
 #include "BallView.hpp"
 #include "RobotView.hpp"
 #include "utilities/Constants.h"
 #include "world/Ball.hpp"
-#include "world/Team.hpp"
 #include "world/Robot.hpp"
+#include "world/Team.hpp"
 
 namespace rtt::world {
 class WorldData;
@@ -68,7 +69,7 @@ class WorldDataView {
      */
     [[nodiscard]] std::vector<view::RobotView> const &getThem() const noexcept;
 
-  /**
+    /**
      * Gets all the robots in the owning container
      * @return data->getRobots();
      */

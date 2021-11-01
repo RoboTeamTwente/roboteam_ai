@@ -7,15 +7,16 @@
 
 #include <roboteam_utils/Vector2.h>
 
-namespace rtt::ai::control{
+namespace rtt::ai::control {
 /**
  * A node in the path tree generation. Has a position and a parent
  */
 class PathPointNode {
-private:
+   private:
     Vector2 position;
     PathPointNode *parent = nullptr;
-public:
+
+   public:
     /**
      * Create a new tree node with a null parent (this will usually be the root of the tree)
      * @param position the position represented by the node
@@ -35,6 +36,6 @@ public:
 
     void setParent(PathPointNode &parent);
 };
-}
+}  // namespace rtt::ai::control
 
-#endif //RTT_PATHPOINTNODE_H
+#endif  // RTT_PATHPOINTNODE_H

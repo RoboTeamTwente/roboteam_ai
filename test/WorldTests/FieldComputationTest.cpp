@@ -90,7 +90,7 @@ TEST(FieldComputationTest, point_in_polygon) {
     /* In the following test cases you do boundary value analysis + error guessing by extending the areas and pick 2 corners of this area from which you slightly move inwards and
      * check if these new positions are indeed located in that area. Also you shrink the areas and pick the same corners from which you slightly move outwards and check if these
      * new positions are indeed located outside that area. */
-    
+
     // Do the boundary value analysis + error guessing for the pointInField function
     testPoint = testField.getTopLeftCorner() + Vector2(-1.0, 1.0);
     EXPECT_TRUE(FieldComputations::pointIsInField(testField, testPoint, 1.0));

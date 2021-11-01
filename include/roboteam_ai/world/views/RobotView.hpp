@@ -7,6 +7,7 @@
 
 #include <roboteam_utils/Vector2.h>
 #include <stp/constants/ControlConstants.h>
+
 #include <world/Robot.hpp>
 
 namespace rtt::world::view {
@@ -83,7 +84,8 @@ class RobotView {
      * @param angleErrorMargin angle error margin for ball possession
      * @return true if ballSensorSeesBall or dist(ball, robot) < maxDist else false
      */
-    [[nodiscard]] bool hasBall(double distanceErrorMargin = ai::stp::control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN, double angleErrorMargin = ai::stp::control_constants::HAS_BALL_ANGLE_ERROR_MARGIN) const noexcept;
+    [[nodiscard]] bool hasBall(double distanceErrorMargin = ai::stp::control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN,
+                               double angleErrorMargin = ai::stp::control_constants::HAS_BALL_ANGLE_ERROR_MARGIN) const noexcept;
 
     /**
      * Gets the kicker for the Robot that this view is viewing

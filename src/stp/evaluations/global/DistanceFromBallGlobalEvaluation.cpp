@@ -19,7 +19,8 @@ DistanceFromBallGlobalEvaluation::DistanceFromBallGlobalEvaluation() noexcept {
      *   (0,0)  |----------------XXXXXXX
      *              (Distance to Ball)
      */
-    piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "distanceFromBallGlobalEvaluation");
+    piecewiseLinearFunction =
+        nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "distanceFromBallGlobalEvaluation");
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 0.0);
     piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);

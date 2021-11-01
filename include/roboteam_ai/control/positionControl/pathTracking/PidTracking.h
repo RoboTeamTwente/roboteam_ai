@@ -5,13 +5,13 @@
 #ifndef RTT_PIDTRACKING_H
 #define RTT_PIDTRACKING_H
 
+#include "PathTrackingAlgorithm.h"
 #include "control/positionControl/PositionControlUtils.h"
 #include "interface/api/Output.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/pid.h"
 #include "utilities/Constants.h"
-#include "PathTrackingAlgorithm.h"
 
 namespace rtt::ai::control {
 
@@ -42,14 +42,13 @@ class PidTracking : public PathTrackingAlgorithm {
      * @param pidType The desired PID type (intercept, regular, keeper etc.)
      * @return a structure containing the tracking velocity and the orientation angle
      */
-    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints,
-            int robotId, double angle, stp::PIDType pidType) override;
+    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle, stp::PIDType pidType) override;
     /**
      * Update the PID values for a specific robot
      * @param pidType The desired PID type (intercept, regular, keeper etc.)
      * @param robotID ID of the robot that we want to change the PID for
      */
-        void updatePIDValues(stp::PIDType pidType, int robotID);
+    void updatePIDValues(stp::PIDType pidType, int robotID);
 };
 }  // namespace rtt::ai::control
 
