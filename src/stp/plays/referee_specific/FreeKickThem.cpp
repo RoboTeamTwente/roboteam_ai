@@ -3,10 +3,9 @@
 //
 
 #include "stp/plays/referee_specific/FreeKickThem.h"
-
+#include "stp/roles/passive/Defender.h"
 #include "stp/computations/PositionComputations.h"
 #include "stp/roles/Keeper.h"
-#include "stp/roles/passive/Defender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -23,10 +22,18 @@ FreeKickThem::FreeKickThem() : Play() {
 
     /// Role creation, the names should be unique. The names are used in the stpInfos-map.
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>("keeper"),       std::make_unique<role::Defender>("defender_0"), std::make_unique<role::Defender>("defender_1"),
-        std::make_unique<role::Defender>("defender_2"), std::make_unique<role::Defender>("blocker_0"),  std::make_unique<role::Defender>("blocker_1"),
-        std::make_unique<role::Defender>("blocker_2"),  std::make_unique<role::Defender>("blocker_3"),  std::make_unique<role::Defender>("blocker_4"),
-        std::make_unique<role::Defender>("blocker_5"),  std::make_unique<role::Formation>("offender")};
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::Defender>("defender_0"),
+        std::make_unique<role::Defender>("defender_1"),
+        std::make_unique<role::Defender>("defender_2"),
+        std::make_unique<role::Defender>("blocker_0"),
+        std::make_unique<role::Defender>("blocker_1"),
+        std::make_unique<role::Defender>("blocker_2"),
+        std::make_unique<role::Defender>("blocker_3"),
+        std::make_unique<role::Defender>("blocker_4"),
+        std::make_unique<role::Defender>("blocker_5"),
+        std::make_unique<role::Formation>("offender")
+    };
 
     initRoles();  // DONT TOUCH.
 }
@@ -86,12 +93,11 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
         return;
     }
     // We cannot block enemy robots that are too close to the ball
-    enemyRobots.erase(
-        std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                       [&](const auto enemyRobot) -> bool { return enemyRobot->getDistanceToBall() <= AVOID_BALL_DISTANCE_FACTOR * control_constants::AVOID_BALL_DISTANCE; }),
-        enemyRobots.end());
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),[&](const auto enemyRobot) -> bool {
+            return enemyRobot->getDistanceToBall() <= AVOID_BALL_DISTANCE_FACTOR * control_constants::AVOID_BALL_DISTANCE;
+        }), enemyRobots.end());
 
-    for (auto& stpInfo : stpInfos) {
+    for (auto &stpInfo : stpInfos) {
         if (stpInfo.first.find("blocker") != std::string::npos) {
             auto roleName = stpInfo.first;
 
@@ -99,8 +105,9 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
                 // If there are enemy robots available, block the closest robot to the ball
                 auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(world->getWorld()->getBall().value()->getPos(), enemyRobots);
 
-                enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                                 [&](const auto enemyRobot) -> bool { return enemyToDefend && enemyRobot->getId() == enemyToDefend.value()->getId(); }));
+                enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),[&](const auto enemyRobot) -> bool {
+                    return enemyToDefend && enemyRobot->getId() == enemyToDefend.value()->getId();
+                }));
 
                 stpInfos[roleName].setPositionToDefend(enemyToDefend ? enemyToDefend.value()->getPos() : field.getOurGoalCenter());
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
@@ -129,6 +136,8 @@ void FreeKickThem::calculateInfoForDefenders() noexcept {
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
-void FreeKickThem::calculateInfoForOffenders() noexcept { stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0)); }
+void FreeKickThem::calculateInfoForOffenders() noexcept {
+    stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0));
+}
 
 }  // namespace rtt::ai::stp::play

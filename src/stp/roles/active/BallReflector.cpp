@@ -5,8 +5,8 @@
 
 #include "stp/roles/active/BallReflector.h"
 
-#include "stp/tactics/PositionAndAim.h"
 #include "stp/tactics/active/KickAtPos.h"
+#include "stp/tactics/PositionAndAim.h"
 
 namespace rtt::ai::stp::role {
 

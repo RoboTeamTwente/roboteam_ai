@@ -12,10 +12,11 @@
 
 #define JC_VORONOI_IMPLEMENTATION
 
-#include <cassert>
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+
+#include <cassert>
 
 #ifdef __cplusplus
 extern "C" {

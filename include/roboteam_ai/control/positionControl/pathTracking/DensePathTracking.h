@@ -5,12 +5,12 @@
 #ifndef RTT_DENSEPATHTRACKING_H
 #define RTT_DENSEPATHTRACKING_H
 
-#include "PathTrackingAlgorithm.h"
 #include "PidTracking.h"
 #include "control/positionControl/PositionControlUtils.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/Vector2.h"
 #include "utilities/Constants.h"
+#include "PathTrackingAlgorithm.h"
 
 namespace rtt::ai::control {
 
@@ -36,9 +36,10 @@ class DensePathTracking : public PathTrackingAlgorithm {
      * @param angle the desired orientation angle of the robot - if omitted, the robot will face its velocity
      * @return a structure containing the tracking velocity and the orientation angle
      */
-    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle, stp::PIDType pidType) override;
+    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints,
+            int robotId, double angle, stp::PIDType pidType) override;
 };
 
 }  // namespace rtt::ai::control
 
-#endif  // RTT_DENSEPATHTRACKING_H
+#endif  //RTT_DENSEPATHTRACKING_H

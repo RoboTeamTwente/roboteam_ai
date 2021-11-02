@@ -2,9 +2,9 @@
 // Created by ratoone on 12-03-20.
 //
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <stp/Tactic.h>
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 using namespace rtt::ai::stp;
 
