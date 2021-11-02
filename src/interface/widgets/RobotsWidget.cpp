@@ -3,11 +3,9 @@
 //
 
 #include "interface/widgets/RobotsWidget.h"
-
 #include <QScrollArea>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
-
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
@@ -28,15 +26,15 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world::view::WorldDataView world) {
     std::optional<rtt::world::Field> field;
     {
-        auto const &[_, world] = rtt::world::World::instance();
+        auto const& [_, world] = rtt::world::World::instance();
         field = world->getField();
     }
 
-    if (!field) {
+    if (!field){
         RTT_ERROR("Could not get field!")
         return;
     }
-    auto us = world->getUs();
+    auto us =world->getUs();
 
     // reload the widgets completely if a robot is added or removed
     // or if the amount of selected robots is not accurate

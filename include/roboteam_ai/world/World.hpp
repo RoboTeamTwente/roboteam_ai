@@ -4,14 +4,12 @@
 
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
-#include <roboteam_proto/RobotFeedback.pb.h>
-#include <roboteam_utils/Print.h>
-
 #include <vector>
-
 #include "WorldData.hpp"
 #include "control/positionControl/PositionControl.h"
+#include <roboteam_proto/RobotFeedback.pb.h>
 #include "world/views/WorldDataView.hpp"
+#include <roboteam_utils/Print.h>
 
 namespace rtt::world {
 
@@ -53,10 +51,10 @@ class World {
     template <typename T>
     struct AcquireInfo {
         std::lock_guard<std::mutex> mtx;
-        T *data;
+        T* data;
     };
 
-   public:
+public:
     /**
      * Global singleton for World, scott-meyers style
      * @param[in] resetWorld Boolean that marks whether to reset the world before returning
@@ -66,7 +64,7 @@ class World {
      */
     inline static AcquireInfo<World> instance() {
         static World worldInstance{&rtt::SETTINGS};
-        return {std::lock_guard(worldInstance.updateMutex), &worldInstance};
+        return { std::lock_guard(worldInstance.updateMutex), &worldInstance };
     }
 
     /**
@@ -110,9 +108,9 @@ class World {
     void updateWorld(proto::World &protoWorld);
 
     /**
-     * Updates the currentField
-     * @param field Field to construct currentField from
-     */
+    * Updates the currentField
+    * @param field Field to construct currentField from
+    */
     void updateField(proto::SSL_GeometryFieldSize &protoField);
 
     void updateField(world::Field &protoField);
@@ -236,6 +234,7 @@ class World {
      */
     std::optional<WorldData> currentWorld = std::nullopt;
 
+
     std::optional<world::Field> currentField;
 
     /**
@@ -252,7 +251,8 @@ class World {
      * The position controller, initially null
      */
     ai::control::PositionControl positionControl;
-};
+
+    };
 }  // namespace rtt::world
 
 #endif  // RTT_WORLD_HPP

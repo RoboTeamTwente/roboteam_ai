@@ -76,28 +76,28 @@ $(function() {
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef RTT_PLAYSWIDGET_HPP</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define RTT_PLAYSWIDGET_HPP</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;QtWidgets/QTextEdit&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QtWidgets/QVBoxLayout&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;QtWidgets/QVBoxLayout&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QtWidgets/QTextEdit&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacertt_1_1ai_1_1interface.html">rtt::ai::interface</a> {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html">PlaysWidget</a> : <span class="keyword">public</span> QTextEdit {</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html">   13</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html">PlaysWidget</a> : <span class="keyword">public</span> QTextEdit {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;   <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#af01a1db54af0451b6540fe8631625565">PlaysWidget</a>(QWidget* parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#ac6a53fb0a0651943ef7d63d8dd954e01">   21</a></span>&#160;    <a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#ac6a53fb0a0651943ef7d63d8dd954e01">~PlaysWidget</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#af01a1db54af0451b6540fe8631625565">PlaysWidget</a>(QWidget* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#ac6a53fb0a0651943ef7d63d8dd954e01">   21</a></span>&#160;        <a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#ac6a53fb0a0651943ef7d63d8dd954e01">~PlaysWidget</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;   <span class="keyword">public</span> slots:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#abcffbcb77c84e84c3924224825adcdba">updatePlays</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}  <span class="comment">// namespace rtt::ai::interface</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">public</span> slots:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#abcffbcb77c84e84c3924224825adcdba">updatePlays</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    };</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// RTT_PLAYSWIDGET_HPP</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif </span><span class="comment">//RTT_PLAYSWIDGET_HPP</span></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1interface_1_1PlaysWidget_html"><div class="ttname"><a href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html">rtt::ai::interface::PlaysWidget</a></div><div class="ttdef"><b>Definition:</b> PlaysWidget.hpp:13</div></div>
-<div class="ttc" id="aclassrtt_1_1ai_1_1interface_1_1PlaysWidget_html_abcffbcb77c84e84c3924224825adcdba"><div class="ttname"><a href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#abcffbcb77c84e84c3924224825adcdba">rtt::ai::interface::PlaysWidget::updatePlays</a></div><div class="ttdeci">void updatePlays()</div><div class="ttdef"><b>Definition:</b> PlaysWidget.cpp:48</div></div>
+<div class="ttc" id="aclassrtt_1_1ai_1_1interface_1_1PlaysWidget_html_abcffbcb77c84e84c3924224825adcdba"><div class="ttname"><a href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#abcffbcb77c84e84c3924224825adcdba">rtt::ai::interface::PlaysWidget::updatePlays</a></div><div class="ttdeci">void updatePlays()</div><div class="ttdef"><b>Definition:</b> PlaysWidget.cpp:50</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1interface_1_1PlaysWidget_html_ac6a53fb0a0651943ef7d63d8dd954e01"><div class="ttname"><a href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#ac6a53fb0a0651943ef7d63d8dd954e01">rtt::ai::interface::PlaysWidget::~PlaysWidget</a></div><div class="ttdeci">~PlaysWidget() override=default</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1interface_1_1PlaysWidget_html_af01a1db54af0451b6540fe8631625565"><div class="ttname"><a href="classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#af01a1db54af0451b6540fe8631625565">rtt::ai::interface::PlaysWidget::PlaysWidget</a></div><div class="ttdeci">PlaysWidget(QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> PlaysWidget.cpp:40</div></div>
-<div class="ttc" id="anamespacertt_1_1ai_1_1interface_html"><div class="ttname"><a href="namespacertt_1_1ai_1_1interface.html">rtt::ai::interface</a></div><div class="ttdef"><b>Definition:</b> Input.h:17</div></div>
+<div class="ttc" id="anamespacertt_1_1ai_1_1interface_html"><div class="ttname"><a href="namespacertt_1_1ai_1_1interface.html">rtt::ai::interface</a></div><div class="ttdef"><b>Definition:</b> Input.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

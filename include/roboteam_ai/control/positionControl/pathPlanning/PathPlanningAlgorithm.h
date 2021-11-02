@@ -13,10 +13,10 @@ namespace rtt::ai::control {
  * from this
  */
 class PathPlanningAlgorithm {
-   protected:
+protected:
     CollisionDetector &collisionDetector;
 
-   public:
+public:
     /**
      * The collision detector is provided by the position control. This class was intended
      * to be used only with the PositionControl
@@ -32,6 +32,6 @@ class PathPlanningAlgorithm {
      */
     virtual std::vector<Vector2> computePath(const Vector2 &robotPosition, Vector2 &targetPosition) = 0;
 };
-}  // namespace rtt::ai::control
+}
 
-#endif  // RTT_PATHPLANNINGALGORITHM_H
+#endif //RTT_PATHPLANNINGALGORITHM_H

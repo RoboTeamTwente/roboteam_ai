@@ -56,7 +56,7 @@ class CollisionDetector {
      * @param nextPoint second point of the line
      * @return the closest intersection with the defense area, or std::nullopt if there is no intersection
      */
-    std::optional<Vector2> getDefenseAreaCollision(const Vector2& point, const Vector2& nextPoint);
+    std::optional<Vector2> getDefenseAreaCollision(const Vector2 &point, const Vector2 &nextPoint);
 
     /**
      * Calls the defense area collision and robot collision and returns the closest one to the first point
@@ -70,7 +70,7 @@ class CollisionDetector {
 
     void setField(const rtt_world::Field& field);
 
-    void setRobotPositions(std::vector<Vector2>& robotPositions);
+    void setRobotPositions(std::vector<Vector2> &robotPositions);
 };
 
 }  // namespace rtt::ai::control

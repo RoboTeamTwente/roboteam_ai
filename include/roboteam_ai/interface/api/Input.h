@@ -6,12 +6,10 @@
 #define ROBOTEAM_AI_INPUT_H
 
 #include <roboteam_utils/Vector2.h>
-
 #include <QtGui/QColor>
 #include <iostream>
 #include <mutex>
 #include <tuple>
-
 #include "Toggles.h"
 
 namespace rtt::ai::interface {

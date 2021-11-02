@@ -5,9 +5,9 @@
 
 #include "stp/roles/active/BallPlacer.h"
 
+#include "stp/tactics/passive/AvoidBall.h"
 #include "stp/tactics/active/DriveWithBall.h"
 #include "stp/tactics/active/GetBall.h"
-#include "stp/tactics/passive/AvoidBall.h"
 
 namespace rtt::ai::stp::role {
 

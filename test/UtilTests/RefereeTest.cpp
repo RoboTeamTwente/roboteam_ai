@@ -2,14 +2,13 @@
 // Created by mrlukasbos on 14-11-18.
 //
 
-#include <gtest/gtest.h>
 #include <interface/api/Output.h>
 #include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
-
 #include <include/roboteam_ai/world/World.hpp>
-
-#include "helpers/FieldHelper.h"
 #include "helpers/WorldHelper.h"
+#include "helpers/FieldHelper.h"
+
+#include <gtest/gtest.h>
 #include "utilities/GameStateManager.hpp"
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {

@@ -2,7 +2,6 @@
 #define ROBOTEAM_AI_GAMESTATE_H
 
 #include <roboteam_utils/Vector2.h>
-
 #include "Constants.h"
 #include "RuleSet.h"
 
@@ -10,7 +9,8 @@ namespace rtt::ai {
 
 struct GameState {
     GameState() = default;
-    GameState(std::string strategyName, std::string ruleSetName) : strategyName(std::move(strategyName)), ruleSetName(std::move(ruleSetName)){};
+    GameState(std::string strategyName, std::string ruleSetName)
+        : strategyName(std::move(strategyName)), ruleSetName(std::move(ruleSetName)){};
 
     std::string ruleSetName;
     int keeperId = Constants::DEFAULT_KEEPER_ID();
@@ -27,7 +27,7 @@ struct GameState {
 
     std::string getStrategyName() { return strategyName; }
 
-   private:
+private:
     std::string strategyName;
 };
 

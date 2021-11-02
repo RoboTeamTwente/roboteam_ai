@@ -5,9 +5,8 @@
 #ifndef ROBOTEAM_AI_PAUSE_H
 #define ROBOTEAM_AI_PAUSE_H
 
-#include <roboteam_proto/RobotCommand.pb.h>
-
 #include <mutex>
+#include <roboteam_proto/RobotCommand.pb.h>
 
 namespace rtt::world {
 class World;

@@ -2,9 +2,8 @@
 // Created by maxl on 19-03-21.
 //
 
-#include "stp/evaluations/position/OpennessEvaluation.h"
-
 #include <string>
+#include "stp/evaluations/position/OpennessEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
 OpennessEvaluation::OpennessEvaluation() noexcept {
@@ -36,11 +35,11 @@ uint8_t OpennessEvaluation::metricCheck(std::vector<double>& enemyDistances) con
      *   (0,0)  |---------XXXXXX
      *              (Distance from Position)
      */
-    for (auto& distance : enemyDistances) {
-        evalScore += 1 / ((distance < 0.5) ? 0.5 : (distance > 2.5) ? 2.5 : distance) - 0.4;
+    for (auto& distance : enemyDistances){
+        evalScore += 1/((distance < 0.5) ? 0.5 : (distance > 2.5) ? 2.5 : distance)-0.4;
     }
     return calculateMetric(evalScore);
 }
 
 uint8_t OpennessEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
-}  // namespace rtt::ai::stp::evaluation
+}
