@@ -114,10 +114,10 @@ namespace rtt::ai::stp {
     std::unordered_map<Role *, Status> const &Play::getRoleStatuses() const { return roleStatuses; }
 
     bool Play::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept {
-        return (interface::MainControlsWidget::ignoreInvariants || shouldEndPlay() ||
+        return (interface::MainControlsWidget::ignoreInvariants || (!shouldEndPlay() &&
                 std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator](auto &x) {
                     return playEvaluator.checkEvaluation(x);
-                }));
+                })));
     }
 
     bool Play::isValidPlayToStart(PlayEvaluator &playEvaluator) const noexcept {
