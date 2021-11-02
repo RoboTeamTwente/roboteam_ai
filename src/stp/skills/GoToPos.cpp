@@ -19,15 +19,15 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     bool useOldPathPlanning = true;
     rtt::BB::CommandCollision commandCollision;
 
-    if(useOldPathPlanning) {
+    if (useOldPathPlanning) {
         // Calculate commands from path planning and tracking
         commandCollision.robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
-        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
-            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
-            info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(info.getCurrentWorld(), info.getField().value(),
+                                                                                                        info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+                                                                                                        info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     }
 
     if (commandCollision.collisionData.has_value()) {
@@ -35,11 +35,10 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     }
 
     double targetVelocityLength;
-    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS/2){
+    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS / 2) {
         RTT_DEBUG("Setting max vel");
         targetVelocityLength = stp::control_constants::MAX_VEL_CMD;
-    }
-    else{
+    } else {
         targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     }
     // Clamp and set velocity

@@ -6,22 +6,21 @@
 
 #include "interface/api/Input.h"
 #include "utilities/Constants.h"
-
 #include "world/World.hpp"
 
 namespace rtt::world::ball {
 
-Ball::Ball(const proto::WorldBall &copy, const World* data) : position{copy.pos()}, velocity{copy.vel()}, visible{copy.visible()} { initializeCalculations(data); }
+Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos()}, velocity{copy.vel()}, visible{copy.visible()} { initializeCalculations(data); }
 
-const Vector2 &Ball::getPos() const noexcept { return position; }
+const Vector2& Ball::getPos() const noexcept { return position; }
 
-const Vector2 &Ball::getVelocity() const noexcept { return velocity; }
+const Vector2& Ball::getVelocity() const noexcept { return velocity; }
 
 bool Ball::isVisible() const noexcept { return visible; }
 
-const Vector2 &Ball::getExpectedEndPosition() const noexcept { return expectedEndPosition; }
+const Vector2& Ball::getExpectedEndPosition() const noexcept { return expectedEndPosition; }
 
-const Vector2 &Ball::getFilteredVelocity() const noexcept { return filteredVelocity; }
+const Vector2& Ball::getFilteredVelocity() const noexcept { return filteredVelocity; }
 
 void Ball::initializeCalculations(const world::World* data) noexcept {
     initBallAtRobotPosition(data);

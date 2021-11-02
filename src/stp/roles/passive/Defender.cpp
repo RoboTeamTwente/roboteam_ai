@@ -5,8 +5,8 @@
 
 #include "stp/roles/passive/Defender.h"
 
-#include "stp/tactics/passive/BlockRobot.h"
 #include "stp/tactics/Intercept.h"
+#include "stp/tactics/passive/BlockRobot.h"
 
 namespace rtt::ai::stp::role {
 

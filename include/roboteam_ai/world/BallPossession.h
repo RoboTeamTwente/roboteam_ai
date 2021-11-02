@@ -1,9 +1,10 @@
 #ifndef ROBOTEAM_AI_BALLPOSSESSION_H
 #define ROBOTEAM_AI_BALLPOSSESSION_H
 
-#include "world/views/WorldDataView.hpp"
-#include "Field.h"
 #include <gtest/gtest_prod.h>
+
+#include "Field.h"
+#include "world/views/WorldDataView.hpp"
 
 namespace rtt::ai {
 
@@ -15,7 +16,7 @@ namespace rtt::ai {
  */
 class BallPossession {
    private:
-     unsigned long previousTime = 0;
+    unsigned long previousTime = 0;
     const double MIDDLE_LINE_X = 0.0;  // The x coordinate that corresponds to the middle of the field.
     /* If a teams distance to the ball is larger or equal than STANDARD_FAR_THRESHOLD at a moment then that team is
      * considered to be far from the ball at that moment. */

@@ -4,11 +4,12 @@
 //
 
 #include "stp/plays/offensive/Attack.h"
+
 #include "stp/computations/GoalComputations.h"
+#include "stp/roles/Keeper.h"
 #include "stp/roles/active/Attacker.h"
 #include "stp/roles/passive/Defender.h"
 #include "stp/roles/passive/Formation.h"
-#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -88,23 +89,23 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(-field.getFieldLength() / 8, 0.0));
 
     // Defenders
-    stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 4, width/8));
-    stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 4, -width/8));
-    stpInfos["defender_3"].setPositionToMoveTo(Vector2(-length / 4.5, width/3));
+    stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
+    stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
+    stpInfos["defender_3"].setPositionToMoveTo(Vector2(-length / 4.5, width / 3));
 
-//    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-//    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
-//    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
-//
-//    stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
-//    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
-//    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
-//
-//    stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
-//    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
-//    stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
+    //    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+    //    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
+    //    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+    //
+    //    stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
+    //    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
+    //    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+    //
+    //    stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
+    //    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
+    //    stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
-const char *Attack::getName() { return "Attack"; }
+const char* Attack::getName() { return "Attack"; }
 
 }  // namespace rtt::ai::stp::play

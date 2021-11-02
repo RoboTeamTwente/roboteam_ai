@@ -4,12 +4,13 @@
 #define RUNNING_TEST
 
 #include <gtest/gtest.h>
-#include <include/roboteam_ai/world/World.hpp>
 #include <test/helpers/WorldHelper.h>
+
+#include <include/roboteam_ai/world/World.hpp>
 
 TEST(worldTest, GenericWorldRemoval) {
     namespace w_n = rtt::world;
-    proto::SSL_GeometryFieldSize size {};
+    proto::SSL_GeometryFieldSize size{};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
@@ -25,7 +26,7 @@ TEST(worldTest, GenericWorldRemoval) {
 
 TEST(worldTest, HistorySizeTest) {
     namespace w_n = rtt::world;
-    proto::SSL_GeometryFieldSize size {};
+    proto::SSL_GeometryFieldSize size{};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
@@ -41,7 +42,7 @@ TEST(worldTest, HistorySizeTest) {
 
 TEST(worldTest, ResetWorldTest) {
     namespace w_n = rtt::world;
-    proto::SSL_GeometryFieldSize size {};
+    proto::SSL_GeometryFieldSize size{};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
@@ -51,8 +52,7 @@ TEST(worldTest, ResetWorldTest) {
     world->updateWorld(second);
     ASSERT_EQ(world->getWorld()->getUs().size(), 5);
     ASSERT_EQ(world->getWorld()->getThem().size(), 7);
-    //ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
-
+    // ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
 
     world->reset();
     ASSERT_FALSE(world->getWorld().has_value());
