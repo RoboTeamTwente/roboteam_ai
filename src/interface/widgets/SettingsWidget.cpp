@@ -1,9 +1,8 @@
 
 #include "interface/widgets/SettingsWidget.h"
 
-#include "utilities/Settings.h"
-
 #include "interface/widgets/mainWindow.h"
+#include "utilities/Settings.h"
 
 namespace rtt::ai::interface {
 

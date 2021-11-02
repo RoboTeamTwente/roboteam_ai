@@ -1,7 +1,8 @@
 #include "utilities/GameStateManager.hpp"
 
-#include "utilities/Settings.h"
 #include <roboteam_utils/Print.h>
+
+#include "utilities/Settings.h"
 #include "world/World.hpp"
 
 namespace rtt::ai {
