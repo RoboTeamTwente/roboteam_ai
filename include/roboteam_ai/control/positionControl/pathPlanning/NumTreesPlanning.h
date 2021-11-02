@@ -6,7 +6,6 @@
 #define RTT_NUMTREESPLANNING_H
 
 #include <queue>
-
 #include "PathPlanningAlgorithm.h"
 #include "control/positionControl/CollisionDetector.h"
 #include "control/positionControl/PathPointNode.h"

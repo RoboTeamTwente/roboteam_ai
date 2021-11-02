@@ -35,7 +35,7 @@ void PidTracking::updatePIDValues(stp::PIDType pidType, int robotID) {
     std::tuple<double, double, double> newPID;
 
     switch (pidType) {
-        case stp::PIDType::DEFAULT: {
+      case stp::PIDType::DEFAULT: {
             newPID = interface::Output::getNumTreePid();
             break;
         }

@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_REFGAMESTATE_H
 
 #include <roboteam_utils/Vector2.h>
-
 #include "Constants.h"
 #include "GameState.h"
 #include "RuleSet.h"
@@ -18,7 +17,8 @@ struct RefGameState : public GameState {
     bool isfollowUpCommand;
     RefCommand followUpCommandId;
     RefGameState() = default;
-    RefGameState(RefCommand commandId, std::string strategyName, std::string ruleSet, bool isFollowUpCommand = false, RefCommand followUpCommandId = RefCommand::UNDEFINED);
+    RefGameState(RefCommand commandId, std::string strategyName, std::string ruleSet, bool isFollowUpCommand = false,
+                 RefCommand followUpCommandId = RefCommand::UNDEFINED);
     bool hasFollowUpCommand() const;
 };
 

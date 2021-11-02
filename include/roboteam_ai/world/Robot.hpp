@@ -5,13 +5,12 @@
 #ifndef RTT_ROBOT_HPP
 #define RTT_ROBOT_HPP
 
+#include <optional>
 #include <roboteam_proto/RobotFeedback.pb.h>
 #include <roboteam_proto/WorldRobot.pb.h>
 
-#include <optional>
-
-#include "Team.hpp"
 #include "roboteam_utils/Angle.h"
+#include "Team.hpp"
 #include "world/views/BallView.hpp"
 
 namespace rtt::world::robot {

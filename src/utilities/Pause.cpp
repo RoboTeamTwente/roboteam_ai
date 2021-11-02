@@ -2,8 +2,8 @@
 // Created by baris on 15-2-19.
 //
 
-#include "utilities/IOManager.h"
 #include "world/World.hpp"
+#include "utilities/IOManager.h"
 
 namespace rtt::ai {
 
@@ -17,7 +17,7 @@ bool Pause::getPause() {
 void Pause::haltRobots(rtt::world::World const* data) {
     auto us = data->getWorld()->getUs();
     std::vector<proto::RobotCommand> commands;
-    for (const auto& robot : us) {
+    for (const auto &robot : us) {
         proto::RobotCommand cmd;
         cmd.mutable_vel()->set_x(0);
         cmd.mutable_vel()->set_y(0);

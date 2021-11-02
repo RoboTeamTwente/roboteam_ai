@@ -31,68 +31,68 @@ namespace nativeformat {
 namespace param {
 
 struct ValueAtTimeEvent : ParamEvent {
-    ValueAtTimeEvent(float value, double time);
-    virtual ~ValueAtTimeEvent();
+  ValueAtTimeEvent(float value, double time);
+  virtual ~ValueAtTimeEvent();
 
-    float valueAtTime(double time) override;
+  float valueAtTime(double time) override;
 
-    float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 };
 
 struct TargetAtTimeEvent : ParamEvent {
-    const float time_constant;
-    const float target;
+  const float time_constant;
+  const float target;
 
-    TargetAtTimeEvent(float value, double time, float time_constant);
-    virtual ~TargetAtTimeEvent();
+  TargetAtTimeEvent(float value, double time, float time_constant);
+  virtual ~TargetAtTimeEvent();
 
-    float valueAtTime(double time) override;
-    float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float valueAtTime(double time) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 };
 
 struct LinearRampEvent : ParamEvent {
-    const float target;
+  const float target;
 
-    LinearRampEvent(float value, double time);
-    virtual ~LinearRampEvent();
+  LinearRampEvent(float value, double time);
+  virtual ~LinearRampEvent();
 
-    float valueAtTime(double time) override;
-    float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float valueAtTime(double time) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 };
 
 struct ExponentialRampEvent : ParamEvent {
-    const float target;
+  const float target;
 
-    ExponentialRampEvent(float value, double time);
-    virtual ~ExponentialRampEvent();
+  ExponentialRampEvent(float value, double time);
+  virtual ~ExponentialRampEvent();
 
-    float valueAtTime(double time) override;
-    float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float valueAtTime(double time) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 
-   private:
-    double base() { return target / start_value; }
+ private:
+  double base() { return target / start_value; }
 };
 
 struct ValueCurveEvent : ParamEvent {
-    const std::vector<float> values;
-    const double duration;
+  const std::vector<float> values;
+  const double duration;
 
-    ValueCurveEvent(const std::vector<float> &values, double start_time, double duration);
-    virtual ~ValueCurveEvent();
+  ValueCurveEvent(const std::vector<float> &values, double start_time, double duration);
+  virtual ~ValueCurveEvent();
 
-    float valueAtTime(double time) override;
+  float valueAtTime(double time) override;
 };
 
 struct DummyEvent : ParamEvent {
-    DummyEvent(float value);
-    virtual ~DummyEvent();
+  DummyEvent(float value);
+  virtual ~DummyEvent();
 
-    float valueAtTime(double time) override;
+  float valueAtTime(double time) override;
 };
 
 template <typename EventClass, typename... Args>
 std::unique_ptr<EventClass> createEvent(Args... args) {
-    return std::unique_ptr<EventClass>(new EventClass(args...));
+  return std::unique_ptr<EventClass>(new EventClass(args...));
 }
 
 }  // namespace param

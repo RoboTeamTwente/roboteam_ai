@@ -56,6 +56,8 @@ void Input::setFps(int fps) {
     FPS = fps;
 }
 
-Input::Input() { drawings.reserve(10000); }
+Input::Input() {
+    drawings.reserve(10000);
+}
 
 }  // namespace rtt::ai::interface

@@ -19,8 +19,7 @@ BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status,
 std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !(skillStpInfo.getEnemyRobot() || skillStpInfo.getPositionToDefend()))
-        return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !(skillStpInfo.getEnemyRobot() || skillStpInfo.getPositionToDefend())) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
@@ -57,7 +56,7 @@ Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Ve
     auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
     // Project the defend pos on the circle to get the position to block
     targetPosition = ballCircle.project(defendPos);
-    targetPosition = ball->getPos().scale(2) - targetPosition;
+    targetPosition = ball->getPos().scale(2)-targetPosition;
     return targetPosition;
 }
 
