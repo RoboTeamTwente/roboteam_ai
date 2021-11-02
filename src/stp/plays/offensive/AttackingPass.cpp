@@ -240,9 +240,14 @@ namespace rtt::ai::stp::play {
     }
 
     void AttackingPass::storePlayInfo(gen::PlayInfos &info) noexcept {
-        gen::StoreInfo passer;
-        passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
-        passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
-        info.insert({gen::KeyInfo::isPasser, passer});
+        if (stpInfos["passer"].getRobot()){
+            gen::StoreInfo passer;
+            passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
+            passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
+            info.insert({gen::KeyInfo::isPasser, passer});
+        }
+        else{
+            RTT_WARNING("No passer found. PlayInfo not stored");
+        }
     }
 }  // namespace rtt::ai::stp::play

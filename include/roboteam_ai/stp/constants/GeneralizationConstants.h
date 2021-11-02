@@ -5,6 +5,7 @@
 #ifndef RTT_GENERALIZATIONCONSTANTS_H
 #define RTT_GENERALIZATIONCONSTANTS_H
 
+#include <optional>
 #include <roboteam_utils/Grid.h>
 
 namespace rtt::ai::stp::gen {

@@ -1,6 +1,7 @@
 #ifndef RTT_FIELD_H
 #define RTT_FIELD_H
 
+#include <optional>
 #include <roboteam_utils/Vector2.h>
 #include "gtest/gtest_prod.h"
 #include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
