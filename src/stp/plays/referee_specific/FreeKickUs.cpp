@@ -2,9 +2,8 @@
 // Created by Floris Hoek on 22-06-21.
 //
 
-#include "stp/plays/referee_specific/FreeKickUs.h"
-
 #include "stp/computations/GoalComputations.h"
+#include "stp/plays/referee_specific/FreeKickUs.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Attacker.h"
 #include "stp/roles/passive/BallAvoider.h"
@@ -32,9 +31,9 @@ FreeKickUs::FreeKickUs() : Play() {
 }
 
 uint8_t FreeKickUs::score(PlayEvaluator& playEvaluator) noexcept {
-    //    /// List of all factors that combined results in an evaluation how good the play is.
-    //    scoring = {{playEvaluator.getGlobalEvaluation(eval::FreeKickUsGameState), 1.0}};
-    //    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+//    /// List of all factors that combined results in an evaluation how good the play is.
+//    scoring = {{playEvaluator.getGlobalEvaluation(eval::FreeKickUsGameState), 1.0}};
+//    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
     return 160;
 }
 
@@ -78,6 +77,7 @@ void FreeKickUs::calculateInfoForRoles() noexcept {
     stpInfos["defender_1"].setPositionToMoveTo(Vector2{-length / 3.5, 0.0});
     stpInfos["defender_2"].setPositionToMoveTo(Vector2{-length / 3.5, width / 6});
     stpInfos["defender_3"].setPositionToMoveTo(Vector2{-length / 3.5, -width / 6});
+
 
     stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 8, 0.5});
     stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});

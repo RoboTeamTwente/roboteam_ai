@@ -6,15 +6,14 @@
 #define ROBOTEAM_AI_WIDGET_H
 
 #include <gtest/gtest_prod.h>
-#include <roboteam_utils/Line.h>
-#include <roboteam_utils/Vector2.h>
-
 #include <QMouseEvent>
 #include <QPainter>
 #include <QWidget>
 #include <memory>
 
 #include "interface/api/Toggles.h"
+#include <roboteam_utils/Line.h>
+#include <roboteam_utils/Vector2.h>
 #include "world/Field.h"
 #include "world/World.hpp"
 
@@ -29,8 +28,8 @@ class Visualizer : public QWidget {
     const std::unordered_map<int, rtt::world::view::RobotView> &getSelectedRobots() const;
     bool robotIsSelected(rtt::world::view::RobotView robot);
     bool robotIsSelected(int id);
-    void setPlayForRobot(std::string const &view, uint8_t i);
-    void setTacticForRobot(std::string const &view, uint8_t i);
+    void setPlayForRobot(std::string const& view, uint8_t i);
+    void setTacticForRobot(std::string const& view, uint8_t i);
 
    public slots:
     void setShowRoles(bool showRoles);

@@ -50,7 +50,7 @@ class PlayChecker {
     /**
      * playEvaluator to check invariant to start
      */
-    PlayEvaluator playEvaluator;
+     PlayEvaluator playEvaluator;
 };
 }  // namespace rtt::ai::stp
 

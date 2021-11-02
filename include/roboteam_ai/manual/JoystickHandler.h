@@ -2,14 +2,12 @@
 #ifndef RTT_JOYSTICKHANDLER_H
 #define RTT_JOYSTICKHANDLER_H
 
-#include <roboteam_proto/RobotCommand.pb.h>
-#include <stdio.h>
-
-#include <iostream>
-
-#include "JoystickState.h"
 #include "SDL.h"
 #include "SDL_joystick.h"
+#include <stdio.h>
+#include <iostream>
+#include "JoystickState.h"
+#include <roboteam_proto/RobotCommand.pb.h>
 
 namespace rtt::input {
 

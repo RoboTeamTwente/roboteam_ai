@@ -6,7 +6,7 @@
 #include "stp/evaluations/global/WeHaveMajorityGlobalEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
-uint8_t WeHaveMajorityGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
+uint8_t WeHaveMajorityGlobalEvaluation::metricCheck(const world::World* world, const world::Field *field) const noexcept {
     return world->getWorld()->getUs().size() > world->getWorld()->getThem().size() ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
 }
 }  // namespace rtt::ai::stp::evaluation

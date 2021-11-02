@@ -10,11 +10,11 @@ double rtt::AnglePID::getOutput(rtt::Angle target_angle, rtt::Angle current_angl
     double error = dir * current_angle.shortestAngleDiff(target_angle);
 
     // Proportional term
-    double Pout = P * error;
+    double Pout = P*error;
 
     // Integral term
     integral += error * dt;
-    double Iout = I * integral;
+    double Iout = I*integral;
 
     // Derivative term
     double derivative = (error - previous_error) / dt;
@@ -24,7 +24,7 @@ double rtt::AnglePID::getOutput(rtt::Angle target_angle, rtt::Angle current_angl
     double output = Pout + Iout + Dout;
 
     // Restrict to max/min
-    output = std::clamp(output, min, max);
+    output = std::clamp(output,min,max);
     // Save error to previous error
     previous_error = error;
 

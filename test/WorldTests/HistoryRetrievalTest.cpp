@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include <test/helpers/FieldHelper.h>
 #include <test/helpers/WorldHelper.h>
-
 #include <include/roboteam_ai/world/World.hpp>
 
 TEST(worldTest, HistoryRetrievalTest) {

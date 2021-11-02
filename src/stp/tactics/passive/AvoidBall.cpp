@@ -25,7 +25,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
     if (!skillStpInfo.getBall() || !skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getRobot()) return std::nullopt;
 
     // If gameState == stop we need to avoid using a circle around the ball
-    if (std::strcmp(currentGameState.c_str(), "stop") == 0) {
+    if (std::strcmp(currentGameState.c_str(),"stop") == 0) {
         auto ballPosition = skillStpInfo.getBall()->get()->getPos();
         auto targetPosition = skillStpInfo.getPositionToMoveTo().value();
 
