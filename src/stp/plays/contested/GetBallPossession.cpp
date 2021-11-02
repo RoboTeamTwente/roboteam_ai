@@ -112,9 +112,14 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
 const char* GetBallPossession::getName() { return "Get Ball Possession"; }
 
     void GetBallPossession::storePlayInfo(gen::PlayInfos& info) noexcept {
-        gen::StoreInfo ball_getter;
-        ball_getter.robotID = stpInfos["ball_getter"].getRobot()->get()->getId();
-        ball_getter.moveToPosition = stpInfos["ball_getter"].getPositionToMoveTo();
-        info.insert({gen::KeyInfo::hasBall, ball_getter});
+        if (stpInfos["ball_getter"].getRobot()){
+            gen::StoreInfo ball_getter;
+            ball_getter.robotID = stpInfos["ball_getter"].getRobot()->get()->getId();
+            ball_getter.moveToPosition = stpInfos["ball_getter"].getPositionToMoveTo();
+            info.insert({gen::KeyInfo::hasBall, ball_getter});
+        }
+        else{
+            RTT_WARNING("No ball_getter found. PlayInfo not stored");
+        }
     }
 }  // namespace rtt::ai::stp::play
