@@ -74,7 +74,7 @@ $(function() {
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1TestPlay-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">rtt::ai::stp::TestPlay Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">rtt::ai::stp::TestPlay Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -93,12 +93,14 @@ Inheritance diagram for rtt::ai::stp::TestPlay:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6a375f9b7a5609c332775a47d55267e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#a6a375f9b7a5609c332775a47d55267e2">TestPlay</a> ()</td></tr>
 <tr class="separator:a6a375f9b7a5609c332775a47d55267e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae73547e3833b5b205123d29f104ffe2b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#ae73547e3833b5b205123d29f104ffe2b">score</a> (<a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *<a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a0c13cbd482099fa139f3a5f08d964efe">world</a>) noexcept override</td></tr>
-<tr class="separator:ae73547e3833b5b205123d29f104ffe2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ad44fbb193a0e8215de0219d0cf0991"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#a2ad44fbb193a0e8215de0219d0cf0991">score</a> (<a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html">PlayEvaluator</a> &amp;playEvaluator) noexcept override</td></tr>
+<tr class="separator:a2ad44fbb193a0e8215de0219d0cf0991"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a853721f720c50137493ca22976a9a8e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#a239709eb792970c058e595f1340b397d">Dealer::FlagMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#a853721f720c50137493ca22976a9a8e2">decideRoleFlags</a> () const noexcept override</td></tr>
 <tr class="separator:a853721f720c50137493ca22976a9a8e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a241dbab00fb24bf40bbfdcce4f7cb9f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#a241dbab00fb24bf40bbfdcce4f7cb9f2">calculateInfoForRoles</a> () noexcept override</td></tr>
 <tr class="separator:a241dbab00fb24bf40bbfdcce4f7cb9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf4a05d764400f37905426b55b5dfdd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#adf4a05d764400f37905426b55b5dfdd3">calculateInfoForScoredRoles</a> (<a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *) noexcept override</td></tr>
+<tr class="separator:adf4a05d764400f37905426b55b5dfdd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af10651a0613ad44d2914afe456d9d7ed"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#af10651a0613ad44d2914afe456d9d7ed">getName</a> () override</td></tr>
 <tr class="separator:af10651a0613ad44d2914afe456d9d7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae63525881610390f3a9e5a490377b32e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#ae63525881610390f3a9e5a490377b32e">storePlayInfo</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#afc45c97a42c443e6884bd95502426d0d">gen::PlayInfos</a> &amp;previousPlayInfo) noexcept</td></tr>
@@ -109,10 +111,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae405e45772af0c05dbf2cdc8e5634d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52fc8b6075367b48ae05021829ebcc8f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a52fc8b6075367b48ae05021829ebcc8f">update</a> () noexcept</td></tr>
 <tr class="separator:a52fc8b6075367b48ae05021829ebcc8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfb10161677ed02c90d148e63c0ff876"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#acfb10161677ed02c90d148e63c0ff876">calculateInfoForScoredRoles</a> (<a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *<a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a0c13cbd482099fa139f3a5f08d964efe">world</a>) noexcept=0</td></tr>
-<tr class="separator:acfb10161677ed02c90d148e63c0ff876"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec3ba224780947a554e5988ed4dafa14"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#aec3ba224780947a554e5988ed4dafa14">score</a> (<a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html">PlayEvaluator</a> &amp;playEvaluator) noexcept=0</td></tr>
-<tr class="separator:aec3ba224780947a554e5988ed4dafa14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef851cd436ebea9ea688744442f0a0e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#aef851cd436ebea9ea688744442f0a0e4">isValidPlayToStart</a> (<a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html">PlayEvaluator</a> &amp;playEvaluator) const noexcept</td></tr>
 <tr class="separator:aef851cd436ebea9ea688744442f0a0e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e90f169d120a9ebdf7caca0c8ef858e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8e90f169d120a9ebdf7caca0c8ef858e">isValidPlayToKeep</a> (<a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html">PlayEvaluator</a> &amp;playEvaluator) noexcept</td></tr>
@@ -185,6 +183,8 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Constructor that initializes roles with test roles </p>
+<p>Evaluations that have to be true to allow the play to continue, otherwise the play will change. Plays can also end using the <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">shouldEndPlay()</a>.</p>
+<p><a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html">Role</a> creation, the names should be unique. The names are used in the stpInfos-map.</p>
 
 </div>
 </div>
@@ -217,8 +217,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="acfb10161677ed02c90d148e63c0ff876"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acfb10161677ed02c90d148e63c0ff876">&#9670;&nbsp;</a></span>calculateInfoForScoredRoles()</h2>
+<a id="adf4a05d764400f37905426b55b5dfdd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf4a05d764400f37905426b55b5dfdd3">&#9670;&nbsp;</a></span>calculateInfoForScoredRoles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,22 +227,22 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void rtt::ai::stp::Play::calculateInfoForScoredRoles </td>
+          <td class="memname">void rtt::ai::stp::TestPlay::calculateInfoForScoredRoles </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Calculate info for roles that are used in the scoring of the play. This is a purely virtual function, so it is implemented in every play. </p>
+<p>Calculate info for the roles that need to be calculated for scoring </p>
 
-<p>Implemented in <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Halt.html#a6482d6802536c7a0bdb65c8de6781710">rtt::ai::stp::play::Halt</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a38c830df3eeee47e7146e08cb3a48c17">rtt::ai::stp::play::AttackingPass</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a2669649f6767e82cb44662a7184737ec">rtt::ai::stp::play::DefendShot</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html#a5ae22b613cf3e3844499a340986c6033">rtt::ai::stp::play::GetBallPossession</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#a7d3f1a62445efb94fe88b93ea5cca157">rtt::ai::stp::play::ReflectKick</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html#ade86b8e5d067c6fb224d11084a39d6fb">rtt::ai::stp::play::TimeOut</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#a85ef383834eda56aebe4e48423c29250">rtt::ai::stp::play::PenaltyUsPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs.html#a50ae597c013492046fbdb75fd6c145b5">rtt::ai::stp::play::PenaltyUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThemPrepare.html#a0459eb1540ddfc70319bc86363b7f842">rtt::ai::stp::play::PenaltyThemPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThem.html#ae7a91d1b96995bf2aa1974517f3f051b">rtt::ai::stp::play::PenaltyThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUsPrepare.html#acc7b32e06869bc99f0a6fd19efb76e06">rtt::ai::stp::play::KickOffUsPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html#a8d1e6cc7af9de50e4aabcb2fc683d489">rtt::ai::stp::play::KickOffUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThemPrepare.html#a02e6b395c9cb4fd1deac237db5a293f7">rtt::ai::stp::play::KickOffThemPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a501700bd6c10b1c2dcf8c6fc21cfc66c">rtt::ai::stp::play::KickOffThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUs.html#a564b0ba056dfeede1969ca2760cee336">rtt::ai::stp::play::FreeKickUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a990d804f6ce461afba9d0bdb16234894">rtt::ai::stp::play::FreeKickThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html#a1a0963932485066ca1fb9376a879d348">rtt::ai::stp::play::DefensiveStopFormation</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementUs.html#adf0397e4d3a375d27871445a150fd947">rtt::ai::stp::play::BallPlacementUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ac4bb4809544b2a8440be703459bb5c22">rtt::ai::stp::play::BallPlacementThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html#a6092b3d25cc226ab22f25b2f19568644">rtt::ai::stp::play::AggressiveStopFormation</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a459004752c7f2e3abdf37124904c6cc0">rtt::ai::stp::play::PlayTemplate</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a62bfb659b968c6265109868003c8ef36">rtt::ai::stp::play::GenericPass</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#a936cbd75f11da572601136a4c9ff58ee">rtt::ai::stp::play::Attack</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#a35437246b5e7181d81c097a0f686148f">rtt::ai::stp::play::DefendPass</a>, and <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky.html#a1614ff09e102ea1d25b908fcbecfce5c">rtt::ai::stp::play::GetBallRisky</a>.</p>
+<p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#acfb10161677ed02c90d148e63c0ff876">rtt::ai::stp::Play</a>.</p>
 
 </div>
 </div>
@@ -541,43 +541,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aec3ba224780947a554e5988ed4dafa14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec3ba224780947a554e5988ed4dafa14">&#9670;&nbsp;</a></span>score() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual uint8_t rtt::ai::stp::Play::score </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html">PlayEvaluator</a> &amp;&#160;</td>
-          <td class="paramname"><em>playEvaluator</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Function for in between plays calculation of score through the <a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html">PlayEvaluator</a>. Using the struct PlayEvaluator::PlayScoring(uint8_t score, double weight) the factors the be considered can be defined for scoring a play. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">playEvaluator</td><td>with the world </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a final score for the play </dd></dl>
-
-<p>Implemented in <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#addedc7f135900503ff942edeb801fd89">rtt::ai::stp::play::ReflectKick</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html#a0c7dda1be6fe32ffe33b5391608a0211">rtt::ai::stp::play::TimeOut</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#afedd2ca19f0dd0ccbdfa33584e3072af">rtt::ai::stp::play::PenaltyUsPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs.html#ac93e6872b01bebb77a1774f8818af7ca">rtt::ai::stp::play::PenaltyUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThemPrepare.html#a17e2bf9503dc12000ae8baf5e040c5f3">rtt::ai::stp::play::PenaltyThemPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThem.html#ae81d8f8cd0c4502f9a722456c593615d">rtt::ai::stp::play::PenaltyThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUsPrepare.html#afa5da550792ef5d6d15debf92bf1daec">rtt::ai::stp::play::KickOffUsPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html#ab26e227e57d6bd595c8c8f6e5d45ca38">rtt::ai::stp::play::KickOffUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThemPrepare.html#a94e576d6b3e16cde3697d7cd5403bc52">rtt::ai::stp::play::KickOffThemPrepare</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#af27740394e29e6815a209cc69563c38e">rtt::ai::stp::play::KickOffThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Halt.html#ab82237a56e6e425c96a0a5848d4c2b96">rtt::ai::stp::play::Halt</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUs.html#a7206edc783a5b3a809c00538f3b97446">rtt::ai::stp::play::FreeKickUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a3142fd64324fd0c4fde9836631c6428c">rtt::ai::stp::play::FreeKickThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html#a4b2a4e06650a08f07526d88a343230e9">rtt::ai::stp::play::DefensiveStopFormation</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementUs.html#abe93d98864536a83f4050b6257dd4b12">rtt::ai::stp::play::BallPlacementUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a9368cf6ed2259e05176545d82ccf723e">rtt::ai::stp::play::BallPlacementThem</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html#a7f92730ea65dc43dbead2f6ca6d0efc9">rtt::ai::stp::play::AggressiveStopFormation</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#ad4246196def6532a7a5b08c424021b8a">rtt::ai::stp::play::PlayTemplate</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a1b7607730e913934de63f709b18accc5">rtt::ai::stp::play::GenericPass</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#abbcdce17f33fdb85a3707660ed4d3b86">rtt::ai::stp::play::AttackingPass</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#a00aa4bea42852acd630df08591084591">rtt::ai::stp::play::Attack</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a1db6bcdfc988a9b38b93b94158a2383b">rtt::ai::stp::play::DefendShot</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky.html#a197947445d21c36d8b124edd9468bd54">rtt::ai::stp::play::GetBallRisky</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html#a6cde43cfe35537f1c875f2eeec6c1849">rtt::ai::stp::play::GetBallPossession</a>, and <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#a51661aed12114729d8171411fd90ec30">rtt::ai::stp::play::DefendPass</a>.</p>
-
-</div>
-</div>
-<a id="ae73547e3833b5b205123d29f104ffe2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae73547e3833b5b205123d29f104ffe2b">&#9670;&nbsp;</a></span>score() <span class="overload">[2/2]</span></h2>
+<a id="a2ad44fbb193a0e8215de0219d0cf0991"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ad44fbb193a0e8215de0219d0cf0991">&#9670;&nbsp;</a></span>score()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -588,14 +553,14 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">uint8_t rtt::ai::stp::TestPlay::score </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html">PlayEvaluator</a> &amp;&#160;</td>
+          <td class="paramname"><em>playEvaluator</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -608,6 +573,8 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The score, 0 - 100 </dd></dl>
+
+<p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#aec3ba224780947a554e5988ed4dafa14">rtt::ai::stp::Play</a>.</p>
 
 </div>
 </div>
