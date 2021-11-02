@@ -35,7 +35,7 @@
 #include "stp/plays/referee_specific/PenaltyUs.h"
 #include "stp/plays/referee_specific/PenaltyUsPrepare.h"
 #include "stp/plays/ReflectKick.h"
-//#include "stp/plays/TestPlay.h"
+#include "stp/plays/TestPlay.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -52,7 +52,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
