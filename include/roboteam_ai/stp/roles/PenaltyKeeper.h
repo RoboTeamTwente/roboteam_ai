@@ -13,7 +13,7 @@
 namespace rtt::ai::stp::role {
 
 //
-//Role inherited from the Keeper
+// Role inherited from the Keeper
 //
 
 class PenaltyKeeper : public Keeper {

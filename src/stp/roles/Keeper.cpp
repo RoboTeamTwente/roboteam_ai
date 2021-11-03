@@ -6,10 +6,10 @@
 
 #include <roboteam_utils/Print.h>
 
-#include "stp/tactics/active/GetBall.h"
 #include "stp/tactics/KeeperBlockBall.h"
-#include "stp/tactics/active/KickAtPos.h"
 #include "stp/tactics/active/ChipAtPos.h"
+#include "stp/tactics/active/GetBall.h"
+#include "stp/tactics/active/KickAtPos.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::role {
@@ -30,7 +30,7 @@ Status Keeper::update(StpInfo const& info) noexcept {
     bool stopBlockBall = isBallInOurDefenseAreaAndStill(info.getField().value(), info.getBall().value()->getPos(), info.getBall().value()->getVelocity());
     if (stopBlockBall && robotTactics.current_num() == 0) forceNextTactic();
 
-    if (stopBlockBall && robotTactics.current_num() == 1 && info.getRobot().value().hasBall(0.09,0.2)) forceNextTactic();
+    if (stopBlockBall && robotTactics.current_num() == 1 && info.getRobot().value().hasBall(0.09, 0.2)) forceNextTactic();
 
     currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
