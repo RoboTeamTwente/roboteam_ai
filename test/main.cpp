@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <utilities/Constants.h>
+
 #include <QtWidgets/QApplication>
 
 #define RUNNING_TEST
