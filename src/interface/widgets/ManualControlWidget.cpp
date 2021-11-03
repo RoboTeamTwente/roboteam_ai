@@ -1,4 +1,5 @@
 #include "interface/widgets/ManualControlWidget.h"
+
 #include <QCheckBox>
 #include <QVBoxLayout>
 

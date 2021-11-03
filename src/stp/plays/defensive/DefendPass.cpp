@@ -4,10 +4,10 @@
 
 #include "stp/plays/defensive/DefendPass.h"
 
+#include "stp/roles/Keeper.h"
 #include "stp/roles/passive/Defender.h"
 #include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Harasser.h"
-#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -22,16 +22,11 @@ DefendPass::DefendPass() : Play() {
     keepPlayEvaluation.emplace_back(eval::BallShotOrCloseToThem);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")),
-        std::make_unique<role::Defender>(role::Defender("blocker_1")),
-        std::make_unique<role::Defender>(role::Defender("blocker_2")),
-        std::make_unique<role::Defender>(role::Defender("blocker_3")),
-        std::make_unique<role::Defender>(role::Defender("blocker_4")),
-        std::make_unique<role::Defender>(role::Defender("blocker_5")),
-        std::make_unique<role::Harasser>(role::Harasser("harasser")),
-        std::make_unique<role::Formation>(role::Formation("offender_1")),
+        std::make_unique<role::Keeper>(role::Keeper("keeper")),          std::make_unique<role::Defender>(role::Defender("defender_1")),
+        std::make_unique<role::Defender>(role::Defender("defender_2")),  std::make_unique<role::Defender>(role::Defender("blocker_1")),
+        std::make_unique<role::Defender>(role::Defender("blocker_2")),   std::make_unique<role::Defender>(role::Defender("blocker_3")),
+        std::make_unique<role::Defender>(role::Defender("blocker_4")),   std::make_unique<role::Defender>(role::Defender("blocker_5")),
+        std::make_unique<role::Harasser>(role::Harasser("harasser")),    std::make_unique<role::Formation>(role::Formation("offender_1")),
         std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
@@ -45,17 +40,17 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::LOW_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER,{}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::REQUIRED,{closeToOurGoalFlag}}});
-    flagMap.insert({"defender_2", {DealerFlagPriority::REQUIRED,{closeToOurGoalFlag}}});
-    flagMap.insert({"blocker_1", {DealerFlagPriority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
-    flagMap.insert({"blocker_2", {DealerFlagPriority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
-    flagMap.insert({"blocker_3", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
-    flagMap.insert({"blocker_4", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
-    flagMap.insert({"blocker_5", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"defender_1", {DealerFlagPriority::REQUIRED, {closeToOurGoalFlag}}});
+    flagMap.insert({"defender_2", {DealerFlagPriority::REQUIRED, {closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"blocker_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"blocker_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"harasser", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-    flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
-    flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
+    flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToTheirGoalFlag}}});
+    flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToTheirGoalFlag}}});
 
     return flagMap;
 }

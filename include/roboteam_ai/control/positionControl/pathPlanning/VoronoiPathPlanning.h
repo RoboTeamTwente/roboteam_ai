@@ -7,6 +7,7 @@
 
 #include <list>
 #include <queue>
+
 #include "Voronoi.h"
 #include "control/ControlUtils.h"
 #include "control/positionControl/CollisionDetector.h"

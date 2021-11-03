@@ -7,9 +7,7 @@
 namespace rtt {
 Settings SETTINGS;
 
-void Settings::init(int id) {
-    setId(id);
-}
+void Settings::init(int id) { setId(id); }
 
 proto::Setting Settings::toMessage() {
     proto::Setting setting;

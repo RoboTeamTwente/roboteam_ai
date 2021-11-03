@@ -2,9 +2,11 @@
 // Created by maxl on 29-03-21.
 //
 
-#include <cmath>
-#include <roboteam_utils/Vector2.h>
 #include "stp/evaluations/position/BlockingEvaluation.h"
+
+#include <roboteam_utils/Vector2.h>
+
+#include <cmath>
 
 namespace rtt::ai::stp::evaluation {
 BlockingEvaluation::BlockingEvaluation() noexcept {
@@ -29,14 +31,14 @@ uint8_t BlockingEvaluation::metricCheck(double pointDistance, std::vector<double
     /**
      * Higher score for infront and further away
      */
-     //TODO improve this evaluation
-    for (int i = 0; i < enemyAngles.size(); i++){
-        if (enemyDistances[i] > pointDistance && std::abs(enemyAngles[i])<M_PI_2/3) { // 30 degrees
-            evalScore += pow((M_PI_2/3/std::abs(enemyAngles[i])),2) * pow(enemyDistances[i],1/2);
+    // TODO improve this evaluation
+    for (int i = 0; i < enemyAngles.size(); i++) {
+        if (enemyDistances[i] > pointDistance && std::abs(enemyAngles[i]) < M_PI_2 / 3) {  // 30 degrees
+            evalScore += pow((M_PI_2 / 3 / std::abs(enemyAngles[i])), 2) * pow(enemyDistances[i], 1 / 2);
         }
     }
     return calculateMetric(evalScore);
 }
 
 uint8_t BlockingEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
-}
+}  // namespace rtt::ai::stp::evaluation

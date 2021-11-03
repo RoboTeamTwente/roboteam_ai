@@ -1,12 +1,14 @@
 #ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
+#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/Polygon.h>
+
 #include <cmath>
 #include <mutex>
+
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
-#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include "world/Field.h"
 
 namespace rtt::world::view {
@@ -205,8 +207,8 @@ class FieldComputations {
      * blockades).
      * @return All the parts of the goal that are blocked.
      */
-    static std::vector<LineSegment> getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const std::vector<
-            rtt_world::view::RobotView> &robots, int id = -1, bool ourTeam = false);
+    static std::vector<LineSegment> getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
+                                                             const std::vector<rtt_world::view::RobotView> &robots, int id = -1, bool ourTeam = false);
 
     /**
      * Check whether a given robot really blocks a part of the goal (which is not the case if the robot belongs to a given team or if the robot has a given id) and if so return

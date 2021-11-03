@@ -21,7 +21,6 @@ class World;
 namespace rtt::ai {
 class Pause;
 
-
 namespace io {
 using namespace rtt::world;
 
@@ -36,11 +35,12 @@ class IOManager {
 
     rtt::ai::Pause *pause;
 
-    rtt::networking::PairReceiver<16970> *  central_server_connection;
+    rtt::networking::PairReceiver<16970> *central_server_connection;
+
    public:
     ~IOManager();
     explicit IOManager() = default;
-    void publishAllRobotCommands(const std::vector<proto::RobotCommand>& vector);
+    void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
     void publishSettings(proto::Setting setting);
     void handleCentralServerConnection();
     void init(int teamId);
@@ -49,7 +49,7 @@ class IOManager {
     std::mutex stateMutex;
 };
 
-    extern IOManager io;
+extern IOManager io;
 
 }  // namespace io
 }  // namespace rtt::ai

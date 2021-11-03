@@ -5,13 +5,15 @@
 #ifndef RTT_JOYSTICKMANAGER_H
 #define RTT_JOYSTICKMANAGER_H
 
-#include "SDL.h"
-#include "SDL_joystick.h"
 #include <unistd.h>
+
 #include <map>
 #include <memory>
 #include <mutex>
+
 #include "JoystickHandler.h"
+#include "SDL.h"
+#include "SDL_joystick.h"
 #include "control/ControlModule.h"
 
 namespace rtt::input {
