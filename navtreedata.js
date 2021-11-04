@@ -25,6 +25,9 @@
 var NAVTREE =
 [
   [ "roboteam_ai", "index.html", [
+    [ "RoboTeam AI", "index.html", [
+      [ "Build status", "index.html#autotoc_md8", null ]
+    ] ],
     [ "Contributor Covenant Code of Conduct", "md_CODE_OF_CONDUCT.html", [
       [ "Our Pledge", "md_CODE_OF_CONDUCT.html#autotoc_md1", null ],
       [ "Our Standards", "md_CODE_OF_CONDUCT.html#autotoc_md2", null ],
@@ -32,9 +35,6 @@ var NAVTREE =
       [ "Scope", "md_CODE_OF_CONDUCT.html#autotoc_md4", null ],
       [ "Enforcement", "md_CODE_OF_CONDUCT.html#autotoc_md5", null ],
       [ "Attribution", "md_CODE_OF_CONDUCT.html#autotoc_md6", null ]
-    ] ],
-    [ "RoboTeam AI", "md_README.html", [
-      [ "Build status", "md_README.html#autotoc_md8", null ]
     ] ],
     [ "Ball", "md_wiki_Ball.html", [
       [ "General", "md_wiki_Ball.html#autotoc_md11", null ],
