@@ -154,23 +154,23 @@ Passing Information</h3>
 <h4><a class="anchor" id="autotoc_md33"></a>
 Pass by Constructor</h4>
 <p>Pass by Constructor is a quite common practice within the software community, which is a technique where you pass information to the class using its constructor, so when the class is created. In case of the Chip class you will pass the zSpeed as information when the Chip class is created. In a class diagram this solution looks like:</p>
-<p><img src="PassByConstructor.png" alt="Pass by Constructor" class="inline"/></p>
+<p><img src="PassByConstructor.png" alt="" class="inline" title="Pass by Constructor"/></p>
 <p>And from a caller perspective it looks like: </p><div class="fragment"><div class="line">Skill chip = Chip(5.0)</div>
 <div class="line">chip.execute()</div>
 </div><!-- fragment --><p> The pros of this solution is that you enforce that all information that is needed is passed before the corresponding method is called. Furthermore no other class is enforced to use the same parameters if they do not need it. However a clear disadvantage is that information has to be passed when the class is created (which is not always possible) and often the created class can only be used once. For example if we want to Chip with a different zSpeed then we need to create a new Chip class. Although this sound quite complicated, it is a quite common practice to create classes that are only used once.</p>
 <h4><a class="anchor" id="autotoc_md34"></a>
 Pass by Interface Method</h4>
 <p>Pass by Interface Method means that you pass the information by the method inherited from a commonly used interface. In this example we know that the Chip class inherits from the Skill interface. So to pass zSpeed as information, we need to adjust the execute method in the Skill interface such that it uses zSpeed as parameter. In a class diagram this solution looks like:</p>
-<p><img src="InterfaceMethod.png" alt="Pass by Interface method" class="inline"/></p>
+<p><img src="InterfaceMethod.png" alt="" class="inline" title="Pass by Interface method"/></p>
 <p>And from a caller perspective it looks like: </p><div class="fragment"><div class="line">Skill chip = Chip()</div>
 <div class="line">chip.execute(5.0)</div>
 </div><!-- fragment --><p> The pros of this solution is that it is a quite simple design. Furthermore you can use the same class multiple times and you pass the information when the corresponding method is executed. The con of this solution is that all classes inheriting from this interface are enforced to use the same parameter even if they do not need it. For example Kick is a Skill where the ball is passed over the ground, so there is no need for passing zSpeed as parameter to this class. But with this solution you are enforced to still pass this value to the Kick class.</p>
 <h4><a class="anchor" id="autotoc_md35"></a>
 Pass by Interface Method (Advanced)</h4>
 <p>With the Pass by Interface Method technique you can also do more advanced stuff, like using optional arguments (<a href="https://en.cppreference.com/w/cpp/utility/optional">https://en.cppreference.com/w/cpp/utility/optional</a>) or using null values in case some information is not needed. Also you could pass a class as parameter that encapsulates the necessary data needed for skills, which looks like:</p>
-<p><img src="InterfaceMethodClass.png" alt="Pass by Interface method (using Class as parameter)" class="inline"/></p>
+<p><img src="InterfaceMethodClass.png" alt="" class="inline" title="Pass by Interface method (using Class as parameter)"/></p>
 <p>The advantage of this is that the class parameter could partially deal with the missing values, however a clear disadvantage is that this makes everything more complex than necessary. However if child classes are too different then they should not share the same interface. For example if there is a subgroup of classes that uses different parameters than other classes, they should inherit from a seperate interface. With an adapter pattern you can now substitute the new interface in the old interface, which in case of the Chipping example gives the following class diagram:</p>
-<p><img src="InterfaceMethodAdapter.png" alt="Pass by Interface method (with Adapter)" class="inline"/></p>
+<p><img src="InterfaceMethodAdapter.png" alt="" class="inline" title="Pass by Interface method (with Adapter)"/></p>
 <p>Where the implementation of the adapter class looks like: </p><div class="fragment"><div class="line">class AirSkillAdapter implements Skill {</div>
 <div class="line">  private final AirSkill skill</div>
 <div class="line">  private final float zSpeed</div>
@@ -187,7 +187,7 @@ Pass by Interface Method (Advanced)</h4>
 </div><!-- fragment --><h4><a class="anchor" id="autotoc_md36"></a>
 Pass by Additional Method (Setter)</h4>
 <p>The third solution is to Pass Information by Additional Method. This additional method is called a setter, which you can create per parameter that needs to be passed or you can have 1 setter function that sets all parameters at once. In a class diagram this solution looks like:</p>
-<p><img src="PassByAdditionalMethod.png" alt="Pass by Additional Method" class="inline"/></p>
+<p><img src="PassByAdditionalMethod.png" alt="" class="inline" title="Pass by Additional Method"/></p>
 <p>And from a caller perspective it looks like: </p><div class="fragment"><div class="line">Skill chip = Chip()</div>
 <div class="line">chip.setParams(5.0)</div>
 <div class="line">chip.execute()</div>
