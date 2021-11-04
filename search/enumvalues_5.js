@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['failure_4257',['Failure',['../namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3ae139a585510a502bbf1841cf589f5086',1,'rtt::ai::stp']]],
-  ['far_4258',['FAR',['../namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3a31234537adb52d5df18dc9596010708b',1,'rtt::ai::stp']]],
-  ['forced_5fstart_4259',['FORCED_START',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ae2f4e36957bfefd9000cb5bb950c4dda',1,'Constants.h']]],
-  ['freedomofrobots_4260',['FreedomOfRobots',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2abe8f556061f5ee5c3439ebd5e9707216',1,'rtt::ai::stp']]],
-  ['freekickthemgamestate_4261',['FreeKickThemGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2af5ef925cf3c281225810c9118fd382e0',1,'rtt::ai::stp']]],
-  ['freekickusgamestate_4262',['FreeKickUsGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2aca71e05faa7b1711d1367178d9c4e11f',1,'rtt::ai::stp']]]
+  ['general_4091',['GENERAL',['../namespacertt_1_1ai_1_1interface.html#a32502a1646cc497e4d4868294944d75da787a35f4aa72f7409c711600b4f91081',1,'rtt::ai::interface']]],
+  ['goal_5fthem_4092',['GOAL_THEM',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ab42cf7ab4e2edf86fe6615453c8a3cd2',1,'Constants.h']]],
+  ['goal_5fus_4093',['GOAL_US',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a39ccdc256c297b083c1c27e0b8966e1d',1,'Constants.h']]],
+  ['goalvision_4094',['GoalVision',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a7f70d3b478205253812373ab9fdc85d3',1,'rtt::ai::stp']]],
+  ['goalvisionfromball_4095',['GoalVisionFromBall',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a6fba6016b854c0c8ab1899f15bf9a6de',1,'rtt::ai::stp']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['generalshowtype_4199',['GeneralShowType',['../namespacertt_1_1ai_1_1interface.html#aabb366a3896f753323b21ff4ab868412',1,'rtt::ai::interface']]],
-  ['globalevaluation_4200',['GlobalEvaluation',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2',1,'rtt::ai::stp']]]
+  ['keyinfo_4031',['KeyInfo',['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8',1,'rtt::ai::stp::gen']]],
+  ['kickorchip_4032',['KickOrChip',['../namespacertt_1_1ai_1_1stp.html#a8a168b78725926f5901d2f6370784113',1,'rtt::ai::stp']]]
 ];

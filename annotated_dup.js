@@ -1,19 +1,5 @@
 var annotated_dup =
 [
-    [ "nativeformat", "namespacenativeformat.html", [
-      [ "param", "namespacenativeformat_1_1param.html", [
-        [ "Param", "classnativeformat_1_1param_1_1Param.html", "classnativeformat_1_1param_1_1Param" ],
-        [ "ParamEvent", "structnativeformat_1_1param_1_1ParamEvent.html", "structnativeformat_1_1param_1_1ParamEvent" ],
-        [ "CustomParamEvent", "structnativeformat_1_1param_1_1CustomParamEvent.html", "structnativeformat_1_1param_1_1CustomParamEvent" ],
-        [ "ParamImplementation", "classnativeformat_1_1param_1_1ParamImplementation.html", "classnativeformat_1_1param_1_1ParamImplementation" ],
-        [ "ValueAtTimeEvent", "structnativeformat_1_1param_1_1ValueAtTimeEvent.html", "structnativeformat_1_1param_1_1ValueAtTimeEvent" ],
-        [ "TargetAtTimeEvent", "structnativeformat_1_1param_1_1TargetAtTimeEvent.html", "structnativeformat_1_1param_1_1TargetAtTimeEvent" ],
-        [ "LinearRampEvent", "structnativeformat_1_1param_1_1LinearRampEvent.html", "structnativeformat_1_1param_1_1LinearRampEvent" ],
-        [ "ExponentialRampEvent", "structnativeformat_1_1param_1_1ExponentialRampEvent.html", "structnativeformat_1_1param_1_1ExponentialRampEvent" ],
-        [ "ValueCurveEvent", "structnativeformat_1_1param_1_1ValueCurveEvent.html", "structnativeformat_1_1param_1_1ValueCurveEvent" ],
-        [ "DummyEvent", "structnativeformat_1_1param_1_1DummyEvent.html", "structnativeformat_1_1param_1_1DummyEvent" ]
-      ] ]
-    ] ],
     [ "rtt", "namespacertt.html", [
       [ "ai", "namespacertt_1_1ai.html", [
         [ "control", "namespacertt_1_1ai_1_1control.html", [

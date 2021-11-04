@@ -87,17 +87,17 @@ $(document).ready(function(){initNavTree('md_wiki_Ball.html',''); initResizable(
 <div class="title">Ball </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md28"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md11"></a>
 General</h1>
 <p>The structure that represents the ball, it really just serves the purpose of representing the ball. Things like position and velocity are represented in it.</p>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Members</h1>
 <p><code>position</code> -&gt; Instance of <code>Vector2</code> that represents the current position.</p>
 <p><code>velocity</code> -&gt; Instance of <code>Vector2</code> that represents the current velocity.</p>
 <p><code>visible</code> -&gt; Boolean that represents whether the ball is currently visible by the camera, if the ball is next to a robot and the camera is looking at it through an angle, then it can't see the ball and <code>visible</code> will be <code>false</code>.</p>
 <p><code>expectedEndPosition</code> -&gt; End position that we <em>think</em> the ball will lay at when it comes to a stop.</p>
 <p><code>filteredVelocity</code> -&gt; Velocity but adjusted to match up with physics n stuff, it's used to determine a more realistic end position.</p>
-<h1><a class="anchor" id="autotoc_md30"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Functions</h1>
 <p><code>initializeCalculations</code> -&gt; Calls the 4 calculation methods.</p>
 <p><code>initBallAtRobotPosition</code> -&gt; If there is no position for the ball we look at the robot ball sensors for this.</p>
@@ -110,7 +110,7 @@ Functions</h1>
 <p><code>getExpectedEndPosition</code> -&gt; Returns <code>expectedEndPosition</code></p>
 <p><code>getFilteredVelocity</code> -&gt; Returns <code>filteredVelocity</code></p>
 <p><code>Ball(proto::WorldBall, World*)</code> -&gt; Constructs a ball from a proto message + the world data.</p>
-<h1><a class="anchor" id="autotoc_md31"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 Advice</h1>
 <p>There's a few black boxes in here that I didn't fix when I refactored the world, cause honestly I didn't feel like it.</p>
 <p>So my advice is simple, refactor the 4 calculation functions, <code>initBallAtRobotPositions</code>, <code>filterBallVelocity</code>, <code>updateExpectedBallEndPosition</code> and <code>updateBallAtRobotPosition</code>. The last one is most important here because for whatever reason it updates the UI. </p>

@@ -1,17 +1,10 @@
 var searchData=
 [
-  ['pass_4302',['PASS',['../namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87aba7a95bf926a0333f57705aeac07a362a2',1,'rtt::ai::stp']]],
-  ['pathfinding_4303',['PATHFINDING',['../namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850ba1db99382c62e9336211b9a6c00f81c9e',1,'rtt::ai::interface']]],
-  ['pathfinding_5fdebug_4304',['PATHFINDING_DEBUG',['../namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850ba179fcf5c5eed05beac838e094c0b5d18',1,'rtt::ai::interface']]],
-  ['penaltythemgamestate_4305',['PenaltyThemGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a3e36f4ad95454ef7076927a3302a5711',1,'rtt::ai::stp']]],
-  ['penaltythempreparegamestate_4306',['PenaltyThemPrepareGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2aeec6693eb39911dd5e14feaa78fed489',1,'rtt::ai::stp']]],
-  ['penaltyusgamestate_4307',['PenaltyUsGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a56c8f055459577051738d1f33b55cbcc',1,'rtt::ai::stp']]],
-  ['penaltyuspreparegamestate_4308',['PenaltyUsPrepareGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a76a5a44992d1a994ce5a918098042b91',1,'rtt::ai::stp']]],
-  ['plusses_4309',['PLUSSES',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca8179ab9f492fbf5dab5edb080142ccf4',1,'rtt::ai::interface::Drawing']]],
-  ['prepare_5fkickoff_5fthem_4310',['PREPARE_KICKOFF_THEM',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a605d4c9e57ea162973c0d8681035c2d1',1,'Constants.h']]],
-  ['prepare_5fkickoff_5fus_4311',['PREPARE_KICKOFF_US',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ab1b09aed356d6152877ff14f116e9e3b',1,'Constants.h']]],
-  ['prepare_5fpenalty_5fthem_4312',['PREPARE_PENALTY_THEM',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5aa582f62ddc20516e733b0ce09acc219a',1,'Constants.h']]],
-  ['prepare_5fpenalty_5fus_4313',['PREPARE_PENALTY_US',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a51fb032d2ec071f1b8cdbcdffaa5a947',1,'Constants.h']]],
-  ['prepare_5fshootout_5fthem_4314',['PREPARE_SHOOTOUT_THEM',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a66494dcf8b34d95827497d38a0cb6f52',1,'Constants.h']]],
-  ['prepare_5fshootout_5fus_4315',['PREPARE_SHOOTOUT_US',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a10684e2f808b973f63f052a73ed9fbc8',1,'Constants.h']]]
+  ['ready_5fto_5fintercept_5fgoal_5fshot_4143',['READY_TO_INTERCEPT_GOAL_SHOT',['../namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67abfc3039b758d22d1b5f75a7451d6d44b',1,'rtt::ai']]],
+  ['real_5flife_5fcircles_4144',['REAL_LIFE_CIRCLES',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca717b5060eb07f66c6de02ccf95d35e6c',1,'rtt::ai::interface::Drawing']]],
+  ['real_5flife_5fdots_4145',['REAL_LIFE_DOTS',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3acab2ff5feced973d684ca9c9e2b4f2fe19',1,'rtt::ai::interface::Drawing']]],
+  ['receive_4146',['RECEIVE',['../namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eba42ddaaef1ffd16ad35901150add8f8f2',1,'rtt::ai::stp']]],
+  ['required_4147',['REQUIRED',['../namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617aebdf9721be38d1fc1cd6db8c737d1be0',1,'rtt::ai']]],
+  ['robot_4148',['ROBOT',['../namespacertt_1_1ai_1_1interface.html#a32502a1646cc497e4d4868294944d75da4eca42dd55582be3e1054e8c2524e470',1,'rtt::ai::interface']]],
+  ['running_4149',['Running',['../namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3a5bda814c4aedb126839228f1a3d92f09',1,'rtt::ai::stp']]]
 ];

@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['halfway_4268',['HALFWAY',['../namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3ad9ed1ae6b46bb488c4a73ce0925b48b2',1,'rtt::ai::stp']]],
-  ['halt_4269',['HALT',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5abf2d798abfe8267da4f101692b6cfecd',1,'Constants.h']]],
-  ['haltgamestate_4270',['HaltGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a77d4126c5a58e2c92ae78938de37c559',1,'rtt::ai::stp']]],
-  ['hasball_4271',['hasBall',['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8ab1e84fff34510d643da18f3a05f463cc',1,'rtt::ai::stp::gen']]],
-  ['high_5fpriority_4272',['HIGH_PRIORITY',['../namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617a3871b7c0f6c5b83aeb99d88cfe8a0984',1,'rtt::ai']]]
+  ['indirect_5ffree_5fthem_4101',['INDIRECT_FREE_THEM',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ab726702787fdb2dfa9760971d49cd723',1,'Constants.h']]],
+  ['indirect_5ffree_5fus_4102',['INDIRECT_FREE_US',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a34c4eae181fc0ccdff9a99b78334eb53',1,'Constants.h']]],
+  ['intercept_4103',['INTERCEPT',['../namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850ba4ee3238b1c43bdf1c25fddae50370dba',1,'rtt::ai::interface::INTERCEPT()'],['../namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eba488ad7528a915081b9aec9abe393afcd',1,'rtt::ai::stp::INTERCEPT()']]],
+  ['ispasser_4104',['isPasser',['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8ae69d8e3a59c46fa631fd13d36ea79f86',1,'rtt::ai::stp::gen']]],
+  ['isreceiver_4105',['isReceiver',['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8a641383c87770367484fe98b6ab69ee27',1,'rtt::ai::stp::gen']]],
+  ['isshooter_4106',['isShooter',['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8a90a4f7fea0a12d5912766dc06d0dda92',1,'rtt::ai::stp::gen']]]
 ];

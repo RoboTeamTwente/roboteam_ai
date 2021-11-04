@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['keyinfo_4201',['KeyInfo',['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8',1,'rtt::ai::stp::gen']]],
-  ['kickorchip_4202',['KickOrChip',['../namespacertt_1_1ai_1_1stp.html#a8a168b78725926f5901d2f6370784113',1,'rtt::ai::stp']]]
+  ['pidtype_4033',['PIDType',['../namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eb',1,'rtt::ai::stp']]],
+  ['possession_4034',['Possession',['../classrtt_1_1ai_1_1BallPossession.html#aac3b04b1d08a6333049eba6c02d5ebc9',1,'rtt::ai::BallPossession']]]
 ];

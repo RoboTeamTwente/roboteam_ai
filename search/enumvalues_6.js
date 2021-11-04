@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['general_4263',['GENERAL',['../namespacertt_1_1ai_1_1interface.html#a32502a1646cc497e4d4868294944d75da787a35f4aa72f7409c711600b4f91081',1,'rtt::ai::interface']]],
-  ['goal_5fthem_4264',['GOAL_THEM',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ab42cf7ab4e2edf86fe6615453c8a3cd2',1,'Constants.h']]],
-  ['goal_5fus_4265',['GOAL_US',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a39ccdc256c297b083c1c27e0b8966e1d',1,'Constants.h']]],
-  ['goalvision_4266',['GoalVision',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a7f70d3b478205253812373ab9fdc85d3',1,'rtt::ai::stp']]],
-  ['goalvisionfromball_4267',['GoalVisionFromBall',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a6fba6016b854c0c8ab1899f15bf9a6de',1,'rtt::ai::stp']]]
+  ['halfway_4096',['HALFWAY',['../namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3ad9ed1ae6b46bb488c4a73ce0925b48b2',1,'rtt::ai::stp']]],
+  ['halt_4097',['HALT',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5abf2d798abfe8267da4f101692b6cfecd',1,'Constants.h']]],
+  ['haltgamestate_4098',['HaltGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a77d4126c5a58e2c92ae78938de37c559',1,'rtt::ai::stp']]],
+  ['hasball_4099',['hasBall',['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8ab1e84fff34510d643da18f3a05f463cc',1,'rtt::ai::stp::gen']]],
+  ['high_5fpriority_4100',['HIGH_PRIORITY',['../namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617a3871b7c0f6c5b83aeb99d88cfe8a0984',1,'rtt::ai']]]
 ];

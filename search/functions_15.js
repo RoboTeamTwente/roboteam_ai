@@ -1,12 +1,15 @@
 var searchData=
 [
-  ['waller_3594',['Waller',['../classrtt_1_1ai_1_1stp_1_1role_1_1Waller.html#a1faa79d1341f625ff5085a1423cdfefb',1,'rtt::ai::stp::role::Waller']]],
-  ['walling_3595',['Walling',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html#a73c399ee4fff068e6c4ee896aa29fd83',1,'rtt::ai::stp::tactic::Walling']]],
-  ['wehaverobots_3596',['weHaveRobots',['../classrtt_1_1world_1_1WorldData.html#ab40dc3402f4a0a6253466967ea0dab25',1,'rtt::world::WorldData']]],
-  ['whichrobothasball_3597',['whichRobotHasBall',['../classrtt_1_1world_1_1view_1_1WorldDataView.html#af0f9115293f25f8c2ee17cc921e5df61',1,'rtt::world::view::WorldDataView']]],
-  ['window_5ffield_5fmargin_3598',['WINDOW_FIELD_MARGIN',['../classrtt_1_1ai_1_1Constants.html#ad82145a7f85d26c510af3411c3ccf4cc',1,'rtt::ai::Constants']]],
-  ['world_3599',['World',['../classrtt_1_1world_1_1World.html#aa38b84c189b17e15649a9a58b4dbd346',1,'rtt::world::World::World(World const &amp;)=delete'],['../classrtt_1_1world_1_1World.html#a64558ef47d03743ba2b2b61ce97a083b',1,'rtt::world::World::World(World &amp;&amp;)=delete'],['../classrtt_1_1world_1_1World.html#ac6ed0185698e4c627a71fc94646f9b54',1,'rtt::world::World::World(Settings *settings)']]],
-  ['worlddata_3600',['WorldData',['../classrtt_1_1world_1_1WorldData.html#a7ff91d13d7034ac94515f47f9c1a908c',1,'rtt::world::WorldData::WorldData(const World *data, proto::World &amp;protoMsg, rtt::Settings const &amp;settings, std::unordered_map&lt; uint8_t, proto::RobotFeedback &gt; &amp;feedback) noexcept'],['../classrtt_1_1world_1_1WorldData.html#a9aa66bbdd33aa6a0ba30a63ac1861888',1,'rtt::world::WorldData::WorldData()=default'],['../classrtt_1_1world_1_1WorldData.html#a37cc6a84ed8d108ea24f62c0e5a21ef2',1,'rtt::world::WorldData::WorldData(WorldData const &amp;) noexcept'],['../classrtt_1_1world_1_1WorldData.html#a23004b6389dde87425b9825ec52d135a',1,'rtt::world::WorldData::WorldData(WorldData &amp;&amp;old)=default']]],
-  ['worlddataview_3601',['WorldDataView',['../classrtt_1_1world_1_1view_1_1WorldDataView.html#ab41aa608b2e0f97399de74f361adbe15',1,'rtt::world::view::WorldDataView::WorldDataView(WorldData const *_ptr) noexcept'],['../classrtt_1_1world_1_1view_1_1WorldDataView.html#a371ea20dca5100cc3d3761104ca40436',1,'rtt::world::view::WorldDataView::WorldDataView(WorldDataView const &amp;o)=default'],['../classrtt_1_1world_1_1view_1_1WorldDataView.html#a5622bfe81caccb8d52fdb375d90654bc',1,'rtt::world::view::WorldDataView::WorldDataView(WorldDataView &amp;&amp;o)=default']]],
-  ['worldobjects_3602',['WorldObjects',['../classrtt_1_1BB_1_1WorldObjects.html#a9464deea328dab65431edab4e16d0737',1,'rtt::BB::WorldObjects']]]
+  ['_7eball_3467',['~Ball',['../classrtt_1_1world_1_1ball_1_1Ball.html#abeb10c401264459b3f94ec881cc9b1f4',1,'rtt::world::ball::Ball']]],
+  ['_7eballview_3468',['~BallView',['../classrtt_1_1world_1_1view_1_1BallView.html#a19d0e1e63422ce93ba1c9365941bddb9',1,'rtt::world::view::BallView']]],
+  ['_7ebaseevaluation_3469',['~BaseEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1BaseEvaluation.html#aaa39077019e69659cd676efc7d871504',1,'rtt::ai::stp::evaluation::BaseEvaluation']]],
+  ['_7edealer_3470',['~Dealer',['../classrtt_1_1ai_1_1Dealer.html#aad8a4055abc33454fce6cf0966ee3d9e',1,'rtt::ai::Dealer']]],
+  ['_7einput_3471',['~Input',['../classrtt_1_1ai_1_1interface_1_1Input.html#a1df42b8fabc4e194e606e251e4ffd077',1,'rtt::ai::interface::Input']]],
+  ['_7eiomanager_3472',['~IOManager',['../classrtt_1_1ai_1_1io_1_1IOManager.html#acc242d6e8c537a44349b7a2f7a4d0178',1,'rtt::ai::io::IOManager']]],
+  ['_7eplay_3473',['~Play',['../classrtt_1_1ai_1_1stp_1_1Play.html#ae1fb3941c44c1eed411a838fca110a96',1,'rtt::ai::stp::Play']]],
+  ['_7eplayswidget_3474',['~PlaysWidget',['../classrtt_1_1ai_1_1interface_1_1PlaysWidget.html#ac6a53fb0a0651943ef7d63d8dd954e01',1,'rtt::ai::interface::PlaysWidget']]],
+  ['_7erobotview_3475',['~RobotView',['../classrtt_1_1world_1_1view_1_1RobotView.html#ad02151cd2fd9f53ee480644cbe76ce04',1,'rtt::world::view::RobotView']]],
+  ['_7erole_3476',['~Role',['../classrtt_1_1ai_1_1stp_1_1Role.html#a38530309ce59741b0017ef85e9a3c836',1,'rtt::ai::stp::Role']]],
+  ['_7eskill_3477',['~Skill',['../classrtt_1_1ai_1_1stp_1_1Skill.html#a3de2039fccd695e7d389e01b678ceaba',1,'rtt::ai::stp::Skill']]],
+  ['_7etactic_3478',['~Tactic',['../classrtt_1_1ai_1_1stp_1_1Tactic.html#a7592dfaa2c50f9f638bc9739175614ac',1,'rtt::ai::stp::Tactic']]]
 ];

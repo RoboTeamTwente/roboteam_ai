@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['no_5frobots_4291',['NO_ROBOTS',['../namespacertt_1_1ai_1_1interface.html#a76bcf0e45432f575389388fa52ad4b7eaf66ccd73bd1f021934c6022b435685dc',1,'rtt::ai::interface']]],
-  ['nogoalvisionfromball_4292',['NoGoalVisionFromBall',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a1b04ba41304eb2e7c212d993d6332e05',1,'rtt::ai::stp']]],
-  ['none_4293',['NONE',['../namespacenativeformat_1_1param.html#a36e3777cc72a692df95c3896a0340019ab50339a10e1de285ac99d4c3990b8693',1,'nativeformat::param']]],
-  ['normal_5fstart_4294',['NORMAL_START',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5abca20722938852a1d96f3ec869b939cc',1,'Constants.h']]],
-  ['normalorfreekickusgamestate_4295',['NormalOrFreeKickUsGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ab3a6430b6ea1e49bb0d83a901f1a5b08',1,'rtt::ai::stp']]],
-  ['normalplaygamestate_4296',['NormalPlayGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2adcda5e2a3f4ea07543fe7d8d642d027b',1,'rtt::ai::stp']]],
-  ['not_5fimportant_4297',['NOT_IMPORTANT',['../namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a133dc98cd132e86d4117b396c8b4eee9',1,'rtt::ai']]]
+  ['off_4125',['OFF',['../namespacertt_1_1ai_1_1interface.html#aabb366a3896f753323b21ff4ab868412a3a609bddac09f246ef18d07ad0af6134',1,'rtt::ai::interface']]],
+  ['offense_4126',['OFFENSE',['../namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850bac2b3f362be13e31e976acb30c18f4b50',1,'rtt::ai::interface']]],
+  ['on_4127',['ON',['../namespacertt_1_1ai_1_1interface.html#aabb366a3896f753323b21ff4ab868412ac9e0ee677298ad6b295cf969af51af99',1,'rtt::ai::interface']]],
+  ['ourball_4128',['OURBALL',['../classrtt_1_1ai_1_1BallPossession.html#aac3b04b1d08a6333049eba6c02d5ebc9a79139c94ea7f68a34cecaaeb06971635',1,'rtt::ai::BallPossession']]]
 ];

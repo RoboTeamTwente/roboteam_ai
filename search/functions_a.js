@@ -1,14 +1,10 @@
 var searchData=
 [
-  ['keeper_3242',['Keeper',['../classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html#aace591f3388b5813861562a809d7c8b3',1,'rtt::ai::stp::role::Keeper']]],
-  ['keeper_5fcentregoal_5fmargin_3243',['KEEPER_CENTREGOAL_MARGIN',['../classrtt_1_1ai_1_1Constants.html#aba63b17d4f68f02696a08462ed47d933',1,'rtt::ai::Constants']]],
-  ['keeper_5fhelp_5fdraw_5fsize_3244',['KEEPER_HELP_DRAW_SIZE',['../classrtt_1_1ai_1_1Constants.html#a5941a65f7ea6df4c658712c17c6b8c8c',1,'rtt::ai::Constants']]],
-  ['keeper_5fpenalty_5fline_5fmargin_3245',['KEEPER_PENALTY_LINE_MARGIN',['../classrtt_1_1ai_1_1Constants.html#a3546b5aa1e700052dc6dbd08e657eb50',1,'rtt::ai::Constants']]],
-  ['keeper_5fpost_5fmargin_3246',['KEEPER_POST_MARGIN',['../classrtt_1_1ai_1_1Constants.html#afd6fe341b00acdb49b548311465fa5ea',1,'rtt::ai::Constants']]],
-  ['keeperblockball_3247',['KeeperBlockBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a90925906e42a4da8344a7f568dd77c79',1,'rtt::ai::stp::tactic::KeeperBlockBall']]],
-  ['kickatpos_3248',['KickAtPos',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html#a8953fce5339c0188caf1ee7e0f5c05a3',1,'rtt::ai::stp::tactic::KickAtPos']]],
-  ['kickoffthem_3249',['KickOffThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a13104a844dcc01cffe55679f05a35907',1,'rtt::ai::stp::play::KickOffThem']]],
-  ['kickoffthemprepare_3250',['KickOffThemPrepare',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThemPrepare.html#a122f7c0e06a8b7655b13e71c1b7328f1',1,'rtt::ai::stp::play::KickOffThemPrepare']]],
-  ['kickoffus_3251',['KickOffUs',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html#ab39adadcbeeb3305154b8832dd13a752',1,'rtt::ai::stp::play::KickOffUs']]],
-  ['kickoffusprepare_3252',['KickOffUsPrepare',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUsPrepare.html#acc7c31d01bd4a7cb2ab8106b1e50673c',1,'rtt::ai::stp::play::KickOffUsPrepare']]]
+  ['limitangularvel_3136',['limitAngularVel',['../classrtt_1_1ai_1_1control_1_1ControlModule.html#ad521a37fc63258f037b3f6fe522e99b7',1,'rtt::ai::control::ControlModule']]],
+  ['limitrobotcommand_3137',['limitRobotCommand',['../classrtt_1_1ai_1_1control_1_1ControlModule.html#a97d1d6f29c010e9bb90b6322e27bde13',1,'rtt::ai::control::ControlModule']]],
+  ['limitvel_3138',['limitVel',['../classrtt_1_1ai_1_1control_1_1ControlModule.html#ac85614142c78abf95ecc0d21e6f9d6b8',1,'rtt::ai::control::ControlModule']]],
+  ['lineintersectionwithdefencearea_3139',['lineIntersectionWithDefenceArea',['../classrtt_1_1ai_1_1FieldComputations.html#a6a8236f49bba35dfbdd7cd6b429fe3b7',1,'rtt::ai::FieldComputations']]],
+  ['lineofsightevaluation_3140',['LineOfSightEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1LineOfSightEvaluation.html#aa968e577f0394410d32dfd91fca40273',1,'rtt::ai::stp::evaluation::LineOfSightEvaluation']]],
+  ['lockinterfaceplay_3141',['lockInterfacePlay',['../classrtt_1_1ai_1_1stp_1_1PlayDecider.html#ac6f1dd2004af803ed8f3d4162fea75c7',1,'rtt::ai::stp::PlayDecider']]],
+  ['loop_3142',['loop',['../classrtt_1_1input_1_1JoystickManager.html#ab5143297b4b54eb416aee1c8339c4ea0',1,'rtt::input::JoystickManager']]]
 ];

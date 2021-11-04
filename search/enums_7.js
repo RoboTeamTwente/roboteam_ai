@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['shottype_4207',['ShotType',['../namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87ab',1,'rtt::ai::stp']]],
-  ['showtype_4208',['ShowType',['../namespacertt_1_1ai_1_1interface.html#a32502a1646cc497e4d4868294944d75d',1,'rtt::ai::interface']]],
-  ['status_4209',['Status',['../namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3',1,'rtt::ai::stp']]]
+  ['team_4040',['Team',['../namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727',1,'rtt::world']]]
 ];

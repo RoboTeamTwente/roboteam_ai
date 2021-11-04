@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['ready_5fto_5fintercept_5fgoal_5fshot_4316',['READY_TO_INTERCEPT_GOAL_SHOT',['../namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67abfc3039b758d22d1b5f75a7451d6d44b',1,'rtt::ai']]],
-  ['real_5flife_5fcircles_4317',['REAL_LIFE_CIRCLES',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca717b5060eb07f66c6de02ccf95d35e6c',1,'rtt::ai::interface::Drawing']]],
-  ['real_5flife_5fdots_4318',['REAL_LIFE_DOTS',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3acab2ff5feced973d684ca9c9e2b4f2fe19',1,'rtt::ai::interface::Drawing']]],
-  ['receive_4319',['RECEIVE',['../namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eba42ddaaef1ffd16ad35901150add8f8f2',1,'rtt::ai::stp']]],
-  ['required_4320',['REQUIRED',['../namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617aebdf9721be38d1fc1cd6db8c737d1be0',1,'rtt::ai']]],
-  ['robot_4321',['ROBOT',['../namespacertt_1_1ai_1_1interface.html#a32502a1646cc497e4d4868294944d75da4eca42dd55582be3e1054e8c2524e470',1,'rtt::ai::interface']]],
-  ['running_4322',['Running',['../namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3a5bda814c4aedb126839228f1a3d92f09',1,'rtt::ai::stp']]]
+  ['selected_5frobots_4150',['SELECTED_ROBOTS',['../namespacertt_1_1ai_1_1interface.html#a76bcf0e45432f575389388fa52ad4b7eab4f5787ac1f67720ba4e6a886ab3fdcd',1,'rtt::ai::interface']]],
+  ['shotlines_4151',['SHOTLINES',['../namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850bab94d1d7dec1a5bc19842604d00de52a1',1,'rtt::ai::interface']]],
+  ['stop_4152',['STOP',['../Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a615a46af313786fc4e349f34118be111',1,'Constants.h']]],
+  ['stopgamestate_4153',['StopGameState',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a34b187ec4398cc49370ff40f4bd5931e',1,'rtt::ai::stp']]],
+  ['success_4154',['Success',['../namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3a505a83f220c02df2f85c3810cd9ceb38',1,'rtt::ai::stp']]]
 ];
