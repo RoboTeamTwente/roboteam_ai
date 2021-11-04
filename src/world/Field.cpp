@@ -4,6 +4,8 @@
 
 #include "world/Field.h"
 
+#include "utilities/Settings.h"
+
 namespace rtt::world {
 
 Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
@@ -11,6 +13,7 @@ Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
     initFieldOthers();
+    initFieldGrids();
 }
 
 void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -51,6 +54,39 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     }
 }
 
+void Field::initFieldGrids() {
+    auto numSegmentsX = 3;
+    auto numSegmentsY = 3;
+
+    // Grid- length/width is negative when playing as right/left respectively to as we need to add/substract from
+    // starting point (when calculating middle and top X and middle and right Y) depending on which side we are
+    auto gridLength = SETTINGS.isLeft() ? getFieldLength()/3 : -getFieldLength()/3;
+    auto gridWidth = SETTINGS.isLeft() ? -getFieldWidth()/3 : getFieldWidth()/3;
+
+    // Calculate back and left side depending on which side we are
+    auto backmostX = SETTINGS.isLeft() ? leftmostX.value() : rightmostX.value() - getFieldLength()/3;
+    auto leftmostY = SETTINGS.isLeft() ? topmostY.value() - getFieldWidth()/3 : bottommostY.value();
+
+    auto bottomX = backmostX;
+    auto middleX = backmostX + gridLength;
+    auto topX = backmostX + gridLength*2;
+
+    auto leftY = leftmostY;
+    auto middleY = leftmostY + gridWidth;
+    auto rightY = leftmostY + gridWidth*2;
+
+    backLeftGrid = Grid(bottomX, leftY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    backMidGrid =  Grid(bottomX, middleY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    backRightGrid = Grid(bottomX, rightY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    middleLeftGrid = Grid(middleX, leftY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    middleMidGrid = Grid(middleX, middleY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    middleRightGrid = Grid(middleX, rightY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    frontLeftGrid = Grid(topX, leftY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    frontMidGrid = Grid(topX, middleY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+    frontRightGrid = Grid(topX, rightY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
+
+}
+
 void Field::initFieldOthers() {
     // Initialize some additional field values
     leftmostX = -0.5 * fieldLength.value();
@@ -62,8 +98,16 @@ void Field::initFieldOthers() {
     rightPenaltyX = rightPenaltyLine.value().begin.x;
 
     // Initialize some additional field vectors
-    ourGoalCenter = Vector2(leftmostX.value(), centerY.value());
-    theirGoalCenter = Vector2(rightmostX.value(), centerY.value());
+
+    // Location of our/their goal is right or left depending which side we are playing as
+    if (SETTINGS.isLeft()){
+        ourGoalCenter = Vector2(leftmostX.value(), centerY.value());
+        theirGoalCenter = Vector2(rightmostX.value(), centerY.value());
+    }
+    else{
+        ourGoalCenter = Vector2(rightmostX.value(), centerY.value());
+        theirGoalCenter = Vector2(leftmostX.value(), centerY.value());
+    }
 
     Vector2 goalWidthAdjust = Vector2(0, goalWidth.value() / 2);
     ourBottomGoalSide = ourGoalCenter.value() - goalWidthAdjust;
@@ -89,10 +133,19 @@ void Field::initFieldOthers() {
     bottomRightCorner = Vector2(rightmostX.value(), bottommostY.value());
     topRightCorner = Vector2(rightmostX.value(), topmostY.value());
 
-    topLeftOurDefenceArea = topLeftPenaltyStretch->begin;
-    bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
-    topRightTheirDefenceArea = topRightPenaltyStretch->begin;
-    bottomRightTheirDefenceArea = bottomRightPenaltyStretch->begin;
+    // Calculate defense area based on which side we are
+    if (SETTINGS.isLeft()) {
+        topLeftOurDefenceArea = topLeftPenaltyStretch->begin;
+        bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
+        topRightTheirDefenceArea = topRightPenaltyStretch->begin;
+        bottomRightTheirDefenceArea = bottomRightPenaltyStretch->begin;
+    }
+    else{
+        topLeftOurDefenceArea = topRightPenaltyStretch->begin;
+        bottomLeftOurDefenceArea = bottomRightPenaltyStretch->begin;
+        topRightTheirDefenceArea = topLeftPenaltyStretch->begin;
+        bottomRightTheirDefenceArea = bottomLeftPenaltyStretch->begin;
+    }
 }
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
@@ -193,6 +246,25 @@ const Vector2 &Field::getTopRightTheirDefenceArea() const { return getFieldVecto
 
 const Vector2 &Field::getBottomRightTheirDefenceArea() const { return getFieldVector(bottomRightTheirDefenceArea); }
 
+const Grid &Field::getBackLeftGrid() const { return getFieldGrid(backLeftGrid); }
+
+const Grid &Field::getBackMidGrid() const { return getFieldGrid(backMidGrid); }
+
+const Grid &Field::getBackRightGrid() const { return getFieldGrid(backRightGrid); }
+
+const Grid &Field::getMiddleLeftGrid() const { return getFieldGrid(middleLeftGrid); }
+
+const Grid &Field::getMiddleMidGrid() const { return getFieldGrid(middleMidGrid); }
+
+const Grid &Field::getMiddleRightGrid() const { return getFieldGrid(middleRightGrid); }
+
+const Grid &Field::getFrontLeftGrid() const { return getFieldGrid(frontLeftGrid); }
+
+const Grid &Field::getFrontMidGrid() const { return getFieldGrid(frontMidGrid); }
+
+const Grid &Field::getFrontRightGrid() const { return getFieldGrid(frontRightGrid); }
+
+
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
         return fieldValue.value();
@@ -241,6 +313,20 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
         static FieldArc standard = {};
         return standard;
     }
+}
+
+const Grid &Field::getFieldGrid(const std::optional<Grid> &fieldGrid) const {
+    if (fieldGrid){
+        return fieldGrid.value();
+    } else {
+        /* This clause is needed, because the default constructor could have been called. In which case the variables
+        have not been assigned a value. */
+        std::cout << "Warning: access undefined grid in the Field class (world might not be turned on?)." << std::endl;
+
+        static Grid standard = Grid(0,0,0,0,0,0);
+        return standard;
+    }
+
 }
 
 const std::vector<FieldLineSegment> &Field::getFieldLines() const { return allFieldLines; }
@@ -358,7 +444,15 @@ Field &Field::operator=(const Field &old) noexcept {
     bottomLeftOurDefenceArea = old.bottomLeftOurDefenceArea;
     topRightTheirDefenceArea = old.topRightTheirDefenceArea;
     bottomRightTheirDefenceArea = old.bottomRightTheirDefenceArea;
-
+    backLeftGrid = old.backLeftGrid;
+    backMidGrid = old.backMidGrid;
+    backRightGrid = old.backRightGrid;
+    middleLeftGrid = old.middleLeftGrid;
+    middleMidGrid = old.middleMidGrid;
+    middleRightGrid = old.middleRightGrid;
+    frontLeftGrid = old.frontLeftGrid;
+    frontMidGrid = old.frontMidGrid;
+    frontRightGrid = old.frontRightGrid;
     return *this;
 }
 
