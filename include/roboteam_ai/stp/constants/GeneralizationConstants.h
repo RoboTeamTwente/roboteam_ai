@@ -65,25 +65,6 @@ constexpr ScoreProfile GoalShootPosition = {0, 0.5, 1, 0};
 constexpr ScoreProfile BlockingPosition = {0, 0.5, 0, 1};
 
 /**
- * Generalized Grids to be used in plays
- * These positions are meant to be used across plays to lower computations when computing which
- * play is best by reducing the amount of unique position that need to be evaluated.
- */
-// Scaling for B-Division
-//    double scaleX = 0.75;
-//    double scaleY = 1;
-
-inline static Grid gridRightTop = Grid(3 * 1.0, 3 * 1, 2.5 * 1.0, 2.2 * 1, 3, 3);
-inline static Grid gridRightMid = Grid(3 * 1.0, 0 * 1, 2.5 * 1.0, 3 * 1, 3, 3);
-inline static Grid gridRightBot = Grid(3 * 1.0, -3 * 1, 2.5 * 1.0, 2.2 * 1, 3, 3);
-inline static Grid gridMidFieldTop = Grid(-1 * 1.0, 3 * 1, 2 * 1.0, 2.2 * 1, 3, 3);
-inline static Grid gridMidFieldMid = Grid(-1 * 1.0, -1.5 * 1, 2 * 1.0, 3 * 1, 3, 3);
-inline static Grid gridMidFieldBot = Grid(-1 * 1.0, -3 * 1, 2 * 1.0, 2.2 * 1, 3, 3);
-inline static Grid gridLeftTop = Grid(-5 * 1.0, 3 * 1, 2.5 * 1.0, 2.2 * 1, 3, 3);
-inline static Grid gridLeftMid = Grid(-5 * 1.0, -1.5 * 1, 2.5 * 1.0, 3 * 1, 3, 3);
-inline static Grid gridLeftBot = Grid(-5 * 1.0, -3 * 1, 2.5 * 1.0, 2.2 * 1, 3, 3);
-
-/**
  * Generalized Keys for passing information form the old play to the new.
  * Usage in the storePlayInfo where KeyInfo is the key for the elements in the map.
  */
