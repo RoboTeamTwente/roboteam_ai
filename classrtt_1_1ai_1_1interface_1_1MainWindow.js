@@ -1,0 +1,28 @@
+var classrtt_1_1ai_1_1interface_1_1MainWindow =
+[
+    [ "MainWindow", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a5c5346d820b1c082465230754765e5d1", null ],
+    [ "clearLayout", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#abfbf4f8c67ca3c2fa9287e5134098972", null ],
+    [ "configureCheckableMenuItem", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#abc68692ebe7ad39b99d0c0e3c66c50dd", null ],
+    [ "configureCheckBox", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a0ab5703b4fddb35b138d89fe321cee31", null ],
+    [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a8ce70c7037c27e0225c590cd26babcaa", null ],
+    [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#acf2c750347cdc7c47e7d1444deca0138", null ],
+    [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ad1d135fa3b4a47e5b6c4b8b97fb347a6", null ],
+    [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ab3fa259dce98754473c8e61bbe830f4d", null ],
+    [ "setKeeperRole", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a98bf5b2bb5b505edf5ae9dc7642e4d08", null ],
+    [ "setPlayForRobot", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a2742f0846df3daa3f57f233edbfae3e1", null ],
+    [ "setTacticForRobot", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a3b727eabc6b17836e16da5bce185e46e", null ],
+    [ "updatePlay", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#adee4d712c3781adfda646b1473941a8d", null ],
+    [ "updateRobotsWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a55093482bb9b7345518e95227d3af4c5", null ],
+    [ "updateStpWidgets", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a6ad0b23271259f71ca87e45d90e96b53", null ],
+    [ "graphWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a5c884c2cd98ec6cb4fbefb6bf96993ff", null ],
+    [ "horizontalLayout", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ad5a6a01c484ef54d0e51414200a41d4d", null ],
+    [ "keeperStpWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#affc848e72e629cb96f0db57c273ecbdb", null ],
+    [ "mainLayout", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#aaf6320e9e8493c14f746e2a0bdda92b0", null ],
+    [ "manualControlWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a0e01d6b7eb967565051d944f7f040fc2", null ],
+    [ "playsWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ad25dc2c1615a0de1cc6fdf4cb07d8280", null ],
+    [ "refWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a6e117e857e1f6f97adbdf0d4e258db80", null ],
+    [ "robotsWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a66d02c4e588be4d1f093a6f4e570743c", null ],
+    [ "stpWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a978b7df7fa75e5ba98a295fe5a8b341b", null ],
+    [ "visualizer", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ae69f20e96a43f3dfcb032c66747a323e", null ],
+    [ "vLayout", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a4c0d8be12425061ce0908058cd2aa82b", null ]
+];
