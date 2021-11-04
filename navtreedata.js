@@ -24,10 +24,8 @@
 */
 var NAVTREE =
 [
-  [ "roboteam_ai", "index.html", [
-    [ "RoboTeam AI", "index.html", [
-      [ "Build status", "index.html#autotoc_md8", null ]
-    ] ],
+  [ "Roboteam AI", "index.html", [
+    [ "Build status", "index.html#autotoc_md76", null ],
     [ "Contributor Covenant Code of Conduct", "md_CODE_OF_CONDUCT.html", [
       [ "Our Pledge", "md_CODE_OF_CONDUCT.html#autotoc_md1", null ],
       [ "Our Standards", "md_CODE_OF_CONDUCT.html#autotoc_md2", null ],
@@ -36,90 +34,90 @@ var NAVTREE =
       [ "Enforcement", "md_CODE_OF_CONDUCT.html#autotoc_md5", null ],
       [ "Attribution", "md_CODE_OF_CONDUCT.html#autotoc_md6", null ]
     ] ],
-    [ "Ball", "md_wiki_Ball.html", [
-      [ "General", "md_wiki_Ball.html#autotoc_md11", null ],
-      [ "Members", "md_wiki_Ball.html#autotoc_md12", null ],
-      [ "Functions", "md_wiki_Ball.html#autotoc_md13", null ],
-      [ "Advice", "md_wiki_Ball.html#autotoc_md14", null ]
+    [ "Ball", "md_docs_Ball.html", [
+      [ "General", "md_docs_Ball.html#autotoc_md8", null ],
+      [ "Members", "md_docs_Ball.html#autotoc_md9", null ],
+      [ "Functions", "md_docs_Ball.html#autotoc_md10", null ],
+      [ "Advice", "md_docs_Ball.html#autotoc_md11", null ]
     ] ],
-    [ "Path Planning Module", "md_wiki_PathPlanning.html", [
-      [ "Path Planning", "md_wiki_PathPlanning.html#autotoc_md16", [
-        [ "Current Implementation", "md_wiki_PathPlanning.html#autotoc_md17", null ]
+    [ "Path Planning Module", "md_docs_PathPlanning.html", [
+      [ "Path Planning", "md_docs_PathPlanning.html#autotoc_md13", [
+        [ "Current Implementation", "md_docs_PathPlanning.html#autotoc_md14", null ]
       ] ],
-      [ "Path Tracking", "md_wiki_PathPlanning.html#autotoc_md18", [
-        [ "Current Implementation", "md_wiki_PathPlanning.html#autotoc_md19", null ]
+      [ "Path Tracking", "md_docs_PathPlanning.html#autotoc_md15", [
+        [ "Current Implementation", "md_docs_PathPlanning.html#autotoc_md16", null ]
       ] ],
-      [ "Collision Detector", "md_wiki_PathPlanning.html#autotoc_md20", null ],
-      [ "Integration", "md_wiki_PathPlanning.html#autotoc_md21", null ],
-      [ "Improvements", "md_wiki_PathPlanning.html#autotoc_md22", null ]
+      [ "Collision Detector", "md_docs_PathPlanning.html#autotoc_md17", null ],
+      [ "Integration", "md_docs_PathPlanning.html#autotoc_md18", null ],
+      [ "Improvements", "md_docs_PathPlanning.html#autotoc_md19", null ]
     ] ],
-    [ "PreventiveMaintenance", "md_wiki_PreventiveMaintenance.html", [
-      [ "Documentation (!= Comments)", "md_wiki_PreventiveMaintenance.html#autotoc_md23", [
-        [ "Why?", "md_wiki_PreventiveMaintenance.html#autotoc_md24", null ],
-        [ "How?", "md_wiki_PreventiveMaintenance.html#autotoc_md25", null ],
-        [ "Good Example", "md_wiki_PreventiveMaintenance.html#autotoc_md26", null ],
-        [ "Bad Example", "md_wiki_PreventiveMaintenance.html#autotoc_md27", null ]
+    [ "PreventiveMaintenance", "md_docs_PreventiveMaintenance.html", [
+      [ "Documentation (!= Comments)", "md_docs_PreventiveMaintenance.html#autotoc_md20", [
+        [ "Why?", "md_docs_PreventiveMaintenance.html#autotoc_md21", null ],
+        [ "How?", "md_docs_PreventiveMaintenance.html#autotoc_md22", null ],
+        [ "Good Example", "md_docs_PreventiveMaintenance.html#autotoc_md23", null ],
+        [ "Bad Example", "md_docs_PreventiveMaintenance.html#autotoc_md24", null ]
       ] ],
-      [ "Design", "md_wiki_PreventiveMaintenance.html#autotoc_md28", [
-        [ "Why?", "md_wiki_PreventiveMaintenance.html#autotoc_md29", null ],
-        [ "How?", "md_wiki_PreventiveMaintenance.html#autotoc_md30", [
-          [ "Design Patterns", "md_wiki_PreventiveMaintenance.html#autotoc_md31", null ],
-          [ "Passing Information", "md_wiki_PreventiveMaintenance.html#autotoc_md32", [
-            [ "Pass by Constructor", "md_wiki_PreventiveMaintenance.html#autotoc_md33", null ],
-            [ "Pass by Interface Method", "md_wiki_PreventiveMaintenance.html#autotoc_md34", null ],
-            [ "Pass by Interface Method (Advanced)", "md_wiki_PreventiveMaintenance.html#autotoc_md35", null ],
-            [ "Pass by Additional Method (Setter)", "md_wiki_PreventiveMaintenance.html#autotoc_md36", null ],
-            [ "Pass by constant", "md_wiki_PreventiveMaintenance.html#autotoc_md37", null ],
-            [ "Pass by static", "md_wiki_PreventiveMaintenance.html#autotoc_md38", null ]
+      [ "Design", "md_docs_PreventiveMaintenance.html#autotoc_md25", [
+        [ "Why?", "md_docs_PreventiveMaintenance.html#autotoc_md26", null ],
+        [ "How?", "md_docs_PreventiveMaintenance.html#autotoc_md27", [
+          [ "Design Patterns", "md_docs_PreventiveMaintenance.html#autotoc_md28", null ],
+          [ "Passing Information", "md_docs_PreventiveMaintenance.html#autotoc_md29", [
+            [ "Pass by Constructor", "md_docs_PreventiveMaintenance.html#autotoc_md30", null ],
+            [ "Pass by Interface Method", "md_docs_PreventiveMaintenance.html#autotoc_md31", null ],
+            [ "Pass by Interface Method (Advanced)", "md_docs_PreventiveMaintenance.html#autotoc_md32", null ],
+            [ "Pass by Additional Method (Setter)", "md_docs_PreventiveMaintenance.html#autotoc_md33", null ],
+            [ "Pass by constant", "md_docs_PreventiveMaintenance.html#autotoc_md34", null ],
+            [ "Pass by static", "md_docs_PreventiveMaintenance.html#autotoc_md35", null ]
           ] ],
-          [ "Naming", "md_wiki_PreventiveMaintenance.html#autotoc_md39", null ],
-          [ "Responsibilities", "md_wiki_PreventiveMaintenance.html#autotoc_md40", null ],
-          [ "Hard Coding", "md_wiki_PreventiveMaintenance.html#autotoc_md41", null ],
-          [ "Simplicity & Shortness", "md_wiki_PreventiveMaintenance.html#autotoc_md42", null ]
+          [ "Naming", "md_docs_PreventiveMaintenance.html#autotoc_md36", null ],
+          [ "Responsibilities", "md_docs_PreventiveMaintenance.html#autotoc_md37", null ],
+          [ "Hard Coding", "md_docs_PreventiveMaintenance.html#autotoc_md38", null ],
+          [ "Simplicity & Shortness", "md_docs_PreventiveMaintenance.html#autotoc_md39", null ]
         ] ]
       ] ],
-      [ "Unit Testing", "md_wiki_PreventiveMaintenance.html#autotoc_md43", [
-        [ "Why?", "md_wiki_PreventiveMaintenance.html#autotoc_md44", null ],
-        [ "How?", "md_wiki_PreventiveMaintenance.html#autotoc_md45", [
-          [ "Equivalence Partitioning", "md_wiki_PreventiveMaintenance.html#autotoc_md46", null ],
-          [ "Boundary Value Analysis", "md_wiki_PreventiveMaintenance.html#autotoc_md47", null ],
-          [ "Error Guessing", "md_wiki_PreventiveMaintenance.html#autotoc_md48", null ],
-          [ "White Box Testing", "md_wiki_PreventiveMaintenance.html#autotoc_md49", null ],
-          [ "Conclusion", "md_wiki_PreventiveMaintenance.html#autotoc_md50", null ]
+      [ "Unit Testing", "md_docs_PreventiveMaintenance.html#autotoc_md40", [
+        [ "Why?", "md_docs_PreventiveMaintenance.html#autotoc_md41", null ],
+        [ "How?", "md_docs_PreventiveMaintenance.html#autotoc_md42", [
+          [ "Equivalence Partitioning", "md_docs_PreventiveMaintenance.html#autotoc_md43", null ],
+          [ "Boundary Value Analysis", "md_docs_PreventiveMaintenance.html#autotoc_md44", null ],
+          [ "Error Guessing", "md_docs_PreventiveMaintenance.html#autotoc_md45", null ],
+          [ "White Box Testing", "md_docs_PreventiveMaintenance.html#autotoc_md46", null ],
+          [ "Conclusion", "md_docs_PreventiveMaintenance.html#autotoc_md47", null ]
         ] ]
       ] ],
-      [ "Consistency", "md_wiki_PreventiveMaintenance.html#autotoc_md51", [
-        [ "Why?", "md_wiki_PreventiveMaintenance.html#autotoc_md52", null ],
-        [ "How?", "md_wiki_PreventiveMaintenance.html#autotoc_md53", null ]
+      [ "Consistency", "md_docs_PreventiveMaintenance.html#autotoc_md48", [
+        [ "Why?", "md_docs_PreventiveMaintenance.html#autotoc_md49", null ],
+        [ "How?", "md_docs_PreventiveMaintenance.html#autotoc_md50", null ]
       ] ],
-      [ "Code Clones", "md_wiki_PreventiveMaintenance.html#autotoc_md54", null ],
-      [ "Dead Code", "md_wiki_PreventiveMaintenance.html#autotoc_md55", null ]
+      [ "Code Clones", "md_docs_PreventiveMaintenance.html#autotoc_md51", null ],
+      [ "Dead Code", "md_docs_PreventiveMaintenance.html#autotoc_md52", null ]
     ] ],
-    [ "Robot", "md_wiki_Robot.html", [
-      [ "General", "md_wiki_Robot.html#autotoc_md57", null ],
-      [ "Team", "md_wiki_Robot.html#autotoc_md58", null ],
-      [ "Members", "md_wiki_Robot.html#autotoc_md59", null ],
-      [ "Functions", "md_wiki_Robot.html#autotoc_md60", [
-        [ "Trivial getters and setters, therefore will <strong>not</strong> be covered", "md_wiki_Robot.html#autotoc_md61", null ]
+    [ "Robot", "md_docs_Robot.html", [
+      [ "General", "md_docs_Robot.html#autotoc_md54", null ],
+      [ "Team", "md_docs_Robot.html#autotoc_md55", null ],
+      [ "Members", "md_docs_Robot.html#autotoc_md56", null ],
+      [ "Functions", "md_docs_Robot.html#autotoc_md57", [
+        [ "Trivial getters and setters, therefore will <strong>not</strong> be covered", "md_docs_Robot.html#autotoc_md58", null ]
       ] ],
-      [ "Advice", "md_wiki_Robot.html#autotoc_md62", null ]
+      [ "Advice", "md_docs_Robot.html#autotoc_md59", null ]
     ] ],
-    [ "Views", "md_wiki_Views.html", [
-      [ "General", "md_wiki_Views.html#autotoc_md64", null ],
-      [ "Advice", "md_wiki_Views.html#autotoc_md65", null ]
+    [ "Views", "md_docs_Views.html", [
+      [ "General", "md_docs_Views.html#autotoc_md61", null ],
+      [ "Advice", "md_docs_Views.html#autotoc_md62", null ]
     ] ],
-    [ "World", "md_wiki_World.html", [
-      [ "General", "md_wiki_World.html#autotoc_md67", null ],
-      [ "Members", "md_wiki_World.html#autotoc_md68", null ],
-      [ "Member functions", "md_wiki_World.html#autotoc_md69", null ],
-      [ "Advice for next year", "md_wiki_World.html#autotoc_md70", null ]
+    [ "World", "md_docs_World.html", [
+      [ "General", "md_docs_World.html#autotoc_md64", null ],
+      [ "Members", "md_docs_World.html#autotoc_md65", null ],
+      [ "Member functions", "md_docs_World.html#autotoc_md66", null ],
+      [ "Advice for next year", "md_docs_World.html#autotoc_md67", null ]
     ] ],
-    [ "WorldData", "md_wiki_WorldData.html", [
-      [ "General", "md_wiki_WorldData.html#autotoc_md72", null ],
-      [ "Members", "md_wiki_WorldData.html#autotoc_md73", null ],
-      [ "Member functions", "md_wiki_WorldData.html#autotoc_md74", null ],
-      [ "Advice", "md_wiki_WorldData.html#autotoc_md75", [
-        [ "Optional advice", "md_wiki_WorldData.html#autotoc_md77", null ]
+    [ "WorldData", "md_docs_WorldData.html", [
+      [ "General", "md_docs_WorldData.html#autotoc_md69", null ],
+      [ "Members", "md_docs_WorldData.html#autotoc_md70", null ],
+      [ "Member functions", "md_docs_WorldData.html#autotoc_md71", null ],
+      [ "Advice", "md_docs_WorldData.html#autotoc_md72", [
+        [ "Optional advice", "md_docs_WorldData.html#autotoc_md74", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
@@ -180,8 +178,8 @@ var NAVTREEINDEX =
 "classrtt_1_1input_1_1JoystickHandler.html#ad8cc6895bb263b22e1bf817835442185",
 "classrtt_1_1world_1_1robot_1_1Robot.html#a3956583be59ee689f84df5d67cc44f73",
 "functions_vars_b.html",
-"namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ad51ff90a12d29afbe00c85d2af387945",
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a62104fddf70ef8a1b70beebc636876b2"
+"namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ad5306fa7938c37c34288cf7b62a2a2e3",
+"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a6e54ed71e6d140c0c59e8d033c2f1d56"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

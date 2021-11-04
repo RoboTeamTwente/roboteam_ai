@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>roboteam_ai: Path Planning Module</title>
+<title>Roboteam AI: Path Planning Module</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,8 +26,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="roboteam_logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">roboteam_ai
+   <div id="projectname">Roboteam AI
    </div>
   </td>
  </tr>
@@ -64,7 +65,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('md_wiki_PathPlanning.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('md_docs_PathPlanning.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -93,10 +94,10 @@ $(document).ready(function(){initNavTree('md_wiki_PathPlanning.html',''); initRe
 <li>Collision Detection;</li>
 <li>The integration of all of the above.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Path Planning</h1>
 <p>The purpose of the Path Planning algorithm is to generate a path / paths that the current robot has to follow, in order to reach its destination without colliding with obstacles. The path is implemented as a tree, containing the position of the node (<em>consider adding more information - like the time needed to get there</em>) and the node's parent (the root will have a null parent). By calling the collision detector, a new point can be evaluated in terms of collisions, to which the distance to the goal, cost to get there, etc. can be added to determine whether it should be added to the path or not.</p>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Current Implementation</h2>
 <ol type="1">
 <li>Check if the current path point is valid for the path (whether there is a collision between the current point and its parent)</li>
@@ -112,17 +113,17 @@ Current Implementation</h2>
 <li>The current point is close (e.g. within 10cm) of the target (returning the current path)</li>
 </ul>
 <p>The algorithm currently ignores the points that are outside of the field. The result is a sparse path that avoids obstacles according to some avoidance distance (the branching distance from the collision point).</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 Path Tracking</h1>
 <p>After obtaining the path, a velocity and angle has to be computed (as the robots use velocity control). Depending on the planning algorithm, the path may or may not be smooth, so the robot will experience bottlenecks on the corners. The purpose of this module is following a given path as efficiently as possible.</p>
-<h2><a class="anchor" id="autotoc_md19"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Current Implementation</h2>
 <ol type="1">
 <li>Remove the first point in the path if it has been reached (distance &lt; some threshold)</li>
 <li>The velocity is computed by filtering the difference between the current position and the target position through a decoupled PID controller.</li>
 <li>The parameters of the filter are taken directly from the interface, depending on the PID type needed (e.g. the keeper will have different PID values than default).</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 Collision Detector</h1>
 <p>Contains helper functions to determine:</p><ul>
 <li>robot collisions (and their position - currently returns only the collision with the first robot ID, consider taking the closest collision)</li>
@@ -130,7 +131,7 @@ Collision Detector</h1>
 <li>whether a point is in field or not</li>
 </ul>
 <p>These helper functions are just a wrapper for the field computation functions.</p>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 Integration</h1>
 <p>The main module just creates all the above modules and is responsible for their life cycle + calling them in the right order. Also, it incorporates some extra checks:</p><ol type="1">
 <li>If the target is outside of the field, no path is computed.</li>
@@ -142,7 +143,7 @@ Integration</h1>
 <li>the target changed</li>
 <li>a collision is detected between the moving robot and its next path way point</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 Improvements</h1>
 <p>Consider experimenting with / researching different algorithms for different tasks. Consider also using different algorithms for each robot (and think before whether it would be better to have separate algorithms for each robot or not). Ideas:</p><ol type="1">
 <li>Path Planning</li>

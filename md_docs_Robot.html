@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>roboteam_ai: Views</title>
+<title>Roboteam AI: Robot</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,8 +26,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="roboteam_logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">roboteam_ai
+   <div id="projectname">Roboteam AI
    </div>
   </td>
  </tr>
@@ -64,7 +65,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('md_wiki_Views.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('md_docs_Robot.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -84,23 +85,42 @@ $(document).ready(function(){initNavTree('md_wiki_Views.html',''); initResizable
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Views </div>  </div>
+<div class="title">Robot </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md64"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md54"></a>
 General</h1>
-<p>The views are to their associated POD types what <code>std::string_view</code> is to <code>std::string</code>.</p>
-<p>Essentially it's just a wrapper around a pointer that provides some additional functions.</p>
-<p>For example the <code>RobotView</code> structure provides a <code>hasBall</code> function, which is called as such:</p>
-<div class="fragment"><div class="line">RobotView rbt = ...; <span class="comment">// get the robotview (from world)</span></div>
-<div class="line">rbt.hasBall(); <span class="comment">// true or false</span></div>
-<div class="line"><span class="comment">// access members of Robot directly by using the dereference operator.</span></div>
-<div class="line">rbt-&gt;getId(); <span class="comment">// number of robot</span></div>
-</div><!-- fragment --><p>Same thing for the <code>WorldDataView</code> and <code>BallView</code>, although <code>BallView</code> does not provide any additional functions.</p>
-<h1><a class="anchor" id="autotoc_md65"></a>
+<p>The structure that represents a robot, it represents the team it's on, and some constants. POD.</p>
+<h1><a class="anchor" id="autotoc_md55"></a>
+Team</h1>
+<p>The enum Team in <a href="https://github.com/RoboTeamTwente/roboteam_ai/blob/development/include/roboteam_ai/world_new/Team.hpp">team.hpp</a> is fairly simple. A robot is either <code>us</code>, meaning it belongs to us, <code>them</code>, meaning it belongs to them or <code>both</code>, which is invalid.</p>
+<h1><a class="anchor" id="autotoc_md56"></a>
+Members</h1>
+<p><code>id</code> -&gt; The ID of the robot (between 1 and 11, 0 is invalid iirc)</p>
+<p><code>team</code> -&gt; Enum value on which team it is, read the <a href="#team">section above</a></p>
+<p><code>pos</code> -&gt; Current position of the robot</p>
+<p><code>vel</code> -&gt; Current velocity of the robot</p>
+<p><code>angle</code> -&gt; Current angle of the robot</p>
+<p><code>pidPreviousVel</code> -&gt; The previous pid velocity.</p>
+<p><code>distanceToBall</code> -&gt; Distance from the robot to the ball</p>
+<p><code>angleDiffToBall</code> -&gt; Angle offset between the kicker and the ball.</p>
+<p><code>angularVelocity</code> -&gt; Angular velocity of the robot.</p>
+<p><code>batteryLow</code> -&gt; Flag that indicates whether the battery of the robot is low.</p>
+<p><code>dribblerState</code> -&gt; State of the dribbler, essentially the number indicates how fast it goes.</p>
+<p><code>previousDribblerState</code> -&gt; State of dribbler in the previous tick, dito.</p>
+<p><code>timeDribblerChanged</code> -&gt; The time at which the state of the dribbler changed.</p>
+<p><code>timeToChangeOneDribblerLevel</code> -&gt; The time which it takes to change from for example 0 to 1 for the dribbler.</p>
+<p><code>workingDribbler</code> -&gt; True if dribbler works, false if not.</p>
+<p><code>workingBallSensor</code> -&gt; Dito but for sensor.</p>
+<p><code>seesBall</code> -&gt; True if the ball sensor picks up the ball, false if not.</p>
+<p><code>ballPos</code> -&gt; Position of the ball (if seesBall == true)</p>
+<h1><a class="anchor" id="autotoc_md57"></a>
+Functions</h1>
+<h2><a class="anchor" id="autotoc_md58"></a>
+Trivial getters and setters, therefore will &lt;strong&gt;not&lt;/strong&gt; be covered</h2>
+<h1><a class="anchor" id="autotoc_md59"></a>
 Advice</h1>
-<p>No advice for this one either. No performance is to be gained here.</p>
-<p>If I had to give some I'd use <code>std::reference_wrapper</code> instead of a <code>T const*</code>, but that's all. </p>
+<p>Honestly it's POD I don't have any advice for this one. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
