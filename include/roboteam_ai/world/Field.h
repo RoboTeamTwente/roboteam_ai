@@ -455,7 +455,6 @@ class Field {
      * Initialize the other field values, linesegments, arcs and vectors (this function is only called inside the constructor)
      */
     void initFieldOthers();
-
 };
 
 }  // namespace rtt::world

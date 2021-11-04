@@ -60,31 +60,30 @@ void Field::initFieldGrids() {
 
     // Grid- length/width is negative when playing as right/left respectively to as we need to add/substract from
     // starting point (when calculating middle and top X and middle and right Y) depending on which side we are
-    auto gridLength = SETTINGS.isLeft() ? getFieldLength()/3 : -getFieldLength()/3;
-    auto gridWidth = SETTINGS.isLeft() ? -getFieldWidth()/3 : getFieldWidth()/3;
+    auto gridLength = SETTINGS.isLeft() ? getFieldLength() / 3 : -getFieldLength() / 3;
+    auto gridWidth = SETTINGS.isLeft() ? -getFieldWidth() / 3 : getFieldWidth() / 3;
 
     // Calculate back and left side depending on which side we are
-    auto backmostX = SETTINGS.isLeft() ? leftmostX.value() : rightmostX.value() - getFieldLength()/3;
-    auto leftmostY = SETTINGS.isLeft() ? topmostY.value() - getFieldWidth()/3 : bottommostY.value();
+    auto backmostX = SETTINGS.isLeft() ? leftmostX.value() : rightmostX.value() - getFieldLength() / 3;
+    auto leftmostY = SETTINGS.isLeft() ? topmostY.value() - getFieldWidth() / 3 : bottommostY.value();
 
     auto bottomX = backmostX;
     auto middleX = backmostX + gridLength;
-    auto topX = backmostX + gridLength*2;
+    auto topX = backmostX + gridLength * 2;
 
     auto leftY = leftmostY;
     auto middleY = leftmostY + gridWidth;
-    auto rightY = leftmostY + gridWidth*2;
+    auto rightY = leftmostY + gridWidth * 2;
 
-    backLeftGrid = Grid(bottomX, leftY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    backMidGrid =  Grid(bottomX, middleY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    backRightGrid = Grid(bottomX, rightY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    middleLeftGrid = Grid(middleX, leftY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    middleMidGrid = Grid(middleX, middleY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    middleRightGrid = Grid(middleX, rightY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    frontLeftGrid = Grid(topX, leftY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    frontMidGrid = Grid(topX, middleY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-    frontRightGrid = Grid(topX, rightY, gridWidth, gridLength, numSegmentsX ,numSegmentsY);
-
+    backLeftGrid = Grid(bottomX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    backMidGrid = Grid(bottomX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    backRightGrid = Grid(bottomX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleLeftGrid = Grid(middleX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleMidGrid = Grid(middleX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleRightGrid = Grid(middleX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontLeftGrid = Grid(topX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontMidGrid = Grid(topX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontRightGrid = Grid(topX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
 }
 
 void Field::initFieldOthers() {
@@ -100,11 +99,10 @@ void Field::initFieldOthers() {
     // Initialize some additional field vectors
 
     // Location of our/their goal is right or left depending which side we are playing as
-    if (SETTINGS.isLeft()){
+    if (SETTINGS.isLeft()) {
         ourGoalCenter = Vector2(leftmostX.value(), centerY.value());
         theirGoalCenter = Vector2(rightmostX.value(), centerY.value());
-    }
-    else{
+    } else {
         ourGoalCenter = Vector2(rightmostX.value(), centerY.value());
         theirGoalCenter = Vector2(leftmostX.value(), centerY.value());
     }
@@ -139,8 +137,7 @@ void Field::initFieldOthers() {
         bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
         topRightTheirDefenceArea = topRightPenaltyStretch->begin;
         bottomRightTheirDefenceArea = bottomRightPenaltyStretch->begin;
-    }
-    else{
+    } else {
         topLeftOurDefenceArea = topRightPenaltyStretch->begin;
         bottomLeftOurDefenceArea = bottomRightPenaltyStretch->begin;
         topRightTheirDefenceArea = topLeftPenaltyStretch->begin;
@@ -264,7 +261,6 @@ const Grid &Field::getFrontMidGrid() const { return getFieldGrid(frontMidGrid); 
 
 const Grid &Field::getFrontRightGrid() const { return getFieldGrid(frontRightGrid); }
 
-
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
         return fieldValue.value();
@@ -316,17 +312,16 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
 }
 
 const Grid &Field::getFieldGrid(const std::optional<Grid> &fieldGrid) const {
-    if (fieldGrid){
+    if (fieldGrid) {
         return fieldGrid.value();
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
         std::cout << "Warning: access undefined grid in the Field class (world might not be turned on?)." << std::endl;
 
-        static Grid standard = Grid(0,0,0,0,0,0);
+        static Grid standard = Grid(0, 0, 0, 0, 0, 0);
         return standard;
     }
-
 }
 
 const std::vector<FieldLineSegment> &Field::getFieldLines() const { return allFieldLines; }
