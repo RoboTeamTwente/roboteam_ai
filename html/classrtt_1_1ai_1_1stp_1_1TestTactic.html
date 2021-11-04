@@ -102,6 +102,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af4a9f63577d36c0cf178aae99fb0fd00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a483d158a091f8347c3c25983b22d015f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Skill.html">Skill</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#a483d158a091f8347c3c25983b22d015f">getCurrentSkill</a> ()</td></tr>
 <tr class="separator:a483d158a091f8347c3c25983b22d015f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab496bf1614c47ef3e466cd235eb84aab"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#ab496bf1614c47ef3e466cd235eb84aab">forceTacticSuccess</a> (const <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &amp;info) noexcept</td></tr>
+<tr class="separator:ab496bf1614c47ef3e466cd235eb84aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -118,8 +120,6 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a707f6a899738048f18088187971c02a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1197153c427e64c749ef9fc57bacfc2e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestTactic.html#a1197153c427e64c749ef9fc57bacfc2e">shouldTacticReset</a> (const <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &amp;info) noexcept override</td></tr>
 <tr class="separator:a1197153c427e64c749ef9fc57bacfc2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9ab4a91bf00c62dd623266195f48e66"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestTactic.html#aa9ab4a91bf00c62dd623266195f48e66">forceTacticSuccess</a> (const <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &amp;info) noexcept override</td></tr>
-<tr class="separator:aa9ab4a91bf00c62dd623266195f48e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb1458c3773ef5d68fac7bf41966f0d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestTactic.html#afb1458c3773ef5d68fac7bf41966f0d5">isEndTactic</a> () noexcept override</td></tr>
 <tr class="separator:afb1458c3773ef5d68fac7bf41966f0d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a1d28595cec987d07345bc4dbd52ed7"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1TestTactic.html#a8a1d28595cec987d07345bc4dbd52ed7">getName</a> () override</td></tr>
@@ -180,8 +180,8 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa9ab4a91bf00c62dd623266195f48e66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9ab4a91bf00c62dd623266195f48e66">&#9670;&nbsp;</a></span>forceTacticSuccess()</h2>
+<a id="ab496bf1614c47ef3e466cd235eb84aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab496bf1614c47ef3e466cd235eb84aab">&#9670;&nbsp;</a></span>forceTacticSuccess()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,7 +190,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool rtt::ai::stp::TestTactic::forceTacticSuccess </td>
+          <td class="memname">bool rtt::ai::stp::Tactic::forceTacticSuccess </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &amp;&#160;</td>
           <td class="paramname"><em>info</em></td><td>)</td>
@@ -199,7 +199,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -211,7 +211,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a bool whether the tactic is forced successful or not </dd></dl>
 
-<p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#ab496bf1614c47ef3e466cd235eb84aab">rtt::ai::stp::Tactic</a>.</p>
+<p>Reimplemented in <a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall.html#a578681eb373e850612625b9898d6886d">rtt::ai::stp::tactic::GetBall</a>.</p>
 
 </div>
 </div>
