@@ -25,7 +25,6 @@
 var NAVTREE =
 [
   [ "Roboteam AI", "index.html", [
-    [ "Build status", "index.html#autotoc_md76", null ],
     [ "Contributor Covenant Code of Conduct", "md_CODE_OF_CONDUCT.html", [
       [ "Our Pledge", "md_CODE_OF_CONDUCT.html#autotoc_md1", null ],
       [ "Our Standards", "md_CODE_OF_CONDUCT.html#autotoc_md2", null ],
@@ -178,8 +177,8 @@ var NAVTREEINDEX =
 "classrtt_1_1input_1_1JoystickHandler.html#ad8cc6895bb263b22e1bf817835442185",
 "classrtt_1_1world_1_1robot_1_1Robot.html#a3956583be59ee689f84df5d67cc44f73",
 "functions_vars_b.html",
-"namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ad5306fa7938c37c34288cf7b62a2a2e3",
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a6e54ed71e6d140c0c59e8d033c2f1d56"
+"namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2adc4fbe3b6b328eb999604733412ae78b",
+"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a6ffbcef8e087c97cfac948ded5a32274"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
