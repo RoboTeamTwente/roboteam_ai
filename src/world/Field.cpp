@@ -58,22 +58,16 @@ void Field::initFieldGrids() {
     auto numSegmentsX = 3;
     auto numSegmentsY = 3;
 
-    // Grid- length/width is negative when playing as right/left respectively to as we need to add/substract from
-    // starting point (when calculating middle and top X and middle and right Y) depending on which side we are
-    auto gridLength = SETTINGS.isLeft() ? getFieldLength() / 3 : -getFieldLength() / 3;
-    auto gridWidth = SETTINGS.isLeft() ? -getFieldWidth() / 3 : getFieldWidth() / 3;
+    auto gridLength = getFieldLength() / numSegmentsX;
+    auto gridWidth = getFieldWidth() / numSegmentsY;
 
-    // Calculate back and left side depending on which side we are
-    auto backmostX = SETTINGS.isLeft() ? leftmostX.value() : rightmostX.value() - getFieldLength() / 3;
-    auto leftmostY = SETTINGS.isLeft() ? topmostY.value() - getFieldWidth() / 3 : bottommostY.value();
+    auto bottomX = getLeftmostX();
+    auto middleX = getLeftmostX() + gridLength;
+    auto topX = getLeftmostX() + gridLength * 2;
 
-    auto bottomX = backmostX;
-    auto middleX = backmostX + gridLength;
-    auto topX = backmostX + gridLength * 2;
-
-    auto leftY = leftmostY;
-    auto middleY = leftmostY + gridWidth;
-    auto rightY = leftmostY + gridWidth * 2;
+    auto leftY = getBottommostY() + gridWidth * 2;
+    auto middleY = getBottommostY() + gridWidth;
+    auto rightY = getBottommostY();
 
     backLeftGrid = Grid(bottomX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
     backMidGrid = Grid(bottomX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
@@ -97,15 +91,8 @@ void Field::initFieldOthers() {
     rightPenaltyX = rightPenaltyLine.value().begin.x;
 
     // Initialize some additional field vectors
-
-    // Location of our/their goal is right or left depending which side we are playing as
-    if (SETTINGS.isLeft()) {
-        ourGoalCenter = Vector2(leftmostX.value(), centerY.value());
-        theirGoalCenter = Vector2(rightmostX.value(), centerY.value());
-    } else {
-        ourGoalCenter = Vector2(rightmostX.value(), centerY.value());
-        theirGoalCenter = Vector2(leftmostX.value(), centerY.value());
-    }
+    ourGoalCenter = Vector2(leftmostX.value(), centerY.value());
+    theirGoalCenter = Vector2(rightmostX.value(), centerY.value());
 
     Vector2 goalWidthAdjust = Vector2(0, goalWidth.value() / 2);
     ourBottomGoalSide = ourGoalCenter.value() - goalWidthAdjust;
@@ -131,18 +118,11 @@ void Field::initFieldOthers() {
     bottomRightCorner = Vector2(rightmostX.value(), bottommostY.value());
     topRightCorner = Vector2(rightmostX.value(), topmostY.value());
 
-    // Calculate defense area based on which side we are
-    if (SETTINGS.isLeft()) {
-        topLeftOurDefenceArea = topLeftPenaltyStretch->begin;
-        bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
-        topRightTheirDefenceArea = topRightPenaltyStretch->begin;
-        bottomRightTheirDefenceArea = bottomRightPenaltyStretch->begin;
-    } else {
-        topLeftOurDefenceArea = topRightPenaltyStretch->begin;
-        bottomLeftOurDefenceArea = bottomRightPenaltyStretch->begin;
-        topRightTheirDefenceArea = topLeftPenaltyStretch->begin;
-        bottomRightTheirDefenceArea = bottomLeftPenaltyStretch->begin;
-    }
+    topLeftOurDefenceArea = topLeftPenaltyStretch->begin;
+    bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
+    topRightTheirDefenceArea = topRightPenaltyStretch->begin;
+    bottomRightTheirDefenceArea = bottomRightPenaltyStretch->begin;
+
 }
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
