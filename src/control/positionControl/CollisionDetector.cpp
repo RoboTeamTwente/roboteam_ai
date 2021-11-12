@@ -3,6 +3,8 @@
 //
 
 #include "control/positionControl/CollisionDetector.h"
+#include "roboteam_utils/Print.h"
+
 
 namespace rtt::ai::control {
 
@@ -26,15 +28,23 @@ bool CollisionDetector::isPointInsideField(const Vector2& point) { return FieldC
 
 std::optional<Vector2> CollisionDetector::getDefenseAreaCollision(const Vector2 &point, const Vector2 &nextPoint) {
     auto ourDefenseCollision = FieldComputations::lineIntersectionWithDefenceArea(*field, true, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
-    if (ourDefenseCollision){
+    auto robotInOurDefenseArea = FieldComputations::pointIsInDefenseArea(*field, point, true, DEFAULT_ROBOT_COLLISION_RADIUS);
+
+    if (ourDefenseCollision && !robotInOurDefenseArea) {
+        RTT_WARNING("Our collision");
         return *ourDefenseCollision;
     }
 
     auto theirDefenseCollision = FieldComputations::lineIntersectionWithDefenceArea(*field, false, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
-    if (!theirDefenseCollision) {
-        return std::nullopt;
+    auto robotInTheirDefenceArea = FieldComputations::pointIsInDefenseArea(*field, point, false, DEFAULT_ROBOT_COLLISION_RADIUS);
+
+    if(theirDefenseCollision && !robotInTheirDefenceArea) {
+        RTT_WARNING("Their collision");
+        return *theirDefenseCollision;
     }
-    return *theirDefenseCollision;
+    RTT_WARNING("Nothing");
+    return std::nullopt;
+
 }
 
 std::optional<Vector2> CollisionDetector::getRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint) {
