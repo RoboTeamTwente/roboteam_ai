@@ -8,8 +8,8 @@
 
 namespace rtt::ai::control {
 
-bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint) {
-    bool isFieldColliding = field ? !isPointInsideField(nextPoint) || getDefenseAreaCollision(initialPoint, nextPoint) : false;
+bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint, bool robotIsKeeper) {
+    bool isFieldColliding = field ? !isPointInsideField(nextPoint) || (getDefenseAreaCollision(initialPoint, nextPoint) && !robotIsKeeper) : false;
 
     //colliding with the outside of the field, the defense area, or collision with a robot
     return isFieldColliding || getRobotCollisionBetweenPoints(initialPoint, nextPoint);

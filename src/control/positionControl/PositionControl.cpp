@@ -11,7 +11,7 @@
 namespace rtt::ai::control {
     RobotCommand
     PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, Vector2 &targetPosition,
-                                     stp::PIDType pidType) {
+                                     stp::PIDType pidType, bool robotIsKeeper) {
         collisionDetector.setField(field);
 
         // if the target position is outside of the field (i.e. bug in AI), do nothing
@@ -26,7 +26,7 @@ namespace rtt::ai::control {
             RTT_INFO("Path collides with something close to the target position for robot ID ", robotId)
             return {};
         }
-        if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
+        if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId, robotIsKeeper)) {
             computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
         }
         interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
@@ -43,11 +43,11 @@ namespace rtt::ai::control {
     }
 
     bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
-                                                const Vector2 &currentVelocity, int robotId) {
+                                                const Vector2 &currentVelocity, int robotId, bool robotIsKeeper) {
         return computedPaths[robotId].empty() ||
                PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
                (currentVelocity != Vector2(0, 0) &&
-                collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
+                collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front(), robotIsKeeper));
     }
 
     void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) {

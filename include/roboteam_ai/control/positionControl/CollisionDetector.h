@@ -30,7 +30,7 @@ class CollisionDetector {
      * @param nextPoint the destination point
      * @return true if there is no collision, false otherwise
      */
-    bool isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
+    bool isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint, bool robotIsKeeper);
 
     /**
      * Checks whether the line drawn by the two points comes close to any robot (excepting the current one)
