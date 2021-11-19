@@ -18,7 +18,7 @@ robot::Robot const *RobotView::operator->() const noexcept { return get(); }
 // TODO: TEST to see if we don't have issues using this naive approach irl
 bool RobotView::hasBall(double maxDist, double maxAngle) const noexcept {
     // If ballSensor and/or vision say we have the ball, return true else false
-    return hasBallAccordingToVision(maxDist, maxAngle) || get()->ballSensorSeesBall();
+    return (SETTINGS.isSerialMode() && hasBallAccordingToVision(maxDist, maxAngle)) || get()->ballSensorSeesBall();
 }
 
 Vector2 RobotView::getKicker() const noexcept {
