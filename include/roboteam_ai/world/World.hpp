@@ -101,7 +101,7 @@ class World {
      *
      * Undefined behavior may occur if feedback is used after being passed to this function
      */
-    void updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback);
+    void updateFeedback(google::protobuf::RepeatedPtrField<proto::RobotFeedback> feedback);
 
     /**
      * Updates the currentWorld
