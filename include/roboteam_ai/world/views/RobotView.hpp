@@ -82,7 +82,7 @@ class RobotView {
      * Check whether the current robot has the ball
      * @param distanceErrorMargin distance error margin for ball possession
      * @param angleErrorMargin angle error margin for ball possession
-     * @return true if ballSensorSeesBall or dist(ball, robot) < maxDist else false
+     * @return true if ballSensorSeesBall (both sim or irl) or when ball is within dist/angle margin (only irl)
      */
     [[nodiscard]] bool hasBall(double distanceErrorMargin = ai::stp::control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN,
                                double angleErrorMargin = ai::stp::control_constants::HAS_BALL_ANGLE_ERROR_MARGIN) const noexcept;
