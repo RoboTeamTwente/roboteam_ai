@@ -15,9 +15,10 @@ robot::Robot const &RobotView::operator*() const noexcept { return *get(); }
 
 robot::Robot const *RobotView::operator->() const noexcept { return get(); }
 
-// TODO: TEST to see if we don't have issues using this naive approach irl
+// TODO: TEST whether maxDist and Angle are suitable on the field and whether ballsensor works well irl
 bool RobotView::hasBall(double maxDist, double maxAngle) const noexcept {
-    // If ballSensor and/or vision say we have the ball, return true else false
+    // In the simulator, return true if the ballSensorSeesBall (feedback from sim)
+    // On the field, return true if the ballsensor sees the ball or we have the ball according to the vision
     return (SETTINGS.isSerialMode() && hasBallAccordingToVision(maxDist, maxAngle)) || get()->ballSensorSeesBall();
 }
 
