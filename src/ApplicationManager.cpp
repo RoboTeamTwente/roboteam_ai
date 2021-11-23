@@ -120,14 +120,10 @@ void ApplicationManager::runOneLoopCycle() {
         // Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
         auto worldMessage = state.last_seen_world();
         auto fieldMessage = state.field().field();
-        auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
-
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
-
         auto const &[_, world] = world::World::instance();
-        world->updateFeedback(feedbackMessage);
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {
@@ -139,6 +135,7 @@ void ApplicationManager::runOneLoopCycle() {
             world->updateField(fieldMessage);
             world->updatePositionControl();
 
+            // world->updateFeedback(feedbackMap);
             decidePlay(world);
 
         } else {
