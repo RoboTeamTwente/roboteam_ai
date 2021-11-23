@@ -9,8 +9,8 @@ var searchData=
   ['nextnodeposition_3955',['nextNodePosition',['../namespacertt_1_1ai_1_1control.html#afb3c4519237b6e7d549a408092bb7e07',1,'rtt::ai::control::GraphNode']]],
   ['numitems_3956',['numitems',['../Voronoi_8h.html#ad2d08c9f7331d16bc0cc8b6c0d427787',1,'jcv_priorityqueue']]],
   ['numparts_3957',['numParts',['../classrtt_1_1BB_1_1BBTrajectory1D.html#aaa3945cdf962a0d28aa368d8dd646b34',1,'rtt::BB::BBTrajectory1D']]],
-  ['numsegmentsx_3958',['numSegmentsX',['../classrtt_1_1world_1_1Field.html#a4287edde2e9f674e7df5148856e24885',1,'rtt::world::Field']]],
-  ['numsegmentsy_3959',['numSegmentsY',['../classrtt_1_1world_1_1Field.html#adad3593565b328d7864361a2a1b43b7a',1,'rtt::world::Field']]],
+  ['numsegmentsx_3958',['numSegmentsX',['../classrtt_1_1world_1_1Field.html#a2a11ed9933abd46f09bf78ede7a2342c',1,'rtt::world::Field']]],
+  ['numsegmentsy_3959',['numSegmentsY',['../classrtt_1_1world_1_1Field.html#a6f947e75cb59cb004d75e46ac32f9e70',1,'rtt::world::Field']]],
   ['numsites_3960',['numsites',['../Voronoi_8h.html#aad270a4c91abab119188dc91106cc74b',1,'_jcv_diagram::numsites()'],['../Voronoi_8h.html#a0db5f06cb6dbb64978bf37f6dea3128e',1,'_jcv_context_internal::numsites()']]],
   ['numtreepid_3961',['numTreePID',['../classrtt_1_1ai_1_1interface_1_1Output.html#a1425e3df0b771ad3d84463c1e151c4d2',1,'rtt::ai::interface::Output']]]
 ];

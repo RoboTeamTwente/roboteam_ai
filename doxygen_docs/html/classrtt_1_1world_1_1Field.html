@@ -71,6 +71,7 @@ $(function() {
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="classrtt_1_1world_1_1Field-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::world::Field Class Reference</div>  </div>
@@ -267,10 +268,6 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a4dae88d0c2360611ca9fc81ee2aa4238"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae859239461410738c1d598d51f8659d"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::optional&lt; <a class="el" href="namespacertt_1_1world.html#structrtt_1_1world_1_1FieldArc">FieldArc</a> &gt; * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#aae859239461410738c1d598d51f8659d">RELATED_FIELD_ARC</a></td></tr>
 <tr class="separator:aae859239461410738c1d598d51f8659d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4287edde2e9f674e7df5148856e24885"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#a4287edde2e9f674e7df5148856e24885">numSegmentsX</a> = 3</td></tr>
-<tr class="separator:a4287edde2e9f674e7df5148856e24885"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adad3593565b328d7864361a2a1b43b7a"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#adad3593565b328d7864361a2a1b43b7a">numSegmentsY</a> = 3</td></tr>
-<tr class="separator:adad3593565b328d7864361a2a1b43b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5754ba09ec40efd7020d6e7e0f20b513"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacertt_1_1world.html#structrtt_1_1world_1_1FieldLineSegment">FieldLineSegment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#a5754ba09ec40efd7020d6e7e0f20b513">allFieldLines</a></td></tr>
 <tr class="separator:a5754ba09ec40efd7020d6e7e0f20b513"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17a4feb01e8abb152cad18f9fad2a4b1"><td class="memItemLeft" align="right" valign="top">std::optional&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#a17a4feb01e8abb152cad18f9fad2a4b1">fieldWidth</a></td></tr>
@@ -385,6 +382,13 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aeceb9d51bca02c343842f55a71061e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acaeb4103aa24e40b9768d2d2e82e4bf8"><td class="memItemLeft" align="right" valign="top">std::optional&lt; Grid &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#acaeb4103aa24e40b9768d2d2e82e4bf8">frontRightGrid</a></td></tr>
 <tr class="separator:acaeb4103aa24e40b9768d2d2e82e4bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:a2a11ed9933abd46f09bf78ede7a2342c"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#a2a11ed9933abd46f09bf78ede7a2342c">numSegmentsX</a> = 3</td></tr>
+<tr class="separator:a2a11ed9933abd46f09bf78ede7a2342c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f947e75cb59cb004d75e46ac32f9e70"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1Field.html#a6f947e75cb59cb004d75e46ac32f9e70">numSegmentsY</a> = 3</td></tr>
+<tr class="separator:a6f947e75cb59cb004d75e46ac32f9e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Stores all data which is directly obtained by the field camera (this data can change during the match) and store all singular constant data (data that does not change through the match) about the field, which combined includes: <br  />
@@ -3055,8 +3059,8 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a4287edde2e9f674e7df5148856e24885"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4287edde2e9f674e7df5148856e24885">&#9670;&nbsp;</a></span>numSegmentsX</h2>
+<a id="a2a11ed9933abd46f09bf78ede7a2342c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a11ed9933abd46f09bf78ede7a2342c">&#9670;&nbsp;</a></span>numSegmentsX</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3065,20 +3069,20 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const int rtt::world::Field::numSegmentsX = 3</td>
+          <td class="memname">constexpr int rtt::world::Field::numSegmentsX = 3</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="adad3593565b328d7864361a2a1b43b7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adad3593565b328d7864361a2a1b43b7a">&#9670;&nbsp;</a></span>numSegmentsY</h2>
+<a id="a6f947e75cb59cb004d75e46ac32f9e70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f947e75cb59cb004d75e46ac32f9e70">&#9670;&nbsp;</a></span>numSegmentsY</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3087,12 +3091,12 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const int rtt::world::Field::numSegmentsY = 3</td>
+          <td class="memname">constexpr int rtt::world::Field::numSegmentsY = 3</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

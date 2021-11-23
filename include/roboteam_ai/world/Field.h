@@ -105,10 +105,10 @@ class Field {
 
    private:
     // The number of points generated in a grid in the x-direction
-    const int numSegmentsX = 3;
+    static constexpr int numSegmentsX = 3;
 
     // The number of points generated in a grid in the y-direction
-    const int numSegmentsY = 3;
+    static constexpr int numSegmentsY = 3;
 
     std::vector<FieldLineSegment> allFieldLines;
 
