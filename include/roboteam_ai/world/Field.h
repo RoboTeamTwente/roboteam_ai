@@ -104,6 +104,12 @@ class Field {
     };
 
    private:
+    // The number of points generated in a grid in the x-direction
+    const int numSegmentsX = 3;
+
+    // The number of points generated in a grid in the y-direction
+    const int numSegmentsY = 3;
+
     std::vector<FieldLineSegment> allFieldLines;
 
     /* The width of the field (measured in meters), which is the difference in y-coordinate between the upper part of

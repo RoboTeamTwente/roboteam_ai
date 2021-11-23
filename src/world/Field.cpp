@@ -55,9 +55,6 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
 }
 
 void Field::initFieldGrids() {
-    auto numSegmentsX = 3;
-    auto numSegmentsY = 3;
-
     auto gridLength = getFieldLength() / numSegmentsX;
     auto gridWidth = getFieldWidth() / numSegmentsY;
 
