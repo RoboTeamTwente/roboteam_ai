@@ -64,9 +64,11 @@ namespace rtt::ai::control {
         rtt::BB::CommandCollision commandCollision;
         // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
         // When the path tracking is fixed the true in the if statement can be removed such that it only calculates the path again when it needs to
-        if (false || (!computedPathsBB.contains(robotId) ||
-            (targetPosition - computedPathsBB[robotId].getPosition(computedPathsBB[robotId].getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN ||
-            worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId).has_value())) {
+        if (false || (!computedPathsPosVel.contains(robotId)) ||
+                      (!computedPaths[robotId].empty() && (targetPosition - computedPaths[robotId][computedPaths[robotId].size() - 1]).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN) ||
+                      worldObjects.getFirstCollisionDiscretized(world, field, computedPathsPosVel[robotId], computedPaths, robotId, timeStep).has_value()
+            ) {
+
             //Create path to original target
             computedPathsBB[robotId] = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
@@ -75,14 +77,37 @@ namespace rtt::ai::control {
 
             if (firstCollision.has_value()) {
                 //Create intermediate points, return a collision-free path originating from the best option of these points
-                auto newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition,timeStep);
+                // This path is already discretized, because it consists of multiple bang-bang trajectories combined
+                /*
+                auto newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, timeStep);
                 if (newPath.has_value()) {
                     computedPathsBB[robotId] = newPath.value();
                 } else {
                     commandCollision.collisionData = firstCollision;
                 }
+                 */
+
+                auto newPath = findNewDiscretizedPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, timeStep);
+                if (!newPath.empty()) {
+                    computedPaths.clear();
+                    for(std::pair<Vector2, Vector2> pathEntry : newPath) {
+                        computedPaths[robotId].emplace_back(pathEntry.first);
+                    }
+
+                    computedPathsPosVel[robotId] = newPath;
+                } else {
+                    commandCollision.collisionData = firstCollision;
+                }
+            } else {
+                // If no new path has to be generated, then discretize the already found path
+                computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(timeStep);
+                computedPathsVel[robotId] = computedPathsBB[robotId].getVelocityVector(timeStep);  // creates a vector with all the velocities
+                computedPathsPosVel[robotId].clear();
+                computedPathsPosVel[robotId].reserve(computedPaths[robotId].size());
+                for (int i = 0; i < computedPaths[robotId].size(); i++) {
+                    computedPathsPosVel[robotId].push_back(std::make_pair(computedPaths[robotId][i], computedPathsVel[robotId][i]));
+                }
             }
-            computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);
         }
         interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::darkMagenta, robotId, interface::Drawing::LINES_CONNECTED);
@@ -97,10 +122,11 @@ namespace rtt::ai::control {
 
         commandCollision.robotCommand = RobotCommand();
         commandCollision.robotCommand.pos = computedPaths[robotId].front();
-        Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId,pidType);
+        // Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId, pidType);
+        Position trackingVelocity = pathTrackingAlgorithmBBT.trackPathForwardAngle(currentPosition, currentVelocity, computedPathsPosVel[robotId], robotId, pidType);
         commandCollision.robotCommand.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
+        RTT_DEBUG(commandCollision.robotCommand.vel.length());
         commandCollision.robotCommand.angle = trackingVelocity.rot;
-
         return commandCollision;
     }
 
@@ -141,6 +167,47 @@ namespace rtt::ai::control {
             intermediatePointsSorted.pop();
         }
         return std::nullopt;
+    }
+
+    std::vector<std::pair<Vector2, Vector2>>
+    PositionControl::findNewDiscretizedPath(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
+                                 std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, double timeStep) {
+
+        auto intermediatePoints = createIntermediatePoints(field, robotId, firstCollision, targetPosition);
+        auto intermediatePointsSorted = scoreIntermediatePoints(intermediatePoints, firstCollision);
+
+        BB::BBTrajectory2D pathToIntermediatePoint;
+        while (!intermediatePointsSorted.empty()) {
+            pathToIntermediatePoint = BB::BBTrajectory2D(currentPosition, currentVelocity,
+                                                         intermediatePointsSorted.top().second,
+                                                         ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+
+            auto discretePathThroughIntermediate = calculateDiscretePathThroughIntermediate(world, field, pathToIntermediatePoint,
+                                                                  targetPosition, robotId, timeStep);
+
+            std::vector<Vector2> discreteThroughIntermediatePathPoints;
+            for(std::pair<Vector2, Vector2> pathEntry : discretePathThroughIntermediate) {
+                discreteThroughIntermediatePathPoints.push_back(pathEntry.first);
+            }
+
+            if (!discretePathThroughIntermediate.empty()) {
+                interface::Input::drawData(interface::Visual::PATHFINDING, intermediatePoints, Qt::green, robotId,
+                                           interface::Drawing::CROSSES);
+                //interface::Input::drawData(interface::Visual::PATHFINDING, {firstCollision->collisionPosition},
+                //                           Qt::red, robotId, interface::Drawing::CROSSES);
+
+                interface::Input::drawData(interface::Visual::PATHFINDING,
+                                           pathToIntermediatePoint.getPathApproach(timeStep),
+                                           Qt::white, robotId,
+                                           interface::Drawing::LINES_CONNECTED);
+                interface::Input::drawData(interface::Visual::PATHFINDING,
+                                           discreteThroughIntermediatePathPoints,
+                                           Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
+                return discretePathThroughIntermediate;
+            }
+            intermediatePointsSorted.pop();
+        }
+        return std::vector<std::pair<Vector2, Vector2>>();
     }
 
     std::vector<Vector2>
@@ -218,5 +285,36 @@ namespace rtt::ai::control {
             }
         }
         return std::nullopt;
+    }
+
+    std::vector<std::pair<Vector2, Vector2>>
+    PositionControl::calculateDiscretePathThroughIntermediate(const rtt::world::World *world, const rtt::world::Field &field, BB::BBTrajectory2D pathToIntermediatePoint,
+                                                              Vector2 &targetPosition, int robotId, double timeStep) {
+        //First discretize the trajectory so we can check for a collision on parts of the trajectory
+        auto discretePathToIntermediatePoint = pathToIntermediatePoint.getPosVelVector(timeStep);
+
+        BB::BBTrajectory2D intermediateToTarget;
+
+        std::vector<std::pair<Vector2, Vector2>> partialPath;
+        for(std::pair<Vector2, Vector2> posVelEntry : discretePathToIntermediatePoint) {
+            if(!partialPath.empty() && posVelEntry.second.length() < partialPath[partialPath.size() - 1].second.length()) break;
+            partialPath.emplace_back(posVelEntry);
+            auto intermediatePathCollision = worldObjects.getFirstCollisionDiscretized(world, field, partialPath, computedPaths, robotId, timeStep);
+            if(!intermediatePathCollision.has_value()) {
+                intermediateToTarget = BB::BBTrajectory2D(posVelEntry.first, posVelEntry.second, targetPosition,
+                                                          ai::Constants::MAX_VEL(),
+                                                          ai::Constants::MAX_ACC_UPPER());
+                auto newStartCollisions = worldObjects.getFirstCollision(world, field, intermediateToTarget, computedPaths, robotId);
+
+                if (newStartCollisions.has_value()) {
+                    continue;
+                } else {
+                    std::vector<std::pair<Vector2, Vector2>> intermediateToTargetDiscrete = intermediateToTarget.getPosVelVector(timeStep);
+                    partialPath.insert(partialPath.end(), intermediateToTargetDiscrete.begin(), intermediateToTargetDiscrete.end()); //partialPath is now the complete Path
+                    return partialPath;
+                }
+            }
+        }
+        return std::vector<std::pair<Vector2, Vector2>>();
     }
 }  // namespace rtt::ai// ::control

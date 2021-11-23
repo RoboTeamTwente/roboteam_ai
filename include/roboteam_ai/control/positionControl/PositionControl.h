@@ -10,6 +10,7 @@
 #include "control/RobotCommand.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
+#include "control/positionControl/pathTracking/BBTPathTracking.h"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
@@ -28,9 +29,12 @@ namespace rtt::ai::control {
         rtt::BB::WorldObjects worldObjects;
         NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
         PidTracking pathTrackingAlgorithm;
+        BBTPathTracking pathTrackingAlgorithmBBT;
 
         std::unordered_map<int, BB::BBTrajectory2D> computedPathsBB;
         std::unordered_map<int, std::vector<Vector2>> computedPaths;
+        std::unordered_map<int, std::vector<Vector2>> computedPathsVel;
+        std::unordered_map<int, std::vector<std::pair<Vector2, Vector2>>> computedPathsPosVel;
 
     public:
         /**
@@ -103,6 +107,24 @@ namespace rtt::ai::control {
                     std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,  double timeStep);
 
         /**
+         * @brief Tries to find a new path when the current path has a collision on it. It tries this by
+         * looking for paths which go to intermediate points in the area of the collision and from these
+         * paths again to the target. Also draws the intermediate point and path in the interface
+         * @param world the world object
+         * @param field the field object, used onwards by the collision detector
+         * @param robotId the ID of the robot for which the path is calculated
+         * @param currentPosition the current position of the aforementioned robot
+         * @param currentVelocity its velocity
+         * @param firstCollision location of the first collision on the current path
+         * @param targetPosition the desired position that the robot has to reach
+         * @param timeStep the time between path points when approaching the path
+         * @return An optional with a new path
+         */
+        std::vector<std::pair<Vector2, Vector2>>
+        findNewDiscretizedPath(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
+                    std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,  double timeStep);
+
+        /**
          * Creates intermediate points to make a path to. First, a pointToDrawFrom is picked by drawing a line
          * from the target position to the obstacle and extending that line further towards our currentPosition.
          * Second, make half circle of intermediatePoints pointed towards obstaclePosition, originating from pointToDrawFrom
@@ -145,6 +167,10 @@ namespace rtt::ai::control {
         calculatePathFromNewStart(const rtt::world::World *world, const rtt::world::Field &field,
                                   std::optional<BB::CollisionData> intermediatePathCollision, BB::BBTrajectory2D pathToIntermediatePoint,
                                   Vector2 &targetPosition, int robotId, double timeStep);
+
+        std::vector<std::pair<Vector2, Vector2>>
+        calculateDiscretePathThroughIntermediate(const rtt::world::World *world, const rtt::world::Field &field,
+                                          BB::BBTrajectory2D pathToIntermediatePoint, Vector2 &targetPosition, int robotId, double timeStep);
     };
 
 }  // namespace rtt::ai::control

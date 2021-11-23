@@ -86,7 +86,7 @@ namespace rtt::BB {
          * @brief Computes the position where we would end up if we use maximum deceleration
          * @param pos Current position
          * @param vel Current velocity
-         * @param maxAcc Maximum allowed acceleration/deceleration
+         * @param accMax Maximum allowed acceleration/deceleration
          * @return final position (with zero velocity)
          */
         static double fullBrakePos(double pos, double vel, double accMax);

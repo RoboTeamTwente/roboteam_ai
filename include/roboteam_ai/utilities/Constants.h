@@ -67,7 +67,7 @@ typedef std::tuple<double, double, double> pidVals;
     static double CLOSE_TO_BORDER_DISTANCE();
 
     /// REF STATES ///
-    static constexpr double MAX_VEL() { return 8.0; };
+    static constexpr double MAX_VEL() { return 1.5; };
     static constexpr double MAX_STOP_STATE_VEL() { return 1.5; };
     static constexpr double MAX_VEL_BALLPLACEMENT() { return 3.0; };
     static int DEFAULT_KEEPER_ID();

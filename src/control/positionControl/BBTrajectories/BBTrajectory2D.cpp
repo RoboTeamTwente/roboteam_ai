@@ -84,4 +84,31 @@ namespace rtt::BB {
     double BBTrajectory2D::getTotalTime() const {
         return std::max(x.getTotalTime(),y.getTotalTime());
     }
+
+    std::vector<Vector2> BBTrajectory2D::getVelocityVector(double timeStep) const {
+        std::vector<Vector2> velocities;
+        auto totalTime = getTotalTime();
+        double time = 0;
+
+        while(time<totalTime){
+            time += timeStep;
+            velocities.push_back(getVelocity(time));
+        }
+        return velocities;
+    }
+
+    std::vector<std::pair<Vector2, Vector2>> BBTrajectory2D::getPosVelVector(double timeStep) {
+        auto posVector = getPathApproach(timeStep);
+        auto velVector = getVelocityVector(timeStep);
+
+        std::vector<std::pair<Vector2, Vector2>> posVelVector;
+
+        posVelVector.reserve(posVector.size());
+        for(int i = 0; i < posVector.size(); i++) {
+            posVelVector.emplace_back(std::make_pair(posVector[i], velVector[i]));
+        }
+
+        return posVelVector;
+    }
 }
+

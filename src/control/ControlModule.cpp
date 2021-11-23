@@ -26,7 +26,7 @@ namespace rtt::ai::control {
 
     void ControlModule::limitVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
         auto limitedVel = Vector2(command.vel().x(), command.vel().y());
-
+        RTT_DEBUG("before: ", limitedVel.length());
         limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
 
         if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
@@ -42,6 +42,7 @@ namespace rtt::ai::control {
 
         command.mutable_vel()->set_x(static_cast<float>(limitedVel.x));
         command.mutable_vel()->set_y(static_cast<float>(limitedVel.y));
+        RTT_DEBUG("after: ", limitedVel.length());
     }
 
     void ControlModule::limitAngularVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
@@ -86,6 +87,9 @@ namespace rtt::ai::control {
         std::lock_guard<std::mutex> guard(robotCommandsMutex);
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
+        }
+        if(robot->get()->getId() == 0) {
+            RTT_DEBUG(robot_command.vel().x());
         }
     }
 

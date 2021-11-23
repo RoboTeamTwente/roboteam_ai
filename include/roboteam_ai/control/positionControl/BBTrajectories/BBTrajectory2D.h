@@ -102,7 +102,17 @@ namespace rtt::BB {
          */
         [[nodiscard]] double getTotalTime() const;
 
-    private:
+        /**
+         * @brief Returns a vector with all the velocities (Vector2) at specified timeSteps
+         */
+        [[nodiscard]] std::vector<Vector2> getVelocityVector(double timeStep) const;
+
+        /**
+         * @brief Transforms the BBTrajectory into a posVelVector at specified timeSteps
+         */
+        [[nodiscard]] std::vector<std::pair<Vector2, Vector2>> getPosVelVector(double timeStep);
+
+            private:
         /**
             * @brief  Computes a bang bang trajectory with a given alpha value.
             * This is NOT time optimal and may give very 'unphysical' paths for high or low alpha value.

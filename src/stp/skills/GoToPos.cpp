@@ -10,13 +10,12 @@ namespace rtt::ai::stp::skill {
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
-
+    RTT_DEBUG(info.getRobot()->get()->getVel().length());
     if (!FieldComputations::pointIsInField(info.getField().value(), targetPos)) {
         RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId())
         targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
     }
-
-    bool useOldPathPlanning = true;
+    bool useOldPathPlanning = false;
     rtt::BB::CommandCollision commandCollision;
 
     if(useOldPathPlanning) {

@@ -11,8 +11,6 @@ namespace rtt::BB {
 
     WorldObjects::WorldObjects() = default;
 
-
-
     std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const BBTrajectory2D &BBTrajectory,
                                                                  const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId) {
         gameState = rtt::ai::GameStateManager::getCurrentGameState();
@@ -36,6 +34,45 @@ namespace rtt::BB {
 
         // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
         calculateEnemyRobotCollisions(world, BBTrajectory, collisionDatas, pathPoints, timeStep);
+
+        // For each path already calculated, check if this path collides with those paths
+        calculateOurRobotCollisions(world, collisionDatas, pathPoints, computedPaths, robotId, timeStep);
+
+
+
+        if(!collisionDatas.empty()) {
+            return collisionDatas[0];
+        } else { return std::nullopt; }
+    }
+
+    std::optional<CollisionData> WorldObjects::getFirstCollisionDiscretized(const rtt::world::World *world, const rtt::world::Field &field,
+                                                                            const std::vector<std::pair<Vector2, Vector2>> &discretizedTrajectoryPosVel,
+                                                                            const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep) {
+        gameState = rtt::ai::GameStateManager::getCurrentGameState();
+        ruleset = gameState.getRuleSet();
+        //TODO: return the kind of collision
+        //^-Question from Max not high priority
+
+        std::vector<Vector2> pathPoints;
+
+        // Fills the pathpoints vector with positions of the posVelTrajectory (.first holds position)
+        for(std::pair<Vector2, Vector2> posVelEntry : discretizedTrajectoryPosVel) {
+            pathPoints.push_back(posVelEntry.first);
+        }
+
+        std::vector<CollisionData> collisionDatas;
+
+        // If the robot can not move outside the field, check if its path goes outside the field
+        calculateFieldCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
+
+        // If the robot can not move into defense area, check if its path goes into either defense area
+        calculateDefenseAreaCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
+
+        // Check if robot is closer to the ball than it is allowed to be
+        calculateBallCollisions(world, collisionDatas, pathPoints, timeStep);
+
+        // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
+        calculateEnemyRobotCollisionsDiscretized(world, discretizedTrajectoryPosVel, collisionDatas, pathPoints, timeStep);
 
         // For each path already calculated, check if this path collides with those paths
         calculateOurRobotCollisions(world, collisionDatas, pathPoints, computedPaths, robotId, timeStep);
@@ -110,9 +147,9 @@ namespace rtt::BB {
         for (int i = 0; i < pathPoints.size(); i++) {
 
             double currentTime = i * timeStep;
-            // The <= 2 is used for checking for collisions within 2 seconds
+            // The >= 2 is used for checking for collisions within 2 seconds
             // TODO: fine tune maximum collision check time
-            if (currentTime <= 2) break;
+            if (currentTime >= 2) break;
             Vector2 ourVel = BBTrajectory.getVelocity(currentTime);
             for (const auto &theirRobot : theirRobots) {
                 Vector2 theirVel = theirRobot->getVel();
@@ -134,18 +171,53 @@ namespace rtt::BB {
     }
 
     void
+    WorldObjects::calculateEnemyRobotCollisionsDiscretized(const rtt::world::World *world, const std::vector<std::pair<Vector2, Vector2>> &discretizedTrajectoryPosVel,
+                                                           std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, double timeStep) {
+        const std::vector<world::view::RobotView> theirRobots = world->getWorld()->getThem();
+
+        for (int i = 0; i < pathPoints.size(); i++) {
+
+            double currentTime = i * timeStep;
+            // The >= 2 is used for checking for collisions within 2 seconds
+            // TODO: fine tune maximum collision check time
+            if (currentTime >= 2) break;
+            Vector2 ourVel = discretizedTrajectoryPosVel[i].second;
+            for (const auto &theirRobot : theirRobots) {
+                Vector2 theirVel = theirRobot->getVel();
+                // TODO: improve position prediction. Current model uses x + v*t
+                Vector2 theirPos = theirRobot->getPos() + theirVel * currentTime;
+                Vector2 posDif = discretizedTrajectoryPosVel[i].first - theirPos;
+                // TODO: fine tune avoidance distance
+                if (posDif.length() < 3 * ai::Constants::ROBOT_RADIUS_MAX()) {
+                    Vector2 velDif = ourVel - theirVel;
+                    double projectLength = velDif.dot(posDif) / posDif.length();
+                    // TODO: fine tune allowed speed difference
+                    if (abs(projectLength) > 1.5 && theirVel.length() < ourVel.length()) {
+                        insertCollisionData(collisionDatas,CollisionData{theirPos, pathPoints[i], i * timeStep, "EnemyRobotCollision"});
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    void
     WorldObjects::calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,const std::vector<Vector2> &pathPoints,
                                               const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep) {
-        int ourRobotAmount = world->getWorld()->getUs().size();
-        //TODO: For loop has to be adjusted such that all ID's are checked and not the ID's until ourRobotAmount. Other functions also need to be checked
-        //The current for loops do not check all present robots. For instance if you have 3 robots it will check ID 0 1 and 2 but this does not correspond
-        // with the ID's the robots could have
+        auto ourRobots = world->getWorld()->getUs();
         for (int i = 0; i < pathPoints.size(); i++) {
-            for (int j = 0; j < ourRobotAmount; j++) {
-                if (robotId != j && computedPaths.find(j) != computedPaths.end()) {
-                    if ((pathPoints[i] - computedPaths.at(j)[i]).length() < ai::Constants::ROBOT_RADIUS() * 1.5 && i * timeStep < 1) {
-                        insertCollisionData(collisionDatas,CollisionData{computedPaths.at(j)[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
-                        return;
+            for (auto &robot : ourRobots) {
+                if (robotId != robot->getId()) {
+                    if (computedPaths.find(robot->getId()) != computedPaths.end()) {
+                        if ((pathPoints[i] - computedPaths.at(robot->getId())[i]).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/ && i * timeStep < 1) {
+                            insertCollisionData(collisionDatas, CollisionData{computedPaths.at(robot->getId())[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
+                            return;
+                        }
+                    } else {
+                        if ((pathPoints[i] - robot->getPos()).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/ && i * timeStep < 2) {
+                            insertCollisionData(collisionDatas, CollisionData{robot->getPos(), pathPoints[i], i * timeStep, "OurRobotCollision"});
+                            return;
+                        }
                     }
                 }
             }
