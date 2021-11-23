@@ -44,20 +44,20 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap; // DONT TOUCH.
 
     /// Flags that have a factor and a weight linked to it, can be given to a role
-    Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::FlagInstruction kickerFlag(Flag::CLOSE_TO_BALL, Priority::REQUIRED);
 
     /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-    flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+    flagMap.insert({"kicker", {Priority::REQUIRED, {kickerFlag}}});
+    flagMap.insert({"halt_0", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_1", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_2", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_3", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_4", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_5", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_6", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_7", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_8", {Priority::LOW_PRIORITY, {}}});
 
     return flagMap; // DONT TOUCH.
 }

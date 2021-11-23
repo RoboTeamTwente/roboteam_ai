@@ -58,17 +58,17 @@ namespace rtt::ai::stp::play {
     Dealer::FlagMap PenaltyThemPrepare::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
 
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"formation_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"formation_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_3", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_4", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_5", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_6", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_7", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_8", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_9", {Priority::LOW_PRIORITY, {}}});
         return flagMap;
     }
 

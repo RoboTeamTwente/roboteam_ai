@@ -64,19 +64,19 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag ballPlacement(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::FlagInstruction ballPlacement(Flag::CLOSEST_TO_BALL, Priority::REQUIRED);
 
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"ball_placer", {DealerFlagPriority::REQUIRED, {ballPlacement}}});
-        flagMap.insert({"ball_avoider_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"ball_avoider_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"ball_placer", {Priority::REQUIRED, {ballPlacement}}});
+        flagMap.insert({"ball_avoider_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_3", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_4", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_5", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_6", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_7", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"ball_avoider_8", {Priority::LOW_PRIORITY, {}}});
 
         return flagMap;
     }

@@ -97,7 +97,6 @@ namespace rtt::ai::stp {
         Dealer dealer{world->getWorld().value(), &field};
         auto flagMap = decideRoleFlags();
         auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap, stpInfos);
-
         // TODO-Max if role exists in oldStpInfos then copy those.
         // Clear the stpInfos for the new role assignment
         for (auto &role : roles) {

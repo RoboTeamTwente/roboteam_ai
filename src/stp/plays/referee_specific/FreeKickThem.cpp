@@ -42,21 +42,21 @@ Dealer::FlagMap FreeKickThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;  // DONT TOUCH.
 
     /// Flags that have a factor and a weight linked to it, can be given to a role
-    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::FlagInstruction closeToOurGoalFlag(Flag::CLOSE_TO_OUR_GOAL, Priority::HIGH_PRIORITY);
+    Dealer::FlagInstruction closeToBallFlag(Flag::CLOSE_TO_BALL, Priority::HIGH_PRIORITY);
 
     /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"blocker_0", {DealerFlagPriority::LOW_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"blocker_1", {DealerFlagPriority::LOW_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"blocker_2", {DealerFlagPriority::LOW_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"blocker_3", {DealerFlagPriority::LOW_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"blocker_4", {DealerFlagPriority::LOW_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"blocker_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"offender", {DealerFlagPriority::LOW_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+    flagMap.insert({"defender_0", {Priority::LOW_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"defender_1", {Priority::LOW_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"defender_2", {Priority::LOW_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_0", {Priority::LOW_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"blocker_1", {Priority::LOW_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"blocker_2", {Priority::LOW_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"blocker_3", {Priority::LOW_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"blocker_4", {Priority::LOW_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"blocker_5", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"offender", {Priority::LOW_PRIORITY, {closeToBallFlag}}});
 
     return flagMap;  // DONT TOUCH.
 }

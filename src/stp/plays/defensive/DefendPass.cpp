@@ -40,22 +40,22 @@ uint8_t DefendPass::score(PlayEvaluator &playEvaluator) noexcept { return 100; }
 Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::LOW_PRIORITY);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::FlagInstruction closeToBallFlag(Flag::CLOSE_TO_BALL, Priority::HIGH_PRIORITY);
+    Dealer::FlagInstruction closeToOurGoalFlag(Flag::CLOSE_TO_OUR_GOAL, Priority::HIGH_PRIORITY);
+    Dealer::FlagInstruction closeToTheirGoalFlag(Flag::CLOSE_TO_THEIR_GOAL, Priority::LOW_PRIORITY);
+    Dealer::FlagInstruction notImportant(Flag::NOT_IMPORTANT, Priority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER,{}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::REQUIRED,{closeToOurGoalFlag}}});
-    flagMap.insert({"defender_2", {DealerFlagPriority::REQUIRED,{closeToOurGoalFlag}}});
-    flagMap.insert({"blocker_1", {DealerFlagPriority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
-    flagMap.insert({"blocker_2", {DealerFlagPriority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
-    flagMap.insert({"blocker_3", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
-    flagMap.insert({"blocker_4", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
-    flagMap.insert({"blocker_5", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
-    flagMap.insert({"harasser", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-    flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
-    flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
+    flagMap.insert({"keeper", {Priority::KEEPER,{}}});
+    flagMap.insert({"defender_1", {Priority::REQUIRED,{closeToOurGoalFlag}}});
+    flagMap.insert({"defender_2", {Priority::REQUIRED,{closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_1", {Priority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_2", {Priority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_3", {Priority::LOW_PRIORITY,{notImportant}}});
+    flagMap.insert({"blocker_4", {Priority::LOW_PRIORITY,{notImportant}}});
+    flagMap.insert({"blocker_5", {Priority::LOW_PRIORITY,{notImportant}}});
+    flagMap.insert({"harasser", {Priority::REQUIRED, {closeToBallFlag}}});
+    flagMap.insert({"offender_1", {Priority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
+    flagMap.insert({"offender_2", {Priority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
 
     return flagMap;
 }

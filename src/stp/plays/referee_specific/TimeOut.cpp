@@ -60,9 +60,9 @@ namespace rtt::ai::stp::play {
         Dealer::FlagMap flagMap;
 
         const std::string roleName = "time_out_";
-        flagMap.insert({"PenaltyKeeper", {DealerFlagPriority::KEEPER, {}}});
+        flagMap.insert({"PenaltyKeeper", {Priority::KEEPER, {}}});
         for (int i = 1; i <= 10; i++) {
-            flagMap.insert({roleName + std::to_string(i), {DealerFlagPriority::LOW_PRIORITY, {}}});
+            flagMap.insert({roleName + std::to_string(i), {Priority::LOW_PRIORITY, {}}});
         }
 
         return flagMap;

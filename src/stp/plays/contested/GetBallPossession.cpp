@@ -90,21 +90,21 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    Dealer::DealerFlag ballGetterFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
+    Dealer::FlagInstruction ballGetterFlag(Flag::CLOSE_TO_BALL, Priority::REQUIRED);
+    Dealer::FlagInstruction closeToOurGoalFlag(Flag::CLOSE_TO_OUR_GOAL, Priority::MEDIUM_PRIORITY);
+    Dealer::FlagInstruction closeToTheirGoalFlag(Flag::CLOSE_TO_THEIR_GOAL, Priority::MEDIUM_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {ballGetterFlag}}});
-    flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"midfielder_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+    flagMap.insert({"ball_getter", {Priority::REQUIRED, {ballGetterFlag}}});
+    flagMap.insert({"defender_0", {Priority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"defender_1", {Priority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"defender_2", {Priority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"midfielder_0", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_1", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_2", {Priority::LOW_PRIORITY, {}}});
+    flagMap.insert({"waller_0", {Priority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_1", {Priority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_2", {Priority::MEDIUM_PRIORITY, {}}});
 
     return flagMap;
 }

@@ -64,20 +64,20 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag passerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-        Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
+        Dealer::FlagInstruction passerFlag(Flag::CLOSE_TO_BALL, Priority::REQUIRED);
+        Dealer::FlagInstruction receiverFlag(Flag::WITH_WORKING_DRIBBLER, Priority::REQUIRED);
 
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {passerFlag}}});
-        flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
-        flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
-        flagMap.insert({"midfielder_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"passer", {Priority::REQUIRED, {passerFlag}}});
+        flagMap.insert({"receiver_left", {Priority::HIGH_PRIORITY, {receiverFlag}}});
+        flagMap.insert({"receiver_right", {Priority::HIGH_PRIORITY, {receiverFlag}}});
+        flagMap.insert({"midfielder_0", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"midfielder_1", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"midfielder_2", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"waller_0", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"waller_1", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"defender_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"defender_1", {Priority::LOW_PRIORITY, {}}});
 
         return flagMap;
     }

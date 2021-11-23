@@ -61,19 +61,19 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap PenaltyUsPrepare::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag kickerFormationFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::FlagInstruction kickerFormationFlag(Flag::CLOSE_TO_BALL, Priority::REQUIRED);
 
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"kicker_formation", {DealerFlagPriority::REQUIRED, {kickerFormationFlag}}});
-        flagMap.insert({"formation_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"kicker_formation", {Priority::REQUIRED, {kickerFormationFlag}}});
+        flagMap.insert({"formation_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_3", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_4", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_5", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_6", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_7", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_8", {Priority::LOW_PRIORITY, {}}});
 
         return flagMap;
     }

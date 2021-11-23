@@ -40,22 +40,22 @@ uint8_t FreeKickUs::score(PlayEvaluator& playEvaluator) noexcept {
 Dealer::FlagMap FreeKickUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    Dealer::DealerFlag attackerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::FlagInstruction attackerFlag(Flag::CLOSE_TO_BALL, Priority::REQUIRED);
+    Dealer::FlagInstruction closeToTheirGoalFlag(Flag::CLOSE_TO_THEIR_GOAL, Priority::MEDIUM_PRIORITY);
+    Dealer::FlagInstruction closeToOurGoalFlag(Flag::CLOSE_TO_OUR_GOAL, Priority::MEDIUM_PRIORITY);
+    Dealer::FlagInstruction notImportant(Flag::NOT_IMPORTANT, Priority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"attacker", {DealerFlagPriority::REQUIRED, {attackerFlag}}});
-    flagMap.insert({"offender_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToTheirGoalFlag}}});
-    flagMap.insert({"offender_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToTheirGoalFlag}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"defender_3", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+    flagMap.insert({"attacker", {Priority::REQUIRED, {attackerFlag}}});
+    flagMap.insert({"offender_1", {Priority::HIGH_PRIORITY, {closeToTheirGoalFlag}}});
+    flagMap.insert({"offender_2", {Priority::HIGH_PRIORITY, {closeToTheirGoalFlag}}});
+    flagMap.insert({"midfielder_1", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_2", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_3", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_4", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"defender_1", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"defender_2", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"defender_3", {Priority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
 
     return flagMap;
 }

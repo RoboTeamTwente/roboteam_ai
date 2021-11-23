@@ -64,17 +64,17 @@ void AggressiveStopFormation::calculateInfoForRoles() noexcept {
         Dealer::FlagMap flagMap; // DONT TOUCH.
 
         /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-        flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"mid_field_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-        flagMap.insert({"mid_field_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"mid_field_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"offender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"offender_3", {DealerFlagPriority::REQUIRED, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"defender_0", {Priority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"defender_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"defender_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"mid_field_0", {Priority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"mid_field_1", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"mid_field_2", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"offender_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_3", {Priority::REQUIRED, {}}});
 
         return flagMap; // DONT TOUCH.
     }

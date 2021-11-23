@@ -28,7 +28,7 @@ namespace rtt::world {
         /**
          * Possibly there's an issue in GCC that std::optional<T>::operator bool causes undefined behavior.
          */
-         if (currentWorld.has_value()) {
+         if (currentWorld != std::nullopt) {
                   /**
                   * *currentWorld == a ref to the world data
                   * &*currentWorld == a pointer to the world data

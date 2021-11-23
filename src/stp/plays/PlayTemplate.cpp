@@ -48,20 +48,20 @@ namespace rtt::ai::stp::play {
         Dealer::FlagMap flagMap; // DONT TOUCH.
 
         /// Flags that have a factor and a weight linked to it, can be given to a role
-        Dealer::DealerFlag flag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
+        Dealer::FlagInstruction flag(Flag::CLOSE_TO_OUR_GOAL, Priority::HIGH_PRIORITY);
 
         /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"role_0", {DealerFlagPriority::REQUIRED, {flag}}});
-        flagMap.insert({"role_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-        flagMap.insert({"role_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-        flagMap.insert({"role_3", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-        flagMap.insert({"role_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"role_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"role_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"role_0", {Priority::REQUIRED, {flag}}});
+        flagMap.insert({"role_1", {Priority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"role_2", {Priority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"role_3", {Priority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"role_4", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"role_5", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"role_6", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"waller_0", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"waller_1", {Priority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"waller_2", {Priority::MEDIUM_PRIORITY, {}}});
 
         return flagMap; // DONT TOUCH.
     }

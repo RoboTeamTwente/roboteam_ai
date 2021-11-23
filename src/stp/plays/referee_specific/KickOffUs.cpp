@@ -58,20 +58,20 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
-        Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+        Dealer::FlagInstruction kickerFlag(Flag::CLOSEST_TO_BALL, Priority::REQUIRED);
+        Dealer::FlagInstruction closeToBallFlag(Flag::CLOSE_TO_BALL, Priority::HIGH_PRIORITY);
 
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-        flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-        flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"passer", {Priority::REQUIRED, {kickerFlag}}});
+        flagMap.insert({"receiver", {Priority::REQUIRED, {closeToBallFlag}}});
+        flagMap.insert({"halt_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_3", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_4", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_5", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_6", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_7", {Priority::LOW_PRIORITY, {}}});
 
         return flagMap;
     }

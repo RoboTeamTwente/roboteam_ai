@@ -41,7 +41,7 @@ namespace rtt::ai::stp::play {
 
         const std::string roleName = "halt_";
         for (int i = 0; i <= 10; i++) {
-            flagMap.insert({roleName + std::to_string(i), {DealerFlagPriority::REQUIRED, {}}});
+            flagMap.insert({roleName + std::to_string(i), {Priority::REQUIRED, {}}});
         }
 
         return flagMap;

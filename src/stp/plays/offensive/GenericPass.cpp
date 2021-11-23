@@ -82,21 +82,21 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
 Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
+    Dealer::FlagInstruction notImportant(Flag::NOT_IMPORTANT, Priority::LOW_PRIORITY);
+    Dealer::FlagInstruction closeToBallFlag(Flag::CLOSE_TO_BALL, Priority::HIGH_PRIORITY);
+    Dealer::FlagInstruction receiverFlag(Flag::WITH_WORKING_DRIBBLER, Priority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{closeToBallFlag}}});
-    flagMap.insert({"receiver_left", {DealerFlagPriority::REQUIRED,{receiverFlag}}});
-    flagMap.insert({"receiver_right", {DealerFlagPriority::REQUIRED, {receiverFlag}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+    flagMap.insert({"passer", {Priority::REQUIRED,{closeToBallFlag}}});
+    flagMap.insert({"receiver_left", {Priority::REQUIRED,{receiverFlag}}});
+    flagMap.insert({"receiver_right", {Priority::REQUIRED, {receiverFlag}}});
+    flagMap.insert({"midfielder_1", {Priority::MEDIUM_PRIORITY, {notImportant}}});
+    flagMap.insert({"defender_1", {Priority::MEDIUM_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_3", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_4", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_5", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_6", {Priority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_7", {Priority::LOW_PRIORITY, {notImportant}}});
 
     return flagMap;
 }

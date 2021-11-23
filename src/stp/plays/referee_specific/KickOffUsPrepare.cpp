@@ -75,20 +75,20 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
-        Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+        Dealer::FlagInstruction kickerFlag(Flag::CLOSEST_TO_BALL, Priority::REQUIRED);
+        Dealer::FlagInstruction closeToBallFlag(Flag::CLOSE_TO_BALL, Priority::HIGH_PRIORITY);
 
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-        flagMap.insert({"formation_1", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-        flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"formation_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"kicker", {Priority::REQUIRED, {kickerFlag}}});
+        flagMap.insert({"formation_1", {Priority::REQUIRED, {closeToBallFlag}}});
+        flagMap.insert({"formation_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_3", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_4", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_5", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_6", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_7", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_8", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_9", {Priority::LOW_PRIORITY, {}}});
 
         return flagMap;
     }

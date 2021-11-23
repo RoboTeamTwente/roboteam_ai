@@ -104,19 +104,19 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap GetBallRisky::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag ballGetter(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::FlagInstruction ballGetter(Flag::CLOSE_TO_BALL, Priority::REQUIRED);
 
-        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {ballGetter}}});
-        flagMap.insert({"receiver_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"receiver_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"receiver_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"midfielder_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"keeper", {Priority::KEEPER, {}}});
+        flagMap.insert({"ball_getter", {Priority::REQUIRED, {ballGetter}}});
+        flagMap.insert({"receiver_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"receiver_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"receiver_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"defender_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"defender_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"defender_2", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"midfielder_0", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"midfielder_1", {Priority::LOW_PRIORITY, {}}});
+        flagMap.insert({"midfielder_2", {Priority::LOW_PRIORITY, {}}});
         return flagMap;
     }
 
