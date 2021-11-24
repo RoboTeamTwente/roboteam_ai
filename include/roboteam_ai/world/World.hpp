@@ -95,13 +95,10 @@ class World {
     explicit World(Settings *settings);
 
     /**
-     * Updates feedback for a specific robot
-     * @param robotId Robot id of robot cache to update
-     * @param feedback Feedback to apply, do not use after passing
-     *
-     * Undefined behavior may occur if feedback is used after being passed to this function
+     * Updates feedback for all robots that received feedback
+     * @param feedback Feedback to apply
      */
-    void updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback);
+    void updateFeedback(google::protobuf::RepeatedPtrField<proto::RobotFeedback> feedback);
 
     /**
      * Updates the currentWorld

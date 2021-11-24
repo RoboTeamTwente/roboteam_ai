@@ -50,6 +50,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Orbit.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/TestSkill.cpp
         )
 
 set(TACTICS_SOURCES
@@ -103,7 +104,7 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayEvaluator.cpp
         # /
-#        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
         # contested/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
@@ -236,8 +237,7 @@ set(INTERFACE_HEADERS
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h
-        )
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp

@@ -133,7 +133,7 @@ void WorldObjects::calculateOurRobotCollisions(const rtt::world::World *world, s
     int ourRobotAmount = world->getWorld()->getUs().size();
     // TODO: For loop has to be adjusted such that all ID's are checked and not the ID's until ourRobotAmount. Other functions also need to be checked
     // The current for loops do not check all present robots. For instance if you have 3 robots it will check ID 0 1 and 2 but this does not correspond
-    //  with the ID's the robots could have
+    // with the ID's the robots could have
     for (int i = 0; i < pathPoints.size(); i++) {
         for (int j = 0; j < ourRobotAmount; j++) {
             if (robotId != j && computedPaths.find(j) != computedPaths.end()) {

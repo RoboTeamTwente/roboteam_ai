@@ -14,6 +14,7 @@
  * Plays are included here
  */
 #include "stp/plays/ReflectKick.h"
+#include "stp/plays/TestPlay.h"
 #include "stp/plays/contested/GetBallPossession.h"
 #include "stp/plays/contested/GetBallRisky.h"
 #include "stp/plays/defensive/DefendPass.h"
@@ -35,7 +36,6 @@
 #include "stp/plays/referee_specific/PenaltyThemPrepare.h"
 #include "stp/plays/referee_specific/PenaltyUs.h"
 #include "stp/plays/referee_specific/PenaltyUsPrepare.h"
-//#include "stp/plays/TestPlay.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -52,7 +52,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    //    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
@@ -120,10 +120,14 @@ void ApplicationManager::runOneLoopCycle() {
         // Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
         auto worldMessage = state.last_seen_world();
         auto fieldMessage = state.field().field();
+        auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
+
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
+
         auto const &[_, world] = world::World::instance();
+        world->updateFeedback(feedbackMessage);
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {
@@ -135,7 +139,6 @@ void ApplicationManager::runOneLoopCycle() {
             world->updateField(fieldMessage);
             world->updatePositionControl();
 
-            // world->updateFeedback(feedbackMap);
             decidePlay(world);
 
         } else {

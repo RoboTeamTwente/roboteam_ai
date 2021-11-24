@@ -23,7 +23,7 @@ void ControlModule::rotateRobotCommand(proto::RobotCommand& command) {
 
 void ControlModule::limitRobotCommand(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
     limitVel(command, robot);
-    //        limitAngularVel(command,robot);
+    limitAngularVel(command, robot);
 }
 
 void ControlModule::limitVel(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
@@ -51,6 +51,10 @@ void ControlModule::limitAngularVel(proto::RobotCommand& command, std::optional<
     if (robot->hasBall() && command.use_angle()) {
         auto targetAngle = command.w();
         auto robotAngle = robot.value()->getAngle();
+
+        if (!SETTINGS.isLeft()) {
+            robotAngle += M_PI;
+        }
 
         // If the angle error is larger than the desired angle rate, the angle command is adjusted
         if (robotAngle.shortestAngleDiff(targetAngle) > stp::control_constants::ANGLE_RATE) {

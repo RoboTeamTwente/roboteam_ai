@@ -2,6 +2,8 @@
 // Created by timovdk on 3/10/20.
 //
 
+/// This play is for testing purposes, to use it, be sure to uncomment in in ApplicationManager.cpp's start function!
+
 #include "stp/plays/TestPlay.h"
 
 #include "stp/roles/TestRole.h"
@@ -9,37 +11,36 @@
 namespace rtt::ai::stp {
 
 TestPlay::TestPlay() : Play() {
-    startPlayInvariants.clear();
-    // startPlayInvariants.emplace_back();
+    startPlayEvaluation.clear();  // DONT TOUCH.
+    startPlayEvaluation.emplace_back(eval::NormalPlayGameState);
 
-    keepPlayInvariants.clear();
-    // keepPlayInvariants.emplace_back();
+    /// Evaluations that have to be true to allow the play to continue, otherwise the play will change. Plays can also end using the shouldEndPlay().
+    keepPlayEvaluation.clear();  // DONT TOUCH.
+    keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("test_role_1")), std::make_unique<TestRole>(TestRole("test_role_2")),
-        std::make_unique<TestRole>(TestRole("test_role_3")), std::make_unique<TestRole>(TestRole("test_role_4")), std::make_unique<TestRole>(TestRole("test_role_5")),
-        std::make_unique<TestRole>(TestRole("test_role_6")), std::make_unique<TestRole>(TestRole("test_role_7")), std::make_unique<TestRole>(TestRole("test_role_8")),
-        std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
+    /// Role creation, the names should be unique. The names are used in the stpInfos-map.
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<TestRole>("role_0"), std::make_unique<TestRole>("role_1"), std::make_unique<TestRole>("role_2"), std::make_unique<TestRole>("role_3"),
+        std::make_unique<TestRole>("role_4"), std::make_unique<TestRole>("role_5"), std::make_unique<TestRole>("role_6"), std::make_unique<TestRole>("role_7"),
+        std::make_unique<TestRole>("role_8"), std::make_unique<TestRole>("role_9"), std::make_unique<TestRole>("role_10")};
 }
 
-uint8_t TestPlay::score(world::World *world) noexcept { return 0; }
+uint8_t TestPlay::score(PlayEvaluator &playEvaluator) noexcept { return 0; }
 
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
 
-    flagMap.insert({"test_role_0", {closeToBallFlag}});
-    flagMap.insert({"test_role_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_2", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_3", {closeToBallFlag}});
-    flagMap.insert({"test_role_4", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_6", {closeToBallFlag}});
-    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"role_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_3", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_4", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_5", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_6", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_7", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_8", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_9", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_10", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
 
     return flagMap;
 }

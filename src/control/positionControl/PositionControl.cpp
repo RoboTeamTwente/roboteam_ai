@@ -105,8 +105,8 @@ std::optional<BB::BBTrajectory2D> PositionControl::findNewPath(const rtt::world:
     BB::BBTrajectory2D pathToIntermediatePoint;
     while (!intermediatePointsSorted.empty()) {
         // TODO: Make sure that when a robot drives towards this intermediate point, it doesnt reach vel = 0.
-        //  So maybe instead of using the intermediatePoint as its target, use the last two points of the path towards
-        //  the point, calculate a drivingDirection, and extend the target beyond the point in this direction.
+        // So maybe instead of using the intermediatePoint as its target, use the last two points of the path towards
+        // the point, calculate a drivingDirection, and extend the target beyond the point in this direction.
         pathToIntermediatePoint =
             BB::BBTrajectory2D(currentPosition, currentVelocity, intermediatePointsSorted.top().second, ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 

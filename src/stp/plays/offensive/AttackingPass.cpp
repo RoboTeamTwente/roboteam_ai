@@ -51,7 +51,7 @@ AttackingPass::AttackingPass() : Play() {
 
 uint8_t AttackingPass::score(PlayEvaluator &playEvaluator) noexcept {
     // TODO: Uncomment this (and actually implement the scoring) when you want to score this play based on
-    //  how good the attacking pass will be
+    // how good the attacking pass will be
     // calculateInfoForScoredRoles(playEvaluator.getWorld());
 
     scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
@@ -106,12 +106,16 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_0"].setEnemyRobot(enemyRobots[0]);
+    if (enemyRobots.size() > 0) {
+        stpInfos["defender_0"].setEnemyRobot(enemyRobots[0]);
+    }
     stpInfos["defender_0"].setBlockDistance(BlockDistance::CLOSE);
     //(stpInfos.find("defender_0")->second.getRobot()->get()->getPos()-enemyRobots[0].get()->getPos()).length()/2
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_1"].setEnemyRobot(enemyRobots[1]);
+    if (enemyRobots.size() > 1) {
+        stpInfos["defender_1"].setEnemyRobot(enemyRobots[1]);
+    }
     stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
     /// Wallers that will block the line from the ball to the goal
@@ -213,9 +217,13 @@ bool AttackingPass::passFinished() noexcept {
 }
 
 void AttackingPass::storePlayInfo(gen::PlayInfos &info) noexcept {
-    gen::StoreInfo passer;
-    passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
-    passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
-    info.insert({gen::KeyInfo::isPasser, passer});
+    if (stpInfos["passer"].getRobot()) {
+        gen::StoreInfo passer;
+        passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
+        passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
+        info.insert({gen::KeyInfo::isPasser, passer});
+    } else {
+        RTT_WARNING("No passer found. PlayInfo not stored");
+    }
 }
 }  // namespace rtt::ai::stp::play
