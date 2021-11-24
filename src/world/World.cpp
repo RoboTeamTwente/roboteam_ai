@@ -75,7 +75,13 @@ void World::updateField(rtt::world::Field &protoField) { this->currentField = pr
 
 World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} { history.reserve(HISTORY_SIZE); }
 
-void World::updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback) { updateMap = std::move(feedback); }
+void World::updateFeedback(google::protobuf::RepeatedPtrField<proto::RobotFeedback> protoFeedback) {
+    std::unordered_map<uint8_t, proto::RobotFeedback> feedbackMap;
+    for (auto &feedback : protoFeedback) {
+        feedbackMap[feedback.id()] = feedback;
+    }
+    updateMap = std::move(feedbackMap);
+}
 
 void World::updateTickTime() noexcept {
     if (!getWorld()) {  // no world currently
