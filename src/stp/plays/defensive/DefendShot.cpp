@@ -127,15 +127,15 @@ void DefendShot::calculateInfoForKeeper() noexcept {
 
 void DefendShot::calculateInfoForMidfielders() noexcept {
     stpInfos["midfielder_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), gen::gridMidFieldBot, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), field.getMiddleRightGrid(), gen::SafePosition, field, world));
 
     stpInfos["midfielder_2"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), gen::gridMidFieldTop, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), field.getMiddleMidGrid(), gen::SafePosition, field, world));
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {
-    stpInfos["offender_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["offender_1"].getPositionToMoveTo(), gen::gridRightBot, gen::SafePosition, field, world));
-    stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["offender_2"].getPositionToMoveTo(), gen::gridRightTop, gen::SafePosition, field, world));
+    stpInfos["offender_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["offender_1"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::SafePosition, field, world));
+    stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["offender_2"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::SafePosition, field, world));
 }
 
 const char *DefendShot::getName() { return "Defend Shot"; }
