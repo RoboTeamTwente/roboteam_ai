@@ -13,6 +13,7 @@
 
 #include <iterator>
 
+#include "interface/api/Output.h"
 #include "utilities/GameStateManager.hpp"
 #include "world/FieldComputations.h"
 
@@ -59,10 +60,19 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
                         output.insert({roleNames[current.originalRolesIndex[j]], allRobots[current.originalIDsIndex.back()]});
                     }
                 }
-                if (output.size() == allRobots.size()) return output;  // case if there are less then 11 bots to distribute
+                if (output.size() == allRobots.size()) {          // case if there are less then 11 bots to distribute
+                    if (output.find("keeper") != output.end()) {
+                        interface::Output::setKeeperId(output.find("keeper")->second->getId());
+                    }
+                    return output;
+                }
                 distribute_remove(current, indexRoles, indexID, scores);
             }
         }
+    }
+    if (output.find("keeper") != output.end()) {
+        // If the keeper role is distributed, set the keeperId to this id to ensure this robot stays keeper
+        interface::Output::setKeeperId(output.find("keeper")->second->getId());
     }
     return output;
 }

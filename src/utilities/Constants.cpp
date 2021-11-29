@@ -34,7 +34,8 @@ void Constants::OVERWRITE_GRSIM(bool grsim) {
     robotOutputTargetGrSim = grsim;
 }
 
-int Constants::DEFAULT_KEEPER_ID() { return 0; }
+/// Set to a valid Id to make that robot keeper. Otherwise, keeper will be first distributed based on cost.
+int Constants::DEFAULT_KEEPER_ID() { return -1; }
 
 bool Constants::FEEDBACK_ENABLED() { return true; }
 
