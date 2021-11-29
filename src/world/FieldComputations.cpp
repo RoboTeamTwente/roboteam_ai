@@ -2,6 +2,7 @@
 
 #include <roboteam_utils/Shadow.h>
 
+#include "utilities/GameStateManager.hpp"
 #include "world/World.hpp"
 
 namespace rtt {
@@ -25,6 +26,11 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
 
 bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin) {
     return (!pointIsInDefenseArea(field, point, true, margin) && !pointIsInDefenseArea(field, point, false, margin) && pointIsInField(field, point, margin));
+}
+
+bool FieldComputations::pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin) {
+    bool isKeeper = id == GameStateManager::getCurrentGameState().keeperId;
+    return pointIsInField(field, point, margin) && !pointIsInDefenseArea(field, point, false, margin) && (isKeeper || !pointIsInDefenseArea(field, point, true, margin));
 }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {

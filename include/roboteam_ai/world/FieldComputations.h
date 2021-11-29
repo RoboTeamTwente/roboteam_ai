@@ -70,6 +70,17 @@ class FieldComputations {
     static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
 
     /**
+     * Check weather a given point is a valid position for a certain id.
+     * @param field The field class which is used to determine the boundaries of the field.
+     * @param point The point for which it is checked whether it is valid or not
+     * @param id The id of the robot for which this point is checked
+     * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
+     * expanded, a negative value means that the field area will be shrinked.
+     * @return True if the point is in the field and outside both defense area's or if inside our defense area and the given id belongs to the keeper
+     */
+    static bool pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin = 0.0);
+
+    /**
      * Get the percentage of goal visible from a given point, i.e. how much of the goal can be reached by directly shooting a ball over the ground from a given point without
      * hitting any robot from a given team.
      * @param field The field class used to determine where the goals are.
