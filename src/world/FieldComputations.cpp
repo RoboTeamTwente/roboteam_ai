@@ -15,8 +15,16 @@ bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, cons
     return defenseArea.contains(point);
 }
 
-bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin) {
-    return pointIsInDefenseArea(field, point, isOurDefenceArea, margin, margin);
+bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    return pointIsInDefenseArea(field, point, true, margin, backMargin);
+}
+
+bool FieldComputations::pointIsInTheirDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    return pointIsInDefenseArea(field, point, false, margin, backMargin);
+}
+
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin){
+    return pointIsInOurDefenseArea(field, point, margin, backMargin) || pointIsInTheirDefenseArea(field, point, margin, backMargin);
 }
 
 bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin) {
@@ -213,6 +221,5 @@ Vector2 FieldComputations::placePointInField(const rtt_world::Field &field, cons
     if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x + margin;          // Left
     return fixedPoint;
 }
-
 }  // namespace ai
 }  // namespace rtt
