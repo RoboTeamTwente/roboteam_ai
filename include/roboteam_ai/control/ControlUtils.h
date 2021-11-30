@@ -50,6 +50,16 @@ class ControlUtils {
     static Vector2 projectPositionToOutsideDefenseArea(const rtt_world::Field &field, Vector2 position, double margin);
 
     /**
+     * Project given position to a valid position (within the field and outside of the defense area)
+     * @param field The field class used to determine where the field lines and defense area are
+     * @param position The position to be projected to within the field
+     * @param id The id of the robot for this position, used to check whether this robot is the keeper. If so, it is allowed within our defense area
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines and defense area
+     * @return The position projected to within the field and outside the defense areas
+     */
+    static Vector2 projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, int id, double margin);
+
+    /**
      * Determines the chip force based on the distance and the type of chip
      * @param distance distance to the target
      * @param shotType type of the chip

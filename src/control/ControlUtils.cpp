@@ -100,6 +100,17 @@ Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const rtt::world::Fiel
     return position;
 }
 
+Vector2 ControlUtils::projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, int id, double margin) {
+    if (!FieldComputations::pointIsInField(field, position)){
+        position = projectPositionToWithinField(field, position, margin);
+    }
+    bool isKeeper = id == rtt::ai::GameStateManager::getCurrentGameState().keeperId;
+    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin, margin) || (!isKeeper && FieldComputations::pointIsInOurDefenseArea(field, position, margin, margin))){
+        position = projectPositionToOutsideDefenseArea(field, position, margin);
+    }
+    return position;
+}
+
 /// Calculates the chip force
 double ControlUtils::determineChipForce(const double distance, stp::ShotType shotType) noexcept {
     // TODO: Needs further tuning
