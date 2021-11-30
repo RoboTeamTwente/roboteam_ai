@@ -89,11 +89,11 @@ Vector2 ControlUtils::projectPositionToWithinField(const rtt::world::Field &fiel
 
 /// Projects the position outside the defense area
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const rtt::world::Field &field, Vector2 position, double margin) {
-    if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
+    if (FieldComputations::pointIsInOurDefenseArea(field, position, margin)) {
         position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
         return position;
     }
-    if (FieldComputations::pointIsInDefenseArea(field, position, false, margin)) {
+    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin)) {
         position.x = std::min(position.x, field.getRightPenaltyX() - margin);
         return position;
     }

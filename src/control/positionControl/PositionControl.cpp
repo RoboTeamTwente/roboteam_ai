@@ -146,8 +146,8 @@ std::vector<Vector2> PositionControl::createIntermediatePoints(const rtt::world:
 
             // If not in a defense area (only checked if robot is not allowed in defense area)
             if (worldObjects.canEnterDefenseArea(robotId) ||
-                (!rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, true, 0) &&
-                 !rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, false, 0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
+                (!rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, intermediatePoint) &&
+                 !rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, intermediatePoint, 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
                 //.. and inside the field (only checked if the robot is not allowed outside the field), add this cross to the list
                 if (worldObjects.canMoveOutsideField(robotId) || rtt::ai::FieldComputations::pointIsInField(field, intermediatePoint, rtt::ai::Constants::ROBOT_RADIUS())) {
                     intermediatePoints.emplace_back(intermediatePoint);
