@@ -45,8 +45,22 @@ class ControlUtils {
 
     static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference = 0.3);
 
+    /**
+     * Project given position to within the field with a certain margin
+     * @param field The field class used to determine where the field lines are
+     * @param position The position to be projected to within the field
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines
+     * @return The position projected to within the field
+     */
     static Vector2 projectPositionToWithinField(const rtt_world::Field &field, Vector2 position, double margin);
 
+    /**
+     * Project given position to within the field with a certain margin
+     * @param field The field class used to determine where the defense area is
+     * @param position The position to be projected to outside of the defense area
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the defense area
+     * @return The position projected to outside of the defense area
+     */
     static Vector2 projectPositionToOutsideDefenseArea(const rtt_world::Field &field, Vector2 position, double margin);
 
     /**
