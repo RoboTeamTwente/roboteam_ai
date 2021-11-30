@@ -205,4 +205,43 @@ Vector2 GameStateManager::getRefereeDesignatedPosition() {
     auto designatedPos = rtt::ai::GameStateManager::getRefereeData().designated_position();
     return Vector2(-designatedPos.x() / 1000, -designatedPos.y() / 1000);
 }
+
+void GameStateManager::updateInterfaceGameState(stp::Play* play){
+    const char* name = play->getName();
+    if (strcmp(name, "Ball Placement Us") == 0){
+        interface::Output::setInterfaceGameState(GameState("ball_placement_us", "ballplacement_us"));
+    } else if (strcmp(name, "Halt") == 0){
+        interface::Output::setInterfaceGameState(GameState("halt", "halt"));
+    } else if (strcmp(name, "Free Kick Them") == 0){
+        interface::Output::setInterfaceGameState(GameState("free_kick_them", "halt"));
+    } else if (strcmp(name, "Free Kick Us") == 0){
+        interface::Output::setInterfaceGameState(GameState("free_kick_us", "halt"));
+    } else if (strcmp(name, "Ball Placement Them") == 0){
+        interface::Output::setInterfaceGameState(GameState("ball_placement_them", "ballplacement_them"));
+    } else if (strcmp(name, "Kick Off Them Prepare") == 0){
+        interface::Output::setInterfaceGameState(GameState("kick_off_them_prepare", "kickoff"));
+    } else if (strcmp(name, "Kick Off Us Prepare") == 0){
+        interface::Output::setInterfaceGameState(GameState("kick_off_us_prepare", "kickoff"));
+    } else if (strcmp(name, "Kick Off Them") == 0){
+        interface::Output::setInterfaceGameState(GameState("kickoff_them", "halt"));
+    } else if (strcmp(name, "Kick Off Us") == 0){
+        interface::Output::setInterfaceGameState(GameState("kickoff_us", "halt"));
+    } else if (strcmp(name, "Penalty Them Prepare") == 0){
+        interface::Output::setInterfaceGameState(GameState("penalty_them_prepare", "halt"));
+    } else if (strcmp(name, "Penalty Us Prepare") == 0){
+        interface::Output::setInterfaceGameState(GameState("penalty_us_prepare", "halt"));
+    } else if (strcmp(name, "Penalty Them") == 0){
+        interface::Output::setInterfaceGameState(GameState("penalty_them", "halt"));
+    } else if (strcmp(name, "Penalty Us") == 0){
+        interface::Output::setInterfaceGameState(GameState("penalty_us", "halt"));
+    } else if (strcmp(name, "Time Out") == 0){
+        interface::Output::setInterfaceGameState(GameState("time_out", "stop"));
+    } else if (strcmp(name, "Defensive Stop Formation") == 0){
+        interface::Output::setInterfaceGameState(GameState("stop", "stop"));
+    } else if (strcmp(name, "Aggressive Stop Formation") == 0){
+        interface::Output::setInterfaceGameState(GameState("stop", "stop"));
+    } else{
+        interface::Output::setInterfaceGameState(GameState("normal_play", "default"));
+    }
+}
 }  // namespace rtt::ai
