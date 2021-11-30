@@ -104,7 +104,7 @@ class FieldComputations {
      * @param id The id of the robot for which this point is checked
      * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
      * expanded, a negative value means that the field area will be shrinked.
-     * @return True if the point is in the field and outside both defense area's or if inside our defense area and the given id belongs to the keeper
+     * @return True if the point is a valid target position for this robot id (inside of field and outside of defense area, unless robot is keeper or ball placer)
      */
     static bool pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin = 0.0);
 
