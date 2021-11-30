@@ -13,12 +13,6 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
                                                   Vector2 &targetPosition, stp::PIDType pidType) {
     collisionDetector.setField(field);
 
-    // if the target position is outside of the field (i.e. bug in AI), do nothing
-    if (!collisionDetector.isPointInsideField(targetPosition)) {
-        RTT_WARNING("Target point not in field for robot ID ", robotId)
-        return {};
-    }
-
     // if the robot is close to the final position and can't get there, stop
     if ((currentPosition - targetPosition).length() < FINAL_AVOIDANCE_DISTANCE && collisionDetector.getRobotCollisionBetweenPoints(currentPosition, targetPosition)) {
         RTT_INFO("Path collides with something close to the target position for robot ID ", robotId)
