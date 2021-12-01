@@ -69,6 +69,7 @@ class Output {
 
     static void setRuleSetName(std::string name);
     static void setKeeperId(int id);
+    static void setBallPlacerId(int id);
 };
 
 }  // namespace rtt::ai::interface

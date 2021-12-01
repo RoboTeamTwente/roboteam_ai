@@ -170,7 +170,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     /// No intersects with defense area: The ball should be outside the field if this happens.
     /// Place robots in the same spot everytime when this happens, if no positions it segfaults.
     if (lineBorderIntersects.empty()) {
-        if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5, 1) ||
+        if (FieldComputations::pointIsInOurDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), 0.5, 1) ||
             !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
             double wallPosX = 0.4 * field.getFieldLength();
             double posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
