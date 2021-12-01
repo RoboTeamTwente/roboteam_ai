@@ -85,9 +85,9 @@ void AttackingPass::calculateInfoForScoredRoles(world::World *world) noexcept {
 
     // Receiver
     stpInfos["receiver_left"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridRightBot, gen::GoalShootPosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::GoalShootPosition, field, world));
     stpInfos["receiver_right"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::GoalShootPosition, field, world));
 }
 
 void AttackingPass::calculateInfoForRoles() noexcept {
@@ -124,11 +124,11 @@ void AttackingPass::calculateInfoForRoles() noexcept {
 
     /// Slightly aggressive midfielders
     stpInfos["midfielder_0"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(), gen::gridMidFieldMid, gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(), field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
     stpInfos["midfielder_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), gen::gridMidFieldBot, gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
     stpInfos["midfielder_2"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), gen::gridMidFieldTop, gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
 }
 
 std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, std::vector<world::view::RobotView> enemyRobots) {
@@ -148,8 +148,8 @@ void AttackingPass::calculateInfoForPass(const world::ball::Ball *ball) noexcept
     /// Recalculate pass positions if we did not shoot yet
     /// For the receive locations, divide the field up into grids where the passers should stand,
     /// and find the best locations in those grids
-    auto receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), gen::gridRightBot, gen::GoalShootPosition, field, world);
-    auto receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world);
+    auto receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::GoalShootPosition, field, world);
+    auto receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::GoalShootPosition, field, world);
 
     stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos());
 

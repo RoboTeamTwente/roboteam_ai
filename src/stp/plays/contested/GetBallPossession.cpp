@@ -80,11 +80,11 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["midfielder_0"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(), gen::gridMidFieldBot, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(), field.getMiddleLeftGrid(), gen::SafePosition, field, world));
     stpInfos["midfielder_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), gen::gridMidFieldMid, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), field.getMiddleMidGrid(), gen::SafePosition, field, world));
     stpInfos["midfielder_2"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), gen::gridMidFieldTop, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), field.getMiddleRightGrid(), gen::SafePosition, field, world));
 
     stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
     stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));
