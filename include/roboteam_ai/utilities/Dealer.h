@@ -204,7 +204,6 @@ class Dealer {
      * @param output The role division to be distributed
      */
     void setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output);
-
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
