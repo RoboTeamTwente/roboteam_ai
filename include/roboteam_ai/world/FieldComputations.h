@@ -88,7 +88,7 @@ class FieldComputations {
     static bool pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
 
     /**
-     * Check weather a given point is a valid position (inside field, outside defense area's)
+     * Check whether a given point is a valid position (inside field, outside defense area's)
      * @param field The field class which is used to determine the boundaries of the field.
      * @param point The point for which it is checked whether it is valid or not
      * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
@@ -98,7 +98,7 @@ class FieldComputations {
     static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
 
     /**
-     * Check weather a given point is a valid position for a certain id.
+     * Check whether a given point is a valid position for a certain id.
      * @param field The field class which is used to determine the boundaries of the field.
      * @param point The point for which it is checked whether it is valid or not
      * @param id The id of the robot for which this point is checked
