@@ -9,6 +9,8 @@
 #include "control/ControlModule.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
+#include "stp/computations/PositionScoring.h"
+#include "stp/computations/PositionComputations.h"
 
 /**
  * Plays are included here
@@ -162,7 +164,7 @@ void ApplicationManager::runOneLoopCycle() {
 void ApplicationManager::decidePlay(world::World *_world) {
     // TODO make a clear function
     playEvaluator.clearGlobalScores();  // reset all evaluations
-    ai::stp::PositionComputations::calculatedScores.clear();
+    ai::stp::PositionScoring::calculatedScores.clear();
     ai::stp::PositionComputations::calculatedWallPositions.clear();
 
     playEvaluator.update(_world);
