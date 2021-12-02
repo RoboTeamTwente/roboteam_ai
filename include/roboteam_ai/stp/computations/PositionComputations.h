@@ -24,11 +24,6 @@ namespace rtt::ai::stp {
 class PositionComputations {
    public:
     /**
-     * vector of determined wall positions
-     */
-    inline static std::vector<Vector2> calculatedWallPositions{};
-
-    /**
      * Determines the location for defenders around the defense area
      * Uses the defence area boundaries and the path from ball to center of goal to find the intersects of circles to
      * find the various positions.

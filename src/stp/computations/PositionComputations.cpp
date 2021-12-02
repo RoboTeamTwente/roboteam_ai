@@ -5,7 +5,9 @@
 #include "stp/computations/PositionComputations.h"
 
 #include <roboteam_utils/Grid.h>
+
 #include "stp/StpInfo.h"
+#include "stp/computations/ComputationManager.h"
 #include "stp/computations/PositionScoring.h"
 #include "world/Field.h"
 #include "world/World.hpp"
@@ -27,10 +29,10 @@ gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2
 }
 
 Vector2 PositionComputations::getWallPosition(int index, int amountDefenders, const rtt::world::Field &field, rtt::world::World *world) {
-    if (calculatedWallPositions.empty()) {
-        calculatedWallPositions = determineWallPositions(field, world, amountDefenders);
+    if (ComputationManager::calculatedWallPositions.empty()) {
+        ComputationManager::calculatedWallPositions = determineWallPositions(field, world, amountDefenders);
     }
-    return calculatedWallPositions[index];
+    return ComputationManager::calculatedWallPositions[index];
 }
 
 std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::world::Field &field, const rtt::world::World *world, int amountDefenders) {

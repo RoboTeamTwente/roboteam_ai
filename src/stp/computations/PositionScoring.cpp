@@ -6,6 +6,7 @@
 
 #include <optional>
 
+#include "stp/computations/ComputationManager.h"
 #include "stp/evaluations/position/BlockingEvaluation.h"
 #include "stp/evaluations/position/GoalShotEvaluation.h"
 #include "stp/evaluations/position/LineOfSightEvaluation.h"
@@ -13,7 +14,7 @@
 
 namespace rtt::ai::stp {
 gen::ScoredPosition PositionScoring::scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field, const world::World *world, uint8_t bias) {
-    gen::PositionScores &scores = calculatedScores[position];
+    gen::PositionScores &scores = ComputationManager::calculatedScores[position];
     uint8_t positionScore = getScoreOfPosition(profile, position, scores, field, world);
     if (bias) positionScore = (positionScore + bias > bias) ? positionScore + bias : std::numeric_limits<uint8_t>::max();  // stop overflow of uint8_t (254+2 = 1)
     return {position, positionScore};

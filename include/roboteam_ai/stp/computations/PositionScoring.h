@@ -73,12 +73,6 @@ class PositionScoring {
      * @return Position with score
      */
     static gen::ScoredPosition scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field, const world::World *world, uint8_t bias = 0);
-
-    /**
-     * unordered map of calculated scores of this tick.
-     * must be cleared at start of tick
-     */
-    inline static std::unordered_map<Vector2, gen::PositionScores> calculatedScores{};
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_POSITIONSCORING_H
