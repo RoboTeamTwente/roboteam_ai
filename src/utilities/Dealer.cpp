@@ -60,15 +60,20 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
                         output.insert({roleNames[current.originalRolesIndex[j]], allRobots[current.originalIDsIndex.back()]});
                     }
                 }
-                if (output.size() == allRobots.size()) {  // case if there are less then 11 bots to distribute
-                    setGameStateRoleIds(output);
+                if (output.size() == allRobots.size()) {          // case if there are less then 11 bots to distribute
+                    if (output.find("keeper") != output.end()) {
+                        interface::Output::setKeeperId(output.find("keeper")->second->getId());
+                    }
                     return output;
                 }
                 distribute_remove(current, indexRoles, indexID, scores);
             }
         }
     }
-    setGameStateRoleIds(output);
+    if (output.find("keeper") != output.end()) {
+        // If the keeper role is distributed, set the keeperId to this id to ensure this robot stays keeper
+        interface::Output::setKeeperId(output.find("keeper")->second->getId());
+    }
     return output;
 }
 
@@ -228,15 +233,6 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;
-}
-
-void Dealer::setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output) {
-    if (output.find("keeper") != output.end()) {
-        interface::Output::setKeeperId(output.find("keeper")->second->getId());
-    }
-    if (output.find("ball_placer") != output.end()) {
-        interface::Output::setBallPlacerId(output.find("ball_placer")->second->getId());
-    }
 }
 
 // Calculate the cost for distance. The further away the target, the higher the cost for that distance.

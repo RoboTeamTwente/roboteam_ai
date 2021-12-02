@@ -198,12 +198,6 @@ class Dealer {
      * @param output
      */
     void distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &output);
-
-    /**
-     * Sets the keeper and ballplacer id in the gamestate if either of those roles are distributed by the dealer
-     * @param output The role division to be distributed
-     */
-    void setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output);
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

@@ -90,9 +90,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aba622aad9b9c0b499f502b024500dd64"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#aba622aad9b9c0b499f502b024500dd64">projectPositionToWithinField</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> position, double margin)</td></tr>
 <tr class="separator:aba622aad9b9c0b499f502b024500dd64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cdaea73ba5f0391ff61800e84a6199f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a8cdaea73ba5f0391ff61800e84a6199f">projectPositionToOutsideDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> position, double margin)</td></tr>
+<tr class="memdesc:a8cdaea73ba5f0391ff61800e84a6199f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Projects the position outside the defense area.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a8cdaea73ba5f0391ff61800e84a6199f">More...</a><br /></td></tr>
 <tr class="separator:a8cdaea73ba5f0391ff61800e84a6199f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5f9ec3b2eb782beb8b291ec493e88ff"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#ab5f9ec3b2eb782beb8b291ec493e88ff">projectPointToValidPosition</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> position, int id, double margin)</td></tr>
-<tr class="separator:ab5f9ec3b2eb782beb8b291ec493e88ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a33af6aff51eb2132f1b7fcb1c92b1583">determineChipForce</a> (const double distance, <a class="el" href="namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87ab">stp::ShotType</a> shotType) noexcept</td></tr>
 <tr class="memdesc:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the chip force.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a33af6aff51eb2132f1b7fcb1c92b1583">More...</a><br /></td></tr>
 <tr class="separator:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -352,64 +351,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab5f9ec3b2eb782beb8b291ec493e88ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5f9ec3b2eb782beb8b291ec493e88ff">&#9670;&nbsp;</a></span>projectPointToValidPosition()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::control::ControlUtils::projectPointToValidPosition </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
-          <td class="paramname"><em>position</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>margin</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Project given position to a valid position (within the field and outside of the defense area) </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>The field class used to determine where the field lines and defense area are </td></tr>
-    <tr><td class="paramname">position</td><td>The position to be projected to within the field </td></tr>
-    <tr><td class="paramname">id</td><td>The id of the robot for this position, used to check whether this robot is the keeper. If so, it is allowed within our defense area </td></tr>
-    <tr><td class="paramname">margin</td><td>The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines and defense area </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The position projected to within the field and outside the defense areas </dd></dl>
-
-</div>
-</div>
 <a id="a8cdaea73ba5f0391ff61800e84a6199f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8cdaea73ba5f0391ff61800e84a6199f">&#9670;&nbsp;</a></span>projectPositionToOutsideDefenseArea()</h2>
 
@@ -449,15 +390,8 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Project given position to within the field with a certain margin </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>The field class used to determine where the defense area is </td></tr>
-    <tr><td class="paramname">position</td><td>The position to be projected to outside of the defense area </td></tr>
-    <tr><td class="paramname">margin</td><td>The margin that should be used when calculating the new position. The position will have a minimum of this distance to the defense area </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The position projected to outside of the defense area </dd></dl>
+
+<p>Projects the position outside the defense area. </p>
 
 </div>
 </div>
@@ -500,15 +434,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Project given position to within the field with a certain margin </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>The field class used to determine where the field lines are </td></tr>
-    <tr><td class="paramname">position</td><td>The position to be projected to within the field </td></tr>
-    <tr><td class="paramname">margin</td><td>The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The position projected to within the field </dd></dl>
+<p>Returns point in field closest to a given point. If the point is already in the field it returns the same as the input. </p>
 
 </div>
 </div>

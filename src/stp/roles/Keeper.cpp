@@ -67,7 +67,7 @@ Status Keeper::update(StpInfo const& info) noexcept {
 }
 
 bool Keeper::isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept {
-    bool pointIsInDefenseArea = FieldComputations::pointIsInOurDefenseArea(field, ballPos);
+    bool pointIsInDefenseArea = FieldComputations::pointIsInDefenseArea(field, ballPos, true);
     bool ballIsLayingStill = ballVel.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT;
 
     return pointIsInDefenseArea && ballIsLayingStill;

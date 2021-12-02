@@ -5,8 +5,9 @@ var searchData=
   ['collisiondata_2181',['CollisionData',['../namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData',1,'rtt::BB']]],
   ['collisiondetector_2182',['CollisionDetector',['../classrtt_1_1ai_1_1control_1_1CollisionDetector.html',1,'rtt::ai::control']]],
   ['commandcollision_2183',['CommandCollision',['../namespacertt_1_1BB.html#structrtt_1_1BB_1_1CommandCollision',1,'rtt::BB']]],
-  ['constants_2184',['Constants',['../classrtt_1_1ai_1_1Constants.html',1,'rtt::ai']]],
-  ['controlmodule_2185',['ControlModule',['../classrtt_1_1ai_1_1control_1_1ControlModule.html',1,'rtt::ai::control']]],
-  ['controlutils_2186',['ControlUtils',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html',1,'rtt::ai::control']]],
-  ['customparamevent_2187',['CustomParamEvent',['../structnativeformat_1_1param_1_1CustomParamEvent.html',1,'nativeformat::param']]]
+  ['computationmanager_2184',['ComputationManager',['../classrtt_1_1ai_1_1stp_1_1ComputationManager.html',1,'rtt::ai::stp']]],
+  ['constants_2185',['Constants',['../classrtt_1_1ai_1_1Constants.html',1,'rtt::ai']]],
+  ['controlmodule_2186',['ControlModule',['../classrtt_1_1ai_1_1control_1_1ControlModule.html',1,'rtt::ai::control']]],
+  ['controlutils_2187',['ControlUtils',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html',1,'rtt::ai::control']]],
+  ['customparamevent_2188',['CustomParamEvent',['../structnativeformat_1_1param_1_1CustomParamEvent.html',1,'nativeformat::param']]]
 ];
