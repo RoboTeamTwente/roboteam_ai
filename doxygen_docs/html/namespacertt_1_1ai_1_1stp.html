@@ -70,8 +70,7 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp Namespace Reference</div>  </div>
 </div><!--header-->
@@ -105,11 +104,7 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1ComputationManager.html">ComputationManager</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionComputations.html">PositionComputations</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionScoring.html">PositionScoring</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html">Play</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,11 +218,6 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a24b1c4fad3e401c35e8355457367697c"><td class="memItemLeft" align="right" valign="top">static std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp.html#a24b1c4fad3e401c35e8355457367697c">operator&lt;&lt;</a> (std::ostream &amp;os, <a class="el" href="namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3">Status</a> status)</td></tr>
 <tr class="separator:a24b1c4fad3e401c35e8355457367697c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:af31b8ef31f12f08db69fad79d6f0b908"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp.html#af31b8ef31f12f08db69fad79d6f0b908">blockEnumSize</a> = 3</td></tr>
-<tr class="separator:af31b8ef31f12f08db69fad79d6f0b908"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This play is for testing purposes, to use it, be sure to uncomment in in <a class="el" href="ApplicationManager_8cpp.html">ApplicationManager.cpp</a>'s start function! </p>
@@ -280,7 +270,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>BlockDistance: The distance the robot should block at with the last value being the amount of distances KickOrChip: Whether the robot should kick or chip in a certain situation PIDType: The PID type the robot needs to use at a certain time ShotType: The type of the shot Status: The states STP can return </p>
+<p>The distance the robot should block at </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab40410d00349ef6102ce3d0fd36a58d3a7286293c9125ac7d7bace94c190bc16d"></a>CLOSE&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab40410d00349ef6102ce3d0fd36a58d3ad9ed1ae6b46bb488c4a73ce0925b48b2"></a>HALFWAY&#160;</td><td class="fielddoc"></td></tr>
@@ -367,6 +357,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Whether this robot should kick or chip in the shoot skill </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8a168b78725926f5901d2f6370784113a959a795d5524bd9054026703a33afb87"></a>KICK&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a8a168b78725926f5901d2f6370784113aed8e8497a6a4c2315790d3d56b7c5065"></a>CHIP&#160;</td><td class="fielddoc"></td></tr>
@@ -393,6 +384,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The PIDType to be used by this robot for path planning/tracking </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac154a8e7620c1e24b70f641afcf2c5eba5b39c8b553c821e7cddc6da64b5bd2ee"></a>DEFAULT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ac154a8e7620c1e24b70f641afcf2c5eba42ddaaef1ffd16ad35901150add8f8f2"></a>RECEIVE&#160;</td><td class="fielddoc"></td></tr>
@@ -422,6 +414,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The type of shot this robot should use. Used for determining kick/chip velocity </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a40e85934b4fd4ca9ddfa2553886a87aba7a95bf926a0333f57705aeac07a362a2"></a>PASS&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a40e85934b4fd4ca9ddfa2553886a87aba730950ad798a77ad508aa9e2564d013f"></a>TARGET&#160;</td><td class="fielddoc"></td></tr>
@@ -449,6 +442,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The status that a skill/tactic can return </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3055c554f88c993b2e023c90717631d3a5706de961fb376d701be6e7762d8b09c"></a>Waiting&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3055c554f88c993b2e023c90717631d3a505a83f220c02df2f85c3810cd9ceb38"></a>Success&#160;</td><td class="fielddoc"></td></tr>
@@ -493,30 +487,6 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Util operator&lt;&lt; that allows us to print the status enum </p>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="af31b8ef31f12f08db69fad79d6f0b908"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af31b8ef31f12f08db69fad79d6f0b908">&#9670;&nbsp;</a></span>blockEnumSize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr int rtt::ai::stp::blockEnumSize = 3</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>BlockEnumSize is the size of the BlockDistance enum This is used for some calculations (thanks Jesse) on the actual distance in meters </p>
 
 </div>
 </div>
