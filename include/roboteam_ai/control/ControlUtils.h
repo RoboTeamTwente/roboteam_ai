@@ -19,14 +19,7 @@
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
 
-namespace rtt::ai {
-
-// fwd declarations
-namespace world {
-class Robot;
-}  // namespace world
-
-namespace control {
+namespace rtt::ai::control {
 
 class ControlUtils {
    public:
@@ -63,7 +56,6 @@ class ControlUtils {
     static double determineKickForce(const double distance, stp::ShotType shotType) noexcept;
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_CONTROLUTILS_H

@@ -8,10 +8,10 @@
 #include <optional>
 
 #include "constants/GeneralizationConstants.h"
+#include "utilities/StpInfoEnums.h"
 #include "world/Field.h"
 #include "world/views/BallView.hpp"
 #include "world/views/RobotView.hpp"
-#include "utilities/StpInfoEnums.h"
 
 namespace rtt::ai::stp {
 namespace world = ::rtt::world;

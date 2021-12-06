@@ -6,9 +6,9 @@
 #define RTT_STPINFOENUMS_H
 
 namespace rtt::ai::stp {
- /**
-  * The distance the robot should block at
-  */
+/**
+ * The distance the robot should block at
+ */
 enum class BlockDistance { CLOSE = 1, HALFWAY, FAR };
 
 /**
@@ -30,5 +30,5 @@ enum class ShotType { PASS, TARGET, MAX };
  * The status that a skill/tactic can return
  */
 enum class Status { Waiting, Success, Failure, Running };
-}
+}  // namespace rtt::ai::stp
 #endif  // RTT_STPINFOENUMS_H
