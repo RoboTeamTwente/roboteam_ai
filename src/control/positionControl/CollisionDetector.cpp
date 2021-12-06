@@ -3,6 +3,9 @@
 //
 
 #include "control/positionControl/CollisionDetector.h"
+#include "control/ControlUtils.h"
+#include "world/FieldComputations.h"
+
 
 namespace rtt::ai::control {
 

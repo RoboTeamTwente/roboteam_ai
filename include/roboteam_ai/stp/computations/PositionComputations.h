@@ -19,6 +19,8 @@
 #include "world/FieldComputations.h"
 #include "world/views/WorldDataView.hpp"
 
+#include "world/World.hpp"
+
 namespace rtt::ai::stp {
 
 class PositionComputations {

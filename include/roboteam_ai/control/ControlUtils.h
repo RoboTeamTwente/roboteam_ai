@@ -8,15 +8,13 @@
 #include <roboteam_utils/Arc.h>
 #include <roboteam_utils/Grid.h>
 #include <roboteam_utils/Line.h>
-#include <stp/StpInfo.h>
+#include <utilities/StpInfoEnums.h>
 
 #include <cmath>
 #include <optional>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
-#include "world/FieldComputations.h"
-#include "world/views/WorldDataView.hpp"
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
@@ -29,7 +27,6 @@ class Robot;
 }  // namespace world
 
 namespace control {
-namespace rtt_world = rtt::world;
 
 class ControlUtils {
    public:
@@ -45,9 +42,9 @@ class ControlUtils {
 
     static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference = 0.3);
 
-    static Vector2 projectPositionToWithinField(const rtt_world::Field &field, Vector2 position, double margin);
+    static Vector2 projectPositionToWithinField(const rtt::world::Field &field, Vector2 position, double margin);
 
-    static Vector2 projectPositionToOutsideDefenseArea(const rtt_world::Field &field, Vector2 position, double margin);
+    static Vector2 projectPositionToOutsideDefenseArea(const rtt::world::Field &field, Vector2 position, double margin);
 
     /**
      * Determines the chip force based on the distance and the type of chip

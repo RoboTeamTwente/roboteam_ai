@@ -87,7 +87,7 @@ double PositionComputations::determineLineOfSightScore(Vector2 &point, const rtt
 }
 
 double PositionComputations::determineGoalShotScore(Vector2 &point, const rtt::world::Field &field, const rtt::world::World *world, gen::PositionScores &scores) {
-    double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, world) / 100;
+    double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, world->getWorld().value()) / 100;
     double goalDistance = FieldComputations::getDistanceToGoal(field, false, point);
     double trialToGoalAngle = fabs((field.getTheirGoalCenter() - point).angle());
     return (scores.scoreGoalShot = stp::evaluation::GoalShotEvaluation().metricCheck(visibility, goalDistance, trialToGoalAngle)).value();

@@ -11,27 +11,10 @@
 #include "world/Field.h"
 #include "world/views/BallView.hpp"
 #include "world/views/RobotView.hpp"
+#include "utilities/StpInfoEnums.h"
 
 namespace rtt::ai::stp {
 namespace world = ::rtt::world;
-/**
- * BlockDistance: The distance the robot should block at with the last value being the amount of distances
- * KickOrChip: Whether the robot should kick or chip in a certain situation
- * PIDType: The PID type the robot needs to use at a certain time
- * ShotType: The type of the shot
- * Status: The states STP can return
- */
-enum class BlockDistance { CLOSE = 1, HALFWAY, FAR };
-enum class KickOrChip { KICK, CHIP };
-enum class PIDType { DEFAULT, RECEIVE, INTERCEPT, KEEPER, KEEPER_INTERCEPT };
-enum class ShotType { PASS, TARGET, MAX };
-enum class Status { Waiting, Success, Failure, Running };
-
-/**
- * BlockEnumSize is the size of the BlockDistance enum
- * This is used for some calculations (thanks Jesse) on the actual distance in meters
- */
-constexpr int blockEnumSize = 3;
 
 /**
  * StpInfo bundles all info a robot could need in one struct
