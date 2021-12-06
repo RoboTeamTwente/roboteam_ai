@@ -5,7 +5,6 @@
 #ifndef RTT_PLAYEVALUATOR_H
 #define RTT_PLAYEVALUATOR_H
 
-#include "world/Field.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::stp {
@@ -65,13 +64,13 @@ class PlayEvaluator {
      * Sets this->world
      * @param world World to update against
      */
-    void update(rtt::world::World* world) noexcept;
+    void update(world::World* world) noexcept;
 
     /**
      * Gets this world, used when a play is not initialised yet (in between plays)
      * @return world
      */
-    rtt::world::World* getWorld() noexcept;
+    world::World* getWorld() noexcept;
 
     /**
      * Make all booleans of updatedGlobal to false (they have not been updated yet this tick)
@@ -109,12 +108,12 @@ class PlayEvaluator {
     /**
      * Current world, do not use before update()
      */
-    rtt::world::World* world{};
+    world::World* world{};
 
     /**
      *  Current field from world
      */
-    rtt::world::Field field;
+    world::Field field;
 };
 
 }  // namespace rtt::ai::stp

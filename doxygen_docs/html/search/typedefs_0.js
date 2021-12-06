@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['angle_4205',['Angle',['../ControlUtils_8h.html#a190e260c90ed557590c2ca7d74a4e490',1,'ControlUtils.h']]]
+  ['angle_4219',['Angle',['../ControlUtils_8h.html#a190e260c90ed557590c2ca7d74a4e490',1,'ControlUtils.h']]]
 ];

@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_utils/Grid.h>
+#include <stp/StpInfo.h>
 #include <stp/computations/PassComputations.h>
 #include <stp/computations/PositionComputations.h>
 

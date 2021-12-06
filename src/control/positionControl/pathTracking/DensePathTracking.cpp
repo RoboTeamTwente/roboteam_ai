@@ -4,7 +4,7 @@
 
 #include "control/positionControl/pathTracking/DensePathTracking.h"
 
-#include "control/positionControl/PositionControlUtils.h"
+#include <stp/StpInfo.h>
 
 namespace rtt::ai::control {
 

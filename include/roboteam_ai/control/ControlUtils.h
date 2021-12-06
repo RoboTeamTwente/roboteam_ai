@@ -8,18 +8,28 @@
 #include <roboteam_utils/Arc.h>
 #include <roboteam_utils/Grid.h>
 #include <roboteam_utils/Line.h>
-#include <utilities/StpInfoEnums.h>
+#include <stp/StpInfo.h>
 
 #include <cmath>
 #include <optional>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
+#include "world/FieldComputations.h"
+#include "world/views/WorldDataView.hpp"
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
 
-namespace rtt::ai::control {
+namespace rtt::ai {
+
+// fwd declarations
+namespace world {
+class Robot;
+}  // namespace world
+
+namespace control {
+namespace rtt_world = rtt::world;
 
 class ControlUtils {
    public:
@@ -35,9 +45,33 @@ class ControlUtils {
 
     static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference = 0.3);
 
-    static Vector2 projectPositionToWithinField(const rtt::world::Field &field, Vector2 position, double margin);
+    /**
+     * Project given position to within the field with a certain margin
+     * @param field The field class used to determine where the field lines are
+     * @param position The position to be projected to within the field
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines
+     * @return The position projected to within the field
+     */
+    static Vector2 projectPositionToWithinField(const rtt_world::Field &field, Vector2 position, double margin);
 
-    static Vector2 projectPositionToOutsideDefenseArea(const rtt::world::Field &field, Vector2 position, double margin);
+    /**
+     * Project given position to within the field with a certain margin
+     * @param field The field class used to determine where the defense area is
+     * @param position The position to be projected to outside of the defense area
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the defense area
+     * @return The position projected to outside of the defense area
+     */
+    static Vector2 projectPositionToOutsideDefenseArea(const rtt_world::Field &field, Vector2 position, double margin);
+
+    /**
+     * Project given position to a valid position (within the field and outside of the defense area)
+     * @param field The field class used to determine where the field lines and defense area are
+     * @param position The position to be projected to within the field
+     * @param id The id of the robot for this position, used to check whether this robot is the keeper. If so, it is allowed within our defense area
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines and defense area
+     * @return The position projected to within the field and outside the defense areas
+     */
+    static Vector2 projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, int id, double margin);
 
     /**
      * Determines the chip force based on the distance and the type of chip
@@ -56,6 +90,7 @@ class ControlUtils {
     static double determineKickForce(const double distance, stp::ShotType shotType) noexcept;
 };
 
-}  // namespace rtt::ai::control
+}  // namespace control
+}  // namespace rtt::ai
 
 #endif  // ROBOTEAM_AI_CONTROLUTILS_H

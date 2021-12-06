@@ -6,7 +6,7 @@
 #define RTT_PATHTRACKINGALGORITHM_H
 
 #include <roboteam_utils/Position.h>
-#include <utilities/StpInfoEnums.h>
+#include <stp/StpInfo.h>
 
 namespace rtt::ai::control {
 class PathTrackingAlgorithm {

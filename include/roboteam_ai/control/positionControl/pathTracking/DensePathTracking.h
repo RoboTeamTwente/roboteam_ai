@@ -5,10 +5,9 @@
 #ifndef RTT_DENSEPATHTRACKING_H
 #define RTT_DENSEPATHTRACKING_H
 
-#include <utilities/StpInfoEnums.h>
-
 #include "PathTrackingAlgorithm.h"
 #include "PidTracking.h"
+#include "control/positionControl/PositionControlUtils.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/Vector2.h"
 #include "utilities/Constants.h"

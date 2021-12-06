@@ -8,9 +8,7 @@
 #include <QtWidgets/QTextEdit>
 #include <sstream>
 
-#include "mutex"
-#include "utilities/StpInfoEnums.h"
-#include "world/Field.h"
+#include "stp/StpInfo.h"
 
 namespace rtt::ai::stp {
 class Play;

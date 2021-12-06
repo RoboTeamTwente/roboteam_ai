@@ -6,6 +6,7 @@
 
 #include <roboteam_utils/Grid.h>
 
+#include "stp/StpInfo.h"
 #include "stp/evaluations/position/BlockingEvaluation.h"
 #include "stp/evaluations/position/GoalShotEvaluation.h"
 #include "stp/evaluations/position/LineOfSightEvaluation.h"
@@ -86,7 +87,7 @@ double PositionComputations::determineLineOfSightScore(Vector2 &point, const rtt
 }
 
 double PositionComputations::determineGoalShotScore(Vector2 &point, const rtt::world::Field &field, const rtt::world::World *world, gen::PositionScores &scores) {
-    double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, world->getWorld().value()) / 100;
+    double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, world) / 100;
     double goalDistance = FieldComputations::getDistanceToGoal(field, false, point);
     double trialToGoalAngle = fabs((field.getTheirGoalCenter() - point).angle());
     return (scores.scoreGoalShot = stp::evaluation::GoalShotEvaluation().metricCheck(visibility, goalDistance, trialToGoalAngle)).value();
@@ -169,7 +170,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     /// No intersects with defense area: The ball should be outside the field if this happens.
     /// Place robots in the same spot everytime when this happens, if no positions it segfaults.
     if (lineBorderIntersects.empty()) {
-        if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5, 1) ||
+        if (FieldComputations::pointIsInOurDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), 0.5, 1) ||
             !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
             double wallPosX = 0.4 * field.getFieldLength();
             double posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
