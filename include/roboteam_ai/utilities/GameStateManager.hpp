@@ -23,6 +23,7 @@ class GameStateManager {
     static bool canMoveOutsideField(int robotId);
     static void forceNewGameState(RefCommand cmd, std::optional<rtt::world::view::BallView> ball);
     static Vector2 getRefereeDesignatedPosition();
+    static void updateInterfaceGameState(const char* name);
 
    private:
     static proto::SSL_Referee refMsg;
