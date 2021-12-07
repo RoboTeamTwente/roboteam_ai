@@ -10,7 +10,6 @@
 #include "control/ControlUtils.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"
-#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::tactic {
 GetBall::GetBall() { skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
@@ -25,7 +24,7 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
     double ballDistance = (ballPosition - robotPosition).length();
 
     // If this robot is not the keeper, don't get the ball inside a defense area
-    if (info.getRobot()->get()->getId() != GameStateManager::getCurrentGameState().keeperId && FieldComputations::pointIsInDefenseArea(info.getField().value(), ballPosition)) {
+    if (info.getRoleName() != "keeper" && FieldComputations::pointIsInDefenseArea(info.getField().value(), ballPosition)) {
         ballPosition = control::ControlUtils::projectPositionToOutsideDefenseArea(info.getField().value(), ballPosition, control_constants::AVOID_BALL_DISTANCE);
     }
 
