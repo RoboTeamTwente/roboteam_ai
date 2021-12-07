@@ -7,11 +7,17 @@
 #include <roboteam_utils/Grid.h>
 
 #include "stp/StpInfo.h"
-#include "utilities/GameStateManager.hpp"
+#include "stp/constants/ControlConstants.h"
 #include "world/Field.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::control {
+
+double ControlUtils::getMaxVelocity(bool hasBall) {
+    double maxVel = rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    if (hasBall) maxVel = std::min(stp::control_constants::MAX_VEL_WHEN_HAS_BALL, maxVel);
+    return maxVel;
+}
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
 Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel, bool listenToReferee) {
     if (listenToReferee) {
