@@ -4,6 +4,7 @@
 
 #include "stp/Play.hpp"
 
+#include "control/ControlUtils.h"
 #include "interface/widgets/MainControlsWidget.h"
 
 namespace rtt::ai::stp {
@@ -80,6 +81,8 @@ void Play::refreshData() noexcept {
         if (stpInfo != stpInfos.end() && stpInfo->second.getRobot().has_value()) {
             // Get a new RobotView from world using the old robot id
             stpInfo->second.setRobot(world->getWorld()->getRobotForId(stpInfo->second.getRobot()->get()->getId()));
+
+            stpInfo->second.setMaxRobotVelocity(control::ControlUtils::getMaxVelocity(stpInfo->second.getRobot()->hasBall()));
 
             // Assign the new BallView and field
             stpInfo->second.setBall(newBallView);
