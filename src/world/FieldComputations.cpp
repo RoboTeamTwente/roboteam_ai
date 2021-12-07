@@ -14,8 +14,16 @@ bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, cons
     return defenseArea.contains(point);
 }
 
-bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin) {
-    return pointIsInDefenseArea(field, point, isOurDefenceArea, margin, margin);
+bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    return pointIsInDefenseArea(field, point, true, margin, backMargin);
+}
+
+bool FieldComputations::pointIsInTheirDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    return pointIsInDefenseArea(field, point, false, margin, backMargin);
+}
+
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin){
+    return pointIsInOurDefenseArea(field, point, margin, backMargin) || pointIsInTheirDefenseArea(field, point, margin, backMargin);
 }
 
 bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin) {
@@ -24,7 +32,16 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
 }
 
 bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin) {
-    return (!pointIsInDefenseArea(field, point, true, margin) && !pointIsInDefenseArea(field, point, false, margin) && pointIsInField(field, point, margin));
+    return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point, margin));
+}
+
+bool FieldComputations::pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin) {
+    if (GameStateManager::getCurrentGameState().getStrategyName() == "ball_placement_us" && GameStateManager::getCurrentGameState().ballPlacerId == id){
+        // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are further/closer
+        return pointIsInField(field, point, 0.5);
+    }
+    bool isKeeper = id == GameStateManager::getCurrentGameState().keeperId;
+    return pointIsInField(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
@@ -207,6 +224,5 @@ Vector2 FieldComputations::placePointInField(const rtt_world::Field &field, cons
     if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x + margin;          // Left
     return fixedPoint;
 }
-
 }  // namespace ai
 }  // namespace rtt
