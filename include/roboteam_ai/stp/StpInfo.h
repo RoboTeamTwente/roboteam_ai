@@ -92,6 +92,12 @@ struct StpInfo {
     const std::optional<uint8_t>& getRoleScore() const { return roleScore; }
     void setRoleScore(const std::optional<uint8_t>& RoleScore) { roleScore = RoleScore; }
 
+    double getMaxRobotVelocity() const { return maxRobotVelocity; }
+    void setMaxRobotVelocity(double maxVelocity) { maxRobotVelocity = maxVelocity; }
+
+    std::string getRoleName() const { return roleName; }
+    void setRoleName(std::string name) { roleName = name; }
+
    private:
     /**
      * Current world pointer
@@ -173,6 +179,16 @@ struct StpInfo {
      * Optional roleScore value to be used in play score determination
      */
     std::optional<uint8_t> roleScore;
+
+    /**
+     * The maximum velocity the robot is allowed to have
+     */
+     double maxRobotVelocity;
+
+     /**
+      * The name of the role associated with this StpInfo
+      */
+     std::string  roleName;
 };
 
 /**
