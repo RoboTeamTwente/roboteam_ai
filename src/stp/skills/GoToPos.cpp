@@ -13,7 +13,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getRoleName())) {
         RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
-        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRobot()->get()->getId(), control_constants::ROBOT_RADIUS);
+        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
 
     bool useOldPathPlanning = true;
