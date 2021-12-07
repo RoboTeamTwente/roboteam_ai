@@ -135,7 +135,9 @@ void Play::initRoles() noexcept {
     for (auto &role : roles) {
         role->reset();
         auto roleName{role->getName()};
-        stpInfos.emplace(roleName, StpInfo{});
+        auto stpInfo = StpInfo{};
+        stpInfo.setRoleName(roleName);
+        stpInfos.emplace(roleName, stpInfo);
     }
 }
 }  // namespace rtt::ai::stp
