@@ -35,7 +35,6 @@ class ControlUtils {
 
     static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference = 0.3);
 
-
     /**
      * Project given position to within the field with a certain margin
      * @param field The field class used to determine where the field lines are
