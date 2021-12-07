@@ -63,8 +63,8 @@ void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field
                                                   double timeStep) {
     if (!canEnterDefenseArea(robotId)) {
         for (int i = 0; i < pathPoints.size(); i++) {
-            if (rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], true, 0) ||
-                rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], false, 0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
+            if (rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, pathPoints[i]) ||
+                rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, pathPoints[i], 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
                 insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
                 return;
             }
