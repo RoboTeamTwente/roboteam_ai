@@ -10,6 +10,7 @@
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
 #include "world/Field.h"
+#include "views/WorldDataView.hpp"
 
 namespace rtt::world::view {
 class WorldDataView;
@@ -120,7 +121,7 @@ class FieldComputations {
      * blockades).
      * @return The percentage of the goal visible, which is a double value between 0.0 and 100.0 including both 0.0 and 100.0.
      */
-    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World *world, int id = -1,
+    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id = -1,
                                                       bool ourTeam = false);
 
     /**
