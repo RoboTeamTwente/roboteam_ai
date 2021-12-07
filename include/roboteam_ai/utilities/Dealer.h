@@ -8,13 +8,12 @@
  * The lower the score, the better.
  */
 
-#include <stp/StpInfo.h>
-
 #include <iostream>
 #include <map>
 #include <vector>
 
 #include "gtest/gtest_prod.h"
+#include "stp/StpInfo.h"
 #include "world/Field.h"
 #include "world/views/RobotView.hpp"
 #include "world/views/WorldDataView.hpp"

@@ -6,8 +6,8 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include "stp/StpInfo.h"
 #include "utilities/GameStateManager.hpp"
+#include "utilities/StpInfoEnums.h"
 #include "world/Field.h"
 #include "world/World.hpp"
 
