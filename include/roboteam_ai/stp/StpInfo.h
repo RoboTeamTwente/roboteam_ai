@@ -183,12 +183,12 @@ struct StpInfo {
     /**
      * The maximum velocity the robot is allowed to have
      */
-     double maxRobotVelocity;
+    double maxRobotVelocity;
 
-     /**
-      * The name of the role associated with this StpInfo
-      */
-     std::string  roleName;
+    /**
+     * The name of the role associated with this StpInfo
+     */
+    std::string roleName;
 };
 
 /**
