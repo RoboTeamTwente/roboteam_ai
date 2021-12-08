@@ -109,6 +109,7 @@ void Play::distributeRoles() noexcept {
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
             stpInfos[roleName].setRobot(robot);
+            stpInfos[roleName].setRoleName(roleName);
         }
     }
     std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto &each) { each.second.setCurrentWorld(world); });
