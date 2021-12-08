@@ -42,7 +42,7 @@ class ControlUtils {
      * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines
      * @return The position projected to within the field
      */
-    static Vector2 projectPositionToWithinField(const rtt_world::Field &field, Vector2 position, double margin);
+    static Vector2 projectPositionToWithinField(const rtt::world::Field &field, Vector2 position, double margin);
 
     /**
      * Project given position to within the field with a certain margin
@@ -51,7 +51,7 @@ class ControlUtils {
      * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the defense area
      * @return The position projected to outside of the defense area
      */
-    static Vector2 projectPositionToOutsideDefenseArea(const rtt_world::Field &field, Vector2 position, double margin);
+    static Vector2 projectPositionToOutsideDefenseArea(const rtt::world::Field &field, Vector2 position, double margin);
 
     /**
      * Project given position to a valid position (within the field and outside of the defense area)
