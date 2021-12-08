@@ -4,6 +4,9 @@
 
 #include "control/positionControl/CollisionDetector.h"
 
+#include "control/ControlUtils.h"
+#include "world/FieldComputations.h"
+
 namespace rtt::ai::control {
 
 bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint) {

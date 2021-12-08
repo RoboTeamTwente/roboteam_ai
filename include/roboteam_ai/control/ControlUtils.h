@@ -8,28 +8,18 @@
 #include <roboteam_utils/Arc.h>
 #include <roboteam_utils/Grid.h>
 #include <roboteam_utils/Line.h>
-#include <stp/StpInfo.h>
+#include <utilities/StpInfoEnums.h>
 
 #include <cmath>
 #include <optional>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
-#include "world/FieldComputations.h"
-#include "world/views/WorldDataView.hpp"
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
 
-namespace rtt::ai {
-
-// fwd declarations
-namespace world {
-class Robot;
-}  // namespace world
-
-namespace control {
-namespace rtt_world = rtt::world;
+namespace rtt::ai::control {
 
 class ControlUtils {
    public:
@@ -97,7 +87,6 @@ class ControlUtils {
     static double getMaxVelocity(bool hasBall);
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_CONTROLUTILS_H

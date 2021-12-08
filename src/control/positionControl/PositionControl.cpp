@@ -6,7 +6,6 @@
 
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "roboteam_utils/Print.h"
-#include "stp/StpInfo.h"
 
 namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
