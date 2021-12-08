@@ -135,14 +135,4 @@ void Play::storePlayInfo(gen::PlayInfos &previousPlayInfo) noexcept {}
 
 bool Play::shouldEndPlay() noexcept { return false; }
 
-void Play::initRoles() noexcept {
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
-    for (auto &role : roles) {
-        role->reset();
-        auto roleName{role->getName()};
-        auto stpInfo = StpInfo{};
-        stpInfo.setRoleName(roleName);
-        stpInfos.emplace(roleName, stpInfo);
-    }
-}
 }  // namespace rtt::ai::stp

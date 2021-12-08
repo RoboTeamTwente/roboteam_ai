@@ -178,11 +178,6 @@ class Play {
      */
     std::optional<gen::PlayInfos> previousPlayInfos;
 
-    /**
-     * Function to initialize roles and make stpInfos map
-     */
-    void initRoles() noexcept;
-
    private:
     /**
      * This function refreshes the RobotViews, BallViews, and Fields for all StpInfo's. This also sets the maxRobotVelocity.
