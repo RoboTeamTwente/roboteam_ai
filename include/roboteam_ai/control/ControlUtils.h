@@ -61,7 +61,7 @@ class ControlUtils {
      * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines and defense area
      * @return The position projected to within the field and outside the defense areas
      */
-    static Vector2 projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, int id, double margin);
+    static Vector2 projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, const std::string roleName, double margin);
 
     /**
      * Determines the chip force based on the distance and the type of chip
@@ -78,6 +78,13 @@ class ControlUtils {
      * @return a kick speed between min and max kick speed
      */
     static double determineKickForce(const double distance, stp::ShotType shotType) noexcept;
+
+    /**
+     * Determine the max allowed velocity considering the game state and whether the robot has the ball
+     * @param hasBall Whether this robot has the ball
+     * @return The max allowed velocity for this robot
+     */
+    static double getMaxVelocity(bool hasBall);
 };
 
 }  // namespace rtt::ai::control

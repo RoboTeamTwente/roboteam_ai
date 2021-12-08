@@ -35,7 +35,6 @@ PlayTemplate::PlayTemplate() : Play() {
         std::make_unique<role::Formation>("role_2"), std::make_unique<role::Formation>("role_3"), std::make_unique<role::Formation>("role_4"),
         std::make_unique<role::Formation>("role_5"), std::make_unique<role::Formation>("role_6"), std::make_unique<role::Waller>("waller_0"),
         std::make_unique<role::Waller>("waller_1"),  std::make_unique<role::Waller>("waller_2")};
-    initRoles();  // DONT TOUCH.
 }
 
 Dealer::FlagMap PlayTemplate::decideRoleFlags() const noexcept {

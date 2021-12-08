@@ -135,8 +135,6 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:ad7d485c9aaa8680fb6d8fa861e06bcd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d8c7156c2f354991104cadfb0949a30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a7d8c7156c2f354991104cadfb0949a30">calculateInfoForPass</a> (const <a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html">world::ball::Ball</a> *ball) noexcept</td></tr>
 <tr class="separator:a7d8c7156c2f354991104cadfb0949a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcc700ea63605394699e5289b2b24e39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#adcc700ea63605394699e5289b2b24e39">initRoles</a> () noexcept</td></tr>
-<tr class="separator:adcc700ea63605394699e5289b2b24e39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -492,32 +490,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adcc700ea63605394699e5289b2b24e39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcc700ea63605394699e5289b2b24e39">&#9670;&nbsp;</a></span>initRoles()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rtt::ai::stp::Play::initRoles </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Function to initialize roles and make stpInfos map </p>
-
-</div>
-</div>
 <a id="abeaf3dc10b24291a77412079cd306905"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abeaf3dc10b24291a77412079cd306905">&#9670;&nbsp;</a></span>isValidPlayToKeep()</h2>
 
@@ -674,7 +646,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos. This is necessary because the views are stored for a limited time; not refreshing will lead to UB </p>
+<p>This function refreshes the RobotViews, BallViews, and Fields for all <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a>'s. This also sets the maxRobotVelocity. This is necessary because the views are stored for a limited time; not refreshing will lead to UB </p>
 
 </div>
 </div>
