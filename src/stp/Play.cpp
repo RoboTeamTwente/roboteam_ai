@@ -47,14 +47,13 @@ void Play::update() noexcept {
     // derived class method call
     calculateInfoForRoles();
 
-    // Loop through roles and update them if they exist in stpInfos
+    // Loop through roles and update them if they are assigned to a robot
     for (auto &role : roles) {
-        if (stpInfos.find(role->getName()) != stpInfos.end()) {
+        auto stpInfo = stpInfos.find(role->getName());
+        if (stpInfo != stpInfos.end() && stpInfo->second.getRobot()) {
             // Update and store the returned status
             auto roleStatus = role->update(stpInfos[role->getName()]);
             roleStatuses[role.get()] = roleStatus;
-        } else {
-            RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
         }
     }
 }
