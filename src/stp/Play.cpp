@@ -15,6 +15,7 @@ void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
     //            RTT_DEBUG(
     //                std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
     //        }
+    stpInfos.clear();
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -67,6 +68,7 @@ void Play::reassignRobots() noexcept {
         stpInfos.clear();
         return;
     }
+    stpInfos.clear();
     calculateInfoForRoles();
     distributeRoles();
 }
