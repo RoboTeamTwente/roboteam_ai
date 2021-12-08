@@ -3,7 +3,7 @@
 #include <roboteam_utils/Shadow.h>
 
 #include "world/views/WorldDataView.hpp"
-
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {
@@ -23,7 +23,7 @@ bool FieldComputations::pointIsInTheirDefenseArea(const rtt_world::Field &field,
     return pointIsInDefenseArea(field, point, false, margin, backMargin);
 }
 
-bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin){
     return pointIsInOurDefenseArea(field, point, margin, backMargin) || pointIsInTheirDefenseArea(field, point, margin, backMargin);
 }
 
@@ -36,13 +36,12 @@ bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, cons
     return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point, margin));
 }
 
-bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, const std::string roleName, double margin) {
-    if (roleName == "ball_placer") {
-        // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are
-        // further/closer
+bool FieldComputations::pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin) {
+    if (GameStateManager::getCurrentGameState().getStrategyName() == "ball_placement_us" && GameStateManager::getCurrentGameState().ballPlacerId == id){
+        // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are further/closer
         return pointIsInField(field, point, 0.5);
     }
-    bool isKeeper = roleName == "keeper";
+    bool isKeeper = id == GameStateManager::getCurrentGameState().keeperId;
     return pointIsInField(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 

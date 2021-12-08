@@ -6,19 +6,12 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include "stp/constants/ControlConstants.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/StpInfoEnums.h"
 #include "world/Field.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::control {
-
-double ControlUtils::getMaxVelocity(bool hasBall) {
-    double maxVel = rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
-    if (hasBall) maxVel = std::min(stp::control_constants::MAX_VEL_WHEN_HAS_BALL, maxVel);
-    return maxVel;
-}
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
 Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel, bool listenToReferee) {
     if (listenToReferee) {
@@ -104,13 +97,12 @@ Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const rtt::world::Fiel
     return position;
 }
 
-Vector2 ControlUtils::projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, const std::string roleName, double margin) {
-    if (!FieldComputations::pointIsInField(field, position)) {
+Vector2 ControlUtils::projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, int id, double margin) {
+    if (!FieldComputations::pointIsInField(field, position)){
         position = projectPositionToWithinField(field, position, margin);
     }
-    bool isKeeper = roleName == "keeper";
-    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin, margin) ||
-        (!isKeeper && FieldComputations::pointIsInOurDefenseArea(field, position, margin, margin))) {
+    bool isKeeper = id == rtt::ai::GameStateManager::getCurrentGameState().keeperId;
+    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin, margin) || (!isKeeper && FieldComputations::pointIsInOurDefenseArea(field, position, margin, margin))){
         position = projectPositionToOutsideDefenseArea(field, position, margin);
     }
     return position;
