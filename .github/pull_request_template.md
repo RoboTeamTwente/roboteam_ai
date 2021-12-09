@@ -1,35 +1,21 @@
-- [ ] The tests are passing
-
-### Summary
-Give a short summary of what the changes are and why you made them. If applicable, apply screenshots as well. 
-
-### Related issues
-If there are related issues, reference them here.
-
-fixes ...  
-fixes ...
-
 ### Comments for the reviewer
-If there are comments for the reviewer, leave them here
+- 
 
-### Checklist for the reviewer
-This acts as a guide to help you and/or the reviewer to analyze the code. 
+### Pre pull request checklist:
 
-**functionality**  
-- Is the code is properly tested?
-- Is the code working as expected
-- Is the code is understandable and easy to read
-- Are proper abstractions made? (no duplicate code, nice use of functions/objects)
+###### Code Quality
+- [ ] Is the code is understandable and easy to read
+- [ ] Changes to the code comply with set clang-format rules
+- [ ] No use of manual memory control (e.g new/malloc/colloc etc)
+- [ ] Are (only) smart pointers used?
 
-**style**  
-- Variables/objects/classes have proper names
-- Proper use of variables: nu unused vars, no magic numbers
-- No possible memory leaks. Mutexes properly used when multithreading? possible pointer issues?
-- Are smart pointers used?
-- unused variables?
-- magic numbers?
-- well documented?
-- No unused imports?
-- No leftover code / unused comments
-- Proper indentation
-- Proper use of namespaces
+###### Testing
+- [ ] All tests are passing.
+- [ ] I _added new / changed existing_ tests to reflect code changes (state why not otherwise!)
+- [ ] I tested my changes manually (Describe how, to what extent etc.)
+
+###### Commit Messages
+- [ ] Commit message is saying what has been changed, **why** it was changed? Remember other developers might not know
+  what the problem you are fixing was. Note also negative _decision_ (e.g., why did you not do particular thing)
+  **TLDR: Commit message are comprehensive**
+- [ ] Commit messages follows the rules of https://chris.beams.io/posts/git-commit/

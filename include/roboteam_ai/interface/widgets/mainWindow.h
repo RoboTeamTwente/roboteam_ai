@@ -14,13 +14,13 @@
 #include <QtGui>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
-#include "world/World.hpp"
 #include <iostream>
 #include <memory>
 
 #include "GraphWidget.h"
 #include "ManualControlWidget.h"
 #include "PidBox.h"
+#include "PlaysWidget.hpp"
 #include "QColor"
 #include "QHBoxLayout"
 #include "QPushButton"
@@ -29,7 +29,7 @@
 #include "RuleSetWidget.h"
 #include "STPVisualizerWidget.h"
 #include "widget.h"
-#include "PlaysWidget.hpp"
+#include "world/World.hpp"
 
 namespace rtt {
 class ApplicationManager;
@@ -74,8 +74,8 @@ class MainWindow : public QMainWindow {
     STPVisualizerWidget *keeperStpWidget;
     Visualizer *visualizer;
     GraphWidget *graphWidget;
-    PlaysWidget* playsWidget;
-//    InvariantsWidget *invariantsWidget;
+    PlaysWidget *playsWidget;
+    //    InvariantsWidget *invariantsWidget;
 };
 
 }  // namespace rtt::ai::interface

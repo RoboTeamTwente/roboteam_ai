@@ -7,9 +7,10 @@
 #ifndef ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 #define ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+
 #include "RefGameState.h"
 #include "StrategyManager.h"
-#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 
 namespace rtt::ai {
 
@@ -22,6 +23,7 @@ class GameStateManager {
     static bool canMoveOutsideField(int robotId);
     static void forceNewGameState(RefCommand cmd, std::optional<rtt::world::view::BallView> ball);
     static Vector2 getRefereeDesignatedPosition();
+    static void updateInterfaceGameState(const char* name);
 
    private:
     static proto::SSL_Referee refMsg;

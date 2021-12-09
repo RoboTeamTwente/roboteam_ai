@@ -34,7 +34,8 @@ void Constants::OVERWRITE_GRSIM(bool grsim) {
     robotOutputTargetGrSim = grsim;
 }
 
-int Constants::DEFAULT_KEEPER_ID() { return 0; }
+/// Set to a valid Id to make that robot keeper. Otherwise, keeper will be first distributed based on cost.
+int Constants::DEFAULT_KEEPER_ID() { return -1; }
 
 bool Constants::FEEDBACK_ENABLED() { return true; }
 
@@ -125,7 +126,7 @@ double Constants::DEFAULT_BALLCOLLISION_RADIUS() { return 0.27; }
 
 double Constants::KEEPER_POST_MARGIN() { return 0.08; }
 
-double Constants::KEEPER_CENTREGOAL_MARGIN() { return 0.5; }
+double Constants::KEEPER_CENTREGOAL_MARGIN() { return 0.2; }
 
 double Constants::KEEPER_PENALTY_LINE_MARGIN() { return 0.06; }
 

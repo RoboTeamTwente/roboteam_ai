@@ -6,10 +6,9 @@
 
 #include <roboteam_utils/Grid.h>
 
+#include "stp/StpInfo.h"
 #include "utilities/GameStateManager.hpp"
 #include "world/Field.h"
-
-#include "stp/StpInfo.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::control {
@@ -74,8 +73,6 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 }
 
-/// Returns point in field closest to a given point.
-/// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(const rtt::world::Field &field, Vector2 position, double margin) {
     double hFieldLength = field.getFieldLength() / 2;
     position.x = std::min(position.x, hFieldLength - margin);
@@ -88,15 +85,25 @@ Vector2 ControlUtils::projectPositionToWithinField(const rtt::world::Field &fiel
     return position;
 }
 
-/// Projects the position outside the defense area
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const rtt::world::Field &field, Vector2 position, double margin) {
-    if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
+    if (FieldComputations::pointIsInOurDefenseArea(field, position, margin)) {
         position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
         return position;
     }
-    if (FieldComputations::pointIsInDefenseArea(field, position, false, margin)) {
+    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin)) {
         position.x = std::min(position.x, field.getRightPenaltyX() - margin);
         return position;
+    }
+    return position;
+}
+
+Vector2 ControlUtils::projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, int id, double margin) {
+    if (!FieldComputations::pointIsInField(field, position)){
+        position = projectPositionToWithinField(field, position, margin);
+    }
+    bool isKeeper = id == rtt::ai::GameStateManager::getCurrentGameState().keeperId;
+    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin, margin) || (!isKeeper && FieldComputations::pointIsInOurDefenseArea(field, position, margin, margin))){
+        position = projectPositionToOutsideDefenseArea(field, position, margin);
     }
     return position;
 }
@@ -132,7 +139,7 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
     // TODO: Needs further tuning
     constexpr double TARGET_FACTOR{0.5};
     double PASS_FACTOR = 0;
-    if(distance > 2) {
+    if (distance > 2) {
         PASS_FACTOR = 1.445;
     } else {
         PASS_FACTOR = 1.745;

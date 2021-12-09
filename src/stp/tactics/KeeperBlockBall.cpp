@@ -10,27 +10,30 @@
 
 namespace rtt::ai::stp::tactic {
 
-KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
+KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
 std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot()) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
-    auto keeper = info.getRobot().value();
-    auto enemyRobot = info.getEnemyRobot().value();
+    if (!skillStpInfo.getEnemyRobot()) {
+        skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + Constants::KEEPER_CENTREGOAL_MARGIN(), 0));
+        return skillStpInfo;
+    }
 
-    auto keeperToBall = ball->getPos() - keeper->getPos();
+    // Look towards ball to ensure ball hits the front assembly to reduce odds of ball reflecting in goal
+    auto keeperToBall = ball->getPos() - skillStpInfo.getRobot()->get()->getPos();
+    skillStpInfo.setAngle(keeperToBall.angle());
+
+    auto enemyRobot = info.getEnemyRobot().value();
 
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
-    auto targetAngle = keeperToBall.angle();
-    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,targetPosition.first.y));
     skillStpInfo.setPidType(targetPosition.second);
-    skillStpInfo.setAngle(targetAngle);
-
+    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2, targetPosition.first.y));
     return skillStpInfo;
 }
 
@@ -53,31 +56,43 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
     if (ball->getPos().x < 0) {
         auto keeperArc = Arc(field.getOurGoalCenter(), DISTANCE_FROM_GOAL_FAR, -M_PI / 2, M_PI / 2);
 
-        // Ball is moving
+        // Keeper should not move too far to the side, it is not great if the keeper is halfway out of the goal
+        auto minKeeperY = field.getOurBottomGoalSide().y + control_constants::DISTANCE_TO_ROBOT_CLOSE;
+        auto maxKeeperY = field.getOurTopGoalSide().y - control_constants::DISTANCE_TO_ROBOT_CLOSE;
+
         // Intercept ball when it is moving towards the goal
         if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
             auto start = ball->getPos();
-            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.2);
-            auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
-            auto endGoal = field.getOurBottomGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
+            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength());
+            // Goal is made a bit "bigger" to ensure robot still moves towards ball trajectory
+            // even when it thinks the ball will just miss, as this can be error prone
+            auto startGoal = field.getOurTopGoalSide() + Vector2(0, control_constants::DISTANCE_TO_ROBOT_CLOSE);
+            auto endGoal = field.getOurBottomGoalSide() - Vector2(0, control_constants::DISTANCE_TO_ROBOT_CLOSE);
 
             auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
             if (intersection) {
-                return std::make_pair(intersection.value(), PIDType::DEFAULT);
+                // Clamp y between goal to ensure robot does not move out of goal
+                intersection.value().y = std::clamp(intersection.value().y, field.getOurBottomGoalSide().y, field.getOurTopGoalSide().y);
+                return std::make_pair(intersection.value(), PIDType::KEEPER);
             }
         }
 
-        // Opponent is close to ball
+        // Opponent is close to ball and aiming towards the goal
         // Block the ball by staying on the shot line of the opponent
         if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
             auto start = enemyRobot->getPos();
-            auto enemyToBall = ball->getPos() - start;
-            auto end = start + enemyToBall.stretchToLength(field.getFieldLength() * 0.5);
-            const auto &startGoal = field.getOurTopGoalSide();
-            const auto &endGoal = field.getOurBottomGoalSide();
+            auto robotAngle = enemyRobot->getAngle();
+            auto end = start + robotAngle.toVector2().stretchToLength(field.getFieldLength());
+            // Goal is made a bit "bigger" to ensure robot still moves towards expected target position
+            // even when it thinks the ball will just miss, as this can be error prone
+            auto startGoal = field.getOurTopGoalSide() + Vector2(0, control_constants::DISTANCE_TO_ROBOT_CLOSE);
+            auto endGoal = field.getOurBottomGoalSide() - Vector2(0, control_constants::DISTANCE_TO_ROBOT_CLOSE);
 
             auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
             if (intersection) {
+                // Clamp y between goal to ensure robot does not move out of goal
+                intersection.value().y = std::clamp(intersection.value().y, minKeeperY, maxKeeperY);
+
                 auto targetPositions = keeperArc.intersectionWithLine(start, intersection.value());
 
                 if (targetPositions.first) {
@@ -88,18 +103,10 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
             }
         }
 
-        // Stay between the ball and the center of the goal
-        auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
-
-        if (targetPositions.first) {
-            return std::make_pair(targetPositions.first.value(), PIDType::DEFAULT);
-        } else if (targetPositions.second) {
-            return std::make_pair(targetPositions.second.value(), PIDType::DEFAULT);
-        }
+        // Default positioning, stand at same y as the ball is currently located, clamped between the goal
+        auto targetPosition = Vector2(field.getOurGoalCenter().x + control_constants::ROBOT_CLOSE_TO_POINT, std::clamp(ball->getPos().y, minKeeperY, maxKeeperY));
+        return std::make_pair(targetPosition, PIDType::DEFAULT);
     }
-
-    // Default position
-    return std::make_pair(field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0), PIDType::DEFAULT);
 }
 
 }  // namespace rtt::ai::stp::tactic

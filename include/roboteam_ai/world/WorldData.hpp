@@ -5,15 +5,15 @@
 #ifndef RTT_WORLD_DATA_HPP
 #define RTT_WORLD_DATA_HPP
 
-#include <optional>
-#include <vector>
-#include "world/views/RobotView.hpp"
-
 #include <roboteam_proto/RobotFeedback.pb.h>
 #include <roboteam_proto/Setting.pb.h>
 #include <roboteam_proto/World.pb.h>
 
+#include <optional>
+#include <vector>
+
 #include "utilities/Settings.h"
+#include "world/views/RobotView.hpp"
 
 namespace rtt::world {
 class World;
@@ -42,7 +42,7 @@ class WorldData {
      *
      * Ownership is taken of protoMsg
      */
-    WorldData(const World* data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
+    WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
 
     /**
      * Owning container of robots

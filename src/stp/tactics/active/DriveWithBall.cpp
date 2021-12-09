@@ -17,7 +17,7 @@ namespace rtt::ai::stp::tactic {
 DriveWithBall::DriveWithBall() {
     // Create state machine of skills and initialize first skill
     // TODO: The rotate skill might be unnecessary in this tactic if our dribbler works well whilst driving backwards
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{/*skill::Rotate(), */skill::GoToPos()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{/*skill::Rotate(), */ skill::GoToPos()};
 }
 
 std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {

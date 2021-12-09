@@ -11,9 +11,9 @@ namespace rtt::ai::stp::skill {
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
-    if (!FieldComputations::pointIsInField(info.getField().value(), targetPos)) {
-        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId())
-        targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
+    if (!FieldComputations::pointIsValidPositionForId(info.getField().value(), targetPos, info.getRobot()->get()->getId())) {
+        RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
+        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRobot()->get()->getId(), control_constants::ROBOT_RADIUS);
     }
 
     bool useOldPathPlanning = true;
@@ -28,16 +28,23 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value(), isRobotKeeper);
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
-        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
-            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
-            info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(info.getCurrentWorld(), info.getField().value(),
+                                                                                                        info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+                                                                                                        info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     }
 
     if (commandCollision.collisionData.has_value()) {
         return Status::Failure;
     }
+
+    double targetVelocityLength;
+    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS / 2) {
+        RTT_DEBUG("Setting max vel");
+        targetVelocityLength = stp::control_constants::MAX_VEL_CMD;
+    } else {
+        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
+    }
     // Clamp and set velocity
-    double targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     Vector2 targetVelocity = commandCollision.robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
