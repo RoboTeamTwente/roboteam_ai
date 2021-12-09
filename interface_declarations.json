@@ -1,24 +1,62 @@
 [
   {
-    "path": "/hello/hello",
+    "path": "/Main/Team Comp/Goalie",
     "description": "Some random button",
-    "isMutable": true,
+    "isMutable": false,
     "defaultValue": {
-      "string": "I work!"
+      "bool": true
     },
-    "text": {
+    "checkbox": {
       "text": "Some Text"
     }
   },
   {
-    "path": "/hello/world",
+    "path": "/STP/Behaviour/SOME_STP_VAR",
     "description": "Some random button",
-    "isMutable": true,
+    "isMutable": false,
     "defaultValue": {
-      "string": "I work!"
+      "float": 1.0
+    },
+    "slider": {
+      "text": "Some Text",
+      "min": 0,
+      "max": 100,
+      "interval": 1,
+      "dpi": 1
+    }
+  },
+  {
+    "path": "/STP/Behaviour/RADIO",
+    "description": "Some random button",
+    "isMutable": false,
+    "defaultValue": {
+      "int": 2
+    },
+    "radio": {
+      "options": ["Hello", "world!"]
+    }
+  },
+  {
+  "path": "/STP/Behaviour/DROPDOWN",
+  "description": "Some random button",
+  "isMutable": false,
+  "defaultValue": {
+    "int": 0
+  },
+  "dropdown": {
+    "text": "AA",
+    "options": ["Hello", "world!"]
+  }
+},
+  {
+    "path": "/STP/Behaviour/TEXT",
+    "description": "Some random button",
+    "isMutable": false,
+    "defaultValue": {
+      "string": "text"
     },
     "text": {
-      "text": "Some Text"
+      "text": "AA"
     }
   }
 ]

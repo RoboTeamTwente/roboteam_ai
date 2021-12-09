@@ -28,7 +28,7 @@ std::optional<proto::ModuleState> InterfaceController::getChanges() {
 }
 
 void InterfaceController::handleUpdate(proto::UiValues val) {
-    this->settings->handleData(val);
+    this->settings->handleData(val, this->declarations);
 }
 
 InterfaceController::InterfaceController(const std::string pathToDecls) {
