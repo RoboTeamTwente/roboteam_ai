@@ -6,10 +6,9 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include "stp/evaluations/position/BlockingEvaluation.h"
-#include "stp/evaluations/position/GoalShotEvaluation.h"
-#include "stp/evaluations/position/LineOfSightEvaluation.h"
-#include "stp/evaluations/position/OpennessEvaluation.h"
+#include "stp/computations/PositionScoring.h"
+#include "stp/computations/ComputationManager.h"
+
 
 #include "world/Field.h"
 #include "world/World.hpp"
