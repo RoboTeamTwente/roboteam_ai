@@ -27,8 +27,6 @@ FreeKickThem::FreeKickThem() : Play() {
         std::make_unique<role::Defender>("defender_2"), std::make_unique<role::Defender>("blocker_0"),  std::make_unique<role::Defender>("blocker_1"),
         std::make_unique<role::Defender>("blocker_2"),  std::make_unique<role::Defender>("blocker_3"),  std::make_unique<role::Defender>("blocker_4"),
         std::make_unique<role::Defender>("blocker_5"),  std::make_unique<role::Formation>("offender")};
-
-    initRoles();  // DONT TOUCH.
 }
 
 Dealer::FlagMap FreeKickThem::decideRoleFlags() const noexcept {

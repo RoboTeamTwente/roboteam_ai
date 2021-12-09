@@ -88,15 +88,20 @@ void STPVisualizerWidget::displayTactic(stp::Tactic *tactic, bool last) {
 }
 
 void STPVisualizerWidget::displayRole(stp::Role *role, stp::Status state, bool last, bool updatingForKeeper) {
+    auto &curBot = role->getCurrentRobot();
+    auto &botView = curBot.value();
+
+    if (!updatingForKeeper && role->getName() == "keeper" && GameStateManager::getCurrentGameState().keeperId == botView->getId()) {
+        parent->setKeeperRole(role, state);
+        return;
+    }
     updateContent << "Role: ";
     updateContent << role->getName() << " ";
-    auto &curBot = role->getCurrentRobot();
     if (!curBot) {
         updateContent << "None<br>" << tab;
         return;
     }
 
-    auto &botView = curBot.value();
     if (!botView) {
         updateContent << "None<br>" << tab;
         return;
@@ -104,10 +109,6 @@ void STPVisualizerWidget::displayRole(stp::Role *role, stp::Status state, bool l
 
     parent->setPlayForRobot(role->getName(), botView->getId());
 
-    if (!updatingForKeeper && GameStateManager::getCurrentGameState().keeperId == botView->getId()) {
-        parent->setKeeperRole(role, state);
-        return;
-    }
     updateContent << "Robot ID: " << botView->getId() << " => ";
     outputStatus(state);
     updateContent << ":<br>" << tab << tab;
