@@ -39,7 +39,7 @@ constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 /// RobotCommand limits
 // TODO: for testing, this is set to 1.89!
 constexpr double MAX_VEL_CMD = 8;
-constexpr double MAX_DRIBBLER_CMD = 31;
+constexpr double MAX_DRIBBLER_CMD = 1;
 // Angle increment per tick
 constexpr double ANGLE_RATE = 0.1 * M_PI;
 constexpr double MAX_VEL_WHEN_HAS_BALL = 3.0;
