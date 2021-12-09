@@ -4,7 +4,6 @@
 
 #include "stp/Play.hpp"
 
-#include "control/ControlUtils.h"
 #include "interface/widgets/MainControlsWidget.h"
 
 namespace rtt::ai::stp {
@@ -15,7 +14,6 @@ void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
     //            RTT_DEBUG(
     //                std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
     //        }
-    stpInfos.clear();
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -47,13 +45,14 @@ void Play::update() noexcept {
     // derived class method call
     calculateInfoForRoles();
 
-    // Loop through roles and update them if they are assigned to a robot
+    // Loop through roles and update them if they exist in stpInfos
     for (auto &role : roles) {
-        auto stpInfo = stpInfos.find(role->getName());
-        if (stpInfo != stpInfos.end() && stpInfo->second.getRobot()) {
+        if (stpInfos.find(role->getName()) != stpInfos.end()) {
             // Update and store the returned status
             auto roleStatus = role->update(stpInfos[role->getName()]);
             roleStatuses[role.get()] = roleStatus;
+        } else {
+            RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
         }
     }
 }
@@ -67,7 +66,6 @@ void Play::reassignRobots() noexcept {
         stpInfos.clear();
         return;
     }
-    stpInfos.clear();
     calculateInfoForRoles();
     distributeRoles();
 }
@@ -82,8 +80,6 @@ void Play::refreshData() noexcept {
         if (stpInfo != stpInfos.end() && stpInfo->second.getRobot().has_value()) {
             // Get a new RobotView from world using the old robot id
             stpInfo->second.setRobot(world->getWorld()->getRobotForId(stpInfo->second.getRobot()->get()->getId()));
-
-            stpInfo->second.setMaxRobotVelocity(control::ControlUtils::getMaxVelocity(stpInfo->second.getRobot()->hasBall()));
 
             // Assign the new BallView and field
             stpInfo->second.setBall(newBallView);
@@ -109,7 +105,6 @@ void Play::distributeRoles() noexcept {
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
             stpInfos[roleName].setRobot(robot);
-            stpInfos[roleName].setRoleName(roleName);
         }
     }
     std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto &each) { each.second.setCurrentWorld(world); });
@@ -135,4 +130,12 @@ void Play::storePlayInfo(gen::PlayInfos &previousPlayInfo) noexcept {}
 
 bool Play::shouldEndPlay() noexcept { return false; }
 
+void Play::initRoles() noexcept {
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto &role : roles) {
+        role->reset();
+        auto roleName{role->getName()};
+        stpInfos.emplace(roleName, StpInfo{});
+    }
+}
 }  // namespace rtt::ai::stp

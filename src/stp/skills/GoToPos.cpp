@@ -11,9 +11,9 @@ namespace rtt::ai::stp::skill {
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
-    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getRoleName())) {
+    if (!FieldComputations::pointIsValidPositionForId(info.getField().value(), targetPos, info.getRobot()->get()->getId())) {
         RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
-        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
+        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRobot()->get()->getId(), control_constants::ROBOT_RADIUS);
     }
 
     bool useOldPathPlanning = true;
@@ -37,9 +37,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     double targetVelocityLength;
     if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS / 2) {
         RTT_DEBUG("Setting max vel");
-        targetVelocityLength = info.getMaxRobotVelocity();
+        targetVelocityLength = stp::control_constants::MAX_VEL_CMD;
     } else {
-        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, info.getMaxRobotVelocity());
+        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     }
     // Clamp and set velocity
     Vector2 targetVelocity = commandCollision.robotCommand.vel.stretchToLength(targetVelocityLength);

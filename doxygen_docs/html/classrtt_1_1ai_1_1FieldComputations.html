@@ -91,8 +91,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a427c5e6001e2bb6c573a4f913c7737ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8876be13c8bb814dc41331dd741b7f6b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a8876be13c8bb814dc41331dd741b7f6b">pointIsValidPosition</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, double margin=0.0)</td></tr>
 <tr class="separator:a8876be13c8bb814dc41331dd741b7f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf2a9a18e1d273b11312d98cfdcfd469"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#adf2a9a18e1d273b11312d98cfdcfd469">pointIsValidPosition</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, std::string roleName, double margin=0.0)</td></tr>
-<tr class="separator:adf2a9a18e1d273b11312d98cfdcfd469"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0b6fe61a00d0057cef7c3434f68d1a7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#ac0b6fe61a00d0057cef7c3434f68d1a7">pointIsValidPositionForId</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, int id, double margin=0.0)</td></tr>
+<tr class="separator:ac0b6fe61a00d0057cef7c3434f68d1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b785ca82076f8e7801608dc15095a5c"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a7b785ca82076f8e7801608dc15095a5c">getPercentageOfGoalVisibleFromPoint</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, <a class="el" href="classrtt_1_1world_1_1view_1_1WorldDataView.html">rtt::world::view::WorldDataView</a> world, int id=-1, bool ourTeam=false)</td></tr>
 <tr class="separator:a7b785ca82076f8e7801608dc15095a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19e1384a58bef8a0ef8b8c9e6566d8ce"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; LineSegment &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a19e1384a58bef8a0ef8b8c9e6566d8ce">getVisiblePartsOfGoal</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, rtt_world::view::WorldDataView &amp;world)</td></tr>
@@ -1177,7 +1177,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a8876be13c8bb814dc41331dd741b7f6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8876be13c8bb814dc41331dd741b7f6b">&#9670;&nbsp;</a></span>pointIsValidPosition() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8876be13c8bb814dc41331dd741b7f6b">&#9670;&nbsp;</a></span>pointIsValidPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1227,8 +1227,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adf2a9a18e1d273b11312d98cfdcfd469"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf2a9a18e1d273b11312d98cfdcfd469">&#9670;&nbsp;</a></span>pointIsValidPosition() <span class="overload">[2/2]</span></h2>
+<a id="ac0b6fe61a00d0057cef7c3434f68d1a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0b6fe61a00d0057cef7c3434f68d1a7">&#9670;&nbsp;</a></span>pointIsValidPositionForId()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1237,7 +1237,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool rtt::ai::FieldComputations::pointIsValidPosition </td>
+          <td class="memname">bool rtt::ai::FieldComputations::pointIsValidPositionForId </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
           <td class="paramname"><em>field</em>, </td>
@@ -1251,8 +1251,8 @@ Static Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>roleName</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1276,7 +1276,7 @@ Static Private Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">field</td><td>The field class which is used to determine the boundaries of the field. </td></tr>
     <tr><td class="paramname">point</td><td>The point for which it is checked whether it is valid or not </td></tr>
-    <tr><td class="paramname">roleName</td><td>the name of the role associated with this robot </td></tr>
+    <tr><td class="paramname">id</td><td>The id of the robot for which this point is checked </td></tr>
     <tr><td class="paramname">margin</td><td>The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be expanded, a negative value means that the field area will be shrinked. </td></tr>
   </table>
   </dd>
