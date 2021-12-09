@@ -170,7 +170,7 @@ Dealer::FlagScore Dealer::getRobotScoreForFlag(v::RobotView robot, Dealer::Deale
 // Get the distance score for a robot to a position when there is a position that role needs to go to
 double Dealer::getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
-    if (robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
+    if (stpInfo.getRoleName() == "keeper" && robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
         distance = 0;
     } else if (stpInfo.getPositionToMoveTo().has_value()) {
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());

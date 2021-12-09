@@ -145,6 +145,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1df43830b59317810f37af61604176b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8da204049ecbf5fb14d39e30c66613c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a8da204049ecbf5fb14d39e30c66613c7">setRoleScore</a> (const std::optional&lt; uint8_t &gt; &amp;RoleScore)</td></tr>
 <tr class="separator:a8da204049ecbf5fb14d39e30c66613c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e572233bed6bed977c93b3ebb4332ba"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a1e572233bed6bed977c93b3ebb4332ba">getMaxRobotVelocity</a> () const</td></tr>
+<tr class="separator:a1e572233bed6bed977c93b3ebb4332ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4f0191be550edf701259b9677e58f35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#ac4f0191be550edf701259b9677e58f35">setMaxRobotVelocity</a> (double maxVelocity)</td></tr>
+<tr class="separator:ac4f0191be550edf701259b9677e58f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f87348d274da02c9200ef7b3d529aec"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a1f87348d274da02c9200ef7b3d529aec">getRoleName</a> () const</td></tr>
+<tr class="separator:a1f87348d274da02c9200ef7b3d529aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af75aeb911553108d67f5cc5c0032bf49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#af75aeb911553108d67f5cc5c0032bf49">setRoleName</a> (std::string name)</td></tr>
+<tr class="separator:af75aeb911553108d67f5cc5c0032bf49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -180,6 +188,10 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aad90a04aedd3194a47e56186f03038cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adebb7ef171fec064c5fe99f3db334e72"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#adebb7ef171fec064c5fe99f3db334e72">roleScore</a></td></tr>
 <tr class="separator:adebb7ef171fec064c5fe99f3db334e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ba3f581e2b53fa4ee8bd269e5fcdc3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a79ba3f581e2b53fa4ee8bd269e5fcdc3">maxRobotVelocity</a></td></tr>
+<tr class="separator:a79ba3f581e2b53fa4ee8bd269e5fcdc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85b040068008db82349f2a7a38659301"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a85b040068008db82349f2a7a38659301">roleName</a></td></tr>
+<tr class="separator:a85b040068008db82349f2a7a38659301"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> bundles all info a robot could need in one struct This data propagates all the way from plays down to skills </p>
@@ -409,6 +421,31 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a1e572233bed6bed977c93b3ebb4332ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e572233bed6bed977c93b3ebb4332ba">&#9670;&nbsp;</a></span>getMaxRobotVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rtt::ai::stp::StpInfo::getMaxRobotVelocity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac0e3345b44bb02524990a559e84b5995"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac0e3345b44bb02524990a559e84b5995">&#9670;&nbsp;</a></span>getPidType()</h2>
 
@@ -520,6 +557,31 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">const std::optional&lt;<a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a>&gt;&amp; rtt::ai::stp::StpInfo::getRobot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1f87348d274da02c9200ef7b3d529aec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f87348d274da02c9200ef7b3d529aec">&#9670;&nbsp;</a></span>getRoleName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string rtt::ai::stp::StpInfo::getRoleName </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -820,6 +882,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ac4f0191be550edf701259b9677e58f35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4f0191be550edf701259b9677e58f35">&#9670;&nbsp;</a></span>setMaxRobotVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::stp::StpInfo::setMaxRobotVelocity </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxVelocity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae8482808ab4fb66b8a4ba8040fb47bf0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae8482808ab4fb66b8a4ba8040fb47bf0">&#9670;&nbsp;</a></span>setPidType()</h2>
 
@@ -964,6 +1052,32 @@ Private Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype">const std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>robot</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af75aeb911553108d67f5cc5c0032bf49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af75aeb911553108d67f5cc5c0032bf49">&#9670;&nbsp;</a></span>setRoleName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::stp::StpInfo::setRoleName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1236,6 +1350,29 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a79ba3f581e2b53fa4ee8bd269e5fcdc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ba3f581e2b53fa4ee8bd269e5fcdc3">&#9670;&nbsp;</a></span>maxRobotVelocity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rtt::ai::stp::StpInfo::maxRobotVelocity</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The maximum velocity the robot is allowed to have </p>
+
+</div>
+</div>
 <a id="aad90a04aedd3194a47e56186f03038cf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aad90a04aedd3194a47e56186f03038cf">&#9670;&nbsp;</a></span>PidType</h2>
 
@@ -1348,6 +1485,29 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Robot this tactic applies to </p>
+
+</div>
+</div>
+<a id="a85b040068008db82349f2a7a38659301"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85b040068008db82349f2a7a38659301">&#9670;&nbsp;</a></span>roleName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string rtt::ai::stp::StpInfo::roleName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The name of the role associated with this <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> </p>
 
 </div>
 </div>
