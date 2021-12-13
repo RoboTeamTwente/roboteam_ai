@@ -5,17 +5,25 @@
 #include "stp/tactics/TestTactic.h"
 
 #include "stp/skills/TestSkill.h"
+#include "stp/skills/Chip.h"
+#include "stp/skills/GoToPos.h"
+#include "control/ControlUtils.h"
 
 namespace rtt::ai::stp {
 
 TestTactic::TestTactic() {
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::TestSkill()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill:: GoToPos(), skill::Chip()};
 }
 
 std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
+
+
+
     StpInfo skillStpInfo = info;
     if (!skillStpInfo.getField()) return std::nullopt;
+    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getShotType()));
     return skillStpInfo;
 }
 

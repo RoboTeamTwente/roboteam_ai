@@ -3,12 +3,15 @@
 //
 
 #include "stp/skills/Chip.h"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::stp::skill {
 
 Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set chip velocity
+    RTT_DEBUG(info.getKickChipVelocity());
     float chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_CHIP_POWER);
+    RTT_DEBUG(chipVelocity);
 
     // Set chip command
     command.set_chipper(true);

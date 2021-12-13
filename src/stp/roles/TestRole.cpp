@@ -5,6 +5,7 @@
 #include "stp/roles/TestRole.h"
 
 #include "stp/tactics/TestTactic.h"
+#include "stp/tactics/active/GetBall.h"
 
 namespace rtt::ai::stp {
 

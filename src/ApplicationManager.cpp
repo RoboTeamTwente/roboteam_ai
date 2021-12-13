@@ -78,6 +78,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;

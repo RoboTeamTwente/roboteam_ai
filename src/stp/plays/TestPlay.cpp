@@ -7,6 +7,7 @@
 #include "stp/plays/TestPlay.h"
 
 #include "stp/roles/TestRole.h"
+#include "stp/roles/passive/Halt.h"
 
 namespace rtt::ai::stp {
 
@@ -20,9 +21,10 @@ TestPlay::TestPlay() : Play() {
 
     /// Role creation, the names should be unique. The names are used in the stpInfos-map.
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<TestRole>("role_0"), std::make_unique<TestRole>("role_1"), std::make_unique<TestRole>("role_2"), std::make_unique<TestRole>("role_3"),
-        std::make_unique<TestRole>("role_4"), std::make_unique<TestRole>("role_5"), std::make_unique<TestRole>("role_6"), std::make_unique<TestRole>("role_7"),
-        std::make_unique<TestRole>("role_8"), std::make_unique<TestRole>("role_9"), std::make_unique<TestRole>("role_10")};
+        std::make_unique<TestRole>("role_0"), std::make_unique<role::Halt>(role::Halt("formation_1")), std::make_unique<role::Halt>(role::Halt("formation_2")),
+        std::make_unique<role::Halt>(role::Halt("formation_3")), std::make_unique<role::Halt>(role::Halt("formation_4")),std::make_unique<role::Halt>(role::Halt("formation_5")),
+        std::make_unique<role::Halt>(role::Halt("formation_6")), std::make_unique<role::Halt>(role::Halt("formation_7")), std::make_unique<role::Halt>(role::Halt("formation_8")),
+        std::make_unique<role::Halt>(role::Halt("formation_9")),std::make_unique<role::Halt>(role::Halt("formation_10"))};
 }
 
 uint8_t TestPlay::score(PlayEvaluator &playEvaluator) noexcept { return 0; }
@@ -45,7 +47,15 @@ Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-void TestPlay::calculateInfoForRoles() noexcept {}
+void TestPlay::calculateInfoForRoles() noexcept {
+    /// Function where are roles get their information, make sure not to compute roles twice.
+
+    // TODO: the shoot position might need to change
+    stpInfos["role_0"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() - Vector2{0.02, 0.0});
+    stpInfos["role_0"].setPositionToShootAt(world->getField()->getTheirGoalCenter());
+    stpInfos["role_0"].setShotType(ShotType::MAX);
+}
+
 
 const char *TestPlay::getName() { return "Test Play"; }
 
