@@ -1,7 +1,6 @@
 #include "ApplicationManager.h"
 
 #include <roboteam_utils/Timer.h>
-#include <roboteam_utils/normalize.h>
 #include <stp/plays/referee_specific/TimeOut.h>
 
 #include <chrono>
@@ -9,6 +8,7 @@
 #include "control/ControlModule.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
+#include <utilities/normalize.h>
 #include "stp/computations/ComputationManager.h"
 
 /**
