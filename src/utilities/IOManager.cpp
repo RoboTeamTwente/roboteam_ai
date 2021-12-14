@@ -16,7 +16,7 @@ IOManager::~IOManager() {
     this->robotCommandsBluePublisher = nullptr;
     this->robotCommandsYellowPublisher = nullptr;
     this->settingsPublisher = nullptr;
-    //this->central_server_connection;
+    this->centralServerConnection = nullptr;
 }
 
 void IOManager::init(int teamId) {
@@ -26,7 +26,7 @@ void IOManager::init(int teamId) {
 
     this->settingsPublisher = std::make_unique<rtt::net::SettingsPublisher>();
 
-    //central_server_connection = new networking::PairReceiver<16970>();
+    this->centralServerConnection = std::make_unique<net::utils::PairReceiver<16970>>();
 }
 
 //////////////////////
@@ -60,7 +60,7 @@ void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& 
             protoCommand->CopyFrom(robotCommand);
         }
         command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
-        this->robotCommandsBluePublisher->publish(command);
+        this->publishRobotCommands(command, true);
     }
 }
 
@@ -84,7 +84,7 @@ void IOManager::handleCentralServerConnection() {
     bool received = true;
     int numReceivedMessages = 0;
     while (received) {
-        auto receivedUIOptions = central_server_connection->read_next<proto::UiSettings>();
+        auto receivedUIOptions = this->centralServerConnection->read_next<proto::UiSettings>();
         if (receivedUIOptions.is_ok()) {
             // TODO: process value
             receivedUIOptions.value().PrintDebugString();
@@ -105,7 +105,7 @@ void IOManager::handleCentralServerConnection() {
         std::lock_guard<std::mutex> lock(stateMutex);  // read lock
         module_state.mutable_system_state()->mutable_state()->CopyFrom(state);
     }
-    central_server_connection->write(module_state, true);
+    this->centralServerConnection->write(module_state, true);
 }
 proto::State IOManager::getState() {
     std::lock_guard<std::mutex> lock(stateMutex);  // read lock

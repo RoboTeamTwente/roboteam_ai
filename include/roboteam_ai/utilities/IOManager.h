@@ -35,7 +35,7 @@ class IOManager {
 
     rtt::ai::Pause *pause;
 
-    rtt::net::utils::PairReceiver<16970> *central_server_connection;
+    std::unique_ptr<rtt::net::utils::PairReceiver<16970>> centralServerConnection;
 
     bool publishRobotCommands(const proto::AICommand& aiCommand, bool forTeamYellow);
 
