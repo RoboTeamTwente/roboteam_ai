@@ -16,8 +16,8 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
       dribblerState{dribblerState},
       id{copy.id()},
       angle{copy.angle()},
-      pos{copy.pos()},
-      vel{copy.vel()},
+      pos{copy.pos().x(), copy.pos().y()},
+      vel{copy.vel().x(), copy.vel().y()},
       angularVelocity{copy.w()} {
     if (id < 16) {
         workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);

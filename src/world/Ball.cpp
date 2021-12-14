@@ -10,7 +10,7 @@
 
 namespace rtt::world::ball {
 
-Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos()}, velocity{copy.vel()}, visible{copy.visible()} { initializeCalculations(data); }
+Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos().x(), copy.pos().y()}, velocity{copy.vel().x(), copy.vel().y()}, visible{copy.visible()} { initializeCalculations(data); }
 
 const Vector2& Ball::getPos() const noexcept { return position; }
 

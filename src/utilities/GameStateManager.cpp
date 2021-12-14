@@ -65,12 +65,12 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
             case proto::SSL_Referee_Command_TIMEOUT_BLUE:
                 cmd = RefCommand::TIMEOUT_THEM;
                 break;
-            case proto::SSL_Referee_Command_GOAL_YELLOW:
-                cmd = RefCommand::GOAL_US;
-                break;
-            case proto::SSL_Referee_Command_GOAL_BLUE:
-                cmd = RefCommand::GOAL_THEM;
-                break;
+            //case proto::SSL_Referee_Command_GOAL_YELLOW: // TODO: Change these deprecated fields
+            //    cmd = RefCommand::GOAL_US;
+            //    break;
+            //case proto::SSL_Referee_Command_GOAL_BLUE:
+            //    cmd = RefCommand::GOAL_THEM;
+            //    break;
             case proto::SSL_Referee_Command_BALL_PLACEMENT_YELLOW:
                 cmd = RefCommand::BALL_PLACEMENT_US;
                 break;
@@ -127,12 +127,12 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
             case proto::SSL_Referee_Command_TIMEOUT_BLUE:
                 cmd = RefCommand::TIMEOUT_US;
                 break;
-            case proto::SSL_Referee_Command_GOAL_YELLOW:
-                cmd = RefCommand::GOAL_THEM;
-                break;
-            case proto::SSL_Referee_Command_GOAL_BLUE:
-                cmd = RefCommand::GOAL_US;
-                break;
+            //case proto::SSL_Referee_Command_GOAL_YELLOW: //TODO: Fix replacements for these
+            //    cmd = RefCommand::GOAL_THEM;
+            //    break;
+            //case proto::SSL_Referee_Command_GOAL_BLUE:
+            //    cmd = RefCommand::GOAL_US;
+            //    break;
             case proto::SSL_Referee_Command_BALL_PLACEMENT_YELLOW:
                 cmd = RefCommand::BALL_PLACEMENT_THEM;
                 break;

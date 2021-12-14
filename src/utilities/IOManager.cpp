@@ -1,7 +1,7 @@
 #include "utilities/IOManager.h"
 
 #include "interface/api/Input.h"
-#include "roboteam_utils/normalize.h"
+#include "utilities/normalize.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
 #include "utilities/Settings.h"
@@ -12,31 +12,27 @@ namespace rtt::ai::io {
 IOManager io;
 
 IOManager::~IOManager() {
-    delete worldSubscriber;
-    delete robotCommandPublisher;
-    delete settingsPublisher;
-    delete central_server_connection;
+    this->worldSubscriber = nullptr;
+    this->robotCommandsBluePublisher = nullptr;
+    this->robotCommandsYellowPublisher = nullptr;
+    this->settingsPublisher = nullptr;
+    //this->central_server_connection;
 }
 
 void IOManager::init(int teamId) {
     RTT_INFO("Setting up IO publishers/subscribers")
-    worldSubscriber = new proto::Subscriber<proto::State>(proto::WORLD_CHANNEL, &IOManager::handleState, this);
+    auto worldCallback = std::bind(&IOManager::handleState, this, std::placeholders::_1);
+    this->worldSubscriber = std::make_unique<rtt::net::WorldSubscriber>(worldCallback);
 
-    // set up advertisement to publish robotcommands and settings
-    if (teamId == 1) {
-        robotCommandPublisher = new proto::Publisher<proto::AICommand>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
-        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_SECONDARY_CHANNEL);
-    } else {
-        robotCommandPublisher = new proto::Publisher<proto::AICommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
-        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
-    }
-    central_server_connection = new networking::PairReceiver<16970>();
+    this->settingsPublisher = std::make_unique<rtt::net::SettingsPublisher>();
+
+    //central_server_connection = new networking::PairReceiver<16970>();
 }
 
 //////////////////////
 /// PROTO HANDLERS ///
 //////////////////////
-void IOManager::handleState(proto::State& stateMsg) {
+void IOManager::handleState(const proto::State& stateMsg) {
     std::unique_lock<std::mutex> lock(stateMutex);  // write lock
     this->state.CopyFrom(stateMsg);
     if (state.has_referee()) {
@@ -54,7 +50,7 @@ void IOManager::handleState(proto::State& stateMsg) {
     }
 }
 
-void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
+void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->publish(setting); }
 
 void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
     if (!pause->getPause()) {
@@ -64,9 +60,25 @@ void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& 
             protoCommand->CopyFrom(robotCommand);
         }
         command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
-        robotCommandPublisher->send(command);
+        this->robotCommandsBluePublisher->publish(command);
     }
 }
+
+bool IOManager::publishRobotCommands(const proto::AICommand& aiCommand, bool forTeamYellow) {
+    if (forTeamYellow) {
+        if (this->robotCommandsYellowPublisher != nullptr) {
+            this->robotCommandsYellowPublisher->publish(aiCommand);
+            return true;
+        }
+    } else {
+        if (this->robotCommandsBluePublisher != nullptr) {
+            this->robotCommandsBluePublisher->publish(aiCommand);
+            return true;
+        }
+    }
+    return false;
+}
+
 void IOManager::handleCentralServerConnection() {
     // first receive any setting changes
     bool received = true;

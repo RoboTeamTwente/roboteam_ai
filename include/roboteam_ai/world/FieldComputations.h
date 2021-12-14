@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
-#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
+#include <proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/Polygon.h>
 
 #include <cmath>
