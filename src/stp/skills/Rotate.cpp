@@ -27,9 +27,16 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    // Check if successful
+    // Check if the robot is within the error margin
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+        withinMarginCount += 1;
+    } else {
+        withinMarginCount = 0;
+    }
+
+    // Check whether the robot has been within the margin
+    if (withinMarginCount > 5) {
         return Status::Success;
     } else {
         return Status::Running;
