@@ -22,8 +22,8 @@ std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) no
 
     StpInfo skillStpInfo = info;
     if (!skillStpInfo.getField()) return std::nullopt;
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
-    skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getShotType()));
+    //double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    //skillStpInfo.setKickChipVelocity(6);
     return skillStpInfo;
 }
 

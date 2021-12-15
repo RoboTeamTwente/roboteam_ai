@@ -9,6 +9,10 @@
 #include "stp/roles/TestRole.h"
 #include "stp/roles/passive/Halt.h"
 
+std::queue<int> ballx;
+std::queue<int> bally;
+std::queue<Vector2> vel;
+int velocity = 0;
 namespace rtt::ai::stp {
 
 TestPlay::TestPlay() : Play() {
@@ -25,6 +29,8 @@ TestPlay::TestPlay() : Play() {
         std::make_unique<role::Halt>(role::Halt("formation_3")), std::make_unique<role::Halt>(role::Halt("formation_4")),std::make_unique<role::Halt>(role::Halt("formation_5")),
         std::make_unique<role::Halt>(role::Halt("formation_6")), std::make_unique<role::Halt>(role::Halt("formation_7")), std::make_unique<role::Halt>(role::Halt("formation_8")),
         std::make_unique<role::Halt>(role::Halt("formation_9")),std::make_unique<role::Halt>(role::Halt("formation_10"))};
+
+
 }
 
 uint8_t TestPlay::score(PlayEvaluator &playEvaluator) noexcept { return 0; }
@@ -54,6 +60,21 @@ void TestPlay::calculateInfoForRoles() noexcept {
     stpInfos["role_0"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() - Vector2{0.02, 0.0});
     stpInfos["role_0"].setPositionToShootAt(world->getField()->getTheirGoalCenter());
     stpInfos["role_0"].setShotType(ShotType::MAX);
+
+    stpInfos["role_0"].setKickChipVelocity(4);
+    stpInfos["role_0"].setDribblerSpeed(1);
+    double x = pow(world->getWorld()->getBall()->get()->getVelocity().x,2);
+    double y = pow(world->getWorld()->getBall()->get()->getVelocity().y,2);
+
+    double new_velocity = sqrt(x + y);
+
+    double start = 0;
+
+    double end = start - world->getWorld()->getBall()->get()->getPos().y;
+
+
+    RTT_DEBUG(end);
+
 }
 
 

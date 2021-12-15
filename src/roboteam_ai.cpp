@@ -93,5 +93,9 @@ int main(int argc, char* argv[]) {
     std::thread stpThread = std::thread(&runStp);
 
     window->show();
+
+
     return a.exec();
+
+
 }

@@ -5,6 +5,7 @@
 #include <stp/plays/referee_specific/TimeOut.h>
 
 #include <chrono>
+#include <fstream>
 
 #include "control/ControlModule.h"
 #include "utilities/GameStateManager.hpp"
@@ -43,6 +44,9 @@ namespace ai = rtt::ai;
 
 namespace rtt {
 
+std::queue<int> ballx;
+std::queue<int> bally;
+std::queue<Vector2> vel;
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
@@ -53,7 +57,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
@@ -78,11 +82,11 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
+
 
     t.loop(
         [&]() {
@@ -110,6 +114,19 @@ void ApplicationManager::start() {
             t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);
         },
         ai::Constants::TICK_RATE());
+
+            std::ofstream ofile;
+            ofile.open("example.txt", std::ios::app);
+
+            while(!ballx.empty())
+            {
+                int x = ballx.front();
+                ofile << x << std::endl;
+                ballx.pop();
+            }
+            ofile.close();
+
+
 }
 
 /// Run everything with regard to behaviour trees
@@ -142,6 +159,10 @@ void ApplicationManager::runOneLoopCycle() {
             world->updatePositionControl();
 
             decidePlay(world);
+            ballx.push(world->getWorld()->getBall()->get()->getPos().x);
+            bally.push(world->getWorld()->getBall()->get()->getPos().y);
+            vel.push(world->getWorld()->getBall()->get()->getVelocity());
+
 
         } else {
             if (robotsInitialized) {

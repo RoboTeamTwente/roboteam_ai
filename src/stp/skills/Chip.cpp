@@ -9,15 +9,16 @@ namespace rtt::ai::stp::skill {
 
 Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set chip velocity
-    RTT_DEBUG(info.getKickChipVelocity());
+
     float chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_CHIP_POWER);
-    RTT_DEBUG(chipVelocity);
+
 
     // Set chip command
     command.set_chipper(true);
     command.set_chip_kick_vel(chipVelocity);
 
     // Clamp and set dribbler speed
+    RTT_DEBUG(info.getDribblerSpeed());
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
     int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
 
