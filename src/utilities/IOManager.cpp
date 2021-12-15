@@ -11,22 +11,24 @@ namespace rtt::ai::io {
 
 IOManager io;
 
-IOManager::~IOManager() {
-    this->worldSubscriber = nullptr;
-    this->robotCommandsBluePublisher = nullptr;
-    this->robotCommandsYellowPublisher = nullptr;
-    this->settingsPublisher = nullptr;
-    this->centralServerConnection = nullptr;
-}
-
-void IOManager::init(int teamId) {
-    RTT_INFO("Setting up IO publishers/subscribers")
+bool IOManager::init(bool isPrimaryAI) {
+    RTT_INFO("Setting up IO networkers as ", isPrimaryAI ? "Primary" : "Secondary", "AI")
+    bool success = true;
+    
     auto worldCallback = std::bind(&IOManager::handleState, this, std::placeholders::_1);
     this->worldSubscriber = std::make_unique<rtt::net::WorldSubscriber>(worldCallback);
 
-    this->settingsPublisher = std::make_unique<rtt::net::SettingsPublisher>();
-
+    if (isPrimaryAI) {
+        try {
+            this->settingsPublisher = std::make_unique<rtt::net::SettingsPublisher>();
+        } catch (zmqpp::zmq_internal_exception e) {
+            success = false;
+            RTT_ERROR("Failed to open settings publisher channel. Is it already taken?")
+        }
+    }
     this->centralServerConnection = std::make_unique<net::utils::PairReceiver<16970>>();
+
+    return success;
 }
 
 //////////////////////
@@ -50,7 +52,11 @@ void IOManager::handleState(const proto::State& stateMsg) {
     }
 }
 
-void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->publish(setting); }
+void IOManager::publishSettings(proto::Setting setting) {
+    if (this->settingsPublisher != nullptr) {
+        this->settingsPublisher->publish(setting);
+    }
+}
 
 void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
     if (!pause->getPause()) {
@@ -60,23 +66,24 @@ void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& 
             protoCommand->CopyFrom(robotCommand);
         }
         command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
-        this->publishRobotCommands(command, true);
+        this->publishRobotCommands(command, SETTINGS.isYellow());
     }
 }
 
 bool IOManager::publishRobotCommands(const proto::AICommand& aiCommand, bool forTeamYellow) {
-    if (forTeamYellow) {
-        if (this->robotCommandsYellowPublisher != nullptr) {
-            this->robotCommandsYellowPublisher->publish(aiCommand);
-            return true;
-        }
-    } else {
-        if (this->robotCommandsBluePublisher != nullptr) {
-            this->robotCommandsBluePublisher->publish(aiCommand);
-            return true;
-        }
+    bool sentCommands = false;
+
+    if (forTeamYellow && this->robotCommandsYellowPublisher != nullptr) {
+        sentCommands = this->robotCommandsYellowPublisher->publish(aiCommand);
+    } else if (!forTeamYellow && this->robotCommandsBluePublisher != nullptr) {
+        sentCommands = this->robotCommandsBluePublisher->publish(aiCommand);
     }
-    return false;
+    
+    if (!sentCommands) {
+        RTT_ERROR("Failed to send command: Publisher is not initialized (yet)");
+    }
+
+    return sentCommands;
 }
 
 void IOManager::handleCentralServerConnection() {
@@ -112,4 +119,29 @@ proto::State IOManager::getState() {
     proto::State copy = state;
     return copy;
 }
+
+bool IOManager::switchTeamColorChannel(bool toYellowChannel) {
+    bool switchedSuccesfully = false;
+
+    if (toYellowChannel) {
+        try {
+            this->robotCommandsYellowPublisher = std::make_unique<rtt::net::RobotCommandsYellowPublisher>();
+            this->robotCommandsBluePublisher = nullptr;
+            switchedSuccesfully = true;
+        } catch (zmqpp::zmq_internal_exception e) {
+            this->robotCommandsYellowPublisher = nullptr;
+        }
+    } else {
+        try {
+            this->robotCommandsBluePublisher = std::make_unique<rtt::net::RobotCommandsBluePublisher>();
+            this->robotCommandsYellowPublisher = nullptr;
+            switchedSuccesfully = true;
+        } catch (zmqpp::zmq_internal_exception e) {
+            this->robotCommandsBluePublisher = nullptr;
+        }
+    }
+    
+    return switchedSuccesfully;
+}
+
 }  // namespace rtt::ai::io

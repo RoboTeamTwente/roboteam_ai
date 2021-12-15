@@ -22,12 +22,13 @@ class Settings {
 
    public:
     int getId() const;
+    bool isPrimaryAI() const;
 
     void setId(int id);
 
     bool isYellow() const;
 
-    void setYellow(bool yellow);
+    bool setYellow(bool yellow);
 
     bool isLeft() const;
 
@@ -67,7 +68,7 @@ class Settings {
     int robothubSendPort;
 
    public:
-    void init(int id);
+    void init(int idOfAI);
     proto::Setting toMessage();
 };
 

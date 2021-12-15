@@ -40,13 +40,13 @@ class IOManager {
     bool publishRobotCommands(const proto::AICommand& aiCommand, bool forTeamYellow);
 
    public:
-    ~IOManager();
-    explicit IOManager() = default;
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
     void publishSettings(proto::Setting setting);
     void handleCentralServerConnection();
-    void init(int teamId);
+    bool init(bool isPrimaryAI);
     proto::State getState();
+
+    bool switchTeamColorChannel(bool yellowChannel);
 
     std::mutex stateMutex;
 };

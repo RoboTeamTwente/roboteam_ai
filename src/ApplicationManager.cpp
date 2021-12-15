@@ -81,34 +81,38 @@ void ApplicationManager::start() {
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
-    roboteam_utils::Timer t;
-
-    t.loop(
+    roboteam_utils::Timer stpTimer;
+    stpTimer.loop(
         [&]() {
             std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
             runOneLoopCycle();
             std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
 
             int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
-
-            //            RTT_WARNING("Time : ", loopcycleDuration, " ms")
-            //            RTT_WARNING("Time allowed: 16 ms")
-
             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
             int fpsUpdateRate = 5;
-            t.limit(
+            stpTimer.limit(
                 [&]() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
                 },
-                fpsUpdateRate);
+                fpsUpdateRate
+            );
 
-            // publish settings, but limit this function call to only run 1 times/s at most
-            t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);
+            // If this is primary AI, broadcast settings every second
+            if (SETTINGS.isPrimaryAI()) {
+                stpTimer.limit(
+                    [&]() {
+                        io::io.publishSettings(SETTINGS.toMessage());
+                    },
+                    ai::Constants::SETTINGS_BROADCAST_RATE()
+                );
+            }
         },
-        ai::Constants::TICK_RATE());
+        ai::Constants::STP_TICK_RATE()
+    );
 }
 
 /// Run everything with regard to behaviour trees

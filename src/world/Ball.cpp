@@ -69,7 +69,7 @@ void Ball::filterBallVelocity(const world::World* data) noexcept {
 
     auto oldBall = optionalPreviousBall.value();
 
-    double velocityDifference = (velocity - oldBall->filteredVelocity).length() * ai::Constants::TICK_RATE();
+    double velocityDifference = (velocity - oldBall->filteredVelocity).length() * ai::Constants::STP_TICK_RATE();
     double factor = fmin(FILTER_MAX_FACTOR_FOR_VELOCITY, velocityDifference * FILTER_MAX_FACTOR_FOR_VELOCITY / FILTER_VELOCITY_WITH_MAX_FACTOR);
 
     filteredVelocity = (oldBall->filteredVelocity * (1 - factor) + velocity * factor);
