@@ -1,14 +1,15 @@
-#include "utilities/IOManager.h"
 #include <roboteam_utils/Print.h>
-#include "world/World.hpp"
+
 #include "ApplicationManager.h"
+#include "utilities/IOManager.h"
+#include "world/World.hpp"
 
 namespace ui = rtt::ai::interface;
 
 ui::MainWindow* window;
 
 void runStp() {
-    rtt::ApplicationManager app{ window };
+    rtt::ApplicationManager app{window};
     app.start();
 }
 
@@ -33,7 +34,6 @@ void setDarkTheme() {
 }
 
 int main(int argc, char* argv[]) {
-
     std::cout << "                                           \n"
                  "  ██████╗ ████████╗████████╗     █████╗ ██╗\n"
                  "  ██╔══██╗╚══██╔══╝╚══██╔══╝    ██╔══██╗██║\n"
@@ -41,7 +41,8 @@ int main(int argc, char* argv[]) {
                  "  ██╔══██╗   ██║      ██║       ██╔══██║██║\n"
                  "  ██║  ██║   ██║      ██║       ██║  ██║██║\n"
                  "  ╚═╝  ╚═╝   ╚═╝      ╚═╝       ╚═╝  ╚═╝╚═╝\n"
-                 "                                         " << std::endl;
+                 "                                         "
+              << std::endl;
 
     RTT_DEBUG("Debug prints enabled")
 
@@ -86,7 +87,7 @@ int main(int argc, char* argv[]) {
     setDarkTheme();
 
     // Todo make this a not-global-static thingy
-    window = new ui::MainWindow{ };
+    window = new ui::MainWindow{};
     window->setWindowState(Qt::WindowMaximized);
 
     std::thread stpThread = std::thread(&runStp);

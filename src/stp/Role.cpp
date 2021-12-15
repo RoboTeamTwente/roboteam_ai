@@ -10,7 +10,7 @@ namespace rtt::ai::stp {
 Status Role::update(StpInfo const& info) noexcept {
     // Failure if the required data is not present
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("Required information missing in the tactic info for ",roleName)
+        RTT_WARNING("Required information missing in the tactic info for ", roleName)
         return Status::Failure;
     }
 

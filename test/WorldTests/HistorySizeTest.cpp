@@ -7,7 +7,7 @@
 //#include <test/helpers/WorldHelper.h>
 //#include <include/roboteam_ai/world/World.hpp>
 //
-//TEST(worldTest, HistorySizeTest) {
+// TEST(worldTest, HistorySizeTest) {
 //    /* Note, this test only works if the history of worlds is still empty. Since its a static, make
 //     * sure that this test is always the first to run for anything that uses or modifies this history! */
 //    proto::World world;

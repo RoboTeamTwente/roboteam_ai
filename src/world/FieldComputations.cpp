@@ -1,6 +1,10 @@
-#include <roboteam_utils/Shadow.h>
 #include "world/FieldComputations.h"
-#include "world/World.hpp"
+
+#include <roboteam_utils/Shadow.h>
+
+#include "world/views/WorldDataView.hpp"
+#include "utilities/GameStateManager.hpp"
+
 
 namespace rtt {
 namespace ai {
@@ -12,8 +16,16 @@ bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, cons
     return defenseArea.contains(point);
 }
 
-bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin) {
-    return pointIsInDefenseArea(field, point, isOurDefenceArea, margin, margin);
+bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    return pointIsInDefenseArea(field, point, true, margin, backMargin);
+}
+
+bool FieldComputations::pointIsInTheirDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    return pointIsInDefenseArea(field, point, false, margin, backMargin);
+}
+
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    return pointIsInOurDefenseArea(field, point, margin, backMargin) || pointIsInTheirDefenseArea(field, point, margin, backMargin);
 }
 
 bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin) {
@@ -21,8 +33,18 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
             point.y >= field.getBottommostY() - margin);
 }
 
-bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin){
-    return (!pointIsInDefenseArea(field, point, true, margin) && !pointIsInDefenseArea(field, point, false, margin) && pointIsInField(field, point, margin));
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin) {
+    return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point, margin));
+}
+
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, const std::string roleName, double margin) {
+    if (roleName == "ball_placer") {
+        // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are
+        // further/closer
+        return pointIsInField(field, point, 0.5);
+    }
+    bool isKeeper = roleName == "keeper";
+    return pointIsInField(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
@@ -32,11 +54,11 @@ double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool 
     return angleLeft.shortestAngleDiff(angleRight);
 }
 
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World* world, int id,
-                                                                bool ourTeam) {
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id,
+                                                              bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world->getWorld()->getRobotsNonOwning(), id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
@@ -47,7 +69,7 @@ std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_worl
 }
 
 std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
-                                                            const std::vector<rtt::world::view::RobotView> &robots) {
+                                                                  const std::vector<rtt::world::view::RobotView> &robots) {
     std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
     LineSegment goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x;  // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
@@ -83,9 +105,7 @@ LineSegment FieldComputations::getGoalSides(const rtt_world::Field &field, bool 
     }
 }
 
-double FieldComputations::getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
-    return getGoalSides(field, ourGoal).distanceToLine(point);
-}
+double FieldComputations::getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) { return getGoalSides(field, ourGoal).distanceToLine(point); }
 
 Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool ourGoal) {
     if (ourGoal) {
@@ -113,8 +133,8 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
 
 // True standard which mean field.getBoundaryWidth() is used otherwise margin is used
 Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, double backMargin) {
-    Vector2 belowGoal = ourDefenseArea ? field.getBottomLeftOurDefenceArea() + Vector2(-backMargin, -margin)
-                                            : field.getBottomRightTheirDefenceArea() + Vector2(backMargin, -margin);
+    Vector2 belowGoal =
+        ourDefenseArea ? field.getBottomLeftOurDefenceArea() + Vector2(-backMargin, -margin) : field.getBottomRightTheirDefenceArea() + Vector2(backMargin, -margin);
     Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea() + Vector2(-backMargin, margin) : field.getTopRightTheirDefenceArea() + Vector2(backMargin, margin);
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
     Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
@@ -144,7 +164,7 @@ Polygon FieldComputations::getFieldEdge(const rtt_world::Field &field, double ma
 }
 
 std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
-                                                                        const std::vector<rtt::world::view::RobotView> &robots, int id, bool ourTeam) {
+                                                                     const std::vector<rtt::world::view::RobotView> &robots, int id, bool ourTeam) {
     std::vector<LineSegment> blockades = {};
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     LineSegment goalSide = getGoalSides(field, ourGoal);
@@ -197,16 +217,15 @@ std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegme
     return blockades;
 }
 
-Vector2 FieldComputations::placePointInField(const rtt_world::Field &field, const Vector2 &point){
-    if (pointIsValidPosition(field,point)) return point;
+Vector2 FieldComputations::placePointInField(const rtt_world::Field &field, const Vector2 &point) {
+    if (pointIsValidPosition(field, point)) return point;
     Vector2 fixedPoint = point;
     double margin = 0.005;
-    if (point.y > field.getTopLeftCorner().y) fixedPoint.y = field.getTopLeftCorner().y + margin; //Top
-    if (point.x > field.getBottomRightCorner().x) fixedPoint.x =field.getBottomRightCorner().x - margin; //Right
-    if (point.y > field.getBottomRightCorner().y) fixedPoint.y = field.getBottomRightCorner().y - margin; //Bot
-    if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x + margin; //Left
+    if (point.y > field.getTopLeftCorner().y) fixedPoint.y = field.getTopLeftCorner().y + margin;          // Top
+    if (point.x > field.getBottomRightCorner().x) fixedPoint.x = field.getBottomRightCorner().x - margin;  // Right
+    if (point.y > field.getBottomRightCorner().y) fixedPoint.y = field.getBottomRightCorner().y - margin;  // Bot
+    if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x + margin;          // Left
     return fixedPoint;
 }
-
 }  // namespace ai
 }  // namespace rtt

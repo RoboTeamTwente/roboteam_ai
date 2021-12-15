@@ -29,7 +29,7 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
-    int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
+    double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
@@ -83,7 +83,7 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
     command.set_id(info.getRobot().value()->getId());
 
     // publish the generated command
-        forwardRobotCommand(info.getCurrentWorld());
+    forwardRobotCommand(info.getCurrentWorld());
 
     if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
         shootAttempts = 0;

@@ -4,29 +4,30 @@
 
 #include "control/positionControl/CollisionDetector.h"
 
+#include "control/ControlUtils.h"
+#include "world/FieldComputations.h"
+
 namespace rtt::ai::control {
 
 bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint) {
     bool isFieldColliding = field ? !isPointInsideField(nextPoint) || getDefenseAreaCollision(initialPoint, nextPoint) : false;
 
-    //colliding with the outside of the field, the defense area, or collision with a robot
+    // colliding with the outside of the field, the defense area, or collision with a robot
     return isFieldColliding || getRobotCollisionBetweenPoints(initialPoint, nextPoint);
 }
 
-std::optional<Vector2> CollisionDetector::getCollisionBetweenPoints(const Vector2& point, const Vector2& nextPoint){
+std::optional<Vector2> CollisionDetector::getCollisionBetweenPoints(const Vector2& point, const Vector2& nextPoint) {
     auto robotCollision = getRobotCollisionBetweenPoints(point, nextPoint);
     auto defenseCollision = getDefenseAreaCollision(point, nextPoint);
 
-    return (defenseCollision.value_or(nextPoint) - point).length2() < (robotCollision.value_or(nextPoint) - point).length2() ?
-            defenseCollision :
-            robotCollision;
+    return (defenseCollision.value_or(nextPoint) - point).length2() < (robotCollision.value_or(nextPoint) - point).length2() ? defenseCollision : robotCollision;
 }
 
 bool CollisionDetector::isPointInsideField(const Vector2& point) { return FieldComputations::pointIsInField(*field, point, Constants::ROBOT_RADIUS()); }
 
-std::optional<Vector2> CollisionDetector::getDefenseAreaCollision(const Vector2 &point, const Vector2 &nextPoint) {
+std::optional<Vector2> CollisionDetector::getDefenseAreaCollision(const Vector2& point, const Vector2& nextPoint) {
     auto ourDefenseCollision = FieldComputations::lineIntersectionWithDefenceArea(*field, true, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
-    if (ourDefenseCollision){
+    if (ourDefenseCollision) {
         return *ourDefenseCollision;
     }
 
@@ -48,12 +49,10 @@ std::optional<Vector2> CollisionDetector::getRobotCollisionBetweenPoints(const V
     return std::nullopt;
 }
 
-std::vector<Vector2> CollisionDetector::getRobotPositions() {
-    return robotPositions;
-}
+std::vector<Vector2> CollisionDetector::getRobotPositions() { return robotPositions; }
 
 void CollisionDetector::setField(const rtt::world::Field& field_) { this->field = &field_; }
 
-void CollisionDetector::setRobotPositions(std::vector<Vector2> &robotPositions_) { this->robotPositions = robotPositions_; }
+void CollisionDetector::setRobotPositions(std::vector<Vector2>& robotPositions_) { this->robotPositions = robotPositions_; }
 
 }  // namespace rtt::ai::control

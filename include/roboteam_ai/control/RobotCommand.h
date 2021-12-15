@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_ROBOTCOMMAND_H
 
 #include <roboteam_proto/RobotCommand.pb.h>
+
 #include "roboteam_utils/Angle.h"
 #include "roboteam_utils/Vector2.h"
 
@@ -17,7 +18,7 @@ class RobotCommand {
     Vector2 pos = Vector2();
     Vector2 vel = Vector2();
     Angle angle = Angle();
-    int dribbler = 0;
+    float dribbler = 0;
     bool kicker = false;
     double kickerVel = 0;
     bool kickerForced = false;

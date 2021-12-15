@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_WORLDHELPER_H
 #define ROBOTEAM_AI_WORLDHELPER_H
 
-#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_proto/World.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/Vector2.h>
 
 namespace testhelpers {
@@ -18,7 +18,7 @@ class WorldHelper {
     static rtt::Vector2 getRandomVelocity();
     static bool allPositionsAreValid(const proto::World &worldMsg, bool withBall);
     static proto::WorldRobot generateRandomRobot(int id, proto::SSL_GeometryFieldSize field);
-    static proto::WorldBall * generateRandomBall(proto::SSL_GeometryFieldSize field);
+    static proto::WorldBall *generateRandomBall(proto::SSL_GeometryFieldSize field);
     static rtt::Vector2 getLocationRightBeforeRobot(proto::WorldRobot robot);
     static proto::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
     static google::protobuf::RepeatedPtrField<proto::WorldRobot> generateRandomRobots(int amount, const proto::SSL_GeometryFieldSize &field);

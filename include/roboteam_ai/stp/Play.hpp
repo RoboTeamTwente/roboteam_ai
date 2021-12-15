@@ -7,13 +7,13 @@
 
 #include <array>
 
+#include "PlayEvaluator.h"
 #include "Role.hpp"
+#include "computations/PositionComputations.h"
+#include "constants/GeneralizationConstants.h"
 #include "stp/evaluations/BaseEvaluation.h"
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
-#include "PlayEvaluator.h"
-#include "computations/PositionComputations.h"
-#include "constants/GeneralizationConstants.h"
 
 namespace rtt::ai::stp {
 using pos = PositionComputations;
@@ -127,7 +127,7 @@ class Play {
      */
     uint8_t getLastScore() const;
 
-protected:
+   protected:
     /**
      * The roles, constructed in ctor of a play
      */
@@ -171,21 +171,16 @@ protected:
      * An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot
      * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
      */
-    //virtual bool shouldRoleSkipEndTactic() = 0;
+    // virtual bool shouldRoleSkipEndTactic() = 0;
 
     /**
      * Map that holds info from the previous play
      */
     std::optional<gen::PlayInfos> previousPlayInfos;
 
+   private:
     /**
-     * Function to initialize roles and make stpInfos map
-     */
-    void initRoles() noexcept;
-
-private:
-    /**
-     * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
+     * This function refreshes the RobotViews, BallViews, and Fields for all StpInfo's. This also sets the maxRobotVelocity.
      * This is necessary because the views are stored for a limited time; not refreshing will lead to UB
      */
     void refreshData() noexcept;
