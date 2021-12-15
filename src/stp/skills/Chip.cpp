@@ -18,7 +18,7 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     command.set_chip_kick_vel(chipVelocity);
 
     // Clamp and set dribbler speed
-    RTT_DEBUG(info.getDribblerSpeed());
+    //RTT_DEBUG(info.getDribblerSpeed());
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
     int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
 

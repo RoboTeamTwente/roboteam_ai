@@ -38,7 +38,7 @@ uint8_t TestPlay::score(PlayEvaluator &playEvaluator) noexcept { return 0; }
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    flagMap.insert({"role_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_0", {DealerFlagPriority::REQUIRED, {}}});
     flagMap.insert({"role_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"role_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"role_3", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
@@ -57,12 +57,12 @@ void TestPlay::calculateInfoForRoles() noexcept {
     /// Function where are roles get their information, make sure not to compute roles twice.
 
     // TODO: the shoot position might need to change
-    stpInfos["role_0"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() - Vector2{0.02, 0.0});
+    stpInfos["role_0"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() - Vector2{0.04, 0.0});
     stpInfos["role_0"].setPositionToShootAt(world->getField()->getTheirGoalCenter());
     stpInfos["role_0"].setShotType(ShotType::MAX);
 
-    stpInfos["role_0"].setKickChipVelocity(4);
-    stpInfos["role_0"].setDribblerSpeed(1);
+    stpInfos["role_0"].setKickChipVelocity(6.5);
+    stpInfos["role_0"].setDribblerSpeed(0);
     double x = pow(world->getWorld()->getBall()->get()->getVelocity().x,2);
     double y = pow(world->getWorld()->getBall()->get()->getVelocity().y,2);
 
@@ -73,7 +73,7 @@ void TestPlay::calculateInfoForRoles() noexcept {
     double end = start - world->getWorld()->getBall()->get()->getPos().y;
 
 
-    RTT_DEBUG(end);
+    RTT_DEBUG(new_velocity);
 
 }
 
