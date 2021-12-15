@@ -108,7 +108,7 @@ void JoystickHandler::toggleDribbler() {
         if (0 < command.dribbler()) {
             command.set_dribbler(0);
         } else {
-            command.set_dribbler(10);
+            command.set_dribbler(1);
         }
     }
 }
@@ -219,12 +219,12 @@ void JoystickHandler::handleJoystickHat(SDL_Event &event) {
 
 /* Sets dribber speed */
 void JoystickHandler::tuneDribbler() {
-    if (joystickState.triggerLeft > 32766) dribbler_vel -= 1;
+    if (joystickState.triggerLeft > 32766) dribbler_vel -= 0.03;
 
-    if (joystickState.triggerRight > 32766) dribbler_vel += 1;
+    if (joystickState.triggerRight > 32766) dribbler_vel += 0.03;
 
     if (dribbler_vel < 0) dribbler_vel = 0;
-    if (31 < dribbler_vel) dribbler_vel = 31;
+    if (1 < dribbler_vel) dribbler_vel = 1;
 
     command.set_dribbler(dribbler_vel);
 }
