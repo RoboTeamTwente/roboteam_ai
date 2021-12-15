@@ -18,7 +18,7 @@ class RobotCommand {
     Vector2 pos = Vector2();
     Vector2 vel = Vector2();
     Angle angle = Angle();
-    float dribbler = 0;
+    int dribbler = 0;
     bool kicker = false;
     double kickerVel = 0;
     bool kickerForced = false;

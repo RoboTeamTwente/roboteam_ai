@@ -19,7 +19,7 @@ class JoystickHandler {
     JoystickState joystickState;
     float robotAngle = 0.0;
     int robotId = -1;
-    float dribbler_vel = 0;
+    int dribbler_vel = 0;
     std::chrono::steady_clock::time_point id_switched_timestamp;
 
    public:
