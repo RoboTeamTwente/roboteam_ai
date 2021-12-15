@@ -22,6 +22,11 @@ class Rotate : public Skill {
      * @return The name of this skill
      */
     const char* getName() override;
+
+    /**
+     * Counts how long the robot is within the rotational error margin
+     */
+    int withinMarginCount = 0;
 };
 }  // namespace rtt::ai::stp::skill
 
