@@ -5,9 +5,9 @@
 #ifndef RTT_WORLD_DATA_HPP
 #define RTT_WORLD_DATA_HPP
 
-#include <roboteam_proto/RobotFeedback.pb.h>
-#include <roboteam_proto/Setting.pb.h>
-#include <roboteam_proto/World.pb.h>
+#include <proto/RobotFeedback.pb.h>
+#include <proto/Setting.pb.h>
+#include <proto/World.pb.h>
 
 #include <optional>
 #include <vector>

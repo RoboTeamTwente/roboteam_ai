@@ -10,7 +10,9 @@
 
 namespace rtt::world::ball {
 
-Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos()}, velocity{copy.vel()}, visible{copy.visible()} { initializeCalculations(data); }
+Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos().x(), copy.pos().y()}, velocity{copy.vel().x(), copy.vel().y()}, visible{copy.visible()} {
+    initializeCalculations(data);
+}
 
 const Vector2& Ball::getPos() const noexcept { return position; }
 
@@ -69,7 +71,7 @@ void Ball::filterBallVelocity(const world::World* data) noexcept {
 
     auto oldBall = optionalPreviousBall.value();
 
-    double velocityDifference = (velocity - oldBall->filteredVelocity).length() * ai::Constants::TICK_RATE();
+    double velocityDifference = (velocity - oldBall->filteredVelocity).length() * ai::Constants::STP_TICK_RATE();
     double factor = fmin(FILTER_MAX_FACTOR_FOR_VELOCITY, velocityDifference * FILTER_MAX_FACTOR_FOR_VELOCITY / FILTER_VELOCITY_WITH_MAX_FACTOR);
 
     filteredVelocity = (oldBall->filteredVelocity * (1 - factor) + velocity * factor);

@@ -2,7 +2,7 @@
 #ifndef RTT_JOYSTICKHANDLER_H
 #define RTT_JOYSTICKHANDLER_H
 
-#include <roboteam_proto/RobotCommand.pb.h>
+#include <proto/RobotCommand.pb.h>
 #include <stdio.h>
 
 #include <iostream>

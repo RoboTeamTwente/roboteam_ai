@@ -5,7 +5,7 @@
 #ifndef RTT_CONTROLMODULE_H
 #define RTT_CONTROLMODULE_H
 
-#include <roboteam_proto/RobotCommand.pb.h>
+#include <proto/RobotCommand.pb.h>
 
 #include <mutex>
 

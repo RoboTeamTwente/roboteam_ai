@@ -2,9 +2,8 @@
 
 #include <roboteam_utils/Shadow.h>
 
-#include "world/views/WorldDataView.hpp"
 #include "utilities/GameStateManager.hpp"
-
+#include "world/views/WorldDataView.hpp"
 
 namespace rtt {
 namespace ai {
@@ -37,8 +36,13 @@ bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, cons
     return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point, margin));
 }
 
+<<<<<<< HEAD
+bool FieldComputations::pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin) {
+    if (GameStateManager::getCurrentGameState().getStrategyName() == "ball_placement_us" && GameStateManager::getCurrentGameState().ballPlacerId == id) {
+=======
 bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, const std::string roleName, double margin) {
     if (roleName == "ball_placer") {
+>>>>>>> development
         // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are
         // further/closer
         return pointIsInField(field, point, 0.5);

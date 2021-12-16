@@ -6,10 +6,8 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include "stp/computations/PositionScoring.h"
 #include "stp/computations/ComputationManager.h"
-
-
+#include "stp/computations/PositionScoring.h"
 #include "world/Field.h"
 #include "world/World.hpp"
 
