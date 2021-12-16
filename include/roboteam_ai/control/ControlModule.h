@@ -10,7 +10,6 @@
 #include <mutex>
 
 #include "control/AnglePID.h"
-#include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {

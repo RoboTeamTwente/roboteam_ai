@@ -3,7 +3,7 @@
 #include <roboteam_utils/Shadow.h>
 
 #include "utilities/GameStateManager.hpp"
-#include "world/World.hpp"
+#include "world/views/WorldDataView.hpp"
 
 namespace rtt {
 namespace ai {
@@ -36,13 +36,18 @@ bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, cons
     return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point, margin));
 }
 
+<<<<<<< HEAD
 bool FieldComputations::pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin) {
     if (GameStateManager::getCurrentGameState().getStrategyName() == "ball_placement_us" && GameStateManager::getCurrentGameState().ballPlacerId == id) {
+=======
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, const std::string roleName, double margin) {
+    if (roleName == "ball_placer") {
+>>>>>>> development
         // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are
         // further/closer
         return pointIsInField(field, point, 0.5);
     }
-    bool isKeeper = id == GameStateManager::getCurrentGameState().keeperId;
+    bool isKeeper = roleName == "keeper";
     return pointIsInField(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 
@@ -53,11 +58,11 @@ double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool 
     return angleLeft.shortestAngleDiff(angleRight);
 }
 
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World *world, int id,
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id,
                                                               bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world->getWorld()->getRobotsNonOwning(), id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);

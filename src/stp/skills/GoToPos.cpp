@@ -11,9 +11,9 @@ namespace rtt::ai::stp::skill {
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
-    if (!FieldComputations::pointIsValidPositionForId(info.getField().value(), targetPos, info.getRobot()->get()->getId())) {
+    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getRoleName())) {
         RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
-        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRobot()->get()->getId(), control_constants::ROBOT_RADIUS);
+        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
 
     bool useOldPathPlanning = true;
@@ -37,9 +37,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     double targetVelocityLength;
     if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS / 2) {
         RTT_DEBUG("Setting max vel");
-        targetVelocityLength = stp::control_constants::MAX_VEL_CMD;
+        targetVelocityLength = info.getMaxRobotVelocity();
     } else {
-        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
+        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, info.getMaxRobotVelocity());
     }
     // Clamp and set velocity
     Vector2 targetVelocity = commandCollision.robotCommand.vel.stretchToLength(targetVelocityLength);
@@ -52,7 +52,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
+    double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);

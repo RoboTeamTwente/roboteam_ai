@@ -38,8 +38,9 @@ uint8_t GoalVisionGlobalEvaluation::metricCheck(const world::World* world, const
         return control_constants::FUZZY_FALSE;
     }
 
-    std::transform(us.begin(), us.end(), std::back_inserter(visibilities),
-                   [&](auto& robot) { return FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, robot.get()->getPos(), world, robot.get()->getId(), true); });
+    std::transform(us.begin(), us.end(), std::back_inserter(visibilities), [&](auto& robot) {
+        return FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, robot.get()->getPos(), world->getWorld().value(), robot.get()->getId(), true);
+    });
 
     return calculateMetric(*std::min_element(visibilities.begin(), visibilities.end()));
 }

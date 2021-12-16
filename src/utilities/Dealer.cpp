@@ -51,7 +51,8 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
         }
         if (!current.currentRoles.empty()) {
             // Return best assignment for those roles (column)
-            rtt::Hungarian::Solve(current.currentScores, current.newAssignments);
+            auto linearAssignment = Hungarian();
+            current.newAssignments = linearAssignment.Solve(current.currentScores);
             if (!current.newAssignments.empty()) {
                 for (std::size_t j = 0; j < current.newAssignments.size(); j++) {
                     if (current.newAssignments[j] >= 0) {
@@ -170,7 +171,7 @@ Dealer::FlagScore Dealer::getRobotScoreForFlag(v::RobotView robot, Dealer::Deale
 // Get the distance score for a robot to a position when there is a position that role needs to go to
 double Dealer::getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
-    if (robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
+    if (stpInfo.getRoleName() == "keeper" && robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
         distance = 0;
     } else if (stpInfo.getPositionToMoveTo().has_value()) {
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());

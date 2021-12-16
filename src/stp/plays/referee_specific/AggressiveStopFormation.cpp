@@ -30,7 +30,6 @@ AggressiveStopFormation::AggressiveStopFormation() : Play() {
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_1")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_3"))};
-    initRoles();  // DONT TOUCH.
 }
 
 uint8_t AggressiveStopFormation::score(PlayEvaluator& playEvaluator) noexcept {

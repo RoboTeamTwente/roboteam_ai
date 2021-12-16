@@ -10,7 +10,6 @@
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
-#include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
 

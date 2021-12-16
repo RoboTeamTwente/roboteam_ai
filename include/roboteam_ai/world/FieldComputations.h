@@ -9,6 +9,7 @@
 
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
+#include "views/WorldDataView.hpp"
 #include "world/Field.h"
 
 namespace rtt::world::view {
@@ -100,12 +101,12 @@ class FieldComputations {
      * Check whether a given point is a valid position for a certain id.
      * @param field The field class which is used to determine the boundaries of the field.
      * @param point The point for which it is checked whether it is valid or not
-     * @param id The id of the robot for which this point is checked
+     * @param roleName the name of the role associated with this robot
      * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
      * expanded, a negative value means that the field area will be shrinked.
      * @return True if the point is a valid target position for this robot id (inside of field and outside of defense area, unless robot is keeper or ball placer)
      */
-    static bool pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin = 0.0);
+    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, std::string roleName, double margin = 0.0);
 
     /**
      * Get the percentage of goal visible from a given point, i.e. how much of the goal can be reached by directly shooting a ball over the ground from a given point without
@@ -119,7 +120,7 @@ class FieldComputations {
      * blockades).
      * @return The percentage of the goal visible, which is a double value between 0.0 and 100.0 including both 0.0 and 100.0.
      */
-    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World *world, int id = -1,
+    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id = -1,
                                                       bool ourTeam = false);
 
     /**

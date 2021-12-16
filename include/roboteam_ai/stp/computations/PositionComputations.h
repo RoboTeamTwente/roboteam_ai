@@ -17,6 +17,7 @@
 #include "utilities/Constants.h"
 #include "world/Field.h"
 #include "world/FieldComputations.h"
+#include "world/World.hpp"
 #include "world/views/WorldDataView.hpp"
 
 namespace rtt::ai::stp {
