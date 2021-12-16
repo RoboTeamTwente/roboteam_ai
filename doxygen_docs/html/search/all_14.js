@@ -33,5 +33,6 @@ var searchData=
   ['updateworld_2034',['updateWorld',['../classrtt_1_1ai_1_1stp_1_1Play.html#ae405e45772af0c05dbf2cdc8e5634d85',1,'rtt::ai::stp::Play::updateWorld()'],['../classrtt_1_1world_1_1World.html#a7a081491cf90e5710bb464d553ff9790',1,'rtt::world::World::updateWorld()']]],
   ['us_2035',['us',['../classrtt_1_1world_1_1WorldData.html#a6e138c7b59e25c29b63d96653999470f',1,'rtt::world::WorldData::us()'],['../namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727acf22de144f22db9f78a42e1cea77e026',1,'rtt::world::us()']]],
   ['userefereecommands_2036',['useRefereeCommands',['../classrtt_1_1ai_1_1interface_1_1Output.html#a2abddf5f2651bb8a8c7b43c79be831d0',1,'rtt::ai::interface::Output']]],
-  ['usesrefereecommands_2037',['usesRefereeCommands',['../classrtt_1_1ai_1_1interface_1_1Output.html#a1b8fdf8699a01c08a2e9c237f8d9b5d9',1,'rtt::ai::interface::Output']]]
+  ['usesrefereecommands_2037',['usesRefereeCommands',['../classrtt_1_1ai_1_1interface_1_1Output.html#a1b8fdf8699a01c08a2e9c237f8d9b5d9',1,'rtt::ai::interface::Output']]],
+  ['util_2038',['util',['../namespacertt_1_1ai.html#a3425a916c75e6652c1ec69cf1a46e2c8',1,'rtt::ai']]]
 ];

@@ -78,7 +78,7 @@ var searchData=
   ['robot_5fradius_1574',['ROBOT_RADIUS',['../classrtt_1_1ai_1_1Constants.html#af98ade4368626149da14fd9c2ed2a3c2',1,'rtt::ai::Constants::ROBOT_RADIUS()'],['../namespacertt_1_1ai_1_1stp_1_1control__constants.html#a6571c4e8f14e7dc072d17dc431f18e48',1,'rtt::ai::stp::control_constants::ROBOT_RADIUS()']]],
   ['robot_5fradius_5fmax_1575',['ROBOT_RADIUS_MAX',['../classrtt_1_1ai_1_1Constants.html#a68673839b62305c8822c4d2cf75381e9',1,'rtt::ai::Constants']]],
   ['robotangle_1576',['robotAngle',['../classrtt_1_1input_1_1JoystickHandler.html#adece2d8f2661578b543a0df93509e4cb',1,'rtt::input::JoystickHandler']]],
-  ['robotblockade_1577',['robotBlockade',['../classrtt_1_1ai_1_1FieldComputations.html#a51d9681d227800b98f1dfbc7130b026f',1,'rtt::ai::FieldComputations']]],
+  ['robotblockade_1577',['robotBlockade',['../classrtt_1_1ai_1_1FieldComputations.html#a83f1729313f6935ae2e6547b61d2f1be',1,'rtt::ai::FieldComputations']]],
   ['robotcommand_1578',['RobotCommand',['../classrtt_1_1RobotCommand.html#ac6e8cf65236f46f78f500ab7a2fd691d',1,'rtt::RobotCommand::RobotCommand()=default'],['../classrtt_1_1RobotCommand.html#a6ac1e786728f535e63840fc7c308ba3c',1,'rtt::RobotCommand::RobotCommand(const RobotCommand &amp;robotCommand)=default'],['../classrtt_1_1RobotCommand.html#a9055388d2c7a9f553804ccd7cb1309dd',1,'rtt::RobotCommand::RobotCommand(const Vector2 &amp;pos, const Vector2 &amp;vel, const Angle &amp;angle)']]],
   ['robotcommand_1579',['robotCommand',['../namespacertt_1_1BB.html#abfc5aa61eea384b6ea171677135c8e6b',1,'rtt::BB::CommandCollision']]],
   ['robotcommand_1580',['RobotCommand',['../classrtt_1_1RobotCommand.html',1,'rtt']]],

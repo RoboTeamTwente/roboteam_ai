@@ -11,7 +11,7 @@ var searchData=
   ['calculateenemyrobotcollisions_224',['calculateEnemyRobotCollisions',['../classrtt_1_1BB_1_1WorldObjects.html#a1b07c30584b36d3cb503a9ca213faf84',1,'rtt::BB::WorldObjects']]],
   ['calculatefieldcollisions_225',['calculateFieldCollisions',['../classrtt_1_1BB_1_1WorldObjects.html#ac31a685e3e1cbd603e1d860d49a2be6b',1,'rtt::BB::WorldObjects']]],
   ['calculatefieldsizefactor_226',['calculateFieldSizeFactor',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html#aff51b963a79fa5d685e689ab1a7ba86c',1,'rtt::ai::interface::Visualizer']]],
-  ['calculateforce_227',['calculateForce',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#a236a69e8e3a8282bf007ba3eee54126f',1,'rtt::ai::control::ControlUtils']]],
+  ['calculateforce_227',['calculateForce',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#a94fc63fb464ca4b57f20f294c644c115',1,'rtt::ai::control::ControlUtils']]],
   ['calculategoaltarget_228',['calculateGoalTarget',['../classrtt_1_1ai_1_1stp_1_1computations_1_1GoalComputations.html#a0cdcd0bc6d9c9954a47501962c8bd59c',1,'rtt::ai::stp::computations::GoalComputations']]],
   ['calculateinfoforblockers_229',['calculateInfoForBlockers',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#ab2d6556ace913ee04a9274c913acd28a',1,'rtt::ai::stp::play::FreeKickThem::calculateInfoForBlockers()'],['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#a4cdf4962286d687c6eb6d2e5ab2b1dc9',1,'rtt::ai::stp::play::DefendPass::calculateInfoForBlockers()']]],
   ['calculateinfoforchip_230',['calculateInfoForChip',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html#a2ad6c8005510b05a36481d6dfdd7b6f5',1,'rtt::ai::stp::tactic::ShootAtPos']]],
