@@ -2,13 +2,11 @@
 #define ROBOTEAM_AI_IO_MANAGERRRR_H
 
 #include <RobotCommandsNetworker.hpp>
-#include <WorldNetworker.hpp>
 #include <SettingsNetworker.hpp>
-
-#include <utils/Pair.hpp>
-
+#include <WorldNetworker.hpp>
 #include <iostream>
 #include <mutex>
+#include <utils/Pair.hpp>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
@@ -37,7 +35,7 @@ class IOManager {
 
     std::unique_ptr<rtt::net::utils::PairReceiver<16970>> centralServerConnection;
 
-    bool publishRobotCommands(const proto::AICommand& aiCommand, bool forTeamYellow);
+    bool publishRobotCommands(const proto::AICommand &aiCommand, bool forTeamYellow);
 
    public:
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);

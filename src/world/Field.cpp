@@ -30,7 +30,7 @@ void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
         FieldLineSegment newLine;
         if (NAME_MAP.find(line.name()) != NAME_MAP.end()) {
             newLine.name = std::string(NAME_MAP[line.name()]);
-            
+
             newLine.begin = mm_to_m({line.p1().x(), line.p1().y()});
 
             newLine.end = mm_to_m({line.p2().x(), line.p2().y()});
@@ -125,7 +125,7 @@ void Field::initFieldOthers() {
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
 
-Vector2 Field::mm_to_m(const Vector2& vector) { return {vector.x / 1000, vector.y / 1000}; }
+Vector2 Field::mm_to_m(const Vector2 &vector) { return {vector.x / 1000, vector.y / 1000}; }
 
 double Field::getFieldWidth() const { return getFieldValue(fieldWidth); }
 

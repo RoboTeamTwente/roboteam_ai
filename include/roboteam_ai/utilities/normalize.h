@@ -6,7 +6,6 @@
 #include <proto/WorldRobot.pb.h>
 #include <proto/messages_robocup_ssl_geometry.pb.h>
 #include <proto/messages_robocup_ssl_referee.pb.h>
-
 #include <roboteam_utils/Mathematics.h>
 
 namespace roboteam_utils {

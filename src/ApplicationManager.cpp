@@ -2,14 +2,14 @@
 
 #include <roboteam_utils/Timer.h>
 #include <stp/plays/referee_specific/TimeOut.h>
+#include <utilities/normalize.h>
 
 #include <chrono>
 
 #include "control/ControlModule.h"
+#include "stp/computations/ComputationManager.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
-#include <utilities/normalize.h>
-#include "stp/computations/ComputationManager.h"
 
 /**
  * Plays are included here
@@ -98,21 +98,14 @@ void ApplicationManager::start() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
                 },
-                fpsUpdateRate
-            );
+                fpsUpdateRate);
 
             // If this is primary AI, broadcast settings every second
             if (SETTINGS.isPrimaryAI()) {
-                stpTimer.limit(
-                    [&]() {
-                        io::io.publishSettings(SETTINGS.toMessage());
-                    },
-                    ai::Constants::SETTINGS_BROADCAST_RATE()
-                );
+                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
         },
-        ai::Constants::STP_TICK_RATE()
-    );
+        ai::Constants::STP_TICK_RATE());
 }
 
 /// Run everything with regard to behaviour trees

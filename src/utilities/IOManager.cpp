@@ -1,10 +1,10 @@
 #include "utilities/IOManager.h"
 
 #include "interface/api/Input.h"
-#include "utilities/normalize.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
 #include "utilities/Settings.h"
+#include "utilities/normalize.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::io {
@@ -14,7 +14,7 @@ IOManager io;
 bool IOManager::init(bool isPrimaryAI) {
     RTT_INFO("Setting up IO networkers as ", isPrimaryAI ? "Primary" : "Secondary", "AI")
     bool success = true;
-    
+
     auto worldCallback = std::bind(&IOManager::handleState, this, std::placeholders::_1);
     this->worldSubscriber = std::make_unique<rtt::net::WorldSubscriber>(worldCallback);
 
@@ -78,7 +78,7 @@ bool IOManager::publishRobotCommands(const proto::AICommand& aiCommand, bool for
     } else if (!forTeamYellow && this->robotCommandsBluePublisher != nullptr) {
         sentCommands = this->robotCommandsBluePublisher->publish(aiCommand);
     }
-    
+
     if (!sentCommands) {
         RTT_ERROR("Failed to send command: Publisher is not initialized (yet)");
     }
@@ -140,7 +140,7 @@ bool IOManager::switchTeamColorChannel(bool toYellowChannel) {
             this->robotCommandsBluePublisher = nullptr;
         }
     }
-    
+
     return switchedSuccesfully;
 }
 

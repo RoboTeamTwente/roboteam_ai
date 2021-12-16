@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 
     // get the id of the ai from the init
     int id = *argv[1] - '0';
-    
+
     rtt::SETTINGS.init(id);
 
     // If primary AI, we start at being yellow on the left
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
         RTT_ERROR("Could not obtain command publishing channel. Exiting...")
         return 0;
     }
-    
+
     rtt::SETTINGS.setLeft(rtt::SETTINGS.isPrimaryAI());
 
     rtt::SETTINGS.setSerialMode(false);
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRefereePort(10003);
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
     rtt::SETTINGS.setRobothubSendPort(20011);
-    
+
     RTT_INFO("AI initialized as: ", (rtt::SETTINGS.isPrimaryAI() ? "PRIMARY" : "SECONDARY"))
     RTT_INFO("Starting as color: ", (rtt::SETTINGS.isYellow() ? "YELLOW" : "BLUE"))
     RTT_INFO("Playing on side: ", (rtt::SETTINGS.isLeft() ? "LEFT" : "RIGHT"))

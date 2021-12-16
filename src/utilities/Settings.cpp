@@ -3,9 +3,9 @@
 //
 
 #include "utilities/Settings.h"
-#include <utilities/IOManager.h>
 
 #include <roboteam_utils/Print.h>
+#include <utilities/IOManager.h>
 
 namespace rtt {
 Settings SETTINGS;
@@ -45,7 +45,7 @@ bool Settings::setYellow(bool yellow) {
     } else {
         RTT_ERROR("Failed to open channel. Is another AI already running on commands channel ", yellow ? "YELLOW" : "BLUE", "?")
     }
-    
+
     return switched;
 }
 

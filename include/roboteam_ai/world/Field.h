@@ -435,7 +435,7 @@ class Field {
     /**
      * Convert a vector measured in millimeters to a vector measured in meters.
      */
-    static Vector2 mm_to_m(const Vector2& vector);
+    static Vector2 mm_to_m(const Vector2 &vector);
 
     /**
      * Initialize the field values (this function is only called inside the constructor)
