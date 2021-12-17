@@ -112,6 +112,11 @@ namespace rtt::BB {
          */
         [[nodiscard]] std::vector<std::pair<Vector2, Vector2>> getPosVelVector(double timeStep);
 
+        /**
+         * @brief Returns all the trajectory parts in both dimensions to use in the general trajectory class
+         */
+        [[nodiscard]] std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> getParts();
+
             private:
         /**
             * @brief  Computes a bang bang trajectory with a given alpha value.

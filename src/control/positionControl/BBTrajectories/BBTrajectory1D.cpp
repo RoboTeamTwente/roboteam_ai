@@ -197,4 +197,14 @@ namespace rtt::BB {
     bool BBTrajectory1D::inLastPart(double t) const {
         return t >= parts[numParts - 2].tEnd;
     }
+
+    std::vector<BB::BBTrajectoryPart> BBTrajectory1D::getParts() {
+        std::vector<BB::BBTrajectoryPart> partsVector;
+        for (BBTrajectoryPart part : parts) {
+            if(!(part.acc == 0 && part.startVel == 0)) {
+                partsVector.push_back(part);
+            }
+        }
+        return partsVector;
+    }
 }

@@ -110,5 +110,9 @@ namespace rtt::BB {
 
         return posVelVector;
     }
+
+    std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> BBTrajectory2D::getParts() {
+        return std::make_pair(x.getParts(), y.getParts());
+    }
 }
 

@@ -197,6 +197,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory1D.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory2D.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/Trajectory.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/Trajectory1D.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
@@ -239,7 +241,7 @@ set(INTERFACE_HEADERS
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h
-        include/roboteam_ai/stp/skills/TestSkill.h )
+        include/roboteam_ai/stp/skills/TestSkill.h)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -286,7 +288,7 @@ set(AI_SOURCES
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
         ${COMPUTATION_SOURCES}
-        )
+)
 
 set(AI_LIBS
         PRIVATE Qt5::Core

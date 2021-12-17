@@ -6,6 +6,7 @@
 #define RTT_BBTRAJECTORY1D_H
 
 #include <array>
+#include <vector>
 
 namespace rtt::BB {
     /**
@@ -108,6 +109,12 @@ namespace rtt::BB {
         * @param maxAcc maximum allowed acceleration/deceleration
         */
         void generateTrajectory(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc);
+
+        /**
+         * @brief Returns all the parts of a BBTrajectory as a vector
+         * @return All parts as a vector
+         */
+        std::vector<BB::BBTrajectoryPart> getParts();
 
         BBTrajectory1D(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc);
 

@@ -5,12 +5,13 @@
 #ifndef RTT_POSITIONCONTROL_H
 #define RTT_POSITIONCONTROL_H
 
+#include "BBTrajectories/Trajectory2D.h"
 #include "CollisionDetector.h"
-#include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "control/RobotCommand.h"
+#include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
-#include "control/positionControl/pathTracking/PidTracking.h"
 #include "control/positionControl/pathTracking/BBTPathTracking.h"
+#include "control/positionControl/pathTracking/PidTracking.h"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
@@ -32,6 +33,7 @@ namespace rtt::ai::control {
         BBTPathTracking pathTrackingAlgorithmBBT;
 
         std::unordered_map<int, BB::BBTrajectory2D> computedPathsBB;
+        std::unordered_map<int, Trajectory2D> computedTrajectories;
         std::unordered_map<int, std::vector<Vector2>> computedPaths;
         std::unordered_map<int, std::vector<Vector2>> computedPathsVel;
         std::unordered_map<int, std::vector<std::pair<Vector2, Vector2>>> computedPathsPosVel;
@@ -86,6 +88,22 @@ namespace rtt::ai::control {
          */
         rtt::BB::CommandCollision
         computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
+                               Vector2 targetPosition, stp::PIDType pidType);
+
+        /**
+         * @brief Generates a path and tracks it with the old PID control (hacky). Returns also possibly
+         * the location of a collision on the path if no correct path can be found
+         * @param world a pointer to the current world
+         * @param field the field object, used onwards by the collision detector
+         * @param robotId the ID of the robot for which the path is calculated
+         * @param currentPosition the current position of the aforementioned robot
+         * @param currentVelocity its velocity
+         * @param targetPosition the desired position that the robot has to reach
+         * @param pidType The desired PID type (intercept, regular, keeper etc.)
+         * @return A RobotCommand and optional with the location of the first collision on the path
+         */
+        rtt::BB::CommandCollision
+        computeAndTrackTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
                                Vector2 targetPosition, stp::PIDType pidType);
 
         /**
