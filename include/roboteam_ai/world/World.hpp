@@ -4,12 +4,14 @@
 
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
+#include <roboteam_proto/RobotFeedback.pb.h>
+#include <roboteam_utils/Print.h>
+
 #include <vector>
+
 #include "WorldData.hpp"
 #include "control/positionControl/PositionControl.h"
-#include <roboteam_proto/RobotFeedback.pb.h>
 #include "world/views/WorldDataView.hpp"
-#include <roboteam_utils/Print.h>
 
 namespace rtt::world {
 
@@ -51,10 +53,10 @@ class World {
     template <typename T>
     struct AcquireInfo {
         std::lock_guard<std::mutex> mtx;
-        T* data;
+        T *data;
     };
 
-public:
+   public:
     /**
      * Global singleton for World, scott-meyers style
      * @param[in] resetWorld Boolean that marks whether to reset the world before returning
@@ -64,7 +66,7 @@ public:
      */
     inline static AcquireInfo<World> instance() {
         static World worldInstance{&rtt::SETTINGS};
-        return { std::lock_guard(worldInstance.updateMutex), &worldInstance };
+        return {std::lock_guard(worldInstance.updateMutex), &worldInstance};
     }
 
     /**
@@ -93,13 +95,10 @@ public:
     explicit World(Settings *settings);
 
     /**
-     * Updates feedback for a specific robot
-     * @param robotId Robot id of robot cache to update
-     * @param feedback Feedback to apply, do not use after passing
-     *
-     * Undefined behavior may occur if feedback is used after being passed to this function
+     * Updates feedback for all robots that received feedback
+     * @param feedback Feedback to apply
      */
-    void updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback);
+    void updateFeedback(google::protobuf::RepeatedPtrField<proto::RobotFeedback> feedback);
 
     /**
      * Updates the currentWorld
@@ -108,9 +107,9 @@ public:
     void updateWorld(proto::World &protoWorld);
 
     /**
-    * Updates the currentField
-    * @param field Field to construct currentField from
-    */
+     * Updates the currentField
+     * @param field Field to construct currentField from
+     */
     void updateField(proto::SSL_GeometryFieldSize &protoField);
 
     void updateField(world::Field &protoField);
@@ -234,7 +233,6 @@ public:
      */
     std::optional<WorldData> currentWorld = std::nullopt;
 
-
     std::optional<world::Field> currentField;
 
     /**
@@ -251,8 +249,7 @@ public:
      * The position controller, initially null
      */
     ai::control::PositionControl positionControl;
-
-    };
+};
 }  // namespace rtt::world
 
 #endif  // RTT_WORLD_HPP

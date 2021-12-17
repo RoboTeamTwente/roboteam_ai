@@ -5,6 +5,7 @@
 #include <QColor>
 #include <map>
 #include <vector>
+
 #include "RuleSet.h"
 #include "math.h"
 
@@ -12,14 +13,14 @@ namespace rtt::ai {
 
 typedef std::tuple<double, double, double> pidVals;
 
-    class Constants {
+class Constants {
    public:
     static void init();
     static bool GRSIM();
     static void OVERWRITE_GRSIM(bool grsim);
     static bool FEEDBACK_ENABLED();
 
-    static constexpr size_t ROBOT_COUNT() {return 11; };
+    static constexpr size_t ROBOT_COUNT() { return 11; };
 
     /// TICK RATE ///
     static constexpr int GAME_ANALYSIS_TICK_RATE() { return 5; };
@@ -74,12 +75,12 @@ typedef std::tuple<double, double, double> pidVals;
 
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER();
-    static double MAX_KICK_POWER();      // TODO: TUNE MAX KICK POWER
-    static double MIN_KICK_POWER();      // TODO: TUNE MIN KICK POWER
-    static double MAX_POWER_KICK_DISTANCE(); // TODO: TUNE MAX KICK DISTANCE
-    static double MAX_CHIP_POWER();      // TODO: TUNE MAX CHIP POWER
-    static double MIN_CHIP_POWER();      // TODO: TUNE MIN CHIP POWER
-    static double MAX_POWER_CHIP_DISTANCE(); // TODO: TUNE MAX CHIP DISTANCE
+    static double MAX_KICK_POWER();           // TODO: TUNE MAX KICK POWER
+    static double MIN_KICK_POWER();           // TODO: TUNE MIN KICK POWER
+    static double MAX_POWER_KICK_DISTANCE();  // TODO: TUNE MAX KICK DISTANCE
+    static double MAX_CHIP_POWER();           // TODO: TUNE MAX CHIP POWER
+    static double MIN_CHIP_POWER();           // TODO: TUNE MIN CHIP POWER
+    static double MAX_POWER_CHIP_DISTANCE();  // TODO: TUNE MAX CHIP DISTANCE
     static double OUT_OF_FIELD_MARGIN();
     static double MAX_BALL_BOUNCE_RANGE();
     static double MAX_BALL_RANGE();  // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.

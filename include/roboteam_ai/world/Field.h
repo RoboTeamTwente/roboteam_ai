@@ -1,10 +1,13 @@
 #ifndef RTT_FIELD_H
 #define RTT_FIELD_H
 
-#include <optional>
-#include <roboteam_utils/Vector2.h>
-#include "gtest/gtest_prod.h"
 #include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
+#include <roboteam_utils/Grid.h>
+#include <roboteam_utils/Vector2.h>
+
+#include <optional>
+
+#include "gtest/gtest_prod.h"
 
 namespace rtt::world {
 
@@ -101,6 +104,12 @@ class Field {
     };
 
    private:
+    // The number of points generated in a grid in the x-direction
+    static constexpr int numSegmentsX = 3;
+
+    // The number of points generated in a grid in the y-direction
+    static constexpr int numSegmentsY = 3;
+
     std::vector<FieldLineSegment> allFieldLines;
 
     /* The width of the field (measured in meters), which is the difference in y-coordinate between the upper part of
@@ -259,6 +268,33 @@ class Field {
     // The bottom left corner of their defence area (note that this is not equal to the bottom of their goal side).
     std::optional<Vector2> bottomRightTheirDefenceArea;
 
+    // The left area in the back of the field (nearest side to our goal)
+    std::optional<Grid> backLeftGrid;
+
+    // The middle area in the back of the field (nearest side to our goal)
+    std::optional<Grid> backMidGrid;
+
+    // The right area in the back of the field (nearest side to our goal)
+    std::optional<Grid> backRightGrid;
+
+    // The left area in the middle of the field
+    std::optional<Grid> middleLeftGrid;
+
+    // The middle area in the middle of the field
+    std::optional<Grid> middleMidGrid;
+
+    // The right area in the middle of the field
+    std::optional<Grid> middleRightGrid;
+
+    // The left area in the front of the field (nearest side to their goal)
+    std::optional<Grid> frontLeftGrid;
+
+    // The middle area in the front of the field (nearest side to their goal)
+    std::optional<Grid> frontMidGrid;
+
+    // The right area in the front of the field (nearest side to their goal)
+    std::optional<Grid> frontRightGrid;
+
    public:
     /**
      * Constructor that creates an unitialized Field
@@ -270,15 +306,15 @@ class Field {
      * Trivial copies, skips the 3 unordered maps.
      * @return
      */
-    Field& operator=(Field const&) noexcept;
-    Field(Field const&) noexcept;
+    Field &operator=(Field const &) noexcept;
+    Field(Field const &) noexcept;
 
     /**
      * Move constructors that copy every member except for the first map
      * Please keep in mind that it _does_ allocate.
      */
-    Field& operator=(Field&&) noexcept;
-    Field(Field&&) noexcept;
+    Field &operator=(Field &&) noexcept;
+    Field(Field &&) noexcept;
 
     /**
      * Constructor that converts a protobuf message into a Field Message object.
@@ -334,6 +370,15 @@ class Field {
     const Vector2 &getTopRightTheirDefenceArea() const;
     const Vector2 &getBottomRightTheirDefenceArea() const;
     const FieldArc &getCenterCircle() const;
+    const Grid &getBackLeftGrid() const;
+    const Grid &getBackMidGrid() const;
+    const Grid &getBackRightGrid() const;
+    const Grid &getMiddleLeftGrid() const;
+    const Grid &getMiddleMidGrid() const;
+    const Grid &getMiddleRightGrid() const;
+    const Grid &getFrontLeftGrid() const;
+    const Grid &getFrontMidGrid() const;
+    const Grid &getFrontRightGrid() const;
 
     /**
      * Get all the lines of the field
@@ -377,6 +422,11 @@ class Field {
     const FieldArc &getFieldArc(const std::optional<FieldArc> &fieldArc) const;
 
     /**
+     * This method deals with getting field grids and what should happen when a field grid is missing.
+     */
+    const Grid &getFieldGrid(const std::optional<Grid> &fieldGrid) const;
+
+    /**
      * Convert a float measured in millimeters to meters (is needed, because proto message contains values measured in
      * millimeters).
      */
@@ -401,6 +451,11 @@ class Field {
      * Initialize the field arcs (this function is only called inside the constructor)
      */
     void initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize);
+
+    /**
+     * Initialize the field grids (this function is only called inse the contructor)
+     */
+    void initFieldGrids();
 
     /**
      * Initialize the other field values, linesegments, arcs and vectors (this function is only called inside the constructor)

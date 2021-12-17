@@ -16,7 +16,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 30);
-    int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
+    double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
@@ -27,9 +27,16 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    // Check if successful
+    // Check if the robot is within the error margin
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+        withinMarginCount += 1;
+    } else {
+        withinMarginCount = 0;
+    }
+
+    // Check whether the robot has been within the margin
+    if (withinMarginCount > 5) {
         return Status::Success;
     } else {
         return Status::Running;

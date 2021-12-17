@@ -4,8 +4,8 @@
 
 #include "stp/roles/passive/Harasser.h"
 
-#include "stp/tactics/passive/BlockBall.h"
 #include "stp/tactics/Intercept.h"
+#include "stp/tactics/passive/BlockBall.h"
 
 namespace rtt::ai::stp::role {
 

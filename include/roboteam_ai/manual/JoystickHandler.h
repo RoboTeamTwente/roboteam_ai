@@ -2,12 +2,14 @@
 #ifndef RTT_JOYSTICKHANDLER_H
 #define RTT_JOYSTICKHANDLER_H
 
+#include <roboteam_proto/RobotCommand.pb.h>
+#include <stdio.h>
+
+#include <iostream>
+
+#include "JoystickState.h"
 #include "SDL.h"
 #include "SDL_joystick.h"
-#include <stdio.h>
-#include <iostream>
-#include "JoystickState.h"
-#include <roboteam_proto/RobotCommand.pb.h>
 
 namespace rtt::input {
 
@@ -17,7 +19,7 @@ class JoystickHandler {
     JoystickState joystickState;
     float robotAngle = 0.0;
     int robotId = -1;
-    int dribbler_vel = 0;
+    float dribbler_vel = 0;
     std::chrono::steady_clock::time_point id_switched_timestamp;
 
    public:

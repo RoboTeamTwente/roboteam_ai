@@ -1,13 +1,16 @@
 #ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
+#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/Polygon.h>
+
 #include <cmath>
 #include <mutex>
+
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
-#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include "world/Field.h"
+#include "views/WorldDataView.hpp"
 
 namespace rtt::world::view {
 class WorldDataView;
@@ -34,18 +37,45 @@ class FieldComputations {
      * @param field The field class which is used to determine the position of the defence areas.
      * @param point The point for which it is checked whether it is in our/their defence area.
      * @param isOurDefenceArea True if our defence area is used, false if the opponents defence area is used.
-     * @param margin The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
-     * be expanded, a negative value means that it will be shrinked.
-     * @param backMargin The outwards margin at the goal side (boundary side) of the field.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
+     * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
      * @return True if the point is in the defence area, false otherwise.
      */
     static bool pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin);
 
     /**
-     * Look at the overloaded function pointIsInDefenceArea(const world::Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0,
-     * bool includeOutsideField = false) for the corresponding documentation. This function is used to fill in the default values.
+     * Determines whether a given point is in either defense area
+     * @param field The field class which is used to determine the position of the defense areas.
+     * @param point The point for which it is checked whether it is in our/their defense area.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
+     * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
+     * @return True if the point is in either defence area (after adding margins), false otherwise
      */
-    static bool pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0);
+    static bool pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0, double backMargin = 0.0);
+
+    /**
+     * Determines whether a given point is our defense area
+     * @param field The field class which is used to determine the position of the defense areas.
+     * @param point The point for which it is checked whether it is in our/their defense area.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
+     * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
+     * @return True if the point is in our defence area (after adding margins), false otherwise
+     */
+    static bool pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0, double backMargin = 0.0);
+
+    /**
+     * Determines whether a given point is in their defense area
+     * @param field The field class which is used to determine the position of the defense areas.
+     * @param point The point for which it is checked whether it is in our/their defense area.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
+     * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
+     * @return True if the point is in their defence area (after adding margins), false otherwise
+     */
+    static bool pointIsInTheirDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0, double backMargin = 0.0);
 
     /**
      * Check whether a given point is in the field.
@@ -58,7 +88,7 @@ class FieldComputations {
     static bool pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
 
     /**
-     * Check weather a given point is a valid position (inside field, outside defense area's)
+     * Check whether a given point is a valid position (inside field, outside defense area's)
      * @param field The field class which is used to determine the boundaries of the field.
      * @param point The point for which it is checked whether it is valid or not
      * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
@@ -66,6 +96,17 @@ class FieldComputations {
      * @return True if the point is in the field and outside both defense area's
      */
     static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
+
+    /**
+     * Check whether a given point is a valid position for a certain id.
+     * @param field The field class which is used to determine the boundaries of the field.
+     * @param point The point for which it is checked whether it is valid or not
+     * @param roleName the name of the role associated with this robot
+     * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
+     * expanded, a negative value means that the field area will be shrinked.
+     * @return True if the point is a valid target position for this robot id (inside of field and outside of defense area, unless robot is keeper or ball placer)
+     */
+    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, std::string roleName, double margin = 0.0);
 
     /**
      * Get the percentage of goal visible from a given point, i.e. how much of the goal can be reached by directly shooting a ball over the ground from a given point without
@@ -79,7 +120,7 @@ class FieldComputations {
      * blockades).
      * @return The percentage of the goal visible, which is a double value between 0.0 and 100.0 including both 0.0 and 100.0.
      */
-    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World *world, int id = -1,
+    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id = -1,
                                                       bool ourTeam = false);
 
     /**
@@ -205,8 +246,8 @@ class FieldComputations {
      * blockades).
      * @return All the parts of the goal that are blocked.
      */
-    static std::vector<LineSegment> getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const std::vector<
-            rtt_world::view::RobotView> &robots, int id = -1, bool ourTeam = false);
+    static std::vector<LineSegment> getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
+                                                             const std::vector<rtt_world::view::RobotView> &robots, int id = -1, bool ourTeam = false);
 
     /**
      * Check whether a given robot really blocks a part of the goal (which is not the case if the robot belongs to a given team or if the robot has a given id) and if so return

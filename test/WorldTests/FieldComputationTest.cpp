@@ -90,7 +90,7 @@ TEST(FieldComputationTest, point_in_polygon) {
     /* In the following test cases you do boundary value analysis + error guessing by extending the areas and pick 2 corners of this area from which you slightly move inwards and
      * check if these new positions are indeed located in that area. Also you shrink the areas and pick the same corners from which you slightly move outwards and check if these
      * new positions are indeed located outside that area. */
-    
+
     // Do the boundary value analysis + error guessing for the pointInField function
     testPoint = testField.getTopLeftCorner() + Vector2(-1.0, 1.0);
     EXPECT_TRUE(FieldComputations::pointIsInField(testField, testPoint, 1.0));
@@ -103,23 +103,23 @@ TEST(FieldComputationTest, point_in_polygon) {
 
     // Do the boundary value analysis + error guessing for our defence area in the pointInDefenseArea function
     testPoint = testField.getLeftPenaltyLineTop() + Vector2(0.3 - smallChanges, 0.3 - smallChanges);
-    EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, 0.3, 0.2));
+    EXPECT_TRUE(FieldComputations::pointIsInOurDefenseArea(testField, testPoint, 0.3, 0.2));
     testPoint = testField.getLeftPenaltyLineTop() + Vector2(0.3 + smallChanges, 0.3 + smallChanges);
-    EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, 0.3, 0.2));
+    EXPECT_FALSE(FieldComputations::pointIsInOurDefenseArea(testField, testPoint, 0.3, 0.2));
     testPoint = testField.getBottomLeftOurDefenceArea() + Vector2(0.2 + smallChanges, 0.3 + smallChanges);
-    EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, -0.3, -0.2));
+    EXPECT_TRUE(FieldComputations::pointIsInOurDefenseArea(testField, testPoint, -0.3, -0.2));
     testPoint = testField.getBottomLeftOurDefenceArea() + Vector2(0.2 - smallChanges, 0.3 - smallChanges);
-    EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, -0.3, -0.2));
+    EXPECT_FALSE(FieldComputations::pointIsInOurDefenseArea(testField, testPoint, -0.3, -0.2));
 
     // Do the boundary value analysis + error guessing for their defence area in the pointInDefenseArea function
     testPoint = testField.getRightPenaltyLineTop() + Vector2(0.3 + smallChanges, -0.3 - smallChanges);
-    EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, -0.3, -0.2));
+    EXPECT_TRUE(FieldComputations::pointIsInTheirDefenseArea(testField, testPoint, -0.3, -0.2));
     testPoint = testField.getRightPenaltyLineTop() + Vector2(0.3 - smallChanges, -0.3 + smallChanges);
-    EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, -0.3, -0.2));
+    EXPECT_FALSE(FieldComputations::pointIsInTheirDefenseArea(testField, testPoint, -0.3, -0.2));
     testPoint = testField.getBottomRightTheirDefenceArea() + Vector2(0.2 - smallChanges, -0.3 + smallChanges);
-    EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, 0.3, 0.2));
+    EXPECT_TRUE(FieldComputations::pointIsInTheirDefenseArea(testField, testPoint, 0.3, 0.2));
     testPoint = testField.getBottomRightTheirDefenceArea() + Vector2(0.2 + smallChanges, -0.3 - smallChanges);
-    EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, 0.3, 0.2));
+    EXPECT_FALSE(FieldComputations::pointIsInTheirDefenseArea(testField, testPoint, 0.3, 0.2));
 }
 
 TEST(FieldComputationTest, goal_distance) {

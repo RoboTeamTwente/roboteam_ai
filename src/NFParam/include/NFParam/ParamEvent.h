@@ -38,37 +38,34 @@ typedef std::function<float(double time)> NF_AUDIO_PARAM_FUNCTION;
  */
 enum class Anchor { NONE = 0x0, START = 0x1, END = 0x2, ALL = 0x3 };
 inline Anchor operator&(Anchor a, Anchor b) {
-  using T = std::underlying_type<Anchor>::type;
-  return static_cast<Anchor>(static_cast<T>(a) & static_cast<T>(b));
+    using T = std::underlying_type<Anchor>::type;
+    return static_cast<Anchor>(static_cast<T>(a) & static_cast<T>(b));
 }
 
 struct ParamEvent {
-  double start_time;
-  double end_time;
-  double start_value;
+    double start_time;
+    double end_time;
+    double start_value;
 
-  const Anchor anchor;
+    const Anchor anchor;
 
-  ParamEvent(double start_time, double end_time, Anchor anchor);
-  virtual ~ParamEvent();
+    ParamEvent(double start_time, double end_time, Anchor anchor);
+    virtual ~ParamEvent();
 
-  virtual float valueAtTime(double time) = 0;
-  virtual float endValue();
-  virtual float cumulativeValue(double start_time, double end_time, double precision = .1);
+    virtual float valueAtTime(double time) = 0;
+    virtual float endValue();
+    virtual float cumulativeValue(double start_time, double end_time, double precision = .1);
 
-  static constexpr double INVALID_TIME = -1.0;
+    static constexpr double INVALID_TIME = -1.0;
 };
 
 struct CustomParamEvent : public ParamEvent {
-  NF_AUDIO_PARAM_FUNCTION function;
+    NF_AUDIO_PARAM_FUNCTION function;
 
-  CustomParamEvent(double start_time,
-                   double end_time,
-                   Anchor anchor,
-                   NF_AUDIO_PARAM_FUNCTION function);
+    CustomParamEvent(double start_time, double end_time, Anchor anchor, NF_AUDIO_PARAM_FUNCTION function);
 
-  virtual ~CustomParamEvent();
-  float valueAtTime(double time) override;
+    virtual ~CustomParamEvent();
+    float valueAtTime(double time) override;
 };
 
 }  // namespace param

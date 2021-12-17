@@ -39,7 +39,7 @@ constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 /// RobotCommand limits
 // TODO: for testing, this is set to 1.89!
 constexpr double MAX_VEL_CMD = 8;
-constexpr double MAX_DRIBBLER_CMD = 31;
+constexpr double MAX_DRIBBLER_CMD = 1;
 // Angle increment per tick
 constexpr double ANGLE_RATE = 0.1 * M_PI;
 constexpr double MAX_VEL_WHEN_HAS_BALL = 3.0;
@@ -48,9 +48,9 @@ constexpr double MAX_VEL_WHEN_HAS_BALL = 3.0;
 // Angle margin robot to ball. Within this margin, the robot has the ball
 constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.10;
 // Distance margin robot to ball. Within this margin, the robot has the ball
-/// WHEN IN GRSIM, CHANGE HAS_BALL_DISTANCE_ERROR_MARGIN TO 0.12
+/// WHEN IN GRSIM, this is not used, as using feedback is a more accurate. If using this, set distance to 0.12
 /// WHEN IRL, CHANGE HAS_BALL_DISTANCE_ERROR_MARGIN TO 0.10
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.12;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.10;
 
 /// GTP Constants
 // Distance margin for 'goToPos'. If the robot is within this margin, goToPos is successful

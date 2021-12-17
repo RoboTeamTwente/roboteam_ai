@@ -10,15 +10,15 @@ namespace rtt::ai::stp::skill {
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
-    RTT_DEBUG(info.getRobot()->get()->getVel().length());
-    if (!FieldComputations::pointIsInField(info.getField().value(), targetPos)) {
-        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId())
-        targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
+
+    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getRoleName())) {
+        RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
+        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
     bool useOldPathPlanning = false;
     rtt::BB::CommandCollision commandCollision;
 
-    if(useOldPathPlanning) {
+    if (useOldPathPlanning) {
         // Calculate commands from path planning and tracking
         commandCollision.robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
@@ -32,8 +32,15 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     if (commandCollision.collisionData.has_value()) {
         return Status::Failure;
     }
+
+    double targetVelocityLength;
+    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS / 2) {
+        RTT_DEBUG("Setting max vel");
+        targetVelocityLength = info.getMaxRobotVelocity();
+    } else {
+        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, info.getMaxRobotVelocity());
+    }
     // Clamp and set velocity
-    double targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     Vector2 targetVelocity = commandCollision.robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
@@ -44,7 +51,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
+    double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
