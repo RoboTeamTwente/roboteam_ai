@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ROBOTCOMMAND_H
 #define ROBOTEAM_AI_ROBOTCOMMAND_H
 
-#include <proto/RobotCommand.pb.h>
+#include <roboteam_proto/RobotCommand.pb.h>
 
 #include "roboteam_utils/Angle.h"
 #include "roboteam_utils/Vector2.h"

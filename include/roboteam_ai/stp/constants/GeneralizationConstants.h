@@ -8,7 +8,6 @@
 #include <roboteam_utils/Grid.h>
 
 #include <optional>
-#include <unordered_map>
 
 namespace rtt::ai::stp::gen {
 /**

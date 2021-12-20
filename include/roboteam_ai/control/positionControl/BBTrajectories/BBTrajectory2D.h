@@ -7,8 +7,6 @@
 
 #include <roboteam_utils/Vector2.h>
 
-#include <vector>
-
 #include "BBTrajectory1D.h"
 
 namespace rtt::BB {
