@@ -51,8 +51,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
         }
         if (!current.currentRoles.empty()) {
             // Return best assignment for those roles (column)
-            auto linearAssignment = Hungarian();
-            current.newAssignments = linearAssignment.Solve(current.currentScores);
+            rtt::Hungarian::Solve(current.currentScores, current.newAssignments);
             if (!current.newAssignments.empty()) {
                 for (std::size_t j = 0; j < current.newAssignments.size(); j++) {
                     if (current.newAssignments[j] >= 0) {
