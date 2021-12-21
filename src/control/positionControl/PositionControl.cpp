@@ -68,7 +68,7 @@ namespace rtt::ai::control {
 
         if (firstCollision.has_value()) {
             //Create intermediate points, return a collision-free trajectory originating from the best option of these points
-            auto newTrajectory = findNewTrajectory(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, timeStep);
+            auto newTrajectory = findNewTrajectory(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, maxRobotVelocity, timeStep);
             if (newTrajectory.has_value()) {
                 computedTrajectories[robotId] = newTrajectory.value();
             } else {

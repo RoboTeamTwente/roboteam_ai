@@ -118,6 +118,7 @@ namespace rtt::ai::control {
          * @param currentVelocity its velocity
          * @param firstCollision location of the first collision on the current path
          * @param targetPosition the desired position that the robot has to reach
+         * @param maxRobotVelocity the maximum velocity the robot is allowed to have
          * @param timeStep the time between path points when approaching the path
          * @return An optional with a new path
          */
