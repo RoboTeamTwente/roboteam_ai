@@ -7,7 +7,7 @@
 #ifndef ROBOTEAM_AI_STRATEGYMANAGER_H
 #define ROBOTEAM_AI_STRATEGYMANAGER_H
 
-#include <proto/messages_robocup_ssl_referee.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 
 #include <iostream>
 #include <map>

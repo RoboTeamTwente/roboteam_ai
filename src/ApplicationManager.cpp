@@ -1,15 +1,15 @@
 #include "ApplicationManager.h"
 
 #include <roboteam_utils/Timer.h>
+#include <roboteam_utils/normalize.h>
 #include <stp/plays/referee_specific/TimeOut.h>
-#include <utilities/normalize.h>
 
 #include <chrono>
 
 #include "control/ControlModule.h"
-#include "stp/computations/ComputationManager.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
+#include "stp/computations/ComputationManager.h"
 
 /**
  * Plays are included here
@@ -81,31 +81,34 @@ void ApplicationManager::start() {
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
-    roboteam_utils::Timer stpTimer;
-    stpTimer.loop(
+    roboteam_utils::Timer t;
+
+    t.loop(
         [&]() {
             std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
             runOneLoopCycle();
             std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
 
             int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+
+            //            RTT_WARNING("Time : ", loopcycleDuration, " ms")
+            //            RTT_WARNING("Time allowed: 16 ms")
+
             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
             int fpsUpdateRate = 5;
-            stpTimer.limit(
+            t.limit(
                 [&]() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
                 },
                 fpsUpdateRate);
 
-            // If this is primary AI, broadcast settings every second
-            if (SETTINGS.isPrimaryAI()) {
-                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, ai::Constants::SETTINGS_BROADCAST_RATE());
-            }
+            // publish settings, but limit this function call to only run 1 times/s at most
+            t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);
         },
-        ai::Constants::STP_TICK_RATE());
+        ai::Constants::TICK_RATE());
 }
 
 /// Run everything with regard to behaviour trees

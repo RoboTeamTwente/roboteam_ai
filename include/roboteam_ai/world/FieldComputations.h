@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
-#include <proto/messages_robocup_ssl_geometry.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/Polygon.h>
 
 #include <cmath>
@@ -9,8 +9,8 @@
 
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
-#include "views/WorldDataView.hpp"
 #include "world/Field.h"
+#include "views/WorldDataView.hpp"
 
 namespace rtt::world::view {
 class WorldDataView;

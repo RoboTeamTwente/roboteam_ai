@@ -5,8 +5,8 @@
 #ifndef RTT_ROBOT_HPP
 #define RTT_ROBOT_HPP
 
-#include <proto/RobotFeedback.pb.h>
-#include <proto/WorldRobot.pb.h>
+#include <roboteam_proto/RobotFeedback.pb.h>
+#include <roboteam_proto/WorldRobot.pb.h>
 
 #include <optional>
 

@@ -1,12 +1,15 @@
 #ifndef ROBOTEAM_AI_IO_MANAGERRRR_H
 #define ROBOTEAM_AI_IO_MANAGERRRR_H
 
-#include <RobotCommandsNetworker.hpp>
-#include <SettingsNetworker.hpp>
-#include <WorldNetworker.hpp>
+#include <networking/Publisher.h>
+#include <networking/Subscriber.h>
+#include <roboteam_proto/AICommand.pb.h>
+#include <roboteam_proto/Setting.pb.h>
+#include <roboteam_proto/State.pb.h>
+
 #include <iostream>
 #include <mutex>
-#include <utils/Pair.hpp>
+#include <networking/Pair.hpp>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
@@ -24,27 +27,24 @@ using namespace rtt::world;
 class IOManager {
    private:
     proto::State state;
-    std::unique_ptr<rtt::net::WorldSubscriber> worldSubscriber;
-    void handleState(const proto::State &state);
+    proto::Subscriber<proto::State> *worldSubscriber;
+    void handleState(proto::State &state);
 
-    std::unique_ptr<rtt::net::RobotCommandsBluePublisher> robotCommandsBluePublisher;
-    std::unique_ptr<rtt::net::RobotCommandsYellowPublisher> robotCommandsYellowPublisher;
-    std::unique_ptr<rtt::net::SettingsPublisher> settingsPublisher;
+    proto::Publisher<proto::AICommand> *robotCommandPublisher;
+    proto::Publisher<proto::Setting> *settingsPublisher;
 
     rtt::ai::Pause *pause;
 
-    std::unique_ptr<rtt::net::utils::PairReceiver<16970>> centralServerConnection;
-
-    bool publishRobotCommands(const proto::AICommand &aiCommand, bool forTeamYellow);
+    rtt::networking::PairReceiver<16970> *central_server_connection;
 
    public:
+    ~IOManager();
+    explicit IOManager() = default;
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
     void publishSettings(proto::Setting setting);
     void handleCentralServerConnection();
-    bool init(bool isPrimaryAI);
+    void init(int teamId);
     proto::State getState();
-
-    bool switchTeamColorChannel(bool yellowChannel);
 
     std::mutex stateMutex;
 };

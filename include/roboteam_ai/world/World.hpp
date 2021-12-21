@@ -4,7 +4,7 @@
 
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
-#include <proto/RobotFeedback.pb.h>
+#include <roboteam_proto/RobotFeedback.pb.h>
 #include <roboteam_utils/Print.h>
 
 #include <vector>

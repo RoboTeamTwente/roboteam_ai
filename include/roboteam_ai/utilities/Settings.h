@@ -5,7 +5,7 @@
 #ifndef RTT_SETTINGS_H
 #define RTT_SETTINGS_H
 
-#include <proto/Setting.pb.h>
+#include <roboteam_proto/Setting.pb.h>
 
 namespace rtt {
 
@@ -22,13 +22,12 @@ class Settings {
 
    public:
     int getId() const;
-    bool isPrimaryAI() const;
 
     void setId(int id);
 
     bool isYellow() const;
 
-    bool setYellow(bool yellow);
+    void setYellow(bool yellow);
 
     bool isLeft() const;
 
@@ -68,7 +67,7 @@ class Settings {
     int robothubSendPort;
 
    public:
-    void init(int idOfAI);
+    void init(int id);
     proto::Setting toMessage();
 };
 

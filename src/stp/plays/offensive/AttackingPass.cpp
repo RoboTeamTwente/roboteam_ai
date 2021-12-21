@@ -148,8 +148,7 @@ void AttackingPass::calculateInfoForPass(const world::ball::Ball *ball) noexcept
     /// Recalculate pass positions if we did not shoot yet
     /// For the receive locations, divide the field up into grids where the passers should stand,
     /// and find the best locations in those grids
-    auto receiverPositionRight =
-        PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::GoalShootPosition, field, world);
+    auto receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::GoalShootPosition, field, world);
     auto receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::GoalShootPosition, field, world);
 
     stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos());

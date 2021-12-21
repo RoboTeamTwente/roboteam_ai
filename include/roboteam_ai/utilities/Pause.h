@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_PAUSE_H
 #define ROBOTEAM_AI_PAUSE_H
 
-#include <proto/RobotCommand.pb.h>
+#include <roboteam_proto/RobotCommand.pb.h>
 
 #include <mutex>
 
