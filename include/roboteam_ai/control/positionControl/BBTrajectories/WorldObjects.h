@@ -7,7 +7,7 @@
 
 #include "control/ControlUtils.h"
 #include "world/FieldComputations.h"
-#include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
+#include "control/positionControl/BBTrajectories/Trajectory2D.h"
 #include "utilities/GameStateManager.hpp"
 #include "control/RobotCommand.h"
 
@@ -58,7 +58,7 @@ namespace rtt::BB {
          * @return optional with rtt::BB::CollisionData
          */
         std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field,
-                                                       const BBTrajectory2D &BBTrajectory, const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId);
+                                                       const rtt::Trajectory2D &Trajectory, const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId);
 
         /**
          * Takes a discretized trajectory of a robot and checks the path in certain intervals for collisions
@@ -120,7 +120,7 @@ namespace rtt::BB {
          * @param pathPoints, std::vector with path points
          * @param timeStep in seconds
          */
-        void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::BB::BBTrajectory2D BBTrajectory, std::vector<CollisionData> &collisionDatas,
+        void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::Trajectory2D Trajectory, std::vector<CollisionData> &collisionDatas,
                                            const std::vector<Vector2> &pathPoints, double timeStep);
 
         /**

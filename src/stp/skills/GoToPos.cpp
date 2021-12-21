@@ -24,9 +24,15 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
+        /*
         commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
             info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
             info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+        */
+
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackTrajectory(
+            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+            info.getRobot().value()->getVel(), targetPos, info.getMaxRobotVelocity(), info.getPidType().value());
     }
 
     if (commandCollision.collisionData.has_value()) {

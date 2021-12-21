@@ -8,15 +8,31 @@
 #include <vector>
 #include "BBTrajectory2D.h"
 #include "Trajectory1D.h"
-#include "control/positionControl/BBTrajectories/WorldObjects.h"
 
 namespace rtt {
 
 class Trajectory2D {
    public:
-    Trajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc, double alpha);
+    /**
+         * @brief Default constructor
+     */
+    Trajectory2D() = default;
+
+    Trajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc);
 
     void addTrajectory(const Trajectory2D &extraTrajectory, double addFromTime);
+
+    /**
+         * @brief Approaches the BangBangTrajectory by dividing the path in points which are separated by timeStep seconds
+         * @param timeStep time between pathpoints
+         * @return
+     */
+    [[nodiscard]] std::vector<Vector2> getPathApproach(double timeStep) const;
+
+    /**
+         * @brief Returns a vector with all the velocities (Vector2) at specified timeSteps
+     */
+    [[nodiscard]] std::vector<Vector2> getVelocityVector(double timeStep) const;
 
     /**
          * @brief Get the position in the trajectory at time t

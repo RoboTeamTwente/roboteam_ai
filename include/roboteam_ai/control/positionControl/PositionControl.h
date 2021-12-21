@@ -91,7 +91,7 @@ namespace rtt::ai::control {
                                Vector2 targetPosition, stp::PIDType pidType);
 
         /**
-         * @brief Generates a path and tracks it with the old PID control (hacky). Returns also possibly
+         * @brief Generates a collision-free trajectory and tracks it. Returns also possibly
          * the location of a collision on the path if no correct path can be found
          * @param world a pointer to the current world
          * @param field the field object, used onwards by the collision detector
@@ -99,12 +99,51 @@ namespace rtt::ai::control {
          * @param currentPosition the current position of the aforementioned robot
          * @param currentVelocity its velocity
          * @param targetPosition the desired position that the robot has to reach
+         * @param maxRobotVelocity the maximum velocity that the robot is allowed to have
          * @param pidType The desired PID type (intercept, regular, keeper etc.)
          * @return A RobotCommand and optional with the location of the first collision on the path
          */
         rtt::BB::CommandCollision
         computeAndTrackTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
-                               Vector2 targetPosition, stp::PIDType pidType);
+                                  Vector2 targetPosition, double maxRobotVelocity, stp::PIDType pidType);
+
+        /**
+         * @brief Tries to find a new trajectory when the current path has a collision on it. It tries this by
+         * looking for trajectories which go to intermediate points in the area of the collision and from these
+         * paths again to the target. Also draws the intermediate point and path in the interface
+         * @param world the world object
+         * @param field the field object, used onwards by the collision detector
+         * @param robotId the ID of the robot for which the path is calculated
+         * @param currentPosition the current position of the aforementioned robot
+         * @param currentVelocity its velocity
+         * @param firstCollision location of the first collision on the current path
+         * @param targetPosition the desired position that the robot has to reach
+         * @param timeStep the time between path points when approaching the path
+         * @return An optional with a new path
+         */
+        std::optional<Trajectory2D>
+        findNewTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
+                    std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, double maxRobotVelocity,  double timeStep);
+
+        //If no collision on trajectory to intermediatePoint, create new points along this trajectory in timeStep increments.
+        //Then loop through these new points, generate trajectories from these to the original target and check for collisions.
+        //Return the first trajectory without collisions, or pop() this point and start checking the next one.
+        /**
+         * @brief Calculates a path to the targetPosition from a point on the path to an intermediate path and
+         * return it if there are no collisions
+         * @param world the world object
+         * @param field the field object, used onwards by the collision detector
+         * @param intermediatePathCollision if intermediatePathCollision has no value, return {}
+         * @param pathToIntermediatePoint used for getting new start points of the BBT to the targetPosition
+         * @param targetPosition the desired position that the robot has to reach
+         * @param robotId the ID of the robot for which the path is calculated
+         * @param timeStep time in seconds between new start points on the BBT to the intermediatePoint
+         * @return optional Trajectory if a new path was found
+         */
+        std::optional<Trajectory2D>
+        calculateTrajectoryAroundCollision(const rtt::world::World *world, const rtt::world::Field &field,
+                                  std::optional<BB::CollisionData> &intermediatePathCollision, Trajectory2D trajectoryToIntermediatePoint,
+                                  Vector2 &targetPosition, int robotId, double maxRobotVelocity, double timeStep);
 
         /**
          * @brief Tries to find a new path when the current path has a collision on it. It tries this by
