@@ -70,6 +70,7 @@ $(function() {
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp::skill::Orbit Class Reference</div>  </div>
@@ -120,6 +121,13 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:affa1f2883b23be571b09bae935ac1eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6f8ce6c3f2e5e102ec35028b3471a92"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#ad6f8ce6c3f2e5e102ec35028b3471a92">getName</a> () override</td></tr>
 <tr class="separator:ad6f8ce6c3f2e5e102ec35028b3471a92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a3b5edaebee0b84aa5f01bbbb4575446c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a3b5edaebee0b84aa5f01bbbb4575446c">counter</a> = 0</td></tr>
+<tr class="separator:a3b5edaebee0b84aa5f01bbbb4575446c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a284c5c563ccda2dcdbd29b73d1dde9cc"><td class="memItemLeft" align="right" valign="top">PID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a284c5c563ccda2dcdbd29b73d1dde9cc">velPid</a> = PID(0.75, 0, 0)</td></tr>
+<tr class="separator:a284c5c563ccda2dcdbd29b73d1dde9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8ff0319d5018d2f697c38494d0568991"></a>
@@ -373,6 +381,29 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a3b5edaebee0b84aa5f01bbbb4575446c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b5edaebee0b84aa5f01bbbb4575446c">&#9670;&nbsp;</a></span>counter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rtt::ai::stp::skill::Orbit::counter = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Counter for how many ticks the robot is within the error margin </p>
+
+</div>
+</div>
 <a id="a62d571b925906855b84dfc185a0b5ee8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a62d571b925906855b84dfc185a0b5ee8">&#9670;&nbsp;</a></span>currentStatus</h2>
 
@@ -416,6 +447,29 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Robot this skill controls </p>
+
+</div>
+</div>
+<a id="a284c5c563ccda2dcdbd29b73d1dde9cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a284c5c563ccda2dcdbd29b73d1dde9cc">&#9670;&nbsp;</a></span>velPid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PID rtt::ai::stp::skill::Orbit::velPid = PID(0.75, 0, 0)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>PID controller to determine velocity multiplier </p>
 
 </div>
 </div>
