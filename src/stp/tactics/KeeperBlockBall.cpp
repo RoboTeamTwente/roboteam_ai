@@ -34,7 +34,7 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
     skillStpInfo.setPidType(targetPosition.second);
-    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + 0.2, targetPosition.first.y));
+    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + Constants::KEEPER_CENTREGOAL_MARGIN(), targetPosition.first.y));
     return skillStpInfo;
 }
 
