@@ -56,6 +56,7 @@ class PositionComputations {
      * @return Vector2 position of that index in the wall
      */
     static Vector2 getWallPosition(int index, int amountDefenders, const world::Field &field, world::World *world);
+    static Vector2 ProjectPositionOutsideDefenseAreaOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin);
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_POSITIONCOMPUTATIONS_H
