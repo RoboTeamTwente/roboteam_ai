@@ -6,7 +6,6 @@
 #define RTT_BLOCKBALL_H
 
 #include "stp/Tactic.h"
-#include "utilities/StpInfoEnums.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -60,7 +59,7 @@ class BlockBall : public Tactic {
      * @param enemyRobot Enemy robot closest to ball
      * @return Target position for the blocker
      */
-    static Vector2 calculateTargetPosition(const world::view::BallView &ball, Vector2 defendPos, BlockDistance blockDistance) noexcept;
+    static Vector2 calculateTargetPosition(const world::view::BallView &ball, Vector2 defendPos) noexcept;
 };
 }  // namespace rtt::ai::stp::tactic
 

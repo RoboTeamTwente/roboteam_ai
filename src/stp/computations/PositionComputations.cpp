@@ -6,8 +6,10 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include "stp/computations/ComputationManager.h"
 #include "stp/computations/PositionScoring.h"
+#include "stp/computations/ComputationManager.h"
+
+
 #include "world/Field.h"
 #include "world/World.hpp"
 
@@ -101,19 +103,5 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     std::sort(std::begin(positions), std::end(positions), [](Vector2 a, Vector2 b) { return a.length() > b.length(); });
     return positions;
-}
-
-Vector2 PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
-    auto intersection = FieldComputations::lineIntersectionWithDefenceArea(field, true, p1, p2, margin);
-    if (intersection) {
-        return *intersection;
-    }
-
-    intersection = FieldComputations::lineIntersectionWithDefenceArea(field, false, p1, p2, margin);
-    if (intersection) {
-        return *intersection;
-    }
-
-    return position;
 }
 }  // namespace rtt::ai::stp
