@@ -1,10 +1,4 @@
-//
-// Created by mrlukasbos on 14-1-19.
-//
-
-#ifndef ROBOTEAM_AI_APPLICATIONMANAGER_H
-#define ROBOTEAM_AI_APPLICATIONMANAGER_H
-
+#pragma once
 #include <gtest/gtest_prod.h>
 
 #include "interface/widgets/mainWindow.h"
@@ -67,5 +61,3 @@ class ApplicationManager {
 };
 
 }  // namespace rtt
-
-#endif  // ROBOTEAM_AI_APPLICATIONMANAGER_H
