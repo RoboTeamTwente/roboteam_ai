@@ -134,8 +134,10 @@ void DefendShot::calculateInfoForMidfielders() noexcept {
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {
-    stpInfos["offender_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["offender_1"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::SafePosition, field, world));
-    stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["offender_2"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::SafePosition, field, world));
+    stpInfos["offender_1"].setPositionToMoveTo(
+        PositionComputations::getPosition(stpInfos["offender_1"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::SafePosition, field, world));
+    stpInfos["offender_2"].setPositionToMoveTo(
+        PositionComputations::getPosition(stpInfos["offender_2"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::SafePosition, field, world));
 }
 
 const char *DefendShot::getName() { return "Defend Shot"; }
