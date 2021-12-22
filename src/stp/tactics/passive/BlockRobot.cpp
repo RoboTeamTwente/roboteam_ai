@@ -1,4 +1,3 @@
-//
 // Created by jessevw on 12.03.20.
 /// Places a robot between a given TARGET and a given ENEMY at a distance from the the ENEMY
 /// TODO-Max de-hardcode the distance (with speed of the enemy? Standstill is block really close?)
@@ -8,17 +7,15 @@
 
 #include "stp/tactics/passive/BlockRobot.h"
 
+#include <roboteam_utils/Print.h>
+#include <world/FieldComputations.h>
+
+#include "stp/computations/PositionComputations.h"
 #include "stp/skills/GoToPos.h"
-#include "stp/skills/Rotate.h"
-
-
-
-
-#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::stp::tactic {
 
-BlockRobot::BlockRobot() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
+BlockRobot::BlockRobot() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
 std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
@@ -27,8 +24,57 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
 
     skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPositionToDefend().value()));
 
-    auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value());
+    // Minimum distance from the defense area
+    auto margin = 2.5 * control_constants::ROBOT_RADIUS;
+
+    // Distance of the enemy robot to our defense zone
+    auto enemyDistanceToDefenseZone =
+        FieldComputations::getDistanceToDefenseZone(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), margin, margin);
+
+    auto desiredRobotPosition =
+        calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value(), false, enemyDistanceToDefenseZone);
+
+    // Project the target position outside the defense area if it is in it (within the margin)
+    if (FieldComputations::pointIsInDefenseArea(info.getField().value(), desiredRobotPosition, margin)) {
+
+        auto projectedDesiredRobotPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(
+            info.getField().value(), desiredRobotPosition, info.getPositionToDefend().value(), info.getEnemyRobot()->get()->getPos(), margin);
+
+        desiredRobotPosition =
+            calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedDesiredRobotPosition, false, enemyDistanceToDefenseZone);
+
+        // check if the enemy robot is below our penalty line (closer to our goal than the penalty line)
+        if (FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), margin, margin)) {
+            desiredRobotPosition =
+                calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedDesiredRobotPosition, true, enemyDistanceToDefenseZone);
+        }
+    }
+
+    // distance of the blocking robot from our defense zone
+    auto distance = FieldComputations::getDistanceToDefenseZone(info.getField().value(), true, info.getRobot()->get()->getPos(), margin, margin);
+
+    // function based on ticks to handle situation very close to our defense zone, in which robot cannot move closer to the target position
+    if ((info.getRobot()->get()->getPos() - robotPosBefore).length() <= control_constants::ROBOT_RADIUS / 4 && distance <= 2 * margin &&
+        (info.getRobot()->get()->getPos() - info.getEnemyRobot()->get()->getPos()).length() <= 2 * margin) {
+        withinMarginCount += 1;
+    } else {
+        withinMarginCount = 0;
+    }
+
+    // update the previous position of the robot after 10 tick so that if the robots move the difference between current position and previous one will be notable
+    if (waitTick > 10) {
+        robotPosBefore = info.getRobot()->get()->getPos();
+        waitTick = 0;
+    }
+
+    // return current robot position as desired position to finish the tactic
+    if (withinMarginCount >= 10) {
+        desiredRobotPosition = info.getRobot()->get()->getPos();
+    }
+
     skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
+
+    waitTick += 1;
 
     return skillStpInfo;
 }
@@ -38,83 +84,34 @@ double BlockRobot::calculateAngle(const world::view::RobotView enemy, const Vect
     return lineEnemyToTarget.angle();
 }
 
-Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation) {
-    //change hard coding here
-    //the block robot distance is assigned by plays
-    // the values are CLOSE, HALFWAY, FAR
-    //CLOSE = 1, HALFWAY = 2, FAR  = 3
-    // the proportion makes the robots drive into the defense area coz they do not care t
-
-
-   // very ugly hard code
-    Vector2 bottomPenalty = {-4.195, -1.8};
-    Vector2 topPenalty = { -4.195, 1.8};
-    Vector2 aboveGoal = {-5.99, 1.8};
-    Vector2 belowGoal = {-5.99, -1.8};
-
-    double proportion;
-
-    double m1, c1, m2, c2;
-    double dx, dy;
-    double intersectionX, intersectionY, intersectionXX, intersectionXY;
-
-    dx = enemy->getPos().x - targetLocation.x;
-    dy = enemy->getPos().y  - targetLocation.y;
-    m1 = dy/dx;
-    c1 = targetLocation.y - m1 * targetLocation.x;
-
-    // write a proper function to determine how and where the lines intersect
-    if (enemy->getPos().x > bottomPenalty.x){
-        dx = topPenalty.x - bottomPenalty.x;
-        dy = topPenalty.y - bottomPenalty.y;
-        m2 = dx/dy;
-        c2 = bottomPenalty.y - m2 * bottomPenalty.x;
-        intersectionXX = (c2 - c1) / (m1 - m2);
-        intersectionXY = m1 * intersectionXX + c1;
-        RTT_WARNING("Bigger then x from penalty")
-    } else if (enemy->getPos().y > topPenalty.y) {
-        dx = topPenalty.x - aboveGoal.x;
-        dy = topPenalty.y - aboveGoal.y;
-        m2 = dx/dy;
-        c2 = bottomPenalty.y - m2 * aboveGoal.x;
-        RTT_WARNING("Bigger then Y from penalty")
-
-    } else {
-        dx = belowGoal.x - bottomPenalty.x;
-        dy = belowGoal.y - bottomPenalty.y;
-        m2 = dx/dy;
-        c2 = bottomPenalty.y - m2 * bottomPenalty.x;
+Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation, bool isBelowPenalty,
+                                                  double enemyDistance) {
+    auto lineEnemyToTarget = targetLocation - enemy->getPos();
+    double distance;
+    switch (blockDistance) {
+        case BlockDistance::CLOSE:
+            distance = 0.5;
+            break;
+        case BlockDistance::HALFWAY:
+            distance = lineEnemyToTarget.length() / 2;
+            break;
+        case BlockDistance::FAR:
+            distance = lineEnemyToTarget.length() - 0.5;
+            break;
     }
-    intersectionX = (c2 - c1) / (m1 - m2);
-    intersectionY = m1 * intersectionX + c1;
 
-    Vector2 intersection  = {intersectionX, intersectionY};
-    Vector2 intersectionVX = {intersectionXX, intersectionXY};
-    Vector2 lineEnemyToTarget;
-
-    // put a boundary to check whether the point is in the field
-    // the robots stand in the opposite direction of the actual attacker
-    if (intersectionXX > aboveGoal.x && intersectionXX < -4) {
-        RTT_WARNING("intersection  ", intersection);
-        lineEnemyToTarget = intersectionVX - enemy->getPos();
-    } else if ((intersection.y < bottomPenalty.y || intersection.y > topPenalty.y) && intersection.x > -6){
-        lineEnemyToTarget = intersection - enemy->getPos();
-        RTT_WARNING("target location intersection ", intersection);
-    } else {
-        lineEnemyToTarget = targetLocation - enemy->getPos();
-        RTT_WARNING("target location ", targetLocation);
-
+    if (enemyDistance < 3 * control_constants::ROBOT_RADIUS || distance < 4 * control_constants::ROBOT_RADIUS) {
+        distance = 3 * control_constants::ROBOT_RADIUS;
     }
-    RTT_WARNING("Line enemy to target", lineEnemyToTarget)
-    if (int(blockDistance) == 1) proportion = 0.5;  // adding 1 results in 0.25, 0.5, 0.75
-    else if (int(blockDistance) == 2) proportion = 0.75;
-    else if (int(blockDistance) == 3) proportion = 0.9;
 
-    // // old code
-//    double proportion = 0.55;
-//    Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
+    // check if enemy is too close to the defense zone and under the penalty line
+    if (enemyDistance < 2 * control_constants::ROBOT_RADIUS && isBelowPenalty) {
+        RTT_DEBUG("HERE", enemy->getPos());
+        auto movePosition = lineEnemyToTarget.stretchToLength(distance);
+        return enemy->getPos() - movePosition;
+    }
 
-    auto movePosition = lineEnemyToTarget * proportion;
+    auto movePosition = lineEnemyToTarget.stretchToLength(distance);
     return movePosition + enemy->getPos();
 }
 
@@ -122,10 +119,7 @@ bool BlockRobot::isEndTactic() noexcept { return true; }
 
 bool BlockRobot::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
-    double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
-    return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
-}
+bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept { return false; }
 
 const char *BlockRobot::getName() { return "Block Robot"; }
 

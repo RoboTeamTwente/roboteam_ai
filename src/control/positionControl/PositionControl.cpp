@@ -6,11 +6,10 @@
 
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "roboteam_utils/Print.h"
-#include "stp/StpInfo.h"
 
 namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                                  Vector2 &targetPosition, stp::PIDType pidType, bool robotIsKeeper) {
+                                                  Vector2 &targetPosition, stp::PIDType pidType) {
     collisionDetector.setField(field);
 
     // if the robot is close to the final position and can't get there, stop
@@ -18,7 +17,7 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
         RTT_INFO("Path collides with something close to the target position for robot ID ", robotId)
         return {};
     }
-    if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId, robotIsKeeper)) {
+    if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
     }
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
@@ -33,9 +32,9 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
     return command;
 }
 
-bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, const Vector2 &currentVelocity, int robotId, bool robotIsKeeper) {
+bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, const Vector2 &currentVelocity, int robotId) {
     return computedPaths[robotId].empty() || PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
-           (currentVelocity != Vector2(0, 0) && collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front(), robotIsKeeper));
+           (currentVelocity != Vector2(0, 0) && collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
 }
 
 void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) { collisionDetector.setRobotPositions(robotPositions); }
@@ -139,9 +138,9 @@ std::vector<Vector2> PositionControl::createIntermediatePoints(const rtt::world:
             Vector2 intermediatePoint = pointToRotate.rotateAroundPoint(i * angleBetweenIntermediatePoints, pointToDrawFrom);
 
             // If not in a defense area (only checked if robot is not allowed in defense area)
-            if (worldObjects.canEnterDefenseArea(robotId) ||
-                (!rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, intermediatePoint) &&
-                 !rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, intermediatePoint, 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
+            if (worldObjects.canEnterDefenseArea(robotId) || (!rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, intermediatePoint) &&
+                                                              !rtt::ai::FieldComputations::pointIsInTheirDefenseArea(
+                                                                  field, intermediatePoint, 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
                 //.. and inside the field (only checked if the robot is not allowed outside the field), add this cross to the list
                 if (worldObjects.canMoveOutsideField(robotId) || rtt::ai::FieldComputations::pointIsInField(field, intermediatePoint, rtt::ai::Constants::ROBOT_RADIUS())) {
                     intermediatePoints.emplace_back(intermediatePoint);

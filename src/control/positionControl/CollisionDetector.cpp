@@ -3,13 +3,14 @@
 //
 
 #include "control/positionControl/CollisionDetector.h"
-#include "roboteam_utils/Print.h"
 
+#include "control/ControlUtils.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai::control {
 
-bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint, bool robotIsKeeper) {
-    bool isFieldColliding = field ? !isPointInsideField(nextPoint) || (getDefenseAreaCollision(initialPoint, nextPoint) && !robotIsKeeper) : false;
+bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint) {
+    bool isFieldColliding = field ? !isPointInsideField(nextPoint) || getDefenseAreaCollision(initialPoint, nextPoint) : false;
 
     // colliding with the outside of the field, the defense area, or collision with a robot
     return isFieldColliding || getRobotCollisionBetweenPoints(initialPoint, nextPoint);
@@ -26,23 +27,15 @@ bool CollisionDetector::isPointInsideField(const Vector2& point) { return FieldC
 
 std::optional<Vector2> CollisionDetector::getDefenseAreaCollision(const Vector2& point, const Vector2& nextPoint) {
     auto ourDefenseCollision = FieldComputations::lineIntersectionWithDefenceArea(*field, true, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
-    auto robotInOurDefenseArea = FieldComputations::pointIsInDefenseArea(*field, point, true, DEFAULT_ROBOT_COLLISION_RADIUS);
-
-    if (ourDefenseCollision && !robotInOurDefenseArea) {
-        RTT_WARNING("Our collision");
+    if (ourDefenseCollision) {
         return *ourDefenseCollision;
     }
 
     auto theirDefenseCollision = FieldComputations::lineIntersectionWithDefenceArea(*field, false, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
-    auto robotInTheirDefenceArea = FieldComputations::pointIsInDefenseArea(*field, point, false, DEFAULT_ROBOT_COLLISION_RADIUS);
-
-    if(theirDefenseCollision && !robotInTheirDefenceArea) {
-        RTT_WARNING("Their collision");
-        return *theirDefenseCollision;
+    if (!theirDefenseCollision) {
+        return std::nullopt;
     }
-    RTT_WARNING("Nothing");
-    return std::nullopt;
-
+    return *theirDefenseCollision;
 }
 
 std::optional<Vector2> CollisionDetector::getRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint) {

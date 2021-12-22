@@ -10,7 +10,6 @@
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
-#include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
 
@@ -46,7 +45,7 @@ class PositionControl {
      * @return a RobotCommand, which can be fed directly in the output
      */
     RobotCommand computeAndTrackPath(const rtt_world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, Vector2 &targetPosition,
-                                     stp::PIDType pidType, bool isRobotKeeper);
+                                     stp::PIDType pidType);
 
     /**
      * Updates the robot view vector
@@ -63,7 +62,7 @@ class PositionControl {
      * @param robotId the ID of the current robot
      * @return true if one of the above conditions are true, false otherwise
      */
-    bool shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, const Vector2 &currentVelocity, int robotId, bool robotIsKeeper);
+    bool shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, const Vector2 &currentVelocity, int robotId);
 
     /**
      * @brief Generates a path and tracks it with the old PID control (hacky). Returns also possibly

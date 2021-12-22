@@ -5,8 +5,8 @@
 #ifndef RTT_COLLISIONDETECTOR_H
 #define RTT_COLLISIONDETECTOR_H
 
-#include "control/ControlUtils.h"
-#include "world/FieldComputations.h"
+#include "utilities/Constants.h"
+#include "world/Field.h"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
@@ -20,7 +20,7 @@ class CollisionDetector {
     static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 3.0 * Constants::ROBOT_RADIUS();
 
     std::vector<Vector2> robotPositions;
-    const rtt_world::Field* field = nullptr;
+    const rtt::world::Field* field = nullptr;
 
    public:
     /**
@@ -68,7 +68,7 @@ class CollisionDetector {
 
     std::vector<Vector2> getRobotPositions();
 
-    void setField(const rtt_world::Field& field);
+    void setField(const rtt::world::Field& field);
 
     void setRobotPositions(std::vector<Vector2>& robotPositions);
 };

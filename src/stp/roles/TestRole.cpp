@@ -3,7 +3,6 @@
 //
 
 #include "stp/roles/TestRole.h"
-
 #include "stp/tactics/TestTactic.h"
 
 namespace rtt::ai::stp {

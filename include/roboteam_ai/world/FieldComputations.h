@@ -9,6 +9,7 @@
 
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
+#include "views/WorldDataView.hpp"
 #include "world/Field.h"
 
 namespace rtt::world::view {
@@ -36,8 +37,8 @@ class FieldComputations {
      * @param field The field class which is used to determine the position of the defence areas.
      * @param point The point for which it is checked whether it is in our/their defence area.
      * @param isOurDefenceArea True if our defence area is used, false if the opponents defence area is used.
-     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means that it will
-     * be expanded, a negative value means that it will be shrunk.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
      * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
      * @return True if the point is in the defence area, false otherwise.
      */
@@ -47,8 +48,8 @@ class FieldComputations {
      * Determines whether a given point is in either defense area
      * @param field The field class which is used to determine the position of the defense areas.
      * @param point The point for which it is checked whether it is in our/their defense area.
-     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means that it will
-     * be expanded, a negative value means that it will be shrunk.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
      * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
      * @return True if the point is in either defence area (after adding margins), false otherwise
      */
@@ -58,8 +59,8 @@ class FieldComputations {
      * Determines whether a given point is our defense area
      * @param field The field class which is used to determine the position of the defense areas.
      * @param point The point for which it is checked whether it is in our/their defense area.
-     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means that it will
-     * be expanded, a negative value means that it will be shrunk.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
      * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
      * @return True if the point is in our defence area (after adding margins), false otherwise
      */
@@ -69,13 +70,12 @@ class FieldComputations {
      * Determines whether a given point is in their defense area
      * @param field The field class which is used to determine the position of the defense areas.
      * @param point The point for which it is checked whether it is in our/their defense area.
-     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means that it will
-     * be expanded, a negative value means that it will be shrunk.
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
+     * that it will be expanded, a negative value means that it will be shrunk.
      * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
      * @return True if the point is in their defence area (after adding margins), false otherwise
      */
     static bool pointIsInTheirDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0, double backMargin = 0.0);
-
 
     /**
      * Check whether a given point is in the field.
@@ -101,12 +101,12 @@ class FieldComputations {
      * Check whether a given point is a valid position for a certain id.
      * @param field The field class which is used to determine the boundaries of the field.
      * @param point The point for which it is checked whether it is valid or not
-     * @param id The id of the robot for which this point is checked
+     * @param roleName the name of the role associated with this robot
      * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
      * expanded, a negative value means that the field area will be shrinked.
      * @return True if the point is a valid target position for this robot id (inside of field and outside of defense area, unless robot is keeper or ball placer)
      */
-    static bool pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin = 0.0);
+    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, std::string roleName, double margin = 0.0);
 
     /**
      * Get the percentage of goal visible from a given point, i.e. how much of the goal can be reached by directly shooting a ball over the ground from a given point without
@@ -120,7 +120,7 @@ class FieldComputations {
      * blockades).
      * @return The percentage of the goal visible, which is a double value between 0.0 and 100.0 including both 0.0 and 100.0.
      */
-    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World *world, int id = -1,
+    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id = -1,
                                                       bool ourTeam = false);
 
     /**
@@ -231,6 +231,30 @@ class FieldComputations {
      * @return point inside field
      */
     static Vector2 placePointInField(const rtt_world::Field &field, const Vector2 &point);
+
+    /**
+     * Returns a distance from a chosen point to the closes point a defense area
+     * @param field The field used to determine where the defense area is.
+     * @param ourDefenseZone True if our defense area will be returned, false if the opponents defense area will be returned.
+     * @param point The point from which the distance is checked
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions except for the goal side. A positive value means that it will be
+     * expanded, a negative value means that it will be shrunk.
+     * @param backMargin The outwards margin at the goal side (boundary side) of the field.
+     * @return Distance from the point to the defense area
+     */
+    static double getDistanceToDefenseZone(const rtt_world::Field &field, bool ourDefenseZone, const Vector2 &point, double margin, double backMargin);
+
+    /**
+     * Check whether a point is closer to the goal than the penalty line is.
+     * @param field The field used to determine where the defense area is.
+     * @param ourDefenseArea True if our defense area will be returned, false if the opponents defense area will be returned.
+     * @param point The point from which the distance is checked
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions except for the goal side. A positive value means that it will be
+     * expanded, a negative value means that it will be shrunk.
+     * @param backMargin The outwards margin at the goal side (boundary side) of the field.
+     * @return Returns true if the point is closer the goal than the penalty line is, false otherwise
+     */
+    static bool isBelowPenaltyLine(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin);
 
    private:
     /**

@@ -5,7 +5,6 @@
 #ifndef RTT_WORLDOBJECTS_H
 #define RTT_WORLDOBJECTS_H
 
-#include "control/ControlUtils.h"
 #include "control/RobotCommand.h"
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "utilities/GameStateManager.hpp"

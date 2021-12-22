@@ -2,8 +2,10 @@
 
 #include <roboteam_utils/Shadow.h>
 
+#include "world/views/WorldDataView.hpp"
 #include "utilities/GameStateManager.hpp"
-#include "world/World.hpp"
+#include <roboteam_utils/Print.h>
+
 
 namespace rtt {
 namespace ai {
@@ -23,7 +25,7 @@ bool FieldComputations::pointIsInTheirDefenseArea(const rtt_world::Field &field,
     return pointIsInDefenseArea(field, point, false, margin, backMargin);
 }
 
-bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin){
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
     return pointIsInOurDefenseArea(field, point, margin, backMargin) || pointIsInTheirDefenseArea(field, point, margin, backMargin);
 }
 
@@ -36,12 +38,13 @@ bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, cons
     return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point, margin));
 }
 
-bool FieldComputations::pointIsValidPositionForId(const rtt_world::Field &field, const Vector2 &point, int id, double margin) {
-    if (GameStateManager::getCurrentGameState().getStrategyName() == "ball_placement_us" && GameStateManager::getCurrentGameState().ballPlacerId == id){
-        // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are further/closer
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, const std::string roleName, double margin) {
+    if (roleName == "ball_placer") {
+        // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are
+        // further/closer
         return pointIsInField(field, point, 0.5);
     }
-    bool isKeeper = id == GameStateManager::getCurrentGameState().keeperId;
+    bool isKeeper = roleName == "keeper";
     return pointIsInField(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 
@@ -52,11 +55,11 @@ double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool 
     return angleLeft.shortestAngleDiff(angleRight);
 }
 
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World *world, int id,
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id,
                                                               bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world->getWorld()->getRobotsNonOwning(), id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
@@ -110,6 +113,31 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
         return field.getLeftPenaltyPoint();
     } else {
         return field.getRightPenaltyPoint();
+    }
+}
+
+double FieldComputations::getDistanceToDefenseZone(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin) {
+    auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
+    double distance;
+    distance = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[3], point);
+    for (int i = 1; i<polygon.amountOfVertices()-1; i++){
+        double newDistance = distanceFromPointToLine(polygon.vertices[i], polygon.vertices[i-1], point);
+        if(newDistance < distance){
+            distance = newDistance;
+        }
+    }
+    return distance;
+}
+
+bool FieldComputations::isBelowPenaltyLine(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin){
+    auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
+    auto distanceBottomSide = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[3], point);
+    auto distanceTopSide = distanceFromPointToLine(polygon.vertices[2], polygon.vertices[1], point);
+    auto distanceMiddle = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[1], point);
+    if (distanceTopSide < distanceMiddle || distanceBottomSide < distanceMiddle){
+        return true;
+    } else {
+        return false;
     }
 }
 
