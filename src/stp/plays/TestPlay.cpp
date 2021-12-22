@@ -56,11 +56,11 @@ void TestPlay::calculateInfoForRoles() noexcept {
     }
 
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
+//
+//    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+//                                     [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
-
-    stpInfos["role_0"].setPositionToDefend(field.getBottomLeftCorner());
+    stpInfos["role_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["role_0"].setEnemyRobot(enemyAttacker);
     stpInfos["role_0"].setBlockDistance(BlockDistance::CLOSE);
 //

@@ -108,11 +108,13 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 Vector2 PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
     auto intersection = FieldComputations::lineIntersectionWithDefenceArea(field, true, p1, p2, margin);
     if (intersection) {
+        RTT_DEBUG("intersection", *intersection);
         return *intersection;
     }
 
     intersection = FieldComputations::lineIntersectionWithDefenceArea(field, false, p1, p2, margin);
     if (intersection) {
+        RTT_DEBUG("intersection their", *intersection);
         return *intersection;
     }
 

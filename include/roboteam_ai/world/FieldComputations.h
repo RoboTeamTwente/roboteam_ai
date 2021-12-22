@@ -9,8 +9,8 @@
 
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
-#include "world/Field.h"
 #include "views/WorldDataView.hpp"
+#include "world/Field.h"
 
 namespace rtt::world::view {
 class WorldDataView;
@@ -232,6 +232,10 @@ class FieldComputations {
      */
     static Vector2 placePointInField(const rtt_world::Field &field, const Vector2 &point);
 
+    static double getDistanceToDefenseZone(const rtt_world::Field &field, bool ourDefenseZone, const Vector2 &point, double margin, double backMargin);
+
+    static bool isBelowPenaltyLine(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin);
+
    private:
     /**
      * Check which part of the goal are blocked by robots, i.e. to which parts of the goal the ball can be shoot over the ground from a given point without hitting any robot
@@ -272,6 +276,7 @@ class FieldComputations {
      * @return Non-overlapping blockade line segments that cover all blocked goal sides.
      */
     static std::vector<LineSegment> mergeBlockades(std::vector<LineSegment> blockades);
+
 };
 
 }  // namespace rtt::ai
