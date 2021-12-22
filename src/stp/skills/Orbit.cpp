@@ -28,7 +28,8 @@ Status Orbit::onUpdate(const StpInfo &info) noexcept {
     targetVelocity.x = cos(normalAngle) * multiplier + 3 * cos(directionVector.toAngle()) * adjustDistance;
     targetVelocity.y = sin(normalAngle) * multiplier + 3 * sin(directionVector.toAngle()) * adjustDistance;
 
-    auto maxVel = 0.65;
+    auto maxVel = directionVector.length() * 4;
+    if (maxVel < 0.65) maxVel = 0.65;
     if (targetVelocity.length() > maxVel) targetVelocity = targetVelocity.stretchToLength(maxVel);
 
     command.mutable_vel()->set_x(static_cast<float>(targetVelocity.x));
