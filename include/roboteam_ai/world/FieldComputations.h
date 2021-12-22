@@ -232,8 +232,28 @@ class FieldComputations {
      */
     static Vector2 placePointInField(const rtt_world::Field &field, const Vector2 &point);
 
+    /**
+     * Returns a distance from a chosen point to the closes point a defense area
+     * @param field The field used to determine where the defense area is.
+     * @param ourDefenseZone True if our defense area will be returned, false if the opponents defense area will be returned.
+     * @param point The point from which the distance is checked
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions except for the goal side. A positive value means that it will be
+     * expanded, a negative value means that it will be shrunk.
+     * @param backMargin The outwards margin at the goal side (boundary side) of the field.
+     * @return Distance from the point to the defense area
+     */
     static double getDistanceToDefenseZone(const rtt_world::Field &field, bool ourDefenseZone, const Vector2 &point, double margin, double backMargin);
 
+    /**
+     * Check whether a point is closer to the goal than the penalty line is.
+     * @param field The field used to determine where the defense area is.
+     * @param ourDefenseArea True if our defense area will be returned, false if the opponents defense area will be returned.
+     * @param point The point from which the distance is checked
+     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions except for the goal side. A positive value means that it will be
+     * expanded, a negative value means that it will be shrunk.
+     * @param backMargin The outwards margin at the goal side (boundary side) of the field.
+     * @return Returns true if the point is closer the goal than the penalty line is, false otherwise
+     */
     static bool isBelowPenaltyLine(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin);
 
    private:
@@ -276,7 +296,6 @@ class FieldComputations {
      * @return Non-overlapping blockade line segments that cover all blocked goal sides.
      */
     static std::vector<LineSegment> mergeBlockades(std::vector<LineSegment> blockades);
-
 };
 
 }  // namespace rtt::ai

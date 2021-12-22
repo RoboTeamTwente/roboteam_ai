@@ -26,56 +26,53 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
 
     // Minimum distance from the defense area
     auto margin = 2.5 * control_constants::ROBOT_RADIUS;
-    auto marginDefense =  2.5* control_constants::ROBOT_RADIUS;
 
+    // Distance of the enemy robot to our defense zone
     auto enemyDistanceToDefenseZone =
-        FieldComputations::getDistanceToDefenseZone(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), marginDefense, marginDefense);
+        FieldComputations::getDistanceToDefenseZone(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), margin, margin);
 
     auto desiredRobotPosition =
         calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value(), false, enemyDistanceToDefenseZone);
-    RTT_DEBUG("NORMAL ", desiredRobotPosition);
-
-//    // check if the enemy robot is below our penalty line (closer to our goal than the penalty line)
-//    if (FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getRobot()->get()->getPos(), marginDefense, marginDefense)) {
-//        desiredRobotPosition =
-//            calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value(), true, enemyDistanceToDefenseZone);
-//    }
 
     // Project the target position outside the defense area if it is in it (within the margin)
     if (FieldComputations::pointIsInDefenseArea(info.getField().value(), desiredRobotPosition, margin)) {
+
         auto projectedDesiredRobotPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(
             info.getField().value(), desiredRobotPosition, info.getPositionToDefend().value(), info.getEnemyRobot()->get()->getPos(), margin);
-        RTT_DEBUG("PROJECT ", projectedDesiredRobotPosition);
+
         desiredRobotPosition =
             calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedDesiredRobotPosition, false, enemyDistanceToDefenseZone);
+
         // check if the enemy robot is below our penalty line (closer to our goal than the penalty line)
-        if (FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), marginDefense, marginDefense)) {
+        if (FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), margin, margin)) {
             desiredRobotPosition =
                 calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedDesiredRobotPosition, true, enemyDistanceToDefenseZone);
         }
     }
 
+    // distance of the blocking robot from our defense zone
     auto distance = FieldComputations::getDistanceToDefenseZone(info.getField().value(), true, info.getRobot()->get()->getPos(), margin, margin);
 
-    if ((info.getRobot()->get()->getPos() - robotPosBefore).length() <= control_constants::ROBOT_RADIUS && distance <=  2 * margin && (info.getRobot()->get()->getPos() - info.getEnemyRobot()->get()->getPos()).length() <= 3 * margin) {
+    // function based on ticks to handle situation very close to our defense zone, in which robot cannot move closer to the target position
+    if ((info.getRobot()->get()->getPos() - robotPosBefore).length() <= control_constants::ROBOT_RADIUS / 4 && distance <= 2 * margin &&
+        (info.getRobot()->get()->getPos() - info.getEnemyRobot()->get()->getPos()).length() <= 2 * margin) {
         withinMarginCount += 1;
     } else {
         withinMarginCount = 0;
     }
-    if (waitTick > 30) {
+
+    // update the previous position of the robot after 10 tick so that if the robots move the difference between current position and previous one will be notable
+    if (waitTick > 10) {
         robotPosBefore = info.getRobot()->get()->getPos();
         waitTick = 0;
     }
 
+    // return current robot position as desired position to finish the tactic
     if (withinMarginCount >= 10) {
-       desiredRobotPosition = info.getRobot()->get()->getPos();
-        RTT_DEBUG("NO MOVEMENT");
+        desiredRobotPosition = info.getRobot()->get()->getPos();
     }
 
     skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
-    RTT_DEBUG("RobotPos ", info.getRobot()->get()->getPos());
-    RTT_DEBUG("WAIT TICK ", waitTick);
-    RTT_DEBUG("MARGIN ", withinMarginCount);
 
     waitTick += 1;
 
@@ -103,17 +100,13 @@ Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, c
             break;
     }
 
-    if (enemyDistance < 3* control_constants::ROBOT_RADIUS || distance < 4 * control_constants::ROBOT_RADIUS) {
+    if (enemyDistance < 3 * control_constants::ROBOT_RADIUS || distance < 4 * control_constants::ROBOT_RADIUS) {
         distance = 3 * control_constants::ROBOT_RADIUS;
-        RTT_DEBUG("CLOSE");
     }
+
+    // check if enemy is too close to the defense zone and under the penalty line
     if (enemyDistance < 2 * control_constants::ROBOT_RADIUS && isBelowPenalty) {
         RTT_DEBUG("HERE", enemy->getPos());
-//        if (enemy->getPos().x < targetLocation.x) {
-//            return enemy->getPos() + (-distance, distance);
-//        } else {
-//            return enemy->getPos() + (distance, -distance);
-//        }
         auto movePosition = lineEnemyToTarget.stretchToLength(distance);
         return enemy->getPos() - movePosition;
     }
