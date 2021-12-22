@@ -9,11 +9,11 @@
 namespace rtt::ai::stp {
 
 TestPlay::TestPlay() : Play() {
-    startPlayInvariants.clear();
-    // startPlayInvariants.emplace_back();
+    startPlayEvaluation.clear();
+    // keepPlayEvaluation.emplace_back();
 
-    keepPlayInvariants.clear();
-    // keepPlayInvariants.emplace_back();
+    keepPlayEvaluation.clear();
+    // keepPlayEvaluation.emplace_back();
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<TestRole>(TestRole("test_role_0")),
@@ -36,17 +36,17 @@ Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
 
-    flagMap.insert({"test_role_0", {closeToBallFlag}});
-    flagMap.insert({"test_role_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_2", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_3", {closeToBallFlag}});
-    flagMap.insert({"test_role_4", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_6", {closeToBallFlag}});
-    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_0", {DealerFlagPriority::REQUIRED, {closeToBallFlag,}}});
+    flagMap.insert({"test_role_1", {DealerFlagPriority::REQUIRED, {closeToTheirGoalFlag}}});
+    flagMap.insert({"test_role_2", {DealerFlagPriority::REQUIRED, {closeToTheirGoalFlag, closeToBallFlag}}});
+    flagMap.insert({"test_role_3", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
+    flagMap.insert({"test_role_4", {DealerFlagPriority::REQUIRED, {closeToTheirGoalFlag}}});
+    flagMap.insert({"test_role_5", {DealerFlagPriority::REQUIRED, {closeToTheirGoalFlag, closeToBallFlag}}});
+    flagMap.insert({"test_role_6", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
+    flagMap.insert({"test_role_7", {DealerFlagPriority::REQUIRED, {closeToTheirGoalFlag}}});
+    flagMap.insert({"test_role_8", {DealerFlagPriority::REQUIRED, {closeToTheirGoalFlag, closeToBallFlag}}});
+    flagMap.insert({"test_role_9", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
+    flagMap.insert({"test_role_10", {DealerFlagPriority::REQUIRED, {closeToTheirGoalFlag}}});
 
     return flagMap;
 }
