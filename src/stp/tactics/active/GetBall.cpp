@@ -49,7 +49,9 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
 bool GetBall::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return info.getRobot()->get()->getAngleDiffToBall() < control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI; }
+bool GetBall::shouldTacticReset(const StpInfo &info) noexcept {
+    return (info.getRobot()->get()->getAngleDiffToBall() < control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI) && (skills.current_num() == 1);
+}
 
 bool GetBall::isEndTactic() noexcept {
     // This is not an end tactic
