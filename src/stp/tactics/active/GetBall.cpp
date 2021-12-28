@@ -29,7 +29,7 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
         ballPosition = control::ControlUtils::projectPositionToOutsideDefenseArea(info.getField().value(), ballPosition, control_constants::AVOID_BALL_DISTANCE);
     }
 
-    if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > control_constants::HAS_BALL_ANGLE_ERROR_MARGIN && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
+    if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
         // don't move too close to the ball until the angle to the ball is (roughly) correct
         skillStpInfo.setPositionToMoveTo(skillStpInfo.getRobot()->get()->getPos());
     } else {
