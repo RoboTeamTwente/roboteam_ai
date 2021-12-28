@@ -61,9 +61,8 @@ Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Ve
             break;
     }
 
-    if (distance > targetToBall.length() || distance < 4 * control_constants::ROBOT_RADIUS){
-        distance = 4 * control_constants::ROBOT_RADIUS;
-    }
+    // Do not get closer than 4 robot radii (to avoid collisions)
+    distance = std::max(4 * control_constants::ROBOT_RADIUS, distance);
 
     return defendPos + targetToBall.stretchToLength(distance);
 }
