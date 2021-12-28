@@ -26,13 +26,14 @@ var searchData=
   ['pointisinfield_3414',['pointIsInField',['../classrtt_1_1ai_1_1FieldComputations.html#a427c5e6001e2bb6c573a4f913c7737ef',1,'rtt::ai::FieldComputations']]],
   ['pointisinourdefensearea_3415',['pointIsInOurDefenseArea',['../classrtt_1_1ai_1_1FieldComputations.html#a67766771120a89afc4cfd116c3293032',1,'rtt::ai::FieldComputations']]],
   ['pointisintheirdefensearea_3416',['pointIsInTheirDefenseArea',['../classrtt_1_1ai_1_1FieldComputations.html#ac4bb9939cab3d5a62d39a74c51d0c586',1,'rtt::ai::FieldComputations']]],
-  ['pointisvalidposition_3417',['pointIsValidPosition',['../classrtt_1_1ai_1_1FieldComputations.html#a8876be13c8bb814dc41331dd741b7f6b',1,'rtt::ai::FieldComputations::pointIsValidPosition(const rtt_world::Field &amp;field, const Vector2 &amp;point, double margin=0.0)'],['../classrtt_1_1ai_1_1FieldComputations.html#adf2a9a18e1d273b11312d98cfdcfd469',1,'rtt::ai::FieldComputations::pointIsValidPosition(const rtt_world::Field &amp;field, const Vector2 &amp;point, std::string roleName, double margin=0.0)']]],
+  ['pointisvalidposition_3417',['pointIsValidPosition',['../classrtt_1_1ai_1_1FieldComputations.html#adf2a9a18e1d273b11312d98cfdcfd469',1,'rtt::ai::FieldComputations::pointIsValidPosition(const rtt_world::Field &amp;field, const Vector2 &amp;point, std::string roleName, double margin=0.0)'],['../classrtt_1_1ai_1_1FieldComputations.html#a8876be13c8bb814dc41331dd741b7f6b',1,'rtt::ai::FieldComputations::pointIsValidPosition(const rtt_world::Field &amp;field, const Vector2 &amp;point, double margin=0.0)']]],
   ['positionandaim_3418',['PositionAndAim',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#ae52a57e1e81be120db01029a395a39d7',1,'rtt::ai::stp::tactic::PositionAndAim']]],
   ['prevevent_3419',['prevEvent',['../classnativeformat_1_1param_1_1ParamImplementation.html#abe4e7454fc45f04477940a2f8d55325c',1,'nativeformat::param::ParamImplementation']]],
   ['projectpointtovalidposition_3420',['projectPointToValidPosition',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#ab337b802cdc941c524885ceee8aff7fe',1,'rtt::ai::control::ControlUtils']]],
-  ['projectpositiontooutsidedefensearea_3421',['projectPositionToOutsideDefenseArea',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#adc789c5899ff3dc7dc0ea552ab24189e',1,'rtt::ai::control::ControlUtils']]],
-  ['projectpositiontowithinfield_3422',['projectPositionToWithinField',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#a712854bd95afbedd3706ec68035a71d7',1,'rtt::ai::control::ControlUtils']]],
-  ['publishallrobotcommands_3423',['publishAllRobotCommands',['../classrtt_1_1ai_1_1io_1_1IOManager.html#a291f40e005c6395c0470105c47ed5211',1,'rtt::ai::io::IOManager']]],
-  ['publishrobotcommands_3424',['publishRobotCommands',['../classrtt_1_1ai_1_1io_1_1IOManager.html#af4501357fc34a6ac5b2c55274fe5319e',1,'rtt::ai::io::IOManager']]],
-  ['publishsettings_3425',['publishSettings',['../classrtt_1_1ai_1_1io_1_1IOManager.html#a48b008feab661465fb275b18495c4f90',1,'rtt::ai::io::IOManager']]]
+  ['projectpositionoutsidedefenseareaonline_3421',['ProjectPositionOutsideDefenseAreaOnLine',['../classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aaae04b6401fb25c6b7f0d61f19333e5c',1,'rtt::ai::stp::PositionComputations']]],
+  ['projectpositiontooutsidedefensearea_3422',['projectPositionToOutsideDefenseArea',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#adc789c5899ff3dc7dc0ea552ab24189e',1,'rtt::ai::control::ControlUtils']]],
+  ['projectpositiontowithinfield_3423',['projectPositionToWithinField',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#a712854bd95afbedd3706ec68035a71d7',1,'rtt::ai::control::ControlUtils']]],
+  ['publishallrobotcommands_3424',['publishAllRobotCommands',['../classrtt_1_1ai_1_1io_1_1IOManager.html#a291f40e005c6395c0470105c47ed5211',1,'rtt::ai::io::IOManager']]],
+  ['publishrobotcommands_3425',['publishRobotCommands',['../classrtt_1_1ai_1_1io_1_1IOManager.html#af4501357fc34a6ac5b2c55274fe5319e',1,'rtt::ai::io::IOManager']]],
+  ['publishsettings_3426',['publishSettings',['../classrtt_1_1ai_1_1io_1_1IOManager.html#a48b008feab661465fb275b18495c4f90',1,'rtt::ai::io::IOManager']]]
 ];
