@@ -83,6 +83,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a55df2f4b978d91f8a864a42bca706ef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab02389c2e7f4d881acdf4dd11e04effe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe">getWallPosition</a> (int index, int amountDefenders, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world)</td></tr>
 <tr class="separator:ab02389c2e7f4d881acdf4dd11e04effe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaae04b6401fb25c6b7f0d61f19333e5c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aaae04b6401fb25c6b7f0d61f19333e5c">ProjectPositionOutsideDefenseAreaOnLine</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> position, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> p1, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> p2, double margin)</td></tr>
+<tr class="separator:aaae04b6401fb25c6b7f0d61f19333e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="aeb15a3e633899a90ab80e5e008345604"></a>
@@ -260,6 +262,71 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Vector2 position of that index in the wall </dd></dl>
+
+</div>
+</div>
+<a id="aaae04b6401fb25c6b7f0d61f19333e5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaae04b6401fb25c6b7f0d61f19333e5c">&#9670;&nbsp;</a></span>ProjectPositionOutsideDefenseAreaOnLine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::stp::PositionComputations::ProjectPositionOutsideDefenseAreaOnLine </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>p1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>p2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>margin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Projects a position outside of the defense area onto the line between two given points </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td>The current field </td></tr>
+    <tr><td class="paramname">position</td><td>The position to be projected outside the defense area </td></tr>
+    <tr><td class="paramname">p1</td><td>First point on the line </td></tr>
+    <tr><td class="paramname">p2</td><td>Second point on the line </td></tr>
+    <tr><td class="paramname">margin</td><td>The distance that the position should have from the defense area </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A position outside of the defense area on the given line. If there are two intersections with the defense area, the returned point will be at the intersection closest to p1 </dd></dl>
 
 </div>
 </div>
