@@ -143,9 +143,10 @@ struct StpInfo {
     int dribblerSpeed = 0;
 
     /**
-     * The distance of our robot to a to-be-blocked target
+     * When blocking off a position, the robot is on line between a targetPosition to block, and the enemy robot.
+     * Used to decide how close this robot should be to enemy robot
      */
-    BlockDistance blockDistance = BlockDistance::CLOSE;
+    BlockDistance blockDistance;
 
     /**
      * Set the shot to be a kick or chip

@@ -51,10 +51,11 @@ var searchData=
   ['worldhelper_2117',['WorldHelper',['../classtesthelpers_1_1WorldHelper.html',1,'testhelpers']]],
   ['worldhelper_2ecpp_2118',['WorldHelper.cpp',['../WorldHelper_8cpp.html',1,'']]],
   ['worldhelper_2eh_2119',['WorldHelper.h',['../WorldHelper_8h.html',1,'']]],
-  ['worldobjects_2120',['WorldObjects',['../classrtt_1_1BB_1_1WorldObjects.html',1,'rtt::BB::WorldObjects'],['../classrtt_1_1BB_1_1WorldObjects.html#a9464deea328dab65431edab4e16d0737',1,'rtt::BB::WorldObjects::WorldObjects()']]],
+  ['worldobjects_2120',['WorldObjects',['../classrtt_1_1BB_1_1WorldObjects.html',1,'rtt::BB']]],
   ['worldobjects_2121',['worldObjects',['../classrtt_1_1ai_1_1control_1_1PositionControl.html#a51bcfe99ceaa453d48a4aa9791ccb9d2',1,'rtt::ai::control::PositionControl']]],
-  ['worldobjects_2ecpp_2122',['WorldObjects.cpp',['../WorldObjects_8cpp.html',1,'']]],
-  ['worldobjects_2eh_2123',['WorldObjects.h',['../WorldObjects_8h.html',1,'']]],
-  ['worldresettests_2ecpp_2124',['WorldResetTests.cpp',['../WorldResetTests_8cpp.html',1,'']]],
-  ['worldsubscriber_2125',['worldSubscriber',['../classrtt_1_1ai_1_1io_1_1IOManager.html#ad5968054795bded97f41bbfcd41c95ae',1,'rtt::ai::io::IOManager']]]
+  ['worldobjects_2122',['WorldObjects',['../classrtt_1_1BB_1_1WorldObjects.html#a9464deea328dab65431edab4e16d0737',1,'rtt::BB::WorldObjects']]],
+  ['worldobjects_2ecpp_2123',['WorldObjects.cpp',['../WorldObjects_8cpp.html',1,'']]],
+  ['worldobjects_2eh_2124',['WorldObjects.h',['../WorldObjects_8h.html',1,'']]],
+  ['worldresettests_2ecpp_2125',['WorldResetTests.cpp',['../WorldResetTests_8cpp.html',1,'']]],
+  ['worldsubscriber_2126',['worldSubscriber',['../classrtt_1_1ai_1_1io_1_1IOManager.html#ad5968054795bded97f41bbfcd41c95ae',1,'rtt::ai::io::IOManager']]]
 ];
