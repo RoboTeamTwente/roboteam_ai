@@ -116,6 +116,8 @@ Protected Attributes</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a356ab58f042195851d593a8de2d6b4b4"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html#a356ab58f042195851d593a8de2d6b4b4">calculateInfoForSkill</a> (<a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> const &amp;info) noexcept override</td></tr>
 <tr class="separator:a356ab58f042195851d593a8de2d6b4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b0808217ab13a033db08c32cd7a2bf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html#a3b0808217ab13a033db08c32cd7a2bf9">calculateTargetPosition</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> ballPosition, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> robotPosition, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> positionToShootAt)</td></tr>
+<tr class="separator:a3b0808217ab13a033db08c32cd7a2bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73f4f381845a390dd6d14106bc861ed0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html#a73f4f381845a390dd6d14106bc861ed0">isTacticFailing</a> (const <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &amp;info) noexcept override</td></tr>
 <tr class="separator:a73f4f381845a390dd6d14106bc861ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7351e407d20f421f0501d3c02477d2c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html#ad7351e407d20f421f0501d3c02477d2c">shouldTacticReset</a> (const <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &amp;info) noexcept override</td></tr>
@@ -177,15 +179,59 @@ Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::optional&lt;SkillInfo&gt; based on the <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> parameter </dd></dl>
-<p>The robot will go to the position of the ball</p>
-<p>If ball is to far away, dont get stuck on other GoToPos(), but restart and get behind the ball</p>
-<p>Check if the path crosses through the ball</p>
-<p>Decide which side of the ball to approach on</p>
-<p>Second GoToPos: Go towards ball</p>
-<p>Rotate towards ball</p>
-<p>Turn on dribbler when close to ball</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#a4cfea3dd9c7299b30f32a1abf0cf2356">rtt::ai::stp::Tactic</a>.</p>
+
+</div>
+</div>
+<a id="a3b0808217ab13a033db08c32cd7a2bf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b0808217ab13a033db08c32cd7a2bf9">&#9670;&nbsp;</a></span>calculateTargetPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::stp::tactic::GetBehindBallInDirection::calculateTargetPosition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>ballPosition</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>robotPosition</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>positionToShootAt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Calculates the position to go to for GoToPos </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ballPosition</td><td>The position of the ball </td></tr>
+    <tr><td class="paramname">robotPosition</td><td>The position of the robot </td></tr>
+    <tr><td class="paramname">positionToShootAt</td><td>The position to shoot at </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The position to move to during GoToPos </dd></dl>
 
 </div>
 </div>
