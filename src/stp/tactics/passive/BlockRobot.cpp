@@ -40,14 +40,15 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
         auto projectedDesiredRobotPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(
             info.getField().value(), desiredRobotPosition, info.getPositionToDefend().value(), info.getEnemyRobot()->get()->getPos(), margin);
 
-        desiredRobotPosition =
-            calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedDesiredRobotPosition, false, enemyDistanceToDefenseZone);
+        bool isBelowPenalty = false;
 
         // check if the enemy robot is below our penalty line (closer to our goal than the penalty line)
         if (FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), margin, margin)) {
-            desiredRobotPosition =
-                calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedDesiredRobotPosition, true, enemyDistanceToDefenseZone);
+            isBelowPenalty = true;
         }
+
+        desiredRobotPosition =
+            calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedDesiredRobotPosition, isBelowPenalty, enemyDistanceToDefenseZone);
     }
 
     // distance of the blocking robot from our defense zone
