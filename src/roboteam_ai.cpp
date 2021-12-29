@@ -34,6 +34,12 @@ void setDarkTheme() {
 }
 
 int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        std::cout << "ERROR: Incorrect amount of arguments " << std::endl;
+        std::cout << "Pass '0' as argument to indicate this is the primary AI, or anything else for a secondary AI" << std::endl;
+        return 0;
+    }
+
     std::cout << "                                           \n"
                  "  ██████╗ ████████╗████████╗     █████╗ ██╗\n"
                  "  ██╔══██╗╚══██╔══╝╚══██╔══╝    ██╔══██╗██║\n"
@@ -49,27 +55,17 @@ int main(int argc, char* argv[]) {
     rtt::ai::Constants::init();
 
     // get the id of the ai from the init
-    int id = 0;
-    if (argc == 2) {
-        id = *argv[1] - '0';
+    int id = *argv[1] - '0';
+
+    rtt::SETTINGS.init(id);
+
+    // If primary AI, we start at being yellow on the left
+    if (!rtt::SETTINGS.setYellow(rtt::SETTINGS.isPrimaryAI())) {
+        RTT_ERROR("Could not obtain command publishing channel. Exiting...")
+        return 0;
     }
-    RTT_INFO("This AI is initialized with id ", id)
-    // some default settings for different team ids (saves time while testing)
-    if (id == 1) {
-        // standard blue team on right
-        rtt::SETTINGS.init(id);
-        rtt::SETTINGS.setYellow(false);
-        rtt::SETTINGS.setLeft(false);
-        RTT_INFO("Initially playing as the BLUE team")
-        RTT_INFO("We are playing on the RIGHT side of the field")
-    } else {
-        // standard yellow team on left
-        rtt::SETTINGS.init(id);
-        rtt::SETTINGS.setYellow(true);
-        rtt::SETTINGS.setLeft(true);
-        RTT_INFO("Initially playing as the YELLOW team")
-        RTT_INFO("We are playing on the LEFT side of the field")
-    }
+
+    rtt::SETTINGS.setLeft(rtt::SETTINGS.isPrimaryAI());
 
     rtt::SETTINGS.setSerialMode(false);
     rtt::SETTINGS.setVisionIp("127.0.0.1");
@@ -79,7 +75,15 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
     rtt::SETTINGS.setRobothubSendPort(20011);
 
-    rtt::ai::io::io.init(rtt::SETTINGS.getId());
+    RTT_INFO("AI initialized as: ", (rtt::SETTINGS.isPrimaryAI() ? "PRIMARY" : "SECONDARY"))
+    RTT_INFO("Starting as color: ", (rtt::SETTINGS.isYellow() ? "YELLOW" : "BLUE"))
+    RTT_INFO("Playing on side: ", (rtt::SETTINGS.isLeft() ? "LEFT" : "RIGHT"))
+    RTT_INFO("This AI will ", rtt::SETTINGS.isPrimaryAI() ? "" : "NOT ", "broadcast settings")
+
+    if (!rtt::ai::io::io.init(rtt::SETTINGS.isPrimaryAI())) {
+        RTT_ERROR("Failed to initialize IO Manager. Exiting...")
+        return 0;
+    }
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     // initialize the interface

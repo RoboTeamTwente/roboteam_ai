@@ -5,6 +5,7 @@
 #ifndef RTT_ORBIT_H
 #define RTT_ORBIT_H
 
+#include "roboteam_utils/pid.h"
 #include "stp/Skill.h"
 
 namespace rtt::ai::stp::skill {
@@ -22,6 +23,16 @@ class Orbit : public Skill {
      * @return The name of this skill
      */
     const char* getName() override;
+
+    /**
+     * Counter for how many ticks the robot is within the error margin
+     */
+    int counter = 0;
+
+    /**
+     * PID controller to determine velocity multiplier
+     */
+    PID velPid = PID(0.75, 0, 0);
 };
 }  // namespace rtt::ai::stp::skill
 
