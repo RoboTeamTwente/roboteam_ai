@@ -6,10 +6,8 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include "stp/computations/PositionScoring.h"
 #include "stp/computations/ComputationManager.h"
-
-
+#include "stp/computations/PositionScoring.h"
 #include "world/Field.h"
 #include "world/World.hpp"
 
@@ -78,7 +76,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     while (positions.size() < amountDefenders) {
         auto circle = Circle(lineBorderIntersect, (base + j++) * (spacingRobots));
         for (const LineSegment &line : defenseAreaBorder) {
-            auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
+            auto intersects = circle.intersectsCircleWithLineSegment(line);
             for (auto intersect : intersects) {
                 double spaceBetweenDefenseAreas =
                     intersect.x < 0 ? spaceBetweenDefenseArea : -spaceBetweenDefenseArea;  // Because path planning is weird about being right next to a defense area

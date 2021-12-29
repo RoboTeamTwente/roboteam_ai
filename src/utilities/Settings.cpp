@@ -4,8 +4,13 @@
 
 #include "utilities/Settings.h"
 
+#include <roboteam_utils/Print.h>
+#include <utilities/IOManager.h>
+
 namespace rtt {
 Settings SETTINGS;
+
+constexpr int PRIMARY_AI_ID = 0;
 
 void Settings::init(int id) { setId(id); }
 
@@ -25,12 +30,24 @@ proto::Setting Settings::toMessage() {
 }
 
 int Settings::getId() const { return id; }
+bool Settings::isPrimaryAI() const { return this->id == PRIMARY_AI_ID; }
 
 void Settings::setId(int id) { Settings::id = id; }
 
 bool Settings::isYellow() const { return yellow; }
 
-void Settings::setYellow(bool yellow) { Settings::yellow = yellow; }
+bool Settings::setYellow(bool yellow) {
+    bool switched = rtt::ai::io::io.switchTeamColorChannel(yellow);
+
+    if (switched) {
+        Settings::yellow = yellow;
+        RTT_INFO(yellow ? "Team color changed: Yellow" : "Team color changed: Blue")
+    } else {
+        RTT_ERROR("Failed to open channel. Is another AI already running on commands channel ", yellow ? "YELLOW" : "BLUE", "?")
+    }
+
+    return switched;
+}
 
 bool Settings::isLeft() const { return left; }
 
