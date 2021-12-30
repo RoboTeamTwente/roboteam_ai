@@ -44,6 +44,8 @@ enum class GlobalEvaluation {
     GoalVision,
     NoGoalVisionFromBall,
     WeHaveBall,
+    TheyHaveBall,
+    TheyDoNotHaveBall,
     WeHaveMajority
 };
 
