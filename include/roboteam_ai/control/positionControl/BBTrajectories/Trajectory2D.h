@@ -23,7 +23,7 @@ class Trajectory2D {
     void addTrajectory(const Trajectory2D &extraTrajectory, double addFromTime);
 
     /**
-         * @brief Approaches the BangBangTrajectory by dividing the path in points which are separated by timeStep seconds
+         * @brief Approaches the Trajectory by dividing the path in points which are separated by timeStep seconds
          * @param timeStep time between pathpoints
          * @return
      */

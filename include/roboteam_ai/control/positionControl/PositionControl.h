@@ -12,6 +12,7 @@
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BBTPathTracking.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
+#include "control/positionControl/pathTracking/DensePathTracking.h"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
@@ -29,7 +30,7 @@ namespace rtt::ai::control {
         CollisionDetector collisionDetector;
         rtt::BB::WorldObjects worldObjects;
         NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
-        PidTracking pathTrackingAlgorithm;
+        DensePathTracking pathTrackingAlgorithm;
         BBTPathTracking pathTrackingAlgorithmBBT;
 
         std::unordered_map<int, BB::BBTrajectory2D> computedPathsBB;
@@ -38,6 +39,18 @@ namespace rtt::ai::control {
         std::unordered_map<int, std::vector<Vector2>> computedPathsVel;
         std::unordered_map<int, std::vector<std::pair<Vector2, Vector2>>> computedPathsPosVel;
 
+
+        /**
+         * @brief Checks if the current path should be recalculated:
+         * @param world a pointer to the current world
+         * @param field the field object, used onwards by the collision detector
+         * @param robotId the ID of the robot for which the path is calculated
+         * @param currentPosition the current position of the aforementioned robot
+         * @param currentVelocity its velocity
+         * @param targetPosition the desired position that the robot has to reachsho
+         * @return Boolean that is 1 if the path needs to be recalculated
+         */
+        bool shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition, ai::stp::AvoidObjects);
     public:
         /**
          * Generates a path according to the selected planning algorithm,
@@ -105,7 +118,7 @@ namespace rtt::ai::control {
          */
         rtt::BB::CommandCollision
         computeAndTrackTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
-                                  Vector2 targetPosition, double maxRobotVelocity, stp::PIDType pidType);
+                                  Vector2 targetPosition, double maxRobotVelocity, stp::PIDType pidType, stp::AvoidObjects avoidObjects);
 
         /**
          * @brief Tries to find a new trajectory when the current path has a collision on it. It tries this by
@@ -124,7 +137,7 @@ namespace rtt::ai::control {
          */
         std::optional<Trajectory2D>
         findNewTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
-                    std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, double maxRobotVelocity,  double timeStep);
+                    std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, double maxRobotVelocity,  double timeStep, stp::AvoidObjects AvoidObjects);
 
         //If no collision on trajectory to intermediatePoint, create new points along this trajectory in timeStep increments.
         //Then loop through these new points, generate trajectories from these to the original target and check for collisions.
@@ -144,7 +157,7 @@ namespace rtt::ai::control {
         std::optional<Trajectory2D>
         calculateTrajectoryAroundCollision(const rtt::world::World *world, const rtt::world::Field &field,
                                   std::optional<BB::CollisionData> &intermediatePathCollision, Trajectory2D trajectoryToIntermediatePoint,
-                                  Vector2 &targetPosition, int robotId, double maxRobotVelocity, double timeStep);
+                                  Vector2 &targetPosition, int robotId, double maxRobotVelocity, double timeStep, stp::AvoidObjects avoidObjects);
 
         /**
          * @brief Tries to find a new path when the current path has a collision on it. It tries this by

@@ -10,6 +10,7 @@
 #include "control/positionControl/BBTrajectories/Trajectory2D.h"
 #include "utilities/GameStateManager.hpp"
 #include "control/RobotCommand.h"
+#include "utilities/StpInfoEnums.h"
 
 
 namespace rtt::BB {
@@ -55,10 +56,12 @@ namespace rtt::BB {
          * @param BBTrajectory the trajectory to check for collisions
          * @param computedPaths the paths of our robots
          * @param robotId
+         * @param avoidObjects a struct with if it should avoid certain objects
          * @return optional with rtt::BB::CollisionData
          */
         std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field,
-                                                       const rtt::Trajectory2D &Trajectory, const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId);
+                                                       const rtt::Trajectory2D &Trajectory, const std::unordered_map<int, std::vector<Vector2>> &computedPaths,
+                                                       int robotId, ai::stp::AvoidObjects avoidObjects);
 
         /**
          * Takes a discretized trajectory of a robot and checks the path in certain intervals for collisions
@@ -149,12 +152,6 @@ namespace rtt::BB {
          */
         void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,const std::vector<Vector2> &pathPoints,
                                          const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
-
-        // Checks if a specified robot can enter the defense area
-        bool canEnterDefenseArea(int robotId);
-
-        // Checks if a specified robot can move out of the field
-        bool canMoveOutsideField(int robotId);
 
         // Inserts collisionData in the vector collisionDatas such that they are ordered from lowest collisionTime to highest
         void insertCollisionData(std::vector<CollisionData> &collisionDatas, const CollisionData &collisionData);

@@ -47,6 +47,7 @@ bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, cons
     return pointIsInField(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 
+
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
     LineSegment goal = getGoalSides(field, ourGoal);
     Angle angleLeft = Angle(goal.start - point);

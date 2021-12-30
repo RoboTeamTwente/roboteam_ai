@@ -179,6 +179,7 @@ set(COMPUTATION_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/GoalComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PassComputations.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionScoring.cpp
         )
 
 set(CONTROL_SOURCES

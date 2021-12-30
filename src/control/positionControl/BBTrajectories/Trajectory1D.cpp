@@ -8,14 +8,17 @@
 namespace rtt {
 
 void Trajectory1D::addTrajectory(const std::vector<BB::BBTrajectoryPart> &newParts, double addFromTime) {
-    for(BB::BBTrajectoryPart part : parts) {
-        if(addFromTime >= part.tEnd) {
-            part.tEnd = addFromTime;
-            for(BB::BBTrajectoryPart newPart : newParts) {
-                newPart.tEnd += addFromTime;
-                parts.push_back(newPart);
-            }
+    for(int i = 0; i < parts.size(); i++) {
+        if(addFromTime <= parts[i].tEnd) {
+            parts[i].tEnd = addFromTime;
+            parts.erase(parts.begin() + 1 + i, parts.end());
+            break;
         }
+    }
+
+    for(BB::BBTrajectoryPart newPart : newParts) {
+        newPart.tEnd += addFromTime;
+        parts.push_back(newPart);
     }
 }
 

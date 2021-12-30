@@ -239,7 +239,7 @@ void GameStateManager::updateInterfaceGameState(const char* name){
         interface::Output::setInterfaceGameState(GameState("stop", "stop"));
     } else if (strcmp(name, "Aggressive Stop Formation") == 0){
         interface::Output::setInterfaceGameState(GameState("stop", "stop"));
-    } else{
+    } else {
         interface::Output::setInterfaceGameState(GameState("normal_play", "default"));
     }
 }

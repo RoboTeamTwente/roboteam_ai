@@ -3,6 +3,7 @@
 //
 #include "control/positionControl/BBTrajectories/BBTrajectory1D.h"
 #include <cmath>
+#include <iostream>
 
 namespace rtt::BB {
     double BBTrajectory1D::fullBrakePos(double pos, double vel, double accMax) {
@@ -67,6 +68,9 @@ namespace rtt::BB {
 
     void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double endPos, double maximumVel,
                                             double maximumAcc) {
+        static unsigned int call_count = 0;
+        call_count++;
+        if(call_count > 1000000) { std::cout << call_count << std::endl; }
         //Store call so we can review it later:
         initialPos = startPos;
         initialVel = startVel;
@@ -201,7 +205,7 @@ namespace rtt::BB {
     std::vector<BB::BBTrajectoryPart> BBTrajectory1D::getParts() {
         std::vector<BB::BBTrajectoryPart> partsVector;
         for (BBTrajectoryPart part : parts) {
-            if(!(part.acc == 0 && part.startVel == 0)) {
+            if(part.tEnd != 0) {
                 partsVector.push_back(part);
             }
         }
