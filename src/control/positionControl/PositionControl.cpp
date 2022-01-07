@@ -104,7 +104,15 @@ namespace rtt::ai::control {
         commandCollision.robotCommand.pos = computedPaths[robotId].front();
         //Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId, pidType);
         Position trackingVelocity = pathTrackingAlgorithmBBT.trackPathForwardAngle(currentPosition, currentVelocity, computedPathsPosVel[robotId], robotId, pidType);
-        commandCollision.robotCommand.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
+        Vector2 trackingVelocityVector = {trackingVelocity.x, trackingVelocity.y};
+
+        // If there is a collision on the path (so no collision-free path could be found), lower the speed to 0.5 m/s. This increases the chances of finding a new path
+        // while also decreasing the speed at which collisions happen
+        if (commandCollision.collisionData.has_value()) {
+            if (trackingVelocityVector.length() > 0.5) trackingVelocityVector = trackingVelocityVector.stretchToLength(0.5);
+        }
+
+        commandCollision.robotCommand.vel = trackingVelocityVector;
         commandCollision.robotCommand.angle = trackingVelocity.rot;
 
         return commandCollision;
@@ -224,6 +232,7 @@ namespace rtt::ai::control {
 
 
     bool PositionControl::shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition, ai::stp::AvoidObjects avoidObjects) {
+        return true;
         if (!computedTrajectories.contains(robotId) ||
             (!computedPaths[robotId].empty() && (targetPosition - computedPaths[robotId][computedPaths[robotId].size() - 1]).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN) ||
             worldObjects.getFirstCollision(world, field, computedTrajectories[robotId], computedPaths, robotId, avoidObjects).has_value()

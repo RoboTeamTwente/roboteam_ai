@@ -48,7 +48,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     }
 
     if (commandCollision.collisionData.has_value()) {
-        return Status::Failure;
+        //return Status::Failure;
     }
 
     double targetVelocityLength;

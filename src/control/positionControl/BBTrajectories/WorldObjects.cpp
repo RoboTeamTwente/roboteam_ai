@@ -23,64 +23,27 @@ namespace rtt::BB {
 
         std::vector<CollisionData> collisionDatas;
 
-        auto startFieldCollision = std::chrono::high_resolution_clock::now();
-        auto stopFieldCollision = std::chrono::high_resolution_clock::now();
-        auto durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
-
         // If the robot can not move outside the field, check if its path goes outside the field
         if(avoidObjects.shouldAvoidOutOfField) {
-
-            startFieldCollision = std::chrono::high_resolution_clock::now();
-
             calculateFieldCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
-
-            stopFieldCollision = std::chrono::high_resolution_clock::now();
-            durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
-            RTT_DEBUG("Time to calculate field collisions ", durationFieldCollision.count());
         }
 
         // If the robot can not move into defense area, check if its path goes into either defense area
         if(avoidObjects.shouldAvoidDefenseArea) {
-            startFieldCollision = std::chrono::high_resolution_clock::now();
-
             calculateDefenseAreaCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
-
-            stopFieldCollision = std::chrono::high_resolution_clock::now();
-            durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
-            RTT_DEBUG("Time to calculate defense collisions ", durationFieldCollision.count());
         }
 
         // Check if robot is closer to the ball than it is allowed to be
         if (avoidObjects.shouldAvoidBall) {
-            startFieldCollision = std::chrono::high_resolution_clock::now();
-
             calculateBallCollisions(world, collisionDatas, pathPoints, timeStep);
-
-            stopFieldCollision = std::chrono::high_resolution_clock::now();
-            durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
-            RTT_DEBUG("Time to calculate ball collisions ", durationFieldCollision.count());
         }
 
 
         // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
-        startFieldCollision = std::chrono::high_resolution_clock::now();
-
         calculateEnemyRobotCollisions(world, Trajectory, collisionDatas, pathPoints, timeStep);
 
-        stopFieldCollision = std::chrono::high_resolution_clock::now();
-        durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
-        RTT_DEBUG("Time to calculate theirRobot collisions ", durationFieldCollision.count());
-
         // For each path already calculated, check if this path collides with those paths
-        startFieldCollision = std::chrono::high_resolution_clock::now();
-
         calculateOurRobotCollisions(world, collisionDatas, pathPoints, computedPaths, robotId, timeStep);
-
-        stopFieldCollision = std::chrono::high_resolution_clock::now();
-        durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
-        RTT_DEBUG("Time to calculate ourRobot collisions ", durationFieldCollision.count());
-
-
 
         if(!collisionDatas.empty()) {
             return collisionDatas[0];
@@ -172,19 +135,20 @@ namespace rtt::BB {
     }
 
     void
-    WorldObjects::calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,const std::vector<Vector2> &pathPoints,
+    WorldObjects::calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                               const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep) {
         auto ourRobots = world->getWorld()->getUs();
         for (int i = 0; i < pathPoints.size(); i++) {
+            if (i * timeStep > 2) break; // Only check for collisions with our robots in the first 3 seconds of our trajectory
             for (auto &robot : ourRobots) {
                 if (robotId != robot->getId()) {
                     if (computedPaths.find(robot->getId()) != computedPaths.end()) {
-                        if ((pathPoints[i] - computedPaths.at(robot->getId())[i]).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/ && i * timeStep < 1) {
+                        if ((pathPoints[i] - computedPaths.at(robot->getId())[i]).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/) {
                             insertCollisionData(collisionDatas, CollisionData{computedPaths.at(robot->getId())[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
                             return;
                         }
                     } else {
-                        if ((pathPoints[i] - robot->getPos()).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/ && i * timeStep < 2) {
+                        if ((pathPoints[i] - robot->getPos()).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/) {
                             insertCollisionData(collisionDatas, CollisionData{robot->getPos(), pathPoints[i], i * timeStep, "OurRobotCollision"});
                             return;
                         }
