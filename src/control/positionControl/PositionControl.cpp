@@ -106,6 +106,7 @@ namespace rtt::ai::control {
         Position trackingVelocity = pathTrackingAlgorithmBBT.trackPathForwardAngle(currentPosition, currentVelocity, computedPathsPosVel[robotId], robotId, pidType);
         commandCollision.robotCommand.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
         commandCollision.robotCommand.angle = trackingVelocity.rot;
+
         return commandCollision;
     }
 
@@ -157,6 +158,7 @@ namespace rtt::ai::control {
                 Vector2 newVelocity = trajectoryToIntermediatePoint.getVelocity(i * timeStep);
 
                 intermediateToTarget = Trajectory2D(newStart, newVelocity, targetPosition, maxRobotVelocity, ai::Constants::MAX_ACC_UPPER());
+
                 auto newStartCollisions = worldObjects.getFirstCollision(world, field, intermediateToTarget, computedPaths, robotId, avoidObjects);
 
                 if (newStartCollisions.has_value()) {
@@ -222,7 +224,6 @@ namespace rtt::ai::control {
 
 
     bool PositionControl::shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition, ai::stp::AvoidObjects avoidObjects) {
-        return true;
         if (!computedTrajectories.contains(robotId) ||
             (!computedPaths[robotId].empty() && (targetPosition - computedPaths[robotId][computedPaths[robotId].size() - 1]).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN) ||
             worldObjects.getFirstCollision(world, field, computedTrajectories[robotId], computedPaths, robotId, avoidObjects).has_value()

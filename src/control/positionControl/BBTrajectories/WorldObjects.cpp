@@ -23,26 +23,62 @@ namespace rtt::BB {
 
         std::vector<CollisionData> collisionDatas;
 
+        auto startFieldCollision = std::chrono::high_resolution_clock::now();
+        auto stopFieldCollision = std::chrono::high_resolution_clock::now();
+        auto durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
+
         // If the robot can not move outside the field, check if its path goes outside the field
         if(avoidObjects.shouldAvoidOutOfField) {
+
+            startFieldCollision = std::chrono::high_resolution_clock::now();
+
             calculateFieldCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
+
+            stopFieldCollision = std::chrono::high_resolution_clock::now();
+            durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
+            RTT_DEBUG("Time to calculate field collisions ", durationFieldCollision.count());
         }
 
         // If the robot can not move into defense area, check if its path goes into either defense area
         if(avoidObjects.shouldAvoidDefenseArea) {
+            startFieldCollision = std::chrono::high_resolution_clock::now();
+
             calculateDefenseAreaCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
+
+            stopFieldCollision = std::chrono::high_resolution_clock::now();
+            durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
+            RTT_DEBUG("Time to calculate defense collisions ", durationFieldCollision.count());
         }
 
         // Check if robot is closer to the ball than it is allowed to be
         if (avoidObjects.shouldAvoidBall) {
+            startFieldCollision = std::chrono::high_resolution_clock::now();
+
             calculateBallCollisions(world, collisionDatas, pathPoints, timeStep);
+
+            stopFieldCollision = std::chrono::high_resolution_clock::now();
+            durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
+            RTT_DEBUG("Time to calculate ball collisions ", durationFieldCollision.count());
         }
 
+
         // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
+        startFieldCollision = std::chrono::high_resolution_clock::now();
+
         calculateEnemyRobotCollisions(world, Trajectory, collisionDatas, pathPoints, timeStep);
 
+        stopFieldCollision = std::chrono::high_resolution_clock::now();
+        durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
+        RTT_DEBUG("Time to calculate theirRobot collisions ", durationFieldCollision.count());
+
         // For each path already calculated, check if this path collides with those paths
+        startFieldCollision = std::chrono::high_resolution_clock::now();
+
         calculateOurRobotCollisions(world, collisionDatas, pathPoints, computedPaths, robotId, timeStep);
+
+        stopFieldCollision = std::chrono::high_resolution_clock::now();
+        durationFieldCollision = std::chrono::duration_cast<std::chrono::microseconds>(stopFieldCollision - startFieldCollision);
+        RTT_DEBUG("Time to calculate ourRobot collisions ", durationFieldCollision.count());
 
 
 
@@ -64,11 +100,13 @@ namespace rtt::BB {
     void
     WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                                  int robotId, double timeStep) {
+        auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, true, 0, 0);
+        auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false,0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS());
+
         for (int i = 0; i < pathPoints.size(); i++) {
-            if (rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], true, 0) ||
-                rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], false,
-                                                                 0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
-                insertCollisionData(collisionDatas,CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
+            if (ourDefenseArea.contains(pathPoints[i]) ||
+                theirDefenseArea.contains(pathPoints[i])) {
+                insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
                 return;
             }
         }
