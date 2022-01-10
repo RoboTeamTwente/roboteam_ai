@@ -297,7 +297,6 @@ set(AI_LIBS
         PRIVATE NFParam
         PRIVATE SDL2
         PRIVATE roboteam_networking
-        PRIVATE stx
         )
 
 set(AI_INCLUDES
