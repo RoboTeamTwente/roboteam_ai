@@ -63,7 +63,7 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
         flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
         flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-        flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_0", {DealerFlagPriority::REQUIRED, {}}});
         flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
