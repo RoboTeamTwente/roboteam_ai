@@ -141,6 +141,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a608208f5aa7aa5bb422197f20e1ab583"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8d226d9ffd9fb4f45b6de940beb4a3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#ab8d226d9ffd9fb4f45b6de940beb4a3e">calculateInfoForOffenders</a> () noexcept</td></tr>
 <tr class="separator:ab8d226d9ffd9fb4f45b6de940beb4a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8726a464fdb9e614c5cca8c7cd183155"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">shouldEndPlay</a> () noexcept</td></tr>
+<tr class="separator:a8726a464fdb9e614c5cca8c7cd183155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -167,8 +169,6 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a977b3063d4d26bee4be08d71c2ab7ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa20291b5cee34414dfb81aa0fd33713f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#aa20291b5cee34414dfb81aa0fd33713f">reassignRobots</a> () noexcept</td></tr>
 <tr class="separator:aa20291b5cee34414dfb81aa0fd33713f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8726a464fdb9e614c5cca8c7cd183155"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">shouldEndPlay</a> () noexcept</td></tr>
-<tr class="separator:a8726a464fdb9e614c5cca8c7cd183155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -708,11 +708,13 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Optional function to force end plays </p><dl class="section return"><dt>Returns</dt><dd>True if play should end this tick </dd></dl>
+<p>This function is used to determine if &ndash; when a role is in an endTactic &ndash; the endTactic should be skipped. An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept) Optional function to force end plays </p><dl class="section return"><dt>Returns</dt><dd>True if play should end this tick </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html#a363c1051fb133b677a6a61f587184f51">rtt::ai::stp::play::KickOffUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a749d12680c303e95b8446b68dc2ba288">rtt::ai::stp::play::KickOffThem</a>, and <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0d763e50ca74385381add422b4568227">rtt::ai::stp::play::PlayTemplate</a>.</p>
 
 </div>
 </div>
@@ -892,7 +894,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This function is used to determine if &ndash; when a role is in an endTactic &ndash; the endTactic should be skipped. An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept) Map that holds info from the previous play </p>
+<p>Map that holds info from the previous play </p>
 
 </div>
 </div>
