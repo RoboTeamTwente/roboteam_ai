@@ -35,6 +35,8 @@
 #include <stp/evaluations/global/GoalVisionFromBallGlobalEvaluation.h>
 #include <stp/evaluations/global/GoalVisionGlobalEvaluation.h>
 #include <stp/evaluations/global/NoGoalVisionFromBallGlobalEvaluation.h>
+#include <stp/evaluations/global/TheyDoNotHaveBallGlobalEvaluation.h>
+#include <stp/evaluations/global/TheyHaveBallGlobalEvaluation.h>
 #include <stp/evaluations/global/WeHaveBallGlobalEvaluation.h>
 #include <stp/evaluations/global/WeHaveMajorityGlobalEvaluation.h>
 
@@ -108,6 +110,10 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
             return evaluation::NoGoalVisionFromBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::WeHaveBall:
             return evaluation::WeHaveBallGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::TheyHaveBall:
+            return evaluation::TheyHaveBallGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::TheyDoNotHaveBall:
+            return evaluation::TheyDoNotHaveBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::WeHaveMajority:
             return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(world, &field);
         default:

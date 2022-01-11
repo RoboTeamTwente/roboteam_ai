@@ -2,9 +2,8 @@
 
 #include <roboteam_utils/Shadow.h>
 
-#include "world/views/WorldDataView.hpp"
 #include "utilities/GameStateManager.hpp"
-
+#include "world/views/WorldDataView.hpp"
 
 namespace rtt {
 namespace ai {

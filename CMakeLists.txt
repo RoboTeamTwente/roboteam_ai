@@ -35,6 +35,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/normalize.cpp
         )
 
 set(MANUAL_SOURCES
@@ -297,6 +298,8 @@ set(AI_LIBS
         PRIVATE roboteam_utils
         PRIVATE NFParam
         PRIVATE SDL2
+        PRIVATE roboteam_networking
+        PRIVATE stx
         )
 
 set(AI_INCLUDES

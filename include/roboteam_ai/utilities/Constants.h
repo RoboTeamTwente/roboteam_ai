@@ -24,7 +24,8 @@ class Constants {
 
     /// TICK RATE ///
     static constexpr int GAME_ANALYSIS_TICK_RATE() { return 5; };
-    static constexpr int TICK_RATE() { return 60; };
+    static constexpr int STP_TICK_RATE() { return 60; };
+    static constexpr int SETTINGS_BROADCAST_RATE() { return 1; }
 
     /// LOGGING ///
     static bool SHOW_LONGEST_TICK();

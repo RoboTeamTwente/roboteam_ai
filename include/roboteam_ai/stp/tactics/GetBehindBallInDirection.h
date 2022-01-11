@@ -29,6 +29,15 @@ class GetBehindBallInDirection : public Tactic {
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
+     * Calculates the position to go to for GoToPos
+     * @param ballPosition The position of the ball
+     * @param robotPosition The position of the robot
+     * @param positionToShootAt The position to shoot at
+     * @return The position to move to during GoToPos
+     */
+    Vector2 calculateTargetPosition(Vector2 ballPosition, Vector2 robotPosition, Vector2 positionToShootAt);
+
+    /**
      * Is this tactic failing during execution (go back to the previous tactic)
      * @param info StpInfo can be used to check some data
      * @return true, tactic will fail (go back to prev tactic), false execution will continue as usual

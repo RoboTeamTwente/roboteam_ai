@@ -113,7 +113,7 @@ void ControlModule::simulator_angular_control(const std::optional<::rtt::world::
             double I = 0.0;
             double D = 0.01;
             double max_ang_vel = 5.0;  // rad/s
-            double dt = 1. / double(Constants::TICK_RATE());
+            double dt = 1. / double(Constants::STP_TICK_RATE());
 
             AnglePID pid(P, I, D, max_ang_vel, dt);
             ang_velocity_out = pid.getOutput(target_angle, current_angle);
