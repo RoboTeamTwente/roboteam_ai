@@ -9,7 +9,6 @@
 #include "stp/roles/active/Passer.h"
 #include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Halt.h"
-#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -69,14 +68,6 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-bool KickOffUs::shouldEndPlay() noexcept {
-    if (world->getWorld()->getBall()->get()->getFilteredVelocity().length() > control_constants::BALL_GOT_SHOT_LIMIT) {
-        // Return to normal play after kickoff is done
-        GameStateManager::forceNewGameState(RefCommand::NORMAL_START, std::nullopt);
-        return true;
-    }
-    return false;
-}
-
 const char *KickOffUs::getName() { return "Kick Off Us"; }
+
 }  // namespace rtt::ai::stp::play

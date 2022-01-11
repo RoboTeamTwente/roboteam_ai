@@ -174,12 +174,6 @@ class Play {
     // virtual bool shouldRoleSkipEndTactic() = 0;
 
     /**
-     * Optional function to force end plays
-     * @return True if play should end this tick
-     */
-    virtual bool shouldEndPlay() noexcept;
-
-    /**
      * Map that holds info from the previous play
      */
     std::optional<gen::PlayInfos> previousPlayInfos;
@@ -207,6 +201,12 @@ class Play {
      * This is used to check if we need to re-deal (if a robot disappears for example)
      */
     int previousRobotNum{};
+
+    /**
+     * Optional function to force end plays
+     * @return True if play should end this tick
+     */
+    bool shouldEndPlay() noexcept;
 };
 }  // namespace rtt::ai::stp
 

@@ -6,7 +6,6 @@
 
 #include "stp/roles/Keeper.h"
 #include "stp/roles/passive/Halt.h"
-#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -53,15 +52,6 @@ Dealer::FlagMap KickOffThem::decideRoleFlags() const noexcept {
     flagMap.insert({"halt_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
-}
-
-bool KickOffThem::shouldEndPlay() noexcept {
-    if (world->getWorld()->getBall()->get()->getFilteredVelocity().length() > control_constants::BALL_GOT_SHOT_LIMIT) {
-        // Return to normal play after kickoff is done
-        GameStateManager::forceNewGameState(RefCommand::NORMAL_START, std::nullopt);
-        return true;
-    }
-    return false;
 }
 
 const char *KickOffThem::getName() { return "Kick Off Them"; }
