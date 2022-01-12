@@ -23,7 +23,7 @@ namespace rtt::ai::stp::play {
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Keeper>("keeper"),
                 std::make_unique<role::Passer>("passer"),
-                std::make_unique<role::PassReceiver>("receiver"),
+                std::make_unique<role::Halt>("halt_8"),
                 std::make_unique<role::Halt>("halt_0"),
                 std::make_unique<role::Halt>("halt_1"),
                 std::make_unique<role::Halt>("halt_2"),
@@ -52,17 +52,17 @@ namespace rtt::ai::stp::play {
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
         // Receiver
-        stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
+       // stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
     }
 
     Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
+        //Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
         Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
         flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-        flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
+        flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
+        flagMap.insert({"halt_8", {DealerFlagPriority::REQUIRED, {}}});
         flagMap.insert({"halt_0", {DealerFlagPriority::REQUIRED, {}}});
         flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
