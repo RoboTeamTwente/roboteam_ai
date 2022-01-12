@@ -6,6 +6,7 @@
 #include <WorldNetworker.hpp>
 #include <iostream>
 #include <mutex>
+#include <utils/Pair.hpp>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
@@ -32,11 +33,14 @@ class IOManager {
 
     rtt::ai::Pause *pause;
 
+    std::unique_ptr<rtt::net::utils::PairReceiver<16970>> centralServerConnection;
+
     bool publishRobotCommands(const proto::AICommand &aiCommand, bool forTeamYellow);
 
    public:
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
     void publishSettings(proto::Setting setting);
+    void handleCentralServerConnection();
     bool init(bool isPrimaryAI);
     proto::State getState();
 

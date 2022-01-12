@@ -84,6 +84,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a291f40e005c6395c0470105c47ed5211"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48b008feab661465fb275b18495c4f90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a48b008feab661465fb275b18495c4f90">publishSettings</a> (proto::Setting setting)</td></tr>
 <tr class="separator:a48b008feab661465fb275b18495c4f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56c00cf738333b3c434bbfa38b112888"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a56c00cf738333b3c434bbfa38b112888">handleCentralServerConnection</a> ()</td></tr>
+<tr class="separator:a56c00cf738333b3c434bbfa38b112888"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace78a184eddf90ac0b390bc031c10da0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#ace78a184eddf90ac0b390bc031c10da0">init</a> (bool isPrimaryAI)</td></tr>
 <tr class="separator:ace78a184eddf90ac0b390bc031c10da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a60af9ed7afea21381003f92e05c89e"><td class="memItemLeft" align="right" valign="top">proto::State&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a7a60af9ed7afea21381003f92e05c89e">getState</a> ()</td></tr>
@@ -118,6 +120,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aefbe4d8d95bdb635f0d4398eaf116222"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e6ec2ee7675a119c7db912b1452a15b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1ai_1_1Pause.html">rtt::ai::Pause</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a4e6ec2ee7675a119c7db912b1452a15b">pause</a></td></tr>
 <tr class="separator:a4e6ec2ee7675a119c7db912b1452a15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a552ec3be3765b7b30fd8572905326b42"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; rtt::net::utils::PairReceiver&lt; 16970 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a552ec3be3765b7b30fd8572905326b42">centralServerConnection</a></td></tr>
+<tr class="separator:a552ec3be3765b7b30fd8572905326b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a7a60af9ed7afea21381003f92e05c89e"></a>
@@ -128,6 +132,23 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">proto::State rtt::ai::io::IOManager::getState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56c00cf738333b3c434bbfa38b112888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56c00cf738333b3c434bbfa38b112888">&#9670;&nbsp;</a></span>handleCentralServerConnection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::io::IOManager::handleCentralServerConnection </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -274,6 +295,28 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a552ec3be3765b7b30fd8572905326b42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a552ec3be3765b7b30fd8572905326b42">&#9670;&nbsp;</a></span>centralServerConnection</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;rtt::net::utils::PairReceiver&lt;16970&gt; &gt; rtt::ai::io::IOManager::centralServerConnection</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a4e6ec2ee7675a119c7db912b1452a15b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e6ec2ee7675a119c7db912b1452a15b">&#9670;&nbsp;</a></span>pause</h2>
 
