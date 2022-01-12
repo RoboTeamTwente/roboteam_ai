@@ -21,9 +21,9 @@ KickOffUs::KickOffUs() : Play() {
     keepPlayEvaluation.emplace_back(eval::KickOffUsGameState);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>("keeper"), std::make_unique<role::Formation>("passer"), std::make_unique<role::PassReceiver>("receiver"),
-        std::make_unique<role::Halt>("halt_0"),   std::make_unique<role::Halt>("halt_1"),      std::make_unique<role::Halt>("halt_2"),
-        std::make_unique<role::Halt>("halt_3"),   std::make_unique<role::Halt>("halt_4"),      std::make_unique<role::Halt>("halt_5"),
+        std::make_unique<role::Keeper>("keeper"), std::make_unique<role::Passer>("passer"), std::make_unique<role::PassReceiver>("receiver"),
+        std::make_unique<role::Halt>("halt_0"),   std::make_unique<role::Halt>("halt_1"),   std::make_unique<role::Halt>("halt_2"),
+        std::make_unique<role::Halt>("halt_3"),   std::make_unique<role::Halt>("halt_4"),   std::make_unique<role::Halt>("halt_5"),
         std::make_unique<role::Halt>("halt_6"),   std::make_unique<role::Halt>("halt_7")};
 }
 
@@ -35,17 +35,18 @@ uint8_t KickOffUs::score(PlayEvaluator &playEvaluator) noexcept {
 
 void KickOffUs::calculateInfoForRoles() noexcept {
     // Keeper
-    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
+    // TODO: set good position to shoot at (compute pass location)- possibly do this in the keeper role
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     // Kicker
+    // TODO: set good position to shoot at (compute pass location)- possibly do this in the passer role
     stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
-    stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos());
     stpInfos["passer"].setShotType(ShotType::PASS);
     stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
     // Receiver
+    // TODO: set receiving position based on pass computation
     stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
 }
 
