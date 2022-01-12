@@ -100,6 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a991cbb7463b792461a6767640d5dbcce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a501700bd6c10b1c2dcf8c6fc21cfc66c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a501700bd6c10b1c2dcf8c6fc21cfc66c">calculateInfoForScoredRoles</a> (<a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *) noexcept override</td></tr>
 <tr class="separator:a501700bd6c10b1c2dcf8c6fc21cfc66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a749d12680c303e95b8446b68dc2ba288"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a749d12680c303e95b8446b68dc2ba288">shouldEndPlay</a> () noexcept override</td></tr>
+<tr class="separator:a749d12680c303e95b8446b68dc2ba288"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a767d949fe08138278346c2604f4cc16e"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a767d949fe08138278346c2604f4cc16e">getName</a> () override</td></tr>
 <tr class="separator:a767d949fe08138278346c2604f4cc16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae63525881610390f3a9e5a490377b32e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#ae63525881610390f3a9e5a490377b32e">storePlayInfo</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#afc45c97a42c443e6884bd95502426d0d">gen::PlayInfos</a> &amp;previousPlayInfo) noexcept</td></tr>
@@ -153,8 +155,6 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a977b3063d4d26bee4be08d71c2ab7ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa20291b5cee34414dfb81aa0fd33713f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#aa20291b5cee34414dfb81aa0fd33713f">reassignRobots</a> () noexcept</td></tr>
 <tr class="separator:aa20291b5cee34414dfb81aa0fd33713f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8726a464fdb9e614c5cca8c7cd183155"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">shouldEndPlay</a> () noexcept</td></tr>
-<tr class="separator:a8726a464fdb9e614c5cca8c7cd183155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -545,8 +545,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8726a464fdb9e614c5cca8c7cd183155"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8726a464fdb9e614c5cca8c7cd183155">&#9670;&nbsp;</a></span>shouldEndPlay()</h2>
+<a id="a749d12680c303e95b8446b68dc2ba288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a749d12680c303e95b8446b68dc2ba288">&#9670;&nbsp;</a></span>shouldEndPlay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -555,7 +555,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool rtt::ai::stp::Play::shouldEndPlay </td>
+          <td class="memname">bool rtt::ai::stp::play::KickOffThem::shouldEndPlay </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -563,11 +563,13 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Optional function to force end plays </p><dl class="section return"><dt>Returns</dt><dd>True if play should end this tick </dd></dl>
+<p>Check if the play should end. True after kickoff </p>
+
+<p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">rtt::ai::stp::Play</a>.</p>
 
 </div>
 </div>
@@ -747,7 +749,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This function is used to determine if &ndash; when a role is in an endTactic &ndash; the endTactic should be skipped. An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept) Map that holds info from the previous play </p>
+<p>Map that holds info from the previous play </p>
 
 </div>
 </div>

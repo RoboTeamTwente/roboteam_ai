@@ -576,13 +576,15 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>OPTIONAL -&gt; place to compute extra evaluations to end a play. </p>
 <p>Optional function to force end a play </p><dl class="section return"><dt>Returns</dt><dd>is play should end </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">rtt::ai::stp::Play</a>.</p>
 
 </div>
 </div>
@@ -769,7 +771,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This function is used to determine if &ndash; when a role is in an endTactic &ndash; the endTactic should be skipped. An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept) Map that holds info from the previous play </p>
+<p>Map that holds info from the previous play </p>
 
 </div>
 </div>
