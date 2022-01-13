@@ -24,12 +24,10 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
         workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
     }
 
-    if (team == Team::us){
-        if (feedback.find(id) != feedback.end()) {
-            updateFromFeedback(feedback[id]);
-        }
+    if (feedback.find(id) != feedback.end()) {
+        updateFromFeedback(feedback[id]);
     }
-    
+
     if (ball.has_value()) {
         setDistanceToBall(pos.dist((*ball)->getPos()));
         auto angleRobotToBall = ((*ball)->getPos() - pos).angle();
