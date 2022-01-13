@@ -17,9 +17,9 @@ robot::Robot const *RobotView::operator->() const noexcept { return get(); }
 
 // TODO: TEST whether maxDist and Angle are suitable on the field and whether ballsensor works well irl
 bool RobotView::hasBall(double maxDist, double maxAngle) const noexcept {
-    // In the simulator, return true if the ballSensorSeesBall (feedback from sim)
-    // On the field, return true if the ballsensor sees the ball or we have the ball according to the vision
-    return (SETTINGS.isSerialMode() && hasBallAccordingToVision(maxDist, maxAngle)) || get()->ballSensorSeesBall();
+    // In the sim, we only use the ball sensor to determine if the robot has the ball
+    // On the field, and for the enemies in the sim, we also use the camera to do so
+    return ((this->robotPtr->getTeam()==Team::them || SETTINGS.isSerialMode()) && hasBallAccordingToVision(maxDist, maxAngle)) || get()->ballSensorSeesBall();
 }
 
 Vector2 RobotView::getKicker() const noexcept {
