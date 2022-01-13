@@ -49,6 +49,7 @@ void Play::update() noexcept {
 
     // Loop through roles and update them if they are assigned to a robot
     for (auto &role : roles) {
+        if (role == nullptr) continue;
         auto stpInfo = stpInfos.find(role->getName());
         if (stpInfo != stpInfos.end() && stpInfo->second.getRobot()) {
             // Update and store the returned status
@@ -78,6 +79,7 @@ void Play::refreshData() noexcept {
 
     // Loop through all roles, if an stpInfo exists and has an assigned robot, refresh the data
     for (auto &role : roles) {
+        if (role == nullptr) continue;
         auto stpInfo = stpInfos.find(role->getName());
         if (stpInfo != stpInfos.end() && stpInfo->second.getRobot().has_value()) {
             // Get a new RobotView from world using the old robot id
@@ -104,6 +106,7 @@ void Play::distributeRoles() noexcept {
     // TODO-Max if role exists in oldStpInfos then copy those.
     // Clear the stpInfos for the new role assignment
     for (auto &role : roles) {
+        if (role == nullptr) continue;
         role->reset();
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
