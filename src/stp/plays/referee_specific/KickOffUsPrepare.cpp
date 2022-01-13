@@ -17,17 +17,10 @@ KickOffUsPrepare::KickOffUsPrepare() : Play() {
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(eval::KickOffUsPrepareGameState);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Formation>(role::Formation("keeper")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("kicker")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_0")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_3")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_4")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_5")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_6")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_7")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("formation_8"))};
+                                                                                 std::make_unique<role::Formation>(role::Formation("receiver")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("defender_0"))};
 }
 
 uint8_t KickOffUsPrepare::score(PlayEvaluator &playEvaluator) noexcept {
@@ -37,16 +30,9 @@ uint8_t KickOffUsPrepare::score(PlayEvaluator &playEvaluator) noexcept {
 }
 
 void KickOffUsPrepare::calculateInfoForRoles() noexcept {
-    auto width = field.getFieldWidth();
-    auto length = field.getFieldLength();
-
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    double defense_line_x = field.getLeftPenaltyX() + 0.15;
-
-    // Positions of the KickOffUs formation which will be dealt to the Formation roles in order
     // The "kicker" will go to the ball
     if (stpInfos["kicker"].getRobot() && stpInfos["kicker"].getRobot()->get()->getPos().x < 0) {
         Vector2 robotPos = stpInfos["kicker"].getRobot()->get()->getPos();
@@ -61,16 +47,15 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     } else {
         stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, 0.0));
     }
-    stpInfos["kicker"].setPositionToShootAt(Vector2(4.5, 0));
-    stpInfos["formation_0"].setPositionToMoveTo(Vector2(-1, 1));
-    stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
-    stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 8, width / 4));
-    stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8, -width / 4));
-    stpInfos["formation_4"].setPositionToMoveTo(Vector2(defense_line_x, 0.0));
-    stpInfos["formation_5"].setPositionToMoveTo(Vector2(defense_line_x, width / 5));
-    stpInfos["formation_6"].setPositionToMoveTo(Vector2(defense_line_x, -width / 5));
-    stpInfos["formation_7"].setPositionToMoveTo(Vector2(-length / 4, width / 3));
-    stpInfos["formation_8"].setPositionToMoveTo(Vector2(-length / 4, -width / 3));
+
+    auto fieldLength = field.getFieldLength();
+    auto fieldWidth = field.getFieldWidth();
+
+    // TODO: set position to go to based on where the kicker will pass to in kickoffus
+    stpInfos["receiver"].setPositionToMoveTo(Vector2(-0.15 * fieldLength,-0.25 * fieldWidth));
+
+    // TODO: set defender position in smarter way
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, -0.25 * fieldWidth));
 }
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
@@ -80,15 +65,8 @@ Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
     flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-    flagMap.insert({"formation_0", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-    flagMap.insert({"formation_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"formation_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"formation_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"formation_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"formation_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"formation_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"formation_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }
