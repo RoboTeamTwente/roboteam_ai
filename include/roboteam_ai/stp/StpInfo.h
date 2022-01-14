@@ -81,6 +81,9 @@ struct StpInfo {
     std::string getRoleName() const { return roleName; }
     void setRoleName(std::string name) { roleName = name; }
 
+    AvoidObjects getObjectsToAvoid() const { return avoidObjects; }
+    void setObjectsToAvoid(AvoidObjects objectsToAvoid) {avoidObjects = objectsToAvoid; }
+
    private:
     /**
      * Current world pointer
@@ -171,6 +174,11 @@ struct StpInfo {
      * The name of the role associated with this StpInfo
      */
     std::string roleName;
+
+    /**
+     * Specify what objects the robot should avoid
+     */
+    AvoidObjects avoidObjects;
 };
 
 /**

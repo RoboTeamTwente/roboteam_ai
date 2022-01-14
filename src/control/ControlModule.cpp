@@ -22,7 +22,8 @@ void ControlModule::rotateRobotCommand(proto::RobotCommand& command) {
 }
 
 void ControlModule::limitRobotCommand(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
-    limitVel(command, robot);
+    // This was used to limit the velocity, but this is now done in pathtracking itself
+    //limitVel(command, robot);
     limitAngularVel(command, robot);
 }
 

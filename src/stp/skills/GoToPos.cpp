@@ -5,6 +5,8 @@
 #include "stp/skills/GoToPos.h"
 
 #include "world/World.hpp"
+#include "control/positionControl/BBTrajectories/WorldObjects.h"
+#include <chrono>
 
 namespace rtt::ai::stp::skill {
 
@@ -16,7 +18,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
 
-    bool useOldPathPlanning = true;
+
+
+    bool useOldPathPlanning = false;
     rtt::BB::CommandCollision commandCollision;
 
     if (useOldPathPlanning) {
@@ -25,13 +29,26 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
-        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(info.getCurrentWorld(), info.getField().value(),
-                                                                                                        info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
-                                                                                                        info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+        /*
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
+            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+            info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+        */
+
+        auto start = std::chrono::high_resolution_clock::now();
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackTrajectory(
+            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+            info.getRobot().value()->getVel(), targetPos, info.getMaxRobotVelocity(), info.getPidType().value(), info.getObjectsToAvoid());
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+
+        // To get the value of duration use the count()
+        // member function on the duration object
+        RTT_DEBUG("Time to generate path: ", duration.count());
     }
 
     if (commandCollision.collisionData.has_value()) {
-        return Status::Failure;
+        //return Status::Failure;
     }
 
     double targetVelocityLength;

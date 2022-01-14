@@ -6,7 +6,13 @@
 
 namespace rtt::ai::stp::skill {
 
-Status TestSkill::onUpdate(const StpInfo &info) noexcept { return Status::Running; }
+Status TestSkill::onUpdate(const StpInfo &info) noexcept {
+    command.set_dribbler(info.getDribblerSpeed());
+    auto targetAngle = info.getAngle();
+    command.set_w(static_cast<float>(targetAngle));
+    forwardRobotCommand(info.getCurrentWorld());
+    return Status::Running;
+}
 
 const char *TestSkill::getName() { return "TestSkill"; }
 
