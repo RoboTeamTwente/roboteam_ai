@@ -3,15 +3,15 @@
 //
 
 #include "control/positionControl/pathTracking/BBTPathTracking.h"
-#include "roboteam_utils/Print.h"
 
 #include <stp/StpInfo.h>
 
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::control {
 
 Position BBTPathTracking::trackPathForwardAngle(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<std::pair<Vector2, Vector2>> &pathVelocityPoints,
-                                    int robotId, stp::PIDType pidType) {
+                                                int robotId, stp::PIDType pidType) {
     int lookAhead = std::min(pathVelocityPoints.size(), STEPS_AHEAD);
     Vector2 currentTarget = std::next(pathVelocityPoints.begin(), lookAhead - 1)->first;
     Vector2 currentTargetVelocity = std::next(pathVelocityPoints.begin(), lookAhead - 1)->second;

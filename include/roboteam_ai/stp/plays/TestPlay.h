@@ -40,13 +40,13 @@ class TestPlay : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World*) noexcept override {};
+    void calculateInfoForScoredRoles(world::World*) noexcept override{};
 
     /**
      * Gets the play name
      */
     const char* getName() override;
 };
-}  // namespace rtt::ai::stp::play
+}  // namespace rtt::ai::stp
 
 #endif  // RTT_TESTPLAY_H

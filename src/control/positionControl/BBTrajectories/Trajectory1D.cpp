@@ -3,20 +3,21 @@
 //
 
 #include "control/positionControl/BBTrajectories/Trajectory1D.h"
+
 #include <cmath>
 
 namespace rtt {
 
 void Trajectory1D::addTrajectory(const std::vector<BB::BBTrajectoryPart> &newParts, double addFromTime) {
-    for(int i = 0; i < parts.size(); i++) {
-        if(addFromTime <= parts[i].tEnd) {
+    for (int i = 0; i < parts.size(); i++) {
+        if (addFromTime <= parts[i].tEnd) {
             parts[i].tEnd = addFromTime;
             parts.erase(parts.begin() + 1 + i, parts.end());
             break;
         }
     }
 
-    for(BB::BBTrajectoryPart newPart : newParts) {
+    for (BB::BBTrajectoryPart newPart : newParts) {
         newPart.tEnd += addFromTime;
         parts.push_back(newPart);
     }
@@ -80,8 +81,6 @@ double Trajectory1D::getPosition(double t) const {
     return piece.startPos + piece.startVel * tPiece + 0.5 * piece.acc * tPiece * tPiece;
 }
 
-double Trajectory1D::getTotalTime() const {
-    return parts[parts.size() - 1].tEnd;
-}
+double Trajectory1D::getTotalTime() const { return parts[parts.size() - 1].tEnd; }
 
-}
+}  // namespace rtt

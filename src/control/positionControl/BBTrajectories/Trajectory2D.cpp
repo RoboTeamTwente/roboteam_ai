@@ -33,7 +33,7 @@ std::vector<Vector2> Trajectory2D::getPathApproach(double timeStep) const {
     auto totalTime = getTotalTime();
     double time = 0;
 
-    while(time<totalTime){
+    while (time < totalTime) {
         time += timeStep;
         points.push_back(getPosition(time));
     }
@@ -45,7 +45,7 @@ std::vector<Vector2> Trajectory2D::getVelocityVector(double timeStep) const {
     auto totalTime = getTotalTime();
     double time = 0;
 
-    while(time<totalTime){
+    while (time < totalTime) {
         time += timeStep;
         velocities.push_back(getVelocity(time));
     }
@@ -58,6 +58,6 @@ Vector2 Trajectory2D::getVelocity(double t) const { return Vector2(x.getVelocity
 
 Vector2 Trajectory2D::getAcceleration(double t) const { return Vector2(x.getAcceleration(t), y.getAcceleration(t)); }
 
-double Trajectory2D::getTotalTime() const { return std::max(x.getTotalTime(),y.getTotalTime()); }
+double Trajectory2D::getTotalTime() const { return std::max(x.getTotalTime(), y.getTotalTime()); }
 
-}
+}  // namespace rtt

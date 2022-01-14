@@ -35,8 +35,8 @@ class BBTPathTracking {
      * @param angle the desired orientation angle of the robot - if omitted, the robot will face its velocity
      * @return a structure containing the tracking velocity and the orientation angle
      */
-    Position trackPathForwardAngle(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<std::pair<Vector2, Vector2>> &pathVelocityPoints,
-                       int robotId, stp::PIDType pidType);
+    Position trackPathForwardAngle(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<std::pair<Vector2, Vector2>> &pathVelocityPoints, int robotId,
+                                   stp::PIDType pidType);
 };
 
 }  // namespace rtt::ai::control

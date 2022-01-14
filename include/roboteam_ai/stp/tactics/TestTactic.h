@@ -40,7 +40,8 @@ class TestTactic : public Tactic {
      */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
-    bool forceTacticSuccess(const StpInfo &info) noexcept override;;
+    bool forceTacticSuccess(const StpInfo &info) noexcept override;
+    ;
 
     /**
      * Is this tactic an end tactic?
@@ -53,7 +54,6 @@ class TestTactic : public Tactic {
      * @return The name of this tactic
      */
     const char *getName() override;
-
 };
 }  // namespace rtt::ai::stp
 
