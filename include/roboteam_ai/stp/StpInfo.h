@@ -82,7 +82,7 @@ struct StpInfo {
     void setRoleName(std::string name) { roleName = name; }
 
     AvoidObjects getObjectsToAvoid() const { return avoidObjects; }
-    void setObjectsToAvoid(AvoidObjects objectsToAvoid) {avoidObjects = objectsToAvoid; }
+    void setObjectsToAvoid(AvoidObjects objectsToAvoid) { avoidObjects = objectsToAvoid; }
 
    private:
     /**

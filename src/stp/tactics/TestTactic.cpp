@@ -4,13 +4,10 @@
 
 #include "stp/tactics/TestTactic.h"
 
-#include "stp/skills/TestSkill.h"
-
-#include "stp/skills/GoToPos.h"
-
-#include "stp/skills/Kick.h"
-
 #include "roboteam_utils/Print.h"
+#include "stp/skills/GoToPos.h"
+#include "stp/skills/Kick.h"
+#include "stp/skills/TestSkill.h"
 
 namespace rtt::ai::stp {
 
@@ -33,9 +30,7 @@ std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) no
 
 bool TestTactic::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool TestTactic::shouldTacticReset(const StpInfo &info) noexcept {
-    return info.getRobot()->hasBall();
-}
+bool TestTactic::shouldTacticReset(const StpInfo &info) noexcept { return info.getRobot()->hasBall(); }
 
 bool TestTactic::forceTacticSuccess(const StpInfo &info) noexcept { return info.getRobot()->hasBall(); }
 

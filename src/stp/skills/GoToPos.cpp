@@ -4,9 +4,10 @@
 
 #include "stp/skills/GoToPos.h"
 
-#include "world/World.hpp"
-#include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include <chrono>
+
+#include "control/positionControl/BBTrajectories/WorldObjects.h"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp::skill {
 
@@ -17,8 +18,6 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
         targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
-
-
 
     bool useOldPathPlanning = false;
     rtt::BB::CommandCollision commandCollision;
@@ -37,8 +36,8 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
         auto start = std::chrono::high_resolution_clock::now();
         commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackTrajectory(
-            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
-            info.getRobot().value()->getVel(), targetPos, info.getMaxRobotVelocity(), info.getPidType().value(), info.getObjectsToAvoid());
+            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos,
+            info.getMaxRobotVelocity(), info.getPidType().value(), info.getObjectsToAvoid());
         auto stop = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
@@ -48,7 +47,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     }
 
     if (commandCollision.collisionData.has_value()) {
-        //return Status::Failure;
+        // return Status::Failure;
     }
 
     double targetVelocityLength;
