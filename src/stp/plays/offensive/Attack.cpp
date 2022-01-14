@@ -55,7 +55,7 @@ void Attack::calculateInfoForRoles() noexcept {
 
     auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
     stpInfos["attacker"].setPositionToShootAt(goalTarget);
-    stpInfos["attacker"].setShotType(ShotType::PASS);
+    stpInfos["attacker"].setShotType(ShotType::MAX);
 
     // Set the midfielders to go to the part of the field where the ball is NOT (in y-direction)
     if (world->getWorld()->getBall().value()->getPos().y > field.getFrontLeftGrid().getOffSetY()) {  // Ball is in left of field
