@@ -146,10 +146,10 @@ namespace rtt::BB {
                                               const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep) {
         auto ourRobots = world->getWorld()->getUs();
         for (int i = 0; i < pathPoints.size(); i++) {
-            if (i * timeStep > 2) break; // Only check for collisions with our robots in the first 3 seconds of our trajectory
+            if (i * timeStep > 2) break; // Only check for collisions with our robots in the first 2 seconds of our trajectory
             for (auto &robot : ourRobots) {
                 if (robotId != robot->getId()) {
-                    if (computedPaths.find(robot->getId()) != computedPaths.end()) {
+                    if (computedPaths.find(robot->getId()) != computedPaths.end() && computedPaths.at(robot->getId()).size() > i) {
                         if ((pathPoints[i] - computedPaths.at(robot->getId())[i]).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/) {
                             insertCollisionData(collisionDatas, CollisionData{computedPaths.at(robot->getId())[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
                             return;
