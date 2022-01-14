@@ -6,6 +6,7 @@
 #include "stp/plays/offensive/Attack.h"
 
 #include "stp/computations/GoalComputations.h"
+#include "stp/computations/PositionScoring.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Attacker.h"
 #include "stp/roles/passive/Defender.h"
@@ -28,10 +29,8 @@ Attack::Attack() : Play() {
 }
 
 uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
-    if (playEvaluator.getWorld()->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 2) {
-        return 150;
-    } else
-        return 60;
+    // Score the position of the ball based on the odds of scoring
+    return PositionScoring::scorePosition(playEvaluator.getWorld()->getWorld()->getBall().value()->getPos(), gen::GoalShootPosition, field, playEvaluator.getWorld()).score;
 }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
