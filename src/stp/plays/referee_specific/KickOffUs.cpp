@@ -9,6 +9,7 @@
 #include "stp/roles/active/Passer.h"
 #include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Halt.h"
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -20,9 +21,9 @@ KickOffUs::KickOffUs() : Play() {
     keepPlayEvaluation.emplace_back(eval::KickOffUsGameState);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>("keeper"), std::make_unique<role::Formation>("passer"), std::make_unique<role::PassReceiver>("receiver"),
-        std::make_unique<role::Halt>("halt_0"),   std::make_unique<role::Halt>("halt_1"),      std::make_unique<role::Halt>("halt_2"),
-        std::make_unique<role::Halt>("halt_3"),   std::make_unique<role::Halt>("halt_4"),      std::make_unique<role::Halt>("halt_5"),
+        std::make_unique<role::Keeper>("keeper"), std::make_unique<role::Passer>("passer"), std::make_unique<role::PassReceiver>("receiver"),
+        std::make_unique<role::Halt>("halt_0"),   std::make_unique<role::Halt>("halt_1"),   std::make_unique<role::Halt>("halt_2"),
+        std::make_unique<role::Halt>("halt_3"),   std::make_unique<role::Halt>("halt_4"),   std::make_unique<role::Halt>("halt_5"),
         std::make_unique<role::Halt>("halt_6"),   std::make_unique<role::Halt>("halt_7")};
 }
 
@@ -34,17 +35,18 @@ uint8_t KickOffUs::score(PlayEvaluator &playEvaluator) noexcept {
 
 void KickOffUs::calculateInfoForRoles() noexcept {
     // Keeper
-    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
+    // TODO: set good position to shoot at (compute pass location)- possibly do this in the keeper role
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     // Kicker
+    // TODO: set good position to shoot at (compute pass location)- possibly do this in the passer role
     stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
-    stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos());
     stpInfos["passer"].setShotType(ShotType::PASS);
     stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
     // Receiver
+    // TODO: set receiving position based on pass computation
     stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
 }
 
@@ -68,6 +70,14 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *KickOffUs::getName() { return "Kick Off Us"; }
+bool KickOffUs::shouldEndPlay() noexcept {
+    if (world->getWorld()->getBall()->get()->getFilteredVelocity().length() > control_constants::BALL_GOT_SHOT_LIMIT) {
+        // Return to normal play after kickoff is done
+        GameStateManager::forceNewGameState(RefCommand::NORMAL_START, std::nullopt);
+        return true;
+    }
+    return false;
+}
 
+const char *KickOffUs::getName() { return "Kick Off Us"; }
 }  // namespace rtt::ai::stp::play
