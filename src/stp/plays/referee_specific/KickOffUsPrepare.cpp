@@ -17,10 +17,9 @@ KickOffUsPrepare::KickOffUsPrepare() : Play() {
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(eval::KickOffUsPrepareGameState);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Formation>(role::Formation("keeper")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("kicker")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("receiver")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("defender_0"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::Formation>(role::Formation("keeper")), std::make_unique<role::BallAvoider>(role::BallAvoider("kicker")),
+        std::make_unique<role::Formation>(role::Formation("receiver")), std::make_unique<role::Formation>(role::Formation("defender_0"))};
 }
 
 uint8_t KickOffUsPrepare::score(PlayEvaluator &playEvaluator) noexcept {
@@ -52,10 +51,10 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     auto fieldWidth = field.getFieldWidth();
 
     // TODO: set position to go to based on where the kicker will pass to in kickoffus
-    stpInfos["receiver"].setPositionToMoveTo(Vector2(-0.15 * fieldLength,-0.25 * fieldWidth));
+    stpInfos["receiver"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, -0.25 * fieldWidth));
 
     // TODO: set defender position in smarter way
-    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, -0.25 * fieldWidth));
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, 0.25 * fieldWidth));
 }
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
