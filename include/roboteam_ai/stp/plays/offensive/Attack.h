@@ -43,11 +43,6 @@ class Attack : public Play {
     void calculateInfoForScoredRoles(world::World*) noexcept override{};
 
     /**
-     * Check if play should end. True when attacker role is finished.
-     */
-    bool shouldEndPlay() noexcept override;
-
-    /**
      * Gets the play name
      */
     const char* getName() override;

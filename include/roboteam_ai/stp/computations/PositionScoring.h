@@ -60,7 +60,7 @@ class PositionScoring {
      * @param field
      * @return score of position including the weights
      */
-    static uint8_t getScoreOfPosition(const gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, const world::Field &field, const world::World *world);
+    static uint8_t getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, const world::Field &field, const world::World *world);
 
    public:
     /**
@@ -72,7 +72,7 @@ class PositionScoring {
      * @param bias value added to score
      * @return Position with score
      */
-    static gen::ScoredPosition scorePosition(const Vector2 &position, const gen::ScoreProfile &profile, const world::Field &field, const world::World *world, uint8_t bias = 0);
+    static gen::ScoredPosition scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field, const world::World *world, uint8_t bias = 0);
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_POSITIONSCORING_H

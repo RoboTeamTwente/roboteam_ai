@@ -194,7 +194,7 @@ var searchData=
   ['getrolestatuses_773',['getRoleStatuses',['../classrtt_1_1ai_1_1stp_1_1Play.html#ab5f09cfa9cd1ddb2a6990cb3c1b4d691',1,'rtt::ai::stp::Play']]],
   ['getruleset_774',['getRuleSet',['../structrtt_1_1ai_1_1GameState.html#a78322939ad4a90d9184fa9deee7d5607',1,'rtt::ai::GameState']]],
   ['getscorematrix_775',['getScoreMatrix',['../classrtt_1_1ai_1_1Dealer.html#ad5d887903ee80d1a383331d1a31e73a8',1,'rtt::ai::Dealer']]],
-  ['getscoreofposition_776',['getScoreOfPosition',['../classrtt_1_1ai_1_1stp_1_1PositionScoring.html#abfc09087b1dba50c3a7cd05ae6805468',1,'rtt::ai::stp::PositionScoring']]],
+  ['getscoreofposition_776',['getScoreOfPosition',['../classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a53f79c4494f95f2954ec4b7762541e7a',1,'rtt::ai::stp::PositionScoring']]],
   ['getselectedrobots_777',['getSelectedRobots',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html#aaa406ce0e9253301dca7d4fc077f6633',1,'rtt::ai::interface::Visualizer']]],
   ['getshottype_778',['getShotType',['../structrtt_1_1ai_1_1stp_1_1StpInfo.html#a12448dd09ecc0fe6a5cafdc08acedc99',1,'rtt::ai::stp::StpInfo']]],
   ['getshowdebugvalues_779',['getShowDebugValues',['../classrtt_1_1ai_1_1interface_1_1Output.html#aac54c8a1509b2c649af976dce0768be7',1,'rtt::ai::interface::Output']]],
