@@ -186,9 +186,12 @@ namespace rtt::ai::control {
                                               Vector2 &targetPosition) {
         double angleBetweenIntermediatePoints = M_PI_4 / 2;
 
+        // Radius and point extension of intermediate points are based on the fieldWith
+        auto fieldWidth = field.getFieldWidth();
+
         // PointToDrawFrom is picked by drawing a line from the target position to the obstacle and extending that
         // line further towards our currentPosition by extension meters.
-        float pointExtension = 0.5;  // How far the pointToDrawFrom has to be from the obstaclePosition
+        float pointExtension = fieldWidth/18;  // How far the pointToDrawFrom has to be from the obstaclePosition
         Vector2 pointToDrawFrom = firstCollision->obstaclePosition +
                                   (firstCollision->obstaclePosition - targetPosition).normalize() * pointExtension;
 
@@ -196,7 +199,7 @@ namespace rtt::ai::control {
         for (int i = -4; i < 5; i++) {
             if (i != 0) {
                 //Make half circle of intermediatePoints pointed towards obstaclePosition, originating from pointToDrawFrom, by rotating pointToRotate with a radius intermediatePointRadius
-                float intermediatePointRadius = 2; // Radius of the half circle
+                float intermediatePointRadius = fieldWidth/4; // Radius of the half circle
                 Vector2 pointToRotate = pointToDrawFrom + (targetPosition - firstCollision->obstaclePosition).normalize() * intermediatePointRadius;
                 Vector2 intermediatePoint = pointToRotate.rotateAroundPoint(i * angleBetweenIntermediatePoints, pointToDrawFrom);
 
