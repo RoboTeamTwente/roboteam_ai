@@ -71,7 +71,9 @@ void Attack::calculateInfoForRoles() noexcept {
     }
 }
 
-bool Attack::shouldEndPlay() noexcept { return roles[1]->finished(); }
+bool Attack::shouldEndPlay() noexcept {
+    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {return  role != nullptr && role->getName() == "attacker" && role->finished();});
+}
 
 const char* Attack::getName() { return "Attack"; }
 
