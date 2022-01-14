@@ -2,8 +2,10 @@
 
 #include <roboteam_utils/Shadow.h>
 
-#include "utilities/GameStateManager.hpp"
 #include "world/views/WorldDataView.hpp"
+#include "utilities/GameStateManager.hpp"
+#include <roboteam_utils/Print.h>
+
 
 namespace rtt {
 namespace ai {
@@ -111,6 +113,31 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
         return field.getLeftPenaltyPoint();
     } else {
         return field.getRightPenaltyPoint();
+    }
+}
+
+double FieldComputations::getDistanceToDefenseZone(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin) {
+    auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
+    double distance;
+    distance = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[3], point);
+    for (int i = 1; i<polygon.amountOfVertices()-1; i++){
+        double newDistance = distanceFromPointToLine(polygon.vertices[i], polygon.vertices[i-1], point);
+        if(newDistance < distance){
+            distance = newDistance;
+        }
+    }
+    return distance;
+}
+
+bool FieldComputations::isBelowPenaltyLine(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin){
+    auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
+    auto distanceBottomSide = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[3], point);
+    auto distanceTopSide = distanceFromPointToLine(polygon.vertices[2], polygon.vertices[1], point);
+    auto distanceMiddle = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[1], point);
+    if (distanceTopSide < distanceMiddle || distanceBottomSide < distanceMiddle){
+        return true;
+    } else {
+        return false;
     }
 }
 
