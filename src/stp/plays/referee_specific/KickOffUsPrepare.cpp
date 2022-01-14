@@ -55,7 +55,7 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     stpInfos["receiver"].setPositionToMoveTo(Vector2(-0.15 * fieldLength,-0.25 * fieldWidth));
 
     // TODO: set defender position in smarter way
-    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, -0.25 * fieldWidth));
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, 0.25 * fieldWidth));
 }
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
