@@ -68,7 +68,6 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -101,6 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:addf737d170c5e01d48694435670d7b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a936cbd75f11da572601136a4c9ff58ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#a936cbd75f11da572601136a4c9ff58ee">calculateInfoForScoredRoles</a> (<a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *) noexcept override</td></tr>
 <tr class="separator:a936cbd75f11da572601136a4c9ff58ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a649407297dee6638920185ca497148cb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#a649407297dee6638920185ca497148cb">shouldEndPlay</a> () noexcept override</td></tr>
+<tr class="separator:a649407297dee6638920185ca497148cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fe182baa7c3f94015734bede513a9d9"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#a6fe182baa7c3f94015734bede513a9d9">getName</a> () override</td></tr>
 <tr class="separator:a6fe182baa7c3f94015734bede513a9d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae63525881610390f3a9e5a490377b32e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#ae63525881610390f3a9e5a490377b32e">storePlayInfo</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#afc45c97a42c443e6884bd95502426d0d">gen::PlayInfos</a> &amp;previousPlayInfo) noexcept</td></tr>
@@ -128,11 +129,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a859e8c8abae48115eab588736926368f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81d204e55bab023d2937c1420abd04ad"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a81d204e55bab023d2937c1420abd04ad">lastScore</a></td></tr>
 <tr class="separator:a81d204e55bab023d2937c1420abd04ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a8726a464fdb9e614c5cca8c7cd183155"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">shouldEndPlay</a> () noexcept</td></tr>
-<tr class="separator:a8726a464fdb9e614c5cca8c7cd183155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -208,6 +204,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Calculates info for the roles </p>
+<p>TODO let keeper shot at a good position</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a1bff3910044942d4910c9551a7fc3ce1">rtt::ai::stp::Play</a>.</p>
 
@@ -548,8 +545,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8726a464fdb9e614c5cca8c7cd183155"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8726a464fdb9e614c5cca8c7cd183155">&#9670;&nbsp;</a></span>shouldEndPlay()</h2>
+<a id="a649407297dee6638920185ca497148cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a649407297dee6638920185ca497148cb">&#9670;&nbsp;</a></span>shouldEndPlay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -558,7 +555,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool rtt::ai::stp::Play::shouldEndPlay </td>
+          <td class="memname">bool rtt::ai::stp::play::Attack::shouldEndPlay </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -566,13 +563,13 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This function is used to determine if &ndash; when a role is in an endTactic &ndash; the endTactic should be skipped. An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept) Optional function to force end plays </p><dl class="section return"><dt>Returns</dt><dd>True if play should end this tick </dd></dl>
+<p>Check if play should end. True when attacker role is finished. </p>
 
-<p>Reimplemented in <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html#a363c1051fb133b677a6a61f587184f51">rtt::ai::stp::play::KickOffUs</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a749d12680c303e95b8446b68dc2ba288">rtt::ai::stp::play::KickOffThem</a>, and <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0d763e50ca74385381add422b4568227">rtt::ai::stp::play::PlayTemplate</a>.</p>
+<p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">rtt::ai::stp::Play</a>.</p>
 
 </div>
 </div>
