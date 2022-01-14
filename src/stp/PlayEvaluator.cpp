@@ -110,10 +110,10 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
             return evaluation::NoGoalVisionFromBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::WeHaveBall:
             return evaluation::WeHaveBallGlobalEvaluation().metricCheck(world, &field);
-//        case GlobalEvaluation::TheyHaveBall:
-  //          return evaluation::TheyHaveBallGlobalEvaluation().metricCheck(world, &field);
-   //     case GlobalEvaluation::TheyDoNotHaveBall:
-     //       return evaluation::TheyDoNotHaveBallGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::TheyHaveBall:
+          return evaluation::TheyHaveBallGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::TheyDoNotHaveBall:
+            return evaluation::TheyDoNotHaveBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::WeHaveMajority:
             return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(world, &field);
         default:
