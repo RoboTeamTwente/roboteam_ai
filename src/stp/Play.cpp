@@ -100,14 +100,6 @@ void Play::refreshData() noexcept {
 
 void Play::distributeRoles() noexcept {
     Dealer dealer{world->getWorld().value(), &field};
-
-    // Set role names for each stpInfo
-    for (auto &role : roles) {
-        if (role == nullptr) continue;
-        auto roleName{role->getName()};
-        stpInfos[roleName].setRoleName(roleName);
-    }
-
     auto flagMap = decideRoleFlags();
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap, stpInfos);
 
@@ -120,6 +112,7 @@ void Play::distributeRoles() noexcept {
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
             stpInfos[roleName].setRobot(robot);
+            stpInfos[roleName].setRoleName(roleName);
         }
     }
     std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto &each) { each.second.setCurrentWorld(world); });
