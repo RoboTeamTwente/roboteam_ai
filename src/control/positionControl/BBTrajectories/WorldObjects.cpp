@@ -28,7 +28,7 @@ namespace rtt::BB {
             calculateFieldCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
         }
 
-        // If the robot can not move into defense area, check if its path goes into either defense area
+        // If the robot can not move into defense area, check if its path goes into either defense area. Don't check if the robot is in the defense are.
         if(avoidObjects.shouldAvoidDefenseArea) {
             calculateDefenseAreaCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
         }
@@ -52,7 +52,11 @@ namespace rtt::BB {
 
     void WorldObjects::calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                                 int robotId, double timeStep) {
-        for (int i = 0; i<pathPoints.size(); i++) {
+
+        // Don't care about the field if the robot is already outside the field.
+        if(!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[0], rtt::ai::Constants::ROBOT_RADIUS())) return;
+
+        for (int i = 0; i < pathPoints.size(); i++) {
             if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
                 insertCollisionData(collisionDatas,CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision"});
                 return;
@@ -65,6 +69,9 @@ namespace rtt::BB {
                                                  int robotId, double timeStep) {
         auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, true, 0, 0);
         auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false,0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS());
+
+        // Don't care about the defense area if the robot is already in the defense area. It should just get out as fast as possible :)
+        if (ourDefenseArea.contains(pathPoints[0]) || theirDefenseArea.contains(pathPoints[0])) return;
 
         for (int i = 0; i < pathPoints.size(); i++) {
             if (ourDefenseArea.contains(pathPoints[i]) ||
