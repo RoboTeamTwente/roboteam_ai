@@ -70,29 +70,7 @@ void Attack::calculateInfoForRoles() noexcept {
     }
 }
 
-    // Midfielders
-    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, field.getFieldWidth() / 4));
-    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -field.getFieldWidth() / 4));
-    stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(field.getFieldLength() / 8, 0.0));
-    stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(-field.getFieldLength() / 8, 0.0));
-
-    // Defenders
-    stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
-    stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
-    stpInfos["defender_3"].setPositionToMoveTo(Vector2(-length / 4.5, width / 3));
-
-    //    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-    //    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
-    //    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
-    //
-    //    stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
-    //    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
-    //    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
-    //
-    //    stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
-    //    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
-    //    stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
-}
+bool Attack::shouldEndPlay() noexcept { return roles[1]->finished(); }
 
 const char* Attack::getName() { return "Attack"; }
 
