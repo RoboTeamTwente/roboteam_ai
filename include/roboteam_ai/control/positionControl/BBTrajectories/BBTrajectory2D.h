@@ -102,6 +102,21 @@ class BBTrajectory2D {
      */
     [[nodiscard]] double getTotalTime() const;
 
+    /**
+     * @brief Returns a vector with all the velocities (Vector2) at specified timeSteps
+     */
+    [[nodiscard]] std::vector<Vector2> getVelocityVector(double timeStep) const;
+
+    /**
+     * @brief Transforms the BBTrajectory into a posVelVector at specified timeSteps
+     */
+    [[nodiscard]] std::vector<std::pair<Vector2, Vector2>> getPosVelVector(double timeStep);
+
+    /**
+     * @brief Returns all the trajectory parts in both dimensions to use in the general trajectory class
+     */
+    [[nodiscard]] std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> getParts();
+
    private:
     /**
      * @brief  Computes a bang bang trajectory with a given alpha value.
