@@ -55,25 +55,29 @@ std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::W
 
 void WorldObjects::calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, int robotId,
                                             double timeStep) {
-    if (!canMoveOutsideField(robotId)) {
-        for (int i = 0; i < pathPoints.size(); i++) {
-            if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
-                insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision"});
-                return;
-            }
+    // Don't care about the field if the robot is already outside the field.
+    if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[0], rtt::ai::Constants::ROBOT_RADIUS())) return;
+
+    for (int i = 0; i < pathPoints.size(); i++) {
+        if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
+            insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision"});
+            return;
         }
     }
 }
 
 void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, int robotId,
                                                   double timeStep) {
-    if (!canEnterDefenseArea(robotId)) {
-        for (int i = 0; i < pathPoints.size(); i++) {
-            if (rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, pathPoints[i]) ||
-                rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, pathPoints[i], 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
-                insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
-                return;
-            }
+    auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, true, 0, 0);
+    auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false, 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS());
+
+    // Don't care about the defense area if the robot is already in the defense area. It should just get out as fast as possible :)
+    if (ourDefenseArea.contains(pathPoints[0]) || theirDefenseArea.contains(pathPoints[0])) return;
+
+    for (int i = 0; i < pathPoints.size(); i++) {
+        if (ourDefenseArea.contains(pathPoints[i]) || theirDefenseArea.contains(pathPoints[i])) {
+            insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
+            return;
         }
     }
 }
@@ -105,7 +109,7 @@ void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::
     }
 }
 
-void WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::BB::BBTrajectory2D BBTrajectory, std::vector<CollisionData> &collisionDatas,
+void WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::Trajectory2D Trajectory, std::vector<CollisionData> &collisionDatas,
                                                  const std::vector<Vector2> &pathPoints, double timeStep) {
     const std::vector<world::view::RobotView> theirRobots = world->getWorld()->getThem();
 
