@@ -192,6 +192,8 @@ double Dealer::getWeightForPriority(const DealerFlagPriority &flagPriority) {
             return 5;
         case DealerFlagPriority::REQUIRED:
             return 100;
+        case DealerFlagPriority::KEEPER:
+            return 1000;
         default:
             RTT_WARNING("Unhandled dealerflag!")
             return 0;
