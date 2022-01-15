@@ -31,7 +31,7 @@ uint8_t TestPlay::score(PlayEvaluator &playEvaluator) noexcept { return 0; }
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    flagMap.insert({"role_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"role_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"role_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"role_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"role_3", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
@@ -71,7 +71,6 @@ void TestPlay::calculateInfoForRoles() noexcept {
 //    stpInfos["role_2"].setPositionToDefend(field.getOurGoalCenter());
 //    stpInfos["role_2"].setEnemyRobot(enemyAttacker);
 //    stpInfos["role_2"].setBlockDistance(BlockDistance::FAR);
-    RTT_DEBUG("From play position to defend: ", field.getOurGoalCenter());
 }
 
 const char *TestPlay::getName() { return "Test Play"; }
