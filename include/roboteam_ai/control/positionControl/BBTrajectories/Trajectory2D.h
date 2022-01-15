@@ -7,8 +7,8 @@
 
 #include <vector>
 
-#include "BBTrajectory2D.h"
 #include "Trajectory1D.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 

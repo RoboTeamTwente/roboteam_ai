@@ -3,6 +3,7 @@
 //
 
 #include "control/positionControl/BBTrajectories/Trajectory2D.h"
+#include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 
 #include <cmath>
 

@@ -4,6 +4,7 @@
 
 #include "stp/skills/GoToPos.h"
 
+#include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::stp::skill {
@@ -16,7 +17,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
 
-    bool useOldPathPlanning = true;
+    bool useOldPathPlanning = false;
     rtt::BB::CommandCollision commandCollision;
 
     if (useOldPathPlanning) {
@@ -25,13 +26,13 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
-        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(info.getCurrentWorld(), info.getField().value(),
-                                                                                                        info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
-                                                                                                        info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackTrajectory(
+            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos,
+            info.getMaxRobotVelocity(), info.getPidType().value(), info.getObjectsToAvoid());
     }
 
     if (commandCollision.collisionData.has_value()) {
-        return Status::Failure;
+        // return Status::Failure;
     }
 
     double targetVelocityLength;

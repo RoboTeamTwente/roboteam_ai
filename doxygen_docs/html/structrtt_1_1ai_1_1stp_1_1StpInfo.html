@@ -153,6 +153,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1f87348d274da02c9200ef7b3d529aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af75aeb911553108d67f5cc5c0032bf49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#af75aeb911553108d67f5cc5c0032bf49">setRoleName</a> (std::string name)</td></tr>
 <tr class="separator:af75aeb911553108d67f5cc5c0032bf49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23021bd272a9bcc808ca4c3e2630c22e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">AvoidObjects</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a23021bd272a9bcc808ca4c3e2630c22e">getObjectsToAvoid</a> () const</td></tr>
+<tr class="separator:a23021bd272a9bcc808ca4c3e2630c22e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8af12b1702377cb1e06f84cbb8cccc1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a8af12b1702377cb1e06f84cbb8cccc1c">setObjectsToAvoid</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">AvoidObjects</a> objectsToAvoid)</td></tr>
+<tr class="separator:a8af12b1702377cb1e06f84cbb8cccc1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -192,6 +196,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a79ba3f581e2b53fa4ee8bd269e5fcdc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85b040068008db82349f2a7a38659301"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a85b040068008db82349f2a7a38659301">roleName</a></td></tr>
 <tr class="separator:a85b040068008db82349f2a7a38659301"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a410c71825d572f4fc63f0df9ba8f7b35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">AvoidObjects</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a410c71825d572f4fc63f0df9ba8f7b35">avoidObjects</a></td></tr>
+<tr class="separator:a410c71825d572f4fc63f0df9ba8f7b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> bundles all info a robot could need in one struct This data propagates all the way from plays down to skills </p>
@@ -432,6 +438,31 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">double rtt::ai::stp::StpInfo::getMaxRobotVelocity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23021bd272a9bcc808ca4c3e2630c22e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23021bd272a9bcc808ca4c3e2630c22e">&#9670;&nbsp;</a></span>getObjectsToAvoid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">AvoidObjects</a> rtt::ai::stp::StpInfo::getObjectsToAvoid </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -908,6 +939,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8af12b1702377cb1e06f84cbb8cccc1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8af12b1702377cb1e06f84cbb8cccc1c">&#9670;&nbsp;</a></span>setObjectsToAvoid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::stp::StpInfo::setObjectsToAvoid </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">AvoidObjects</a>&#160;</td>
+          <td class="paramname"><em>objectsToAvoid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae8482808ab4fb66b8a4ba8040fb47bf0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae8482808ab4fb66b8a4ba8040fb47bf0">&#9670;&nbsp;</a></span>setPidType()</h2>
 
@@ -1163,6 +1220,29 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Reference angle of the robot </p>
+
+</div>
+</div>
+<a id="a410c71825d572f4fc63f0df9ba8f7b35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a410c71825d572f4fc63f0df9ba8f7b35">&#9670;&nbsp;</a></span>avoidObjects</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">AvoidObjects</a> rtt::ai::stp::StpInfo::avoidObjects</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Specify what objects the robot should avoid </p>
 
 </div>
 </div>

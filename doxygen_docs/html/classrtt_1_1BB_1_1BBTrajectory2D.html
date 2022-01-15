@@ -112,6 +112,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a87fd396c2b9a65d7a485016d2d5b9d27"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a87fd396c2b9a65d7a485016d2d5b9d27">getTotalTime</a> () const</td></tr>
 <tr class="memdesc:a87fd396c2b9a65d7a485016d2d5b9d27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets tEnd of the current part.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a87fd396c2b9a65d7a485016d2d5b9d27">More...</a><br /></td></tr>
 <tr class="separator:a87fd396c2b9a65d7a485016d2d5b9d27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeecedbd34ea921ac9d22ff58f75ba4f7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#aeecedbd34ea921ac9d22ff58f75ba4f7">getVelocityVector</a> (double timeStep) const</td></tr>
+<tr class="memdesc:aeecedbd34ea921ac9d22ff58f75ba4f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector with all the velocities (Vector2) at specified timeSteps.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#aeecedbd34ea921ac9d22ff58f75ba4f7">More...</a><br /></td></tr>
+<tr class="separator:aeecedbd34ea921ac9d22ff58f75ba4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af859a12b44e7e19224cf0e92e4371ffb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#af859a12b44e7e19224cf0e92e4371ffb">getPosVelVector</a> (double timeStep)</td></tr>
+<tr class="memdesc:af859a12b44e7e19224cf0e92e4371ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms the BBTrajectory into a posVelVector at specified timeSteps.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#af859a12b44e7e19224cf0e92e4371ffb">More...</a><br /></td></tr>
+<tr class="separator:af859a12b44e7e19224cf0e92e4371ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a139f60524316e305145a18e4e80c61a8"><td class="memItemLeft" align="right" valign="top">std::pair&lt; std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart">BB::BBTrajectoryPart</a> &gt;, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart">BB::BBTrajectoryPart</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a139f60524316e305145a18e4e80c61a8">getParts</a> ()</td></tr>
+<tr class="memdesc:a139f60524316e305145a18e4e80c61a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all the trajectory parts in both dimensions to use in the general trajectory class.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a139f60524316e305145a18e4e80c61a8">More...</a><br /></td></tr>
+<tr class="separator:a139f60524316e305145a18e4e80c61a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -439,6 +448,25 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a139f60524316e305145a18e4e80c61a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a139f60524316e305145a18e4e80c61a8">&#9670;&nbsp;</a></span>getParts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart">BB::BBTrajectoryPart</a> &gt;, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart">BB::BBTrajectoryPart</a> &gt; &gt; rtt::BB::BBTrajectory2D::getParts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns all the trajectory parts in both dimensions to use in the general trajectory class. </p>
+
+</div>
+</div>
 <a id="a5c6f793afa8cfd849ec84cd24f61251a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5c6f793afa8cfd849ec84cd24f61251a">&#9670;&nbsp;</a></span>getPathApproach()</h2>
 
@@ -490,6 +518,26 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Position at time t </dd></dl>
+
+</div>
+</div>
+<a id="af859a12b44e7e19224cf0e92e4371ffb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af859a12b44e7e19224cf0e92e4371ffb">&#9670;&nbsp;</a></span>getPosVelVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &gt; rtt::BB::BBTrajectory2D::getPosVelVector </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>timeStep</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Transforms the BBTrajectory into a posVelVector at specified timeSteps. </p>
 
 </div>
 </div>
@@ -557,6 +605,26 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Velocity at time t </dd></dl>
+
+</div>
+</div>
+<a id="aeecedbd34ea921ac9d22ff58f75ba4f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeecedbd34ea921ac9d22ff58f75ba4f7">&#9670;&nbsp;</a></span>getVelocityVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::BB::BBTrajectory2D::getVelocityVector </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>timeStep</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a vector with all the velocities (Vector2) at specified timeSteps. </p>
 
 </div>
 </div>
