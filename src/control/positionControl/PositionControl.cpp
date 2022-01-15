@@ -163,9 +163,12 @@ std::vector<Vector2> PositionControl::createIntermediatePoints(const rtt::world:
                                                                Vector2 &targetPosition) {
     double angleBetweenIntermediatePoints = M_PI_4 / 2;
 
+    // Radius and point extension of intermediate points are based on the fieldWith
+    auto fieldWidth = field.getFieldWidth();
+
     // PointToDrawFrom is picked by drawing a line from the target position to the obstacle and extending that
     // line further towards our currentPosition by extension meters.
-    float pointExtension = 0.5;  // How far the pointToDrawFrom has to be from the obstaclePosition
+    float pointExtension = fieldWidth / 18;  // How far the pointToDrawFrom has to be from the obstaclePosition
     Vector2 pointToDrawFrom = firstCollision->obstaclePosition + (firstCollision->obstaclePosition - targetPosition).normalize() * pointExtension;
 
     std::vector<Vector2> intermediatePoints;
@@ -173,19 +176,22 @@ std::vector<Vector2> PositionControl::createIntermediatePoints(const rtt::world:
         if (i != 0) {
             // Make half circle of intermediatePoints pointed towards obstaclePosition, originating from pointToDrawFrom, by rotating pointToRotate with a radius
             // intermediatePointRadius
-            float intermediatePointRadius = 2;  // Radius of the half circle
+            float intermediatePointRadius = fieldWidth / 4;  // Radius of the half circle
             Vector2 pointToRotate = pointToDrawFrom + (targetPosition - firstCollision->obstaclePosition).normalize() * intermediatePointRadius;
             Vector2 intermediatePoint = pointToRotate.rotateAroundPoint(i * angleBetweenIntermediatePoints, pointToDrawFrom);
 
-            // If not in a defense area (only checked if robot is not allowed in defense area)
-            if (worldObjects.canEnterDefenseArea(robotId) || (!rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, intermediatePoint) &&
-                                                              !rtt::ai::FieldComputations::pointIsInTheirDefenseArea(
-                                                                  field, intermediatePoint, 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
+            /*//If not in a defense area (only checked if robot is not allowed in defense area)
+            if (worldObjects.canEnterDefenseArea(robotId) ||
+                (!rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, true, 0) &&
+                 !rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, false,
+                                                                   0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
                 //.. and inside the field (only checked if the robot is not allowed outside the field), add this cross to the list
-                if (worldObjects.canMoveOutsideField(robotId) || rtt::ai::FieldComputations::pointIsInField(field, intermediatePoint, rtt::ai::Constants::ROBOT_RADIUS())) {
-                    intermediatePoints.emplace_back(intermediatePoint);
-                }
-            }
+                if (worldObjects.canMoveOutsideField(robotId) ||
+                    rtt::ai::FieldComputations::pointIsInField(field, intermediatePoint,
+                                                               rtt::ai::Constants::ROBOT_RADIUS())) {*/
+            intermediatePoints.emplace_back(intermediatePoint);
+            /*}
+        }*/
         }
     }
     return intermediatePoints;
