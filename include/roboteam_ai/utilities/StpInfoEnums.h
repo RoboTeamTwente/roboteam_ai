@@ -30,14 +30,5 @@ enum class ShotType { PASS, TARGET, MAX };
  * The status that a skill/tactic can return
  */
 enum class Status { Waiting, Success, Failure, Running };
-
-/**
- * The AvoidObjects struct containing what the robot should avoid
- */
-struct AvoidObjects {
-    bool shouldAvoidBall = false;
-    bool shouldAvoidDefenseArea = true;
-    bool shouldAvoidOutOfField = true;
-};
 }  // namespace rtt::ai::stp
 #endif  // RTT_STPINFOENUMS_H

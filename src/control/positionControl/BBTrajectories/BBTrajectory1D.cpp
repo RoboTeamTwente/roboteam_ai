@@ -4,7 +4,6 @@
 #include "control/positionControl/BBTrajectories/BBTrajectory1D.h"
 
 #include <cmath>
-#include <iostream>
 
 namespace rtt::BB {
 double BBTrajectory1D::fullBrakePos(double pos, double vel, double accMax) {
@@ -181,14 +180,4 @@ double BBTrajectory1D::getPosition(double t) const {
 }
 
 bool BBTrajectory1D::inLastPart(double t) const { return t >= parts[numParts - 2].tEnd; }
-
-std::vector<BB::BBTrajectoryPart> BBTrajectory1D::getParts() {
-    std::vector<BB::BBTrajectoryPart> partsVector;
-    for (BBTrajectoryPart part : parts) {
-        if (part.tEnd != 0) {
-            partsVector.push_back(part);
-        }
-    }
-    return partsVector;
-}
 }  // namespace rtt::BB

@@ -53,31 +53,31 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -118,14 +118,14 @@ void ApplicationManager::runOneLoopCycle() {
         // Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
         auto worldMessage = state.last_seen_world();
         auto fieldMessage = state.field().field();
-        // auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
+        auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
 
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
 
         auto const &[_, world] = world::World::instance();
-        // world->updateFeedback(feedbackMessage);
+        world->updateFeedback(feedbackMessage);
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {

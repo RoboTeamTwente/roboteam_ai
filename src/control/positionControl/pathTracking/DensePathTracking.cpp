@@ -10,7 +10,7 @@ namespace rtt::ai::control {
 
 Position DensePathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle,
                                       stp::PIDType pidType) {
-    int lookAhead = std::min(static_cast<int>(pathPoints.size()), 5);
+    int lookAhead = std::min(pathPoints.size(), STEPS_AHEAD);
     Vector2 currentTarget = *std::next(pathPoints.begin(), lookAhead - 1);
     if (pathPoints.size() > 1 && PositionControlUtils::isTargetReached(currentTarget, currentPosition)) {
         // track the Nth point, or the last if the size is smaller than N; the untracked ones are discarded

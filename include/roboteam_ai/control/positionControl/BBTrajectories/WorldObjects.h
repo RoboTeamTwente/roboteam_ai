@@ -5,11 +5,9 @@
 #ifndef RTT_WORLDOBJECTS_H
 #define RTT_WORLDOBJECTS_H
 
-#include "control/ControlUtils.h"
 #include "control/RobotCommand.h"
-#include "control/positionControl/BBTrajectories/Trajectory2D.h"
+#include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "utilities/GameStateManager.hpp"
-#include "utilities/StpInfoEnums.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::BB {
@@ -55,26 +53,10 @@ class WorldObjects {
      * @param BBTrajectory the trajectory to check for collisions
      * @param computedPaths the paths of our robots
      * @param robotId
-     * @param avoidObjects a struct with if it should avoid certain objects
      * @return optional with rtt::BB::CollisionData
      */
-    std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const rtt::Trajectory2D &Trajectory,
-                                                   const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, ai::stp::AvoidObjects avoidObjects);
-
-    /**
-     * Takes a discretized trajectory of a robot and checks the path in certain intervals for collisions
-     * @brief Calculates the position of the first collision and the obstacle position on a BangBangTrajectory
-     * @param world the world object used for information about the robots
-     * @param field used for checking collisions with the field
-     * @param BBTrajectory the discretized trajectory to check for collisions
-     * @param computedPaths the paths of our robots
-     * @param robotId
-     * @param timeStep
-     * @return optional with rtt::BB::CollisionData
-     */
-    std::optional<CollisionData> getFirstCollisionDiscretized(const rtt::world::World *world, const rtt::world::Field &field,
-                                                              const std::vector<std::pair<Vector2, Vector2>> &discretizedTrajectoryPosVel,
-                                                              const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
+    std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const BBTrajectory2D &BBTrajectory,
+                                                   const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId);
 
     /**
      * @brief Takes a calculated path of a robot and checks points along the path if they are outside the
@@ -120,21 +102,8 @@ class WorldObjects {
      * @param pathPoints, std::vector with path points
      * @param timeStep in seconds
      */
-    void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::Trajectory2D Trajectory, std::vector<CollisionData> &collisionDatas,
+    void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::BB::BBTrajectory2D BBTrajectory, std::vector<CollisionData> &collisionDatas,
                                        const std::vector<Vector2> &pathPoints, double timeStep);
-
-    /**
-     * @brief Takes a discretizedcalculated path of a robot and checks points along the path if they are too close to an
-     * approximation of the enemy robot paths. Adds these points and the time to collisionDatas and collisionTimes if
-     * the difference in velocity between the two robots is more than 1.5 ms/s and we are driving faster
-     * @param world Used for information about the enemy robots
-     * @param discretizedTrajectoryPosVel Discretized trajectory used to check for collisions
-     * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
-     * @param pathPoints, std::vector with path points
-     * @param timeStep in seconds
-     */
-    void calculateEnemyRobotCollisionsDiscretized(const rtt::world::World *world, const std::vector<std::pair<Vector2, Vector2>> &discretizedTrajectoryPosVel,
-                                                  std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, double timeStep);
 
     /**
      * @brief Takes a path from the array of stored paths and checks points along the path if they are too close to
@@ -149,6 +118,12 @@ class WorldObjects {
      */
     void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                      const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
+
+    // Checks if a specified robot can enter the defense area
+    bool canEnterDefenseArea(int robotId);
+
+    // Checks if a specified robot can move out of the field
+    bool canMoveOutsideField(int robotId);
 
     // Inserts collisionData in the vector collisionDatas such that they are ordered from lowest collisionTime to highest
     void insertCollisionData(std::vector<CollisionData> &collisionDatas, const CollisionData &collisionData);
