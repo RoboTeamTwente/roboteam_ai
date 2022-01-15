@@ -131,10 +131,8 @@ double FieldComputations::getDistanceToDefenseZone(const rtt_world::Field &field
 
 bool FieldComputations::isBelowPenaltyLine(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin){
     auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
-    auto distanceBottomSide = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[3], point);
-    auto distanceTopSide = distanceFromPointToLine(polygon.vertices[2], polygon.vertices[1], point);
-    auto distanceMiddle = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[1], point);
-    if (distanceTopSide < distanceMiddle || distanceBottomSide < distanceMiddle){
+    auto distance = std::abs(point.x) - std::abs(polygon.vertices[0].x);
+    if (distance >= 0){
         return true;
     } else {
         return false;

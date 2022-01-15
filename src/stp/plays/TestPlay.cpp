@@ -62,7 +62,7 @@ void TestPlay::calculateInfoForRoles() noexcept {
 
     stpInfos["role_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["role_0"].setEnemyRobot(enemyAttacker);
-    stpInfos["role_0"].setBlockDistance(BlockDistance::CLOSE);
+    stpInfos["role_0"].setBlockDistance(BlockDistance::FAR);
 //
 //    stpInfos["role_1"].setPositionToDefend(field.getOurGoalCenter());
 //    stpInfos["role_1"].setEnemyRobot(enemyAttacker);

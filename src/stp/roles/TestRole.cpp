@@ -5,6 +5,8 @@
 #include "stp/roles/TestRole.h"
 #include "stp/tactics/TestTactic.h"
 #include "stp/tactics/passive/BlockRobot.h"
+#include "stp/tactics/passive/BlockBall.h"
+
 
 namespace rtt::ai::stp {
 

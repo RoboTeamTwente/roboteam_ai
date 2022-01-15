@@ -44,7 +44,7 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
         RTT_DEBUG("Position projected")
 
         // check if the enemy robot is below our penalty line (closer to our goal than the penalty line)
-        if (FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), margin, margin)) {
+        if (enemyDistanceToDefenseZone < FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), margin, margin)) {
             isBelowPenalty = true;
             RTT_DEBUG("Is below penalty")
         }
@@ -89,6 +89,8 @@ double BlockRobot::calculateAngle(const world::view::RobotView enemy, const Vect
     return lineEnemyToTarget.angle();
 }
 
+
+
 Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation, bool isBelowPenalty,
                                                   double enemyDistance) {
     auto lineEnemyToTarget = targetLocation - enemy->getPos();
@@ -101,12 +103,12 @@ Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, c
             distance = lineEnemyToTarget.length() / 2;
             break;
         case BlockDistance::FAR:
-            distance = lineEnemyToTarget.length()-0.5;
+            distance = lineEnemyToTarget.length()-2*control_constants::ROBOT_RADIUS;
             break;
     }
 //|| enemyDistance < 3 * control_constants::ROBOT_RADIUS
     if (distance < 4 * control_constants::ROBOT_RADIUS ) {
-        distance = 3 * control_constants::ROBOT_RADIUS;
+        distance = 4 * control_constants::ROBOT_RADIUS;
         RTT_DEBUG("To close", enemyDistance);
     }
 
