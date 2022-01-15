@@ -13,14 +13,14 @@
 #include "stp/evaluations/position/OpennessEvaluation.h"
 
 namespace rtt::ai::stp {
-gen::ScoredPosition PositionScoring::scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field, const world::World *world, uint8_t bias) {
+gen::ScoredPosition PositionScoring::scorePosition(const Vector2 &position, const gen::ScoreProfile &profile, const world::Field &field, const world::World *world, uint8_t bias) {
     gen::PositionScores &scores = ComputationManager::calculatedScores[position];
     uint8_t positionScore = getScoreOfPosition(profile, position, scores, field, world);
     if (bias) positionScore = (positionScore + bias > bias) ? positionScore + bias : std::numeric_limits<uint8_t>::max();  // stop overflow of uint8_t (254+2 = 1)
     return {position, positionScore};
 }
 
-uint8_t PositionScoring::getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, const rtt::world::Field &field,
+uint8_t PositionScoring::getScoreOfPosition(const gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, const rtt::world::Field &field,
                                             const rtt::world::World *world) {
     double scoreTotal = 0;
     double weightTotal = 0;
