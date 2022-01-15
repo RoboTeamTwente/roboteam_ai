@@ -1,26 +1,25 @@
 //
-// Created by agata on 14/01/2022.
+// Created by jordi on 27-03-20.
 //
 
-#ifndef RTT_DEFENDPASSFOUR_H
-#define RTT_DEFENDPASSFOUR_H
+#ifndef RTT_DEFENDSHOTFOUR_H
+#define RTT_DEFENDSHOTFOUR_H
 
 #include "stp/Play.hpp"
-
 
 namespace rtt::ai::stp::play {
 
 /**
- * DefendPass Play is executed when the opponent has or is close to the ball but not necessarily on our side of the field.
- * In this case the opponent most likely will pass to another robot. Our robots will namely block off robots that can
- * be passed to.
+ * DefendShot Play is executed when the opponent has or is close to the ball and on our side of the field.
+ * In this case they most likely will try to score. Some defenders defend the goal by blocking the path between enemy
+ * robots and the goal. Other defenders block other enemy robots to avoid passes to them.
  */
-class DefendPassFour : public Play {
+class DefendShotFour : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    DefendPassFour();
+    DefendShotFour();
 
     /**
      * Gets the score for the current play
@@ -31,7 +30,7 @@ class DefendPassFour : public Play {
      * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept;
+    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -46,7 +45,7 @@ class DefendPassFour : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World*) noexcept override{};
+    void calculateInfoForScoredRoles(world::World* world) noexcept override{};
 
     /**
      * Gets the play name
@@ -60,16 +59,25 @@ class DefendPassFour : public Play {
     void calculateInfoForDefenders() noexcept;
 
     /**
+     * Calculates info for the harassers
+     */
+    void calculateInfoForHarassers() noexcept;
+
+    /**
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;
 
     /**
-     * Calculates info for the harassers
+     * Calculates info for the midfielders
      */
-    void calculateInfoForHarassers() noexcept;
+    void calculateInfoForMidfielders() noexcept;
 
+    /**
+     * Calculates info for the offenders
+     */
+    void calculateInfoForOffenders() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_DEFENDPASSFOUR_H
+#endif  // RTT_DEFENDSHOTFOUR_H

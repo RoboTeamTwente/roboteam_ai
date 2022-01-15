@@ -53,29 +53,27 @@ void DefendPassFour::calculateInfoForRoles() noexcept {
 }
 
 void DefendPassFour::calculateInfoForDefenders() noexcept {
+    auto enemyRobots = world->getWorld()->getThem();
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
-    auto enemyClosestToOurGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them);
 
-    if (enemyClosestToBall->get()->getId() == enemyClosestToOurGoal->get()->getId()) {
-        RTT_DEBUG("THE same");
-        stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
-        stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
-        stpInfos["defender_1"].setBlockDistance(BlockDistance::FAR);
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                                     [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); }));    //std::remove(enemyRobots.begin(), enemyRobots.end(), enemyClosestToBall);
 
-        stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
-        stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
-        stpInfos["defender_2"].setBlockDistance(BlockDistance::FAR);
-    } else {
-        RTT_DEBUG("DIFFERENT");
-        stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-        stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
-        stpInfos["defender_1"].setBlockDistance(BlockDistance::FAR);
+    auto enemyClosestToOurGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-        stpInfos["defender_2"].setPositionToDefend(enemyClosestToOurGoal->get()->getPos());
-        stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
-        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
-    }
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                                     [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoal && enemyRobot->getId() == enemyClosestToOurGoal.value()->getId(); }));
 
+
+    auto remainingEnemy = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
+
+    stpInfos["defender_1"].setPositionToDefend(remainingEnemy->get()->getPos());
+    stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+
+    stpInfos["defender_2"].setPositionToDefend(enemyClosestToOurGoal->get()->getPos());
+    stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
 void DefendPassFour::calculateInfoForKeeper() noexcept {
