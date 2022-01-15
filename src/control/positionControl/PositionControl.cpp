@@ -39,10 +39,9 @@ bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, cons
 
 void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) { collisionDetector.setRobotPositions(robotPositions); }
 
-rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
-                                                                  Vector2 currentVelocity, Vector2 targetPosition, stp::PIDType pidType) {
-    // TODO: split this function in a compute and a track part
-    // TODO: find a good value for the timeStep
+rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
+                                                                     Vector2 currentVelocity, Vector2 targetPosition, double maxRobotVelocity, stp::PIDType pidType,
+                                                                     stp::AvoidObjects avoidObjects) {
     double timeStep = 0.1;
 
     std::optional<BB::CollisionData> firstCollision;
@@ -56,15 +55,18 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::wor
         computedPathsBB[robotId] = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition, ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
         // Check path to original target for collisions
-        firstCollision = worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId);
+        firstCollision = worldObjects.getFirstCollision(world, field, computedTrajectories[robotId], computedPaths, robotId, avoidObjects);
 
         if (firstCollision.has_value()) {
-            // Create intermediate points, return a collision-free path originating from the best option of these points
-            auto newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, timeStep);
-            if (newPath.has_value()) {
-                computedPathsBB[robotId] = newPath.value();
+            RTT_DEBUG(firstCollision->collisionName);
+            // Create intermediate points, return a collision-free trajectory originating from the best option of these points
+            auto newTrajectory =
+                findNewTrajectory(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, maxRobotVelocity, timeStep, avoidObjects);
+            if (newTrajectory.has_value()) {
+                computedTrajectories[robotId] = newTrajectory.value();
             } else {
                 commandCollision.collisionData = firstCollision;
+                RTT_DEBUG("Could not find a collision-free path");
             }
         }
         computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);
@@ -89,9 +91,9 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::wor
     return commandCollision;
 }
 
-std::optional<BB::BBTrajectory2D> PositionControl::findNewPath(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition,
+std::optional<Trajectory2D> PositionControl::findNewTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition,
                                                                Vector2 &currentVelocity, std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,
-                                                               double timeStep) {
+                                                               double maxRobotVelocity, double timeStep, stp::AvoidObjects avoidObjects) {
     auto intermediatePoints = createIntermediatePoints(field, robotId, firstCollision, targetPosition);
     auto intermediatePointsSorted = scoreIntermediatePoints(intermediatePoints, firstCollision);
 
@@ -103,9 +105,10 @@ std::optional<BB::BBTrajectory2D> PositionControl::findNewPath(const rtt::world:
         pathToIntermediatePoint =
             BB::BBTrajectory2D(currentPosition, currentVelocity, intermediatePointsSorted.top().second, ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
-        auto intermediatePathCollision = worldObjects.getFirstCollision(world, field, pathToIntermediatePoint, computedPaths, robotId);
-        auto intermediateToTarget = calculatePathFromNewStart(world, field, intermediatePathCollision, pathToIntermediatePoint, targetPosition, robotId, timeStep);
-        if (intermediateToTarget.has_value()) {
+        auto intermediatePathCollision = worldObjects.getFirstCollision(world, field, trajectoryToIntermediatePoint, computedPaths, robotId, avoidObjects);
+        auto trajectoryAroundCollision = calculateTrajectoryAroundCollision(world, field, intermediatePathCollision, trajectoryToIntermediatePoint, targetPosition, robotId,
+                                                                            maxRobotVelocity, timeStep, avoidObjects);
+        if (trajectoryAroundCollision.has_value()) {
             interface::Input::drawData(interface::Visual::PATHFINDING, intermediatePoints, Qt::green, robotId, interface::Drawing::CROSSES);
             interface::Input::drawData(interface::Visual::PATHFINDING, {firstCollision->collisionPosition}, Qt::red, robotId, interface::Drawing::CROSSES);
 
@@ -115,6 +118,34 @@ std::optional<BB::BBTrajectory2D> PositionControl::findNewPath(const rtt::world:
             return intermediateToTarget.value();
         }
         intermediatePointsSorted.pop();
+    }
+    return std::nullopt;
+}
+
+std::optional<Trajectory2D> PositionControl::calculateTrajectoryAroundCollision(const rtt::world::World *world, const rtt::world::Field &field,
+                                                                                std::optional<BB::CollisionData> &intermediatePathCollision,
+                                                                                Trajectory2D trajectoryToIntermediatePoint, Vector2 &targetPosition, int robotId,
+                                                                                double maxRobotVelocity, double timeStep, stp::AvoidObjects avoidObjects) {
+    Trajectory2D intermediateToTarget;
+    if (!intermediatePathCollision.has_value()) {
+        timeStep *= 2;
+        int numberOfTimeSteps = floor(trajectoryToIntermediatePoint.getTotalTime() / timeStep);
+        for (int i = 0; i < numberOfTimeSteps; i++) {
+            Vector2 newStart = trajectoryToIntermediatePoint.getPosition(i * timeStep);
+            Vector2 newVelocity = trajectoryToIntermediatePoint.getVelocity(i * timeStep);
+
+            intermediateToTarget = Trajectory2D(newStart, newVelocity, targetPosition, maxRobotVelocity, ai::Constants::MAX_ACC_UPPER());
+
+            auto newStartCollisions = worldObjects.getFirstCollision(world, field, intermediateToTarget, computedPaths, robotId, avoidObjects);
+
+            if (newStartCollisions.has_value()) {
+                continue;
+            } else {
+                // Add the second part of the trajectory to a part of the trajectory to the intermediate point
+                trajectoryToIntermediatePoint.addTrajectory(intermediateToTarget, i * timeStep);
+                return trajectoryToIntermediatePoint;  // This is now the whole path
+            }
+        }
     }
     return std::nullopt;
 }
@@ -163,28 +194,16 @@ std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Ve
     return intermediatePointsSorted;
 }
 
-std::optional<BB::BBTrajectory2D> PositionControl::calculatePathFromNewStart(const rtt::world::World *world, const rtt::world::Field &field,
-                                                                             std::optional<BB::CollisionData> intermediatePathCollision, BB::BBTrajectory2D pathToIntermediatePoint,
-                                                                             Vector2 &targetPosition, int robotId, double timeStep) {
-    BB::BBTrajectory2D intermediateToTarget;
-    if (!intermediatePathCollision.has_value()) {
-        timeStep *= 2;
-        int numberOfTimeSteps = floor(pathToIntermediatePoint.getTotalTime() / timeStep);
-        for (int i = 0; i < numberOfTimeSteps; i++) {
-            // TODO: Only create newStart's up to point where we dont decelerate yet
-            Vector2 newStart = pathToIntermediatePoint.getPosition(i * timeStep);
-            Vector2 newVelocity = pathToIntermediatePoint.getVelocity(i * timeStep);
-
-            intermediateToTarget = BB::BBTrajectory2D(newStart, newVelocity, targetPosition, ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
-            auto newStartCollisions = worldObjects.getFirstCollision(world, field, intermediateToTarget, computedPaths, robotId);
-
-            if (newStartCollisions.has_value()) {
-                continue;
-            } else {
-                return intermediateToTarget;
-            }
-        }
+bool PositionControl::shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition,
+                                                  ai::stp::AvoidObjects avoidObjects) {
+    return true;
+    if (!computedTrajectories.contains(robotId) ||
+        (!computedPaths[robotId].empty() &&
+         (targetPosition - computedPaths[robotId][computedPaths[robotId].size() - 1]).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN) ||
+        worldObjects.getFirstCollision(world, field, computedTrajectories[robotId], computedPaths, robotId, avoidObjects).has_value()) {
+        return true;
     }
-    return std::nullopt;
+    return false;
 }
+
 }  // namespace rtt::ai::control
