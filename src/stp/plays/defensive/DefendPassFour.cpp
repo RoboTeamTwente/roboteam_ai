@@ -29,7 +29,11 @@ DefendPassFour::DefendPassFour() : Play() {
         std::make_unique<role::Defender>(role::Defender("offender_2"))};
 }
 
-uint8_t DefendPassFour::score(PlayEvaluator &playEvaluator) noexcept { return 100; }
+uint8_t DefendPassFour::score(PlayEvaluator &playEvaluator) noexcept {
+    auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
+    auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
+    return (position/field.getFieldLength()) * 255;
+}
 
 Dealer::FlagMap DefendPassFour::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

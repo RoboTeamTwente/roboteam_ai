@@ -55,31 +55,7 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
 
     RTT_DEBUG("Desired robot psoition ", desiredRobotPosition);
 
-//    // distance of the blocking robot from our defense zone
-//    auto distance = FieldComputations::getDistanceToDefenseZone(info.getField().value(), true, info.getRobot()->get()->getPos(), margin, margin);
-//
-//    // function based on ticks to handle situation very close to our defense zone, in which robot cannot move closer to the target position
-//    if ((info.getRobot()->get()->getPos() - robotPosBefore).length() <= control_constants::ROBOT_RADIUS / 4 && distance <= 2 * margin &&
-//        (info.getRobot()->get()->getPos() - info.getEnemyRobot()->get()->getPos()).length() <= 2 * margin) {
-//        withinMarginCount += 1;
-//    } else {
-//        withinMarginCount = 0;
-//    }
-//
-//    // update the previous position of the robot after 10 tick so that if the robots move the difference between current position and previous one will be notable
-//    if (waitTick > 10) {
-//        robotPosBefore = info.getRobot()->get()->getPos();
-//        waitTick = 0;
-//    }
-//
-//    // return current robot position as desired position to finish the tactic
-//    if (withinMarginCount >= 10) {
-//        desiredRobotPosition = info.getRobot()->get()->getPos();
-//    }
-
     skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
-
-//    waitTick += 1;
 
     return skillStpInfo;
 }

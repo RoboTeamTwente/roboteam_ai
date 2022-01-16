@@ -34,7 +34,12 @@ DefendShotFour::DefendShotFour() : Play() {
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t DefendShotFour::score(PlayEvaluator &playEvaluator) noexcept { return 100; }
+uint8_t DefendShotFour::score(PlayEvaluator &playEvaluator) noexcept {
+    auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
+    auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
+    RTT_DEBUG("SCORE ", 255 * (field.getFieldLength() - position) / field.getFieldLength())
+    return 255 * (field.getFieldLength() - position) / field.getFieldLength();
+}
 
 Dealer::FlagMap DefendShotFour::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -58,8 +63,10 @@ void DefendShotFour::calculateInfoForRoles() noexcept {
 
 // TODO-Max move to Tactics
 void DefendShotFour::calculateInfoForDefenders() noexcept {
-
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
+    auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
+    auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
+    RTT_DEBUG("SCORE ", 255 * (field.getFieldLength() - position) / field.getFieldLength())
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
@@ -68,7 +75,6 @@ void DefendShotFour::calculateInfoForDefenders() noexcept {
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
     stpInfos["defender_2"].setBlockDistance(BlockDistance::FAR);
-
 }
 
 void DefendShotFour::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them)); }
@@ -78,7 +84,6 @@ void DefendShotFour::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
     stpInfos["keeper"].setKickOrChip(KickOrChip::CHIP);
 }
-
 
 const char *DefendShotFour::getName() { return "Defend Shot Four"; }
 
