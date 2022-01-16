@@ -116,6 +116,7 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
     }
 }
 
+//Rewrite this for only segment not the whole line from segment
 double FieldComputations::getDistanceToDefenseZone(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin) {
     auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
     double distance;
@@ -163,6 +164,8 @@ Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ou
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
     Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
 
+    //for vision :      std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, belowGoal, aboveGoal};
+    //for simulator:     std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, aboveGoal, belowGoal};
     std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, aboveGoal, belowGoal};
     interface::Input::drawDebugData(defenseArea);
     return Polygon(defenseArea);
