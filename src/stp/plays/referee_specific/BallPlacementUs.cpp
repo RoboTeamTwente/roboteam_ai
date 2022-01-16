@@ -22,7 +22,7 @@ BallPlacementUs::BallPlacementUs() : Play() {
         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_0")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1"))};
 }
 
-uint8_t BallPlacementUs::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t BallPlacementUs::score(PlayEvaluator& playEvaluator) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
     scoring = {{playEvaluator.getGlobalEvaluation(eval::BallPlacementUsGameState), 1.0}};
     return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
@@ -56,5 +56,5 @@ Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *BallPlacementUs::getName() { return "Ball Placement Us"; }
+const char* BallPlacementUs::getName() { return "Ball Placement Us"; }
 }  // namespace rtt::ai::stp::play
