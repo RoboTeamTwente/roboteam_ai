@@ -39,9 +39,8 @@ void BallPlacementUs::calculateInfoForRoles() noexcept {
 
     stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
 
-    if (stpInfos["ball_placer"].getRobot()->get() && ballTarget.length() > 0 && (stpInfos["ball_placer"].getRobot()->get()->getPos() - ballTarget).length() < 0.55) {
-        stpInfos["ball_placer"].setDribblerSpeed(0);
-        stpInfos["ball_placer"].setPositionToMoveTo(stpInfos["ball_placer"].getRobot()->get()->getPos());
+    if (stpInfos["ball_placer"].getRobot() && stpInfos["ball_placer"].getRobot()->get()->getDistanceToBall() < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
+        stpInfos["ball_placer"].setDribblerSpeed(100);
     }
 }
 
