@@ -6,6 +6,7 @@
 
 #include <roboteam_utils/Grid.h>
 
+#include "stp/StpInfo.h"
 #include "world/Field.h"
 #include "world/World.hpp"
 

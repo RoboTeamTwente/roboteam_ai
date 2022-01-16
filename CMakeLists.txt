@@ -182,7 +182,8 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
-)
+        src/stp/plays/defensive/DefendPassFour.cpp include/roboteam_ai/stp/plays/defensive/DefendPassFour.h
+        src/stp/plays/defensive/DefendShotFour.cpp include/roboteam_ai/stp/plays/defensive/DefendShotFour.h)
 target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )
