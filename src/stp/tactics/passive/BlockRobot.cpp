@@ -40,14 +40,12 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
         auto projectedRobotPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(
             info.getField().value(), info.getPositionToDefend().value(), info.getPositionToDefend().value(), info.getEnemyRobot()->get()->getPos(), posMargin);
 
-        auto enemyDistanceToProjectedPos = distanceFromPointToPoint(projectedRobotPosition, info.getEnemyRobot()->get()->getPos());
+        auto enemyDistanceToProjectedPos = projectedRobotPosition.dist(info.getEnemyRobot()->get()->getPos());
 
         bool isBelowPenalty = false;
-        RTT_DEBUG("Position projected ", projectedRobotPosition)
 
         if (FieldComputations::isBelowPenaltyLine(info.getField().value(), true, info.getEnemyRobot()->get()->getPos(), posMargin, posMargin)) {
             isBelowPenalty = true;
-            RTT_DEBUG("Is below penalty")
         }
 
         desiredRobotPosition =
@@ -57,8 +55,6 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
         desiredRobotPosition =
             calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value(), false, enemyDistanceToDefenseZone);
     }
-
-    RTT_DEBUG("Desired robot position ", desiredRobotPosition);
 
     skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
 
@@ -90,7 +86,6 @@ Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, c
 
     if (distance < 4 * control_constants::ROBOT_RADIUS || enemyDistance < distance) {
         distance = lineEnemyToTarget.length()/2;
-        RTT_DEBUG("To close ", enemyDistance);
     }
 
 
@@ -98,10 +93,8 @@ Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, c
         distance = 4 * control_constants::ROBOT_RADIUS;
         auto movePosition = lineEnemyToTarget.stretchToLength(distance);
         if(isBelowPenalty){
-            RTT_DEBUG("BELOW");
             return Vector2(enemy->getPos().x - movePosition.x, enemy->getPos().y);
         } else {
-            RTT_DEBUG("ABOVE")
             return Vector2(enemy->getPos().x, enemy->getPos().y + movePosition.y);
         }
     }
