@@ -24,20 +24,12 @@ DefendShotFour::DefendShotFour() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_1")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("waller_1")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("waller_2")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("waller_3")),
-                                                                                       std::make_unique<role::Harasser>(role::Harasser("harasser")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("offender_1")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("offender_2"))};
+                                                                                       std::make_unique<role::Harasser>(role::Harasser("harasser")),};
 }
 
 uint8_t DefendShotFour::score(PlayEvaluator &playEvaluator) noexcept {
     auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
-    RTT_DEBUG("SCORE ", 255 * (field.getFieldLength() - position) / field.getFieldLength())
     return 255 * (field.getFieldLength() - position) / field.getFieldLength();
 }
 
@@ -64,9 +56,6 @@ void DefendShotFour::calculateInfoForRoles() noexcept {
 // TODO-Max move to Tactics
 void DefendShotFour::calculateInfoForDefenders() noexcept {
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
-    auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
-    auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
-    RTT_DEBUG("SCORE ", 255 * (field.getFieldLength() - position) / field.getFieldLength())
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
