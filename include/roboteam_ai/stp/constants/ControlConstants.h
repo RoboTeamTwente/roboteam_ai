@@ -51,7 +51,6 @@ extern const double HAS_BALL_DISTANCE_ERROR_MARGIN;
 // GTP Constants
 extern const double GO_TO_POS_ERROR_MARGIN;
 extern const double GO_TO_POS_ANGLE_ERROR_MARGIN;
-extern const double BALL_PLACEMENT_MARGIN;
 
 // Invariant constants
 extern const uint8_t FUZZY_TRUE;
