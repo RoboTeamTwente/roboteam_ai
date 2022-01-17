@@ -2,10 +2,8 @@
 
 #include <roboteam_utils/Shadow.h>
 
-#include "world/views/WorldDataView.hpp"
 #include "utilities/GameStateManager.hpp"
-#include <roboteam_utils/Print.h>
-
+#include "world/views/WorldDataView.hpp"
 
 namespace rtt {
 namespace ai {
@@ -116,30 +114,6 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
     }
 }
 
-//Rewrite this for only segment not the whole line from segment
-double FieldComputations::getDistanceToDefenseZone(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin) {
-    auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
-    double distance;
-    distance = distanceFromPointToLine(polygon.vertices[0], polygon.vertices[3], point);
-    for (int i = 1; i<polygon.amountOfVertices()-1; i++){
-        double newDistance = distanceFromPointToLine(polygon.vertices[i], polygon.vertices[i-1], point);
-        if(newDistance < distance){
-            distance = newDistance;
-        }
-    }
-    return distance;
-}
-
-bool FieldComputations::isBelowPenaltyLine(const rtt_world::Field &field, bool ourDefenseArea, const Vector2 &point, double margin, double backMargin){
-    auto polygon = getDefenseArea(field, ourDefenseArea, margin, backMargin);
-    auto distance = std::abs(point.x) - std::abs(polygon.vertices[0].x);
-    if (distance >= 0){
-        return true;
-    } else {
-        return false;
-    }
-}
-
 std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
                                                                             double margin) {
     auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
@@ -164,8 +138,6 @@ Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ou
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
     Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
 
-    //for vision :      std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, belowGoal, aboveGoal};
-    //for simulator:     std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, aboveGoal, belowGoal};
     std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, aboveGoal, belowGoal};
     interface::Input::drawDebugData(defenseArea);
     return Polygon(defenseArea);

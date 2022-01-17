@@ -12,6 +12,6 @@ namespace rtt::ai::stp::role {
 
 Defender::Defender(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::BlockRobot()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::BlockRobot(), tactic::Intercept()};
 }
 }  // namespace rtt::ai::stp::role

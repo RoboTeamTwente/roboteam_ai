@@ -4,16 +4,9 @@
 
 #include "stp/skills/TestSkill.h"
 
-#include <roboteam_utils/Print.h>
-
-
 namespace rtt::ai::stp::skill {
 
-Status TestSkill::onUpdate(const StpInfo &info) noexcept {
-    RTT_DEBUG("pos: ", info.getRobot()->get()->getPos());
-    forwardRobotCommand(info.getCurrentWorld());
-    return Status::Running;
-}
+Status TestSkill::onUpdate(const StpInfo &info) noexcept { return Status::Running; }
 
 const char *TestSkill::getName() { return "TestSkill"; }
 
