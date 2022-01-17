@@ -7,13 +7,12 @@
 //
 
 #include "stp/tactics/passive/BlockRobot.h"
-
+#include "stp/computations/PositionComputations.h"
 #include "stp/skills/GoToPos.h"
-#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
-BlockRobot::BlockRobot() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
+BlockRobot::BlockRobot() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
 std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
@@ -22,7 +21,15 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
 
     skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPositionToDefend().value()));
 
-    auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value());
+    auto posMargin = 0;
+
+    auto projectedRobotPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(
+        info.getField().value(), info.getPositionToDefend().value(), info.getPositionToDefend().value(), info.getEnemyRobot()->get()->getPos(), posMargin);
+
+    auto enemyDistanceToProjectedPos = projectedRobotPosition.dist(info.getEnemyRobot()->get()->getPos());
+
+    auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedRobotPosition, enemyDistanceToProjectedPos);
+
     skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
 
     return skillStpInfo;
@@ -33,10 +40,27 @@ double BlockRobot::calculateAngle(const world::view::RobotView enemy, const Vect
     return lineEnemyToTarget.angle();
 }
 
-Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation) {
-    Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
-    double proportion = 0.55;  // adding 1 results in 0.25, 0.5, 0.75
-    auto movePosition = lineEnemyToTarget * proportion;
+Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation, double enemyDistance) {
+    auto lineEnemyToTarget = targetLocation - enemy->getPos();
+    double distance;
+
+    switch (blockDistance) {
+        case BlockDistance::CLOSE:
+            distance = 0.5;
+            break;
+        case BlockDistance::HALFWAY:
+            distance = lineEnemyToTarget.length() / 2;
+            break;
+        case BlockDistance::FAR:
+            distance = lineEnemyToTarget.length() - 4 * control_constants::ROBOT_RADIUS;
+            break;
+    }
+
+    if (distance < 4 * control_constants::ROBOT_RADIUS || enemyDistance < distance) {
+        distance = lineEnemyToTarget.length() / 2;
+    }
+
+    auto movePosition = lineEnemyToTarget.stretchToLength(distance);
     return movePosition + enemy->getPos();
 }
 
@@ -44,10 +68,7 @@ bool BlockRobot::isEndTactic() noexcept { return true; }
 
 bool BlockRobot::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
-    double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
-    return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
-}
+bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept { return false; }
 
 const char *BlockRobot::getName() { return "Block Robot"; }
 
