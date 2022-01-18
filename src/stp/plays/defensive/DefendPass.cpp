@@ -21,7 +21,7 @@ DefendPass::DefendPass() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")), std::make_unique<role::Harasser>(role::Harasser("harasser"))};
+        std::make_unique<role::Defender>(role::Defender("defender_2")), std::make_unique<role::Defender>(role::Defender("harassing_defender"))};
 }
 
 uint8_t DefendPass::score(PlayEvaluator &playEvaluator) noexcept {
@@ -40,7 +40,7 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closestToBallFlag}}});
+    flagMap.insert({"harassing_defender", {DealerFlagPriority::HIGH_PRIORITY, {closestToBallFlag}}});
 
     return flagMap;
 }
@@ -82,7 +82,11 @@ void DefendPass::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
-void DefendPass::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them)); }
+void DefendPass::calculateInfoForHarassers() noexcept {
+    stpInfos["harassing_defender"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["harassing_defender"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
+    stpInfos["harassing_defender"].setBlockDistance(BlockDistance::CLOSE);
+}
 
 const char *DefendPass::getName() { return "Defend Pass"; }
 
