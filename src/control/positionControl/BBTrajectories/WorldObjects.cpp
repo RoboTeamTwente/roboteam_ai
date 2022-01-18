@@ -68,8 +68,8 @@ void WorldObjects::calculateFieldCollisions(const rtt::world::Field &field, std:
 
 void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, int robotId,
                                                   double timeStep) {
-    auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, true, rtt::ai::Constants::DEFENSE_AREA_MARGIN(), rtt::ai::Constants::DEFENSE_AREA_MARGIN());
-    auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false, rtt::ai::Constants::DEFENSE_AREA_MARGIN(), rtt::ai::Constants::DEFENSE_AREA_MARGIN());
+    auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, true, 0, 0);
+    auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false, 0, 0);
 
     for (int i = 0; i < pathPoints.size(); i++) {
         if (ourDefenseArea.contains(pathPoints[i]) || theirDefenseArea.contains(pathPoints[i])) {
