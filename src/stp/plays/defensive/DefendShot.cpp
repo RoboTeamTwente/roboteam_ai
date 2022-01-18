@@ -23,7 +23,7 @@ DefendShot::DefendShot() : Play() {
         std::make_unique<role::Keeper>(role::Keeper("keeper")),
         std::make_unique<role::Defender>(role::Defender("defender_1")),
         std::make_unique<role::Defender>(role::Defender("defender_2")),
-        std::make_unique<role::Harasser>(role::Harasser("harasser")),
+        std::make_unique<role::Defender>(role::Defender("harassing_defender")),
     };
 }
 
@@ -40,7 +40,7 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closestToBallFlag}}});
+    flagMap.insert({"harassing_defender", {DealerFlagPriority::HIGH_PRIORITY, {closestToBallFlag}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
 
@@ -65,7 +65,11 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     stpInfos["defender_2"].setBlockDistance(BlockDistance::FAR);
 }
 
-void DefendShot::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them)); }
+void DefendShot::calculateInfoForHarassers() noexcept {
+    stpInfos["harassing_defender"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["harassing_defender"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
+    stpInfos["harassing_defender"].setBlockDistance(BlockDistance::CLOSE);
+}
 
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
