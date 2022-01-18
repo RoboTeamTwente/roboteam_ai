@@ -195,7 +195,17 @@ void ApplicationManager::decidePlay(world::World *_world) {
         }
         currentPlay->updateWorld(_world);
         currentPlay->initialize(previousPlayInfo);
+    } else if (auto betterPlay = playDecider.decideBestPlay(playChecker.getValidPlays(), playEvaluator); betterPlay && currentPlay != betterPlay) {
+        RTT_INFO("Abandoning current play for a superior play")
+
+        ai::stp::gen::PlayInfos previousPlayInfo{};
+        if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+
+        currentPlay = betterPlay;
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize(previousPlayInfo);
     }
+
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }
