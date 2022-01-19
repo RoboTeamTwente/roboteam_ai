@@ -6,12 +6,12 @@
 #include "stp/roles/passive/Defender.h"
 
 #include "stp/tactics/Intercept.h"
-#include "stp/tactics/passive/BlockBall.h"
+#include "stp/tactics/passive/BlockRobot.h"
 
 namespace rtt::ai::stp::role {
 
 Defender::Defender(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::BlockBall()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::BlockRobot(), tactic::Intercept()};
 }
 }  // namespace rtt::ai::stp::role

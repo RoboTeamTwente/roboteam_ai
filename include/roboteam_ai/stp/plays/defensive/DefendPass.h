@@ -1,5 +1,5 @@
 //
-// Created by agata on 14/01/2022.
+// Created by jordi on 14-05-20.
 //
 
 #ifndef RTT_DEFENDPASS_H
@@ -59,6 +59,11 @@ class DefendPass : public Play {
     void calculateInfoForDefenders() noexcept;
 
     /**
+     * Calculates info for the blockers
+     */
+    void calculateInfoForBlockers() noexcept;
+
+    /**
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;
@@ -67,6 +72,11 @@ class DefendPass : public Play {
      * Calculates info for the harassers
      */
     void calculateInfoForHarassers() noexcept;
+
+    /**
+     * Calculates info for the offenders
+     */
+    void calculateInfoForOffenders() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 

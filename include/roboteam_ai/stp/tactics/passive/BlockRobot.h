@@ -69,7 +69,7 @@ class BlockRobot : public Tactic {
      * or our goal
      * @return the desired position to block the target.
      */
-    Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation, double enemyDistance);
+    Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation);
 };
 }  // namespace rtt::ai::stp::tactic
 

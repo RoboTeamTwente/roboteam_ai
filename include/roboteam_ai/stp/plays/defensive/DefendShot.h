@@ -1,5 +1,5 @@
 //
-// Created by agata on 14/01/2022.
+// Created by jordi on 27-03-20.
 //
 
 #ifndef RTT_DEFENDSHOT_H
@@ -67,6 +67,16 @@ class DefendShot : public Play {
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;
+
+    /**
+     * Calculates info for the midfielders
+     */
+    void calculateInfoForMidfielders() noexcept;
+
+    /**
+     * Calculates info for the offenders
+     */
+    void calculateInfoForOffenders() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 
