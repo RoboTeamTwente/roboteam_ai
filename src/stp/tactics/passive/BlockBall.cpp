@@ -59,6 +59,10 @@ Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Ve
         case BlockDistance::FAR:
             distance = targetToBall.length() - 0.5;
             break;
+        default:
+            distance = targetToBall.length() / 2;
+            break;
+
     }
 
     // Do not get closer than 4 robot radii (to avoid collisions)
