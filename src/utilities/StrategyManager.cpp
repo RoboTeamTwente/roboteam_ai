@@ -4,6 +4,7 @@
 
 #include "utilities/StrategyManager.h"
 
+#include "stp/constants/ControlConstants.h"
 namespace rtt::ai {
 
 // process ref commands
@@ -15,6 +16,16 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
         } else if (command == RefCommand::PREPARE_PENALTY_THEM) {
             command = RefCommand::PREPARE_SHOOTOUT_THEM;
         }
+    }
+
+    // If the ball has been kicked during kickoff or a free kick, continue with NORMAL_START
+    if ((currentRefGameState.commandId == RefCommand::DIRECT_FREE_THEM || currentRefGameState.commandId == RefCommand::DIRECT_FREE_US ||
+         currentRefGameState.commandId == RefCommand::DO_KICKOFF || currentRefGameState.commandId == RefCommand::DEFEND_KICKOFF) &&
+        ballOpt.has_value() && (ballOpt.value()->getFilteredVelocity().length() > stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT)) {
+        RefGameState newState = getRefGameStateForRefCommand(RefCommand::NORMAL_START);
+        currentRefGameState = newState;
+        currentRefCmd = command;
+        return;
     }
 
     // if the command is the same as the previous, we don't need to do anything

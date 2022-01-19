@@ -183,10 +183,9 @@ bool BBTrajectory1D::inLastPart(double t) const { return t >= parts[numParts - 2
 
 std::vector<BB::BBTrajectoryPart> BBTrajectory1D::getParts() {
     std::vector<BB::BBTrajectoryPart> partsVector;
-    for (BBTrajectoryPart part : parts) {
-        if (part.tEnd != 0) {
-            partsVector.push_back(part);
-        }
+    partsVector.reserve(numParts);
+    for (int i = 0; i < numParts; i++) {
+        partsVector.push_back(parts[i]);
     }
     return partsVector;
 }
