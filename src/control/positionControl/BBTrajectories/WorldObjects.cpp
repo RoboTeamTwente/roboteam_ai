@@ -55,11 +55,11 @@ std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::W
 
 void WorldObjects::calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, int robotId,
                                             double timeStep) {
-    // Don't care about the field if the robot is already outside the field.
-    if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[0], rtt::ai::Constants::ROBOT_RADIUS())) return;
-
     for (int i = 0; i < pathPoints.size(); i++) {
         if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
+            // Don't care about the field if the robot is already outside the field (i == 0 is the first point of the robot's path, so almost the currentPosition).
+            if (i == 0) return;
+
             insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision"});
             return;
         }
@@ -69,13 +69,13 @@ void WorldObjects::calculateFieldCollisions(const rtt::world::Field &field, std:
 void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, int robotId,
                                                   double timeStep) {
     auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, true, 0, 0);
-    auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false, 0.2 + rtt::ai::Constants::ROBOT_RADIUS(), 0.2 + rtt::ai::Constants::ROBOT_RADIUS());
-
-    // Don't care about the defense area if the robot is already in the defense area. It should just get out as fast as possible :)
-    if (ourDefenseArea.contains(pathPoints[0]) || theirDefenseArea.contains(pathPoints[0])) return;
+    auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false, 0, 0);
 
     for (int i = 0; i < pathPoints.size(); i++) {
         if (ourDefenseArea.contains(pathPoints[i]) || theirDefenseArea.contains(pathPoints[i])) {
+            // Don't care about the defense area if the robot is already in the defense area. It should just get out as fast as possible :)
+            if (i == 0) return;
+
             insertCollisionData(collisionDatas, CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
             return;
         }
