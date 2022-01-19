@@ -24,7 +24,7 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
         workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
     }
 
-    if (team == Team::us) {
+    if (team == Team::us){
         if (feedback.find(id) != feedback.end()) {
             updateFromFeedback(feedback[id]);
         }
