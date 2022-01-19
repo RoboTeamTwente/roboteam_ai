@@ -21,7 +21,7 @@ DefendPass::DefendPass() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")), std::make_unique<role::Defender>(role::Defender("harassing_defender"))};
+        std::make_unique<role::Defender>(role::Defender("defender_2")), std::make_unique<role::Harasser>(role::Harasser("harassing_defender"))};
 }
 
 uint8_t DefendPass::score(PlayEvaluator &playEvaluator) noexcept {
@@ -68,11 +68,9 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     auto remainingEnemy = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
     stpInfos["defender_1"].setPositionToDefend(remainingEnemy->get()->getPos());
-    stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(enemyClosestToOurGoal->get()->getPos());
-    stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 

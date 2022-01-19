@@ -23,7 +23,7 @@ DefendShot::DefendShot() : Play() {
         std::make_unique<role::Keeper>(role::Keeper("keeper")),
         std::make_unique<role::Defender>(role::Defender("defender_1")),
         std::make_unique<role::Defender>(role::Defender("defender_2")),
-        std::make_unique<role::Defender>(role::Defender("harassing_defender")),
+        std::make_unique<role::Harasser>(role::Harasser("harassing_defender")),
     };
 }
 
@@ -57,12 +57,10 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
-    stpInfos["defender_1"].setBlockDistance(BlockDistance::FAR);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
-    stpInfos["defender_2"].setBlockDistance(BlockDistance::FAR);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 }
 
 void DefendShot::calculateInfoForHarassers() noexcept {
