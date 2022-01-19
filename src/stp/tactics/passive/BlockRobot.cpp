@@ -7,6 +7,7 @@
 //
 
 #include "stp/tactics/passive/BlockRobot.h"
+
 #include "stp/computations/PositionComputations.h"
 #include "stp/skills/GoToPos.h"
 
@@ -53,6 +54,9 @@ Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, c
             break;
         case BlockDistance::FAR:
             distance = lineEnemyToTarget.length() - 4 * control_constants::ROBOT_RADIUS;
+            break;
+        default:
+            distance = lineEnemyToTarget.length() / 2;
             break;
     }
 
