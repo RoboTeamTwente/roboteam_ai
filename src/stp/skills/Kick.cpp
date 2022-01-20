@@ -15,7 +15,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     command.set_chip_kick_vel(kickVelocity);
 
     // Clamp and set dribbler speed
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
