@@ -28,8 +28,6 @@ DefendShot::DefendShot() : Play() {
 }
 
 uint8_t DefendShot::score(PlayEvaluator &playEvaluator) noexcept {
-    auto world = playEvaluator.getWorld();
-    auto field = world->getField().value();
     auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
     return 255 * (field.getFieldLength() - position) / field.getFieldLength();

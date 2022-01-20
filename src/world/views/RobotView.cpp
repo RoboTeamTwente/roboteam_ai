@@ -19,7 +19,7 @@ robot::Robot const *RobotView::operator->() const noexcept { return get(); }
 bool RobotView::hasBall(double maxDist, double maxAngle) const noexcept {
     // In the sim, we only use the ball sensor to determine if the robot has the ball
     // On the field, and for the enemies in the sim, we also use the camera to do so
-    return ((this->robotPtr->getTeam()==Team::them || SETTINGS.isSerialMode()) && hasBallAccordingToVision(maxDist, maxAngle)) || get()->ballSensorSeesBall();
+    return ((this->robotPtr->getTeam() == Team::them || SETTINGS.isSerialMode()) && hasBallAccordingToVision(maxDist, maxAngle)) || get()->ballSensorSeesBall();
 }
 
 Vector2 RobotView::getKicker() const noexcept {
