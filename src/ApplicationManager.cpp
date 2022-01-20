@@ -55,7 +55,7 @@ void ApplicationManager::start() {
     /// This play is only used for testing purposes, when needed uncomment this play!
     // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
@@ -64,20 +64,20 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
