@@ -3,13 +3,13 @@ project(roboteam_ai)
 
 add_subdirectory(src)
 
+set(CMAKE_AUTOMOC ON) # AUTOMOC issues on macos should be fixed with up-to-date protobuf and qt5
 set(CMAKE_AUTORCC OFF)
 set(CMAKE_AUTOUIC OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directories
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
-    set(CMAKE_AUTOMOC OFF)
     set(GTEST_LIB
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a
@@ -17,7 +17,6 @@ if (APPLE)
             /usr/local/lib/libgmock_main.a
             )
 else (NOT APPLE)
-    set(CMAKE_AUTOMOC ON)
     set(GTEST_LIB
             PUBLIC gtest
             PUBLIC gmock)
