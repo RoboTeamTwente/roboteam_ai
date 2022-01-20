@@ -69,10 +69,10 @@ void DefendPass::calculateInfoForDefenders() noexcept {
 
     auto remainingEnemy = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    stpInfos["defender_1"].setPositionToDefend(remainingEnemy->get()->getPos());
+    stpInfos["defender_1"].setPositionToDefend(enemyClosestToOurGoal->get()->getPos());
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
-    stpInfos["defender_2"].setPositionToDefend(enemyClosestToOurGoal->get()->getPos());
+    stpInfos["defender_2"].setPositionToDefend(remainingEnemy->get()->getPos());
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
