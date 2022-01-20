@@ -35,7 +35,8 @@ void BallPlacementUs::calculateInfoForRoles() noexcept {
     auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
 
     // Adjust placement position to be one robot radius away in the distance of movement
-    if (stpInfos["ball_placer"].getRobot()) ballTarget -= (world->getWorld()->get()->getBall()->get()->getPos() - stpInfos["ball_placer"].getRobot()->get()->getPos()).stretchToLength(control_constants::ROBOT_RADIUS);
+    if (stpInfos["ball_placer"].getRobot())
+        ballTarget -= (world->getWorld()->get()->getBall()->get()->getPos() - stpInfos["ball_placer"].getRobot()->get()->getPos()).stretchToLength(control_constants::ROBOT_RADIUS);
 
     stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
 
