@@ -25,6 +25,8 @@ DefendPass::DefendPass() : Play() {
 }
 
 uint8_t DefendPass::score(PlayEvaluator &playEvaluator) noexcept {
+    auto world = playEvaluator.getWorld();
+    auto field = world->getField().value();
     auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
     return 255 * (position / field.getFieldLength());
@@ -67,10 +69,10 @@ void DefendPass::calculateInfoForDefenders() noexcept {
 
     auto remainingEnemy = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    stpInfos["defender_1"].setPositionToDefend(remainingEnemy->get()->getPos());
+    stpInfos["defender_1"].setPositionToDefend(enemyClosestToOurGoal->get()->getPos());
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
-    stpInfos["defender_2"].setPositionToDefend(enemyClosestToOurGoal->get()->getPos());
+    stpInfos["defender_2"].setPositionToDefend(remainingEnemy->get()->getPos());
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
