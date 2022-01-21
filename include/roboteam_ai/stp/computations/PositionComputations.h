@@ -45,7 +45,7 @@ class PositionComputations {
      * @return the best position within that grid with its score
      */
     static gen::ScoredPosition getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
-                                           world::World *world);
+                                           const world::World *world);
 
     /**
      * Makes a wall if not ready done, saves it in calculatedWallPositions and deals the index
