@@ -130,6 +130,21 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
     }
 }
 
+std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin) {
+    auto fieldEdges = getFieldEdge(field, margin);
+    auto intersections = fieldEdges.intersections({lineStart, lineEnd});
+
+    if (intersections.size() == 1) {
+        return std::make_shared<Vector2>(intersections.at(0));
+    } else if (intersections.size() == 2) {
+        double distanceFirstIntersection = lineStart.dist(intersections.at(0));
+        double distanceSecondIntersection = lineStart.dist(intersections.at(1));
+        return std::make_shared<Vector2>(distanceFirstIntersection < distanceSecondIntersection ? intersections.at(0) : intersections.at(1));
+    } else {
+        return nullptr;
+    }
+}
+
 // True standard which mean field.getBoundaryWidth() is used otherwise margin is used
 Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, double backMargin) {
     Vector2 belowGoal =
