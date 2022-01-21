@@ -81,8 +81,16 @@ struct StpInfo {
     std::string getRoleName() const { return roleName; }
     void setRoleName(std::string name) { roleName = name; }
 
-    AvoidObjects getObjectsToAvoid() const { return avoidObjects; }
-    void setObjectsToAvoid(AvoidObjects objectsToAvoid) { avoidObjects = objectsToAvoid; }
+    bool getShouldAvoidDefenseArea() const {return objectsToAvoid.shouldAvoidDefenseArea;}
+    void setShouldAvoidDefenseArea(bool shouldAvoidDefenseArea) {objectsToAvoid.shouldAvoidDefenseArea = shouldAvoidDefenseArea;}
+
+    bool getShouldAvoidBall() const {return objectsToAvoid.shouldAvoidBall;}
+    void setShouldAvoidBall(bool shouldAvoidBall) {objectsToAvoid.shouldAvoidBall = shouldAvoidBall;}
+
+    bool getShouldAvoidOutOfField() const {return objectsToAvoid.shouldAvoidOutOfField;}
+    void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) {objectsToAvoid.shouldAvoidOutOfField = shouldAvoidOutOfField;}
+
+
 
    private:
     /**
@@ -178,7 +186,8 @@ struct StpInfo {
     /**
      * Specify what objects the robot should avoid
      */
-    AvoidObjects avoidObjects;
+    AvoidObjects objectsToAvoid;
+
 };
 
 /**
