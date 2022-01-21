@@ -17,7 +17,7 @@ DefendShot::DefendShot() : Play() {
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
-    startPlayEvaluation.emplace_back(eval::TheyHaveBall);
+    keepPlayEvaluation.emplace_back(eval::TheyHaveBall);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")),
