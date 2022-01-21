@@ -64,6 +64,11 @@ constexpr ScoreProfile SafePosition = {1, 1, 0, 0.5};
 constexpr ScoreProfile OffensivePosition = {1, 0.5, 0.5, 0};
 constexpr ScoreProfile GoalShootPosition = {0, 0.5, 1, 0};
 constexpr ScoreProfile BlockingPosition = {0, 0.5, 0, 1};
+constexpr ScoreProfile PassingPosition = {0.5, 1, 1, 0};
+constexpr ScoreProfile LineOfSight = {0, 1, 0, 0};
+constexpr ScoreProfile Open = {1, 0, 0, 0};
+constexpr ScoreProfile GoalShot = {0, 0, 1, 0};
+constexpr ScoreProfile Blocking = {0, 0, 0, 1};
 
 /**
  * Generalized Keys for passing information form the old play to the new.
