@@ -30,15 +30,17 @@ AttackingPass::AttackingPass() : Play() {
         std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")), std::make_unique<role::Formation>(role::Formation("midfielder"))};
 }
 
-uint8_t AttackingPass::score(PlayEvaluator &playEvaluator) noexcept {
-    // TODO: Uncomment this (and actually implement the scoring) when you want to score this play based on
-    // how good the attacking pass will be
-    // calculateInfoForScoredRoles(playEvaluator.getWorld());
+uint8_t AttackingPass::score(PlayEvaluator& playEvaluator) noexcept {
+    auto world = playEvaluator.getWorld();
+    auto field = world->getField().value();
+    passLocation = calculatePassLocation(world).position;
+    calculateInfoForScoredRoles(world);
 
-    scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
-    // std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::GoalVisionFromBall), 1)};
-    // std::make_pair(std::max({stpInfos["receiver_left"].getRoleScore().value(),stpInfos["receiver_right"].getRoleScore().value()}),1)};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();
+    // Score of play is the goalshotscore, adjusted based on the LoS and openness scores. The worse the LoS/Openness, the more the score is reduced
+    auto goalShotScore = static_cast<int>(PositionScoring::scorePosition(passLocation.value(), gen::GoalShot, field, world).score);
+    auto lineOfSightScore = static_cast<int>(PositionScoring::scorePosition(passLocation.value(), gen::LineOfSight, field, world).score);
+    auto openScore = static_cast<int>(PositionScoring::scorePosition(passLocation.value(), gen::Open, field, world).score);
+    return std::clamp(static_cast<int>(goalShotScore * (lineOfSightScore / 255.0) * (openScore / 255.0)), 0, 255);
 }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
@@ -94,9 +96,6 @@ void AttackingPass::calculateInfoForScoredRoles(world::World* world) noexcept {
             stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid, gen::OffensivePosition, field, world));
         }
     }
-    // Passer
-    stpInfos["passer"].setPositionToShootAt(passLocation);
-    stpInfos["passer"].setShotType(ShotType::PASS);
 }
 
 bool AttackingPass::ballKicked() {
@@ -134,14 +133,7 @@ gen::ScoredPosition AttackingPass::calculatePassLocation(world::World* world) {
     return computations::PassComputations::calculatePassLocation(ball->getPos(), possibleReceiverLocations, passerRobot->getPos(), world, field);
 }
 
-void AttackingPass::storePlayInfo(gen::PlayInfos &info) noexcept {
-    if (stpInfos["passer"].getRobot()) {
-        gen::StoreInfo passer;
-        passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
-        passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
-        info.insert({gen::KeyInfo::isPasser, passer});
-    } else {
-        RTT_WARNING("No passer found. PlayInfo not stored");
-    }
+void AttackingPass::storePlayInfo(gen::PlayInfos& info) noexcept {
+    passLocation = std::nullopt;  // Reset pass location to ensure it is recalculated next time this play is executed
 }
 }  // namespace rtt::ai::stp::play
