@@ -81,19 +81,17 @@ struct StpInfo {
     std::string getRoleName() const { return roleName; }
     void setRoleName(std::string name) { roleName = name; }
 
-    bool getShouldAvoidDefenseArea() const {return objectsToAvoid.shouldAvoidDefenseArea;}
-    void setShouldAvoidDefenseArea(bool shouldAvoidDefenseArea) {objectsToAvoid.shouldAvoidDefenseArea = shouldAvoidDefenseArea;}
+    AvoidObjects getObjectsToAvoid() const { return avoidObjects; }
+    void setObjectsToAvoid(AvoidObjects objectsToAvoid) { avoidObjects = objectsToAvoid; }
 
-    bool getShouldAvoidBall() const {return objectsToAvoid.shouldAvoidBall;}
-    void setShouldAvoidBall(bool shouldAvoidBall) {objectsToAvoid.shouldAvoidBall = shouldAvoidBall;}
+    bool getShouldAvoidDefenseArea() const {return avoidObjects.shouldAvoidDefenseArea;}
+    void setShouldAvoidDefenseArea(bool shouldAvoidDefenseArea) {avoidObjects.shouldAvoidDefenseArea = shouldAvoidDefenseArea;}
 
-    bool getShouldAvoidOutOfField() const {return objectsToAvoid.shouldAvoidOutOfField;}
-    void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) {objectsToAvoid.shouldAvoidOutOfField = shouldAvoidOutOfField;}
+    bool getShouldAvoidBall() const {return avoidObjects.shouldAvoidBall;}
+    void setShouldAvoidBall(bool shouldAvoidBall) {avoidObjects.shouldAvoidBall = shouldAvoidBall;}
 
-    AvoidObjects getObjectsToAvoid() const { return objectsToAvoid; }
-    void setObjectsToAvoid(AvoidObjects avoidObjects) { objectsToAvoid = avoidObjects; }
-
-
+    bool getShouldAvoidOutOfField() const {return avoidObjects.shouldAvoidOutOfField;}
+    void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) {avoidObjects.shouldAvoidOutOfField = shouldAvoidOutOfField;}
 
    private:
     /**
@@ -189,7 +187,7 @@ struct StpInfo {
     /**
      * Specify what objects the robot should avoid
      */
-    AvoidObjects objectsToAvoid;
+    AvoidObjects avoidObjects;
 
 };
 
