@@ -44,6 +44,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
     // https://levelup.gitconnected.com/8-ways-to-measure-execution-time-in-c-c-48634458d0f9
     auto time_start = std::chrono::high_resolution_clock::now();
     int n_robots = robots.size();
+
     std::unordered_map<std::string, v::RobotView> role_assignment;
 
     // Remove all forcedID's before continuing computations
@@ -224,17 +225,17 @@ Dealer::FlagScore Dealer::getRobotScoreForFlag(v::RobotView robot, Dealer::Deale
 double Dealer::getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
 
-    const Vector2 *target_position = nullptr;
+    std::optional<Vector2> target_position;
     // Search for position in getEnemyRobot, getPositionToDefend, and getPositionToMoveTo
-    if (stpInfo.getEnemyRobot().has_value()) target_position = &stpInfo.getEnemyRobot().value()->getPos();
-    if (stpInfo.getPositionToDefend().has_value()) target_position = &stpInfo.getPositionToDefend().value();
-    if (stpInfo.getPositionToMoveTo().has_value()) target_position = &stpInfo.getPositionToMoveTo().value();
+    if (stpInfo.getEnemyRobot().has_value()) target_position = stpInfo.getEnemyRobot().value()->getPos();
+    if (stpInfo.getPositionToDefend().has_value()) target_position = stpInfo.getPositionToDefend().value();
+    if (stpInfo.getPositionToMoveTo().has_value()) target_position = stpInfo.getPositionToMoveTo().value();
     // If robot is keeper, set distance to self. Basically 0
     if(stpInfo.getRoleName() == "keeper" && robot->getId() == GameStateManager::getCurrentGameState().keeperId)
-        target_position = &robot->getPos();
+        target_position = robot->getPos();
 
     // No target found to move to
-    if(target_position == nullptr) return 0;
+    if(!target_position) return 0;
 
     // Target found. Calculate distance
     distance = robot->getPos().dist(*target_position);
@@ -323,6 +324,8 @@ std::string Dealer::priorityToString(DealerFlagPriority priority){
             return "REQUIRED";
         case DealerFlagPriority::KEEPER:
             return "KEEPER";
+        default:
+            return "UNKNOWN PRIORITY";
     }
 }
 
