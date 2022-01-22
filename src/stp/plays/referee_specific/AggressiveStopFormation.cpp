@@ -22,14 +22,7 @@ AggressiveStopFormation::AggressiveStopFormation() : Play() {
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("defender_0")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("defender_1")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("defender_2")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_0")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_1")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_2")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("offender_0")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("offender_1")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("offender_3"))};
+                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("defender_2"))};
 }
 
 uint8_t AggressiveStopFormation::score(PlayEvaluator& playEvaluator) noexcept {
@@ -48,15 +41,6 @@ void AggressiveStopFormation::calculateInfoForRoles() noexcept {
     stpInfos["defender_0"].setPositionToMoveTo(Vector2{-length / 3.5, 0.0});
     stpInfos["defender_1"].setPositionToMoveTo(Vector2{-length / 3.5, width / 6});
     stpInfos["defender_2"].setPositionToMoveTo(Vector2{-length / 3.5, -width / 6});
-
-    stpInfos["mid_field_0"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
-    stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
-    stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, width / 4});
-
-    stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 8, width / 8});
-    stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 8, width / 4});
-    stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 8, -width / 4});
-    stpInfos["offender_3"].setPositionToMoveTo(Vector2{length / 12, -width / 10});  // This robot is put here because BallAvoider doesnt work correctly for KickOffUs
 }
 
 Dealer::FlagMap AggressiveStopFormation::decideRoleFlags() const noexcept {
@@ -67,13 +51,6 @@ Dealer::FlagMap AggressiveStopFormation::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"mid_field_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"mid_field_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"mid_field_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"offender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"offender_3", {DealerFlagPriority::REQUIRED, {}}});
 
     return flagMap;  // DONT TOUCH.
 }
