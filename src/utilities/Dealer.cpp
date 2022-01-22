@@ -20,15 +20,6 @@
 #include <stdio.h>
 #include <chrono>
 
-#include <algorithm>
-#include <random>
-
-double fRand(double fMin, double fMax)
-{
-    double f = (double)rand() / RAND_MAX;
-    return fMin + f * (fMax - fMin);
-}
-
 namespace rtt::ai {
 
 

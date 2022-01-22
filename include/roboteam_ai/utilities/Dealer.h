@@ -169,9 +169,22 @@ class Dealer {
      */
     void setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output);
 
+    /**
+     * Prints the cost matrix. It shows the score of each robot for each role
+     * @param cost_matrix The cost matrix
+     * @param role_names All role names when distribute() was called
+     * @param robots All robots when distribute() was called
+     * @param row_to_role Mapping from cost matrix row to role
+     * @param col_to_robot Mapping from cost matrix column to robot
+     */
     void printCostMatrix(const std::vector<std::vector<double>> &cost_matrix,  const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
                          const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot);
 
+    /**
+     * Converts the DealerFlagPriority enum to a string
+     * @param priority The priority to cnvert to a string
+     * @return The string
+     */
     std::string priorityToString(DealerFlagPriority priority);
 };
 }  // namespace rtt::ai
