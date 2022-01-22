@@ -232,13 +232,21 @@ Dealer::FlagScore Dealer::getRobotScoreForFlag(v::RobotView robot, Dealer::Deale
 // Get the distance score for a robot to a position when there is a position that role needs to go to
 double Dealer::getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
-    if (stpInfo.getRoleName() == "keeper" && robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
-        distance = 0;
-    } else if (stpInfo.getPositionToMoveTo().has_value()) {
-        distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
-    } else if (stpInfo.getEnemyRobot().has_value()) {
-        distance = robot->getPos().dist(stpInfo.getEnemyRobot().value()->getPos());
-    }
+
+    const Vector2 *target_position = nullptr;
+    // Search for position in getEnemyRobot, getPositionToDefend, and getPositionToMoveTo
+    if (stpInfo.getEnemyRobot().has_value()) target_position = &stpInfo.getEnemyRobot().value()->getPos();
+    if (stpInfo.getPositionToDefend().has_value()) target_position = &stpInfo.getPositionToDefend().value();
+    if (stpInfo.getPositionToMoveTo().has_value()) target_position = &stpInfo.getPositionToMoveTo().value();
+    // If robot is keeper, set distance to self. Basically 0
+    if(stpInfo.getRoleName() == "keeper" && robot->getId() == GameStateManager::getCurrentGameState().keeperId)
+        target_position = &robot->getPos();
+
+    // No target found to move to
+    if(target_position == nullptr) return 0;
+
+    // Target found. Calculate distance
+    distance = robot->getPos().dist(*target_position);
 
     return costForDistance(distance, field->getFieldWidth(), field->getFieldLength());
 }
