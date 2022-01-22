@@ -84,6 +84,15 @@ struct StpInfo {
     AvoidObjects getObjectsToAvoid() const { return avoidObjects; }
     void setObjectsToAvoid(AvoidObjects objectsToAvoid) { avoidObjects = objectsToAvoid; }
 
+    bool getShouldAvoidDefenseArea() const {return avoidObjects.shouldAvoidDefenseArea;}
+    void setShouldAvoidDefenseArea(bool shouldAvoidDefenseArea) {avoidObjects.shouldAvoidDefenseArea = shouldAvoidDefenseArea;}
+
+    bool getShouldAvoidBall() const {return avoidObjects.shouldAvoidBall;}
+    void setShouldAvoidBall(bool shouldAvoidBall) {avoidObjects.shouldAvoidBall = shouldAvoidBall;}
+
+    bool getShouldAvoidOutOfField() const {return avoidObjects.shouldAvoidOutOfField;}
+    void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) {avoidObjects.shouldAvoidOutOfField = shouldAvoidOutOfField;}
+
    private:
     /**
      * Current world pointer
@@ -179,6 +188,7 @@ struct StpInfo {
      * Specify what objects the robot should avoid
      */
     AvoidObjects avoidObjects;
+
 };
 
 /**
