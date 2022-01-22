@@ -17,62 +17,146 @@
 #include "utilities/GameStateManager.hpp"
 #include "world/FieldComputations.h"
 
+#include <stdio.h>
+#include <chrono>
+
 namespace rtt::ai {
 
-Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), field(field) {}
+
+void Dealer::printCostMatrix(const std::vector<std::vector<double>> &cost_matrix,  const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
+                               const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot){
+    std::cout << "[printCostMatrix] " << row_to_role.size() << " roles and " << col_to_robot.size() << " robots" << std::endl;
+    for(int row = 0; row < cost_matrix.size(); row++){
+        std::cout << "  " << std::setw(15) << role_names[row_to_role[row]];
+        const std::vector<double> &scores_per_robot = cost_matrix[row];
+        for(int i_robot = 0; i_robot < scores_per_robot.size(); i_robot++)
+            std::cout << std::right << std::setw(3) << robots[col_to_robot[i_robot]]->getId() << "=" << std::left << std::setw(7) << std::setprecision(4) << scores_per_robot[i_robot];
+        std::cout << std::endl;
+    }
+}
+
+Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), field(field) { }
 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority) : title(title), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::RobotView> allRobots, FlagMap flagMap,
-                                                                 const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
-    std::unordered_map<std::string, v::RobotView> output;
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::RobotView> robots, FlagMap role_map, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
+    // https://levelup.gitconnected.com/8-ways-to-measure-execution-time-in-c-c-48634458d0f9
+    auto time_start = std::chrono::high_resolution_clock::now();
+    int n_robots = robots.size();
+    std::unordered_map<std::string, v::RobotView> role_assignment;
+
     // Remove all forcedID's before continuing computations
-    distribute_forcedIDs(allRobots, flagMap, output);
+    distribute_forcedIDs(robots, role_map, role_assignment);
 
-    std::vector<RoleScores> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
-    // Make index of roles and ID to keep track which are the original indexes of each and get roleNames
-    std::vector<int> indexRoles;
-    std::vector<int> indexID;
-    std::vector<std::string> roleNames;
-    distribute_init(indexRoles, indexID, roleNames, flagMap);
+    /** cost_matrix[role (row)][robot (column)] containing the cost for each robot to take up a specific role.
+     *                    0    1    2    3    4  ←  col_to_robot
+     * Attacker1   0   0.19 2.32 2.78 1.02 1.31
+     * Attacker2   1   1.67 2.18 0.54 2.37 2.62
+     * Defender1   2   0.35 2.66 1.86 1.67 0.18
+     *             ↑
+     *        row_to_role
+     **/
+    std::vector<std::vector<double>> cost_matrix = getScoreMatrix(robots, role_map, stpInfoMap);
 
-    // Loop through the order of role priorities (column)
-    for (const auto currentPriority : PriorityOrder) {
-        DealerDistribute current{};
-        // Check if a column has the looked for priorities
-        for (std::size_t j = 0; j < scores.size(); j++) {
-            // if so, add it to a list and save the index
-            if (scores[j].priority == currentPriority) {
-                current.currentScores.push_back(scores.at(j).robotScores);  // get the score column
-                current.currentRoles.push_back(j);                          // get the current index
-                current.originalRolesIndex.push_back(indexRoles[j]);        // get the role number
+    // Make index of roles and ID to keep track which are the original indexes of each and get role_names
+    std::vector<int> row_to_role(role_map.size());                               // [0, 1, 2]
+    std::vector<int> col_to_robot(robots.size());                                // [0, 1, 2, 3, 4]
+    std::iota(std::begin(row_to_role), std::end(row_to_role), 0);    // Fill with 0 .. nRoles
+    std::iota(std::begin(col_to_robot), std::end(col_to_robot), 0);  // Fill with 0 .. nRobots
+    std::vector<std::string> role_names;                                         // [Attacker1, Attacker2, Defender1]
+    role_names.reserve(role_map.size());
+    for (auto const &imap : role_map) role_names.push_back(imap.first);           // Fill with rolenames, e.g. KEEPER, DEFENDER_1, etc, etc
+
+    // Loop through the role priorities from high to low : KEEPER, REQUIRED, HIGH_PRIORITY, MEDIUM_PRIORITY, LOW_PRIORITY
+    for (const auto current_priority : PriorityOrder) {
+
+//        std::cout << "\nCurrent priority " << priorityToString(current_priority) << " nRoles=" << cost_matrix.size() << std::endl;
+//        printCostMatrix(cost_matrix, role_names, robots, row_to_role, col_to_robot);
+
+        // Create a new cost matrix which will hold the cost_matrix rows for the priority we're currently at
+        std::vector<std::vector<double>> cost_matrix_for_priority;
+        cost_matrix_for_priority.reserve( cost_matrix.size() );     // Reserve rows
+        // This vector will hold the indices of the cost_matrix rows that have the current priority
+        std::vector<int> row_indices;
+        row_indices.reserve( cost_matrix.size() );  // Reserve number of rows
+
+        /* Go over each role (row) in cost_matrix and check if the role has the current priority. If so, copy row into cost_matrix_for_priority */
+        for(int row = cost_matrix.size() - 1; 0 <= row; row-- ){
+            // Check if the role corresponding to the cost matrix row has the current priority
+            if(role_map.at( role_names[row_to_role[row]] ).priority == current_priority) {
+                row_indices.push_back(row);
+                // Copy the row from the cost_matrix into the cost_matrix_for_priority.
+                cost_matrix_for_priority.push_back(cost_matrix[row]);
+                // NOTE There is a small performance gain to be made here by using push_back(cost_matrix[row]). The matrix must be traversed bottom to top.
+                // NOTE However, this leaves the row in the cost matrix in an unspecified state. Accidentally accessing it would give undefined behaviour and possible segfaults
+                // NOTE Useful resource on push_back() vs push_back(move()) https://stackoverflow.com/questions/11572669/move-with-vectorpush-back
             }
         }
-        if (!current.currentRoles.empty()) {
-            // Return best assignment for those roles (column)
-            rtt::Hungarian::Solve(current.currentScores, current.newAssignments);
-            if (!current.newAssignments.empty()) {
-                for (std::size_t j = 0; j < current.newAssignments.size(); j++) {
-                    if (current.newAssignments[j] >= 0) {
-                        current.currentIDs.push_back(current.newAssignments[j]);                 // get newly assigned robot from current index
-                        current.originalIDsIndex.push_back(indexID[current.currentIDs.back()]);  // get robot number
-                        output.insert({roleNames[current.originalRolesIndex[j]], allRobots[current.originalIDsIndex.back()]});
-                    }
-                }
-                if (output.size() == allRobots.size()) {  // case if there are less then 11 bots to distribute
-                    setGameStateRoleIds(output);
-                    return output;
-                }
-                distribute_remove(current, indexRoles, indexID, scores);
+
+        // If there are no roles with the current priority, continue to the next priority
+        if(row_indices.empty()) continue;
+
+        /* Assign roles to robots using the cost matrix and the Hungarian algorithm.
+         * If there are more roles than robots, not all roles can be assigned.
+         * In that case, the value -1 is used to indicate that a role is not assigned */
+        std::vector<int> assignments;
+        rtt::Hungarian::Solve(cost_matrix_for_priority, assignments);
+
+//        for(int i = 0; i < row_indices.size(); i++)
+//            if(0 <= assignments[i])
+//                std::cout << "Row " << row_indices[i] << " (" << role_names[row_to_role[row_indices[i]]] << ") given to robot " << robots[col_to_robot[assignments[i]]]->getId() << std::endl;
+
+        /* For each role (row) with the current priority, connect it to a robot using the calculated assignments */
+        for(int i = 0; i < row_indices.size(); i++){
+            if(0 <= assignments[i]) {
+                std::string role_name = role_names[row_to_role[row_indices[i]]];
+                v::RobotView robot = robots[col_to_robot[assignments[i]]];
+                role_assignment.insert({role_name, robot});
             }
         }
+
+        /* == Do not use row_indices and assignments below this line. They lose their meaning when sorted == */
+
+        /* Remove each assigned role (row) from both cost_matrix and row_to_role vector */
+        // Sort the row_indices in descending order. This is done so that the corresponding cost_matrix rows are deleted from bottom to top
+        std::sort(row_indices.begin(), row_indices.end(), std::greater());
+        for(int row : row_indices){
+            cost_matrix.erase(cost_matrix.begin() + row);
+            row_to_role.erase(row_to_role.begin() + row);
+        }
+
+        /* Remove each robot (column) from both the cost_matrix and col_to_robot */
+        // Sort the assignments in descending order. This is done so that the corresponding cost_matrix columns are deleted from bottom to top
+        std::sort(assignments.begin(), assignments.end(), std::greater());
+        for(int col : assignments){
+            // As stated before, -1 indicates that no robot has been assigned. Therefore, no robot has to be removed.
+            if(0 <= col) {
+                for (std::vector<double> &row : cost_matrix) row.erase(row.begin() + col);
+                col_to_robot.erase(col_to_robot.begin() + col);
+            }
+        }
+
+        /* if no more roles    or no more robots      , then stop */
+        if(row_to_role.empty() or col_to_robot.empty()) break;
+
     }
-    setGameStateRoleIds(output);
-    return output;
+
+//    for (auto& [role_name, robot]: role_assignment)
+//        std::cout << "role_assignment: Role " << role_name << " assigned to robot " << robot->getId() << std::endl;
+
+    auto time_stop = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(time_stop - time_start);
+    auto milliseconds = std::chrono::duration_cast< std::chrono::microseconds >( elapsed );
+
+    RTT_INFO("Distributed ", role_assignment.size(), " roles to ", n_robots, " robots in ", milliseconds.count(), " microseconds");
+
+    setGameStateRoleIds(role_assignment);
+    return role_assignment;
 }
 
 void Dealer::distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &output) {
+    std::cout << "[distribute_forcedIDs]" << std::endl;
     for (auto role = flagMap.begin(); role != flagMap.end(); ++role) {
         int ID = role->second.forcedID;
         if (ID != -1) {
@@ -88,50 +172,18 @@ void Dealer::distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap 
     }
 }
 
-void Dealer::distribute_init(std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<std::string> &roleNames, const Dealer::FlagMap &flagMap) {
-    indexRoles.reserve(flagMap.size());
-    indexID.reserve(flagMap.size());
-    roleNames.reserve(flagMap.size());
-    for (std::size_t i = 0; i < flagMap.size(); i++) {
-        indexRoles.push_back(i);
-        indexID.push_back(i);
-    }
-    for (auto const &[roleName, dealerFlags] : flagMap) {
-        roleNames.push_back(roleName);
-    }
-}
-
-// Delete assigned roles and robots from score
-void Dealer::distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<RoleScores> &scores) {
-    std::sort(current.currentIDs.begin(), current.currentIDs.end());  // Sort to delete from back to front
-
-    for (auto i = current.currentRoles.rbegin(); i != current.currentRoles.rend(); ++i) {
-        assert(*i < scores.size());
-        assert(*i < indexRoles.size());
-        scores.erase(scores.begin() + *i);          // remove role from score (col)
-        indexRoles.erase(indexRoles.begin() + *i);  // remove from index list
-    }
-    for (auto &i : scores) {  // go through each score role (row)
-        for (auto j = current.currentIDs.rbegin(); j != current.currentIDs.rend(); ++j) {
-            assert(*j < i.robotScores.size());
-            i.robotScores.erase(i.robotScores.begin() + *j);  // remove the robot
-        }
-    }
-    for (auto i = current.currentIDs.rbegin(); i != current.currentIDs.rend(); ++i) {
-        assert(*i < indexID.size());
-        indexID.erase(indexID.begin() + *i);  // remove from index list
-    }
-}
 
 // Populate a matrix with scores
-std::vector<Dealer::RoleScores> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap,
+std::vector<std::vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap,
                                                        const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
-    std::vector<RoleScores> scores;
-    for (auto i : scores) i.robotScores.reserve(flagMap.size());
+
+    std::vector<std::vector<double>> cost_matrix;
+    cost_matrix.reserve(flagMap.size());
+
     // Loop through all roles that are in the dealerFlags map
     for (auto const &[roleName, dealerFlags] : flagMap) {
-        std::vector<double> role;
-        role.reserve(allRobots.size());
+        std::vector<double> robot_costs_for_role;
+        robot_costs_for_role.reserve(allRobots.size());
         // Calculate the score for each robot for a role; the row
         for (auto robot : allRobots) {
             double robotDistanceScore{};
@@ -142,11 +194,12 @@ std::vector<Dealer::RoleScores> Dealer::getScoreMatrix(const std::vector<v::Robo
             // The better the flags, the lower the score
             auto robotScore = getRobotScoreForRole(dealerFlags.flags, robot);
             // Simple normalizer. DistanceScore has weight 1, the other factors can have various weights.
-            role.push_back((robotDistanceScore + robotScore.sumScore) / (robotScore.sumWeights + 1));  // the +1 is the distanceScore weight
+            double robotRoleScore = (robotDistanceScore + robotScore.sumScore) / (robotScore.sumWeights + 1); // the +1 is the distanceScore weight
+            robot_costs_for_role.push_back(robotRoleScore);
         }
-        scores.push_back({role, dealerFlags.priority});
+        cost_matrix.push_back(std::move(robot_costs_for_role));
     }
-    return scores;
+    return cost_matrix;
 }
 
 // Calculate the score for all flags for a role for one robot
@@ -170,13 +223,21 @@ Dealer::FlagScore Dealer::getRobotScoreForFlag(v::RobotView robot, Dealer::Deale
 // Get the distance score for a robot to a position when there is a position that role needs to go to
 double Dealer::getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
-    if (stpInfo.getRoleName() == "keeper" && robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
-        distance = 0;
-    } else if (stpInfo.getPositionToMoveTo().has_value()) {
-        distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
-    } else if (stpInfo.getEnemyRobot().has_value()) {
-        distance = robot->getPos().dist(stpInfo.getEnemyRobot().value()->getPos());
-    }
+
+    const Vector2 *target_position = nullptr;
+    // Search for position in getEnemyRobot, getPositionToDefend, and getPositionToMoveTo
+    if (stpInfo.getEnemyRobot().has_value()) target_position = &stpInfo.getEnemyRobot().value()->getPos();
+    if (stpInfo.getPositionToDefend().has_value()) target_position = &stpInfo.getPositionToDefend().value();
+    if (stpInfo.getPositionToMoveTo().has_value()) target_position = &stpInfo.getPositionToMoveTo().value();
+    // If robot is keeper, set distance to self. Basically 0
+    if(stpInfo.getRoleName() == "keeper" && robot->getId() == GameStateManager::getCurrentGameState().keeperId)
+        target_position = &robot->getPos();
+
+    // No target found to move to
+    if(target_position == nullptr) return 0;
+
+    // Target found. Calculate distance
+    distance = robot->getPos().dist(*target_position);
 
     return costForDistance(distance, field->getFieldWidth(), field->getFieldLength());
 }
@@ -233,6 +294,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
 }
 
 void Dealer::setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output) {
+    std::cout << "[setGameStateRoleIds]" << std::endl;
     if (output.find("keeper") != output.end()) {
         interface::Output::setKeeperId(output.find("keeper")->second->getId());
     }
@@ -248,5 +310,20 @@ double Dealer::costForDistance(double distance, double fieldWidth, double fieldH
 }
 
 double Dealer::costForProperty(bool property) { return property ? 0.0 : 1.0; }
+
+std::string Dealer::priorityToString(DealerFlagPriority priority){
+    switch (priority) {
+        case DealerFlagPriority::LOW_PRIORITY:
+            return "LOW_PRIORITY";
+        case DealerFlagPriority::MEDIUM_PRIORITY:
+            return "MEDIUM_PRIORITY";
+        case DealerFlagPriority::HIGH_PRIORITY:
+            return "HIGH_PRIORITY";
+        case DealerFlagPriority::REQUIRED:
+            return "REQUIRED";
+        case DealerFlagPriority::KEEPER:
+            return "KEEPER";
+    }
+}
 
 }  // namespace rtt::ai
