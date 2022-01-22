@@ -90,6 +90,9 @@ struct StpInfo {
     bool getShouldAvoidOutOfField() const {return objectsToAvoid.shouldAvoidOutOfField;}
     void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) {objectsToAvoid.shouldAvoidOutOfField = shouldAvoidOutOfField;}
 
+    AvoidObjects getObjectsToAvoid() const { return objectsToAvoid; }
+    void setObjectsToAvoid(AvoidObjects avoidObjects) { objectsToAvoid = avoidObjects; }
+
 
 
    private:
