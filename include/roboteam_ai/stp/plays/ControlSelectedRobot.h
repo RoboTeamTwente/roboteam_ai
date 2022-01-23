@@ -1,5 +1,6 @@
 //
 // Created by Emiel on 23-01-22.
+// This play allows for a robot to be selected via the interface and sent to a specific location on the field
 //
 
 #ifndef RTT_CONTROLSELECTEDROBOT_H
@@ -46,6 +47,7 @@ class ControlSelectedRobot : public Play {
     const char* getName() override;
 
    private:
+    // Id of the robot currently selected in the interface. -1 if no robot is selected
     int current_robot_id = -1;
 
 };

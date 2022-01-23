@@ -1,5 +1,6 @@
 //
 // Created by Emiel on 23-01-22.
+// This play allows for a robot to be selected via the interface and sent to a specific location on the field
 //
 
 #include "stp/plays/ControlSelectedRobot.h"
@@ -12,21 +13,20 @@
 namespace rtt::ai::stp::play {
 
 ControlSelectedRobot::ControlSelectedRobot() : Play() {
-    std::cout << "[ControlSelectedRobot] New" << std::endl;
-
+    // The Formation role is suitable for this, since it does just GoToPos and Rotate
     roles = std::array< std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT() > {
         std::make_unique<role::Formation>( role::Formation("robot") )
     };
 }
 
 uint8_t ControlSelectedRobot::score(PlayEvaluator &playEvaluator) noexcept {
-    std::cout << "[ControlSelectedRobot::score]" << std::endl;
+    // Since this play is only used manually, there is no need for a score
     return 0;
 }
 
 Dealer::FlagMap ControlSelectedRobot::decideRoleFlags() const noexcept {
-    std::cout << "[ControlSelectedRobot::decideRoleFlags]" << std::endl;
     Dealer::FlagMap flagMap;
+    // Only set a flag if a robot is selected. This prevents a random robot from being assigned.
     if(current_robot_id != -1)
         flagMap.insert({"robot", {DealerFlagPriority::REQUIRED, {}, current_robot_id} });
     return flagMap;
@@ -42,7 +42,6 @@ bool ControlSelectedRobot::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexc
 
     // If the currently controlled robot is still selected, then keep the play. If not, reset the play
     if(selected_robots.find(current_robot_id) == selected_robots.end()){
-        std::cout << "[isValidPlayToKeep] " << (selected_robots.find(current_robot_id) != selected_robots.end()) << std::endl;
         current_robot_id = -1;
         return false;
     }
@@ -57,23 +56,23 @@ void ControlSelectedRobot::calculateInfoForRoles() noexcept {
     assert(visualizer != nullptr);
     const std::unordered_map<int, rtt::world::view::RobotView> &selected_robots = visualizer->getSelectedRobots();
 
-    // If there are no robots selected, set id to -1 and stop
+    // If there are no robots selected, set current robot id to -1 and stop
     if(selected_robots.size() == 0){
         current_robot_id = -1;
         return;
     }
 
-    // If the currently controlled robot is not selected, then pick the first robot that is selected and redistribute roles
+    // If the currently controlled robot is not selected, then pick the first robot that is selected
     if(selected_robots.find(current_robot_id) == selected_robots.end()){
         current_robot_id = selected_robots.begin()->first;
     }
 
+    // Get the marker position on the field, and assign that position to the robot
     Vector2 position = rtt::ai::interface::Output::getInterfaceMarkerPosition();
     stpInfos["robot"].setPositionToMoveTo(position);
 }
 
 const char* ControlSelectedRobot::getName() {
-    std::cout << "[ControlSelectedRobot::getName]" << std::endl;
     return "ControlSelectedRobot";
 }
 
