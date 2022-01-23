@@ -1,6 +1,7 @@
 #include "ApplicationManager.h"
 
 #include <roboteam_utils/Timer.h>
+#include <stp/plays/ControlSelectedRobot.h>
 #include <stp/plays/referee_specific/TimeOut.h>
 #include <utilities/normalize.h>
 
@@ -78,6 +79,9 @@ void ApplicationManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ControlSelectedRobot>());
+
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
