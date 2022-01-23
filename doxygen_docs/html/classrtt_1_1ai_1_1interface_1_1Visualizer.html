@@ -130,6 +130,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aa1d51462e2d6d00356d7ec0f4798de22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2db3c0bf1323e59c978861dea649e980"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a2db3c0bf1323e59c978861dea649e980">mousePressEvent</a> (QMouseEvent *event) override</td></tr>
 <tr class="separator:a2db3c0bf1323e59c978861dea649e980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73a12597f66d69cd33cf9d021e84d2f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a73a12597f66d69cd33cf9d021e84d2f9">mouseReleaseEvent</a> (QMouseEvent *event) override</td></tr>
+<tr class="separator:a73a12597f66d69cd33cf9d021e84d2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -194,6 +196,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a1e4837686799bf53a7424e5a8fb3e7a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67e564f6947fd9782047dad7d7a91fa8"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; uint8_t, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a67e564f6947fd9782047dad7d7a91fa8">tacticsForRobots</a></td></tr>
 <tr class="separator:a67e564f6947fd9782047dad7d7a91fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac670f3facab3b4c92ca1a9fb6d06cb02"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac670f3facab3b4c92ca1a9fb6d06cb02">middle_mouse_pressed</a> = false</td></tr>
+<tr class="separator:ac670f3facab3b4c92ca1a9fb6d06cb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c2d484f0b69a2179033e83a35e655eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a4c2d484f0b69a2179033e83a35e655eb">showRoles</a> = <a class="el" href="classrtt_1_1ai_1_1Constants.html#ab890557622704ef1f1a7a2af29b30155">Constants::STD_SHOW_ROLES</a>()</td></tr>
 <tr class="separator:a4c2d484f0b69a2179033e83a35e655eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ba420929973ca2d1fb764503fb87458"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a3ba420929973ca2d1fb764503fb87458">showTactics</a> = <a class="el" href="classrtt_1_1ai_1_1Constants.html#a68ba8225740e007b8b21bbd45dc0d9cc">Constants::STD_SHOW_TACTICS</a>()</td></tr>
@@ -968,6 +972,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a73a12597f66d69cd33cf9d021e84d2f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73a12597f66d69cd33cf9d021e84d2f9">&#9670;&nbsp;</a></span>mouseReleaseEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Visualizer::mouseReleaseEvent </td>
+          <td>(</td>
+          <td class="paramtype">QMouseEvent *&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa1d51462e2d6d00356d7ec0f4798de22"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa1d51462e2d6d00356d7ec0f4798de22">&#9670;&nbsp;</a></span>paintEvent()</h2>
 
@@ -1492,6 +1522,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int rtt::ai::interface::Visualizer::fieldmargin = <a class="el" href="classrtt_1_1ai_1_1Constants.html#ad82145a7f85d26c510af3411c3ccf4cc">Constants::WINDOW_FIELD_MARGIN</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac670f3facab3b4c92ca1a9fb6d06cb02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac670f3facab3b4c92ca1a9fb6d06cb02">&#9670;&nbsp;</a></span>middle_mouse_pressed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::ai::interface::Visualizer::middle_mouse_pressed = false</td>
         </tr>
       </table>
   </td>
