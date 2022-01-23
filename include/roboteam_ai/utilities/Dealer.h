@@ -1,3 +1,4 @@
+
 #ifndef RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
 #define RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
 
@@ -157,11 +158,11 @@ class Dealer {
 
     /**
      * Distributes the forced roles first, so that other rest of the function does not need to compute extra information
-     * @param allRobots a copy of all our robots, where in the robots will be removed
+     * @param robots a copy of all our robots, where in the robots will be removed
      * @param flagMap wherein the roles will be removed
-     * @param output
+     * @param assignments
      */
-    void distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &output);
+    void distribute_forcedIDs(std::vector<v::RobotView> &robots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &assignments);
 
     /**
      * Sets the keeper and ballplacer id in the gamestate if either of those roles are distributed by the dealer
