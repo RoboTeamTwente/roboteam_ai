@@ -47,7 +47,6 @@ class Visualizer : public QWidget {
    protected:
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
 
    private:
     float factor{};
@@ -86,9 +85,6 @@ class Visualizer : public QWidget {
     std::unordered_map<int, rtt::world::view::RobotView> selectedRobots;
     std::unordered_map<uint8_t, std::string> rolesForRobots;
     std::unordered_map<uint8_t, std::string> tacticsForRobots;
-
-    // Mouse button tracking
-    bool middle_mouse_pressed = false; // Tracks if the middle mouse button is currently pressed or not
 
     // toggles
     bool showRoles = Constants::STD_SHOW_ROLES();

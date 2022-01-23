@@ -7,8 +7,6 @@
 #include <QPainterPath>
 
 #include "utilities/GameStateManager.hpp"
-#include "utilities/IOManager.h"
-#include <proto/SimulationConfiguration.pb.h>
 
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {
@@ -104,20 +102,6 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     Input::clearDrawings();
 
     if (showBallPlacementMarker) drawBallPlacementTarget(painter);
-
-    /* Ball dragging using middle mouse button. Hold it to drag the ball */
-    if(middle_mouse_pressed and not SETTINGS.isSerialMode()){
-        QPoint qt_mouse_position = mapFromGlobal(QCursor::pos());               // Get mouse position on the widget
-        Vector2 mouse_position( qt_mouse_position.x(), qt_mouse_position.y() ); // Convert Qt to Vector2
-        Vector2 field_position = toFieldPosition(mouse_position);               // Convert position on widget to position on field
-        if(!SETTINGS.isLeft()) field_position *= -1;                            // Invert ball position if we play on the other side of the field
-
-        proto::SimulationConfiguration configuration;                           // Create packet
-        configuration.mutable_ball_location()->set_x(field_position.x);         // Set x
-        configuration.mutable_ball_location()->set_y(field_position.y);         // Set y
-
-        io::io.sendSimulationConfiguration(configuration);                      // Send packet
-    }
 }
 
 bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
@@ -424,9 +408,9 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world::view::RobotView robot,
 
 // Handle mousePressEvents
 void Visualizer::mousePressEvent(QMouseEvent *event) {
-    Vector2 click_position;
-    click_position.x = event->pos().x();
-    click_position.y = event->pos().y();
+    Vector2 pos;
+    pos.x = event->pos().x();
+    pos.y = event->pos().y();
 
     std::optional<rtt::world::view::WorldDataView> world;
     {
@@ -436,19 +420,13 @@ void Visualizer::mousePressEvent(QMouseEvent *event) {
 
     if (event->button() == Qt::LeftButton && world.has_value()) {
         for (auto &robot : world->getUs()) {
-            if (click_position.dist(toScreenPosition(robot->getPos())) < 10) {
+            if (pos.dist(toScreenPosition(robot->getPos())) < 10) {
                 this->toggleSelectedRobot(robot);
             }
         }
     } else if (event->button() == Qt::RightButton) {
-        Output::setMarkerPosition(toFieldPosition(click_position));
-    }else if (event->button() == Qt::MiddleButton && world.has_value()){
-        middle_mouse_pressed = true;
+        Output::setMarkerPosition(toFieldPosition(pos));
     }
-}
-
-void Visualizer::mouseReleaseEvent(QMouseEvent *event) {
-    if(event->button() == Qt::MiddleButton) middle_mouse_pressed = false;
 }
 
 void Visualizer::drawTacticColorForRobot(QPainter &painter, rtt::world::view::RobotView robot) {
