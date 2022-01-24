@@ -10,6 +10,8 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
+#include <utilities/Settings.h>
+
 namespace rtt::ai::interface {
 
 class SettingsWidget : public QWidget {
@@ -26,7 +28,7 @@ class SettingsWidget : public QWidget {
    public slots:
     void changeTeamColor(bool isYellow);
     void changeTeamSide(bool isLeft);
-    void changeMode(bool serial);
+    void changeRobotHubMode(Settings::RobotHubMode mode);
     void changeGrSimIp(QString ip);
     void changeGrSimPort(int port);
 };

@@ -7,8 +7,9 @@
 #include <iostream>
 #include <mutex>
 
-#include "utilities/Constants.h"
-#include "world/Field.h"
+#include <utilities/Settings.h>
+#include <utilities/Constants.h>
+#include <world/Field.h>
 
 namespace rtt::world {
 class World;
@@ -28,7 +29,10 @@ class IOManager {
 
     std::unique_ptr<rtt::net::RobotCommandsBluePublisher> robotCommandsBluePublisher;
     std::unique_ptr<rtt::net::RobotCommandsYellowPublisher> robotCommandsYellowPublisher;
+
+    // Only the primary AI publishes settings. The secondary AI subscribes to those settings so they are on the same line
     std::unique_ptr<rtt::net::SettingsPublisher> settingsPublisher;
+    std::unique_ptr<rtt::net::SettingsSubscriber> settingsSubscriber;
 
     rtt::ai::Pause *pause;
 
@@ -36,11 +40,13 @@ class IOManager {
 
    public:
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
-    void publishSettings(proto::Setting setting);
+    void publishSettings(const Settings& settings);
+    void onSettingsOfPrimaryAI(const proto::Setting& settings);
+
     bool init(bool isPrimaryAI);
     proto::State getState();
 
-    bool switchTeamColorChannel(bool yellowChannel);
+    bool obtainTeamColorChannel(bool yellowChannel);
 
     std::mutex stateMutex;
 };
