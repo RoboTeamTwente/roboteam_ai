@@ -1,5 +1,3 @@
-#include "roboteam_ai.h"
-
 #include <roboteam_utils/Print.h>
 
 #include "ApplicationManager.h"
@@ -7,6 +5,7 @@
 #include "world/World.hpp"
 
 namespace ui = rtt::ai::interface;
+
 ui::MainWindow* window;
 
 void runStp() {
@@ -68,7 +67,7 @@ int main(int argc, char* argv[]) {
 
     rtt::SETTINGS.setLeft(rtt::SETTINGS.isPrimaryAI());
 
-    rtt::SETTINGS.setSerialMode(false);
+    rtt::SETTINGS.setRobotHubMode(rtt::Settings::RobotHubMode::SIMULATOR);
     rtt::SETTINGS.setVisionIp("127.0.0.1");
     rtt::SETTINGS.setVisionPort(10006);
     rtt::SETTINGS.setRefereeIp("224.5.23.1");

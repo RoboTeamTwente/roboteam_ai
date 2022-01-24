@@ -14,9 +14,7 @@ var searchData=
   ['controlconstants_2eh_2533',['ControlConstants.h',['../ControlConstants_8h.html',1,'']]],
   ['controlmodule_2ecpp_2534',['ControlModule.cpp',['../ControlModule_8cpp.html',1,'']]],
   ['controlmodule_2eh_2535',['ControlModule.h',['../ControlModule_8h.html',1,'']]],
-  ['controlselectedrobot_2ecpp_2536',['ControlSelectedRobot.cpp',['../ControlSelectedRobot_8cpp.html',1,'']]],
-  ['controlselectedrobot_2eh_2537',['ControlSelectedRobot.h',['../ControlSelectedRobot_8h.html',1,'']]],
-  ['controlutils_2ecpp_2538',['ControlUtils.cpp',['../ControlUtils_8cpp.html',1,'']]],
-  ['controlutils_2eh_2539',['ControlUtils.h',['../ControlUtils_8h.html',1,'']]],
-  ['controlutilstest_2ecpp_2540',['ControlUtilsTest.cpp',['../ControlUtilsTest_8cpp.html',1,'']]]
+  ['controlutils_2ecpp_2536',['ControlUtils.cpp',['../ControlUtils_8cpp.html',1,'']]],
+  ['controlutils_2eh_2537',['ControlUtils.h',['../ControlUtils_8h.html',1,'']]],
+  ['controlutilstest_2ecpp_2538',['ControlUtilsTest.cpp',['../ControlUtilsTest_8cpp.html',1,'']]]
 ];

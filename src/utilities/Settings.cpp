@@ -12,21 +12,30 @@ Settings SETTINGS;
 
 constexpr int PRIMARY_AI_ID = 0;
 
+Settings::Settings() {}
+
 void Settings::init(int id) { setId(id); }
 
-proto::Setting Settings::toMessage() {
-    proto::Setting setting;
-    setting.set_id(id);
-    setting.set_isleft(left);
-    setting.set_isyellow(yellow);
-    setting.set_serialmode(serialMode);
-    setting.set_refereeip(refereeIp);
-    setting.set_refereeport(refereePort);
-    setting.set_visionip(visionIp);
-    setting.set_visionport(visionPort);
-    setting.set_robothubsendip(robothubSendIp);
-    setting.set_robothubsendport(robothubSendPort);
-    return setting;
+void Settings::handleSettingsFromPrimaryAI(
+        bool otherIsYellow,
+        bool otherIsLeft,
+        RobotHubMode otherMode,
+        std::string otherVisionIp,
+        int otherVisionPort,
+        std::string otherRefereeIp,
+        int otherRefereePort,
+        std::string otherRobotHubSendIp,
+        int otherRobotHubSendPort
+) {
+    this->setYellow(!otherIsYellow);
+    this->left = !otherIsLeft;
+    this->robotHubMode = otherMode;
+    this->visionIp = otherVisionIp;
+    this->visionPort = visionPort;
+    this->refereeIp = otherRefereeIp;
+    this->refereePort = otherRefereePort;
+    this->robothubSendIp = otherRobotHubSendIp;
+    this->robothubSendPort = otherRobotHubSendPort;
 }
 
 int Settings::getId() const { return id; }
@@ -37,25 +46,44 @@ void Settings::setId(int id) { Settings::id = id; }
 bool Settings::isYellow() const { return yellow; }
 
 bool Settings::setYellow(bool yellow) {
-    bool switched = rtt::ai::io::io.switchTeamColorChannel(yellow);
-
-    if (switched) {
-        Settings::yellow = yellow;
-        RTT_INFO(yellow ? "Team color changed: Yellow" : "Team color changed: Blue")
+    bool hasWantedColor = false;
+    
+    if (ai::io::io.obtainTeamColorChannel(yellow)) {
+        // We could obtain the necessary channel
+        this->yellow = yellow;
+        hasWantedColor = true;
     } else {
-        RTT_ERROR("Failed to open channel. Is another AI already running on commands channel ", yellow ? "YELLOW" : "BLUE", "?")
+        hasWantedColor = false;
     }
 
-    return switched;
+    return hasWantedColor;
 }
 
 bool Settings::isLeft() const { return left; }
 
-void Settings::setLeft(bool left) { Settings::left = left; }
+void Settings::setLeft(bool left) {
+    if (this->isPrimaryAI()) {
+        Settings::left = left;
+    } else {
+        RTT_INFO("This secondary AI can not alter settings")
+    }
+}
 
-bool Settings::isSerialMode() const { return serialMode; }
+Settings::RobotHubMode Settings::getRobotHubMode() const { return this->robotHubMode; }
 
-void Settings::setSerialMode(bool serialMode) { Settings::serialMode = serialMode; }
+bool Settings::setRobotHubMode(RobotHubMode mode) {
+    bool changedMode = false;
+
+    // We can only switch mode if we are the primary AI
+    if (this->isPrimaryAI()) {
+        this->robotHubMode = mode;
+        changedMode = true;
+    } else {
+        RTT_INFO("This secondary AI can not alter settings")
+    }
+
+    return changedMode;
+}
 
 const std::string &Settings::getVisionIp() const { return visionIp; }
 
@@ -80,4 +108,16 @@ void Settings::setRobothubSendIp(const std::string &robothubSendIp) { Settings::
 int Settings::getRobothubSendPort() const { return robothubSendPort; }
 
 void Settings::setRobothubSendPort(int robothubSendPort) { Settings::robothubSendPort = robothubSendPort; }
+
+std::string Settings::robotHubModeToString(RobotHubMode mode) {
+    switch (mode) {
+        case RobotHubMode::BASESTATION:
+            return "Basestation";
+        case RobotHubMode::SIMULATOR:
+            return "Simulator";
+        default:
+            return "Unknown";
+    }
+}
+
 }  // namespace rtt

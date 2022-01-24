@@ -82,14 +82,16 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a291f40e005c6395c0470105c47ed5211"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a291f40e005c6395c0470105c47ed5211">publishAllRobotCommands</a> (const std::vector&lt; proto::RobotCommand &gt; &amp;vector)</td></tr>
 <tr class="separator:a291f40e005c6395c0470105c47ed5211"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48b008feab661465fb275b18495c4f90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a48b008feab661465fb275b18495c4f90">publishSettings</a> (proto::Setting setting)</td></tr>
-<tr class="separator:a48b008feab661465fb275b18495c4f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc19199ebefe884a5c2ada36c3015c3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#afc19199ebefe884a5c2ada36c3015c3d">publishSettings</a> (const <a class="el" href="classrtt_1_1Settings.html">Settings</a> &amp;settings)</td></tr>
+<tr class="separator:afc19199ebefe884a5c2ada36c3015c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42597771a0253e9baecf3c24a0c11eb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a42597771a0253e9baecf3c24a0c11eb6">onSettingsOfPrimaryAI</a> (const proto::Setting &amp;settings)</td></tr>
+<tr class="separator:a42597771a0253e9baecf3c24a0c11eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace78a184eddf90ac0b390bc031c10da0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#ace78a184eddf90ac0b390bc031c10da0">init</a> (bool isPrimaryAI)</td></tr>
 <tr class="separator:ace78a184eddf90ac0b390bc031c10da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a60af9ed7afea21381003f92e05c89e"><td class="memItemLeft" align="right" valign="top">proto::State&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a7a60af9ed7afea21381003f92e05c89e">getState</a> ()</td></tr>
 <tr class="separator:a7a60af9ed7afea21381003f92e05c89e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46141851e1be233ac2e7c3c4bfdc28d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a46141851e1be233ac2e7c3c4bfdc28d1">switchTeamColorChannel</a> (bool yellowChannel)</td></tr>
-<tr class="separator:a46141851e1be233ac2e7c3c4bfdc28d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45d126977bc28dc4321d78c6a3e4fc8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a45d126977bc28dc4321d78c6a3e4fc8c">obtainTeamColorChannel</a> (bool yellowChannel)</td></tr>
+<tr class="separator:a45d126977bc28dc4321d78c6a3e4fc8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -116,6 +118,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:af5af3d63f79ed376e7ed842bff1efe6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefbe4d8d95bdb635f0d4398eaf116222"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; rtt::net::SettingsPublisher &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#aefbe4d8d95bdb635f0d4398eaf116222">settingsPublisher</a></td></tr>
 <tr class="separator:aefbe4d8d95bdb635f0d4398eaf116222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d8dcbe22b1580b71fc883c5bdaaf335"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; rtt::net::SettingsSubscriber &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a4d8dcbe22b1580b71fc883c5bdaaf335">settingsSubscriber</a></td></tr>
+<tr class="separator:a4d8dcbe22b1580b71fc883c5bdaaf335"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e6ec2ee7675a119c7db912b1452a15b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1ai_1_1Pause.html">rtt::ai::Pause</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a4e6ec2ee7675a119c7db912b1452a15b">pause</a></td></tr>
 <tr class="separator:a4e6ec2ee7675a119c7db912b1452a15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -183,6 +187,42 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a45d126977bc28dc4321d78c6a3e4fc8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45d126977bc28dc4321d78c6a3e4fc8c">&#9670;&nbsp;</a></span>obtainTeamColorChannel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::ai::io::IOManager::obtainTeamColorChannel </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>yellowChannel</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42597771a0253e9baecf3c24a0c11eb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42597771a0253e9baecf3c24a0c11eb6">&#9670;&nbsp;</a></span>onSettingsOfPrimaryAI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::io::IOManager::onSettingsOfPrimaryAI </td>
+          <td>(</td>
+          <td class="paramtype">const proto::Setting &amp;&#160;</td>
+          <td class="paramname"><em>settings</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a291f40e005c6395c0470105c47ed5211"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a291f40e005c6395c0470105c47ed5211">&#9670;&nbsp;</a></span>publishAllRobotCommands()</h2>
 
@@ -237,8 +277,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a48b008feab661465fb275b18495c4f90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48b008feab661465fb275b18495c4f90">&#9670;&nbsp;</a></span>publishSettings()</h2>
+<a id="afc19199ebefe884a5c2ada36c3015c3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc19199ebefe884a5c2ada36c3015c3d">&#9670;&nbsp;</a></span>publishSettings()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -246,26 +286,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void rtt::ai::io::IOManager::publishSettings </td>
           <td>(</td>
-          <td class="paramtype">proto::Setting&#160;</td>
-          <td class="paramname"><em>setting</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a46141851e1be233ac2e7c3c4bfdc28d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46141851e1be233ac2e7c3c4bfdc28d1">&#9670;&nbsp;</a></span>switchTeamColorChannel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::ai::io::IOManager::switchTeamColorChannel </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>yellowChannel</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1Settings.html">Settings</a> &amp;&#160;</td>
+          <td class="paramname"><em>settings</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -351,6 +373,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt;rtt::net::SettingsPublisher&gt; rtt::ai::io::IOManager::settingsPublisher</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d8dcbe22b1580b71fc883c5bdaaf335"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d8dcbe22b1580b71fc883c5bdaaf335">&#9670;&nbsp;</a></span>settingsSubscriber</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;rtt::net::SettingsSubscriber&gt; rtt::ai::io::IOManager::settingsSubscriber</td>
         </tr>
       </table>
   </td>
