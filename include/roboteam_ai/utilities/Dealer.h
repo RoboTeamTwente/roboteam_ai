@@ -70,14 +70,14 @@ class Dealer {
     virtual ~Dealer() = default;  // needed for test
 
     /**
-     * Distributes the role between the friendly robots considering all information given in the role_map
-     * !!! robots and role_map are copies as they are modified to reduce computations after the forcedID's.
+     * Distributes the role between the friendly robots considering all information given in the role_to_flags
+     * !!! robots and role_to_flags are copies as they are modified to reduce computations after the forcedID's.
      * @param robots vector containing all friendly robots
-     * @param role_map information map with all information for each role (with key -> roleName)
+     * @param role_to_flags information map with all information for each role (with key -> roleName)
      * @param stpInfoMap
      * @return a vector with the roleName and the Robot that should get the role
      */
-    std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> robots, FlagMap role_map, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
+    std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> robots, FlagMap role_to_flags, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
    protected:
     // This function is virtual such that it can be mocked in the tests.
@@ -162,7 +162,7 @@ class Dealer {
      * @param flagMap wherein the roles will be removed
      * @param assignments
      */
-    void distribute_forcedIDs(std::vector<v::RobotView> &robots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &assignments);
+    void distributeFixedIds(std::vector<v::RobotView> &robots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &assignments);
 
     /**
      * Sets the keeper and ballplacer id in the gamestate if either of those roles are distributed by the dealer
@@ -171,15 +171,25 @@ class Dealer {
     void setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output);
 
     /**
-     * Prints the cost matrix. It shows the score of each robot for each role
+     * Prints the cost matrix in the following format:
+     *
+     * ↓PRIORITY       ↓ROLE    ID→      1      2      4      6      7     10
+     * LOW_PRIORITY    defender_2     0.34   0.39   0.40   0.42   0.46   0.39
+     * LOW_PRIORITY    defender_3     0.34   0.30   0.40   0.46   0.42   0.52
+     * MEDIUM_PRIORITY mid_field_1    0.24   0.20   0.30   0.36   0.32   0.43
+     * MEDIUM_PRIORITY mid_field_2    0.24   0.29   0.30   0.32   0.36   0.30
+     * LOW_PRIORITY    offender_1     0.15   0.22   0.16   0.15   0.23   0.11
+     * LOW_PRIORITY    offender_2     0.15   0.08   0.16   0.23   0.15   0.32
+     *
      * @param cost_matrix The cost matrix
      * @param role_names All role names when distribute() was called
      * @param robots All robots when distribute() was called
+     * @param role_to_flags Flags and priority of each role
      * @param row_to_role Mapping from cost matrix row to role
      * @param col_to_robot Mapping from cost matrix column to robot
      */
     void printCostMatrix(const std::vector<std::vector<double>> &cost_matrix,  const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
-                         const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot);
+                         const FlagMap &role_to_flags, const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot);
 
     /**
      * Converts the DealerFlagPriority enum to a string
