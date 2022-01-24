@@ -28,7 +28,7 @@ void Settings::handleSettingsFromPrimaryAI(
         int otherRobotHubSendPort
 ) {
     this->setYellow(!otherIsYellow);
-    this->setLeft(!otherIsLeft);
+    this->left = !otherIsLeft;
     this->robotHubMode = otherMode;
     this->visionIp = otherVisionIp;
     this->visionPort = visionPort;
@@ -61,7 +61,13 @@ bool Settings::setYellow(bool yellow) {
 
 bool Settings::isLeft() const { return left; }
 
-void Settings::setLeft(bool left) { Settings::left = left; }
+void Settings::setLeft(bool left) {
+    if (this->isPrimaryAI()) {
+        Settings::left = left;
+    } else {
+        RTT_INFO("This secondary AI can not alter settings")
+    }
+}
 
 Settings::RobotHubMode Settings::getRobotHubMode() const { return this->robotHubMode; }
 
