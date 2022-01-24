@@ -115,8 +115,6 @@ bool IOManager::switchTeamColorChannel(bool toYellowChannel) {
     return switchedSuccesfully;
 }
 
-void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration &configuration){
-    simulationConfigurationPublisher->publish(configuration);
-}
+void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) { simulationConfigurationPublisher->publish(configuration); }
 
 }  // namespace rtt::ai::io

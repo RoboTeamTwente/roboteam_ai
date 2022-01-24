@@ -4,11 +4,12 @@
 
 #include "interface/widgets/widget.h"
 
+#include <proto/SimulationConfiguration.pb.h>
+
 #include <QPainterPath>
 
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
-#include <proto/SimulationConfiguration.pb.h>
 
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {
@@ -106,17 +107,17 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
     /* Ball dragging using middle mouse button. Hold it to drag the ball */
-    if(middle_mouse_pressed and not SETTINGS.isSerialMode()){
-        QPoint qt_mouse_position = mapFromGlobal(QCursor::pos());               // Get mouse position on the widget
-        Vector2 mouse_position( qt_mouse_position.x(), qt_mouse_position.y() ); // Convert Qt to Vector2
-        Vector2 field_position = toFieldPosition(mouse_position);               // Convert position on widget to position on field
-        if(!SETTINGS.isLeft()) field_position *= -1;                            // Invert ball position if we play on the other side of the field
+    if (middle_mouse_pressed and not SETTINGS.isSerialMode()) {
+        QPoint qt_mouse_position = mapFromGlobal(QCursor::pos());              // Get mouse position on the widget
+        Vector2 mouse_position(qt_mouse_position.x(), qt_mouse_position.y());  // Convert Qt to Vector2
+        Vector2 field_position = toFieldPosition(mouse_position);              // Convert position on widget to position on field
+        if (!SETTINGS.isLeft()) field_position *= -1;                          // Invert ball position if we play on the other side of the field
 
-        proto::SimulationConfiguration configuration;                           // Create packet
-        configuration.mutable_ball_location()->set_x(field_position.x);         // Set x
-        configuration.mutable_ball_location()->set_y(field_position.y);         // Set y
+        proto::SimulationConfiguration configuration;                    // Create packet
+        configuration.mutable_ball_location()->set_x(field_position.x);  // Set x
+        configuration.mutable_ball_location()->set_y(field_position.y);  // Set y
 
-        io::io.sendSimulationConfiguration(configuration);                      // Send packet
+        io::io.sendSimulationConfiguration(configuration);  // Send packet
     }
 }
 
@@ -442,13 +443,13 @@ void Visualizer::mousePressEvent(QMouseEvent *event) {
         }
     } else if (event->button() == Qt::RightButton) {
         Output::setMarkerPosition(toFieldPosition(click_position));
-    }else if (event->button() == Qt::MiddleButton && world.has_value()){
+    } else if (event->button() == Qt::MiddleButton && world.has_value()) {
         middle_mouse_pressed = true;
     }
 }
 
 void Visualizer::mouseReleaseEvent(QMouseEvent *event) {
-    if(event->button() == Qt::MiddleButton) middle_mouse_pressed = false;
+    if (event->button() == Qt::MiddleButton) middle_mouse_pressed = false;
 }
 
 void Visualizer::drawTacticColorForRobot(QPainter &painter, rtt::world::view::RobotView robot) {
