@@ -176,6 +176,8 @@ void MainWindow::updatePlay(stp::Play *play) {
     updateStpWidgets();
 }
 
+Visualizer *MainWindow::getVisualizer() { return visualizer; }
+
 void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
 
 void MainWindow::setKeeperRole(stp::Role *keeperRole, stp::Status state) { keeperStpWidget->updateKeeperContents(keeperRole, state); }
