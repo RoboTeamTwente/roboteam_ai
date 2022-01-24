@@ -1,15 +1,15 @@
 #ifndef ROBOTEAM_AI_IO_MANAGERRRR_H
 #define ROBOTEAM_AI_IO_MANAGERRRR_H
 
+#include <utilities/Constants.h>
+#include <utilities/Settings.h>
+#include <world/Field.h>
+
 #include <RobotCommandsNetworker.hpp>
 #include <SettingsNetworker.hpp>
 #include <WorldNetworker.hpp>
 #include <iostream>
 #include <mutex>
-
-#include <utilities/Settings.h>
-#include <utilities/Constants.h>
-#include <world/Field.h>
 
 namespace rtt::world {
 class World;
@@ -40,8 +40,8 @@ class IOManager {
 
    public:
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
-    void publishSettings(const Settings& settings);
-    void onSettingsOfPrimaryAI(const proto::Setting& settings);
+    void publishSettings(const Settings &settings);
+    void onSettingsOfPrimaryAI(const proto::Setting &settings);
 
     bool init(bool isPrimaryAI);
     proto::State getState();

@@ -148,15 +148,16 @@ void MainControlsWidget::toggleOurSideParam() {
 
 /// toggle the the setting 'isSerialMode'
 void MainControlsWidget::toggleRobotHubModeParam() {
-
     switch (SETTINGS.getRobotHubMode()) {
         case Settings::RobotHubMode::BASESTATION: {
             SETTINGS.setRobotHubMode(Settings::RobotHubMode::SIMULATOR);
             break;
-        } case Settings::RobotHubMode::SIMULATOR: {
+        }
+        case Settings::RobotHubMode::SIMULATOR: {
             SETTINGS.setRobotHubMode(Settings::RobotHubMode::BASESTATION);
             break;
-        } default: {
+        }
+        default: {
             // In other cases, do not change anything
             break;
         }
@@ -200,7 +201,7 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
 
 void MainControlsWidget::setToggleRobotHubModeBtnLayout() const {
     std::string modeText = Settings::robotHubModeToString(SETTINGS.getRobotHubMode());
-    
+
     QString buttonText = QString::fromStdString(modeText);
     toggleRobotHubModeBtn->setText(buttonText);
 }

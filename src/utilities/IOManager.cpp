@@ -27,9 +27,7 @@ bool IOManager::init(bool isPrimaryAI) {
         }
     } else {
         try {
-            this->settingsSubscriber = std::make_unique<rtt::net::SettingsSubscriber>([&](const proto::Setting& settings) {
-                this->onSettingsOfPrimaryAI(settings);
-            });
+            this->settingsSubscriber = std::make_unique<rtt::net::SettingsSubscriber>([&](const proto::Setting& settings) { this->onSettingsOfPrimaryAI(settings); });
         } catch (zmqpp::zmq_internal_exception e) {
             success = false;
             RTT_ERROR("Failed to open settings subscriber channel")
@@ -79,17 +77,9 @@ void IOManager::publishSettings(const Settings& settings) {
 }
 
 void IOManager::onSettingsOfPrimaryAI(const proto::Setting& settings) {
-    SETTINGS.handleSettingsFromPrimaryAI(
-        settings.isyellow(),
-        settings.isleft(),
-        settings.serialmode() ? Settings::RobotHubMode::BASESTATION : Settings::RobotHubMode::SIMULATOR,
-        settings.visionip(),
-        settings.visionport(),
-        settings.refereeip(),
-        settings.refereeport(),
-        settings.robothubsendip(),
-        settings.robothubsendport()
-    );
+    SETTINGS.handleSettingsFromPrimaryAI(settings.isyellow(), settings.isleft(), settings.serialmode() ? Settings::RobotHubMode::BASESTATION : Settings::RobotHubMode::SIMULATOR,
+                                         settings.visionip(), settings.visionport(), settings.refereeip(), settings.refereeport(), settings.robothubsendip(),
+                                         settings.robothubsendport());
 }
 
 void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {

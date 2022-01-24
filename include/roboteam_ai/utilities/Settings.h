@@ -6,25 +6,14 @@ namespace rtt {
 
 class Settings {
    public:
-    enum RobotHubMode {
-        UNKNOWN, BASESTATION, SIMULATOR
-    };
+    enum RobotHubMode { UNKNOWN, BASESTATION, SIMULATOR };
 
     Settings();
     void init(int idOfAI);
     // This function takes directly the values of the settings of Primary AI,
     // and will convert them to settings this AI should have.
-    void handleSettingsFromPrimaryAI(
-        bool isYellow,
-        bool isLeft,
-        RobotHubMode mode,
-        std::string visionIp,
-        int visionPort,
-        std::string refereeIp,
-        int refereePort,
-        std::string robotHubSendIp,
-        int robotHubSendPort
-    );
+    void handleSettingsFromPrimaryAI(bool isYellow, bool isLeft, RobotHubMode mode, std::string visionIp, int visionPort, std::string refereeIp, int refereePort,
+                                     std::string robotHubSendIp, int robotHubSendPort);
 
     bool isPrimaryAI() const;
 
@@ -72,7 +61,6 @@ class Settings {
     int refereePort;
     std::string robothubSendIp;
     int robothubSendPort;
-
 };
 
 extern Settings SETTINGS;

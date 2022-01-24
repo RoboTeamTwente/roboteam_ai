@@ -16,17 +16,8 @@ Settings::Settings() {}
 
 void Settings::init(int id) { setId(id); }
 
-void Settings::handleSettingsFromPrimaryAI(
-        bool otherIsYellow,
-        bool otherIsLeft,
-        RobotHubMode otherMode,
-        std::string otherVisionIp,
-        int otherVisionPort,
-        std::string otherRefereeIp,
-        int otherRefereePort,
-        std::string otherRobotHubSendIp,
-        int otherRobotHubSendPort
-) {
+void Settings::handleSettingsFromPrimaryAI(bool otherIsYellow, bool otherIsLeft, RobotHubMode otherMode, std::string otherVisionIp, int otherVisionPort, std::string otherRefereeIp,
+                                           int otherRefereePort, std::string otherRobotHubSendIp, int otherRobotHubSendPort) {
     this->setYellow(!otherIsYellow);
     this->left = !otherIsLeft;
     this->robotHubMode = otherMode;
@@ -47,7 +38,7 @@ bool Settings::isYellow() const { return yellow; }
 
 bool Settings::setYellow(bool yellow) {
     bool hasWantedColor = false;
-    
+
     if (ai::io::io.obtainTeamColorChannel(yellow)) {
         // We could obtain the necessary channel
         this->yellow = yellow;
