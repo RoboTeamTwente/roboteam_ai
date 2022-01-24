@@ -5,12 +5,12 @@
 #ifndef RTT_SETTINGSWIDGET_H
 #define RTT_SETTINGSWIDGET_H
 
+#include <utilities/Settings.h>
+
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-
-#include <utilities/Settings.h>
 
 namespace rtt::ai::interface {
 
