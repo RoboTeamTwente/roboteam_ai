@@ -176,9 +176,7 @@ void MainWindow::updatePlay(stp::Play *play) {
     updateStpWidgets();
 }
 
-Visualizer* MainWindow::getVisualizer(){
-    return visualizer;
-}
+Visualizer *MainWindow::getVisualizer() { return visualizer; }
 
 void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
 

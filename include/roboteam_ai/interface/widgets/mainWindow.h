@@ -54,7 +54,7 @@ class MainWindow : public QMainWindow {
     static void clearLayout(QLayout *layout);
     void updatePlay(stp::Play *play);
 
-    Visualizer* getVisualizer();
+    Visualizer *getVisualizer();
 
    signals:
     void updateStpWidgets();

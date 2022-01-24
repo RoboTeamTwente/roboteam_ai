@@ -5,18 +5,16 @@
 
 #include "stp/plays/ControlSelectedRobot.h"
 
-#include "interface/widgets/mainWindow.h"
-#include "stp/roles/passive/Formation.h"
-#include "roboteam_ai.h"
 #include "interface/api/Output.h"
+#include "interface/widgets/mainWindow.h"
+#include "roboteam_ai.h"
+#include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
 
 ControlSelectedRobot::ControlSelectedRobot() : Play() {
     // The Formation role is suitable for this, since it does just GoToPos and Rotate
-    roles = std::array< std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT() > {
-        std::make_unique<role::Formation>( role::Formation("robot") )
-    };
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Formation>(role::Formation("robot"))};
 }
 
 uint8_t ControlSelectedRobot::score(PlayEvaluator &playEvaluator) noexcept {
@@ -27,8 +25,7 @@ uint8_t ControlSelectedRobot::score(PlayEvaluator &playEvaluator) noexcept {
 Dealer::FlagMap ControlSelectedRobot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     // Only set a flag if a robot is selected. This prevents a random robot from being assigned.
-    if(current_robot_id != -1)
-        flagMap.insert({"robot", {DealerFlagPriority::REQUIRED, {}, current_robot_id} });
+    if (current_robot_id != -1) flagMap.insert({"robot", {DealerFlagPriority::REQUIRED, {}, current_robot_id}});
     return flagMap;
 }
 
@@ -41,7 +38,7 @@ bool ControlSelectedRobot::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexc
     const std::unordered_map<int, rtt::world::view::RobotView> &selected_robots = visualizer->getSelectedRobots();
 
     // If the currently controlled robot is still selected, then keep the play. If not, reset the play
-    if(selected_robots.find(current_robot_id) == selected_robots.end()){
+    if (selected_robots.find(current_robot_id) == selected_robots.end()) {
         current_robot_id = -1;
         return false;
     }
@@ -57,13 +54,13 @@ void ControlSelectedRobot::calculateInfoForRoles() noexcept {
     const std::unordered_map<int, rtt::world::view::RobotView> &selected_robots = visualizer->getSelectedRobots();
 
     // If there are no robots selected, set current robot id to -1 and stop
-    if(selected_robots.size() == 0){
+    if (selected_robots.size() == 0) {
         current_robot_id = -1;
         return;
     }
 
     // If the currently controlled robot is not selected, then pick the first robot that is selected
-    if(selected_robots.find(current_robot_id) == selected_robots.end()){
+    if (selected_robots.find(current_robot_id) == selected_robots.end()) {
         current_robot_id = selected_robots.begin()->first;
     }
 
@@ -72,9 +69,6 @@ void ControlSelectedRobot::calculateInfoForRoles() noexcept {
     stpInfos["robot"].setPositionToMoveTo(position);
 }
 
-const char* ControlSelectedRobot::getName() {
-    return "ControlSelectedRobot";
-}
+const char *ControlSelectedRobot::getName() { return "ControlSelectedRobot"; }
 
-
-}
+}  // namespace rtt::ai::stp::play

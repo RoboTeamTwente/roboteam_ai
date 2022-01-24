@@ -29,7 +29,7 @@ class ControlSelectedRobot : public Play {
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
 
-    bool isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept override;
+    bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept override;
 
     /**
      * Calculates info for the roles
@@ -49,7 +49,6 @@ class ControlSelectedRobot : public Play {
    private:
     // Id of the robot currently selected in the interface. -1 if no robot is selected
     int current_robot_id = -1;
-
 };
 }  // namespace rtt::ai::stp::play
 
