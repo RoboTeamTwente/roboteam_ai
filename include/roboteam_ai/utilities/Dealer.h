@@ -1,4 +1,3 @@
-
 #ifndef RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
 #define RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
 
@@ -70,14 +69,14 @@ class Dealer {
     virtual ~Dealer() = default;  // needed for test
 
     /**
-     * Distributes the role between the friendly robots considering all information given in the role_to_flags
-     * !!! robots and role_to_flags are copies as they are modified to reduce computations after the forcedID's.
-     * @param robots vector containing all friendly robots
-     * @param role_to_flags information map with all information for each role (with key -> roleName)
+     * Distributes the role between the friendly robots considering all information given in the flagMap
+     * !!! allRobots and flagMap are copies as they are modified to reduce computations after the forcedID's.
+     * @param allRobots vector containing all friendly robots
+     * @param flagMap information map with all information for each role (with key -> roleName)
      * @param stpInfoMap
      * @return a vector with the roleName and the Robot that should get the role
      */
-    std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> robots, FlagMap role_to_flags, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
+    std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> allRobots, FlagMap flagMap, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
    protected:
     // This function is virtual such that it can be mocked in the tests.
@@ -98,6 +97,22 @@ class Dealer {
     struct RobotRoleScore {
         double sumScore;
         double sumWeights;
+    };
+
+    /// The individual robot scores for every robot for a specific Role and the Roles priority
+    struct RoleScores {
+        std::vector<double> robotScores;
+        DealerFlagPriority priority;
+    };
+
+    /// Used in Dealer that is re-used for each priority to save the information for that loop
+    struct DealerDistribute {
+        std::vector<std::vector<double>> currentScores;  // Scores to be distributed (highest Priority)
+        std::vector<int> newAssignments;                 // Assignments from these scores
+        std::vector<int> currentRoles;                   // Index of roles inside Score (role column)
+        std::vector<int> originalRolesIndex;             // Index of roles from original index (role number)
+        std::vector<int> currentIDs;                     // Index of ID's inside Score (robot row)
+        std::vector<int> originalIDsIndex;               // Index of ID's from original index (robot id)
     };
 
     /**
@@ -123,7 +138,7 @@ class Dealer {
      * @param stpInfoMap
      * @return The score matrix
      */
-    std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
+    std::vector<RoleScores> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
     /**
      * Translates a priority into a double
@@ -157,46 +172,37 @@ class Dealer {
     RobotRoleScore getRobotScoreForRole(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
 
     /**
-     * Distributes the forced roles first, so that other rest of the function does not need to compute extra information
-     * @param robots a copy of all our robots, where in the robots will be removed
-     * @param flagMap wherein the roles will be removed
-     * @param assignments
+     * Initializes the reference of the variables to shorten function size.
+     * Reserves the vectors and fills them with the required info.
+     * @param indexRoles vector with Role numbering
+     * @param indexID vector with ID numbering
+     * @param roleNames vector with roleNames (order matters)
+     * @param flagMap has info for the other parameters
      */
-    void distributeFixedIds(std::vector<v::RobotView> &robots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &assignments);
+    void distribute_init(std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<std::string> &roleNames, const FlagMap &flagMap);
+
+    /**
+     * Removes the occurrence of a role and robot from all fields that involve them.
+     * @param current struct with the current loop link to a unique priority
+     * @param indexRoles vector with Role numbering
+     * @param indexID vector with ID numbering
+     * @param scores vector with all Scores for Robots for each role and its priority
+     */
+    void distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<RoleScores> &scores);
+
+    /**
+     * Distributes the forced roles first, so that other rest of the function does not need to compute extra information
+     * @param allRobots a copy of all our robots, where in the robots will be removed
+     * @param flagMap wherein the roles will be removed
+     * @param output
+     */
+    void distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &output);
 
     /**
      * Sets the keeper and ballplacer id in the gamestate if either of those roles are distributed by the dealer
      * @param output The role division to be distributed
      */
     void setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output);
-
-    /**
-     * Prints the cost matrix in the following format:
-     *
-     * ↓PRIORITY       ↓ROLE    ID→      1      2      4      6      7     10
-     * LOW_PRIORITY    defender_2     0.34   0.39   0.40   0.42   0.46   0.39
-     * LOW_PRIORITY    defender_3     0.34   0.30   0.40   0.46   0.42   0.52
-     * MEDIUM_PRIORITY mid_field_1    0.24   0.20   0.30   0.36   0.32   0.43
-     * MEDIUM_PRIORITY mid_field_2    0.24   0.29   0.30   0.32   0.36   0.30
-     * LOW_PRIORITY    offender_1     0.15   0.22   0.16   0.15   0.23   0.11
-     * LOW_PRIORITY    offender_2     0.15   0.08   0.16   0.23   0.15   0.32
-     *
-     * @param cost_matrix The cost matrix
-     * @param role_names All role names when distribute() was called
-     * @param robots All robots when distribute() was called
-     * @param role_to_flags Flags and priority of each role
-     * @param row_to_role Mapping from cost matrix row to role
-     * @param col_to_robot Mapping from cost matrix column to robot
-     */
-    void printCostMatrix(const std::vector<std::vector<double>> &cost_matrix,  const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
-                         const FlagMap &role_to_flags, const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot);
-
-    /**
-     * Converts the DealerFlagPriority enum to a string
-     * @param priority The priority to cnvert to a string
-     * @return The string
-     */
-    std::string priorityToString(DealerFlagPriority priority);
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
