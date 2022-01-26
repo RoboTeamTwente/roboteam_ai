@@ -72,7 +72,7 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         if (intersection) {
             // Clamp y between goal to ensure robot does not move out of goal
             intersection.value().y = std::clamp(intersection.value().y, field.getOurBottomGoalSide().y, field.getOurTopGoalSide().y);
-            return std::make_pair(intersection.value(), PIDType::KEEPER);
+            return std::make_pair(intersection.value(), PIDType::DEFAULT);
         }
     }
 
