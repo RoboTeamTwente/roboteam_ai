@@ -81,7 +81,7 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
 
     // Current method is very hacky
     // If you are closer to the target than the first point of the approximated path, remove it
-    if ((targetPosition - currentPosition).length() < (targetPosition - computedPaths[robotId].front()).length()) {
+    if (computedPaths[robotId].size() > 1 && (targetPosition - currentPosition).length() < (targetPosition - computedPaths[robotId].front()).length()) {
         computedPaths[robotId].erase(computedPaths[robotId].begin());
     }
 
@@ -211,9 +211,8 @@ std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Ve
 
 bool PositionControl::shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition,
                                                   ai::stp::AvoidObjects avoidObjects) {
-    return true;
     if (!computedTrajectories.contains(robotId) ||
-        (!computedPaths[robotId].empty() &&
+        (computedPaths.contains(robotId) && !computedPaths[robotId].empty() &&
          (targetPosition - computedPaths[robotId][computedPaths[robotId].size() - 1]).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN) ||
         worldObjects.getFirstCollision(world, field, computedTrajectories[robotId], computedPaths, robotId, avoidObjects).has_value()) {
         return true;
