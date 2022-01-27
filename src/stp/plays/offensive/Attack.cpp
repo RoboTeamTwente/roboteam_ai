@@ -29,7 +29,7 @@ Attack::Attack() : Play() {
 
 uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
     // Score the position of the ball based on the odds of scoring
-    return PositionScoring::scorePosition(playEvaluator.getWorld()->getWorld()->getBall().value()->getPos(), gen::GoalShootPosition, field, playEvaluator.getWorld()).score;
+    return PositionScoring::scorePosition(world->getWorld()->getBall().value()->getPos(), gen::GoalShot, field, world).score;
 }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
