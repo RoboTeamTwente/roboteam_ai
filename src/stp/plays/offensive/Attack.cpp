@@ -28,8 +28,11 @@ Attack::Attack() : Play() {
 }
 
 uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
+    auto world = playEvaluator.getWorld();
+    auto field = world->getField().value();
+
     // Score the position of the ball based on the odds of scoring
-    return PositionScoring::scorePosition(playEvaluator.getWorld()->getWorld()->getBall().value()->getPos(), gen::GoalShootPosition, field, playEvaluator.getWorld()).score;
+    return PositionScoring::scorePosition(world->getWorld()->getBall().value()->getPos(), gen::GoalShootPosition, field, world).score;
 }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
@@ -72,7 +75,7 @@ void Attack::calculateInfoForRoles() noexcept {
 }
 
 bool Attack::shouldEndPlay() noexcept {
-    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {return  role != nullptr && role->getName() == "attacker" && role->finished();});
+    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "attacker" && role->finished(); });
 }
 
 const char* Attack::getName() { return "Attack"; }

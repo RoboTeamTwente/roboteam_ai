@@ -17,7 +17,7 @@ DefendShot::DefendShot() : Play() {
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
-    startPlayEvaluation.emplace_back(eval::TheyHaveBall);
+    keepPlayEvaluation.emplace_back(eval::TheyHaveBall);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")),
@@ -28,6 +28,8 @@ DefendShot::DefendShot() : Play() {
 }
 
 uint8_t DefendShot::score(PlayEvaluator &playEvaluator) noexcept {
+    auto world = playEvaluator.getWorld();
+    auto field = world->getField().value();
     auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
     return 255 * (field.getFieldLength() - position) / field.getFieldLength();
