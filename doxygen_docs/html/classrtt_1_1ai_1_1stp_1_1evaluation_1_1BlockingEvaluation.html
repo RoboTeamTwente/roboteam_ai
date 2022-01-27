@@ -66,9 +66,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp::evaluation::BlockingEvaluation Class Reference</div>  </div>
@@ -77,114 +75,14 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="BlockingEvaluation_8h_source.html">BlockingEvaluation.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a1e97f4e0a098ba6cd843e418ca2ba348"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html#a1e97f4e0a098ba6cd843e418ca2ba348">BlockingEvaluation</a> () noexcept</td></tr>
-<tr class="separator:a1e97f4e0a098ba6cd843e418ca2ba348"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68b7decc9873ddb93e92b03df8b5d0f3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html#a68b7decc9873ddb93e92b03df8b5d0f3">metricCheck</a> (double pointDistance, std::vector&lt; double &gt; &amp;enemyDistances, std::vector&lt; double &gt; &amp;enemyAngles) const noexcept</td></tr>
-<tr class="separator:a68b7decc9873ddb93e92b03df8b5d0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a469e2d100289d82850f2663f7a58e0e9"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html#a469e2d100289d82850f2663f7a58e0e9">getName</a> ()</td></tr>
-<tr class="separator:a469e2d100289d82850f2663f7a58e0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:ac213ddab9e815b2b009e18d01ed61262"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html#ac213ddab9e815b2b009e18d01ed61262">calculateMetric</a> (const double &amp;x) const noexcept</td></tr>
-<tr class="separator:ac213ddab9e815b2b009e18d01ed61262"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a2528b2daebd0878c76f57ca1e422439c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classnativeformat_1_1param_1_1Param.html">nativeformat::param::Param</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html#a2528b2daebd0878c76f57ca1e422439c">piecewiseLinearFunction</a></td></tr>
-<tr class="separator:a2528b2daebd0878c76f57ca1e422439c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ab3f9f3e6a0621e7b4fe4adb1c967463d"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html#ab3f9f3e6a0621e7b4fe4adb1c967463d">metricCheck</a> (double pointDistance, std::vector&lt; double &gt; &amp;enemyDistances, std::vector&lt; double &gt; &amp;enemyAngles) noexcept</td></tr>
+<tr class="separator:ab3f9f3e6a0621e7b4fe4adb1c967463d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1e97f4e0a098ba6cd843e418ca2ba348"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e97f4e0a098ba6cd843e418ca2ba348">&#9670;&nbsp;</a></span>BlockingEvaluation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">rtt::ai::stp::evaluation::BlockingEvaluation::BlockingEvaluation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Creates a piecewise linear function that looks as follows:</p>
-<p>(0,255) |XXX | XXX | XXX | XXX (0,0) |---------&mdash;XXX (evalScore)</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac213ddab9e815b2b009e18d01ed61262"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac213ddab9e815b2b009e18d01ed61262">&#9670;&nbsp;</a></span>calculateMetric()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t rtt::ai::stp::evaluation::BlockingEvaluation::calculateMetric </td>
-          <td>(</td>
-          <td class="paramtype">const double &amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Calculates the actual metric value using the piecewise linear function member </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td>the x of the function </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>metric value between 0-255 </dd></dl>
-
-</div>
-</div>
-<a id="a469e2d100289d82850f2663f7a58e0e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a469e2d100289d82850f2663f7a58e0e9">&#9670;&nbsp;</a></span>getName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* rtt::ai::stp::evaluation::BlockingEvaluation::getName </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a68b7decc9873ddb93e92b03df8b5d0f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68b7decc9873ddb93e92b03df8b5d0f3">&#9670;&nbsp;</a></span>metricCheck()</h2>
+<a id="ab3f9f3e6a0621e7b4fe4adb1c967463d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3f9f3e6a0621e7b4fe4adb1c967463d">&#9670;&nbsp;</a></span>metricCheck()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,49 +111,24 @@ Private Attributes</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns a uint8_t score linked to a position for its possibility to score a goal from it </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Score ability to block robots from position based on enemy positions </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">goalVisibility</td><td>% visibility of the goal (taking in account other robots) </td></tr>
-    <tr><td class="paramname">goalDistance</td><td>distance from point to goal </td></tr>
-    <tr><td class="paramname">goalAngle</td><td>angle from point to goal (0 is straight in front the middle) </td></tr>
+    <tr><td class="paramname">pointDistance</td><td>distance from ball to point </td></tr>
+    <tr><td class="paramname">enemyDistances</td><td>enemy distances to ball </td></tr>
+    <tr><td class="paramname">enemyAngles</td><td>vector of angles between the line from the ball to the point and from the ball to the enemy </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t score </dd></dl>
-<p>Higher score for infront and further away</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a2528b2daebd0878c76f57ca1e422439c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2528b2daebd0878c76f57ca1e422439c">&#9670;&nbsp;</a></span>piecewiseLinearFunction</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classnativeformat_1_1param_1_1Param.html">nativeformat::param::Param</a>&gt; rtt::ai::stp::evaluation::BlockingEvaluation::piecewiseLinearFunction</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Unique pointer to the piecewise linear function that calculates the fuzzy value </p>
 
 </div>
 </div>

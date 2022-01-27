@@ -55,7 +55,7 @@ void ApplicationManager::start() {
     /// This play is only used for testing purposes, when needed uncomment this play!
     // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
@@ -102,7 +102,7 @@ void ApplicationManager::start() {
 
             // If this is primary AI, broadcast settings every second
             if (SETTINGS.isPrimaryAI()) {
-                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS); }, ai::Constants::SETTINGS_BROADCAST_RATE());
+                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
         },
         ai::Constants::STP_TICK_RATE());

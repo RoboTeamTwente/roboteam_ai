@@ -16,6 +16,9 @@ void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
     //                std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
     //        }
     stpInfos.clear();
+    for (auto &role : roles) {
+        if (role != nullptr) role->reset();
+    }
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();

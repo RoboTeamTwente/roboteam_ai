@@ -107,6 +107,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:aab124c62848060939c82a1f8f136dffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a8236f49bba35dfbdd7cd6b429fe3b7"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a6a8236f49bba35dfbdd7cd6b429fe3b7">lineIntersectionWithDefenceArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineStart, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineEnd, double margin)</td></tr>
 <tr class="separator:a6a8236f49bba35dfbdd7cd6b429fe3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ac3192ff7505c7e829bffb6c0c1cc4c"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a2ac3192ff7505c7e829bffb6c0c1cc4c">lineIntersectionWithField</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineStart, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineEnd, double margin)</td></tr>
+<tr class="separator:a2ac3192ff7505c7e829bffb6c0c1cc4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a503b401be51f54a45e17f7aa05eacf13"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a503b401be51f54a45e17f7aa05eacf13">getTotalGoalAngle</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point)</td></tr>
 <tr class="separator:a503b401be51f54a45e17f7aa05eacf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af97e5e6ad68324c7c86eb4f059eaea2a"><td class="memItemLeft" align="right" valign="top">static Polygon&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#af97e5e6ad68324c7c86eb4f059eaea2a">getDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourDefenseArea, double margin, double backMargin)</td></tr>
@@ -802,6 +804,64 @@ Static Private Attributes</h2></td></tr>
     <tr><td class="paramname">lineStart</td><td>The location of the start of the LineSegment. </td></tr>
     <tr><td class="paramname">lineEnd</td><td>The location of the end of the LineSegment. </td></tr>
     <tr><td class="paramname">margin</td><td>The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The closest intersection point to the start of the LineSegment. In case of no intersection point return a null pointer. </dd></dl>
+
+</div>
+</div>
+<a id="a2ac3192ff7505c7e829bffb6c0c1cc4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ac3192ff7505c7e829bffb6c0c1cc4c">&#9670;&nbsp;</a></span>lineIntersectionWithField()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::ai::FieldComputations::lineIntersectionWithField </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
+          <td class="paramname"><em>lineStart</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
+          <td class="paramname"><em>lineEnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>margin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Determine the intersection between a LineSegment and the field lines and return the intersection point closest to the start of the line (if the LineSegment does not intersect then return a null pointer). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td>The field used to determine where the defence area is located. </td></tr>
+    <tr><td class="paramname">lineStart</td><td>The location of the start of the LineSegment. </td></tr>
+    <tr><td class="paramname">lineEnd</td><td>The location of the end of the LineSegment. </td></tr>
+    <tr><td class="paramname">margin</td><td>The outwards margin in which the field area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked). </td></tr>
   </table>
   </dd>
 </dl>

@@ -83,7 +83,7 @@ void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView>
     if (robot) limitRobotCommand(robot_command, robot);
 
     // if we are in simulation; adjust w() to be angular velocity)
-    if (SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR) {
+    if (!SETTINGS.isSerialMode()) {
         simulator_angular_control(robot, robot_command);
     }
 

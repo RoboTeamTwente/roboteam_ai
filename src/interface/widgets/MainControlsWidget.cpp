@@ -30,11 +30,10 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
     MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
     MainWindow::configureCheckBox("Ignore invariants", refHorizontalLayout, this, SLOT(setIgnoreInvariants(bool)), false);
 
-    toggleRobotHubModeBtn = new QPushButton("--");
-
-    QObject::connect(toggleRobotHubModeBtn, SIGNAL(clicked()), this, SLOT(toggleRobotHubModeParam()));
-    refHorizontalLayout->addWidget(toggleRobotHubModeBtn);
-    setToggleRobotHubModeBtnLayout();
+    toggleSerialBtn = new QPushButton("Serial");
+    QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
+    refHorizontalLayout->addWidget(toggleSerialBtn);
+    setToggleSerialBtnLayout();
 
     vLayout->addLayout(refHorizontalLayout);
 
@@ -147,24 +146,9 @@ void MainControlsWidget::toggleOurSideParam() {
 }
 
 /// toggle the the setting 'isSerialMode'
-void MainControlsWidget::toggleRobotHubModeParam() {
-    switch (SETTINGS.getRobotHubMode()) {
-        case Settings::RobotHubMode::BASESTATION: {
-            SETTINGS.setRobotHubMode(Settings::RobotHubMode::SIMULATOR);
-            break;
-        }
-        case Settings::RobotHubMode::SIMULATOR: {
-            SETTINGS.setRobotHubMode(Settings::RobotHubMode::BASESTATION);
-            break;
-        }
-        default: {
-            // In other cases, do not change anything
-            break;
-        }
-    }
-
-    // Wether the setting has changed or not, update the text anyways
-    setToggleRobotHubModeBtnLayout();
+void MainControlsWidget::toggleSerialParam() {
+    SETTINGS.setSerialMode(!SETTINGS.isSerialMode());
+    setToggleSerialBtnLayout();
 }
 
 /// send a halt signal to stop all trees from executing
@@ -199,11 +183,12 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
     }
 }
 
-void MainControlsWidget::setToggleRobotHubModeBtnLayout() const {
-    std::string modeText = Settings::robotHubModeToString(SETTINGS.getRobotHubMode());
-
-    QString buttonText = QString::fromStdString(modeText);
-    toggleRobotHubModeBtn->setText(buttonText);
+void MainControlsWidget::setToggleSerialBtnLayout() const {
+    if (SETTINGS.isSerialMode()) {
+        toggleSerialBtn->setText("BaseStation");
+    } else {
+        toggleSerialBtn->setText("GrSim");
+    }
 }
 
 void MainControlsWidget::updateContents() {
@@ -223,10 +208,6 @@ void MainControlsWidget::updateContents() {
     } else {
         select_goalie->setStyleSheet("background-color: #cc0000;");
     }
-
-    this->setToggleSideBtnLayout();
-    this->setToggleColorBtnLayout();
-    this->setToggleRobotHubModeBtnLayout();
 }
 
 void MainControlsWidget::updatePlays() {
