@@ -34,6 +34,8 @@ uint8_t AttackingPass::score(PlayEvaluator& playEvaluator) noexcept {
     auto world = playEvaluator.getWorld();
     auto field = world->getField().value();
     passLocation = calculatePassLocation(world).position;
+    if (passLocation == Vector2()) return 0;  // In case no pass is found
+
     calculateInfoForScoredRoles(world);
 
     // Score of play is the goalshotscore, adjusted based on the LoS and openness scores. The worse the LoS/Openness, the more the score is reduced
@@ -107,10 +109,15 @@ bool AttackingPass::ballKicked() {
 const char* AttackingPass::getName() { return "AttackingPass"; }
 
 bool AttackingPass::shouldEndPlay() noexcept {
-    // True when pass has been received, or when ball has been kicked but it is now still
-    return stpInfos["receiver"].getRobot()->hasBall() ||
-           (ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 1.5 &&
-            world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL);
+    if (stpInfos["receiver"].getRobot() && stpInfos["passer"].getRobot()) {
+        // True if receiver has ball
+        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+
+        // True if the passer has shot the ball, but it is now stationary (pass was too soft, was reflected, etc.)
+        return ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 1.5 &&
+               world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL;
+    }
+    return false;
 }
 
 gen::ScoredPosition AttackingPass::calculatePassLocation(world::World* world) {
@@ -118,8 +125,12 @@ gen::ScoredPosition AttackingPass::calculatePassLocation(world::World* world) {
     auto field = world->getField().value();
     // TODO: filter which robots can receive in a more consistent way
     auto possibleReceivers = world->getWorld()->getUs();
+
+    // If we only have 2 or less robots, return zero pos and score
+    if (possibleReceivers.size() <= 2) return {Vector2(0, 0), 0};
+
     auto passerRobot = world->getWorld()->getRobotClosestToBall(world::us)->get();
-    // Remove passer and keeper from possible receivers
+    // Remove passer and keeper from possible receivers TODO: Do this in a less hacky way
     std::erase_if(possibleReceivers, [&](const rtt::ai::stp::world::view::RobotView& receiver) { return receiver->getId() == passerRobot->getId(); });
     std::erase_if(possibleReceivers, [&](const rtt::ai::stp::world::view::RobotView& receiver) {
         return receiver->getId() == world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us)->get()->getId();
