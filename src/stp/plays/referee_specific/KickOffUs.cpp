@@ -44,7 +44,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
     stpInfos["passer"].setShotType(ShotType::PASS);
     stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     // TODO: set good position to move to after pass
-    stpInfos["passer"].setPositionToMoveTo(Vector2(0,0));
+    stpInfos["passer"].setPositionToMoveTo(Vector2(0, 0));
 
     // Receiver
     // TODO: set receiving position based on pass computation

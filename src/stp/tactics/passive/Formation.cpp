@@ -31,9 +31,7 @@ bool Formation::isTacticFailing(const StpInfo &info) noexcept {
     return !info.getPositionToMoveTo();
 }
 
-bool Formation::shouldTacticReset(const StpInfo &info) noexcept {
-    return false;
-}
+bool Formation::shouldTacticReset(const StpInfo &info) noexcept { return false; }
 
 bool Formation::isEndTactic() noexcept {
     // Formation tactic is an end tactic
