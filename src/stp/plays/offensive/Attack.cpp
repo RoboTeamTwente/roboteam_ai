@@ -28,6 +28,9 @@ Attack::Attack() : Play() {
 }
 
 uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
+    auto world = playEvaluator.getWorld();
+    auto field = world->getField().value();
+
     // Score the position of the ball based on the odds of scoring
     return PositionScoring::scorePosition(world->getWorld()->getBall().value()->getPos(), gen::GoalShot, field, world).score;
 }
