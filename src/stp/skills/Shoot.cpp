@@ -28,7 +28,7 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
     command.set_chip_kick_vel(kickVelocity);
 
     // Clamp and set dribbler speed
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
@@ -48,7 +48,7 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (!info.getRobot()->hasBall()) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN) {
         shootAttempts = 0;
         return Status::Success;
     }
@@ -65,7 +65,7 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
     command.set_chip_kick_vel(chipVelocity);
 
     // Clamp and set dribbler speed
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
     int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
 
     // Set dribbler speed command
@@ -85,7 +85,7 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
     // publish the generated command
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (!info.getRobot()->hasBall()) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
         shootAttempts = 0;
         return Status::Success;
     }

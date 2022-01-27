@@ -7,6 +7,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/PassReceiver.h"
 #include "stp/roles/active/Passer.h"
+#include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Halt.h"
 #include "utilities/GameStateManager.hpp"
 
@@ -43,8 +44,6 @@ void KickOffUs::calculateInfoForRoles() noexcept {
     stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["passer"].setShotType(ShotType::PASS);
     stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
-    // TODO: set good position to move to after pass
-    stpInfos["passer"].setPositionToMoveTo(Vector2(0, 0));
 
     // Receiver
     // TODO: set receiving position based on pass computation

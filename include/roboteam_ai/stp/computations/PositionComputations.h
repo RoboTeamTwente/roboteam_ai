@@ -45,7 +45,7 @@ class PositionComputations {
      * @return the best position within that grid with its score
      */
     static gen::ScoredPosition getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
-                                           const world::World *world);
+                                           world::World *world);
 
     /**
      * Makes a wall if not ready done, saves it in calculatedWallPositions and deals the index
@@ -68,18 +68,6 @@ class PositionComputations {
      * the returned point will be at the intersection closest to p1
      */
     static Vector2 ProjectPositionOutsideDefenseAreaOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin);
-
-    /**
-     * Projects a position into the field on a line between two given points
-     * @param field The current field
-     * @param position The position to be projected outside the defense area
-     * @param p1 First point on the line
-     * @param p2 Second point on the line
-     * @param margin The distance that the position should have from the defense area
-     * @return A position outside of the defense area on the given line. If there are two intersections with the defense area,
-     * the returned point will be at the intersection closest to p1
-     */
-    static Vector2 ProjectPositionIntoFieldOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin);
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_POSITIONCOMPUTATIONS_H
