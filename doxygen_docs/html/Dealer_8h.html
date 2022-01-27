@@ -101,19 +101,12 @@ Classes</h2></td></tr>
 <tr class="memitem:structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore">rtt::ai::Dealer::RobotRoleScore</a></td></tr>
 <tr class="memdesc:structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore"><td class="mdescLeft">&#160;</td><td class="mdescRight">Final score a specific robot with its sum of score and sum of weights (to be used in normalization)  <a href="classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore">More...</a><br /></td></tr>
 <tr class="separator:structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structrtt_1_1ai_1_1Dealer_1_1RoleScores"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleScores">rtt::ai::Dealer::RoleScores</a></td></tr>
-<tr class="memdesc:structrtt_1_1ai_1_1Dealer_1_1RoleScores"><td class="mdescLeft">&#160;</td><td class="mdescRight">The individual robot scores for every robot for a specific Role and the Roles priority.  <a href="classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleScores">More...</a><br /></td></tr>
-<tr class="separator:structrtt_1_1ai_1_1Dealer_1_1RoleScores"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structrtt_1_1ai_1_1Dealer_1_1DealerDistribute"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1DealerDistribute">rtt::ai::Dealer::DealerDistribute</a></td></tr>
-<tr class="memdesc:structrtt_1_1ai_1_1Dealer_1_1DealerDistribute"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used in <a class="el" href="classrtt_1_1ai_1_1Dealer.html">Dealer</a> that is re-used for each priority to save the information for that loop.  <a href="classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1DealerDistribute">More...</a><br /></td></tr>
-<tr class="separator:structrtt_1_1ai_1_1Dealer_1_1DealerDistribute"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacertt"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt.html">rtt</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacertt_1_1ai"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai.html">rtt::ai</a></td></tr>
-<tr class="memdesc:namespacertt_1_1ai"><td class="mdescLeft">&#160;</td><td class="mdescRight">This issue occurs when there are multiple roles classes (defender+midfielder) that have the same priority. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -244,90 +237,6 @@ sumScore</td>
 <a id="aa5f6e5e7bca9ca5c98b3784d220b8621"></a>double</td>
 <td class="fieldname">
 sumWeights</td>
-<td class="fielddoc">
-</td></tr>
-</table>
-
-</div>
-</div>
-<a name="structrtt_1_1ai_1_1Dealer_1_1RoleScores" id="structrtt_1_1ai_1_1Dealer_1_1RoleScores"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1Dealer_1_1RoleScores">&#9670;&nbsp;</a></span>rtt::ai::Dealer::RoleScores</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct rtt::ai::Dealer::RoleScores</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><p>The individual robot scores for every robot for a specific Role and the Roles priority. </p>
-</div><table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a id="a4ee88424e9935154310e2d718564c38d"></a><a class="el" href="namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617">DealerFlagPriority</a></td>
-<td class="fieldname">
-priority</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a3ef3e92ab32b2e530f43891fc3aed4bc"></a>vector&lt; double &gt;</td>
-<td class="fieldname">
-robotScores</td>
-<td class="fielddoc">
-</td></tr>
-</table>
-
-</div>
-</div>
-<a name="structrtt_1_1ai_1_1Dealer_1_1DealerDistribute" id="structrtt_1_1ai_1_1Dealer_1_1DealerDistribute"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1Dealer_1_1DealerDistribute">&#9670;&nbsp;</a></span>rtt::ai::Dealer::DealerDistribute</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct rtt::ai::Dealer::DealerDistribute</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><p>Used in <a class="el" href="classrtt_1_1ai_1_1Dealer.html">Dealer</a> that is re-used for each priority to save the information for that loop. </p>
-</div><table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a id="af0bd96749de430b0a1a6ec2ed0ce8dee"></a>vector&lt; int &gt;</td>
-<td class="fieldname">
-currentIDs</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a2d3ebba7753b152affe94520326a9195"></a>vector&lt; int &gt;</td>
-<td class="fieldname">
-currentRoles</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="ab9c29840dd057557c1d3edaddf9b22c5"></a>vector&lt; vector&lt; double &gt; &gt;</td>
-<td class="fieldname">
-currentScores</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a2610380ee97d4b893e50693a8355eff6"></a>vector&lt; int &gt;</td>
-<td class="fieldname">
-newAssignments</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a421ccd4cb295ba1a38ea18bdf116761f"></a>vector&lt; int &gt;</td>
-<td class="fieldname">
-originalIDsIndex</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a5ad0f5509bf72d6dafc4e6b544872c1f"></a>vector&lt; int &gt;</td>
-<td class="fieldname">
-originalRolesIndex</td>
 <td class="fielddoc">
 </td></tr>
 </table>
