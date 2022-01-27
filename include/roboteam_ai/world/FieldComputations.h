@@ -276,7 +276,7 @@ class FieldComputations {
      * @return std::nullopt in case the robot does not block a part of the goal or if it is not considered a blocking robot. Otherwise it returns the blocked part of the goal.
      */
     static std::optional<LineSegment> robotBlockade(bool ourGoal, const Vector2 &point, int id, bool ourTeam, const rtt_world::view::RobotView robot, const double robotRadius,
-                                                    const LineSegment &goalSide);
+                                                    LineSegment goalSide);
 
     /**
      * Merge overlapping blockade line segments on the goal side into non-overlapping blockade line segments.
