@@ -20,11 +20,15 @@ gen::ScoredPosition PassComputations::calculatePassLocation(Vector2 ballLocation
     int numPoints = 3;
     gen::ScoredPosition bestPassLocation;
     bestPassLocation.score = 0;
+    if (robotLocations.empty()) {
+        RTT_WARNING("No possible receivers!")
+        return bestPassLocation;
+    }
     // TODO: create a better passingGrid (more points and/or better spread)
-    auto passGrid = Grid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints); // 9 points spread over the whole field
+    auto passGrid = Grid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints);  // 9 points spread over the whole field
     for (auto& pointVector : passGrid.getPoints()) {
         for (auto& point : pointVector) {
-            if (point.dist(ballLocation) < 1) continue; // Do not pass less than 1m far- this can be dribbled
+            if (point.dist(ballLocation) < 1) continue;  // Do not pass less than 1m far- this can be dribbled
             for (auto robotLocation : robotLocations) {
                 if (FieldComputations::pointIsValidPosition(field, point, 2 * control_constants::ROBOT_RADIUS) &&
                     calculateRobotTravelTime(robotLocation, point) < calculateBallTravelTime(ballLocation, passerLocation, point)) {
