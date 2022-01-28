@@ -14,7 +14,7 @@
 namespace rtt::ai::stp {
 
 gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
-                                                      world::World *world) {
+                                                      const world::World *world) {
     gen::ScoredPosition bestPosition;
     (currentPosition.has_value()) ? bestPosition = PositionScoring::scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0, 0}, 0};
     for (const auto &nestedPoints : searchGrid.getPoints()) {
@@ -104,12 +104,27 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 }
 
 Vector2 PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
+    if (!FieldComputations::pointIsInDefenseArea(field, position, margin)) {
+        return position;
+    }
     auto intersection = FieldComputations::lineIntersectionWithDefenceArea(field, true, p1, p2, margin);
     if (intersection) {
         return *intersection;
     }
 
     intersection = FieldComputations::lineIntersectionWithDefenceArea(field, false, p1, p2, margin);
+    if (intersection) {
+        return *intersection;
+    }
+
+    return position;
+}
+
+Vector2 PositionComputations::ProjectPositionIntoFieldOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
+    if (FieldComputations::pointIsInField(field, position, margin)) {
+        return position;
+    }
+    auto intersection = FieldComputations::lineIntersectionWithField(field, p1, p2, margin);
     if (intersection) {
         return *intersection;
     }

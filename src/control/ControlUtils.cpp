@@ -144,29 +144,19 @@ double ControlUtils::determineChipForce(const double distance, stp::ShotType sho
 
 /// Calculate the kick force
 double ControlUtils::determineKickForce(const double distance, stp::ShotType shotType) noexcept {
-    // TODO: Needs further tuning
-    constexpr double TARGET_FACTOR{0.5};
-    double PASS_FACTOR = 0;
-    if (distance > 2) {
-        PASS_FACTOR = 1.445;
-    } else {
-        PASS_FACTOR = 1.745;
-    }
     if (shotType == stp::ShotType::MAX) return stp::control_constants::MAX_KICK_POWER;
 
-    double limitingFactor{};
-    // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
+    double kickForce;
     if (shotType == stp::ShotType::PASS) {
-        limitingFactor = PASS_FACTOR;
+        kickForce = 1;
     } else if (shotType == stp::ShotType::TARGET) {
-        limitingFactor = TARGET_FACTOR;
+        kickForce = 0.5;
     } else {
-        RTT_ERROR("No valid ballSpeedType, kick velocity set to 0")
-        return 0;
+        RTT_WARNING("No shotType set! Setting kickForce to 0")
+        kickForce = 0;
     }
-
     // Calculate the velocity based on this function with the previously set limitingFactor
-    auto velocity = distance * limitingFactor;
+    auto velocity = distance * kickForce;
 
     // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
     return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);

@@ -19,17 +19,7 @@ class AttackingPass : public Play {
     AttackingPass();
 
     /**
-     * Gets the score for the current play
-     *
-     * On the contrary to isValidPlay() this checks how good the play actually is
-     * returns a value in range of 0 - 255 based on the factors from in the scoring vector
-     *
-     * To calculate the score of a play, the current situation (Evaluations) and future positions are taken into account.
-     * To reduce computations the calculates for the future positions are saved in an StpInfos map that will be added to
-     *  the play with the initialization.
-     *
-     * @param a StpInfos to store calculated info in
-     * @return The score, 0 - 255
+     *  Calculate how beneficial we expect this play to be
      */
     uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
 
@@ -46,16 +36,7 @@ class AttackingPass : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World* world) noexcept override;
-
-    /**
-     * Calculates n defensive positions for the roles to defend
-     * @param numberOfDefenders
-     * @param world
-     * @param enemyRobots
-     * @return A vector of defend positions
-     */
-    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, std::vector<world::view::RobotView> enemyRobots);
+    void calculateInfoForScoredRoles(world::World*) noexcept override;
 
     /**
      * Gets the play name
@@ -63,30 +44,30 @@ class AttackingPass : public Play {
     const char* getName() override;
 
     /**
-     * Calculates all info that is necessary for a correct pass
-     * The passer will get a position to pass to
-     * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
-     * @param ball
+     * Check if play should end. True if pass arrived or ball is not moving anymore after pass
      */
-    void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
+    bool shouldEndPlay() noexcept override;
 
-    bool isValidPlayToStart(PlayEvaluator* playEvaluator) noexcept;
+    /**
+     *
+     */
+    void storePlayInfo(gen::PlayInfos& info) noexcept override;
 
    private:
     /**
-     * Checks if the pass is finished so the play knows whether it should
-     * keep this play or move to another play
-     * @return true: when ONE of the receivers is closer than 0.08m to the ball
-     *         false: when NONE of the receivers is closer than 0.08m to the ball
+     * Return true if passer is done with KickAtPos tactic
      */
-    [[nodiscard]] bool passFinished() noexcept;
+    bool ballKicked();
 
     /**
-     * Did the passer shoot or not
+     * Calculate which robots could receive a pass, and calculate the pass location based on that
      */
-    bool passerShot{false};
+    gen::ScoredPosition calculatePassLocation(world::World* world);
 
-    void storePlayInfo(gen::PlayInfos& info) noexcept override;
+    /**
+     * The location the ball will be passed to. Calculated once for each time this play is run
+     */
+    std::optional<Vector2> passLocation = std::nullopt;
 };
 }  // namespace rtt::ai::stp::play
 

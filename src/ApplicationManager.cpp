@@ -1,7 +1,6 @@
 #include "ApplicationManager.h"
 
 #include <roboteam_utils/Timer.h>
-#include <stp/plays/ControlSelectedRobot.h>
 #include <stp/plays/referee_specific/TimeOut.h>
 #include <utilities/normalize.h>
 
@@ -56,7 +55,7 @@ void ApplicationManager::start() {
     /// This play is only used for testing purposes, when needed uncomment this play!
     // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
@@ -79,9 +78,6 @@ void ApplicationManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
-
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ControlSelectedRobot>());
-
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
