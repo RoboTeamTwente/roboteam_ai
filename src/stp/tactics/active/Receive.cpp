@@ -14,7 +14,7 @@ namespace rtt::ai::stp::tactic {
 
 Receive::Receive() {
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()};
 }
 
 std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexcept {
@@ -24,7 +24,6 @@ std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexc
 
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
-    skillStpInfo.setPidType(PIDType::RECEIVE);
 
     // If ball is close to robot, turn on dribbler
     skillStpInfo.setDribblerSpeed(100);
@@ -48,13 +47,7 @@ bool Receive::isEndTactic() noexcept {
     return true;
 }
 
-double Receive::calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball) {
-    if (robot->getDistanceToBall() <= 0.8) {
-        return robot->getAngle();
-    } else {
-        return (ball->getPos() - robot->getPos()).angle();
-    }
-}
+double Receive::calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball) { return (ball->getPos() - robot->getPos()).angle(); }
 
 const char *Receive::getName() { return "Receive"; }
 
