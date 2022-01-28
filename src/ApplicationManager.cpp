@@ -102,7 +102,7 @@ void ApplicationManager::start() {
 
             // If this is primary AI, broadcast settings every second
             if (SETTINGS.isPrimaryAI()) {
-                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, ai::Constants::SETTINGS_BROADCAST_RATE());
+                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
         },
         ai::Constants::STP_TICK_RATE());
