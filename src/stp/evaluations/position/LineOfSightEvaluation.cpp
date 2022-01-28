@@ -5,50 +5,36 @@
 #include "stp/evaluations/position/LineOfSightEvaluation.h"
 
 #include <cmath>
-#include <string>
 
+#include "stp/constants/ControlConstants.h"
 namespace rtt::ai::stp::evaluation {
-LineOfSightEvaluation::LineOfSightEvaluation() noexcept {
-    /**
-     * Creates a piecewise linear function that looks as follows:
-     *
-     * (0,255)  |XXX
-     *          |   XXX
-     *          |      XXX
-     *          |         XXX
-     *   (0,0)  |------------XXX
-     *                 (evalScore)
+
+uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eDists, std::vector<double>& eAngles) noexcept {
+    /**             _-                                 \
+     *           _-           3               3         \
+     *        _-  \                  3                   \        The line of sight score is evaluated as follows:
+     *     _-   1  \     3               _________________
+     *  _-         |__________----------     2           |     1. There is a robot close to the ball and within 30 deg of the ball-to-target line => score = 0
+     * B=====1=====|=========2===========================Target     2. There is a robot within 5 deg of the ball-to-target line => score = 0
+     *  -_         |----------__________     2           |     3. There is a robot within 30 deg of the ball-to-target line and far away from the ball
+     *     -_   1 /                    -----------------|         => score is based on angle of enemy to line (quadratic, with score = 0 at 5 deg, score = 1 at 30 deg)
+     *        -_ /    3               3                /
+     *           -_           3                     3 /
+     *              -_                               /
      */
 
-    piecewiseLinearFunction =
-        nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "positionLineOfSight");
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 0.0);
-    piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, 50.0);
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, 50.0);
-}
-
-uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eDists, std::vector<double>& eAngles) const noexcept {
-    double evalScore = 0;
-    /**
-     *      /\                                            The positions in side the areas are evaluated.
-     *    /   \            __________-----------------|
-     *  /     |------------                           |    1. If there is a robot close and in front of the ball (1),
-     * B   1   ==================== 2================ T       OR the angle is near 0 (so in path) the position is
-     *  \     |------------__________                 |       returned as BAD = 0.
-     *    \   /                      -----------------|    2. If there is a robot in side (2), there angle is evaluated.
-     *      \/
-     */
+    double evalScore = 1;           // Default score (= perfect line of sight)
+    double innerAngle = M_PI / 36;  // 5 degrees
+    double outerAngle = M_PI / 6;   // 30 degrees
     for (int i = 0; i < eAngles.size(); i++) {
-        if (eDists[i] < pDist && std::abs(eAngles[i]) < M_PI_2 / 3) {                                          // 30 degrees
-            if (eDists[i] < control_constants::DISTANCE_TO_ROBOT_FAR || std::abs(eAngles[i]) < M_PI_2 / 18) {  // 5 degrees
+        if (eDists[i] < pDist && eAngles[i] < outerAngle) {
+            if (eDists[i] < control_constants::DISTANCE_TO_ROBOT_FAR || eAngles[i] < innerAngle) {
                 return 0;
             } else {
-                evalScore += pow((M_PI_2 / 3 / std::abs(eAngles[i])), 2);
+                evalScore -= std::pow((1 / (outerAngle - innerAngle)) * (outerAngle - eAngles[i]), 2);
             }
         }
     }
-    return calculateMetric(evalScore);
+    return std::clamp(static_cast<int>(evalScore * 255), 0, 255);
 }
-
-uint8_t LineOfSightEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
 }  // namespace rtt::ai::stp::evaluation
