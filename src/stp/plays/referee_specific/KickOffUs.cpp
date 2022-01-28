@@ -17,8 +17,7 @@ KickOffUs::KickOffUs() : Play() {
     startPlayEvaluation.emplace_back(eval::KickOffUsGameState);
 
     keepPlayEvaluation.clear();
-    keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
-    keepPlayEvaluation.emplace_back(eval::KickOffUsOrNormalGameState);
+    keepPlayEvaluation.emplace_back(eval::KickOffUsGameState);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Keeper>("keeper"), std::make_unique<role::Passer>("passer"), std::make_unique<role::PassReceiver>("receiver"),
@@ -41,8 +40,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
 
     // Kicker
     // TODO: set good position to shoot at (compute pass location)- possibly do this in the passer role
-    Vector2 passLocation = Vector2(-1.0, 1.0);
-    stpInfos["passer"].setPositionToShootAt(passLocation);
+    stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["passer"].setShotType(ShotType::PASS);
     stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     // TODO: set good position to move to after pass
@@ -50,25 +48,17 @@ void KickOffUs::calculateInfoForRoles() noexcept {
 
     // Receiver
     // TODO: set receiving position based on pass computation
-    if (!ballKicked()) {
-        stpInfos["receiver"].setPositionToMoveTo(passLocation);
-    } else {
-        auto ball = world->getWorld()->getBall()->get();
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
-        auto receiverLocation = ballTrajectory.project(passLocation);
-        receiverLocation =
-            PositionComputations::ProjectPositionIntoFieldOnLine(field, receiverLocation, ballTrajectory.start, ballTrajectory.end, -2 * control_constants::ROBOT_RADIUS);
-        stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
-    }
+    stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
 }
 
 Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
     flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
     flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -81,24 +71,7 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-bool KickOffUs::shouldEndPlay() noexcept {
-    if (stpInfos["receiver"].getRobot() && stpInfos["passer"].getRobot()) {
-        // True if receiver has ball
-        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
-
-        // True if the passer has shot the ball, but it is now stationary (pass was too soft, was reflected, etc.)
-        return ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 1.5 &&
-               world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL;
-    }
-    return false;
-}
-
-bool KickOffUs::ballKicked() {
-    // TODO: create better way of checking when ball has been kicked
-    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role> &role) {
-        return role != nullptr && role->getName() == "passer" && strcmp(role->getCurrentTactic()->getName(), "Formation") == 0;
-    });
-}
+bool KickOffUs::shouldEndPlay() noexcept { return false; }
 
 const char *KickOffUs::getName() { return "Kick Off Us"; }
 }  // namespace rtt::ai::stp::play

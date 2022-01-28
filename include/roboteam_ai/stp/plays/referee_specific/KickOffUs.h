@@ -51,11 +51,6 @@ class KickOffUs : public Play {
      * Gets the play name
      */
     const char* getName() override;
-
-    /**
-     * Checks if the passer has finished kickAtPos
-     */
-    bool ballKicked();
 };
 }  // namespace rtt::ai::stp::play
 
