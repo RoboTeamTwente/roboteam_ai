@@ -66,7 +66,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     // TODO: set good pass position
     stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
-    stpInfos["keeper"].setKickOrChip(KickOrChip::CHIP);
+    stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 
     /// Midfielder
     stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::SafePosition, field, world));
@@ -80,6 +80,7 @@ void AttackingPass::calculateInfoForScoredRoles(world::World* world) noexcept {
         stpInfos["receiver"].setPositionToMoveTo(passLocation.value());
         stpInfos["passer"].setPositionToShootAt(passLocation.value());
         stpInfos["passer"].setShotType(ShotType::PASS);
+        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     } else {
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
