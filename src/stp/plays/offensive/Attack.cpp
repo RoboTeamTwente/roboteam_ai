@@ -59,6 +59,7 @@ void Attack::calculateInfoForRoles() noexcept {
 
     auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
     stpInfos["attacker"].setPositionToShootAt(goalTarget);
+    stpInfos["attacker"].setKickOrChip(KickOrChip::KICK);
     stpInfos["attacker"].setShotType(ShotType::MAX);
 
     // Set the midfielders to go to the part of the field where the ball is NOT (in y-direction)
