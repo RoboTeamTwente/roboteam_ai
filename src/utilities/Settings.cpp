@@ -43,8 +43,6 @@ bool Settings::setYellow(bool yellow) {
         // We could obtain the necessary channel
         this->yellow = yellow;
         hasWantedColor = true;
-    } else {
-        hasWantedColor = false;
     }
 
     return hasWantedColor;
