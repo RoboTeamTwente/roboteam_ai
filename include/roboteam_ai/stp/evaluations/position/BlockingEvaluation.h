@@ -5,21 +5,39 @@
 #ifndef RTT_BLOCKINGEVALUATION_H
 #define RTT_BLOCKINGEVALUATION_H
 
-#include <cstdint>
-#include <vector>
+#include <NFParam/Param.h>
+
+#include "stp/constants/ControlConstants.h"
 
 namespace rtt::ai::stp::evaluation {
 
 class BlockingEvaluation {
    public:
+    BlockingEvaluation() noexcept;
     /**
-     * Score ability to block robots from position based on enemy positions
-     * @param pointDistance distance from ball to point
-     * @param enemyDistances enemy distances to ball
-     * @param enemyAngles vector of angles between the line from the ball to the point and from the ball to the enemy
+     * Returns a uint8_t score linked to a position for its possibility to score a goal from it
+     * @param goalVisibility % visibility of the goal (taking in account other robots)
+     * @param goalDistance distance from point to goal
+     * @param goalAngle angle from point to goal (0 is straight in front the middle)
      * @return uint8_t score
      */
-    [[nodiscard]] static uint8_t metricCheck(double pointDistance, std::vector<double>& enemyDistances, std::vector<double>& enemyAngles) noexcept;
+    [[nodiscard]] uint8_t metricCheck(double pointDistance, std::vector<double>& enemyDistances, std::vector<double>& enemyAngles) const noexcept;
+
+    const char* getName() { return "PositionBlocking"; }
+
+   private:
+    /**
+     * Calculates the actual metric value using the piecewise linear function member
+     * @param x the x of the function
+     * @return metric value between 0-255
+     */
+    [[nodiscard]] uint8_t calculateMetric(const double& x) const noexcept;
+
+    /**
+     * Unique pointer to the piecewise linear function that calculates the fuzzy value
+     */
+    std::unique_ptr<nativeformat::param::Param> piecewiseLinearFunction;
 };
+
 }  // namespace rtt::ai::stp::evaluation
 #endif  // RTT_BLOCKINGEVALUATION_H
