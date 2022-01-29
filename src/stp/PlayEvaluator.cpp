@@ -31,6 +31,8 @@
 #include <stp/evaluations/global/BallMovesSlowGlobalEvaluation.h>
 #include <stp/evaluations/global/BallOnOurSideGlobalEvaluation.h>
 #include <stp/evaluations/global/BallOnTheirSideGlobalEvaluation.h>
+#include <stp/evaluations/global/BallInOurDefenseAreaAndStillGlobalEvaluation.h>
+#include <stp/evaluations/global/BallNotInOurDefenseAreaAndStillGlobalEvaluation.h>
 #include <stp/evaluations/global/DistanceFromBallGlobalEvaluation.h>
 #include <stp/evaluations/global/FreedomOfRobotsGlobalEvaluation.h>
 #include <stp/evaluations/global/GoalVisionFromBallGlobalEvaluation.h>
@@ -101,6 +103,10 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
             return evaluation::BallOnOurSideGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::BallOnTheirSide:
             return evaluation::BallOnTheirSideGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::BallInOurDefenseAreaAndStill:
+            return evaluation::BallInOurDefenseAreaAndStillGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::BallNotInOurDefenseAreaAndStill:
+            return evaluation::BallNotInOurDefenseAreaAndStillGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::DistanceFromBall:
             return evaluation::DistanceFromBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::FreedomOfRobots:
