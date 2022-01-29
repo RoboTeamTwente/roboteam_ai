@@ -38,6 +38,8 @@ enum class GlobalEvaluation {
     BallMovesSlow,
     BallOnOurSide,
     BallOnTheirSide,
+    BallInOurDefenseAreaAndStill,
+    BallNotInOurDefenseAreaAndStill,
     BallShotOrCloseToThem,
     DistanceFromBall,
     FreedomOfRobots,
