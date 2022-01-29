@@ -69,7 +69,8 @@ std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_worl
 
 std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
                                                                   const std::vector<rtt::world::view::RobotView> &robots) {
-    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
+    // TODO: improve when it takes our/their robots into account
+    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots, -1, true);
     LineSegment goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x;  // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
     double upperGoalY = goalSide.end.y;
