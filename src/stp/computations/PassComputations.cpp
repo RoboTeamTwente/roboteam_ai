@@ -13,7 +13,7 @@
 
 namespace rtt::ai::stp::computations {
 
-gen::ScoredPosition PassComputations::calculatePassLocation(Vector2 ballLocation, const std::vector<Vector2>& robotLocations, Vector2 passerLocation,
+gen::ScoredPosition PassComputations::calculatePassLocation(Vector2 ballLocation, const std::vector<Vector2>& robotLocations, Vector2 passerLocation, gen::ScoreProfile profile,
                                                             const rtt::world::World* world, const world::Field& field) {
     double gridWidth = field.getFieldWidth();
     double gridLength = field.getFieldLength();
@@ -35,7 +35,7 @@ gen::ScoredPosition PassComputations::calculatePassLocation(Vector2 ballLocation
                     if (PositionScoring::scorePosition(point, gen::LineOfSight, field, world).score < 10) {  // Need minimum LoS to be a valid pass. Avoid passing into enemies
                         continue;
                     }
-                    auto scoredPosition = PositionScoring::scorePosition(point, gen::PassingPosition, field, world);
+                    auto scoredPosition = PositionScoring::scorePosition(point, profile, field, world);
                     if (scoredPosition.score > bestPassLocation.score) {
                         bestPassLocation = scoredPosition;
                     }

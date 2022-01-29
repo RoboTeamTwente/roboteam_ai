@@ -20,10 +20,12 @@ AttackingPass::AttackingPass() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
     startPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Passer>(role::Passer("passer")),
@@ -142,7 +144,7 @@ gen::ScoredPosition AttackingPass::calculatePassLocation(world::World* world) {
     for (auto& receiver : possibleReceivers) {
         possibleReceiverLocations.emplace_back(receiver->getPos());
     }
-    return computations::PassComputations::calculatePassLocation(ball->getPos(), possibleReceiverLocations, passerRobot->getPos(), world, field);
+    return computations::PassComputations::calculatePassLocation(ball->getPos(), possibleReceiverLocations, passerRobot->getPos(), gen::AttackingPass, world, field);
 }
 
 void AttackingPass::storePlayInfo(gen::PlayInfos& info) noexcept {
