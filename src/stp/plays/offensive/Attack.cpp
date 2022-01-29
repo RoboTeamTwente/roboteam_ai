@@ -17,12 +17,10 @@ Attack::Attack() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(eval::NormalOrFreeKickUsGameState);
     startPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
-    startPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(eval::NormalOrFreeKickUsGameState);
     keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
-    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Attacker>(role::Attacker("attacker")),

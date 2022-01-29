@@ -20,7 +20,6 @@
 #include "stp/plays/contested/GetBallRisky.h"
 #include "stp/plays/defensive/DefendPass.h"
 #include "stp/plays/defensive/DefendShot.h"
-#include "stp/plays/defensive/KeeperKickBall.h"
 #include "stp/plays/offensive/Attack.h"
 #include "stp/plays/offensive/AttackingPass.h"
 #include "stp/plays/offensive/GenericPass.h"
@@ -61,7 +60,6 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KeeperKickBall>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
@@ -104,7 +102,7 @@ void ApplicationManager::start() {
 
             // If this is primary AI, broadcast settings every second
             if (SETTINGS.isPrimaryAI()) {
-                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, ai::Constants::SETTINGS_BROADCAST_RATE());
+                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
         },
         ai::Constants::STP_TICK_RATE());

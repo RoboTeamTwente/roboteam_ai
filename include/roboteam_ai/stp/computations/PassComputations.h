@@ -32,8 +32,8 @@ class PassComputations {
      * @param field field
      * @return Scored pass location
      */
-    static gen::ScoredPosition calculatePassLocation(Vector2 ballLocation, const std::vector<Vector2>& robotLocations, Vector2 passerLocation, gen::ScoreProfile profile,
-                                                     const rtt::world::World* world, const world::Field& field);
+    static gen::ScoredPosition calculatePassLocation(Vector2 ballLocation, const std::vector<Vector2>& robotLocations, Vector2 passerLocation, const rtt::world::World* world,
+                                                     const world::Field& field);
 
     /**
      * Approximate the time it takes a robot to reach a point
