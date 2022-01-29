@@ -148,7 +148,7 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
 
     double kickForce;
     if (shotType == stp::ShotType::PASS) {
-        kickForce = SETTINGS.getRobotHubMode() == Settings::RobotHubMode::BASESTATION ? 1 : 1.5;
+        kickForce = SETTINGS.isSerialMode() ? 1 : 1.5;
     } else if (shotType == stp::ShotType::TARGET) {
         kickForce = 0.5;
     } else {
