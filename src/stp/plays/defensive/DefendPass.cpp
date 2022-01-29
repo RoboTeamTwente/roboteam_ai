@@ -82,6 +82,7 @@ void DefendPass::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
+    stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 }
 
 void DefendPass::calculateInfoForHarassers() noexcept {
