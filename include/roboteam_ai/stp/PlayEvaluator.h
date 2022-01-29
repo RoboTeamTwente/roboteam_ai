@@ -20,6 +20,7 @@ enum class GlobalEvaluation {
     KickOffThemGameState,
     KickOffThemPrepareGameState,
     KickOffUsGameState,
+    KickOffUsOrNormalGameState,
     KickOffUsPrepareGameState,
     NormalOrFreeKickUsGameState,
     NormalPlayGameState,
