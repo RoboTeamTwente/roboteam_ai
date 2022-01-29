@@ -13,6 +13,7 @@
 #include <stp/evaluations/game_states/KickOffThemGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffThemPrepareGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffUsGameStateEvaluation.h>
+#include <stp/evaluations/game_states/KickOffUsOrNormalGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffUsPrepareGameStateEvaluation.h>
 #include <stp/evaluations/game_states/NormalOrFreeKickUsGameStateEvaluation.h>
 #include <stp/evaluations/game_states/NormalPlayGameStateEvaluation.h>
@@ -66,6 +67,8 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
             return evaluation::KickOffThemPrepareGameStateEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::KickOffUsGameState:
             return evaluation::KickOffUsGameStateEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::KickOffUsOrNormalGameState:
+            return evaluation::KickOffUsOrNormalGameStateEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::KickOffUsPrepareGameState:
             return evaluation::KickOffUsPrepareGameStateEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::NormalOrFreeKickUsGameState:
