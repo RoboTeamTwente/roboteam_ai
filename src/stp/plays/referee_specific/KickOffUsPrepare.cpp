@@ -51,10 +51,10 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     auto fieldWidth = field.getFieldWidth();
 
     // TODO: set position to go to based on where the kicker will pass to in kickoffus
-    stpInfos["receiver"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, -0.25 * fieldWidth));
+    stpInfos["receiver"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, 0.25 * fieldWidth));
 
     // TODO: set defender position in smarter way
-    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, 0.25 * fieldWidth));
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, -0.25 * fieldWidth));
 }
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
