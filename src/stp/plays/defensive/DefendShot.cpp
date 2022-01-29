@@ -77,7 +77,7 @@ void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
-    stpInfos["keeper"].setKickOrChip(KickOrChip::CHIP);
+    stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 }
 
 const char *DefendShot::getName() { return "Defend Shot"; }
