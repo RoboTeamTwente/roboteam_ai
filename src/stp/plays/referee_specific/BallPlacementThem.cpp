@@ -57,17 +57,17 @@ void BallPlacementThem::calculateInfoForRoles() noexcept {
 Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"ball_avoider_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_3", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_4", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_5", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_6", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_7", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_8", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_9", {DealerFlagPriority::HIGH_PRIORITY, {}}});
 
     return flagMap;
 }

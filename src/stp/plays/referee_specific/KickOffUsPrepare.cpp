@@ -62,7 +62,7 @@ Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
     flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
     flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});

@@ -56,17 +56,17 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
     flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-    flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_3", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_4", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_5", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_6", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_7", {DealerFlagPriority::HIGH_PRIORITY, {}}});
 
     return flagMap;
 }

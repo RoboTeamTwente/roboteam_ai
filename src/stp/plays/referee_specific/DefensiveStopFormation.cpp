@@ -63,7 +63,7 @@ Dealer::FlagMap DefensiveStopFormation::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
     /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});

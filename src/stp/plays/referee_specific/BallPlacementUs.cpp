@@ -49,10 +49,10 @@ Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag ballPlacement(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"ball_placer", {DealerFlagPriority::REQUIRED, {ballPlacement}}});
-    flagMap.insert({"ball_avoider_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"ball_avoider_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
 
     return flagMap;
 }

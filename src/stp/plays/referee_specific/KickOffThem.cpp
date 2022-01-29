@@ -40,17 +40,17 @@ void KickOffThem::calculateInfoForRoles() noexcept {
 Dealer::FlagMap KickOffThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"halt_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_3", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_4", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_5", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_6", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_7", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_8", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"halt_9", {DealerFlagPriority::HIGH_PRIORITY, {}}});
 
     return flagMap;
 }

@@ -50,7 +50,7 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag passerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {passerFlag}}});
     flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
     flagMap.insert({"midfielder", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
@@ -127,14 +127,11 @@ gen::ScoredPosition AttackingPass::calculatePassLocation(world::World* world) {
     auto possibleReceivers = world->getWorld()->getUs();
 
     // If we only have 2 or less robots, return zero pos and score
-    if (possibleReceivers.size() <= 2) return {Vector2(0, 0), 0};
+    if (possibleReceivers.size() <= 1) return {Vector2(0, 0), 0};
 
     auto passerRobot = world->getWorld()->getRobotClosestToBall(world::us)->get();
     // Remove passer and keeper from possible receivers TODO: Do this in a less hacky way
     std::erase_if(possibleReceivers, [&](const rtt::ai::stp::world::view::RobotView& receiver) { return receiver->getId() == passerRobot->getId(); });
-    std::erase_if(possibleReceivers, [&](const rtt::ai::stp::world::view::RobotView& receiver) {
-        return receiver->getId() == world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us)->get()->getId();
-    });
 
     std::vector<Vector2> possibleReceiverLocations;
     possibleReceiverLocations.reserve(possibleReceivers.size());
