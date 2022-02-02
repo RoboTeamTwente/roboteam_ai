@@ -7,7 +7,6 @@
 #include <roboteam_utils/Print.h>
 
 #include "stp/tactics/KeeperBlockBall.h"
-#include "stp/tactics/active/ChipAtPos.h"
 #include "stp/tactics/active/GetBall.h"
 #include "stp/tactics/active/KickAtPos.h"
 #include "world/FieldComputations.h"
@@ -16,7 +15,7 @@ namespace rtt::ai::stp::role {
 
 Keeper::Keeper(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::KeeperBlockBall(), tactic::GetBall(), tactic::ChipAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::KeeperBlockBall(), tactic::GetBall(), tactic::KickAtPos()};
 }
 
 Status Keeper::update(StpInfo const& info) noexcept {

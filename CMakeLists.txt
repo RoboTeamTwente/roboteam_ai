@@ -161,6 +161,7 @@ add_library(roboteam_ai_plays
         # defensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/KeeperKickBall.cpp
         # offensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
@@ -203,6 +204,8 @@ add_library(roboteam_ai_evaluation
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallMovesSlowGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallOnOurSideGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallOnTheirSideGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallInOurDefenseAreaAndStillGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallNotInOurDefenseAreaAndStillGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/FreedomOfRobotsGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallCloseToUsGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallCloseToThemGlobalEvaluation.cpp
@@ -219,6 +222,7 @@ add_library(roboteam_ai_evaluation
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/BallPlacementThemGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/HaltGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsOrNormalGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffThemGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsPrepareGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffThemPrepareGameStateEvaluation.cpp

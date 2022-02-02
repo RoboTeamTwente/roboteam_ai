@@ -1,20 +1,24 @@
 //
-// Created by timovdk on 5/1/20.
+// Created by Alexander on 29/01/2022.
 //
 
-#ifndef RTT_KICKOFFUS_H
-#define RTT_KICKOFFUS_H
+#ifndef RTT_KEEPERKICKBALL_H
+#define RTT_KEEPERKICKBALL_H
 
 #include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
-class KickOffUs : public Play {
+/**
+ * KeeperKickBall Play is executed when the ball is in our defense area and should be kicked out by our keeper
+ */
+
+class KeeperKickBall : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    KickOffUs();
+    KeeperKickBall();
 
     /**
      * Gets the score for the current play
@@ -40,23 +44,19 @@ class KickOffUs : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World*) noexcept override{};
-
-    /**
-     * Check if the play should end. True after kickoff
-     */
-    bool shouldEndPlay() noexcept override;
+    void calculateInfoForScoredRoles(world::World* world) noexcept override{};
 
     /**
      * Gets the play name
      */
     const char* getName() override;
 
-    /**
-     * Checks if the passer has finished kickAtPos
-     */
+    std::optional<Vector2> passLocation = std::nullopt;
+
+    Vector2 calculatePassLocation(world::World* world);
     bool ballKicked();
+    bool shouldEndPlay() noexcept override;
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_KICKOFFUS_H
+#endif  // RTT_KEEPERKICKBALL_H
