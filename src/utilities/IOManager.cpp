@@ -12,12 +12,11 @@ namespace rtt::ai::io {
 IOManager io;
 
 bool IOManager::init(bool isPrimaryAI) {
-    RTT_INFO("Setting up IO networkers as ", isPrimaryAI ? "Primary" : "Secondary", "AI")
+    RTT_INFO("Setting up IO networkers as ", isPrimaryAI ? "Primary" : "Secondary", " AI")
     bool success = true;
 
     auto worldCallback = std::bind(&IOManager::handleState, this, std::placeholders::_1);
     this->worldSubscriber = std::make_unique<rtt::net::WorldSubscriber>(worldCallback);
-    simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
 
     if (isPrimaryAI) {
         try {
@@ -25,6 +24,13 @@ bool IOManager::init(bool isPrimaryAI) {
         } catch (zmqpp::zmq_internal_exception e) {
             success = false;
             RTT_ERROR("Failed to open settings publisher channel. Is it already taken?")
+        }
+    } else {
+        try {
+            this->settingsSubscriber = std::make_unique<rtt::net::SettingsSubscriber>([&](const proto::Setting& settings) { this->onSettingsOfPrimaryAI(settings); });
+        } catch (zmqpp::zmq_internal_exception e) {
+            success = false;
+            RTT_ERROR("Failed to open settings subscriber channel")
         }
     }
     return success;
@@ -51,10 +57,29 @@ void IOManager::handleState(const proto::State& stateMsg) {
     }
 }
 
-void IOManager::publishSettings(proto::Setting setting) {
+void IOManager::publishSettings(const Settings& settings) {
+    proto::Setting protoSetting;
+
+    protoSetting.set_id(settings.getId());
+    protoSetting.set_isleft(settings.isLeft());
+    protoSetting.set_isyellow(settings.isYellow());
+    protoSetting.set_serialmode(settings.getRobotHubMode() == Settings::RobotHubMode::BASESTATION);
+    protoSetting.set_refereeip(settings.getRefereeIp());
+    protoSetting.set_refereeport(settings.getRefereePort());
+    protoSetting.set_visionip(settings.getVisionIp());
+    protoSetting.set_visionport(settings.getVisionPort());
+    protoSetting.set_robothubsendip(settings.getRobothubSendIp());
+    protoSetting.set_robothubsendport(settings.getRobothubSendPort());
+
     if (this->settingsPublisher != nullptr) {
-        this->settingsPublisher->publish(setting);
+        this->settingsPublisher->publish(protoSetting);
     }
+}
+
+void IOManager::onSettingsOfPrimaryAI(const proto::Setting& settings) {
+    SETTINGS.handleSettingsFromPrimaryAI(settings.isyellow(), settings.isleft(), settings.serialmode() ? Settings::RobotHubMode::BASESTATION : Settings::RobotHubMode::SIMULATOR,
+                                         settings.visionip(), settings.visionport(), settings.refereeip(), settings.refereeport(), settings.robothubsendip(),
+                                         settings.robothubsendport());
 }
 
 void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
@@ -91,30 +116,37 @@ proto::State IOManager::getState() {
     return copy;
 }
 
-bool IOManager::switchTeamColorChannel(bool toYellowChannel) {
-    bool switchedSuccesfully = false;
+bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
+    bool obtainedChannel = false;
 
     if (toYellowChannel) {
-        try {
-            this->robotCommandsYellowPublisher = std::make_unique<rtt::net::RobotCommandsYellowPublisher>();
-            this->robotCommandsBluePublisher = nullptr;
-            switchedSuccesfully = true;
-        } catch (zmqpp::zmq_internal_exception e) {
-            this->robotCommandsYellowPublisher = nullptr;
+        obtainedChannel = this->robotCommandsYellowPublisher != nullptr;
+
+        // If we do not have the channel yet
+        if (!obtainedChannel) {
+            try {
+                this->robotCommandsYellowPublisher = std::make_unique<rtt::net::RobotCommandsYellowPublisher>();
+                this->robotCommandsBluePublisher = nullptr;
+                obtainedChannel = true;
+            } catch (zmqpp::zmq_internal_exception e) {
+                this->robotCommandsYellowPublisher = nullptr;
+            }
         }
     } else {
-        try {
-            this->robotCommandsBluePublisher = std::make_unique<rtt::net::RobotCommandsBluePublisher>();
-            this->robotCommandsYellowPublisher = nullptr;
-            switchedSuccesfully = true;
-        } catch (zmqpp::zmq_internal_exception e) {
-            this->robotCommandsBluePublisher = nullptr;
+        obtainedChannel = this->robotCommandsBluePublisher != nullptr;
+
+        if (!obtainedChannel) {
+            try {
+                this->robotCommandsBluePublisher = std::make_unique<rtt::net::RobotCommandsBluePublisher>();
+                this->robotCommandsYellowPublisher = nullptr;
+                obtainedChannel = true;
+            } catch (zmqpp::zmq_internal_exception e) {
+                this->robotCommandsBluePublisher = nullptr;
+            }
         }
     }
 
-    return switchedSuccesfully;
+    return obtainedChannel;
 }
-
-void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) { simulationConfigurationPublisher->publish(configuration); }
 
 }  // namespace rtt::ai::io
