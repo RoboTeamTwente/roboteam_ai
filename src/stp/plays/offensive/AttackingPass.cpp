@@ -20,10 +20,12 @@ AttackingPass::AttackingPass() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
     startPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Passer>(role::Passer("passer")),
@@ -66,7 +68,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     // TODO: set good pass position
     stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
-    stpInfos["keeper"].setKickOrChip(KickOrChip::CHIP);
+    stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 
     /// Midfielder
     stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::SafePosition, field, world));
@@ -80,6 +82,7 @@ void AttackingPass::calculateInfoForScoredRoles(world::World* world) noexcept {
         stpInfos["receiver"].setPositionToMoveTo(passLocation.value());
         stpInfos["passer"].setPositionToShootAt(passLocation.value());
         stpInfos["passer"].setShotType(ShotType::PASS);
+        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     } else {
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
@@ -141,7 +144,7 @@ gen::ScoredPosition AttackingPass::calculatePassLocation(world::World* world) {
     for (auto& receiver : possibleReceivers) {
         possibleReceiverLocations.emplace_back(receiver->getPos());
     }
-    return computations::PassComputations::calculatePassLocation(ball->getPos(), possibleReceiverLocations, passerRobot->getPos(), world, field);
+    return computations::PassComputations::calculatePassLocation(ball->getPos(), possibleReceiverLocations, passerRobot->getPos(), gen::AttackingPass, world, field);
 }
 
 void AttackingPass::storePlayInfo(gen::PlayInfos& info) noexcept {
