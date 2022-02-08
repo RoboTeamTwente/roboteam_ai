@@ -32,7 +32,7 @@ void SettingsWidget::changeTeamColor(bool isYellow) { SETTINGS.setYellow(isYello
 
 void SettingsWidget::changeTeamSide(bool isLeft) { SETTINGS.setLeft(isLeft); }
 
-void SettingsWidget::changeMode(bool serial) { SETTINGS.setSerialMode(serial); }
+void SettingsWidget::changeRobotHubMode(Settings::RobotHubMode mode) { SETTINGS.setRobotHubMode(mode); }
 
 void SettingsWidget::changeGrSimIp(QString ip) {
     std::cout << "setting grsimip" << std::endl;
