@@ -3,7 +3,7 @@
 //
 
 #include "world/Field.h"
-
+#include <roboteam_utils/Print.h>
 #include "utilities/Settings.h"
 
 namespace rtt::world {
@@ -245,7 +245,7 @@ double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
-        std::cout << "Warning: access undefined field value in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field value in the Field class (world might not be turned on?).")
         return 0.0;
     }
 }
@@ -256,7 +256,7 @@ const FieldLineSegment &Field::getFieldLine(const std::optional<FieldLineSegment
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Warning: access undefined field line in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field line in the Field class (world might not be turned on?).")
 
         static FieldLineSegment standard = {};
         return standard;
@@ -269,7 +269,7 @@ const Vector2 &Field::getFieldVector(const std::optional<Vector2> &fieldVector) 
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Warning: access undefined field vector in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field vector in the Field class (world might not be turned on?).")
 
         static Vector2 standard = {};
         return standard;
@@ -282,7 +282,7 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Warning: access undefined field arc in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field arc in the Field class (world might not be turned on?).")
 
         static FieldArc standard = {};
         return standard;
@@ -295,7 +295,7 @@ const Grid &Field::getFieldGrid(const std::optional<Grid> &fieldGrid) const {
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Warning: access undefined grid in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined grid in the Field class (world might not be turned on?).")
 
         static Grid standard = Grid(0, 0, 0, 0, 0, 0);
         return standard;
