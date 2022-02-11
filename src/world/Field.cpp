@@ -3,7 +3,9 @@
 //
 
 #include "world/Field.h"
+
 #include <roboteam_utils/Print.h>
+
 #include "utilities/Settings.h"
 
 namespace rtt::world {
