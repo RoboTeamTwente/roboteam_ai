@@ -1,5 +1,6 @@
-#include <roboteam_utils/Print.h>
 #include "interface/widgets/SettingsWidget.h"
+
+#include <roboteam_utils/Print.h>
 
 #include "interface/widgets/mainWindow.h"
 #include "utilities/Settings.h"
