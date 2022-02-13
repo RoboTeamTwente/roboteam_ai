@@ -29,7 +29,7 @@ KeeperKickBall::KeeperKickBall() : Play() {
     };
 }
 
-uint8_t KeeperKickBall::score(PlayEvaluator& playEvaluator) noexcept {
+uint8_t KeeperKickBall::score(PlayEvaluator &playEvaluator) noexcept {
     auto world = playEvaluator.getWorld();
     auto field = world->getField().value();
     return control_constants::FUZZY_TRUE;
@@ -86,10 +86,9 @@ Vector2 KeeperKickBall::calculatePassLocation(world::World* world) {
     // If we only have 2 or less robots, return zero pos and score
     if (possibleReceivers.size() <= 1) return Vector2(0.0, 0.0);
 
-    auto keeperIt = std::find_if(possibleReceivers.begin(), possibleReceivers.end(),
-                                 [&](const rtt::ai::stp::world::view::RobotView& receiver) { return receiver->getId() == GameStateManager::getCurrentGameState().keeperId; });
-    Vector2 keeperPos = ball->getPos();  // Default keeperPos to ballPos in case we can't find the keeper based on id (i.e. there is no keeper yet)
-    if (keeperIt != possibleReceivers.end()) {
+    auto keeperIt = std::find_if(possibleReceivers.begin(), possibleReceivers.end(), [&](const rtt::ai::stp::world::view::RobotView& receiver) { return receiver->getId() == GameStateManager::getCurrentGameState().keeperId; });
+    Vector2 keeperPos = ball->getPos(); // Default keeperPos to ballPos in case we can't find the keeper based on id (i.e. there is no keeper yet)
+    if (keeperIt != possibleReceivers.end()){
         keeperPos = (*keeperIt)->getPos();
         // Remove keeper from possible receivers
         possibleReceivers.erase(keeperIt);
@@ -121,6 +120,6 @@ bool KeeperKickBall::shouldEndPlay() noexcept {
     }
     return false;
 }
-const char* KeeperKickBall::getName() { return "Keeper Kick Ball"; }
+const char *KeeperKickBall::getName() { return "Keeper Kick Ball"; }
 
 }  // namespace rtt::ai::stp::play

@@ -77,8 +77,7 @@ class Dealer {
      * @param stpInfoMap
      * @return a vector with the roleName and the Robot that should get the role
      */
-    std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> robots, FlagMap role_to_flags,
-                                                             const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
+    std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> robots, FlagMap role_to_flags, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
    protected:
     // This function is virtual such that it can be mocked in the tests.
@@ -124,8 +123,7 @@ class Dealer {
      * @param stpInfoMap
      * @return The score matrix
      */
-    std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
-                                                    const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
+    std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
     /**
      * Translates a priority into a double
@@ -190,7 +188,7 @@ class Dealer {
      * @param row_to_role Mapping from cost matrix row to role
      * @param col_to_robot Mapping from cost matrix column to robot
      */
-    void printCostMatrix(const std::vector<std::vector<double>> &cost_matrix, const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
+    void printCostMatrix(const std::vector<std::vector<double>> &cost_matrix,  const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
                          const FlagMap &role_to_flags, const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot);
 
     /**

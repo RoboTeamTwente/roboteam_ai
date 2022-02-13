@@ -35,20 +35,20 @@ void setDarkTheme() {
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        RTT_ERROR("Incorrect amount of arguments")
-        RTT_INFO("Pass '0' as argument to indicate this is the primary AI, or anything else for a secondary AI")
+        std::cout << "ERROR: Incorrect amount of arguments " << std::endl;
+        std::cout << "Pass '0' as argument to indicate this is the primary AI, or anything else for a secondary AI" << std::endl;
         return 0;
     }
 
-    RTT_INFO("\n",
-             "                                           \n"
-             "  ██████╗ ████████╗████████╗     █████╗ ██╗\n"
-             "  ██╔══██╗╚══██╔══╝╚══██╔══╝    ██╔══██╗██║\n"
-             "  ██████╔╝   ██║      ██║       ███████║██║\n"
-             "  ██╔══██╗   ██║      ██║       ██╔══██║██║\n"
-             "  ██║  ██║   ██║      ██║       ██║  ██║██║\n"
-             "  ╚═╝  ╚═╝   ╚═╝      ╚═╝       ╚═╝  ╚═╝╚═╝\n"
-             "                                           ")
+    std::cout << "                                           \n"
+                 "  ██████╗ ████████╗████████╗     █████╗ ██╗\n"
+                 "  ██╔══██╗╚══██╔══╝╚══██╔══╝    ██╔══██╗██║\n"
+                 "  ██████╔╝   ██║      ██║       ███████║██║\n"
+                 "  ██╔══██╗   ██║      ██║       ██╔══██║██║\n"
+                 "  ██║  ██║   ██║      ██║       ██║  ██║██║\n"
+                 "  ╚═╝  ╚═╝   ╚═╝      ╚═╝       ╚═╝  ╚═╝╚═╝\n"
+                 "                                         "
+              << std::endl;
 
     RTT_DEBUG("Debug prints enabled")
 

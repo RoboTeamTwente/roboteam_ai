@@ -3,13 +3,11 @@
 //
 #include "manual/JoystickHandler.h"
 
-#include <roboteam_utils/Print.h>
-
 namespace rtt {
 namespace input {
 
 JoystickHandler::JoystickHandler() {
-    RTT_INFO("Created new JoystickHandler")
+    std::cout << "[JoystickHandler] New JoystickHandler" << std::endl;
     id_switched_timestamp = std::chrono::steady_clock::now();
     command.set_chip_kick_forced(true);
 }
@@ -57,18 +55,18 @@ void JoystickHandler::changeRobotID() {
                 joystickState.dpadLeft = false;
                 robotId--;
                 dribbler_vel = 0;
-                RTT_INFO("Joystick changed robot ID to: ", robotId)
+                std::cout << "[JoystickHandler][changeRobotId] Switched to robot " << robotId << std::endl;
             } else
-                RTT_INFO("Joystick cannot change robot ID lower than: ", robotId)
+                std::cout << "[JoystickHandler][changeRobotId] No robots with lower ID available" << std::endl;
         }
         if (joystickState.dpadRight) {
             if (robotId < 16) {
                 joystickState.dpadRight = false;
                 robotId++;
                 dribbler_vel = 0;
-                RTT_INFO("Joystick changed robot ID to: ", robotId)
+                std::cout << "[JoystickHandler][changeRobotId] Switched to robot " << robotId << std::endl;
             } else
-                RTT_INFO("Joystick cannot change robot ID higher than: ", robotId)
+                std::cout << "[JoystickHandler][changeRobotId] No robots with higher ID available" << std::endl;
         }
 
         command.set_id(robotId);

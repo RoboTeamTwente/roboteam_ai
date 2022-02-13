@@ -86,6 +86,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afc19199ebefe884a5c2ada36c3015c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42597771a0253e9baecf3c24a0c11eb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a42597771a0253e9baecf3c24a0c11eb6">onSettingsOfPrimaryAI</a> (const proto::Setting &amp;settings)</td></tr>
 <tr class="separator:a42597771a0253e9baecf3c24a0c11eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3fa392d45cfe9720951f25e6f60f0c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#ae3fa392d45cfe9720951f25e6f60f0c4">sendSimulationConfiguration</a> (const proto::SimulationConfiguration &amp;configuration)</td></tr>
+<tr class="separator:ae3fa392d45cfe9720951f25e6f60f0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace78a184eddf90ac0b390bc031c10da0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#ace78a184eddf90ac0b390bc031c10da0">init</a> (bool isPrimaryAI)</td></tr>
 <tr class="separator:ace78a184eddf90ac0b390bc031c10da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a60af9ed7afea21381003f92e05c89e"><td class="memItemLeft" align="right" valign="top">proto::State&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a7a60af9ed7afea21381003f92e05c89e">getState</a> ()</td></tr>
@@ -112,6 +114,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a6f5a374a4afc6e8064d430933990039a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5968054795bded97f41bbfcd41c95ae"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; rtt::net::WorldSubscriber &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#ad5968054795bded97f41bbfcd41c95ae">worldSubscriber</a></td></tr>
 <tr class="separator:ad5968054795bded97f41bbfcd41c95ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7821157d7818be91d6527b55a15d6797"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; rtt::net::SimulationConfigurationPublisher &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a7821157d7818be91d6527b55a15d6797">simulationConfigurationPublisher</a></td></tr>
+<tr class="separator:a7821157d7818be91d6527b55a15d6797"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bf5a4699ab935a3fb7af4185cdaeb18"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; rtt::net::RobotCommandsBluePublisher &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a6bf5a4699ab935a3fb7af4185cdaeb18">robotCommandsBluePublisher</a></td></tr>
 <tr class="separator:a6bf5a4699ab935a3fb7af4185cdaeb18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5af3d63f79ed376e7ed842bff1efe6e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; rtt::net::RobotCommandsYellowPublisher &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#af5af3d63f79ed376e7ed842bff1efe6e">robotCommandsYellowPublisher</a></td></tr>
@@ -295,6 +299,24 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ae3fa392d45cfe9720951f25e6f60f0c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3fa392d45cfe9720951f25e6f60f0c4">&#9670;&nbsp;</a></span>sendSimulationConfiguration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::io::IOManager::sendSimulationConfiguration </td>
+          <td>(</td>
+          <td class="paramtype">const proto::SimulationConfiguration &amp;&#160;</td>
+          <td class="paramname"><em>configuration</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="a4e6ec2ee7675a119c7db912b1452a15b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e6ec2ee7675a119c7db912b1452a15b">&#9670;&nbsp;</a></span>pause</h2>
@@ -395,6 +417,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt;rtt::net::SettingsSubscriber&gt; rtt::ai::io::IOManager::settingsSubscriber</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7821157d7818be91d6527b55a15d6797"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7821157d7818be91d6527b55a15d6797">&#9670;&nbsp;</a></span>simulationConfigurationPublisher</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;rtt::net::SimulationConfigurationPublisher&gt; rtt::ai::io::IOManager::simulationConfigurationPublisher</td>
         </tr>
       </table>
   </td>

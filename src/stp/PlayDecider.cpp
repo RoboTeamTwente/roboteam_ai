@@ -21,7 +21,7 @@ Play *PlayDecider::decideBestPlay(const std::vector<Play *> &plays, PlayEvaluato
     }
 
     std::sort(playsWithScores.begin(), playsWithScores.end(), [](auto &a, auto &b) {
-        RTT_INFO(a.first, ": ", a.second)
+        std::cout << a.first << ": " << a.second << std::endl;
         return a.second > b.second;
     });
     return playsWithScores.begin()->first;
