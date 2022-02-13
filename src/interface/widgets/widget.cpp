@@ -107,7 +107,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
     /* Ball dragging using middle mouse button. Hold it to drag the ball */
-    if (middle_mouse_pressed and not SETTINGS.isSerialMode()) {
+    if (middle_mouse_pressed and SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR) {
         QPoint qt_mouse_position = mapFromGlobal(QCursor::pos());              // Get mouse position on the widget
         Vector2 mouse_position(qt_mouse_position.x(), qt_mouse_position.y());  // Convert Qt to Vector2
         Vector2 field_position = toFieldPosition(mouse_position);              // Convert position on widget to position on field
@@ -116,7 +116,6 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         proto::SimulationConfiguration configuration;                    // Create packet
         configuration.mutable_ball_location()->set_x(field_position.x);  // Set x
         configuration.mutable_ball_location()->set_y(field_position.y);  // Set y
-
         io::io.sendSimulationConfiguration(configuration);  // Send packet
     }
 }

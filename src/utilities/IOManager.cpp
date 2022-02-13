@@ -17,7 +17,7 @@ bool IOManager::init(bool isPrimaryAI) {
 
     auto worldCallback = std::bind(&IOManager::handleState, this, std::placeholders::_1);
     this->worldSubscriber = std::make_unique<rtt::net::WorldSubscriber>(worldCallback);
-    simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
+    this->simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
 
     if (isPrimaryAI) {
         try {
@@ -150,6 +150,8 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
     return obtainedChannel;
 }
 
-void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) { simulationConfigurationPublisher->publish(configuration); }
+void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) {
+    this->simulationConfigurationPublisher->publish(configuration);
+}
 
 }  // namespace rtt::ai::io
