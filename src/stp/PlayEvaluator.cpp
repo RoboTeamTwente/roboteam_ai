@@ -27,12 +27,12 @@
 #include <stp/evaluations/global/BallCloseToUsGlobalEvaluation.h>
 #include <stp/evaluations/global/BallClosestToUsGlobalEvaluation.h>
 #include <stp/evaluations/global/BallGotShotGlobalEvaluation.h>
+#include <stp/evaluations/global/BallInOurDefenseAreaAndStillGlobalEvaluation.h>
 #include <stp/evaluations/global/BallIsFreeGlobalEvaluation.h>
 #include <stp/evaluations/global/BallMovesSlowGlobalEvaluation.h>
+#include <stp/evaluations/global/BallNotInOurDefenseAreaAndStillGlobalEvaluation.h>
 #include <stp/evaluations/global/BallOnOurSideGlobalEvaluation.h>
 #include <stp/evaluations/global/BallOnTheirSideGlobalEvaluation.h>
-#include <stp/evaluations/global/BallInOurDefenseAreaAndStillGlobalEvaluation.h>
-#include <stp/evaluations/global/BallNotInOurDefenseAreaAndStillGlobalEvaluation.h>
 #include <stp/evaluations/global/DistanceFromBallGlobalEvaluation.h>
 #include <stp/evaluations/global/FreedomOfRobotsGlobalEvaluation.h>
 #include <stp/evaluations/global/GoalVisionFromBallGlobalEvaluation.h>
