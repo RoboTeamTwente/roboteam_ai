@@ -13,6 +13,7 @@
 #include <stp/evaluations/game_states/KickOffThemGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffThemPrepareGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffUsGameStateEvaluation.h>
+#include <stp/evaluations/game_states/KickOffUsOrNormalGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffUsPrepareGameStateEvaluation.h>
 #include <stp/evaluations/game_states/NormalOrFreeKickUsGameStateEvaluation.h>
 #include <stp/evaluations/game_states/NormalPlayGameStateEvaluation.h>
@@ -26,8 +27,10 @@
 #include <stp/evaluations/global/BallCloseToUsGlobalEvaluation.h>
 #include <stp/evaluations/global/BallClosestToUsGlobalEvaluation.h>
 #include <stp/evaluations/global/BallGotShotGlobalEvaluation.h>
+#include <stp/evaluations/global/BallInOurDefenseAreaAndStillGlobalEvaluation.h>
 #include <stp/evaluations/global/BallIsFreeGlobalEvaluation.h>
 #include <stp/evaluations/global/BallMovesSlowGlobalEvaluation.h>
+#include <stp/evaluations/global/BallNotInOurDefenseAreaAndStillGlobalEvaluation.h>
 #include <stp/evaluations/global/BallOnOurSideGlobalEvaluation.h>
 #include <stp/evaluations/global/BallOnTheirSideGlobalEvaluation.h>
 #include <stp/evaluations/global/DistanceFromBallGlobalEvaluation.h>
@@ -66,6 +69,8 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
             return evaluation::KickOffThemPrepareGameStateEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::KickOffUsGameState:
             return evaluation::KickOffUsGameStateEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::KickOffUsOrNormalGameState:
+            return evaluation::KickOffUsOrNormalGameStateEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::KickOffUsPrepareGameState:
             return evaluation::KickOffUsPrepareGameStateEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::NormalOrFreeKickUsGameState:
@@ -98,6 +103,10 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
             return evaluation::BallOnOurSideGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::BallOnTheirSide:
             return evaluation::BallOnTheirSideGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::BallInOurDefenseAreaAndStill:
+            return evaluation::BallInOurDefenseAreaAndStillGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::BallNotInOurDefenseAreaAndStill:
+            return evaluation::BallNotInOurDefenseAreaAndStillGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::DistanceFromBall:
             return evaluation::DistanceFromBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::FreedomOfRobots:

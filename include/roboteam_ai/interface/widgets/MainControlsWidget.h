@@ -30,7 +30,7 @@ class MainControlsWidget : public QWidget {
     QPushButton *pauseBtn;
     QPushButton *toggleColorBtn;
     QPushButton *toggleSideBtn;
-    QPushButton *toggleSerialBtn;
+    QPushButton *toggleRobotHubModeBtn;
     QShortcut *spaceClick;
 
     QComboBox *select_play;
@@ -41,12 +41,12 @@ class MainControlsWidget : public QWidget {
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
-    void setToggleSerialBtnLayout() const;
+    void setToggleRobotHubModeBtnLayout() const;
 
    public slots:
     void toggleOurColorParam();
     void toggleOurSideParam();
-    void toggleSerialParam();
+    void toggleRobotHubModeParam();
     void sendPauseSignal();
     void updatePause();
     void setUseReferee(bool useRef);
