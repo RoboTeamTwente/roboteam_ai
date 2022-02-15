@@ -9,6 +9,8 @@
 namespace rtt::ai::stp::evaluation {
 
 uint8_t KickOffUsOrNormalGameStateEvaluation::metricCheck(const world::World *, const world::Field *) const noexcept {
-    return (GameStateManager::getCurrentGameState().getStrategyName() == "kickoff_us" || GameStateManager::getCurrentGameState().getStrategyName() == "normal_play") ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
+    return (GameStateManager::getCurrentGameState().getStrategyName() == "kickoff_us" || GameStateManager::getCurrentGameState().getStrategyName() == "normal_play")
+               ? stp::control_constants::FUZZY_TRUE
+               : stp::control_constants::FUZZY_FALSE;
 }
 }  // namespace rtt::ai::stp::evaluation

@@ -1,12 +1,14 @@
 #ifndef ROBOTEAM_AI_IO_MANAGERRRR_H
 #define ROBOTEAM_AI_IO_MANAGERRRR_H
 
+#include <proto/SimulationConfiguration.pb.h>
 #include <utilities/Constants.h>
 #include <utilities/Settings.h>
 #include <world/Field.h>
 
 #include <RobotCommandsNetworker.hpp>
 #include <SettingsNetworker.hpp>
+#include <SimulationConfigurationNetworker.hpp>
 #include <WorldNetworker.hpp>
 #include <iostream>
 #include <mutex>
@@ -25,6 +27,7 @@ class IOManager {
    private:
     proto::State state;
     std::unique_ptr<rtt::net::WorldSubscriber> worldSubscriber;
+    std::unique_ptr<rtt::net::SimulationConfigurationPublisher> simulationConfigurationPublisher;
     void handleState(const proto::State &state);
 
     std::unique_ptr<rtt::net::RobotCommandsBluePublisher> robotCommandsBluePublisher;
@@ -42,6 +45,7 @@ class IOManager {
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
     void publishSettings(const Settings &settings);
     void onSettingsOfPrimaryAI(const proto::Setting &settings);
+    void sendSimulationConfiguration(const proto::SimulationConfiguration& configuration);
 
     bool init(bool isPrimaryAI);
     proto::State getState();
