@@ -45,6 +45,7 @@ target_link_libraries(roboteam_ai_utils
 target_include_directories(roboteam_ai_utils
         PRIVATE include/roboteam_ai
 )
+target_compile_options(roboteam_ai_utils PRIVATE "${COMPILER_FLAGS}")
 
 ###### MANUAL #######
 add_library(roboteam_ai_manual
@@ -60,6 +61,7 @@ target_link_libraries(roboteam_ai_manual
         PRIVATE SDL2
         PRIVATE Qt5::Widgets
 )
+target_compile_options(roboteam_ai_manual PRIVATE "${COMPILER_FLAGS}")
 
 ###### SKILLS #######
 add_library(roboteam_ai_skills
@@ -80,6 +82,7 @@ target_link_libraries(roboteam_ai_skills
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
 )
+target_compile_options(roboteam_ai_skills PRIVATE "${COMPILER_FLAGS}")
 
 ###### TACTICS #######
 add_library(roboteam_ai_tactics
@@ -114,6 +117,7 @@ target_link_libraries(roboteam_ai_tactics
         PRIVATE roboteam_networking
         PRIVATE Qt5::Widgets
 )
+target_compile_options(roboteam_ai_tactics PRIVATE "${COMPILER_FLAGS}")
 
 ###### ROLES #######
 add_library(roboteam_ai_roles
@@ -145,6 +149,7 @@ target_link_libraries(roboteam_ai_roles
         PRIVATE roboteam_networking
         PRIVATE Qt5::Widgets
 )
+target_compile_options(roboteam_ai_roles PRIVATE "${COMPILER_FLAGS}")
 
 ###### PLAYS #######
 add_library(roboteam_ai_plays
@@ -155,7 +160,6 @@ add_library(roboteam_ai_plays
         # /
         ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/ControlSelectedRobot.cpp
         # contested/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
@@ -195,6 +199,7 @@ target_link_libraries(roboteam_ai_plays
         PRIVATE SDL2
         PRIVATE NFParam
 )
+target_compile_options(roboteam_ai_plays PRIVATE "${COMPILER_FLAGS}")
 
 ###### EVALUATION #######
 add_library(roboteam_ai_evaluation
@@ -252,6 +257,7 @@ target_link_libraries(roboteam_ai_evaluation
         PRIVATE Qt5::Widgets
         PRIVATE NFParam
 )
+target_compile_options(roboteam_ai_evaluation PRIVATE "${COMPILER_FLAGS}")
 
 ###### COMPUTATION #######
 add_library(roboteam_ai_computation
@@ -269,6 +275,7 @@ target_link_libraries(roboteam_ai_computation
         PRIVATE roboteam_networking
         PRIVATE NFParam
 )
+target_compile_options(roboteam_ai_computation PRIVATE "${COMPILER_FLAGS}")
 
 ###### CONTROL #######
 add_library(roboteam_ai_control
@@ -302,6 +309,7 @@ target_link_libraries(roboteam_ai_control
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
 )
+target_compile_options(roboteam_ai_control PRIVATE "${COMPILER_FLAGS}")
 
 ###### INTERFACE *HEADERS* #######
 set(INTERFACE_HEADERS
@@ -350,6 +358,7 @@ target_link_libraries(roboteam_ai_interface
         PRIVATE roboteam_utils
         PRIVATE SDL2
 )
+target_compile_options(roboteam_ai_interface PRIVATE "${COMPILER_FLAGS}")
 
 ###### WORLD #######
 add_library(roboteam_ai_world
@@ -371,6 +380,7 @@ target_link_libraries(roboteam_ai_world
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
 )
+target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 
 ###### MAIN #######
 add_executable(roboteam_ai
@@ -399,6 +409,7 @@ target_link_libraries(roboteam_ai
         PRIVATE roboteam_ai_evaluation
         PRIVATE roboteam_ai_skills
 )
+target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
 
 # ###### TEST #######
 # add_executable(roboteam_ai_test
