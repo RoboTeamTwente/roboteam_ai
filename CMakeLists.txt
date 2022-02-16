@@ -405,6 +405,7 @@ target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
  ###### TEST #######
  add_executable(roboteam_ai_test
          ${PROJECT_SOURCE_DIR}/test/main.cpp
+         ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
          ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
          ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
          ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
@@ -414,7 +415,6 @@ target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
          ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
          ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
          ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
-         ${PROJECT_SOURCE_DIR}/test/WorldTests/HistorySizeTest.cpp
          ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryRetrievalTest.cpp
          ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
          ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
@@ -449,3 +449,6 @@ target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
          PRIVATE roboteam_ai_skills
  )
 
+target_compile_options(roboteam_ai_test PRIVATE "${COMPILER_FLAGS}")
+
+gtest_discover_tests(roboteam_ai_test)

@@ -1,6 +1,6 @@
 #include "WorldHelper.h"
 
-#include <roboteam_ai/utilities/Constants.h>
+#include <utilities/Constants.h>
 
 #include <random>
 
@@ -51,7 +51,7 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 
     std::vector<std::pair<int, rtt::Vector2>> robotPositions;
     for (unsigned int i = 0; i < robots.size(); i++) {
-        robotPositions.emplace_back(std::make_pair(i, robots.at((unsigned long)i).pos()));
+        robotPositions.emplace_back(std::make_pair(i, rtt::Vector2(robots.at((unsigned long)i).pos().x(), robots.at((unsigned long)i).pos().y())));
     }
 
     // for each position, check all other positions and see if the distance is large enough.
@@ -64,7 +64,7 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
         }
 
         if (withBall) {
-            if (pos.second.dist(worldMsg.ball().pos()) < rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()) {
+            if (pos.second.dist(rtt::Vector2(worldMsg.ball().pos().x(), worldMsg.ball().pos().y())) < rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()) {
                 return false;
             }
         }
@@ -117,7 +117,7 @@ proto::WorldBall *WorldHelper::generateRandomBall(proto::SSL_GeometryFieldSize f
 rtt::Vector2 WorldHelper::getLocationRightBeforeRobot(proto::WorldRobot robot) {
     rtt::Vector2 angleVector = rtt::Vector2(cos(robot.angle()), sin(robot.angle()));
     angleVector = angleVector.stretchToLength(rtt::ai::Constants::ROBOT_RADIUS());
-    rtt::Vector2 robotPos = rtt::Vector2(robot.pos());
+    rtt::Vector2 robotPos = rtt::Vector2(robot.pos().x(), robot.pos().y());
     return robotPos + angleVector;
 }
 
