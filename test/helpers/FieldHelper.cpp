@@ -34,12 +34,12 @@ void FieldHelper::addDefenseAreas(proto::SSL_GeometryFieldSize &field, double de
     auto left_penalty_line_begin = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, -defenseAreaWidth / 2);
     auto left_penalty_line_end = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, defenseAreaWidth / 2);
 
-    addLine(field, top_right_penalty_stretch_begin, top_right_penalty_stretch_end, proto::RightFieldRightPenaltyStretch);
-    addLine(field, bottom_right_penalty_stretch_begin, bottom_right_penalty_stretch_end, proto::RightFieldLeftPenaltyStretch);
-    addLine(field, top_left_penalty_stretch_begin, top_left_penalty_stretch_end, proto::LeftFieldLeftPenaltyStretch);
-    addLine(field, bottom_left_penalty_stretch_begin, bottom_left_penalty_stretch_end, proto::LeftFieldRightPenaltyStretch);
-    addLine(field, left_penalty_line_begin, left_penalty_line_end, proto::LeftPenaltyStretch);
-    addLine(field, right_penalty_line_begin, right_penalty_line_end, proto::RightPenaltyStretch);
+    addLine(field, top_right_penalty_stretch_begin, top_right_penalty_stretch_end, "RightFieldRightPenaltyStretch");
+    addLine(field, bottom_right_penalty_stretch_begin, bottom_right_penalty_stretch_end, "RightFieldLeftPenaltyStretch");
+    addLine(field, top_left_penalty_stretch_begin, top_left_penalty_stretch_end, "LeftFieldLeftPenaltyStretch");
+    addLine(field, bottom_left_penalty_stretch_begin, bottom_left_penalty_stretch_end, "LeftFieldRightPenaltyStretch");
+    addLine(field, left_penalty_line_begin, left_penalty_line_end, "LeftPenaltyStretch");
+    addLine(field, right_penalty_line_begin, right_penalty_line_end, "RightPenaltyStretch");
 }
 
 void FieldHelper::addCenterArc(proto::SSL_GeometryFieldSize &field, double radius) {
@@ -59,8 +59,8 @@ void FieldHelper::addLine(proto::SSL_GeometryFieldSize &field, Vector2 begin, Ve
     line.mutable_p1()->set_y(begin.y);
     line.mutable_p2()->set_x(end.x);
     line.mutable_p2()->set_y(end.y);
-    line.set_type(type);
     line.set_thickness(0.01);  // Default thickness
+    line.set_name(name);
     field.add_field_lines()->CopyFrom(line);
 }
 
