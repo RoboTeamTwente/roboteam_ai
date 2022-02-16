@@ -15,6 +15,7 @@ proto::SSL_GeometryFieldSize FieldHelper::generateField(double field_length, dou
     field.set_field_width(field_width);
     field.set_goal_width(goal_width);
 
+    addFieldLines(field);
     addDefenseAreas(field, defense_area_width, defense_area_length);
     addCenterArc(field, center_circle_radius);
     return field;
@@ -52,7 +53,30 @@ void FieldHelper::addCenterArc(proto::SSL_GeometryFieldSize &field, double radiu
     center_circle.set_type(proto::CenterCircle);
     field.add_field_arcs()->CopyFrom(center_circle);
 }
-void FieldHelper::addLine(proto::SSL_GeometryFieldSize &field, Vector2 begin, Vector2 end, proto::SSL_FieldShapeType type) {
+
+void FieldHelper::addFieldLines(proto::SSL_GeometryFieldSize &field) {
+    auto left_line_start = rtt::Vector2(-field.field_length() / 2.0, -field.field_width() / 2.0);
+    auto left_line_end = rtt::Vector2(-field.field_length() / 2.0, field.field_width() / 2.0);
+    auto right_line_start = rtt::Vector2(field.field_length() / 2.0, -field.field_width() / 2.0);
+    auto right_line_end = rtt::Vector2(field.field_length() / 2.0, field.field_width() / 2.0);
+    auto bottom_line_start = rtt::Vector2(-field.field_length() / 2.0, -field.field_width() / 2.0);
+    auto bottom_line_end = rtt::Vector2(field.field_length() / 2.0, -field.field_width() / 2.0);
+    auto top_line_start = rtt::Vector2(-field.field_length() / 2.0, field.field_width() / 2.0);
+    auto top_line_end = rtt::Vector2(field.field_length() / 2.0, field.field_width() / 2.0);
+    auto half_line_start = rtt::Vector2(0, -field.field_width() / 2.0);
+    auto half_line_end = rtt::Vector2(0, field.field_width() / 2.0);
+    auto center_line_start = rtt::Vector2(-field.field_length() / 2.0, 0);
+    auto center_line_end = rtt::Vector2(field.field_length() / 2.0, 0);
+
+    addLine(field, left_line_start, left_line_end, "LeftGoalLine");
+    addLine(field, right_line_start, right_line_end, "RightGoalLine");
+    addLine(field, bottom_line_start, bottom_line_end, "BottomTouchLine");
+    addLine(field, top_line_start, top_line_end, "TopTouchLine");
+    addLine(field, half_line_start, half_line_end, "HalfwayLine");
+    addLine(field, center_line_start, center_line_end, "CenterLine");
+}
+
+void FieldHelper::addLine(proto::SSL_GeometryFieldSize &field, Vector2 begin, Vector2 end, std::string name) {
     proto::SSL_FieldLineSegment line;
 
     line.mutable_p1()->set_x(begin.x);
