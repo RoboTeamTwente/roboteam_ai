@@ -443,3 +443,48 @@ target_link_libraries(roboteam_ai
 #         PRIVATE roboteam_ai_evaluation
 #         PRIVATE roboteam_ai_skills
 # )
+
+add_library(testHelpers
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp)
+
+target_include_directories(testHelpers
+        PRIVATE include/roboteam_ai)
+
+target_link_libraries(testHelpers
+        PRIVATE roboteam_utils
+        PRIVATE roboteam_networking
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_ai_utils
+        )
+
+add_executable(positionScoringTest
+        ${PROJECT_SOURCE_DIR}/test/GetPositionTests/PositionScoringTest.cpp
+        )
+
+target_include_directories(positionScoringTest
+        PRIVATE test
+        PRIVATE include/roboteam_ai
+        )
+
+target_link_libraries(positionScoringTest
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_networking
+        PRIVATE SDL2
+        PRIVATE roboteam_ai_plays
+        PRIVATE roboteam_utils
+        PRIVATE roboteam_ai_roles
+        PRIVATE Qt5::Charts
+        PRIVATE roboteam_ai_manual
+        PRIVATE roboteam_ai_utils
+        PRIVATE roboteam_ai_computation
+        PRIVATE roboteam_ai_tactics
+        PRIVATE roboteam_ai_evaluation
+        PRIVATE roboteam_ai_skills
+        PRIVATE testHelpers
+        PRIVATE roboteam_ai_world
+        PRIVATE roboteam_ai_control
+        PRIVATE roboteam_ai_interface
+        )
