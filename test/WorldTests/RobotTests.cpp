@@ -3,7 +3,7 @@
 //
 #include <gtest/gtest.h>
 
-#include "include/roboteam_ai/world/Robot.hpp"
+#include "world/Robot.hpp"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::world::robot {
