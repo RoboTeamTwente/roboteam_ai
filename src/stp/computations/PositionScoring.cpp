@@ -50,7 +50,8 @@ double PositionScoring::determineOpenScore(Vector2 &point, const rtt::world::Wor
     for (auto &enemyRobot : them) {
         enemyDistances.push_back(point.dist(enemyRobot->getPos()));
     }
-    return (scores.scoreOpen = stp::evaluation::OpennessEvaluation::metricCheck(enemyDistances)).value();
+    auto radius = world->getField()->getFieldLength()/4.0;
+    return (scores.scoreOpen = stp::evaluation::OpennessEvaluation::metricCheck(enemyDistances, radius)).value();
 }
 
 double PositionScoring::determineLineOfSightScore(Vector2 &point, const rtt::world::World *world, gen::PositionScores &scores) {
