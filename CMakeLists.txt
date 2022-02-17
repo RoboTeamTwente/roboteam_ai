@@ -461,7 +461,7 @@ target_link_libraries(testHelpers
         )
 
 add_executable(positionScoringTest
-        ${PROJECT_SOURCE_DIR}/test/GetPositionTests/PositionScoringTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/PositionScoringTests/PositionScoringTest.cpp
         )
 
 target_include_directories(positionScoringTest
