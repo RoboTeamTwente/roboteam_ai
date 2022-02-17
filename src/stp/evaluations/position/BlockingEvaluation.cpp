@@ -12,7 +12,7 @@ uint8_t BlockingEvaluation::metricCheck(double pointDistance, std::vector<double
     double maxAngle = M_PI / 6;  // 30 degrees, max angle considered for blocking
     for (int i = 0; i < enemyAngles.size(); i++) {
         if (enemyDistances[i] > pointDistance && enemyAngles[i] < maxAngle) {
-            evalScore += std::pow((1 / (maxAngle)) * (maxAngle - enemyAngles[i]), 2);
+            evalScore += std::pow((1 / (maxAngle)) * (maxAngle - enemyAngles[i]), 2) / 2;
         }
     }
     return std::clamp(static_cast<int>(evalScore * 255), 0, 255);
