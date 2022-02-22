@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+
+    <!-- <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
+    <!-- <script src="http://cdn.rawgit.com/dcodeIO/protobuf.js/6.11.2/dist/protobuf.min.js"></script> -->
+
+    <!-- <script src="proto/State_pb.js"></script> -->
+    <!-- <script src="proto2/state.js"></script> -->
+
+  </head>
+  <body style="background: black">
+    <script>
+      let l = console.log
+
+      
+      let app = new PIXI.Application({ width: 1200, height: 900 });
+      document.body.appendChild(app.view);
+
+
+      // https://pixijs.io/guides/basics/graphics.html
+      const graphics = new PIXI.Graphics();
+
+      var yellow = []
+      for(let id = 0; id < 16; id++){
+        robot = new PIXI.Graphics()
+        robot.beginFill(0xFFAA00);
+        robot.arc(0, 0, 15, 0.86707957, -0.86707957)
+        robot.endFill()
+        app.stage.addChild(robot)
+        yellow.push(robot)
+      }
+
+      ball = new PIXI.Graphics();
+      ball.beginFill(0xFF6600)
+      ball.drawCircle(0, 0, 2)
+      ball.endFill()
+      app.stage.addChild(ball)
+
+
+      webSocket = new WebSocket("ws://localhost:12676")
+
+      webSocket.onmessage = function (event) {
+        state = JSON.parse(event.data)
+
+        if("lastSeenWorld" in state){
+          bots = state.commandExtrapolatedWorld.yellow
+          l(state)
+          for(let i = 0; i < bots.length; i++){
+            robot = bots[i]
+            yellow[i].x = 600+robot.pos.x*100
+            yellow[i].y = 450+robot.pos.y*100
+            yellow[i].angle = robot.angle*57
+          }
+          ball.x = 600+state.lastSeenWorld.ball.pos.x*100
+          ball.y = 450+state.lastSeenWorld.ball.pos.y*100
+        }
+      }
+
+      webSocket.onopen = function (event) {
+        l("webSocket opened")
+        webSocket.send("Damn het werkt");
+      };
+      
+    </script>
+  </body>
+</html>

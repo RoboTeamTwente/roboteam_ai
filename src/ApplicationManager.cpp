@@ -2,6 +2,7 @@
 
 #include <roboteam_utils/Timer.h>
 #include <stp/plays/referee_specific/TimeOut.h>
+#include <utilities/WebSocketManager.h>
 #include <utilities/normalize.h>
 
 #include <chrono>
@@ -102,10 +103,15 @@ void ApplicationManager::start() {
                 },
                 fpsUpdateRate);
 
+            stpTimer.limit([&]() {
+                rtt::ai::io::WebSocketManager::instance().broadcastWorld();
+            },30);
+
             // If this is primary AI, broadcast settings every second
             if (SETTINGS.isPrimaryAI()) {
                 stpTimer.limit([&]() { io::io.publishSettings(SETTINGS); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
+
         },
         ai::Constants::STP_TICK_RATE());
 }

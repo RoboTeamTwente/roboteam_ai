@@ -36,11 +36,12 @@ add_library(roboteam_ai_utils
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/normalize.cpp
-)
+        ${PROJECT_SOURCE_DIR}/src/utilities/WebSocketManager.cpp)
 target_link_libraries(roboteam_ai_utils
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
+        PRIVATE ixwebsocket
 )
 target_include_directories(roboteam_ai_utils
         PRIVATE include/roboteam_ai
@@ -395,6 +396,7 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
         PRIVATE SDL2
+        PRIVATE ixwebsocket
         # Watch out! The order of these libraries apparently matters!
         PRIVATE roboteam_ai_interface
         PRIVATE roboteam_ai_plays

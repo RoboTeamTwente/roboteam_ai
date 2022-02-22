@@ -1,4 +1,5 @@
 #include <roboteam_utils/Print.h>
+#include <utilities/WebSocketManager.h>
 
 #include "ApplicationManager.h"
 #include "utilities/IOManager.h"
@@ -51,6 +52,9 @@ int main(int argc, char* argv[]) {
              "                                           ")
 
     RTT_DEBUG("Debug prints enabled")
+
+    // Initialize WebSocketManager
+    rtt::ai::io::WebSocketManager& wsm = rtt::ai::io::WebSocketManager::instance();
 
     rtt::ai::Constants::init();
 
