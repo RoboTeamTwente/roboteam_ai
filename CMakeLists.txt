@@ -272,6 +272,9 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/views/BallView.cpp
         )
 
+set(INTERFACE_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/interface/InterfaceControllerServer.cpp)
+
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
@@ -298,6 +301,7 @@ set(AI_LIBS
         PRIVATE SDL2
         PRIVATE roboteam_networking
         PRIVATE stx
+        PRIVATE interface_utils_lib
         )
 
 set(AI_INCLUDES
