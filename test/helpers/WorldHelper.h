@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_WORLDHELPER_H
 #define ROBOTEAM_AI_WORLDHELPER_H
 
-#include <proto/World.pb.h>
-#include <proto/messages_robocup_ssl_geometry.pb.h>
+#include <roboteam_proto/World.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/Vector2.h>
 
 namespace testhelpers {
