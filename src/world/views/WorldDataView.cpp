@@ -74,7 +74,7 @@ std::optional<RobotView> WorldDataView::getRobotClosestToPoint(const Vector2 &po
     return getRobotClosestToPoint(point, robots);
 }
 
-std::optional<RobotView> WorldDataView::getRobotClosestToBall(Team team) const noexcept { return getRobotClosestToPoint((*getBall())->getExpectedEndPosition(), team); }
+std::optional<RobotView> WorldDataView::getRobotClosestToBall(Team team) const noexcept { return getRobotClosestToPoint((*getBall())->getPos(), team); }
 
 bool WorldDataView::robotHasBall(uint8_t id, bool ourTeam, double maxDist) const noexcept { return ourTeam ? ourRobotHasBall(id, maxDist) : theirRobotHasBall(id, maxDist); }
 

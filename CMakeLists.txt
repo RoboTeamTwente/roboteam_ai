@@ -3,13 +3,21 @@ project(roboteam_ai)
 
 add_subdirectory(src)
 
+
+# AUTOMOC is verified to work with the following:
+# - libprotoc 3.19.4
+# - macOS 12.2.1
+# - qt 5.15.2
+
+# On some operating systems, AUTOMOC might produce errors related to protobuf files.
+# In such a case, header files to be MOC-ed must be manually specified
+set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC OFF)
 set(CMAKE_AUTOUIC OFF)
-set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR OFF) # Find includes in corresponding build directories
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
-    set(CMAKE_AUTOMOC OFF)
     set(GTEST_LIB
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a
@@ -17,7 +25,6 @@ if (APPLE)
             /usr/local/lib/libgmock_main.a
             )
 else (NOT APPLE)
-    set(CMAKE_AUTOMOC ON)
     set(GTEST_LIB
             PUBLIC gtest
             PUBLIC gmock)
