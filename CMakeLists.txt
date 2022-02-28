@@ -3,31 +3,15 @@ project(roboteam_ai)
 
 add_subdirectory(src)
 
-
-# AUTOMOC is verified to work with the following:
-# - libprotoc 3.19.4
-# - macOS 12.2.1
-# - qt 5.15.2
-
-# On some operating systems, AUTOMOC might produce errors related to protobuf files.
-# In such a case, header files to be MOC-ed must be manually specified
-set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC OFF)
 set(CMAKE_AUTOUIC OFF)
-set(CMAKE_INCLUDE_CURRENT_DIR OFF) # Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directories
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
-    set(GTEST_LIB
-            /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a
-            /usr/local/lib/libgmock.a
-            /usr/local/lib/libgmock_main.a
-            )
+    set(CMAKE_AUTOMOC OFF)
 else (NOT APPLE)
-    set(GTEST_LIB
-            PUBLIC gtest
-            PUBLIC gmock)
+    set(CMAKE_AUTOMOC ON)
 endif ()
 
 find_package(Qt5 COMPONENTS Widgets Charts REQUIRED)
@@ -418,47 +402,53 @@ target_link_libraries(roboteam_ai
 )
 target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
 
-# ###### TEST #######
-# add_executable(roboteam_ai_test
-#         ${PROJECT_SOURCE_DIR}/test/main.cpp
-#         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-#         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
-#         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
-#         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
-#         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
-#         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
-#         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
-#         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
-#         ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
-#         ${PROJECT_SOURCE_DIR}/test/WorldTests/HistorySizeTest.cpp
-#         ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryRetrievalTest.cpp
-#         ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
-#         ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
-#         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
-#         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
-#         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
-#         ${PROJECT_SOURCE_DIR}/test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp
-# )
-# target_include_directories(roboteam_ai_test
-#         PRIVATE include/roboteam_ai
-#         PRIVATE test
-# )
-# target_link_libraries(roboteam_ai_test
-#         PRIVATE roboteam_utils
-#         PRIVATE Qt5::Widgets
-#         PRIVATE roboteam_networking
-#         PRIVATE SDL2
-#         # Watch out! The order of these libraries apparently matters!
-#         PRIVATE roboteam_ai_interface
-#         PRIVATE roboteam_ai_plays
-#         PRIVATE roboteam_ai_world
-#         PRIVATE roboteam_ai_control
-#         PRIVATE roboteam_ai_roles
-#         PRIVATE Qt5::Charts
-#         PRIVATE roboteam_ai_manual
-#         PRIVATE roboteam_ai_utils
-#         PRIVATE roboteam_ai_computation
-#         PRIVATE roboteam_ai_tactics
-#         PRIVATE roboteam_ai_evaluation
-#         PRIVATE roboteam_ai_skills
-# )
+ ###### TEST #######
+ add_executable(roboteam_ai_test
+         ${PROJECT_SOURCE_DIR}/test/main.cpp
+         ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
+         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
+         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
+         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
+         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
+         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
+         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
+         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
+         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
+         ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
+         ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryRetrievalTest.cpp
+         ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
+         ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
+         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
+         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
+         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
+         ${PROJECT_SOURCE_DIR}/test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp
+ )
+ target_include_directories(roboteam_ai_test
+         PRIVATE include/roboteam_ai
+         PRIVATE test
+ )
+ target_link_libraries(roboteam_ai_test
+         PRIVATE GTest::gtest
+         PRIVATE GTest::gmock
+         PRIVATE roboteam_utils
+         PRIVATE Qt5::Widgets
+         PRIVATE roboteam_networking
+         PRIVATE SDL2
+         # Watch out! The order of these libraries apparently matters!
+         PRIVATE roboteam_ai_interface
+         PRIVATE roboteam_ai_plays
+         PRIVATE roboteam_ai_world
+         PRIVATE roboteam_ai_control
+         PRIVATE roboteam_ai_roles
+         PRIVATE Qt5::Charts
+         PRIVATE roboteam_ai_manual
+         PRIVATE roboteam_ai_utils
+         PRIVATE roboteam_ai_computation
+         PRIVATE roboteam_ai_tactics
+         PRIVATE roboteam_ai_evaluation
+         PRIVATE roboteam_ai_skills
+ )
+
+target_compile_options(roboteam_ai_test PRIVATE "${COMPILER_FLAGS}")
+
+gtest_discover_tests(roboteam_ai_test)

@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_FIELDHELPER_H
 #define ROBOTEAM_AI_FIELDHELPER_H
 
-#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
+#include <proto/messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/Vector2.h>
 
 #include "world/FieldComputations.h"

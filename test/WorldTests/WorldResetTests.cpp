@@ -4,9 +4,9 @@
 #define RUNNING_TEST
 
 #include <gtest/gtest.h>
-#include <test/helpers/WorldHelper.h>
+#include <helpers/WorldHelper.h>
 
-#include <include/roboteam_ai/world/World.hpp>
+#include <world/World.hpp>
 
 TEST(worldTest, GenericWorldRemoval) {
     namespace w_n = rtt::world;
@@ -24,7 +24,7 @@ TEST(worldTest, GenericWorldRemoval) {
     ASSERT_FALSE(world->getWorld().has_value());
 }
 
-TEST(worldTest, HistorySizeTest) {
+TEST(worldTest, HistorySizeTestSimple) {
     namespace w_n = rtt::world;
     proto::SSL_GeometryFieldSize size{};
     size.set_field_length(250);
