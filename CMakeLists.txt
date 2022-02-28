@@ -444,6 +444,7 @@ target_link_libraries(roboteam_ai
 #         PRIVATE roboteam_ai_skills
 # )
 
+###### TESTHELPERS #######
 add_library(testHelpers
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
@@ -460,6 +461,7 @@ target_link_libraries(testHelpers
         PRIVATE roboteam_ai_utils
         )
 
+###### POSITIONSCORINGTEST #######
 add_executable(positionScoringTest
         ${PROJECT_SOURCE_DIR}/test/PositionScoringTests/PositionScoringTest.cpp
         )
