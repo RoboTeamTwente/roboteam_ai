@@ -460,6 +460,36 @@ target_link_libraries(testHelpers
         PRIVATE roboteam_ai_utils
         )
 
+add_executable(savePositionScores
+        ${PROJECT_SOURCE_DIR}/test/PositionScoringTests/SavePositionScores.cpp
+        )
+
+target_include_directories(savePositionScores
+        PRIVATE test
+        PRIVATE include/roboteam_ai
+        )
+
+target_link_libraries(savePositionScores
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_networking
+        PRIVATE SDL2
+        PRIVATE roboteam_ai_plays
+        PRIVATE roboteam_utils
+        PRIVATE roboteam_ai_roles
+        PRIVATE Qt5::Charts
+        PRIVATE roboteam_ai_manual
+        PRIVATE roboteam_ai_utils
+        PRIVATE roboteam_ai_computation
+        PRIVATE roboteam_ai_tactics
+        PRIVATE roboteam_ai_evaluation
+        PRIVATE roboteam_ai_skills
+        PRIVATE testHelpers
+        PRIVATE roboteam_ai_world
+        PRIVATE roboteam_ai_control
+        PRIVATE roboteam_ai_interface
+        )
+
+###### PositionScoringTest #######
 add_executable(positionScoringTest
         ${PROJECT_SOURCE_DIR}/test/PositionScoringTests/PositionScoringTest.cpp
         )
