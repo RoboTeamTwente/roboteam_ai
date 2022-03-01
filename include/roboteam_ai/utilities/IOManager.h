@@ -39,10 +39,11 @@ class IOManager {
 
     rtt::ai::Pause *pause;
 
-    bool publishRobotCommands(const proto::AICommand &aiCommand, bool forTeamYellow);
+    void addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands);
+    bool publishRobotCommands(const rtt::RobotCommands& robotCommands, bool isForTeamYellow);
 
    public:
-    void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
+    void publishAllRobotCommands(rtt::RobotCommands& robotCommands);
     void publishSettings(const Settings &settings);
     void onSettingsOfPrimaryAI(const proto::Setting &settings);
     void sendSimulationConfiguration(const proto::SimulationConfiguration& configuration);

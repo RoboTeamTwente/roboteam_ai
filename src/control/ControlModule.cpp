@@ -15,42 +15,45 @@
 
 namespace rtt::ai::control {
 
-void ControlModule::rotateRobotCommand(proto::RobotCommand& command) {
-    command.mutable_vel()->set_x(-command.vel().x());
-    command.mutable_vel()->set_y(-command.vel().y());
-    command.set_w(static_cast<float>(Angle(command.w() + M_PI)));
+void ControlModule::rotateRobotCommand(rtt::RobotCommand& command) {
+    command.velocity.x = -command.velocity.x;
+    command.velocity.y = -command.velocity.y;
+    command.targetAngle += M_PI;
 }
 
-void ControlModule::limitRobotCommand(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
+void ControlModule::limitRobotCommand(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
     // This was used to limit the velocity, but this is now done in pathtracking itself
     // limitVel(command, robot);
     limitAngularVel(command, robot);
 }
 
-void ControlModule::limitVel(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
-    auto limitedVel = Vector2(command.vel().x(), command.vel().y());
+void ControlModule::limitVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
 
-    limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
+    Vector2 limitedVelocity = command.velocity;
 
-    if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
+    limitedVelocity = control::ControlUtils::velocityLimiter(limitedVelocity);
+
+    // TODO: Is this check really necessary? There is no stuff like division used...
+    if (std::isnan(limitedVelocity.x) || std::isnan(limitedVelocity.y)) {
         RTT_ERROR("A certain Skill has produced a NaN error. \nRobot: " + std::to_string(robot.value()->getId()))
     }
 
     // Limit robot velocity when the robot has the ball
-    if (robot->hasBall() && limitedVel.length() > stp::control_constants::MAX_VEL_WHEN_HAS_BALL) {
+    if (robot->hasBall() && limitedVelocity.length() > stp::control_constants::MAX_VEL_WHEN_HAS_BALL) {
         // Clamp velocity
-        limitedVel = control::ControlUtils::velocityLimiter(limitedVel, stp::control_constants::MAX_VEL_WHEN_HAS_BALL, 0.0, false);
+        limitedVelocity = control::ControlUtils::velocityLimiter(limitedVelocity, stp::control_constants::MAX_VEL_WHEN_HAS_BALL, 0.0, false);
     }
 
-    command.mutable_vel()->set_x(static_cast<float>(limitedVel.x));
-    command.mutable_vel()->set_y(static_cast<float>(limitedVel.y));
+    command.velocity = limitedVelocity;
 }
 
-void ControlModule::limitAngularVel(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
+void ControlModule::limitAngularVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
     // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
     // Might want to limit on the robot itself
-    if (robot->hasBall() && command.use_angle()) {
-        auto targetAngle = command.w();
+    if (robot->hasBall() && !command.useAngularVelocity) {
+
+        auto targetAngle = command.targetAngle;
+        // TODO: Why use optional robotView if we never check for the case where it does not contain one?
         auto robotAngle = robot.value()->getAngle();
 
         if (!SETTINGS.isLeft()) {
@@ -62,16 +65,17 @@ void ControlModule::limitAngularVel(proto::RobotCommand& command, std::optional<
             // Direction of rotation is the shortest distance
             int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
             // Set the angle command to the current robot angle + the angle rate
-            command.set_w(static_cast<float>(robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE)));
+            command.targetAngle = robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE);
         }
     }
+    // TODO: Well, then also limit the target angular velocity just like target angle!
 }
 
-void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World* data) noexcept {
-    proto::RobotCommand robot_command = command;
+void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const rtt::RobotCommand& command, const rtt::world::World* data) noexcept {
+    rtt::RobotCommand robot_command = command; // TODO: Why make a copy of the command? It will be copied anyway when we put it in the vector
 
     if (robot && robot->get()) {
-        Angle target(robot_command.w());
+        Angle target = command.targetAngle;
         interface::Input::drawData(interface::Visual::PATHFINDING, {robot->get()->getPos(), robot->get()->getPos() + Vector2(target)}, Qt::red, robot->get()->getId(),
                                    interface::Drawing::LINES_CONNECTED);
     }
@@ -90,19 +94,19 @@ void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView>
     // Only add commands with a robotID that is not in the vector yet
     // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
     std::lock_guard<std::mutex> guard(robotCommandsMutex);
-    if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
+    if (robot_command.id >= 0 && robot_command.id < 16) {
         robotCommands.emplace_back(robot_command);
     }
 }
 
-void ControlModule::simulator_angular_control(const std::optional<::rtt::world::view::RobotView>& robot, proto::RobotCommand& robot_command) {
+void ControlModule::simulator_angular_control(const std::optional<::rtt::world::view::RobotView>& robot, rtt::RobotCommand& robot_command) {
     double ang_velocity_out = 0.0;  // in case there is no robot visible, we just adjust the command to not have any angular velocity
     if (robot) {
         Angle current_angle = robot->get()->getAngle();
         if (!SETTINGS.isLeft()) {
             current_angle += M_PI;
         }
-        Angle target_angle(robot_command.w());
+        Angle target_angle(robot_command.targetAngle);
         // get relevant PID controller
         if (simulatorAnglePIDmap.contains(robot->get()->getId())) {
             ang_velocity_out = simulatorAnglePIDmap.at(robot->get()->getId()).getOutput(target_angle, current_angle);
@@ -120,13 +124,13 @@ void ControlModule::simulator_angular_control(const std::optional<::rtt::world::
             simulatorAnglePIDmap.insert({robot->get()->getId(), pid});
         }
     }
-    robot_command.set_use_angle(false);
+    robot_command.useAngularVelocity = true;
     ang_velocity_out = std::clamp(ang_velocity_out, -8.0 * M_PI, 8.0 * M_PI);
-    robot_command.set_w(static_cast<float>(ang_velocity_out));
+    robot_command.targetAngularVelocity = static_cast<float>(ang_velocity_out);
 }
 
 void ControlModule::sendAllCommands() {
-    // TODO: check for double commands
+    // TODO: check for double commands (But do we really have to do that?)
 
     // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
     std::lock_guard<std::mutex> guard(robotCommandsMutex);

@@ -7,13 +7,14 @@
 
 #include "BBTrajectories/Trajectory2D.h"
 #include "CollisionDetector.h"
-#include "control/RobotCommand.h"
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BBTPathTracking.h"
 #include "control/positionControl/pathTracking/DensePathTracking.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
 #include "utilities/StpInfoEnums.h"
+
+#include <roboteam_utils/RobotCommands.hpp>
 
 namespace rtt::ai::control {
 
