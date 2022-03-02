@@ -33,7 +33,7 @@ uint8_t PositionScoring::getScoreOfPosition(const gen::ScoreProfile &profile, Ve
         weightTotal += profile.weightLineOfSight;
     }
     if (profile.weightOpen > 0) {
-        scoreTotal += scores.scoreOpen.value_or(determineOpenScore(position, world, scores)) * profile.weightOpen;
+        scoreTotal += scores.scoreOpen.value_or(determineOpenScore(position, field, world, scores)) * profile.weightOpen;
         weightTotal += profile.weightOpen;
     }
     if (profile.weightBlocking > 0) {
@@ -43,14 +43,14 @@ uint8_t PositionScoring::getScoreOfPosition(const gen::ScoreProfile &profile, Ve
     return static_cast<uint8_t>(scoreTotal / weightTotal);
 }
 
-double PositionScoring::determineOpenScore(Vector2 &point, const rtt::world::World *world, gen::PositionScores &scores) {
+double PositionScoring::determineOpenScore(Vector2 &point, const rtt::world::Field &field, const rtt::world::World *world, gen::PositionScores &scores) {
     std::vector<double> enemyDistances;
     auto &them = world->getWorld()->getThem();
     enemyDistances.reserve(them.size());
     for (auto &enemyRobot : them) {
         enemyDistances.push_back(point.dist(enemyRobot->getPos()));
     }
-    auto radius = world->getField()->getFieldLength()/4.0;
+    auto radius = field.getFieldLength()/4.0;
     return (scores.scoreOpen = stp::evaluation::OpennessEvaluation::metricCheck(enemyDistances, radius)).value();
 }
 
