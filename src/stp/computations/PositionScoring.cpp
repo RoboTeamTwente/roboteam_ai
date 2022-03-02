@@ -90,6 +90,6 @@ double PositionScoring::determineBlockingScore(Vector2 &point, const rtt::world:
         enemyDistancesToBall.push_back(ballPos.dist(enemyRobot->getPos()));
         enemyAnglesToBallvsPoint.push_back((point - ballPos).toAngle().shortestAngleDiff((enemyRobot->getPos() - ballPos)));
     }
-    return (scores.scoreBlocking = stp::evaluation::BlockingEvaluation().metricCheck(pointDistance, enemyDistancesToBall, enemyAnglesToBallvsPoint)).value();
+    return (scores.scoreBlocking = stp::evaluation::BlockingEvaluation::metricCheck(pointDistance, enemyDistancesToBall, enemyAnglesToBallvsPoint)).value();
 }
 }  // namespace rtt::ai::stp
