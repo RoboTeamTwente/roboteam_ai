@@ -140,7 +140,7 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp
-)
+        src/stp/roles/active/Intercepter.cpp include/roboteam_ai/stp/roles/active/Intercepter.h)
 target_include_directories(roboteam_ai_roles
         PRIVATE include/roboteam_ai
 )
@@ -160,6 +160,7 @@ add_library(roboteam_ai_plays
         # /
         ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/InterceptBall.cpp
         # contested/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
@@ -187,8 +188,7 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyThemPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
-)
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp)
 target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )
@@ -386,7 +386,7 @@ target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 add_executable(roboteam_ai
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${PROJECT_SOURCE_DIR}/src/roboteam_ai.cpp
-)
+        src/stp/plays/InterceptBall.cpp include/roboteam_ai/stp/plays/InterceptBall.h)
 target_include_directories(roboteam_ai
         PRIVATE include/roboteam_ai
 )
