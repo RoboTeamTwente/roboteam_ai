@@ -4,8 +4,6 @@
 
 #include "stp/computations/PositionScoring.h"
 
-#include <optional>
-
 #include "stp/computations/ComputationManager.h"
 #include "stp/evaluations/position/BlockingEvaluation.h"
 #include "stp/evaluations/position/GoalShotEvaluation.h"
@@ -50,7 +48,7 @@ double PositionScoring::determineOpenScore(Vector2 &point, const rtt::world::Fie
     for (auto &enemyRobot : them) {
         enemyDistances.push_back(point.dist(enemyRobot->getPos()));
     }
-    auto radius = field.getFieldLength()/4.0;
+    auto radius = field.getFieldLength() / 4.0;
     return (scores.scoreOpen = stp::evaluation::OpennessEvaluation::metricCheck(enemyDistances, radius)).value();
 }
 

@@ -28,6 +28,7 @@ class PassComputations {
      * @param ballLocation location of the ball
      * @param robotLocations locations of possible robots to pass to
      * @param passerLocation location of passer
+     * @param profile the profile to be used when scoring possible passing locations
      * @param world world
      * @param field field
      * @return Scored pass location
