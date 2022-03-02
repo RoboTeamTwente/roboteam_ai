@@ -403,7 +403,7 @@ target_link_libraries(roboteam_ai
 target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
 
  ###### TEST #######
- add_executable(roboteam_ai_test
+ add_executable(roboteam_ai_tests
          ${PROJECT_SOURCE_DIR}/test/main.cpp
          ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
          ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
@@ -418,16 +418,14 @@ target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
          ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryRetrievalTest.cpp
          ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
          ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
-         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
-         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
          ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
          ${PROJECT_SOURCE_DIR}/test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp
  )
- target_include_directories(roboteam_ai_test
+ target_include_directories(roboteam_ai_tests
          PRIVATE include/roboteam_ai
          PRIVATE test
  )
- target_link_libraries(roboteam_ai_test
+ target_link_libraries(roboteam_ai_tests
          PRIVATE GTest::gtest
          PRIVATE GTest::gmock
          PRIVATE roboteam_utils
@@ -438,7 +436,6 @@ target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
          PRIVATE roboteam_ai_interface
          PRIVATE roboteam_ai_plays
          PRIVATE roboteam_ai_world
-         PRIVATE roboteam_ai_control
          PRIVATE roboteam_ai_roles
          PRIVATE Qt5::Charts
          PRIVATE roboteam_ai_manual
@@ -447,8 +444,9 @@ target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
          PRIVATE roboteam_ai_tactics
          PRIVATE roboteam_ai_evaluation
          PRIVATE roboteam_ai_skills
+         PRIVATE roboteam_ai_control
  )
 
-target_compile_options(roboteam_ai_test PRIVATE "${COMPILER_FLAGS}")
+target_compile_options(roboteam_ai_tests PRIVATE "${COMPILER_FLAGS}")
 
-gtest_discover_tests(roboteam_ai_test)
+gtest_discover_tests(roboteam_ai_tests)
