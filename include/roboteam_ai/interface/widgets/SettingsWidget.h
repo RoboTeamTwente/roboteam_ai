@@ -5,6 +5,8 @@
 #ifndef RTT_SETTINGSWIDGET_H
 #define RTT_SETTINGSWIDGET_H
 
+#include <utilities/Settings.h>
+
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
@@ -26,7 +28,7 @@ class SettingsWidget : public QWidget {
    public slots:
     void changeTeamColor(bool isYellow);
     void changeTeamSide(bool isLeft);
-    void changeMode(bool serial);
+    void changeRobotHubMode(Settings::RobotHubMode mode);
     void changeGrSimIp(QString ip);
     void changeGrSimPort(int port);
 };
