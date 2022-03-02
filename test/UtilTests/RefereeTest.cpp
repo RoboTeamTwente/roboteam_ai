@@ -4,9 +4,9 @@
 
 #include <gtest/gtest.h>
 #include <interface/api/Output.h>
-#include <proto/messages_robocup_ssl_referee.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 
-#include <world/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 
 #include "helpers/FieldHelper.h"
 #include "helpers/WorldHelper.h"
