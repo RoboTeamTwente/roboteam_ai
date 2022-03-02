@@ -5,11 +5,12 @@
 #ifndef RTT_WORLDOBJECTS_H
 #define RTT_WORLDOBJECTS_H
 
-#include "control/RobotCommand.h"
 #include "control/positionControl/BBTrajectories/Trajectory2D.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/StpInfoEnums.h"
 #include "world/FieldComputations.h"
+
+#include <roboteam_utils/RobotCommands.hpp>
 
 namespace rtt::BB {
 

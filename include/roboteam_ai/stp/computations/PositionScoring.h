@@ -19,7 +19,7 @@ class PositionScoring {
      * @param scores ref to struct linked to that pos
      * @return score value
      */
-    static double determineOpenScore(Vector2 &point, const rtt::world::Field &field, const world::World *world, gen::PositionScores &scores);
+    static double determineOpenScore(Vector2 &point, const world::World *world, gen::PositionScores &scores);
 
     /**
      * Determine score for the Line of Sight to the ball at given position
