@@ -20,7 +20,7 @@ var searchData=
   ['determinegoalshotscore_3015',['determineGoalShotScore',['../classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a5c8e6b0323d4c7568d505f7f00744929',1,'rtt::ai::stp::PositionScoring']]],
   ['determinekickforce_3016',['determineKickForce',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html#ad4c9f77efa7e4d281119074b2a278501',1,'rtt::ai::control::ControlUtils']]],
   ['determinelineofsightscore_3017',['determineLineOfSightScore',['../classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a1eb43dc9737f55dcd04ea3a844a36493',1,'rtt::ai::stp::PositionScoring']]],
-  ['determineopenscore_3018',['determineOpenScore',['../classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a210b7aead4a5bf10ed31329d4f228831',1,'rtt::ai::stp::PositionScoring']]],
+  ['determineopenscore_3018',['determineOpenScore',['../classrtt_1_1ai_1_1stp_1_1PositionScoring.html#ada867138da4dc0e42fb72463ef15c1c2',1,'rtt::ai::stp::PositionScoring']]],
   ['determinewallpositions_3019',['determineWallPositions',['../classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aeb15a3e633899a90ab80e5e008345604',1,'rtt::ai::stp::PositionComputations']]],
   ['displayplay_3020',['displayPlay',['../classrtt_1_1ai_1_1interface_1_1STPVisualizerWidget.html#a8a9cc7d32adfc2bfa00774581824bda3',1,'rtt::ai::interface::STPVisualizerWidget']]],
   ['displayrole_3021',['displayRole',['../classrtt_1_1ai_1_1interface_1_1STPVisualizerWidget.html#aceb35c3b1058a11b2a18eba098c384b9',1,'rtt::ai::interface::STPVisualizerWidget']]],

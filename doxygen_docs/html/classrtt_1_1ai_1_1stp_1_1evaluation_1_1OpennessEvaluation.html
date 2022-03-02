@@ -77,12 +77,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a92e64eaa2b4addac88e7ddaf5e2ec620"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html#a92e64eaa2b4addac88e7ddaf5e2ec620">metricCheck</a> (std::vector&lt; double &gt; &amp;enemyDistances) noexcept</td></tr>
-<tr class="separator:a92e64eaa2b4addac88e7ddaf5e2ec620"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace05ccd67d79a52389c0e48556568213"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html#ace05ccd67d79a52389c0e48556568213">metricCheck</a> (std::vector&lt; double &gt; &amp;enemyDistances, double radius) noexcept</td></tr>
+<tr class="separator:ace05ccd67d79a52389c0e48556568213"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a92e64eaa2b4addac88e7ddaf5e2ec620"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92e64eaa2b4addac88e7ddaf5e2ec620">&#9670;&nbsp;</a></span>metricCheck()</h2>
+<a id="ace05ccd67d79a52389c0e48556568213"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace05ccd67d79a52389c0e48556568213">&#9670;&nbsp;</a></span>metricCheck()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -94,8 +94,18 @@ Static Public Member Functions</h2></td></tr>
           <td class="memname">uint8_t rtt::ai::stp::evaluation::OpennessEvaluation::metricCheck </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>enemyDistances</em></td><td>)</td>
+          <td class="paramname"><em>enemyDistances</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radius</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -107,6 +117,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Score openness of position based on enemy distances to point (quadratically correlated) </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">enemyDistances</td><td>Vector of all enemy distances from the point </td></tr>
+    <tr><td class="paramname">radius</td><td>The max distance that enemy robots will affect a positions openess score </td></tr>
   </table>
   </dd>
 </dl>
