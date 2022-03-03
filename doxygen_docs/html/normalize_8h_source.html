@@ -71,34 +71,35 @@ $(function() {
 <div class="contents">
 <a href="normalize_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;roboteam_utils/RobotCommands.hpp&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;proto/World.pb.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;proto/WorldBall.pb.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;proto/WorldRobot.pb.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;proto/messages_robocup_ssl_geometry.pb.h&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;proto/messages_robocup_ssl_referee.pb.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;roboteam_utils/Mathematics.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespaceroboteam__utils.html">   11</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceroboteam__utils.html">roboteam_utils</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::WorldBall *ball);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::WorldRobot *robot);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::World *<a class="code" href="namespacertt_1_1world.html">world</a>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_Referee *refereeData);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_FieldCircularArc *arc);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_FieldLineSegment *line);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_GeometryFieldSize *field);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(rtt::RobotCommand *command);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}  <span class="comment">// namespace roboteam_utils</span></div>
-<div class="ttc" id="anamespaceroboteam__utils_html"><div class="ttname"><a href="namespaceroboteam__utils.html">roboteam_utils</a></div><div class="ttdef"><b>Definition:</b> normalize.h:11</div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;proto/World.pb.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;proto/WorldBall.pb.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;proto/WorldRobot.pb.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;proto/messages_robocup_ssl_geometry.pb.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;proto/messages_robocup_ssl_referee.pb.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;roboteam_utils/Mathematics.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;roboteam_utils/RobotCommands.hpp&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespaceroboteam__utils.html">   12</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceroboteam__utils.html">roboteam_utils</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::WorldBall *ball);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::WorldRobot *robot);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::World *<a class="code" href="namespacertt_1_1world.html">world</a>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_Referee *refereeData);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_FieldCircularArc *arc);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_FieldLineSegment *line);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(proto::SSL_GeometryFieldSize *field);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">rotate</a>(rtt::RobotCommand *command);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}  <span class="comment">// namespace roboteam_utils</span></div>
+<div class="ttc" id="anamespaceroboteam__utils_html"><div class="ttname"><a href="namespaceroboteam__utils.html">roboteam_utils</a></div><div class="ttdef"><b>Definition:</b> normalize.h:12</div></div>
 <div class="ttc" id="anamespaceroboteam__utils_html_adbd8b3727ad0b4b0c8e98be469274932"><div class="ttname"><a href="namespaceroboteam__utils.html#adbd8b3727ad0b4b0c8e98be469274932">roboteam_utils::rotate</a></div><div class="ttdeci">void rotate(proto::WorldBall *ball)</div><div class="ttdoc">Multiplies all the members of a Ball by -1.</div><div class="ttdef"><b>Definition:</b> normalize.cpp:8</div></div>
 <div class="ttc" id="anamespacertt_1_1world_html"><div class="ttname"><a href="namespacertt_1_1world.html">rtt::world</a></div><div class="ttdef"><b>Definition:</b> IOManager.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->

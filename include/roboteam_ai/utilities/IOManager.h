@@ -28,7 +28,7 @@ class IOManager {
     proto::State state;
     std::unique_ptr<rtt::net::WorldSubscriber> worldSubscriber;
     std::unique_ptr<rtt::net::SimulationConfigurationPublisher> simulationConfigurationPublisher;
-    void handleState(const proto::State &state);
+    void handleState(const proto::State& state);
 
     std::unique_ptr<rtt::net::RobotCommandsBluePublisher> robotCommandsBluePublisher;
     std::unique_ptr<rtt::net::RobotCommandsYellowPublisher> robotCommandsYellowPublisher;
@@ -37,15 +37,15 @@ class IOManager {
     std::unique_ptr<rtt::net::SettingsPublisher> settingsPublisher;
     std::unique_ptr<rtt::net::SettingsSubscriber> settingsSubscriber;
 
-    rtt::ai::Pause *pause;
+    rtt::ai::Pause* pause;
 
     void addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands);
     bool publishRobotCommands(const rtt::RobotCommands& robotCommands, bool isForTeamYellow);
 
    public:
     void publishAllRobotCommands(rtt::RobotCommands& robotCommands);
-    void publishSettings(const Settings &settings);
-    void onSettingsOfPrimaryAI(const proto::Setting &settings);
+    void publishSettings(const Settings& settings);
+    void onSettingsOfPrimaryAI(const proto::Setting& settings);
     void sendSimulationConfiguration(const proto::SimulationConfiguration& configuration);
 
     bool init(bool isPrimaryAI);

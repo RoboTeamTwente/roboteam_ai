@@ -116,7 +116,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         proto::SimulationConfiguration configuration;                    // Create packet
         configuration.mutable_ball_location()->set_x(field_position.x);  // Set x
         configuration.mutable_ball_location()->set_y(field_position.y);  // Set y
-        io::io.sendSimulationConfiguration(configuration);  // Send packet
+        io::io.sendSimulationConfiguration(configuration);               // Send packet
     }
 }
 

@@ -22,14 +22,14 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     command.dribblerSpeed = targetDribblerSpeed;
 
     // Set angle command
-    command.targetAngle = info.getRobot().value()->getAngle(); // TODO: Should there be a check for robot optional?
+    command.targetAngle = info.getRobot().value()->getAngle();  // TODO: Should there be a check for robot optional?
 
     // Set chip_kick_forced if we can chip but did not chip for MAX_CHIP_ATTEMPTS amount of ticks
     if (kickAttempts > control_constants::MAX_KICK_ATTEMPTS) {
         command.waitForBall = false;
         kickAttempts = 0;
     } else {
-        command.waitForBall = true; // Apparently, waiting for the ball is the default
+        command.waitForBall = true;  // Apparently, waiting for the ball is the default
     }
 
     // set command ID

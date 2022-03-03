@@ -1,12 +1,13 @@
 #pragma once
 
-#include <roboteam_utils/RobotCommands.hpp>
 #include <proto/World.pb.h>
 #include <proto/WorldBall.pb.h>
 #include <proto/WorldRobot.pb.h>
 #include <proto/messages_robocup_ssl_geometry.pb.h>
 #include <proto/messages_robocup_ssl_referee.pb.h>
 #include <roboteam_utils/Mathematics.h>
+
+#include <roboteam_utils/RobotCommands.hpp>
 
 namespace roboteam_utils {
 

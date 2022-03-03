@@ -2,9 +2,10 @@
 // Created by baris on 15-2-19.
 //
 
+#include <roboteam_utils/RobotCommands.hpp>
+
 #include "utilities/IOManager.h"
 #include "world/World.hpp"
-#include <roboteam_utils/RobotCommands.hpp>
 
 namespace rtt::ai {
 

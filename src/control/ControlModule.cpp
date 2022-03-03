@@ -28,7 +28,6 @@ void ControlModule::limitRobotCommand(rtt::RobotCommand& command, std::optional<
 }
 
 void ControlModule::limitVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
-
     Vector2 limitedVelocity = command.velocity;
 
     limitedVelocity = control::ControlUtils::velocityLimiter(limitedVelocity);
@@ -51,7 +50,6 @@ void ControlModule::limitAngularVel(rtt::RobotCommand& command, std::optional<rt
     // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
     // Might want to limit on the robot itself
     if (robot->hasBall() && !command.useAngularVelocity) {
-
         auto targetAngle = command.targetAngle;
         // TODO: Why use optional robotView if we never check for the case where it does not contain one?
         auto robotAngle = robot.value()->getAngle();
@@ -72,7 +70,7 @@ void ControlModule::limitAngularVel(rtt::RobotCommand& command, std::optional<rt
 }
 
 void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const rtt::RobotCommand& command, const rtt::world::World* data) noexcept {
-    rtt::RobotCommand robot_command = command; // TODO: Why make a copy of the command? It will be copied anyway when we put it in the vector
+    rtt::RobotCommand robot_command = command;  // TODO: Why make a copy of the command? It will be copied anyway when we put it in the vector
 
     if (robot && robot->get()) {
         Angle target = command.targetAngle;
