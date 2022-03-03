@@ -2,11 +2,11 @@
 #ifndef RTT_JOYSTICKHANDLER_H
 #define RTT_JOYSTICKHANDLER_H
 
-#include <roboteam_utils/RobotCommands.hpp>
 #include <stdio.h>
 
-#include <iostream>
 #include <chrono>
+#include <iostream>
+#include <roboteam_utils/RobotCommands.hpp>
 
 #include "JoystickState.h"
 #include "SDL.h"

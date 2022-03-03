@@ -1,15 +1,14 @@
 #include "utilities/IOManager.h"
 
+#include <algorithm>
+#include <roboteam_utils/RobotCommands.hpp>
+
 #include "interface/api/Input.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
 #include "utilities/Settings.h"
 #include "utilities/normalize.h"
 #include "world/World.hpp"
-
-#include <roboteam_utils/RobotCommands.hpp>
-
-#include <algorithm>
 
 namespace rtt::ai::io {
 
@@ -105,7 +104,6 @@ void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands)
 
 void IOManager::publishAllRobotCommands(rtt::RobotCommands& robotCommands) {
     if (!pause->getPause()) {
-
         this->addCameraAngleToRobotCommands(robotCommands);
 
         this->publishRobotCommands(robotCommands, rtt::SETTINGS.isYellow());
@@ -167,8 +165,6 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
     return obtainedChannel;
 }
 
-void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) {
-    this->simulationConfigurationPublisher->publish(configuration);
-}
+void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) { this->simulationConfigurationPublisher->publish(configuration); }
 
 }  // namespace rtt::ai::io

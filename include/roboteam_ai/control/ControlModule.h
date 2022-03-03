@@ -5,9 +5,8 @@
 #ifndef RTT_CONTROLMODULE_H
 #define RTT_CONTROLMODULE_H
 
-#include <roboteam_utils/RobotCommands.hpp>
-
 #include <mutex>
+#include <roboteam_utils/RobotCommands.hpp>
 
 #include "control/AnglePID.h"
 #include "world/views/RobotView.hpp"
