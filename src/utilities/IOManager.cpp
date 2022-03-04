@@ -87,13 +87,13 @@ void IOManager::onSettingsOfPrimaryAI(const proto::Setting& settings) {
 }
 
 void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands) {
-    const auto& state = this->getState();
+    const auto state = this->getState();
     if (state.has_command_extrapolated_world()) {
-        const auto& world = getState().command_extrapolated_world();
-        const auto& robots = rtt::SETTINGS.isYellow() ? world.yellow() : world.blue();
+        const auto world = getState().command_extrapolated_world();
+        const auto robots = rtt::SETTINGS.isYellow() ? world.yellow() : world.blue();
 
-        for (auto& robotCommand : robotCommands) {
-            for (const auto& robot : robots) {
+        for (auto robotCommand : robotCommands) {
+            for (const auto robot : robots) {
                 if (robot.id() == robotCommand.id) {
                     robotCommand.cameraAngleOfRobot = robot.angle();
                 }
