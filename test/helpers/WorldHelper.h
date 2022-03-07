@@ -22,7 +22,7 @@ class WorldHelper {
     static rtt::Vector2 getLocationRightBeforeRobot(proto::WorldRobot robot);
     static proto::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
     static google::protobuf::RepeatedPtrField<proto::WorldRobot> generateRandomRobots(int amount, const proto::SSL_GeometryFieldSize &field);
-    static proto::World getWorldMsg(int amountUs, int amountThem, bool withBall, const proto::SSL_GeometryFieldSize &field);
+    static proto::World getWorldMsg(int amountYellow, int amountBlue, bool withBall, const proto::SSL_GeometryFieldSize &field);
 };
 
 }  // namespace testhelpers
