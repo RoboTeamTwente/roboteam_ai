@@ -53,9 +53,10 @@ TEST(worldTest, ResetWorldTest) {
     world->reset();
     world->updateWorld(msg);
     world->updateWorld(second);
-    ASSERT_EQ(world->getWorld()->getUs().size(), 5);
-    ASSERT_EQ(world->getWorld()->getThem().size(), 7);
-    // ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
+    // We are blue by default
+    ASSERT_EQ(world->getWorld()->getUs().size(), 7);
+    ASSERT_EQ(world->getWorld()->getThem().size(), 5);
+    ASSERT_TRUE(world->getWorld()->getBall().has_value());
 
     world->reset();
     ASSERT_FALSE(world->getWorld().has_value());
