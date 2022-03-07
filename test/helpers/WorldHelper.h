@@ -14,7 +14,7 @@ namespace testhelpers {
 class WorldHelper {
    public:
     static double getRandomValue(double min, double max);
-    static rtt::Vector2 getRandomFieldPosition(proto::SSL_GeometryFieldSize field);
+    static rtt::Vector2 getRandomFieldPosition(const proto::SSL_GeometryFieldSize &field);
     static rtt::Vector2 getRandomVelocity();
     static bool allPositionsAreValid(const proto::World &worldMsg, bool withBall);
     static proto::WorldRobot generateRandomRobot(int id, proto::SSL_GeometryFieldSize field);
