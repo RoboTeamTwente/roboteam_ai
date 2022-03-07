@@ -9,7 +9,7 @@
 #include <world/Field.h>
 #include <world/World.h>
 
-#include "roboteam_ai/test/helpers/WorldHelper.h"
+#include "helpers/WorldHelper.h"
 
 namespace w = rtt::world;
 

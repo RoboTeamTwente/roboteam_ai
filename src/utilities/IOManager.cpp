@@ -1,8 +1,5 @@
 #include "utilities/IOManager.h"
 
-#include <algorithm>
-#include <roboteam_utils/RobotCommands.hpp>
-
 #include "interface/api/Input.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
@@ -86,31 +83,19 @@ void IOManager::onSettingsOfPrimaryAI(const proto::Setting& settings) {
                                          settings.robothubsendport());
 }
 
-void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands) {
-    const auto state = this->getState();
-    if (state.has_command_extrapolated_world()) {
-        const auto world = getState().command_extrapolated_world();
-        const auto robots = rtt::SETTINGS.isYellow() ? world.yellow() : world.blue();
-
-        for (auto robotCommand : robotCommands) {
-            for (const auto robot : robots) {
-                if (robot.id() == robotCommand.id) {
-                    robotCommand.cameraAngleOfRobot = robot.angle();
-                }
-            }
-        }
-    }
-}
-
-void IOManager::publishAllRobotCommands(rtt::RobotCommands& robotCommands) {
+void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
     if (!pause->getPause()) {
-        this->addCameraAngleToRobotCommands(robotCommands);
-
-        this->publishRobotCommands(robotCommands, rtt::SETTINGS.isYellow());
+        proto::AICommand command;
+        for (const auto& robotCommand : robotCommands) {
+            proto::RobotCommand* protoCommand = command.mutable_commands()->Add();
+            protoCommand->CopyFrom(robotCommand);
+        }
+        command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
+        this->publishRobotCommands(command, SETTINGS.isYellow());
     }
 }
 
-bool IOManager::publishRobotCommands(const rtt::RobotCommands& aiCommand, bool forTeamYellow) {
+bool IOManager::publishRobotCommands(const proto::AICommand& aiCommand, bool forTeamYellow) {
     bool sentCommands = false;
 
     if (forTeamYellow && this->robotCommandsYellowPublisher != nullptr) {
@@ -165,6 +150,8 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
     return obtainedChannel;
 }
 
-void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) { this->simulationConfigurationPublisher->publish(configuration); }
+void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) {
+    this->simulationConfigurationPublisher->publish(configuration);
+}
 
 }  // namespace rtt::ai::io
