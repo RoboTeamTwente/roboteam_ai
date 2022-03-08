@@ -4,15 +4,14 @@
 #define RUNNING_TEST
 
 #include <gtest/gtest.h>
-#include <helpers/WorldHelper.h>
+#include <test/helpers/WorldHelper.h>
 
-#include <world/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 
 TEST(worldTest, GenericWorldRemoval) {
     namespace w_n = rtt::world;
     proto::SSL_GeometryFieldSize size{};
-    size.set_field_length(12000);
-    size.set_field_width(9000);
+    size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     auto const& [_, world] = w_n::World::instance();
@@ -25,11 +24,10 @@ TEST(worldTest, GenericWorldRemoval) {
     ASSERT_FALSE(world->getWorld().has_value());
 }
 
-TEST(worldTest, HistorySizeTestSimple) {
+TEST(worldTest, HistorySizeTest) {
     namespace w_n = rtt::world;
     proto::SSL_GeometryFieldSize size{};
-    size.set_field_length(12000);
-    size.set_field_width(9000);
+    size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     auto const& [_, world] = w_n::World::instance();
@@ -45,18 +43,16 @@ TEST(worldTest, HistorySizeTestSimple) {
 TEST(worldTest, ResetWorldTest) {
     namespace w_n = rtt::world;
     proto::SSL_GeometryFieldSize size{};
-    size.set_field_length(12000);
-    size.set_field_width(9000);
+    size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     auto const& [_, world] = w_n::World::instance();
     world->reset();
     world->updateWorld(msg);
     world->updateWorld(second);
-    // We are blue by default
-    ASSERT_EQ(world->getWorld()->getUs().size(), 7);
-    ASSERT_EQ(world->getWorld()->getThem().size(), 5);
-    ASSERT_TRUE(world->getWorld()->getBall().has_value());
+    ASSERT_EQ(world->getWorld()->getUs().size(), 5);
+    ASSERT_EQ(world->getWorld()->getThem().size(), 7);
+    // ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
 
     world->reset();
     ASSERT_FALSE(world->getWorld().has_value());

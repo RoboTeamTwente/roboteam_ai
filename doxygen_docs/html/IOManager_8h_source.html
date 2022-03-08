@@ -116,22 +116,23 @@ $(function() {
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> publishAllRobotCommands(<span class="keyword">const</span> std::vector&lt;proto::RobotCommand&gt; &amp;vector);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> publishSettings(<span class="keyword">const</span> <a class="code" href="classrtt_1_1Settings.html">Settings</a> &amp;settings);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> onSettingsOfPrimaryAI(<span class="keyword">const</span> proto::Setting &amp;settings);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> sendSimulationConfiguration(<span class="keyword">const</span> proto::SimulationConfiguration&amp; configuration);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> init(<span class="keywordtype">bool</span> isPrimaryAI);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    proto::State getState();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">bool</span> obtainTeamColorChannel(<span class="keywordtype">bool</span> yellowChannel);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a77b84bfe0fe4e6879be25d0066b90fd6">   55</a></span>&#160;    std::mutex <a class="code" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a77b84bfe0fe4e6879be25d0066b90fd6">stateMutex</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">extern</span> <a class="code" href="classrtt_1_1ai_1_1io_1_1IOManager.html">IOManager</a> <a class="code" href="namespacertt_1_1ai_1_1io.html#a3a3059343c59e8dc266f41990749c3ef">io</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}  <span class="comment">// namespace io</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}  <span class="comment">// namespace rtt::ai</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// ROBOTEAM_AI_IO_MANAGER_H</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// Returns success. Only Primary AI is allowed to send simulation configuration</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> sendSimulationConfiguration(<span class="keyword">const</span> proto::SimulationConfiguration&amp; configuration);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">bool</span> init(<span class="keywordtype">bool</span> isPrimaryAI);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    proto::State getState();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> obtainTeamColorChannel(<span class="keywordtype">bool</span> yellowChannel);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a77b84bfe0fe4e6879be25d0066b90fd6">   56</a></span>&#160;    std::mutex <a class="code" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a77b84bfe0fe4e6879be25d0066b90fd6">stateMutex</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">extern</span> <a class="code" href="classrtt_1_1ai_1_1io_1_1IOManager.html">IOManager</a> <a class="code" href="namespacertt_1_1ai_1_1io.html#a3a3059343c59e8dc266f41990749c3ef">io</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}  <span class="comment">// namespace io</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}  <span class="comment">// namespace rtt::ai</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// ROBOTEAM_AI_IO_MANAGER_H</span></div>
 <div class="ttc" id="aConstants_8h_html"><div class="ttname"><a href="Constants_8h.html">Constants.h</a></div></div>
 <div class="ttc" id="aField_8h_html"><div class="ttname"><a href="Field_8h.html">Field.h</a></div></div>
 <div class="ttc" id="aSettings_8h_html"><div class="ttname"><a href="Settings_8h.html">Settings.h</a></div></div>
@@ -142,7 +143,7 @@ $(function() {
 <div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_a4e6ec2ee7675a119c7db912b1452a15b"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#a4e6ec2ee7675a119c7db912b1452a15b">rtt::ai::io::IOManager::pause</a></div><div class="ttdeci">rtt::ai::Pause * pause</div><div class="ttdef"><b>Definition:</b> IOManager.h:40</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_a6bf5a4699ab935a3fb7af4185cdaeb18"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#a6bf5a4699ab935a3fb7af4185cdaeb18">rtt::ai::io::IOManager::robotCommandsBluePublisher</a></div><div class="ttdeci">std::unique_ptr&lt; rtt::net::RobotCommandsBluePublisher &gt; robotCommandsBluePublisher</div><div class="ttdef"><b>Definition:</b> IOManager.h:33</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_a6f5a374a4afc6e8064d430933990039a"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#a6f5a374a4afc6e8064d430933990039a">rtt::ai::io::IOManager::state</a></div><div class="ttdeci">proto::State state</div><div class="ttdef"><b>Definition:</b> IOManager.h:28</div></div>
-<div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_a77b84bfe0fe4e6879be25d0066b90fd6"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#a77b84bfe0fe4e6879be25d0066b90fd6">rtt::ai::io::IOManager::stateMutex</a></div><div class="ttdeci">std::mutex stateMutex</div><div class="ttdef"><b>Definition:</b> IOManager.h:55</div></div>
+<div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_a77b84bfe0fe4e6879be25d0066b90fd6"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#a77b84bfe0fe4e6879be25d0066b90fd6">rtt::ai::io::IOManager::stateMutex</a></div><div class="ttdeci">std::mutex stateMutex</div><div class="ttdef"><b>Definition:</b> IOManager.h:56</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_a7821157d7818be91d6527b55a15d6797"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#a7821157d7818be91d6527b55a15d6797">rtt::ai::io::IOManager::simulationConfigurationPublisher</a></div><div class="ttdeci">std::unique_ptr&lt; rtt::net::SimulationConfigurationPublisher &gt; simulationConfigurationPublisher</div><div class="ttdef"><b>Definition:</b> IOManager.h:30</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_ad5968054795bded97f41bbfcd41c95ae"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#ad5968054795bded97f41bbfcd41c95ae">rtt::ai::io::IOManager::worldSubscriber</a></div><div class="ttdeci">std::unique_ptr&lt; rtt::net::WorldSubscriber &gt; worldSubscriber</div><div class="ttdef"><b>Definition:</b> IOManager.h:29</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1io_1_1IOManager_html_aefbe4d8d95bdb635f0d4398eaf116222"><div class="ttname"><a href="classrtt_1_1ai_1_1io_1_1IOManager.html#aefbe4d8d95bdb635f0d4398eaf116222">rtt::ai::io::IOManager::settingsPublisher</a></div><div class="ttdeci">std::unique_ptr&lt; rtt::net::SettingsPublisher &gt; settingsPublisher</div><div class="ttdef"><b>Definition:</b> IOManager.h:37</div></div>
