@@ -20,7 +20,6 @@ bool IOManager::init(bool isPrimaryAI) {
 
     auto worldCallback = std::bind(&IOManager::handleState, this, std::placeholders::_1);
     this->worldSubscriber = std::make_unique<rtt::net::WorldSubscriber>(worldCallback);
-    this->simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
 
     if (isPrimaryAI) {
         try {
@@ -28,6 +27,12 @@ bool IOManager::init(bool isPrimaryAI) {
         } catch (zmqpp::zmq_internal_exception e) {
             success = false;
             RTT_ERROR("Failed to open settings publisher channel. Is it already taken?")
+        }
+        try {
+            this->simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
+        } catch (zmqpp::zmq_internal_exception e) {
+            success = false;
+            RTT_ERROR("Failed to open simulation configuration publisher channel. Is it already taken?")
         }
     } else {
         try {
@@ -165,6 +170,11 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
     return obtainedChannel;
 }
 
-void IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) { this->simulationConfigurationPublisher->publish(configuration); }
+bool IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) {
+    if (this->simulationConfigurationPublisher != nullptr) {
+        return this->simulationConfigurationPublisher->publish(configuration);
+    }
+    return false;
+}
 
 }  // namespace rtt::ai::io
