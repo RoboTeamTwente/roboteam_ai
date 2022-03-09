@@ -28,7 +28,7 @@ class IOManager {
     proto::State state;
     std::unique_ptr<rtt::net::WorldSubscriber> worldSubscriber;
     std::unique_ptr<rtt::net::SimulationConfigurationPublisher> simulationConfigurationPublisher;
-    void handleState(const proto::State &state);
+    void handleState(const proto::State& state);
 
     std::unique_ptr<rtt::net::RobotCommandsBluePublisher> robotCommandsBluePublisher;
     std::unique_ptr<rtt::net::RobotCommandsYellowPublisher> robotCommandsYellowPublisher;
@@ -37,12 +37,13 @@ class IOManager {
     std::unique_ptr<rtt::net::SettingsPublisher> settingsPublisher;
     std::unique_ptr<rtt::net::SettingsSubscriber> settingsSubscriber;
 
-    rtt::ai::Pause *pause;
+    rtt::ai::Pause* pause;
 
-    bool publishRobotCommands(const proto::AICommand &aiCommand, bool forTeamYellow);
+    void addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands);
+    bool publishRobotCommands(const rtt::RobotCommands& robotCommands, bool isForTeamYellow);
 
    public:
-    void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
+    void publishAllRobotCommands(rtt::RobotCommands& robotCommands);
     void publishSettings(const Settings &settings);
     void onSettingsOfPrimaryAI(const proto::Setting &settings);
     // Returns success. Only Primary AI is allowed to send simulation configuration

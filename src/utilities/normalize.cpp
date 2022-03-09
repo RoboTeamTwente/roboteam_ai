@@ -80,11 +80,10 @@ void rotate(proto::SSL_GeometryFieldSize *field) {
 }
 
 // rotate robotcommands
-void rotate(proto::RobotCommand *command) {
+void rotate(rtt::RobotCommand *command) {
     assert(command && "Invalid pointer for command");
-    command->mutable_vel()->set_x(-command->vel().x());
-    command->mutable_vel()->set_y(-command->vel().y());
-    command->set_w(static_cast<float>(rtt::cleanAngle(command->w() + M_PI)));
+    command->velocity = command->velocity * -1;
+    command->targetAngle += M_PI;
 }
 
 }  // namespace roboteam_utils
