@@ -17,7 +17,7 @@ gen::ScoredPosition PassComputations::calculatePassLocation(Vector2 ballLocation
                                                             const rtt::world::World* world, const world::Field& field) {
     double gridWidth = field.getFieldWidth();
     double gridLength = field.getFieldLength();
-    int numPoints = 9;
+    int numPoints = 3;
     gen::ScoredPosition bestPassLocation;
     bestPassLocation.score = 0;
     if (robotLocations.empty()) {
@@ -25,19 +25,20 @@ gen::ScoredPosition PassComputations::calculatePassLocation(Vector2 ballLocation
         return bestPassLocation;
     }
     // TODO: create a better passingGrid (more points and/or better spread)
-    auto passGrid = Grid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints);  // 81 points spread over the whole field
+    auto passGrid = Grid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints);  // 9 points spread over the whole field
     for (auto& pointVector : passGrid.getPoints()) {
         for (auto& point : pointVector) {
-            if (point.dist(ballLocation) < 1) continue; // Do not pass less than 1m far- this can be dribbled
-            if (!FieldComputations::pointIsValidPosition(field, point, 2 * control_constants::ROBOT_RADIUS)) continue;
-            if (PositionScoring::scorePosition(point, gen::LineOfSight, field, world).score < 10) continue;  // Need minimum LoS to be a valid pass. Avoid passing into enemies
+            if (point.dist(ballLocation) < 1) continue;  // Do not pass less than 1m far- this can be dribbled
             for (auto robotLocation : robotLocations) {
-                if (calculateRobotTravelTime(robotLocation, point) < calculateBallTravelTime(ballLocation, passerLocation, point)) {
-                    gen::ScoredPosition scoredPosition = PositionScoring::scorePosition(point, profile, field, world);
+                if (FieldComputations::pointIsValidPosition(field, point, 2 * control_constants::ROBOT_RADIUS) &&
+                    calculateRobotTravelTime(robotLocation, point) < calculateBallTravelTime(ballLocation, passerLocation, point)) {
+                    if (PositionScoring::scorePosition(point, gen::LineOfSight, field, world).score < 10) {  // Need minimum LoS to be a valid pass. Avoid passing into enemies
+                        continue;
+                    }
+                    auto scoredPosition = PositionScoring::scorePosition(point, profile, field, world);
                     if (scoredPosition.score > bestPassLocation.score) {
                         bestPassLocation = scoredPosition;
                     }
-                    break;
                 }
             }
         }

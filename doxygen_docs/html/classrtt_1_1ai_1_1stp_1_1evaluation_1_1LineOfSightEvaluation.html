@@ -129,7 +129,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t score </dd></dl>
-<p><em>- \ _- \ _- \ The line of sight score is evaluated as follows: _- \ _- | B=================================================Target If there is an enemy on the line from the ball to the target (angle=0), -</em> | the LoS score is 0. -_ | At angles &gt; 0, the score slowly scales up to 1 (which is at 30 deg) -_ / -_ / -_ /</p>
+<p><em>- \ _- 3 3 \ _- \ 3 \ The line of sight score is evaluated as follows: _- 1 \ 3 _________________ _- |__________-------&mdash; 2 | 1. There is a robot close to the ball and within 30 deg of the ball-to-target line =&gt; score = 0 B=====1=====|=========2===========================Target 2. There is a robot within 5 deg of the ball-to-target line =&gt; score = 0 -</em> |-------&mdash;__________ 2 | 3. There is a robot within 30 deg of the ball-to-target line and far away from the ball -_ 1 / --------------&mdash;| =&gt; score is based on angle of enemy to line (quadratic, with score = 0 at 5 deg, score = 1 at 30 deg) -_ / 3 3 / -_ 3 3 / -_ /</p>
 
 </div>
 </div>
