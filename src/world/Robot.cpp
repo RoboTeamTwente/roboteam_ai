@@ -111,10 +111,10 @@ void Robot::setLastUpdatedWorldNumber(unsigned long _lastUpdatedWorldNumber) noe
 
 void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
     if (ai::Constants::FEEDBACK_ENABLED()) {
-        setWorkingBallSensor(feedback.ballsensorisworking());
-        setBatteryLow(feedback.batterylow());
-        setBallSensorSeesBall(feedback.hasball());
-        setBallPosBallSensor(feedback.ballpos());
+        setWorkingBallSensor(feedback.ball_sensor_is_working());
+        setBatteryLow(feedback.battery_level() < 22); // TODO: Define what is considered a 'low' voltage
+        setBallSensorSeesBall(feedback.has_ball());
+        setBallPosBallSensor(feedback.ball_position());
     }
 }
 }  // namespace rtt::world::robot
