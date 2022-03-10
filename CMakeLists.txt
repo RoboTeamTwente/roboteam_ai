@@ -419,6 +419,8 @@ target_link_libraries(testHelpers
         PRIVATE roboteam_ai_utils
         )
 
+target_compile_options(testHelpers PRIVATE "${COMPILER_FLAGS}")
+
 ###### TEST #######
 add_executable(roboteam_ai_tests
         ${PROJECT_SOURCE_DIR}/test/main.cpp
