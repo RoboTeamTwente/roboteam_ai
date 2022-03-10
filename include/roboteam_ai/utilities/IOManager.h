@@ -45,7 +45,8 @@ class IOManager {
     void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
     void publishSettings(const Settings &settings);
     void onSettingsOfPrimaryAI(const proto::Setting &settings);
-    void sendSimulationConfiguration(const proto::SimulationConfiguration& configuration);
+    // Returns success. Only Primary AI is allowed to send simulation configuration
+    bool sendSimulationConfiguration(const proto::SimulationConfiguration& configuration);
 
     bool init(bool isPrimaryAI);
     proto::State getState();
