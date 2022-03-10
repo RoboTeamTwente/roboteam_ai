@@ -5,7 +5,7 @@
 #ifndef RTT_SKILL_H
 #define RTT_SKILL_H
 
-#include <roboteam_utils/RobotCommands.hpp>
+#include <proto/RobotCommand.pb.h>
 
 #include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
@@ -25,7 +25,7 @@ class Skill {
     /**
      * Robot command that will eventually be sent to the robot
      */
-    rtt::RobotCommand command;
+    proto::RobotCommand command;
 
     /**
      * Robot this skill controls

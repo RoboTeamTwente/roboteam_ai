@@ -11,29 +11,26 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     float chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_CHIP_POWER);
 
     // Set chip command
-    command.kickType = KickType::CHIP;
-    command.kickSpeed = chipVelocity;
+    command.set_chipper(true);
+    command.set_chip_kick_vel(chipVelocity);
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
-    command.dribblerSpeed = targetDribblerSpeed;
+    command.set_dribbler(targetDribblerSpeed);
 
     // Set angle command
-    command.targetAngle = info.getRobot().value()->getAngle();
+    command.set_w(static_cast<float>(info.getRobot().value()->getAngle()));
 
     // Set chip_kick_forced if we can chip but did not chip for MAX_CHIP_ATTEMPTS amount of ticks
     if (chipAttempts > control_constants::MAX_CHIP_ATTEMPTS) {
-        command.waitForBall = false;
+        command.set_chip_kick_forced(true);
         chipAttempts = 0;
-    } else {
-        command.waitForBall = true;
     }
-
     // set command ID
-    command.id = info.getRobot().value()->getId();
+    command.set_id(info.getRobot().value()->getId());
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());

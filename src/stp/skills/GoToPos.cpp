@@ -40,25 +40,26 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         RTT_DEBUG("Setting max vel");
         targetVelocityLength = info.getMaxRobotVelocity();
     } else {
-        targetVelocityLength = std::clamp(commandCollision.robotCommand.velocity.length(), 0.0, info.getMaxRobotVelocity());
+        targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, info.getMaxRobotVelocity());
     }
     // Clamp and set velocity
-    Vector2 targetVelocity = commandCollision.robotCommand.velocity.stretchToLength(targetVelocityLength);
+    Vector2 targetVelocity = commandCollision.robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
-    command.velocity = targetVelocity;
+    command.mutable_vel()->set_x(static_cast<float>(targetVelocity.x));
+    command.mutable_vel()->set_y(static_cast<float>(targetVelocity.y));
 
-    command.targetAngle = info.getAngle();
+    command.set_w(static_cast<float>(info.getAngle()));
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
-    command.dribblerSpeed = targetDribblerSpeed;
+    command.set_dribbler(targetDribblerSpeed);
 
     // set command ID
-    command.id = info.getRobot().value()->getId();
+    command.set_id(info.getRobot().value()->getId());
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
