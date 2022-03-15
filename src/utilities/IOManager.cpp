@@ -101,6 +101,7 @@ void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands)
             for (const auto robot : robots) {
                 if (robot.id() == robotCommand.id) {
                     robotCommand.cameraAngleOfRobot = robot.angle();
+                    robotCommand.cameraAngleOfRobotIsSet = true;
                 }
             }
         }
