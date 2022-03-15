@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <helpers/FieldHelper.h>
-#include <helpers/WorldHelper.h>
+#include <test/helpers/FieldHelper.h>
+#include <test/helpers/WorldHelper.h>
 
-#include <world/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 
 TEST(worldTest, HistoryRetrievalTest) {
     /* This test class assumes DEFAULT settings for the world! Meaning : isLeft = false, isYellow = false */

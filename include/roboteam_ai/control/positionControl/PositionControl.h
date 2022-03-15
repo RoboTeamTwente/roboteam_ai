@@ -5,9 +5,10 @@
 #ifndef RTT_POSITIONCONTROL_H
 #define RTT_POSITIONCONTROL_H
 
+#include <roboteam_utils/RobotCommands.hpp>
+
 #include "BBTrajectories/Trajectory2D.h"
 #include "CollisionDetector.h"
-#include "control/RobotCommand.h"
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BBTPathTracking.h"

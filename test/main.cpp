@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <utilities/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <utilities/Constants.h>
 
 #include <QtWidgets/QApplication>
