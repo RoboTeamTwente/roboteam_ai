@@ -15,6 +15,7 @@ class PositionScoring {
     /**
      * Determine score for the Open at given position
      * @param point Position to calculate from
+     * @param field
      * @param world
      * @param scores ref to struct linked to that pos
      * @return score value
@@ -56,8 +57,8 @@ class PositionScoring {
      * @param profile set of weights of the different factors that determine the score
      * @param position x,y coordinates
      * @param scores reference to scores of said position in map
-     * @param world
      * @param field
+     * @param world
      * @return score of position including the weights
      */
     static uint8_t getScoreOfPosition(const gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, const world::Field &field, const world::World *world);

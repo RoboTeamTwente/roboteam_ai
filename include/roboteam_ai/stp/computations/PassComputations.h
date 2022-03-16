@@ -24,14 +24,14 @@ class PassComputations {
     static bool pathHasAnyRobots(Line passLine, std::vector<Vector2> robotPositions);
 
     /**
-     * Given a list of possible robot locations to pass to, calculate the best pass location
+     * Calculates a point on the field to be passed to
      * @param ballLocation location of the ball
-     * @param robotLocations locations of possible robots to pass to
-     * @param passerLocation location of passer
+     * @param robotLocations locations of robots that could receive the ball
+     * @param passerLocation location of the passer
      * @param profile the profile to be used when scoring possible passing locations
      * @param world world
      * @param field field
-     * @return Scored pass location
+     * @return Scored position to be passed to
      */
     static gen::ScoredPosition calculatePassLocation(Vector2 ballLocation, const std::vector<Vector2>& robotLocations, Vector2 passerLocation, gen::ScoreProfile profile,
                                                      const rtt::world::World* world, const world::Field& field);
