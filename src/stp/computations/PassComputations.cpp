@@ -24,14 +24,17 @@ gen::ScoredPosition PassComputations::calculatePassLocation(Vector2 ballLocation
         RTT_WARNING("No possible receivers!")
         return bestPassLocation;
     }
+    constexpr double MINIMUM_PASS_DISTANCE = 1.0;   // This can be dribbled instead of passed
+    constexpr double MINIMUM_LINE_OF_SIGHT = 10.0;  // The minimum LoS to be a valid pass, otherwise, the pass will go into an enemy robot
     // TODO: create a better passingGrid (more points and/or better spread)
     auto passGrid = Grid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints);  // 81 points spread over the whole field
     for (auto& pointVector : passGrid.getPoints()) {
         for (auto& point : pointVector) {
-            if (point.dist(ballLocation) < 1) continue; // Do not pass less than 1m far- this can be dribbled
+            if (point.dist(ballLocation) < MINIMUM_PASS_DISTANCE) continue;
             if (!FieldComputations::pointIsValidPosition(field, point, 2 * control_constants::ROBOT_RADIUS)) continue;
-            if (PositionScoring::scorePosition(point, gen::LineOfSight, field, world).score < 10) continue;  // Need minimum LoS to be a valid pass. Avoid passing into enemies
+            if (PositionScoring::scorePosition(point, gen::LineOfSight, field, world).score < MINIMUM_LINE_OF_SIGHT) continue;
             for (auto robotLocation : robotLocations) {
+                // Robot travel time needs to be smaller than ball travel time in order to be able to receive the pass
                 if (calculateRobotTravelTime(robotLocation, point) < calculateBallTravelTime(ballLocation, passerLocation, point)) {
                     gen::ScoredPosition scoredPosition = PositionScoring::scorePosition(point, profile, field, world);
                     if (scoredPosition.score > bestPassLocation.score) {
