@@ -5,8 +5,9 @@
 #ifndef RTT_CONTROLMODULE_H
 #define RTT_CONTROLMODULE_H
 
+#include <proto/RobotCommand.pb.h>
+
 #include <mutex>
-#include <roboteam_utils/RobotCommands.hpp>
 
 #include "control/AnglePID.h"
 #include "world/views/RobotView.hpp"
@@ -26,40 +27,40 @@ class ControlModule {
      *
      */
     static inline std::mutex robotCommandsMutex;
-    static inline std::vector<rtt::RobotCommand> robotCommands;
+    static inline std::vector<proto::RobotCommand> robotCommands;
     static inline std::map<unsigned int, AnglePID> simulatorAnglePIDmap;
 
     /**
      * Applies constraints to the internal robot command
      */
-    static void limitRobotCommand(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot);
+    static void limitRobotCommand(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot);
 
     /**
      * Limits the velocity with a control_constants value
      */
-    static void limitVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot);
+    static void limitVel(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot);
 
     /**
      * Limits the angular velocity with a control_constants value
      */
-    static void limitAngularVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot);
+    static void limitAngularVel(proto::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot);
 
     /**
      * Rotates the robot command to the other side of the field
      */
-    static void rotateRobotCommand(rtt::RobotCommand& command);
+    static void rotateRobotCommand(proto::RobotCommand& command);
 
    public:
     /**
      * Limits the current robot command and adds it to the list of commands to be sent
      */
-    static void addRobotCommand(std::optional<rtt::world::view::RobotView> robot, const rtt::RobotCommand& command, const rtt::world::World* data) noexcept;
+    static void addRobotCommand(std::optional<rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World* data) noexcept;
     /**
      *
      */
     static void sendAllCommands();
 
-    static void simulator_angular_control(const std::optional<::rtt::world::view::RobotView>& robot, rtt::RobotCommand& robot_command);
+    static void simulator_angular_control(const std::optional<::rtt::world::view::RobotView>& robot, proto::RobotCommand& robot_command);
 };
 }  // namespace rtt::ai::control
 

@@ -11,7 +11,7 @@ namespace input {
 JoystickHandler::JoystickHandler() {
     RTT_INFO("Created new JoystickHandler")
     id_switched_timestamp = std::chrono::steady_clock::now();
-    command.waitForBall = false;
+    command.set_chip_kick_forced(true);
 }
 
 void JoystickHandler::tick() {
@@ -71,65 +71,65 @@ void JoystickHandler::changeRobotID() {
                 RTT_INFO("Joystick cannot change robot ID higher than: ", robotId)
         }
 
-        command.id = robotId;
+        command.set_id(robotId);
         id_switched_timestamp = std::chrono::steady_clock::now();
     }
 }
 
 void JoystickHandler::doKick() {
     if (joystickState.A) {
-        command.kickType = KickType::NORMAL;
-        command.kickSpeed = 1.0;
+        command.set_kicker(true);
+        command.set_chip_kick_vel(1.0);
         joystickState.A = false;
     } else if (joystickState.B) {
-        command.kickType = KickType::NORMAL;
-        command.kickSpeed = 6.5;
+        command.set_kicker(true);
+        command.set_chip_kick_vel(6.5);
         joystickState.B = false;
     } else {
-        command.kickSpeed = 0.0;
+        command.set_kicker(false);
     }
 }
 
 void JoystickHandler::doChip() {
     if (joystickState.Y) {
-        command.kickType = KickType::CHIP;
-        command.kickSpeed = 1.0;
+        command.set_chipper(true);
+        command.set_chip_kick_vel(1.0);
         joystickState.Y = false;
     } else if (joystickState.X) {
-        command.kickType = KickType::CHIP;
-        command.kickSpeed = 4;
+        command.set_chipper(true);
+        command.set_chip_kick_vel(4);
         joystickState.X = false;
     } else {
-        command.kickSpeed = 0;
+        command.set_chipper(false);
     }
 }
 
 void JoystickHandler::toggleDribbler() {
     if (joystickState.bumperRight) {
         joystickState.bumperRight = false;
-        if (0 < command.dribblerSpeed) {
-            command.dribblerSpeed = 0;
+        if (0 < command.dribbler()) {
+            command.set_dribbler(0);
         } else {
-            command.dribblerSpeed = 1;
+            command.set_dribbler(1);
         }
     }
 }
 void JoystickHandler::updateOrientation() {
     /* Robot angle */
-    command.useAngularVelocity = false;
+    command.set_use_angle(true);
     float dAngle = -joystickState.stickRight.x / 32768.0;
     robotAngle += dAngle * 0.05;
     while (M_PI < robotAngle) robotAngle -= 2 * M_PI;
     while (robotAngle < -M_PI) robotAngle += 2 * M_PI;
-    command.targetAngle = robotAngle;
+    command.set_w(robotAngle);
 }
 
 void JoystickHandler::updateVelocity() {
     /* Robot velocity, value 1 for mutable vel is achieved by dividing by 32768 instead of 22000*/
 
     rtt::Vector2 driveVector = joystickState.stickLeft.rotate(-robotAngle) / 32768.0;
-    command.velocity.y = -driveVector.x;
-    command.velocity.x = -driveVector.y;
+    command.mutable_vel()->set_y(-driveVector.x);
+    command.mutable_vel()->set_x(-driveVector.y);
 }
 
 /* Processes the joystick motion */
@@ -228,9 +228,9 @@ void JoystickHandler::tuneDribbler() {
     if (dribbler_vel < 0) dribbler_vel = 0;
     if (1 < dribbler_vel) dribbler_vel = 1;
 
-    command.dribblerSpeed = dribbler_vel;
+    command.set_dribbler(dribbler_vel);
 }
-rtt::RobotCommand JoystickHandler::getCommand() { return command; }
+proto::RobotCommand JoystickHandler::getCommand() { return command; }
 JoystickState JoystickHandler::getJoystickState() { return joystickState; }
 
 }  // namespace input
