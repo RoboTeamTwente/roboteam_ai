@@ -50,7 +50,7 @@ void Dealer::printCostMatrix(const std::vector<std::vector<double>> &cost_matrix
     std::cout << std::fixed << std::showpoint << std::setprecision(precision);
 
     // For each row in the cost matrix
-    for (int row = 0; row < cost_matrix.size(); row++) {
+    for (std::size_t row = 0; row < cost_matrix.size(); row++) {
         // Print priority and role name
         std::cout << std::left;
         std::cout << std::setw(priority_width) << priorityToString(role_to_flags.at(role_names[row_to_role[row]]).priority);
@@ -164,7 +164,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
         rtt::Hungarian::Solve(cost_matrix_for_priority, assignments);
 
         /* For each role (row) with the current priority, connect it to a robot using the calculated assignments */
-        for (int i = 0; i < row_indices.size(); i++) {
+        for (std::size_t i = 0; i < row_indices.size(); i++) {
             if (0 <= assignments[i]) {
                 std::string role_name = role_names[row_to_role[row_indices[i]]];
                 v::RobotView robot = robots[col_to_robot[assignments[i]]];
@@ -224,21 +224,21 @@ void Dealer::distributeFixedIds(std::vector<v::RobotView> &robots, FlagMap &flag
     auto role = flagMap.begin();
     while (role != flagMap.end()) {
         int required_id = role->second.forcedID;
-        if (required_id == -1) {
+        if (required_id < 0) {
             role++;
             continue;
         }
 
         /* Find the required id in the given list of robots */
         // https://www.techiedelight.com/remove-entries-map-iterating-cpp/
-        bool robot_found = false;                                    // Stores if the robot has been found, for logging purposes
-        for (int i_robot = 0; i_robot < robots.size(); i_robot++) {  // Iterate over each robot
+        bool robot_found = false;                                            // Stores if the robot has been found, for logging purposes
+        for (std::size_t i_robot = 0; i_robot < robots.size(); i_robot++) {  // Iterate over each robot
             // Found the robot with the right id
-            if (robots[i_robot]->getId() == required_id) {           // If the correct robot has been found
-                robot_found = true;                                  //
-                assignments.insert({role->first, robots[i_robot]});  //     Assign the robot to the role
-                robots.erase(robots.begin() + i_robot);              //     Remove the robot from the list of robot
-                role = flagMap.erase(role);                          //     Remove the role from the map of roles
+            if (robots[i_robot]->getId() == static_cast<uint32_t>(required_id)) {  // If the correct robot has been found
+                robot_found = true;                                                //
+                assignments.insert({role->first, robots[i_robot]});                //     Assign the robot to the role
+                robots.erase(robots.begin() + i_robot);                            //     Remove the robot from the list of robot
+                role = flagMap.erase(role);                                        //     Remove the role from the map of roles
                 break;
             }
         }
