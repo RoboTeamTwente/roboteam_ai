@@ -91,9 +91,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a55f2b285dde6b93aac1269ac9a9cc7ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceroboteam__utils.html#a55f2b285dde6b93aac1269ac9a9cc7ae">rotate</a> (proto::SSL_GeometryFieldSize *field)</td></tr>
 <tr class="memdesc:a55f2b285dde6b93aac1269ac9a9cc7ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotate all field lines and field arcs in a field.  <a href="namespaceroboteam__utils.html#a55f2b285dde6b93aac1269ac9a9cc7ae">More...</a><br /></td></tr>
 <tr class="separator:a55f2b285dde6b93aac1269ac9a9cc7ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ae81697018b16f2749975536bfd0e30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceroboteam__utils.html#a3ae81697018b16f2749975536bfd0e30">rotate</a> (rtt::RobotCommand *command)</td></tr>
-<tr class="memdesc:a3ae81697018b16f2749975536bfd0e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotates the x, y and w of a command.  <a href="namespaceroboteam__utils.html#a3ae81697018b16f2749975536bfd0e30">More...</a><br /></td></tr>
-<tr class="separator:a3ae81697018b16f2749975536bfd0e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81e915f49e52c5fd83023fa04efca7d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceroboteam__utils.html#a81e915f49e52c5fd83023fa04efca7d8">rotate</a> (proto::RobotCommand *command)</td></tr>
+<tr class="memdesc:a81e915f49e52c5fd83023fa04efca7d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotates the x, y and w of a command.  <a href="namespaceroboteam__utils.html#a81e915f49e52c5fd83023fa04efca7d8">More...</a><br /></td></tr>
+<tr class="separator:a81e915f49e52c5fd83023fa04efca7d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a379a4d9467f5ce5c50ccdfdf9641071a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceroboteam__utils.html#a379a4d9467f5ce5c50ccdfdf9641071a">mm_to_m</a> (float scalar)</td></tr>
 <tr class="separator:a379a4d9467f5ce5c50ccdfdf9641071a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -116,8 +116,36 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a81e915f49e52c5fd83023fa04efca7d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81e915f49e52c5fd83023fa04efca7d8">&#9670;&nbsp;</a></span>rotate() <span class="overload">[1/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void roboteam_utils::rotate </td>
+          <td>(</td>
+          <td class="paramtype">proto::RobotCommand *&#160;</td>
+          <td class="paramname"><em>command</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rotates the x, y and w of a command. </p>
+<p>Cleans the rotated w</p>
+<p>Pointer is asserted in debug mode</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">command</td><td>Command to rotate </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aff4cbdf30028c5e097b3a32a04f30da4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff4cbdf30028c5e097b3a32a04f30da4">&#9670;&nbsp;</a></span>rotate() <span class="overload">[1/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aff4cbdf30028c5e097b3a32a04f30da4">&#9670;&nbsp;</a></span>rotate() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +172,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a52efbf17cf224633d7c2283d7c4edbb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52efbf17cf224633d7c2283d7c4edbb1">&#9670;&nbsp;</a></span>rotate() <span class="overload">[2/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a52efbf17cf224633d7c2283d7c4edbb1">&#9670;&nbsp;</a></span>rotate() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +199,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a55f2b285dde6b93aac1269ac9a9cc7ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55f2b285dde6b93aac1269ac9a9cc7ae">&#9670;&nbsp;</a></span>rotate() <span class="overload">[3/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a55f2b285dde6b93aac1269ac9a9cc7ae">&#9670;&nbsp;</a></span>rotate() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +226,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aecd20c41771c821e0c584428a470a263"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecd20c41771c821e0c584428a470a263">&#9670;&nbsp;</a></span>rotate() <span class="overload">[4/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aecd20c41771c821e0c584428a470a263">&#9670;&nbsp;</a></span>rotate() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,7 +253,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a329300be1d1cce5ad64e9f495cdc2c47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a329300be1d1cce5ad64e9f495cdc2c47">&#9670;&nbsp;</a></span>rotate() <span class="overload">[5/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a329300be1d1cce5ad64e9f495cdc2c47">&#9670;&nbsp;</a></span>rotate() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -252,7 +280,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="adbd8b3727ad0b4b0c8e98be469274932"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adbd8b3727ad0b4b0c8e98be469274932">&#9670;&nbsp;</a></span>rotate() <span class="overload">[6/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adbd8b3727ad0b4b0c8e98be469274932">&#9670;&nbsp;</a></span>rotate() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -279,7 +307,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="afd388aa887e7c84294eb510d80d1dfa1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd388aa887e7c84294eb510d80d1dfa1">&#9670;&nbsp;</a></span>rotate() <span class="overload">[7/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afd388aa887e7c84294eb510d80d1dfa1">&#9670;&nbsp;</a></span>rotate() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,34 +327,6 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">robot</td><td>Pointer to the Robot to mutate </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a3ae81697018b16f2749975536bfd0e30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ae81697018b16f2749975536bfd0e30">&#9670;&nbsp;</a></span>rotate() <span class="overload">[8/8]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void roboteam_utils::rotate </td>
-          <td>(</td>
-          <td class="paramtype">rtt::RobotCommand *&#160;</td>
-          <td class="paramname"><em>command</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Rotates the x, y and w of a command. </p>
-<p>Cleans the rotated w</p>
-<p>Pointer is asserted in debug mode</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">command</td><td>Command to rotate </td></tr>
   </table>
   </dd>
 </dl>
