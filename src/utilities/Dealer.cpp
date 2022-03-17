@@ -360,6 +360,8 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);
         case DealerFlagTitle::CLOSEST_TO_BALL:
             return costForProperty(robot->getId() == world.getRobotClosestToBall(rtt::world::us)->get()->getId());
+        case DealerFlagTitle::NOT_IMPORTANT:
+            return 0;
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;
