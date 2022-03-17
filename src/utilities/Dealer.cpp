@@ -234,11 +234,11 @@ void Dealer::distributeFixedIds(std::vector<v::RobotView> &robots, FlagMap &flag
         bool robot_found = false;                                            // Stores if the robot has been found, for logging purposes
         for (std::size_t i_robot = 0; i_robot < robots.size(); i_robot++) {  // Iterate over each robot
             // Found the robot with the right id
-            if (robots[i_robot]->getId() == static_cast<uint32_t>(required_id)) {  // If the correct robot has been found
-                robot_found = true;                                                //
-                assignments.insert({role->first, robots[i_robot]});                //     Assign the robot to the role
-                robots.erase(robots.begin() + i_robot);                            //     Remove the robot from the list of robot
-                role = flagMap.erase(role);                                        //     Remove the role from the map of roles
+            if (robots[i_robot]->getId() == required_id) {           // If the correct robot has been found
+                robot_found = true;                                  //
+                assignments.insert({role->first, robots[i_robot]});  //     Assign the robot to the role
+                robots.erase(robots.begin() + i_robot);              //     Remove the robot from the list of robot
+                role = flagMap.erase(role);                          //     Remove the role from the map of roles
                 break;
             }
         }
