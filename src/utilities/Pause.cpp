@@ -2,6 +2,8 @@
 // Created by baris on 15-2-19.
 //
 
+#include <roboteam_utils/RobotCommands.hpp>
+
 #include "utilities/IOManager.h"
 #include "world/World.hpp"
 
@@ -16,15 +18,14 @@ bool Pause::getPause() {
 }
 void Pause::haltRobots(rtt::world::World const* data) {
     auto us = data->getWorld()->getUs();
-    std::vector<proto::RobotCommand> commands;
+    std::vector<rtt::RobotCommand> commands;
     for (const auto& robot : us) {
-        proto::RobotCommand cmd;
-        cmd.mutable_vel()->set_x(0);
-        cmd.mutable_vel()->set_y(0);
-        cmd.set_id(robot->getId());
-        cmd.set_dribbler(0);
-        cmd.set_use_angle(1);
-        cmd.set_w(static_cast<float>(robot->getAngle()));
+        rtt::RobotCommand cmd = {};
+        cmd.id = robot->getId();
+        cmd.velocity.x = 0;
+        cmd.velocity.y = 0;
+        cmd.useAngularVelocity = false;
+        cmd.targetAngle = robot->getAngle();
         commands.push_back(std::move(cmd));
     }
     io::io.publishAllRobotCommands(commands);
