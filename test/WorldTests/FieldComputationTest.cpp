@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/FieldComputations.h>
+#include <world/Field.h>
+#include <world/FieldComputations.h>
 
 namespace rtt {
 using namespace rtt::world;
