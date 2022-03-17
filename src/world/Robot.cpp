@@ -14,7 +14,7 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
       distanceToBall{-1.0},
       lastUpdatedWorldNumber{worldNumber},
       dribblerState{dribblerState},
-      id{copy.id()},
+      id{static_cast<int>(copy.id())},
       angle{copy.angle()},
       pos{copy.pos().x(), copy.pos().y()},
       vel{copy.vel().x(), copy.vel().y()},

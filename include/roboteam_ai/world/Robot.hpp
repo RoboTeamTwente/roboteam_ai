@@ -23,7 +23,7 @@ namespace rtt::world::robot {
  */
 class Robot {
    private:
-    uint32_t id;
+    int id;
     Team team;
 
     Vector2 pos;
