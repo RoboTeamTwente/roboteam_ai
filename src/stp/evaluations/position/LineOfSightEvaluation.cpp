@@ -10,29 +10,26 @@
 namespace rtt::ai::stp::evaluation {
 
 uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eDists, std::vector<double>& eAngles) noexcept {
-    /**             _-                                 \
-     *           _-           3               3         \
-     *        _-  \                  3                   \        The line of sight score is evaluated as follows:
-     *     _-   1  \     3               _________________
-     *  _-         |__________----------     2           |     1. There is a robot close to the ball and within 30 deg of the ball-to-target line => score = 0
-     * B=====1=====|=========2===========================Target     2. There is a robot within 5 deg of the ball-to-target line => score = 0
-     *  -_         |----------__________     2           |     3. There is a robot within 30 deg of the ball-to-target line and far away from the ball
-     *     -_   1 /                    -----------------|         => score is based on angle of enemy to line (quadratic, with score = 0 at 5 deg, score = 1 at 30 deg)
-     *        -_ /    3               3                /
-     *           -_           3                     3 /
+    /**             _-                                \
+     *           _-                                    \
+     *        _-                                        \        The line of sight score is evaluated as follows:
+     *     _-                                            \
+     *  _-                                               |
+     * B=================================================Target   If there is an enemy on the line from the ball to the target (angle=0),
+     *  -_                                               |         the LoS score is 0.
+     *     -_                                           |         At angles > 0, the score slowly scales up to 1 (which is at 30 deg)
+     *        -_                                       /
+     *           -_                                   /
      *              -_                               /
      */
 
-    double evalScore = 1;           // Default score (= perfect line of sight)
-    double innerAngle = M_PI / 36;  // 5 degrees
-    double outerAngle = M_PI / 6;   // 30 degrees
+    double evalScore = 1;          // Default score (= perfect line of sight)
+    constexpr double outerAngle = M_PI / 6;  // 30 degrees- enemies outside this angle are not considered
     for (int i = 0; i < eAngles.size(); i++) {
-        if (eDists[i] < pDist && eAngles[i] < outerAngle) {
-            if (eDists[i] < control_constants::DISTANCE_TO_ROBOT_FAR || eAngles[i] < innerAngle) {
-                return 0;
-            } else {
-                evalScore -= std::pow((1 / (outerAngle - innerAngle)) * (outerAngle - eAngles[i]), 2);
-            }
+        if (eAngles[i] < outerAngle) {
+            // This scales from 0 (at 4 radii in front of the enemy) to 1 (at 4 radii behind the enemy). This smoothens the transitions around robots
+            auto distFadeFactor = std::clamp((-1.0 / (8 * control_constants::ROBOT_RADIUS) * (eDists[i] - pDist)) + 0.5, 0.0, 1.0);
+            evalScore -= std::pow((1 / (outerAngle)) * (outerAngle - eAngles[i]), 2) * distFadeFactor;
         }
     }
     return std::clamp(static_cast<int>(evalScore * 255), 0, 255);
