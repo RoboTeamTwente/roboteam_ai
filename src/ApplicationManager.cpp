@@ -86,11 +86,13 @@ void ApplicationManager::start() {
     roboteam_utils::Timer stpTimer;
     stpTimer.loop(
         [&]() {
-            std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
+            // uncomment the 4 lines of code below to time and display the duration of each loop of the AI
+            // std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
             runOneLoopCycle();
-            std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
+            // std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
 
-            int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+            // auto loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+            // RTT_DEBUG("Loop cycle duration = ", loopcycleDuration);
             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
