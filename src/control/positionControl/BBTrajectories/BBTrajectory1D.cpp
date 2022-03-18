@@ -128,7 +128,6 @@ double BBTrajectory1D::getAcceleration(double t) const {
     }
     BBTrajectoryPart piece = parts[0];
     // we step through the parts and try to find the relevant part on which the time is.
-    double tPieceStart = 0;
     for (int i = 0; i < numParts; ++i) {
         piece = parts[i];
         if (trajTime <= parts[i].tEnd) {
