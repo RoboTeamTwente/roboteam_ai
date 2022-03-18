@@ -20,7 +20,6 @@ Visualizer::Visualizer(QWidget *parent) : QWidget(parent) {}
 void Visualizer::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
     std::optional<rtt::world::view::WorldDataView> world;
     std::optional<rtt::world::Field> field;
     auto const &[_, worldPtr] = rtt::world::World::instance();
