@@ -2,11 +2,10 @@
 #ifndef RTT_JOYSTICKHANDLER_H
 #define RTT_JOYSTICKHANDLER_H
 
+#include <proto/RobotCommand.pb.h>
 #include <stdio.h>
 
-#include <chrono>
 #include <iostream>
-#include <roboteam_utils/RobotCommands.hpp>
 
 #include "JoystickState.h"
 #include "SDL.h"
@@ -16,7 +15,7 @@ namespace rtt::input {
 
 class JoystickHandler {
    private:
-    rtt::RobotCommand command;
+    proto::RobotCommand command;
     JoystickState joystickState;
     float robotAngle = 0.0;
     int robotId = -1;
@@ -30,7 +29,7 @@ class JoystickHandler {
     void handleJoystickMotion(SDL_Event &event);
     void handleJoystickButton(SDL_Event &event);
     void handleJoystickHat(SDL_Event &event);
-    rtt::RobotCommand getCommand();
+    proto::RobotCommand getCommand();
 
     void updateVelocity();
     void updateOrientation();

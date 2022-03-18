@@ -206,7 +206,7 @@ class Play {
      * The previous amount of robots
      * This is used to check if we need to re-deal (if a robot disappears for example)
      */
-    int previousRobotNum{};
+    size_t previousRobotNum{};
 };
 }  // namespace rtt::ai::stp
 

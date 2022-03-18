@@ -8,8 +8,8 @@
 
 namespace rtt {
 
-void Trajectory1D::addTrajectory(const std::vector<BB::BBTrajectoryPart> &newParts, double addFromTime) {
-    for (int i = 0; i < parts.size(); i++) {
+void Trajectory1D::addTrajectory(const std::vector<BB::BBTrajectoryPart>& newParts, double addFromTime) {
+    for (size_t i = 0; i < parts.size(); i++) {
         if (addFromTime <= parts[i].tEnd) {
             parts[i].tEnd = addFromTime;
             parts.erase(parts.begin() + 1 + i, parts.end());
@@ -30,10 +30,9 @@ double Trajectory1D::getAcceleration(double t) const {
     }
     BB::BBTrajectoryPart piece = parts[0];
     // we step through the parts and try to find the relevant part on which the time is.
-    double tPieceStart = 0;
-    for (int i = 0; i < parts.size(); ++i) {
-        piece = parts[i];
-        if (trajTime <= parts[i].tEnd) {
+    for (const auto& part : parts) {
+        piece = part;
+        if (trajTime <= part.tEnd) {
             break;
         }
     }
@@ -49,12 +48,12 @@ double Trajectory1D::getVelocity(double t) const {
     }
     // we step through the parts and try to find the relevant part on which the time is.
     double tPieceStart = 0;
-    for (int i = 0; i < parts.size(); ++i) {
-        piece = parts[i];
-        if (trajTime <= parts[i].tEnd) {
+    for (const auto& part : parts) {
+        piece = part;
+        if (trajTime <= part.tEnd) {
             break;
         }
-        tPieceStart = parts[i].tEnd;
+        tPieceStart = part.tEnd;
     }
     double tPiece = trajTime - tPieceStart;
     // extrapolate the state given the information we have.
@@ -69,12 +68,12 @@ double Trajectory1D::getPosition(double t) const {
     }
     // we step through the parts and try to find the relevant part on which the time is.
     double tPieceStart = 0;
-    for (int i = 0; i < parts.size(); ++i) {
-        piece = parts[i];
-        if (trajTime <= parts[i].tEnd) {
+    for (const auto& part : parts) {
+        piece = part;
+        if (trajTime <= part.tEnd) {
             break;
         }
-        tPieceStart = parts[i].tEnd;
+        tPieceStart = part.tEnd;
     }
     double tPiece = trajTime - tPieceStart;
     // extrapolate the state given the information we have.
