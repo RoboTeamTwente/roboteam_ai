@@ -72,7 +72,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         base = 0.0;
         positions.push_back(lineBorderIntersect);
     }
-    while (positions.size() < amountDefenders) {
+    while (positions.size() < static_cast<size_t>(amountDefenders)) {
         auto circle = Circle(lineBorderIntersect, (base + j++) * (spacingRobots));
         for (const LineSegment &line : defenseAreaBorder) {
             auto intersects = circle.intersectsCircleWithLineSegment(line);

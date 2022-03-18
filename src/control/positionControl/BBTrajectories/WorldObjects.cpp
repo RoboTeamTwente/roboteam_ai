@@ -55,7 +55,7 @@ std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::W
 
 void WorldObjects::calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints, int robotId,
                                             double timeStep) {
-    for (int i = 0; i < pathPoints.size(); i++) {
+    for (size_t i = 0; i < pathPoints.size(); i++) {
         if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
             // Don't care about the field if the robot is already outside the field (i == 0 is the first point of the robot's path, so almost the currentPosition).
             if (i == 0) return;
@@ -71,7 +71,7 @@ void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field
     auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, true, 0, 0);
     auto theirDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field, false, 0, 0);
 
-    for (int i = 0; i < pathPoints.size(); i++) {
+    for (size_t i = 0; i < pathPoints.size(); i++) {
         if (ourDefenseArea.contains(pathPoints[i]) || theirDefenseArea.contains(pathPoints[i])) {
             // Don't care about the defense area if the robot is already in the defense area. It should just get out as fast as possible :)
             if (i == 0) return;
@@ -99,7 +99,7 @@ void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::
 
         // Check each timeStep for a collision with the ball, or during ball placement if its too close to the 'ballTube'
         auto ballTube = LineSegment(startPositionBall, rtt::ai::GameStateManager::getRefereeDesignatedPosition());
-        for (int i = 0; i < ballTrajectory.size(); i++) {
+        for (size_t i = 0; i < ballTrajectory.size(); i++) {
             if (ruleset.minDistanceToBall > (pathPoints[i] - ballTrajectory[i]).length() ||
                 (gameState.getStrategyName() == "ball_placement_them" && ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i]))) {
                 insertCollisionData(collisionDatas, CollisionData{ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision"});
@@ -113,12 +113,12 @@ void WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world,
                                                  const std::vector<Vector2> &pathPoints, double timeStep) {
     const std::vector<world::view::RobotView> theirRobots = world->getWorld()->getThem();
 
-    for (int i = 0; i < pathPoints.size(); i++) {
+    for (size_t i = 0; i < pathPoints.size(); i++) {
         double currentTime = i * timeStep;
         // The >= 2 is used for checking for collisions within 2 seconds
         // TODO: fine tune maximum collision check time
         if (currentTime >= 2) break;
-        Vector2 ourVel = Trajectory.getVelocity(currentTime);
+        // Vector2 ourVel = Trajectory.getVelocity(currentTime);
         for (const auto &theirRobot : theirRobots) {
             Vector2 theirVel = theirRobot->getVel();
             // TODO: improve position prediction. Current model uses x + v*t
@@ -141,7 +141,7 @@ void WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world,
 void WorldObjects::calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                                const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep) {
     auto ourRobots = world->getWorld()->getUs();
-    for (int i = 0; i < pathPoints.size(); i++) {
+    for (size_t i = 0; i < pathPoints.size(); i++) {
         if (i * timeStep > 2) break;  // Only check for collisions with our robots in the first 2 seconds of our trajectory
         for (auto &robot : ourRobots) {
             if (robotId != robot->getId()) {

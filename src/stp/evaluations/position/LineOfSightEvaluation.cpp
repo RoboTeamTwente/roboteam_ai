@@ -26,7 +26,7 @@ uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eD
     double evalScore = 1;           // Default score (= perfect line of sight)
     double innerAngle = M_PI / 36;  // 5 degrees
     double outerAngle = M_PI / 6;   // 30 degrees
-    for (int i = 0; i < eAngles.size(); i++) {
+    for (size_t i = 0; i < eAngles.size(); i++) {
         if (eDists[i] < pDist && eAngles[i] < outerAngle) {
             if (eDists[i] < control_constants::DISTANCE_TO_ROBOT_FAR || eAngles[i] < innerAngle) {
                 return 0;

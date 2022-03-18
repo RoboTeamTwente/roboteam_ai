@@ -116,7 +116,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         proto::SimulationConfiguration configuration;                    // Create packet
         configuration.mutable_ball_location()->set_x(field_position.x);  // Set x
         configuration.mutable_ball_location()->set_y(field_position.y);  // Set y
-        io::io.sendSimulationConfiguration(configuration);  // Send packet
+        io::io.sendSimulationConfiguration(configuration);               // Send packet
     }
 }
 
@@ -548,7 +548,7 @@ void Visualizer::drawPlusses(QPainter &painter, std::vector<Vector2> points, dou
 
 void Visualizer::drawArrows(QPainter &painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow) {
     if (points.size() >= 2) {
-        for (int i = 1; i < points.size(); i += 2) {
+        for (size_t i = 1; i < points.size(); i += 2) {
             Vector2 &arrowEnd = points.at(i - 1);
             Vector2 &arrowStart = points.at(i);
 
@@ -599,7 +599,7 @@ void Visualizer::drawPoints(QPainter &painter, std::vector<Vector2> points, doub
 
 void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
     if (points.size() >= 2) {
-        for (int i = 1; i < points.size(); i++) {
+        for (size_t i = 1; i < points.size(); i++) {
             Vector2 pointOnScreen = toScreenPosition(points.at(i));
             Vector2 prevPointOnScreen = toScreenPosition(points.at(i - 1));
             painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);

@@ -8,8 +8,8 @@
 
 namespace rtt {
 
-void Trajectory1D::addTrajectory(const std::vector<BB::BBTrajectoryPart> &newParts, double addFromTime) {
-    for (int i = 0; i < parts.size(); i++) {
+void Trajectory1D::addTrajectory(const std::vector<BB::BBTrajectoryPart>& newParts, double addFromTime) {
+    for (size_t i = 0; i < parts.size(); i++) {
         if (addFromTime <= parts[i].tEnd) {
             parts[i].tEnd = addFromTime;
             parts.erase(parts.begin() + 1 + i, parts.end());
