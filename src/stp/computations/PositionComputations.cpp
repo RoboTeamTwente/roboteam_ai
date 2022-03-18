@@ -35,6 +35,7 @@ Vector2 PositionComputations::getWallPosition(int index, int amountDefenders, co
 }
 
 std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::world::Field &field, const rtt::world::World *world, int amountDefenders) {
+    if (amountDefenders <= 0) return {};  // we need at least 1 defender to be able to compute a wall
     Vector2 ballPos = FieldComputations::placePointInField(field, world->getWorld().value().getBall()->get()->getPos());
     double radius = control_constants::ROBOT_RADIUS;
     double spacingRobots = radius * 2;
@@ -49,15 +50,13 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     /// Find intersect of ball to goal on the border of the defense area
     LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
-    for (auto &i : defenseAreaBorder) {
-        for (const LineSegment &line : defenseAreaBorder) {  // Vector is made to check if there is only 1 intersect
-            if (line.doesIntersect(ball2GoalLine)) {
-                auto intersect = line.intersects(ball2GoalLine);
-                if (intersect.has_value() &&
-                    // check if there is an intersect and that the intersect is not with the goal line
-                    intersect->x - field.getOurGoalCenter().x > radius + control_constants::GO_TO_POS_ERROR_MARGIN)
-                    lineBorderIntersects.push_back(intersect.value());
-            }
+    for (const LineSegment &line : defenseAreaBorder) {  // Vector is made to check if there is only 1 intersect
+        if (line.doesIntersect(ball2GoalLine)) {
+            auto intersect = line.intersects(ball2GoalLine);
+            if (intersect.has_value() &&
+                // check if there is an intersect and that the intersect is not with the goal line
+                intersect->x - field.getOurGoalCenter().x > radius + control_constants::GO_TO_POS_ERROR_MARGIN)
+                lineBorderIntersects.push_back(intersect.value());
         }
     }
 
