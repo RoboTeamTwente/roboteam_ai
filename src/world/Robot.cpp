@@ -10,15 +10,15 @@
 namespace rtt::world::robot {
 Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world::Team team, std::optional<view::BallView> ball,
              unsigned char dribblerState, unsigned long worldNumber)
-    : team{team},
-      distanceToBall{-1.0},
-      lastUpdatedWorldNumber{worldNumber},
-      dribblerState{dribblerState},
-      id{static_cast<int>(copy.id())},
-      angle{copy.angle()},
+    : id{static_cast<int>(copy.id())},
+      team{team},
       pos{copy.pos().x(), copy.pos().y()},
       vel{copy.vel().x(), copy.vel().y()},
-      angularVelocity{copy.w()} {
+      angle{copy.angle()},
+      distanceToBall{-1.0},
+      lastUpdatedWorldNumber{worldNumber},
+      angularVelocity{copy.w()},
+      dribblerState{dribblerState} {
     if (id < 16) {
         workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
         workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
@@ -37,9 +37,9 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
     }
 }
 
-uint32_t Robot::getId() const noexcept { return id; }
+int Robot::getId() const noexcept { return id; }
 
-void Robot::setId(uint32_t _id) noexcept { Robot::id = _id; }
+void Robot::setId(int _id) noexcept { Robot::id = _id; }
 
 Team Robot::getTeam() const noexcept { return team; }
 
