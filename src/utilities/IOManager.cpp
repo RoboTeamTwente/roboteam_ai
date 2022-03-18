@@ -27,7 +27,7 @@ bool IOManager::init(bool isPrimaryAI) {
         }
         try {
             this->simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
-        } catch (zmqpp::zmq_internal_exception e) {
+        } catch (const zmqpp::zmq_internal_exception& e) {
             success = false;
             RTT_ERROR("Failed to open simulation configuration publisher channel. Is it already taken?")
         }
