@@ -21,20 +21,20 @@ bool IOManager::init(bool isPrimaryAI) {
     if (isPrimaryAI) {
         try {
             this->settingsPublisher = std::make_unique<rtt::net::SettingsPublisher>();
-        } catch (zmqpp::zmq_internal_exception e) {
+        } catch (const zmqpp::zmq_internal_exception& e) {
             success = false;
             RTT_ERROR("Failed to open settings publisher channel. Is it already taken?")
         }
         try {
             this->simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
-        } catch (zmqpp::zmq_internal_exception e) {
+        } catch (const zmqpp::zmq_internal_exception& e) {
             success = false;
             RTT_ERROR("Failed to open simulation configuration publisher channel. Is it already taken?")
         }
     } else {
         try {
             this->settingsSubscriber = std::make_unique<rtt::net::SettingsSubscriber>([&](const proto::Setting& settings) { this->onSettingsOfPrimaryAI(settings); });
-        } catch (zmqpp::zmq_internal_exception e) {
+        } catch (const zmqpp::zmq_internal_exception& e) {
             success = false;
             RTT_ERROR("Failed to open settings subscriber channel")
         }
@@ -134,7 +134,7 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
                 this->robotCommandsYellowPublisher = std::make_unique<rtt::net::RobotCommandsYellowPublisher>();
                 this->robotCommandsBluePublisher = nullptr;
                 obtainedChannel = true;
-            } catch (zmqpp::zmq_internal_exception e) {
+            } catch (const zmqpp::zmq_internal_exception& e) {
                 this->robotCommandsYellowPublisher = nullptr;
             }
         }
@@ -146,7 +146,7 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
                 this->robotCommandsBluePublisher = std::make_unique<rtt::net::RobotCommandsBluePublisher>();
                 this->robotCommandsYellowPublisher = nullptr;
                 obtainedChannel = true;
-            } catch (zmqpp::zmq_internal_exception e) {
+            } catch (const zmqpp::zmq_internal_exception& e) {
                 this->robotCommandsBluePublisher = nullptr;
             }
         }
@@ -161,5 +161,4 @@ bool IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration
     }
     return false;
 }
-
 }  // namespace rtt::ai::io

@@ -10,7 +10,7 @@ namespace rtt::ai {
 
 struct GameState {
     GameState() = default;
-    GameState(std::string strategyName, std::string ruleSetName) : strategyName(std::move(strategyName)), ruleSetName(std::move(ruleSetName)){};
+    GameState(std::string strategyName, std::string ruleSetName) : ruleSetName(std::move(ruleSetName)), strategyName(std::move(strategyName)){};
 
     std::string ruleSetName;
     int keeperId = Constants::DEFAULT_KEEPER_ID();

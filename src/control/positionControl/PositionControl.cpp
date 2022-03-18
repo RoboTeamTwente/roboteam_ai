@@ -70,7 +70,7 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
         computedPathsVel[robotId] = computedTrajectories[robotId].getVelocityVector(timeStep);  // creates a vector with all the velocities
         computedPathsPosVel[robotId].clear();
         computedPathsPosVel[robotId].reserve(computedPaths[robotId].size());
-        for (int i = 0; i < computedPaths[robotId].size(); i++) {
+        for (size_t i = 0; i < computedPaths[robotId].size(); i++) {
             computedPathsPosVel[robotId].push_back(std::make_pair(computedPaths[robotId][i], computedPathsVel[robotId][i]));
         }
     }

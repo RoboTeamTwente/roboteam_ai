@@ -20,7 +20,6 @@ Visualizer::Visualizer(QWidget *parent) : QWidget(parent) {}
 void Visualizer::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
     std::optional<rtt::world::view::WorldDataView> world;
     std::optional<rtt::world::Field> field;
     auto const &[_, worldPtr] = rtt::world::World::instance();
@@ -552,7 +551,7 @@ void Visualizer::drawPlusses(QPainter &painter, std::vector<Vector2> points, dou
 
 void Visualizer::drawArrows(QPainter &painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow) {
     if (points.size() >= 2) {
-        for (int i = 1; i < points.size(); i += 2) {
+        for (size_t i = 1; i < points.size(); i += 2) {
             Vector2 &arrowEnd = points.at(i - 1);
             Vector2 &arrowStart = points.at(i);
 
@@ -603,7 +602,7 @@ void Visualizer::drawPoints(QPainter &painter, std::vector<Vector2> points, doub
 
 void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
     if (points.size() >= 2) {
-        for (int i = 1; i < points.size(); i++) {
+        for (size_t i = 1; i < points.size(); i++) {
             Vector2 pointOnScreen = toScreenPosition(points.at(i));
             Vector2 prevPointOnScreen = toScreenPosition(points.at(i - 1));
             painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
