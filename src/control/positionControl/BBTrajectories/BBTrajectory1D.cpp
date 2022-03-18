@@ -92,7 +92,7 @@ void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double
 }
 
 BBTrajectory1D::BBTrajectory1D(double startPos, double startVel, double endPos, double maximumVel, double maximumAcc)
-    : initialPos{startPos}, initialVel{startVel}, finalPos{endPos}, maxAcc{maximumAcc}, maxVel{maximumVel} {
+    : initialPos{startPos}, finalPos{endPos}, initialVel{startVel}, maxAcc{maximumAcc}, maxVel{maximumVel} {
     generateTrajectory(startPos, startVel, endPos, maximumVel, maximumAcc);
 }
 
