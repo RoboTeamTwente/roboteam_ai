@@ -23,9 +23,10 @@ uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eD
      *              -_                               /
      */
 
+
     double evalScore = 1;          // Default score (= perfect line of sight)
     constexpr double outerAngle = M_PI / 6;  // 30 degrees- enemies outside this angle are not considered
-    for (int i = 0; i < eAngles.size(); i++) {
+    for (size_t i = 0; i < eAngles.size(); i++) {
         if (eAngles[i] < outerAngle) {
             // This scales from 0 (at 4 radii in front of the enemy) to 1 (at 4 radii behind the enemy). This smoothens the transitions around robots
             auto distFadeFactor = std::clamp((-1.0 / (8 * control_constants::ROBOT_RADIUS) * (eDists[i] - pDist)) + 0.5, 0.0, 1.0);

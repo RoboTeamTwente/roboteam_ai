@@ -11,7 +11,7 @@ namespace rtt::ai::interface {
 VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer *visualizer, QWidget *parent) {
     auto cbVLayout = new QVBoxLayout();
 
-    for (int i = 0; i < Toggles::toggles.size(); i++) {
+    for (size_t i = 0; i < Toggles::toggles.size(); i++) {
         auto customToggle = new QWidget;
         auto hbox = new QHBoxLayout();
 
