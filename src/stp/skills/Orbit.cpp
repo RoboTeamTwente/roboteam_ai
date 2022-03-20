@@ -32,13 +32,12 @@ Status Orbit::onUpdate(const StpInfo &info) noexcept {
     if (maxVel < 0.65) maxVel = 0.65;
     if (targetVelocity.length() > maxVel) targetVelocity = targetVelocity.stretchToLength(maxVel);
 
-    command.mutable_vel()->set_x(static_cast<float>(targetVelocity.x));
-    command.mutable_vel()->set_y(static_cast<float>(targetVelocity.y));
+    command.velocity = targetVelocity;
 
-    command.set_w(targetAngle);
+    command.targetAngle = targetAngle;
 
     // set command ID
-    command.set_id(info.getRobot().value()->getId());
+    command.id = info.getRobot().value()->getId();
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
