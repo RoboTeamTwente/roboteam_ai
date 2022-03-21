@@ -24,11 +24,10 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
     interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
 
-    RobotCommand command = RobotCommand();
-    command.pos = computedPaths[robotId].front();
+    RobotCommand command = {};
     Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity, computedPaths[robotId], robotId, pidType);
-    command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
-    command.angle = trackingVelocity.rot;
+    command.velocity = Vector2(trackingVelocity.x, trackingVelocity.y);
+    command.targetAngle = trackingVelocity.rot;
     return command;
 }
 
@@ -85,8 +84,7 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
         computedPaths[robotId].erase(computedPaths[robotId].begin());
     }
 
-    commandCollision.robotCommand = RobotCommand();
-    commandCollision.robotCommand.pos = computedPaths[robotId].front();
+    commandCollision.robotCommand = {};
     // Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId, pidType);
     Position trackingVelocity = pathTrackingAlgorithmBBT.trackPathForwardAngle(currentPosition, currentVelocity, computedPathsPosVel[robotId], robotId, pidType);
     Vector2 trackingVelocityVector = {trackingVelocity.x, trackingVelocity.y};
@@ -97,8 +95,8 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
         if (trackingVelocityVector.length() > 0.5) trackingVelocityVector = trackingVelocityVector.stretchToLength(0.5);
     }
 
-    commandCollision.robotCommand.vel = trackingVelocityVector;
-    commandCollision.robotCommand.angle = trackingVelocity.rot;
+    commandCollision.robotCommand.velocity = trackingVelocityVector;
+    commandCollision.robotCommand.targetAngle = trackingVelocity.rot;
 
     return commandCollision;
 }

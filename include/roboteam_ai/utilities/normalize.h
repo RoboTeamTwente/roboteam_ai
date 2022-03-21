@@ -1,12 +1,13 @@
 #pragma once
 
-#include <proto/RobotCommand.pb.h>
 #include <proto/World.pb.h>
 #include <proto/WorldBall.pb.h>
 #include <proto/WorldRobot.pb.h>
 #include <proto/messages_robocup_ssl_geometry.pb.h>
 #include <proto/messages_robocup_ssl_referee.pb.h>
 #include <roboteam_utils/Mathematics.h>
+
+#include <roboteam_utils/RobotCommands.hpp>
 
 namespace roboteam_utils {
 
@@ -82,6 +83,6 @@ void rotate(proto::SSL_GeometryFieldSize *field);
  *
  * @param command Command to rotate
  */
-void rotate(proto::RobotCommand *command);
+void rotate(rtt::RobotCommand *command);
 
 }  // namespace roboteam_utils
