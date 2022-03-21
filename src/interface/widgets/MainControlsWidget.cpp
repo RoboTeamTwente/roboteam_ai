@@ -106,12 +106,12 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
         GameStateManager::updateInterfaceGameState(rtt::ApplicationManager::plays[index].get()->getName());
     });
 
-    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), [=](const QString &goalieId) {
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
         interface::Output::setKeeperId(goalieId.toInt());
     });
 
-    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), [=](const QString &rulesetName) {
+    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &rulesetName) {
         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
         interface::Output::setRuleSetName(rulesetName.toStdString());
     });
