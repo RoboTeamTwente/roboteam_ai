@@ -23,7 +23,7 @@ namespace rtt::world::robot {
  */
 class Robot {
    private:
-    uint32_t id;
+    int id;
     Team team;
 
     Vector2 pos;
@@ -52,7 +52,7 @@ class Robot {
    private:
     void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
 
-    void setId(uint32_t id) noexcept;
+    void setId(int id) noexcept;
 
     void setTeam(Team team) noexcept;
 
@@ -89,7 +89,7 @@ class Robot {
     void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
 
    public:
-    [[nodiscard]] uint32_t getId() const noexcept;
+    [[nodiscard]] int getId() const noexcept;
 
     [[nodiscard]] Team getTeam() const noexcept;
 

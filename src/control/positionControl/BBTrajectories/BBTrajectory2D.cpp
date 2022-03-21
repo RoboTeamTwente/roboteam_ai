@@ -53,7 +53,7 @@ Vector2 BBTrajectory2D::getAcceleration(double t) const { return Vector2(x.getAc
 std::vector<Vector2> BBTrajectory2D::getStraightLines(unsigned int N) const {
     std::vector<Vector2> points;
     double timeStep = fmax(x.getTotalTime(), y.getTotalTime()) / N;
-    for (int i = 0; i <= N; ++i) {
+    for (unsigned int i = 0; i <= N; ++i) {
         points.push_back(getPosition(timeStep * i));
     }
     return points;
@@ -92,7 +92,7 @@ std::vector<std::pair<Vector2, Vector2>> BBTrajectory2D::getPosVelVector(double 
     std::vector<std::pair<Vector2, Vector2>> posVelVector;
 
     posVelVector.reserve(posVector.size());
-    for (int i = 0; i < posVector.size(); i++) {
+    for (size_t i = 0; i < posVector.size(); i++) {
         posVelVector.emplace_back(std::make_pair(posVector[i], velVector[i]));
     }
 
