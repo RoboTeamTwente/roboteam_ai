@@ -38,6 +38,7 @@
 #include "stp/plays/referee_specific/PenaltyThemPrepare.h"
 #include "stp/plays/referee_specific/PenaltyUs.h"
 #include "stp/plays/referee_specific/PenaltyUsPrepare.h"
+#include "stp/plays/offensive/InterceptBall.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -80,6 +81,7 @@ void ApplicationManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::InterceptBall>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;

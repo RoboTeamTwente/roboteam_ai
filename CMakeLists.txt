@@ -124,6 +124,7 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PassReceiver.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Intercepter.cpp
         # passive
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/BallAvoider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Defender.cpp
@@ -162,6 +163,7 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/InterceptBall.cpp
         # referee_specific/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp
@@ -178,8 +180,7 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyThemPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp)
 target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
         )
