@@ -98,7 +98,7 @@ class World {
      * Updates feedback for all robots that received feedback
      * @param feedback Feedback to apply
      */
-    void updateFeedback(google::protobuf::RepeatedPtrField<proto::RobotFeedback> feedback);
+    void updateFeedback(proto::RobotsFeedback feedback);
 
     /**
      * Updates the currentWorld
