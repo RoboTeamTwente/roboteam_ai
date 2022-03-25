@@ -119,18 +119,13 @@ void DefendPass::calculateInfoForDefenders() noexcept {
         enemyMap.template insert(std::pair<double, Vector2>(score, enemy->getPos()));
     }
 
-    stpInfos["midfielder_1"].setPositionToDefend(enemyMap.rbegin()->second);
-    stpInfos["midfielder_1"].setBlockDistance(BlockDistance::HALFWAY);
+    for (int i = 1; i <= 3; i++){
+        stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
+        stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
 
-    enemyMap.erase(prev(enemyMap.end()));
+        enemyMap.erase(prev(enemyMap.end()));
+    }
 
-    stpInfos["midfielder_2"].setPositionToDefend(enemyMap.end()->second);
-    stpInfos["midfielder_2"].setBlockDistance(BlockDistance::HALFWAY);
-
-    enemyMap.erase(prev(enemyMap.end()));
-
-    stpInfos["midfielder_3"].setPositionToDefend(enemyMap.rbegin()->second);
-    stpInfos["midfielder_3"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
 void DefendPass::calculateInfoForKeeper() noexcept {
