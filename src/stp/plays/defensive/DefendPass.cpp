@@ -126,7 +126,6 @@ void DefendPass::calculateInfoForDefenders() noexcept {
 
         enemyMap.erase(prev(enemyMap.end()));
     }
-
 }
 
 void DefendPass::calculateInfoForKeeper() noexcept {
