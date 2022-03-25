@@ -129,7 +129,6 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
         enemyMap.erase(enemyMap.begin());
     }
-
 }
 
 void DefendShot::calculateInfoForHarassers() noexcept {

@@ -53,7 +53,6 @@ class DefendShot : public Play {
     const char* getName() override;
 
    protected:
-
     /**
      * Calculates info for the wallers
      */
