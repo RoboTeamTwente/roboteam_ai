@@ -128,7 +128,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
             for (auto& packet : vision_packets){
-                //roboteam_utils::rotate(packet); //TODO: fix
+                roboteam_utils::rotate(&packet); //
             }
         }
         mainWindow->updateProcessedVisionPackets(vision_packets);
