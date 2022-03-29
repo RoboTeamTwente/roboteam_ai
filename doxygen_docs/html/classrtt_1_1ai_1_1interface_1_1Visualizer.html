@@ -107,6 +107,10 @@ Public Slots</h2></td></tr>
 <tr class="separator:a8657018d07a85b184b7596e704b49806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af580cd5c2f630a1eddb77a8b29660d55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#af580cd5c2f630a1eddb77a8b29660d55">setToggleFieldDirection</a> (bool inversed)</td></tr>
 <tr class="separator:af580cd5c2f630a1eddb77a8b29660d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd03b76d73a9b34e3f65665f792283b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#acd03b76d73a9b34e3f65665f792283b1">setShowWorldDetections</a> (bool showDetections)</td></tr>
+<tr class="separator:acd03b76d73a9b34e3f65665f792283b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeabf08bdc0c320a849d7979775e2efed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#aeabf08bdc0c320a849d7979775e2efed">setShowWorld</a> (bool <a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a94d0738e544dee89186d87702fb7be95">showWorld</a>)</td></tr>
+<tr class="separator:aeabf08bdc0c320a849d7979775e2efed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -122,6 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a48b1f4434eef8f8f59bcd0a86c54004e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a583ea7336212db83ccdaeb77cc09d7ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a583ea7336212db83ccdaeb77cc09d7ab">setTacticForRobot</a> (std::string const &amp;view, uint8_t i)</td></tr>
 <tr class="separator:a583ea7336212db83ccdaeb77cc09d7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af62cb8040f918b865a5d3f3c48ce0f33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#af62cb8040f918b865a5d3f3c48ce0f33">updateProcessedVisionPackets</a> (const std::vector&lt; proto::SSL_WrapperPacket &gt; &amp;packets)</td></tr>
+<tr class="separator:af62cb8040f918b865a5d3f3c48ce0f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -179,6 +185,12 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:aff51b963a79fa5d685e689ab1a7ba86c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#aff51b963a79fa5d685e689ab1a7ba86c">calculateFieldSizeFactor</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field)</td></tr>
 <tr class="memdesc:aff51b963a79fa5d685e689ab1a7ba86c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the factor variable which is used for mapping field coordinates with screen coordinates.  <a href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#aff51b963a79fa5d685e689ab1a7ba86c">More...</a><br /></td></tr>
 <tr class="separator:aff51b963a79fa5d685e689ab1a7ba86c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae82cb4476a9d254031287d56254e5175"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#ae82cb4476a9d254031287d56254e5175">drawRawDetectionPackets</a> (QPainter &amp;painter)</td></tr>
+<tr class="separator:ae82cb4476a9d254031287d56254e5175"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa42c8bab7cead44b5d57567a6c89f48c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#aa42c8bab7cead44b5d57567a6c89f48c">drawDetectionBall</a> (QPainter &amp;painter, const proto::SSL_DetectionBall &amp;ball)</td></tr>
+<tr class="separator:aa42c8bab7cead44b5d57567a6c89f48c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16413d21de2407c89cf01ab859d9531f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a16413d21de2407c89cf01ab859d9531f">drawDetectionRobot</a> (QPainter &amp;painter, bool robotIsBlue, const proto::SSL_DetectionRobot &amp;robot)</td></tr>
+<tr class="separator:a16413d21de2407c89cf01ab859d9531f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -186,6 +198,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a6b5a020af9cb680170e9f791783a8277"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a3cc1b8c2c3e307df7712267d5a4d16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a1a3cc1b8c2c3e307df7712267d5a4d16">fieldmargin</a> = <a class="el" href="classrtt_1_1ai_1_1Constants.html#ad82145a7f85d26c510af3411c3ccf4cc">Constants::WINDOW_FIELD_MARGIN</a>()</td></tr>
 <tr class="separator:a1a3cc1b8c2c3e307df7712267d5a4d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78100d02c679ef02071b873ef0b386c9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; proto::SSL_WrapperPacket &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a78100d02c679ef02071b873ef0b386c9">raw_detection_packets</a></td></tr>
+<tr class="separator:a78100d02c679ef02071b873ef0b386c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12747eece4b6c2f24a7096238b06e5c1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::string, QColor &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a12747eece4b6c2f24a7096238b06e5c1">tacticColors</a></td></tr>
 <tr class="separator:a12747eece4b6c2f24a7096238b06e5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bd24b5bc334fabf34bb9c3771bbad9d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a8bd24b5bc334fabf34bb9c3771bbad9d">tacticCount</a> = 0</td></tr>
@@ -216,6 +230,12 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a0b9457f76731e38c21e4635425176fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a910d40197511dbbb94b681f7531a9ef5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a910d40197511dbbb94b681f7531a9ef5">fieldInversed</a> = false</td></tr>
 <tr class="separator:a910d40197511dbbb94b681f7531a9ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94d0738e544dee89186d87702fb7be95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a94d0738e544dee89186d87702fb7be95">showWorld</a> = true</td></tr>
+<tr class="separator:a94d0738e544dee89186d87702fb7be95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9922e759babf44b3e7c295aa2bd89a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#ab9922e759babf44b3e7c295aa2bd89a1">showWorldDetections</a> = false</td></tr>
+<tr class="separator:ab9922e759babf44b3e7c295aa2bd89a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a778bc5eb56bc8f499f2e9096deee0e54"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a778bc5eb56bc8f499f2e9096deee0e54">worldDetectionsMutex</a></td></tr>
+<tr class="separator:a778bc5eb56bc8f499f2e9096deee0e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad81747ffd05aa07a413f336e90cb51e2"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#ad81747ffd05aa07a413f336e90cb51e2">rolesUpdate</a></td></tr>
 <tr class="separator:ad81747ffd05aa07a413f336e90cb51e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace1f42e3b660d71a385a4a27f09a89b4"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#ace1f42e3b660d71a385a4a27f09a89b4">tacticsUpdate</a></td></tr>
@@ -469,6 +489,84 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aa42c8bab7cead44b5d57567a6c89f48c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa42c8bab7cead44b5d57567a6c89f48c">&#9670;&nbsp;</a></span>drawDetectionBall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Visualizer::drawDetectionBall </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;&#160;</td>
+          <td class="paramname"><em>painter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const proto::SSL_DetectionBall &amp;&#160;</td>
+          <td class="paramname"><em>ball</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16413d21de2407c89cf01ab859d9531f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16413d21de2407c89cf01ab859d9531f">&#9670;&nbsp;</a></span>drawDetectionRobot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Visualizer::drawDetectionRobot </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;&#160;</td>
+          <td class="paramname"><em>painter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>robotIsBlue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const proto::SSL_DetectionRobot &amp;&#160;</td>
+          <td class="paramname"><em>robot</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aac88c3615d24bf324a8513a47a4df780"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac88c3615d24bf324a8513a47a4df780">&#9670;&nbsp;</a></span>drawFieldHints()</h2>
 
@@ -662,6 +760,32 @@ Private Attributes</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae82cb4476a9d254031287d56254e5175"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae82cb4476a9d254031287d56254e5175">&#9670;&nbsp;</a></span>drawRawDetectionPackets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Visualizer::drawRawDetectionPackets </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;&#160;</td>
+          <td class="paramname"><em>painter</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -1298,6 +1422,58 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aeabf08bdc0c320a849d7979775e2efed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeabf08bdc0c320a849d7979775e2efed">&#9670;&nbsp;</a></span>setShowWorld</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Visualizer::setShowWorld </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>showWorld</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd03b76d73a9b34e3f65665f792283b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd03b76d73a9b34e3f65665f792283b1">&#9670;&nbsp;</a></span>setShowWorldDetections</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Visualizer::setShowWorldDetections </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>showDetections</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a583ea7336212db83ccdaeb77cc09d7ab"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a583ea7336212db83ccdaeb77cc09d7ab">&#9670;&nbsp;</a></span>setTacticForRobot()</h2>
 
@@ -1466,6 +1642,24 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="af62cb8040f918b865a5d3f3c48ce0f33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af62cb8040f918b865a5d3f3c48ce0f33">&#9670;&nbsp;</a></span>updateProcessedVisionPackets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Visualizer::updateProcessedVisionPackets </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; proto::SSL_WrapperPacket &gt; &amp;&#160;</td>
+          <td class="paramname"><em>packets</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="a6b5a020af9cb680170e9f791783a8277"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6b5a020af9cb680170e9f791783a8277">&#9670;&nbsp;</a></span>factor</h2>
@@ -1544,6 +1738,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">bool rtt::ai::interface::Visualizer::middle_mouse_pressed = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78100d02c679ef02071b873ef0b386c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78100d02c679ef02071b873ef0b386c9">&#9670;&nbsp;</a></span>raw_detection_packets</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;proto::SSL_WrapperPacket&gt; rtt::ai::interface::Visualizer::raw_detection_packets</td>
         </tr>
       </table>
   </td>
@@ -1797,6 +2013,50 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a94d0738e544dee89186d87702fb7be95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94d0738e544dee89186d87702fb7be95">&#9670;&nbsp;</a></span>showWorld</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::ai::interface::Visualizer::showWorld = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab9922e759babf44b3e7c295aa2bd89a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9922e759babf44b3e7c295aa2bd89a1">&#9670;&nbsp;</a></span>showWorldDetections</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::ai::interface::Visualizer::showWorldDetections = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a12747eece4b6c2f24a7096238b06e5c1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a12747eece4b6c2f24a7096238b06e5c1">&#9670;&nbsp;</a></span>tacticColors</h2>
 
@@ -1874,6 +2134,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::mutex rtt::ai::interface::Visualizer::tacticsUpdate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a778bc5eb56bc8f499f2e9096deee0e54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a778bc5eb56bc8f499f2e9096deee0e54">&#9670;&nbsp;</a></span>worldDetectionsMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex rtt::ai::interface::Visualizer::worldDetectionsMutex</td>
         </tr>
       </table>
   </td>
