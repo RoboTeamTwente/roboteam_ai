@@ -124,9 +124,14 @@ void ApplicationManager::runOneLoopCycle() {
         auto fieldMessage = state.field().field();
         auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
 
+        std::vector<proto::SSL_WrapperPacket> vision_packets(state.processed_vision_packets().begin(),state.processed_vision_packets().end());
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
+            for (auto& packet : vision_packets){
+                //roboteam_utils::rotate(packet); //TODO: fix
+            }
         }
+        mainWindow->updateProcessedVisionPackets(vision_packets);
 
         auto const &[_, world] = world::World::instance();
         world->updateFeedback(feedbackMessage);
