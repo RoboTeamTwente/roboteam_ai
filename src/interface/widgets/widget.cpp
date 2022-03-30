@@ -671,7 +671,6 @@ void Visualizer::drawDetectionBall(QPainter &painter, const proto::SSL_Detection
     int ballSize = Constants::BALL_RADIUS() * 2 * factor;
 
     painter.drawEllipse(qballPosition, ballSize,ballSize);
-
 }
 void Visualizer::drawDetectionRobot(QPainter &painter, bool robotIsBlue, const proto::SSL_DetectionRobot &robot) {
     Vector2 robotWorldPos = Vector2(robot.x()*0.001,robot.y()*0.001);
