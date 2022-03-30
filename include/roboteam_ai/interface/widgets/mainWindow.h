@@ -31,7 +31,6 @@
 #include "widget.h"
 #include "world/World.hpp"
 
-#include "proto/messages_robocup_ssl_wrapper.pb.h"
 namespace rtt {
 class ApplicationManager;
 }
@@ -54,7 +53,6 @@ class MainWindow : public QMainWindow {
     static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
     void updatePlay(stp::Play *play);
-    void updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket>& packets);
 
    signals:
     void updateStpWidgets();

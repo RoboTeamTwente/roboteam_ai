@@ -5,7 +5,6 @@
 #include <proto/WorldRobot.pb.h>
 #include <proto/messages_robocup_ssl_geometry.pb.h>
 #include <proto/messages_robocup_ssl_referee.pb.h>
-#include <proto/messages_robocup_ssl_wrapper.pb.h>
 #include <roboteam_utils/Mathematics.h>
 
 #include <roboteam_utils/RobotCommands.hpp>
@@ -86,26 +85,4 @@ void rotate(proto::SSL_GeometryFieldSize *field);
  */
 void rotate(rtt::RobotCommand *command);
 
-/**
- * Rotates all relevant fields of the wrapper packet (robots, ball and geometry)
- * @param packet
- */
-void rotate(proto::SSL_WrapperPacket * packet);
-
-/**
- * rotates all relevant fields of the detection frame (robots and ball)
- * @param packet
- */
-void rotate(proto::SSL_DetectionFrame * frame);
-
-/**
- * Rotates a detection robot
- */
-void rotate(proto::SSL_DetectionRobot * robot);
-
-/**
- * Rotates a detection ball
- * @param ball
- */
-void rotate(proto::SSL_DetectionBall * ball);
 }  // namespace roboteam_utils
