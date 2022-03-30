@@ -424,7 +424,6 @@ target_compile_options(testHelpers PRIVATE "${COMPILER_FLAGS}")
 ###### TEST #######
 add_executable(roboteam_ai_tests
         ${PROJECT_SOURCE_DIR}/test/main.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
