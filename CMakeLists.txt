@@ -3,31 +3,15 @@ project(roboteam_ai)
 
 add_subdirectory(src)
 
-
-# AUTOMOC is verified to work with the following:
-# - libprotoc 3.19.4
-# - macOS 12.2.1
-# - qt 5.15.2
-
-# On some operating systems, AUTOMOC might produce errors related to protobuf files.
-# In such a case, header files to be MOC-ed must be manually specified
-set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC OFF)
 set(CMAKE_AUTOUIC OFF)
-set(CMAKE_INCLUDE_CURRENT_DIR OFF) # Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directories
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
-    set(GTEST_LIB
-            /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a
-            /usr/local/lib/libgmock.a
-            /usr/local/lib/libgmock_main.a
-            )
+        set(CMAKE_AUTOMOC OFF)
 else (NOT APPLE)
-    set(GTEST_LIB
-            PUBLIC gtest
-            PUBLIC gmock)
+        set(CMAKE_AUTOMOC ON)
 endif ()
 
 find_package(Qt5 COMPONENTS Widgets Charts REQUIRED)
@@ -43,31 +27,31 @@ add_library(roboteam_ai_utils
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/normalize.cpp
-)
+        )
 target_link_libraries(roboteam_ai_utils
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
-)
+        )
 target_include_directories(roboteam_ai_utils
         PRIVATE include/roboteam_ai
-)
+        )
 target_compile_options(roboteam_ai_utils PRIVATE "${COMPILER_FLAGS}")
 
 ###### MANUAL #######
 add_library(roboteam_ai_manual
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickHandler.cpp
-)
+        )
 target_include_directories(roboteam_ai_manual
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_manual
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE SDL2
         PRIVATE Qt5::Widgets
-)
+        )
 target_compile_options(roboteam_ai_manual PRIVATE "${COMPILER_FLAGS}")
 
 ###### SKILLS #######
@@ -80,15 +64,15 @@ add_library(roboteam_ai_skills
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Orbit.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/TestSkill.cpp
-)
+        )
 target_include_directories(roboteam_ai_skills
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_skills
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
-)
+        )
 target_compile_options(roboteam_ai_skills PRIVATE "${COMPILER_FLAGS}")
 
 ###### TACTICS #######
@@ -115,15 +99,15 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp
-)
+        )
 target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_tactics
         PRIVATE roboteam_utils
         PRIVATE roboteam_networking
         PRIVATE Qt5::Widgets
-)
+        )
 target_compile_options(roboteam_ai_tactics PRIVATE "${COMPILER_FLAGS}")
 
 ###### ROLES #######
@@ -147,15 +131,15 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp
-)
+        )
 target_include_directories(roboteam_ai_roles
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_roles
         PRIVATE roboteam_utils
         PRIVATE roboteam_networking
         PRIVATE Qt5::Widgets
-)
+        )
 target_compile_options(roboteam_ai_roles PRIVATE "${COMPILER_FLAGS}")
 
 ###### PLAYS #######
@@ -195,17 +179,17 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
-)
+        )
 target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_plays
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE SDL2
         PRIVATE NFParam
-)
+        )
 target_compile_options(roboteam_ai_plays PRIVATE "${COMPILER_FLAGS}")
 
 ###### EVALUATION #######
@@ -254,16 +238,16 @@ add_library(roboteam_ai_evaluation
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/GoalShotEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/TimeToPositionEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/BlockingEvaluation.cpp
-)
+        )
 target_include_directories(roboteam_ai_evaluation
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_evaluation
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE NFParam
-)
+        )
 target_compile_options(roboteam_ai_evaluation PRIVATE "${COMPILER_FLAGS}")
 
 ###### COMPUTATION #######
@@ -272,16 +256,16 @@ add_library(roboteam_ai_computation
         ${PROJECT_SOURCE_DIR}/src/stp/computations/GoalComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PassComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionScoring.cpp
-)
+        )
 target_include_directories(roboteam_ai_computation
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_computation
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
         PRIVATE NFParam
-)
+        )
 target_compile_options(roboteam_ai_computation PRIVATE "${COMPILER_FLAGS}")
 
 ###### CONTROL #######
@@ -307,15 +291,15 @@ add_library(roboteam_ai_control
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/AnglePID.cpp
-)
+        )
 target_include_directories(roboteam_ai_control
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_control
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
-)
+        )
 target_compile_options(roboteam_ai_control PRIVATE "${COMPILER_FLAGS}")
 
 ###### INTERFACE *HEADERS* #######
@@ -334,7 +318,7 @@ set(INTERFACE_HEADERS
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h
-)
+        )
 
 ###### INTERFACE #######
 add_library(roboteam_ai_interface
@@ -355,16 +339,16 @@ add_library(roboteam_ai_interface
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
-)
+        )
 target_include_directories(roboteam_ai_interface
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_interface
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE SDL2
-)
+        )
 target_compile_options(roboteam_ai_interface PRIVATE "${COMPILER_FLAGS}")
 
 ###### WORLD #######
@@ -378,25 +362,25 @@ add_library(roboteam_ai_world
         ${PROJECT_SOURCE_DIR}/src/world/views/WorldDataView.cpp
         ${PROJECT_SOURCE_DIR}/src/world/views/RobotView.cpp
         ${PROJECT_SOURCE_DIR}/src/world/views/BallView.cpp
-)
+        )
 target_include_directories(roboteam_ai_world
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai_world
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
-)
+        )
 target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 
 ###### MAIN #######
 add_executable(roboteam_ai
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${PROJECT_SOURCE_DIR}/src/roboteam_ai.cpp
-)
+        )
 target_include_directories(roboteam_ai
         PRIVATE include/roboteam_ai
-)
+        )
 target_link_libraries(roboteam_ai
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -415,7 +399,7 @@ target_link_libraries(roboteam_ai
         PRIVATE roboteam_ai_tactics
         PRIVATE roboteam_ai_evaluation
         PRIVATE roboteam_ai_skills
-)
+        )
 target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
 
 ###### TESTHELPERS #######
