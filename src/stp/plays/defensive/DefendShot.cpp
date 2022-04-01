@@ -58,8 +58,6 @@ void DefendShot::calculateInfoForRoles() noexcept {
 }
 
 void DefendShot::calculateInfoForDefenders() noexcept {
-    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
-
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 

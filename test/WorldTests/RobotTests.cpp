@@ -3,7 +3,7 @@
 //
 #include <gtest/gtest.h>
 
-#include "include/roboteam_ai/world/Robot.hpp"
+#include "world/Robot.hpp"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::world::robot {
@@ -17,8 +17,8 @@ proto::Vector2f *getVec(float x, float y) {
 TEST(RobotAndView, test_getters) {
     proto::RobotFeedback fdbk{};
     fdbk.set_id(1);
-    fdbk.set_ballsensorisworking(true);
-    fdbk.set_batterylow(true);
+    fdbk.set_ball_sensor_is_working(true);
+    fdbk.set_battery_level(0);
     std::unordered_map<uint8_t, proto::RobotFeedback> feedback = {{1, fdbk}};
 
     proto::WorldRobot robotData{};

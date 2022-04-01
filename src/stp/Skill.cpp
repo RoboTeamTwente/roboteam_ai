@@ -18,10 +18,11 @@ void Skill::forwardRobotCommand(world::World const* data) noexcept {
 }
 
 void Skill::refreshRobotCommand() noexcept {
-    proto::RobotCommand emptyCmd;
-    emptyCmd.set_use_angle(true);
-    emptyCmd.set_id(robot ? robot.value()->getId() : -1);
-    command = emptyCmd;
+    rtt::RobotCommand emptyCmd = {};
+
+    emptyCmd.id = this->robot ? this->robot.value()->getId() : -1;
+
+    this->command = emptyCmd;
 }
 
 void Skill::terminate() noexcept {}

@@ -4,14 +4,15 @@
 #define RUNNING_TEST
 
 #include <gtest/gtest.h>
-#include <test/helpers/WorldHelper.h>
+#include <helpers/WorldHelper.h>
 
-#include <include/roboteam_ai/world/World.hpp>
+#include <world/World.hpp>
 
 TEST(worldTest, GenericWorldRemoval) {
     namespace w_n = rtt::world;
     proto::SSL_GeometryFieldSize size{};
-    size.set_field_length(250);
+    size.set_field_length(12000);
+    size.set_field_width(9000);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     auto const& [_, world] = w_n::World::instance();
@@ -24,10 +25,11 @@ TEST(worldTest, GenericWorldRemoval) {
     ASSERT_FALSE(world->getWorld().has_value());
 }
 
-TEST(worldTest, HistorySizeTest) {
+TEST(worldTest, HistorySizeTestSimple) {
     namespace w_n = rtt::world;
     proto::SSL_GeometryFieldSize size{};
-    size.set_field_length(250);
+    size.set_field_length(12000);
+    size.set_field_width(9000);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     auto const& [_, world] = w_n::World::instance();
@@ -41,18 +43,22 @@ TEST(worldTest, HistorySizeTest) {
 }
 
 TEST(worldTest, ResetWorldTest) {
+    rtt::SETTINGS.setYellow(false);
+
     namespace w_n = rtt::world;
     proto::SSL_GeometryFieldSize size{};
-    size.set_field_length(250);
+    size.set_field_length(12000);
+    size.set_field_width(9000);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     auto const& [_, world] = w_n::World::instance();
     world->reset();
     world->updateWorld(msg);
     world->updateWorld(second);
-    ASSERT_EQ(world->getWorld()->getUs().size(), 5);
-    ASSERT_EQ(world->getWorld()->getThem().size(), 7);
-    // ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
+    // We are blue by default
+    ASSERT_EQ(world->getWorld()->getUs().size(), 7);
+    ASSERT_EQ(world->getWorld()->getThem().size(), 5);
+    ASSERT_TRUE(world->getWorld()->getBall().has_value());
 
     world->reset();
     ASSERT_FALSE(world->getWorld().has_value());

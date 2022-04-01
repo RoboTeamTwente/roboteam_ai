@@ -193,7 +193,7 @@ struct StpInfo {
 /**
  * Util operator<< that allows us to print the status enum
  */
-static std::ostream& operator<<(std::ostream& os, Status status) {
+[[maybe_unused]] static std::ostream& operator<<(std::ostream& os, Status status) {
     switch (status) {
         case Status::Waiting:
             return os << "Status::Waiting";
