@@ -53,7 +53,7 @@ Vector2 BBTrajectory2D::getAcceleration(double t) const { return Vector2(x.getAc
 std::vector<Vector2> BBTrajectory2D::getStraightLines(unsigned int N) const {
     std::vector<Vector2> points;
     double timeStep = fmax(x.getTotalTime(), y.getTotalTime()) / N;
-    for (int i = 0; i <= N; ++i) {
+    for (unsigned int i = 0; i <= N; ++i) {
         points.push_back(getPosition(timeStep * i));
     }
     return points;
@@ -72,4 +72,32 @@ std::vector<Vector2> BBTrajectory2D::getPathApproach(double timeStep) const {
 }
 
 double BBTrajectory2D::getTotalTime() const { return std::max(x.getTotalTime(), y.getTotalTime()); }
+
+std::vector<Vector2> BBTrajectory2D::getVelocityVector(double timeStep) const {
+    std::vector<Vector2> velocities;
+    auto totalTime = getTotalTime();
+    double time = 0;
+
+    while (time < totalTime) {
+        time += timeStep;
+        velocities.push_back(getVelocity(time));
+    }
+    return velocities;
+}
+
+std::vector<std::pair<Vector2, Vector2>> BBTrajectory2D::getPosVelVector(double timeStep) {
+    auto posVector = getPathApproach(timeStep);
+    auto velVector = getVelocityVector(timeStep);
+
+    std::vector<std::pair<Vector2, Vector2>> posVelVector;
+
+    posVelVector.reserve(posVector.size());
+    for (size_t i = 0; i < posVector.size(); i++) {
+        posVelVector.emplace_back(std::make_pair(posVector[i], velVector[i]));
+    }
+
+    return posVelVector;
+}
+
+std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> BBTrajectory2D::getParts() { return std::make_pair(x.getParts(), y.getParts()); }
 }  // namespace rtt::BB

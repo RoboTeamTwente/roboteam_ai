@@ -11,26 +11,29 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     float kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
     // Set kick command
-    command.set_kicker(true);
-    command.set_chip_kick_vel(kickVelocity);
+    command.kickType = KickType::KICK;
+    command.kickSpeed = kickVelocity;
 
     // Clamp and set dribbler speed
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
-    command.set_dribbler(targetDribblerSpeed);
+    command.dribblerSpeed = targetDribblerSpeed;
 
     // Set angle command
-    command.set_w(static_cast<float>(info.getRobot().value()->getAngle()));
+    command.targetAngle = info.getRobot().value()->getAngle();  // TODO: Should there be a check for robot optional?
 
     // Set chip_kick_forced if we can chip but did not chip for MAX_CHIP_ATTEMPTS amount of ticks
     if (kickAttempts > control_constants::MAX_KICK_ATTEMPTS) {
-        command.set_chip_kick_forced(true);
+        command.waitForBall = false;
         kickAttempts = 0;
+    } else {
+        command.waitForBall = true;  // Apparently, waiting for the ball is the default
     }
+
     // set command ID
-    command.set_id(info.getRobot().value()->getId());
+    command.id = info.getRobot().value()->getId();
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());

@@ -16,6 +16,9 @@ void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
     //                std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
     //        }
     stpInfos.clear();
+    for (auto &role : roles) {
+        if (role != nullptr) role->reset();
+    }
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -29,14 +32,14 @@ void Play::updateWorld(world::World *world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
-    RTT_INFO("Play executing: ", getName())
+    //    RTT_INFO("Play executing: ", getName())
 
     // Check if the amount of robots changed
     // If so, we will re deal the roles
     auto currentRobotNum{world->getWorld()->getRobotsNonOwning().size()};
 
     if (currentRobotNum != previousRobotNum) {
-        RTT_INFO("Reassigning bots")
+        //        RTT_INFO("Reassigning bots")
         reassignRobots();
         previousRobotNum = currentRobotNum;
     }
@@ -49,6 +52,7 @@ void Play::update() noexcept {
 
     // Loop through roles and update them if they are assigned to a robot
     for (auto &role : roles) {
+        if (role == nullptr) continue;
         auto stpInfo = stpInfos.find(role->getName());
         if (stpInfo != stpInfos.end() && stpInfo->second.getRobot()) {
             // Update and store the returned status
@@ -78,6 +82,7 @@ void Play::refreshData() noexcept {
 
     // Loop through all roles, if an stpInfo exists and has an assigned robot, refresh the data
     for (auto &role : roles) {
+        if (role == nullptr) continue;
         auto stpInfo = stpInfos.find(role->getName());
         if (stpInfo != stpInfos.end() && stpInfo->second.getRobot().has_value()) {
             // Get a new RobotView from world using the old robot id
@@ -98,18 +103,26 @@ void Play::refreshData() noexcept {
 
 void Play::distributeRoles() noexcept {
     Dealer dealer{world->getWorld().value(), &field};
+
+    // Set role names for each stpInfo
+    for (auto &role : roles) {
+        if (role == nullptr) continue;
+        auto roleName{role->getName()};
+        stpInfos[roleName].setRoleName(roleName);
+    }
+
     auto flagMap = decideRoleFlags();
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap, stpInfos);
 
     // TODO-Max if role exists in oldStpInfos then copy those.
     // Clear the stpInfos for the new role assignment
     for (auto &role : roles) {
+        if (role == nullptr) continue;
         role->reset();
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
             stpInfos[roleName].setRobot(robot);
-            stpInfos[roleName].setRoleName(roleName);
         }
     }
     std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto &each) { each.second.setCurrentWorld(world); });

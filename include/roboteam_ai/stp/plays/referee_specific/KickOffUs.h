@@ -43,9 +43,19 @@ class KickOffUs : public Play {
     void calculateInfoForScoredRoles(world::World*) noexcept override{};
 
     /**
+     * Check if the play should end. True after kickoff
+     */
+    bool shouldEndPlay() noexcept override;
+
+    /**
      * Gets the play name
      */
     const char* getName() override;
+
+    /**
+     * Checks if the passer has finished kickAtPos
+     */
+    bool ballKicked();
 };
 }  // namespace rtt::ai::stp::play
 

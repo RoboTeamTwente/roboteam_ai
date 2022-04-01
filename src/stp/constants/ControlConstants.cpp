@@ -9,7 +9,7 @@
 namespace rtt::ai::stp::control_constants {
 /// Kick and chip constants
 constexpr double MAX_KICK_POWER = 6.5;
-constexpr double MIN_KICK_POWER = 0.123;
+constexpr double MIN_KICK_POWER = 2;
 constexpr double MAX_POWER_KICK_DISTANCE = 8;
 constexpr double MAX_POWER_CHIP_DISTANCE = 9;
 constexpr double MAX_CHIP_POWER = 6.5;
@@ -57,6 +57,8 @@ constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.10;
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.08;
 // Angle margin for 'goToPos'. If the robot is within this margin, goToPos is successful
 constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.009;
+// Maximum inaccuracy during ballplacement
+constexpr double BALL_PLACEMENT_MARGIN = 0.15;
 
 /// Invariant constants
 constexpr uint8_t FUZZY_TRUE = 255;

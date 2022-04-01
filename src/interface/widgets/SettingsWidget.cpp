@@ -1,5 +1,6 @@
-
 #include "interface/widgets/SettingsWidget.h"
+
+#include <roboteam_utils/Print.h>
 
 #include "interface/widgets/mainWindow.h"
 #include "utilities/Settings.h"
@@ -32,15 +33,15 @@ void SettingsWidget::changeTeamColor(bool isYellow) { SETTINGS.setYellow(isYello
 
 void SettingsWidget::changeTeamSide(bool isLeft) { SETTINGS.setLeft(isLeft); }
 
-void SettingsWidget::changeMode(bool serial) { SETTINGS.setSerialMode(serial); }
+void SettingsWidget::changeRobotHubMode(Settings::RobotHubMode mode) { SETTINGS.setRobotHubMode(mode); }
 
 void SettingsWidget::changeGrSimIp(QString ip) {
-    std::cout << "setting grsimip" << std::endl;
+    RTT_INFO("Setting GrSim IP address")
     SETTINGS.setRobothubSendIp(ip.toStdString());
 }
 
 void SettingsWidget::changeGrSimPort(int port) {
-    std::cout << "setting grsimport" << std::endl;
+    RTT_INFO("Setting GrSim port")
     SETTINGS.setRobothubSendPort(port);
 }
 

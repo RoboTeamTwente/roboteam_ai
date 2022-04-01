@@ -81,6 +81,18 @@ struct StpInfo {
     std::string getRoleName() const { return roleName; }
     void setRoleName(std::string name) { roleName = name; }
 
+    AvoidObjects getObjectsToAvoid() const { return avoidObjects; }
+    void setObjectsToAvoid(AvoidObjects objectsToAvoid) { avoidObjects = objectsToAvoid; }
+
+    bool getShouldAvoidDefenseArea() const { return avoidObjects.shouldAvoidDefenseArea; }
+    void setShouldAvoidDefenseArea(bool shouldAvoidDefenseArea) { avoidObjects.shouldAvoidDefenseArea = shouldAvoidDefenseArea; }
+
+    bool getShouldAvoidBall() const { return avoidObjects.shouldAvoidBall; }
+    void setShouldAvoidBall(bool shouldAvoidBall) { avoidObjects.shouldAvoidBall = shouldAvoidBall; }
+
+    bool getShouldAvoidOutOfField() const { return avoidObjects.shouldAvoidOutOfField; }
+    void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) { avoidObjects.shouldAvoidOutOfField = shouldAvoidOutOfField; }
+
    private:
     /**
      * Current world pointer
@@ -171,12 +183,17 @@ struct StpInfo {
      * The name of the role associated with this StpInfo
      */
     std::string roleName;
+
+    /**
+     * Specify what objects the robot should avoid
+     */
+    AvoidObjects avoidObjects;
 };
 
 /**
  * Util operator<< that allows us to print the status enum
  */
-static std::ostream& operator<<(std::ostream& os, Status status) {
+[[maybe_unused]] static std::ostream& operator<<(std::ostream& os, Status status) {
     switch (status) {
         case Status::Waiting:
             return os << "Status::Waiting";

@@ -20,6 +20,7 @@
 #include "stp/plays/contested/GetBallRisky.h"
 #include "stp/plays/defensive/DefendPass.h"
 #include "stp/plays/defensive/DefendShot.h"
+#include "stp/plays/defensive/KeeperKickBall.h"
 #include "stp/plays/offensive/Attack.h"
 #include "stp/plays/offensive/AttackingPass.h"
 #include "stp/plays/offensive/GenericPass.h"
@@ -60,35 +61,38 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KeeperKickBall>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer stpTimer;
     stpTimer.loop(
         [&]() {
-            std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
+            // uncomment the 4 lines of code below to time and display the duration of each loop of the AI
+            // std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
             runOneLoopCycle();
-            std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
+            // std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
 
-            int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+            // auto loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+            // RTT_DEBUG("Loop cycle duration = ", loopcycleDuration);
             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
@@ -102,7 +106,7 @@ void ApplicationManager::start() {
 
             // If this is primary AI, broadcast settings every second
             if (SETTINGS.isPrimaryAI()) {
-                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, ai::Constants::SETTINGS_BROADCAST_RATE());
+                stpTimer.limit([&]() { io::io.publishSettings(SETTINGS); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
         },
         ai::Constants::STP_TICK_RATE());
@@ -154,7 +158,6 @@ void ApplicationManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     rtt::ai::control::ControlModule::sendAllCommands();
-    io::io.handleCentralServerConnection();
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {

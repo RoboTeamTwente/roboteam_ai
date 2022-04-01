@@ -9,24 +9,15 @@ set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directo
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
-    set(CMAKE_AUTOMOC OFF)
-    set(GTEST_LIB
-            /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a
-            /usr/local/lib/libgmock.a
-            /usr/local/lib/libgmock_main.a
-            )
+        set(CMAKE_AUTOMOC OFF)
 else (NOT APPLE)
-    set(CMAKE_AUTOMOC ON)
-    set(GTEST_LIB
-            PRIVATE gtest
-            PRIVATE gmock)
+        set(CMAKE_AUTOMOC ON)
 endif ()
 
-find_package(Qt5 COMPONENTS Core Widgets Gui Charts REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Charts REQUIRED)
 
-
-set(UTILS_SOURCES
+###### UTILS #######
+add_library(roboteam_ai_utils
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
@@ -37,13 +28,34 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/normalize.cpp
         )
+target_link_libraries(roboteam_ai_utils
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        )
+target_include_directories(roboteam_ai_utils
+        PRIVATE include/roboteam_ai
+        )
+target_compile_options(roboteam_ai_utils PRIVATE "${COMPILER_FLAGS}")
 
-set(MANUAL_SOURCES
+###### MANUAL #######
+add_library(roboteam_ai_manual
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickHandler.cpp
         )
+target_include_directories(roboteam_ai_manual
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_manual
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE SDL2
+        PRIVATE Qt5::Widgets
+        )
+target_compile_options(roboteam_ai_manual PRIVATE "${COMPILER_FLAGS}")
 
-set(SKILLS_SOURCES
+###### SKILLS #######
+add_library(roboteam_ai_skills
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Chip.cpp
@@ -53,8 +65,18 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Orbit.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/TestSkill.cpp
         )
+target_include_directories(roboteam_ai_skills
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_skills
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        )
+target_compile_options(roboteam_ai_skills PRIVATE "${COMPILER_FLAGS}")
 
-set(TACTICS_SOURCES
+###### TACTICS #######
+add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         # /
@@ -76,9 +98,20 @@ set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BlockRobot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp)
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp
+        )
+target_include_directories(roboteam_ai_tactics
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_tactics
+        PRIVATE roboteam_utils
+        PRIVATE roboteam_networking
+        PRIVATE Qt5::Widgets
+        )
+target_compile_options(roboteam_ai_tactics PRIVATE "${COMPILER_FLAGS}")
 
-set(ROLES_SOURCES
+###### ROLES #######
+add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
         # /
         ${PROJECT_SOURCE_DIR}/src/stp/roles/TestRole.cpp
@@ -97,9 +130,20 @@ set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp)
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp
+        )
+target_include_directories(roboteam_ai_roles
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_roles
+        PRIVATE roboteam_utils
+        PRIVATE roboteam_networking
+        PRIVATE Qt5::Widgets
+        )
+target_compile_options(roboteam_ai_roles PRIVATE "${COMPILER_FLAGS}")
 
-set(PLAYS_SOURCES
+###### PLAYS #######
+add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
@@ -113,6 +157,7 @@ set(PLAYS_SOURCES
         # defensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/KeeperKickBall.cpp
         # offensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
@@ -135,13 +180,29 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
         )
+target_include_directories(roboteam_ai_plays
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_plays
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        PRIVATE SDL2
+        PRIVATE NFParam
+        )
+target_compile_options(roboteam_ai_plays PRIVATE "${COMPILER_FLAGS}")
 
-set(EVALUATION_SOURCES
+###### EVALUATION #######
+add_library(roboteam_ai_evaluation
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/WeHaveBallGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/TheyHaveBallGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/TheyDoNotHaveBallGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallGotShotGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallMovesSlowGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallOnOurSideGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallOnTheirSideGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallInOurDefenseAreaAndStillGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallNotInOurDefenseAreaAndStillGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/FreedomOfRobotsGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallCloseToUsGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallCloseToThemGlobalEvaluation.cpp
@@ -150,12 +211,15 @@ set(EVALUATION_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/GoalVisionGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/GoalVisionFromBallGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallIsFreeGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/TheyHaveBallGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/TheyDoNotHaveBallGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/NoGoalVisionFromBallGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallClosestToUsGlobalEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/BallPlacementUsGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/BallPlacementThemGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/HaltGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsOrNormalGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffThemGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsPrepareGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffThemPrepareGameStateEvaluation.cpp
@@ -175,15 +239,37 @@ set(EVALUATION_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/TimeToPositionEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/BlockingEvaluation.cpp
         )
+target_include_directories(roboteam_ai_evaluation
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_evaluation
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        PRIVATE NFParam
+        )
+target_compile_options(roboteam_ai_evaluation PRIVATE "${COMPILER_FLAGS}")
 
-set(COMPUTATION_SOURCES
+###### COMPUTATION #######
+add_library(roboteam_ai_computation
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/GoalComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PassComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionScoring.cpp
         )
+target_include_directories(roboteam_ai_computation
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_computation
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_networking
+        PRIVATE NFParam
+        )
+target_compile_options(roboteam_ai_computation PRIVATE "${COMPILER_FLAGS}")
 
-set(CONTROL_SOURCES
+###### CONTROL #######
+add_library(roboteam_ai_control
         ${PROJECT_SOURCE_DIR}/src/control/ControlModule.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
@@ -192,6 +278,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/DensePathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BBTPathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp
@@ -199,32 +286,23 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory1D.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory2D.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/Trajectory1D.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/Trajectory2D.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
-        src/control/AnglePID.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/AnglePID.cpp
         )
+target_include_directories(roboteam_ai_control
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_control
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        )
+target_compile_options(roboteam_ai_control PRIVATE "${COMPILER_FLAGS}")
 
-set(TEST_SOURCES
-        ${PROJECT_SOURCE_DIR}/test/main.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
-        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
-        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
-        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistorySizeTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryRetrievalTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
-        test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp)
-
+###### INTERFACE *HEADERS* #######
 set(INTERFACE_HEADERS
         #QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
@@ -239,9 +317,12 @@ set(INTERFACE_HEADERS
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h)
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h
+        )
 
-set(INTERFACE_SOURCES
+###### INTERFACE #######
+add_library(roboteam_ai_interface
+        ${INTERFACE_HEADERS}
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/widget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Input.cpp
@@ -258,9 +339,22 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
+        # After removing the interface, only this file should remain
+        ${PROJECT_SOURCE_DIR}/src/interface/InterfaceControllerServer.cpp
         )
+target_include_directories(roboteam_ai_interface
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_interface
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE SDL2
+        )
+target_compile_options(roboteam_ai_interface PRIVATE "${COMPILER_FLAGS}")
 
-set(WORLD_SOURCES
+###### WORLD #######
+add_library(roboteam_ai_world
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
@@ -271,69 +365,139 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/views/RobotView.cpp
         ${PROJECT_SOURCE_DIR}/src/world/views/BallView.cpp
         )
+target_include_directories(roboteam_ai_world
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai_world
+        PRIVATE roboteam_networking
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        )
+target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/InterfaceControllerServer.cpp)
 
-# Putting it all together so we can use it in both the main executable and the test executable
-set(AI_SOURCES
+###### MAIN #######
+add_executable(roboteam_ai
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
-        ${UTILS_SOURCES}
-        ${SKILLS_SOURCES}
-        ${TACTICS_SOURCES}
-        ${ROLES_SOURCES}
-        ${PLAYS_SOURCES}
-        ${EVALUATION_SOURCES}
-        ${CONTROL_SOURCES}
-        ${INTERFACE_SOURCES}
-        ${WORLD_SOURCES}
-        ${MANUAL_SOURCES}
-        ${COMPUTATION_SOURCES}
+        ${PROJECT_SOURCE_DIR}/src/roboteam_ai.cpp
+        )
+target_include_directories(roboteam_ai
+        PRIVATE include/roboteam_ai
+        )
+target_link_libraries(roboteam_ai
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_networking
+        PRIVATE SDL2
+        # Watch out! The order of these libraries apparently matters!
+        PRIVATE roboteam_ai_interface
+        PRIVATE roboteam_ai_plays
+        PRIVATE roboteam_ai_world
+        PRIVATE roboteam_ai_control
+        PRIVATE roboteam_ai_roles
+        PRIVATE Qt5::Charts
+        PRIVATE roboteam_ai_manual
+        PRIVATE roboteam_ai_utils
+        PRIVATE roboteam_ai_computation
+        PRIVATE roboteam_ai_tactics
+        PRIVATE roboteam_ai_evaluation
+        PRIVATE roboteam_ai_skills
+        )
+target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
+
+###### TESTHELPERS #######
+add_library(testHelpers
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp)
+
+target_include_directories(testHelpers
+        PRIVATE include/roboteam_ai)
+
+target_link_libraries(testHelpers
+        PRIVATE roboteam_utils
+        PRIVATE roboteam_networking
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_ai_utils
         )
 
-set(AI_LIBS
-        PRIVATE Qt5::Core
-        PRIVATE Qt5::Widgets
-        PRIVATE Qt5::Gui
-        PRIVATE Qt5::Charts
+target_compile_options(testHelpers PRIVATE "${COMPILER_FLAGS}")
+
+###### TEST #######
+add_executable(roboteam_ai_tests
+        ${PROJECT_SOURCE_DIR}/test/main.cpp
+        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryRetrievalTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp
+        )
+target_include_directories(roboteam_ai_tests
+        PRIVATE include/roboteam_ai
+        PRIVATE test
+        )
+target_link_libraries(roboteam_ai_tests
+        PRIVATE GTest::gtest
+        PRIVATE GTest::gmock
+        PRIVATE testHelpers
         PRIVATE roboteam_utils
-        PRIVATE NFParam
-        PRIVATE SDL2
+        PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
-        PRIVATE stx
+        PRIVATE SDL2
+        # Watch out! The order of these libraries apparently matters!
+        PRIVATE roboteam_ai_interface
+        PRIVATE roboteam_ai_plays
+        PRIVATE roboteam_ai_world
+        PRIVATE roboteam_ai_roles
+        PRIVATE Qt5::Charts
+        PRIVATE roboteam_ai_manual
+        PRIVATE roboteam_ai_utils
+        PRIVATE roboteam_ai_computation
+        PRIVATE roboteam_ai_tactics
+        PRIVATE roboteam_ai_evaluation
+        PRIVATE roboteam_ai_skills
+        PRIVATE roboteam_ai_control
         PRIVATE interface_utils_lib
         )
 
-set(AI_INCLUDES
-        INTERFACE include
+target_compile_options(roboteam_ai_tests PRIVATE "${COMPILER_FLAGS}")
+
+gtest_discover_tests(roboteam_ai_tests)
+
+###### POSITIONSCORINGTEST #######
+add_executable(positionScoringTest
+        ${PROJECT_SOURCE_DIR}/test/PositionScoringTests/PositionScoringTest.cpp
+        )
+
+target_include_directories(positionScoringTest
+        PRIVATE test
         PRIVATE include/roboteam_ai
         )
 
-# Apple-specific fixes and separate out old interface for performance
-if(APPLE)
-    # AUTOMOC is borked on CMAKE 3.21.0 + moc 5.15.2 + libprotoc 3.17.3
-    # AUTOMOC tries to moc *.pb.h and fails because ./moc dislikes strange enums?
-    QT5_WRAP_CPP(ai_iface_moc ${INTERFACE_HEADERS})
-    add_library(ai_iface ${ai_iface_moc})
-else()
-    add_library(ai_iface ${INTERFACE_HEADERS})
-endif()
-
-target_link_libraries(ai_iface ${AI_LIBS})
-target_include_directories(ai_iface ${AI_INCLUDES})
-
-add_library(ai_lib ${AI_SOURCES})
-target_link_libraries(ai_lib ${AI_LIBS})
-target_include_directories(ai_lib ${AI_INCLUDES})
-
-# Main Executable
-add_executable(roboteam_ai src/roboteam_ai.cpp)
-target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib ai_iface)
-target_include_directories(roboteam_ai ${AI_INCLUDES})
-
-# Testing #
-#add_executable(ai_tests ${TEST_SOURCES})
-
-#target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
-#target_include_directories(ai_tests ${AI_INCLUDES} test)
-
+target_link_libraries(positionScoringTest
+        PRIVATE Qt5::Widgets
+        PRIVATE roboteam_networking
+        PRIVATE SDL2
+        PRIVATE roboteam_ai_plays
+        PRIVATE roboteam_utils
+        PRIVATE roboteam_ai_roles
+        PRIVATE Qt5::Charts
+        PRIVATE roboteam_ai_manual
+        PRIVATE roboteam_ai_utils
+        PRIVATE roboteam_ai_computation
+        PRIVATE roboteam_ai_tactics
+        PRIVATE roboteam_ai_evaluation
+        PRIVATE roboteam_ai_skills
+        PRIVATE testHelpers
+        PRIVATE roboteam_ai_world
+        PRIVATE roboteam_ai_control
+        PRIVATE roboteam_ai_interface
+        )

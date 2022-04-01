@@ -1,5 +1,8 @@
 #include "utilities/IOManager.h"
 
+#include <algorithm>
+#include <roboteam_utils/RobotCommands.hpp>
+
 #include "interface/api/Input.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
@@ -12,7 +15,7 @@ namespace rtt::ai::io {
 IOManager io;
 
 bool IOManager::init(bool isPrimaryAI) {
-    RTT_INFO("Setting up IO networkers as ", isPrimaryAI ? "Primary" : "Secondary", "AI")
+    RTT_INFO("Setting up IO networkers as ", isPrimaryAI ? "Primary" : "Secondary", " AI")
     bool success = true;
 
     auto worldCallback = std::bind(&IOManager::handleState, this, std::placeholders::_1);
@@ -21,13 +24,24 @@ bool IOManager::init(bool isPrimaryAI) {
     if (isPrimaryAI) {
         try {
             this->settingsPublisher = std::make_unique<rtt::net::SettingsPublisher>();
-        } catch (zmqpp::zmq_internal_exception e) {
+        } catch (const zmqpp::zmq_internal_exception& e) {
             success = false;
             RTT_ERROR("Failed to open settings publisher channel. Is it already taken?")
         }
+        try {
+            this->simulationConfigurationPublisher = std::make_unique<rtt::net::SimulationConfigurationPublisher>();
+        } catch (const zmqpp::zmq_internal_exception& e) {
+            success = false;
+            RTT_ERROR("Failed to open simulation configuration publisher channel. Is it already taken?")
+        }
+    } else {
+        try {
+            this->settingsSubscriber = std::make_unique<rtt::net::SettingsSubscriber>([&](const proto::Setting& settings) { this->onSettingsOfPrimaryAI(settings); });
+        } catch (const zmqpp::zmq_internal_exception& e) {
+            success = false;
+            RTT_ERROR("Failed to open settings subscriber channel")
+        }
     }
-    this->centralServerConnection = std::make_unique<net::utils::PairReceiver<16970>>();
-
     return success;
 }
 
@@ -38,7 +52,6 @@ void IOManager::handleState(const proto::State& stateMsg) {
     std::unique_lock<std::mutex> lock(stateMutex);  // write lock
     this->state.CopyFrom(stateMsg);
     if (state.has_referee()) {
-        roboteam_utils::rotate(state.mutable_referee());
         // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
         std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
         if (state.referee().yellow().name() == ROBOTEAM_TWENTE) {
@@ -47,30 +60,62 @@ void IOManager::handleState(const proto::State& stateMsg) {
             SETTINGS.setYellow(false);
         }
         SETTINGS.setLeft(!(state.referee().blue_team_on_positive_half() ^ SETTINGS.isYellow()));
+        if (!SETTINGS.isLeft()) roboteam_utils::rotate(state.mutable_referee());
         auto const& [_, data] = World::instance();
         ai::GameStateManager::setRefereeData(state.referee(), data);
     }
 }
 
-void IOManager::publishSettings(proto::Setting setting) {
+void IOManager::publishSettings(const Settings& settings) {
+    proto::Setting protoSetting;
+
+    protoSetting.set_id(settings.getId());
+    protoSetting.set_isleft(settings.isLeft());
+    protoSetting.set_isyellow(settings.isYellow());
+    protoSetting.set_serialmode(settings.getRobotHubMode() == Settings::RobotHubMode::BASESTATION);
+    protoSetting.set_refereeip(settings.getRefereeIp());
+    protoSetting.set_refereeport(settings.getRefereePort());
+    protoSetting.set_visionip(settings.getVisionIp());
+    protoSetting.set_visionport(settings.getVisionPort());
+    protoSetting.set_robothubsendip(settings.getRobothubSendIp());
+    protoSetting.set_robothubsendport(settings.getRobothubSendPort());
+
     if (this->settingsPublisher != nullptr) {
-        this->settingsPublisher->publish(setting);
+        this->settingsPublisher->publish(protoSetting);
     }
 }
 
-void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
-    if (!pause->getPause()) {
-        proto::AICommand command;
-        for (const auto& robotCommand : robotCommands) {
-            proto::RobotCommand* protoCommand = command.mutable_commands()->Add();
-            protoCommand->CopyFrom(robotCommand);
+void IOManager::onSettingsOfPrimaryAI(const proto::Setting& settings) {
+    SETTINGS.handleSettingsFromPrimaryAI(settings.isyellow(), settings.isleft(), settings.serialmode() ? Settings::RobotHubMode::BASESTATION : Settings::RobotHubMode::SIMULATOR,
+                                         settings.visionip(), settings.visionport(), settings.refereeip(), settings.refereeport(), settings.robothubsendip(),
+                                         settings.robothubsendport());
+}
+
+void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands) {
+    const auto state = this->getState();
+    if (state.has_last_seen_world()) {
+        const auto world = getState().last_seen_world();
+        const auto robots = rtt::SETTINGS.isYellow() ? world.yellow() : world.blue();
+        for (auto &robotCommand : robotCommands) {
+            for (const auto robot : robots) {
+                if (robot.id() == robotCommand.id) {
+                    robotCommand.cameraAngleOfRobot = robot.angle();
+                    robotCommand.cameraAngleOfRobotIsSet = true;
+                }
+            }
         }
-        command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
-        this->publishRobotCommands(command, SETTINGS.isYellow());
     }
 }
 
-bool IOManager::publishRobotCommands(const proto::AICommand& aiCommand, bool forTeamYellow) {
+void IOManager::publishAllRobotCommands(rtt::RobotCommands& robotCommands) {
+    if (!pause->getPause()) {
+        this->addCameraAngleToRobotCommands(robotCommands);
+
+        this->publishRobotCommands(robotCommands, rtt::SETTINGS.isYellow());
+    }
+}
+
+bool IOManager::publishRobotCommands(const rtt::RobotCommands& aiCommand, bool forTeamYellow) {
     bool sentCommands = false;
 
     if (forTeamYellow && this->robotCommandsYellowPublisher != nullptr) {
@@ -86,62 +131,49 @@ bool IOManager::publishRobotCommands(const proto::AICommand& aiCommand, bool for
     return sentCommands;
 }
 
-void IOManager::handleCentralServerConnection() {
-    // first receive any setting changes
-    bool received = true;
-    int numReceivedMessages = 0;
-    while (received) {
-        auto receivedUIOptions = this->centralServerConnection->read_next<proto::UiSettings>();
-        if (receivedUIOptions.is_ok()) {
-            // TODO: process value
-            receivedUIOptions.value().PrintDebugString();
-            numReceivedMessages++;
-        } else {
-            received = false;
-            // we don't print the errors as they mark there are no more messages
-        }
-    }
-    if (numReceivedMessages > 0) {
-        std::cout << "received " << numReceivedMessages << " packets from central server" << std::endl;
-    }
-    // TODO: actually change settings at the relevant places within our AI
-    // TODO: make sure to write/add relevant debug information/visualizations (strategy debug, etc.)
-    // then, send the current state once
-    proto::ModuleState module_state;
-    {
-        std::lock_guard<std::mutex> lock(stateMutex);  // read lock
-        module_state.mutable_system_state()->mutable_state()->CopyFrom(state);
-    }
-    this->centralServerConnection->write(module_state, true);
-}
 proto::State IOManager::getState() {
     std::lock_guard<std::mutex> lock(stateMutex);  // read lock
     proto::State copy = state;
     return copy;
 }
 
-bool IOManager::switchTeamColorChannel(bool toYellowChannel) {
-    bool switchedSuccesfully = false;
+bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
+    bool obtainedChannel = false;
 
     if (toYellowChannel) {
-        try {
-            this->robotCommandsYellowPublisher = std::make_unique<rtt::net::RobotCommandsYellowPublisher>();
-            this->robotCommandsBluePublisher = nullptr;
-            switchedSuccesfully = true;
-        } catch (zmqpp::zmq_internal_exception e) {
-            this->robotCommandsYellowPublisher = nullptr;
+        obtainedChannel = this->robotCommandsYellowPublisher != nullptr;
+
+        // If we do not have the channel yet
+        if (!obtainedChannel) {
+            try {
+                this->robotCommandsYellowPublisher = std::make_unique<rtt::net::RobotCommandsYellowPublisher>();
+                this->robotCommandsBluePublisher = nullptr;
+                obtainedChannel = true;
+            } catch (const zmqpp::zmq_internal_exception& e) {
+                this->robotCommandsYellowPublisher = nullptr;
+            }
         }
     } else {
-        try {
-            this->robotCommandsBluePublisher = std::make_unique<rtt::net::RobotCommandsBluePublisher>();
-            this->robotCommandsYellowPublisher = nullptr;
-            switchedSuccesfully = true;
-        } catch (zmqpp::zmq_internal_exception e) {
-            this->robotCommandsBluePublisher = nullptr;
+        obtainedChannel = this->robotCommandsBluePublisher != nullptr;
+
+        if (!obtainedChannel) {
+            try {
+                this->robotCommandsBluePublisher = std::make_unique<rtt::net::RobotCommandsBluePublisher>();
+                this->robotCommandsYellowPublisher = nullptr;
+                obtainedChannel = true;
+            } catch (const zmqpp::zmq_internal_exception& e) {
+                this->robotCommandsBluePublisher = nullptr;
+            }
         }
     }
 
-    return switchedSuccesfully;
+    return obtainedChannel;
 }
 
+bool IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) {
+    if (this->simulationConfigurationPublisher != nullptr) {
+        return this->simulationConfigurationPublisher->publish(configuration);
+    }
+    return false;
+}
 }  // namespace rtt::ai::io

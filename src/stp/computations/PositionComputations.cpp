@@ -14,7 +14,7 @@
 namespace rtt::ai::stp {
 
 gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
-                                                      world::World *world) {
+                                                      const world::World *world) {
     gen::ScoredPosition bestPosition;
     (currentPosition.has_value()) ? bestPosition = PositionScoring::scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0, 0}, 0};
     for (const auto &nestedPoints : searchGrid.getPoints()) {
@@ -35,6 +35,7 @@ Vector2 PositionComputations::getWallPosition(int index, int amountDefenders, co
 }
 
 std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::world::Field &field, const rtt::world::World *world, int amountDefenders) {
+    if (amountDefenders <= 0) return {};  // we need at least 1 defender to be able to compute a wall
     Vector2 ballPos = FieldComputations::placePointInField(field, world->getWorld().value().getBall()->get()->getPos());
     double radius = control_constants::ROBOT_RADIUS;
     double spacingRobots = radius * 2;
@@ -49,15 +50,13 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     /// Find intersect of ball to goal on the border of the defense area
     LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
-    for (auto &i : defenseAreaBorder) {
-        for (const LineSegment &line : defenseAreaBorder) {  // Vector is made to check if there is only 1 intersect
-            if (line.doesIntersect(ball2GoalLine)) {
-                auto intersect = line.intersects(ball2GoalLine);
-                if (intersect.has_value() &&
-                    // check if there is an intersect and that the intersect is not with the goal line
-                    intersect->x - field.getOurGoalCenter().x > radius + control_constants::GO_TO_POS_ERROR_MARGIN)
-                    lineBorderIntersects.push_back(intersect.value());
-            }
+    for (const LineSegment &line : defenseAreaBorder) {  // Vector is made to check if there is only 1 intersect
+        if (line.doesIntersect(ball2GoalLine)) {
+            auto intersect = line.intersects(ball2GoalLine);
+            if (intersect.has_value() &&
+                // check if there is an intersect and that the intersect is not with the goal line
+                intersect->x - field.getOurGoalCenter().x > radius + control_constants::GO_TO_POS_ERROR_MARGIN)
+                lineBorderIntersects.push_back(intersect.value());
         }
     }
 
@@ -73,7 +72,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         base = 0.0;
         positions.push_back(lineBorderIntersect);
     }
-    while (positions.size() < amountDefenders) {
+    while (positions.size() < static_cast<size_t>(amountDefenders)) {
         auto circle = Circle(lineBorderIntersect, (base + j++) * (spacingRobots));
         for (const LineSegment &line : defenseAreaBorder) {
             auto intersects = circle.intersectsCircleWithLineSegment(line);
@@ -104,12 +103,27 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 }
 
 Vector2 PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
+    if (!FieldComputations::pointIsInDefenseArea(field, position, margin)) {
+        return position;
+    }
     auto intersection = FieldComputations::lineIntersectionWithDefenceArea(field, true, p1, p2, margin);
     if (intersection) {
         return *intersection;
     }
 
     intersection = FieldComputations::lineIntersectionWithDefenceArea(field, false, p1, p2, margin);
+    if (intersection) {
+        return *intersection;
+    }
+
+    return position;
+}
+
+Vector2 PositionComputations::ProjectPositionIntoFieldOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
+    if (FieldComputations::pointIsInField(field, position, margin)) {
+        return position;
+    }
+    auto intersection = FieldComputations::lineIntersectionWithField(field, p1, p2, margin);
     if (intersection) {
         return *intersection;
     }

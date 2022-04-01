@@ -10,22 +10,24 @@
 namespace rtt::world::robot {
 Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world::Team team, std::optional<view::BallView> ball,
              unsigned char dribblerState, unsigned long worldNumber)
-    : team{team},
-      distanceToBall{-1.0},
-      lastUpdatedWorldNumber{worldNumber},
-      dribblerState{dribblerState},
-      id{copy.id()},
-      angle{copy.angle()},
+    : id{static_cast<int>(copy.id())},
+      team{team},
       pos{copy.pos().x(), copy.pos().y()},
       vel{copy.vel().x(), copy.vel().y()},
-      angularVelocity{copy.w()} {
+      angle{copy.angle()},
+      distanceToBall{-1.0},
+      lastUpdatedWorldNumber{worldNumber},
+      angularVelocity{copy.w()},
+      dribblerState{dribblerState} {
     if (id < 16) {
         workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
         workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
     }
 
-    if (feedback.find(id) != feedback.end()) {
-        updateFromFeedback(feedback[id]);
+    if (team == Team::us) {
+        if (feedback.find(id) != feedback.end()) {
+            updateFromFeedback(feedback[id]);
+        }
     }
 
     if (ball.has_value()) {
@@ -35,9 +37,9 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
     }
 }
 
-uint32_t Robot::getId() const noexcept { return id; }
+int Robot::getId() const noexcept { return id; }
 
-void Robot::setId(uint32_t _id) noexcept { Robot::id = _id; }
+void Robot::setId(int _id) noexcept { Robot::id = _id; }
 
 Team Robot::getTeam() const noexcept { return team; }
 
@@ -109,10 +111,10 @@ void Robot::setLastUpdatedWorldNumber(unsigned long _lastUpdatedWorldNumber) noe
 
 void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
     if (ai::Constants::FEEDBACK_ENABLED()) {
-        setWorkingBallSensor(feedback.ballsensorisworking());
-        setBatteryLow(feedback.batterylow());
-        setBallSensorSeesBall(feedback.hasball());
-        setBallPosBallSensor(feedback.ballpos());
+        setWorkingBallSensor(feedback.ball_sensor_is_working());
+        setBatteryLow(feedback.battery_level() < 22); // TODO: Define what is considered a 'low' voltage
+        setBallSensorSeesBall(feedback.has_ball());
+        setBallPosBallSensor(feedback.ball_position());
     }
 }
 }  // namespace rtt::world::robot

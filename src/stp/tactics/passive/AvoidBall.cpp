@@ -22,7 +22,8 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
     StpInfo skillStpInfo = info;
     auto currentGameState = GameStateManager::getCurrentGameState().getStrategyName();
 
-    if (!skillStpInfo.getBall() || !skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getRobot()) return std::nullopt;
+    if (!skillStpInfo.getBall() || !skillStpInfo.getRobot()) return std::nullopt;
+    if (!skillStpInfo.getPositionToMoveTo()) skillStpInfo.setPositionToMoveTo(info.getRobot()->get()->getPos());
 
     // If gameState == stop we need to avoid using a circle around the ball
     if (std::strcmp(currentGameState.c_str(), "stop") == 0) {
@@ -52,13 +53,17 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
         }
     }
     skillStpInfo.setAngle(0.00001);
+    skillStpInfo.setDribblerSpeed(0);
 
     return skillStpInfo;
 }
 
 bool AvoidBall::isEndTactic() noexcept { return true; }
 
-bool AvoidBall::isTacticFailing(const StpInfo &info) noexcept { return false; }
+bool AvoidBall::isTacticFailing(const StpInfo &info) noexcept {
+    return (info.getRoleName() == "ball_placer" &&
+            (info.getBall()->get()->getPos() - rtt::ai::GameStateManager::getRefereeDesignatedPosition()).length() > control_constants::BALL_PLACEMENT_MARGIN);
+}
 
 bool AvoidBall::shouldTacticReset(const StpInfo &info) noexcept {
     double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;

@@ -6,6 +6,7 @@
 
 #include "stp/roles/Keeper.h"
 #include "stp/roles/passive/Halt.h"
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -53,6 +54,8 @@ Dealer::FlagMap KickOffThem::decideRoleFlags() const noexcept {
 
     return flagMap;
 }
+
+bool KickOffThem::shouldEndPlay() noexcept { return false; }
 
 const char *KickOffThem::getName() { return "Kick Off Them"; }
 

@@ -57,7 +57,8 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::F
                                                               bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
+    auto& robots = ourTeam ? world.getThem() : world.getUs();
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, robots, id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
@@ -69,7 +70,8 @@ std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_worl
 
 std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
                                                                   const std::vector<rtt::world::view::RobotView> &robots) {
-    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
+    // TODO: improve when it takes our/their robots into account
+    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots, -1, true);
     LineSegment goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x;  // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
     double upperGoalY = goalSide.end.y;
@@ -118,6 +120,21 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
                                                                             double margin) {
     auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
     auto intersections = defenseArea.intersections({lineStart, lineEnd});
+
+    if (intersections.size() == 1) {
+        return std::make_shared<Vector2>(intersections.at(0));
+    } else if (intersections.size() == 2) {
+        double distanceFirstIntersection = lineStart.dist(intersections.at(0));
+        double distanceSecondIntersection = lineStart.dist(intersections.at(1));
+        return std::make_shared<Vector2>(distanceFirstIntersection < distanceSecondIntersection ? intersections.at(0) : intersections.at(1));
+    } else {
+        return nullptr;
+    }
+}
+
+std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin) {
+    auto fieldEdges = getFieldEdge(field, margin);
+    auto intersections = fieldEdges.intersections({lineStart, lineEnd});
 
     if (intersections.size() == 1) {
         return std::make_shared<Vector2>(intersections.at(0));
@@ -179,7 +196,7 @@ std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const rtt_w
 std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const Vector2 &point, int id, bool ourTeam, const rtt::world::view::RobotView robot,
                                                             const double robotRadius, LineSegment goalSide) {
     // Discard the robot if it belong to the same team or if it has the given id.
-    if (robot->getId() == id && robot->getTeam() == (ourTeam ? rtt::world::Team::us : rtt::world::Team::them)) return {};
+    if (robot->getId() == id || robot->getTeam() == (ourTeam ? rtt::world::Team::us : rtt::world::Team::them)) return {};
 
     // Discard already the robot if it is not between the goal and point, or if the robot is standing on this point.
     double lenToBot = (point - robot->getPos()).length();
