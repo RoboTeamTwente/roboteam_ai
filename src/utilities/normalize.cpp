@@ -85,5 +85,36 @@ void rotate(rtt::RobotCommand *command) {
     command->velocity = command->velocity * -1;
     command->targetAngle += M_PI;
 }
+void rotate(proto::SSL_WrapperPacket * packet){
+    if(packet->has_detection()){
+        rotate(packet->mutable_detection());
+    }
+    if(packet->has_geometry() && packet->geometry().has_field()){
+        rotate(packet->mutable_geometry()->mutable_field());
+    }
+}
+void rotate(proto::SSL_DetectionFrame * frame){
+    for (int i = 0; i < frame->mutable_balls()->size(); i++) {
+        rotate(frame->mutable_balls(i));
+    }
+    for (int i = 0; i < frame->mutable_robots_blue()->size(); i++) {
+        rotate(frame->mutable_robots_blue(i));
+    }
+    for (int i = 0; i < frame->mutable_robots_yellow()->size(); i++) {
+        rotate(frame->mutable_robots_yellow(i));
+    }
+}
 
+void rotate(proto::SSL_DetectionRobot *robot) {
+    assert(robot && "Invalid pointer for ball");
+    robot->set_x(robot->x()*-1);
+    robot->set_y(robot->y()*-1);
+    robot->set_orientation(static_cast<float>(rtt::cleanAngle(robot->orientation() + M_PI)));
+}
+
+void rotate(proto::SSL_DetectionBall* ball){
+    assert(ball && "Invalid pointer for ball");
+    ball->set_x(ball->x() * -1);
+    ball->set_y(ball->y() * -1);
+}
 }  // namespace roboteam_utils
