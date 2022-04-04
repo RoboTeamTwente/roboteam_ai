@@ -34,11 +34,11 @@ TEST(RefereeTest, it_gets_and_sets_the_ref) {
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_YELLOW);
     rtt::ai::GameStateManager::setRefereeData(refereeData, worldPtr);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "penalty_them_prepare");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "penalty_us_prepare");
 
     refereeData.set_stage(proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_BLUE);
     rtt::ai::GameStateManager::setRefereeData(refereeData, worldPtr);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "penalty_us_prepare");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "penalty_them_prepare");
 }
