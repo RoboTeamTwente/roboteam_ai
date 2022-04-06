@@ -8,7 +8,6 @@
 #include <roboteam_utils/Grid.h>
 
 #include "stp/Play.hpp"
-#include "stp/computations/PassComputations.h"
 
 namespace rtt::ai::stp::play {
 
@@ -37,7 +36,7 @@ class AttackingPass : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World*) noexcept override{};
+    void calculateInfoForScoredRoles(world::World*) noexcept override;
 
     /**
      * Gets the play name
@@ -45,9 +44,14 @@ class AttackingPass : public Play {
     const char* getName() override;
 
     /**
-     * Check if play should end. True if pass arrived, if the ball is not moving anymore after pass, or if there is a better pass available
+     * Check if play should end. True if pass arrived or ball is not moving anymore after pass
      */
     bool shouldEndPlay() noexcept override;
+
+    /**
+     *
+     */
+    void storePlayInfo(gen::PlayInfos& info) noexcept override;
 
    private:
     /**
@@ -56,9 +60,14 @@ class AttackingPass : public Play {
     bool ballKicked();
 
     /**
-     * Struct containing info about the pass. Calculated once for each time this play is run
+     * Calculate which robots could receive a pass, and calculate the pass location based on that
      */
-    PassInfo passInfo;
+    gen::ScoredPosition calculatePassLocation(world::World* world);
+
+    /**
+     * The location the ball will be passed to. Calculated once for each time this play is run
+     */
+    std::optional<Vector2> passLocation = std::nullopt;
 };
 }  // namespace rtt::ai::stp::play
 

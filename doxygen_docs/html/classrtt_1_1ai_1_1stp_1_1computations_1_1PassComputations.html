@@ -67,7 +67,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp::computations::PassComputations Class Reference</div>  </div>
@@ -78,25 +77,14 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a765487b3e9f0edddb9d7ef528bb59665"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a765487b3e9f0edddb9d7ef528bb59665">calculatePass</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoreProfile">gen::ScoreProfile</a> profile, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, bool keeperCanPass=false)</td></tr>
-<tr class="separator:a765487b3e9f0edddb9d7ef528bb59665"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:ac585248e2a5d032b0a634b7872935cd4"><td class="memItemLeft" align="right" valign="top">static Grid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#ac585248e2a5d032b0a634b7872935cd4">getPassGrid</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field)</td></tr>
-<tr class="separator:ac585248e2a5d032b0a634b7872935cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d9d2ef21a8668a9bd471d378ee71106"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a3d9d2ef21a8668a9bd471d378ee71106">pointIsValidPassLocation</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> point, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> ballLocation, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;possibleReceiverLocations, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> passerLocation, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world)</td></tr>
-<tr class="separator:a3d9d2ef21a8668a9bd471d378ee71106"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa54e3d817f4c0b62207b29cf39c58302"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#aa54e3d817f4c0b62207b29cf39c58302">getKeeperId</a> (const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt; &amp;possibleRobots, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field)</td></tr>
-<tr class="separator:aa54e3d817f4c0b62207b29cf39c58302"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a66f6eadf80387d1a2fb17ecef2827c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6a66f6eadf80387d1a2fb17ecef2827c">getPasserId</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> ballLocation, const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt; &amp;possibleRobots, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world)</td></tr>
-<tr class="separator:a6a66f6eadf80387d1a2fb17ecef2827c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0626a2255f37ab5815ae87164eb6bbb8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a0626a2255f37ab5815ae87164eb6bbb8">pathHasAnyRobots</a> (Line passLine, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; robotPositions)</td></tr>
+<tr class="separator:a0626a2255f37ab5815ae87164eb6bbb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f7a17bce03e3f5413fcbdd7b3fac7f8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoredPosition">gen::ScoredPosition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a9f7a17bce03e3f5413fcbdd7b3fac7f8">calculatePassLocation</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> ballLocation, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;robotLocations, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> passerLocation, <a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoreProfile">gen::ScoreProfile</a> profile, const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field)</td></tr>
+<tr class="separator:a9f7a17bce03e3f5413fcbdd7b3fac7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4e8d665496030778207457a85cb4f1d"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#af4e8d665496030778207457a85cb4f1d">calculateRobotTravelTime</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> robotPosition, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> targetPosition)</td></tr>
 <tr class="separator:af4e8d665496030778207457a85cb4f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22a89e19f50438abc4c59f4385bf069e"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a22a89e19f50438abc4c59f4385bf069e">calculateBallTravelTime</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> ballLocation, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> passerLocation, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> targetPosition)</td></tr>
 <tr class="separator:a22a89e19f50438abc4c59f4385bf069e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0626a2255f37ab5815ae87164eb6bbb8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a0626a2255f37ab5815ae87164eb6bbb8">pathHasAnyRobots</a> (Line passLine, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; robotPositions)</td></tr>
-<tr class="separator:a0626a2255f37ab5815ae87164eb6bbb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a22a89e19f50438abc4c59f4385bf069e"></a>
@@ -134,7 +122,7 @@ Static Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -150,8 +138,8 @@ Static Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a765487b3e9f0edddb9d7ef528bb59665"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a765487b3e9f0edddb9d7ef528bb59665">&#9670;&nbsp;</a></span>calculatePass()</h2>
+<a id="a9f7a17bce03e3f5413fcbdd7b3fac7f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f7a17bce03e3f5413fcbdd7b3fac7f8">&#9670;&nbsp;</a></span>calculatePassLocation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,28 +148,40 @@ Static Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a> rtt::ai::stp::computations::PassComputations::calculatePass </td>
+          <td class="memname"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoredPosition">gen::ScoredPosition</a> rtt::ai::stp::computations::PassComputations::calculatePassLocation </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>ballLocation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>robotLocations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>passerLocation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoreProfile">gen::ScoreProfile</a>&#160;</td>
           <td class="paramname"><em>profile</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td>
           <td class="paramname"><em>world</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>keeperCanPass</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>field</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -195,16 +195,18 @@ Static Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Calculates which robot should pass where, and which robot should receive it </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Calculates a point on the field to be passed to </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">profile</td><td>the profile to be used when scoring the pass location </td></tr>
-    <tr><td class="paramname">world</td><td>the current world state </td></tr>
-    <tr><td class="paramname">field</td><td>the current field </td></tr>
-    <tr><td class="paramname">keeperCanPass</td><td>indicate whether the keeper can pass and be passed to </td></tr>
+    <tr><td class="paramname">ballLocation</td><td>location of the ball </td></tr>
+    <tr><td class="paramname">robotLocations</td><td>locations of robots that could receive the ball </td></tr>
+    <tr><td class="paramname">passerLocation</td><td>location of the passer </td></tr>
+    <tr><td class="paramname">profile</td><td>the profile to be used when scoring possible passing locations </td></tr>
+    <tr><td class="paramname">world</td><td>world </td></tr>
+    <tr><td class="paramname">field</td><td>field </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a> struct which contains the relevant information needed to complete the pass </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Scored position to be passed to </dd></dl>
 
 </div>
 </div>
@@ -237,7 +239,7 @@ Static Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -249,141 +251,6 @@ Static Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>approximated time to reach target from position </dd></dl>
-
-</div>
-</div>
-<a id="aa54e3d817f4c0b62207b29cf39c58302"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa54e3d817f4c0b62207b29cf39c58302">&#9670;&nbsp;</a></span>getKeeperId()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int rtt::ai::stp::computations::PassComputations::getKeeperId </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>possibleRobots</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Determines which robot should be the keeper (either previous keeper, or robot closest to goal if there was no keeper) </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">possibleRobots</td><td>vector of robots that could become keeper </td></tr>
-    <tr><td class="paramname">world</td><td>current world </td></tr>
-    <tr><td class="paramname">field</td><td>current field </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Id of robot that should become keeper </dd></dl>
-
-</div>
-</div>
-<a id="a6a66f6eadf80387d1a2fb17ecef2827c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a66f6eadf80387d1a2fb17ecef2827c">&#9670;&nbsp;</a></span>getPasserId()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int rtt::ai::stp::computations::PassComputations::getPasserId </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
-          <td class="paramname"><em>ballLocation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>possibleRobots</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Determines which robot should be the passer (the robot closest to the ball) </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">possibleRobots</td><td>vector of robots that could become passer </td></tr>
-    <tr><td class="paramname">world</td><td>current world </td></tr>
-    <tr><td class="paramname">field</td><td>current field </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Id of robot that should become passer </dd></dl>
-
-</div>
-</div>
-<a id="ac585248e2a5d032b0a634b7872935cd4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac585248e2a5d032b0a634b7872935cd4">&#9670;&nbsp;</a></span>getPassGrid()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Grid rtt::ai::stp::computations::PassComputations::getPassGrid </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Gets the grid of points containing all possible pass locations </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>the current field </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a Grid class containing a vector of vectors, which in turn contain all possible pass locations </dd></dl>
 
 </div>
 </div>
@@ -416,7 +283,7 @@ Static Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -428,78 +295,6 @@ Static Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if any of the given robots are inside the given Tube </dd></dl>
-
-</div>
-</div>
-<a id="a3d9d2ef21a8668a9bd471d378ee71106"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d9d2ef21a8668a9bd471d378ee71106">&#9670;&nbsp;</a></span>pointIsValidPassLocation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::ai::stp::computations::PassComputations::pointIsValidPassLocation </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
-          <td class="paramname"><em>point</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
-          <td class="paramname"><em>ballLocation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>possibleReceiverLocations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
-          <td class="paramname"><em>passerLocation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Indicates whether the given point 1) a valid point to pass to in terms of ssl-rules and 2) whether it is feasible ot pass there </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">point</td><td>the point to check for validity </td></tr>
-    <tr><td class="paramname">ballLocation</td><td>the current ball location </td></tr>
-    <tr><td class="paramname">possibleReceiverLocations</td><td>the locations of all robots that could receive the ball </td></tr>
-    <tr><td class="paramname">passerLocation</td><td>the location of the robot that will pass the ball </td></tr>
-    <tr><td class="paramname">field</td><td>the current field </td></tr>
-    <tr><td class="paramname">world</td><td>the current world </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>bool indicating whether this point is (likely) possible to pass to </dd></dl>
 
 </div>
 </div>
