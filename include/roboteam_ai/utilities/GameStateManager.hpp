@@ -24,11 +24,15 @@ class GameStateManager {
     static void forceNewGameState(RefCommand cmd, std::optional<rtt::world::view::BallView> ball);
     static Vector2 getRefereeDesignatedPosition();
     static void updateInterfaceGameState(const char* name);
+    static void addRobotControlledByJoystick(int id);
+    static void clearRobotsControlledByJoystick();
+    static std::vector<int> getRobotsControlledByJoystick();
 
    private:
     static proto::SSL_Referee refMsg;
     static StrategyManager strategymanager;
     static std::mutex refMsgLock;
+    static std::vector<int> robotsControlledByJoystick;
 };
 
 }  // namespace rtt::ai

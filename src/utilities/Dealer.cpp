@@ -73,6 +73,8 @@ Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priorit
 // Create a distribution of robots according to their flags
 std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::RobotView> robots, FlagMap role_to_flags,
                                                                  const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
+    erase_if(robots, [](auto bot) {return any_of(GameStateManager::getRobotsControlledByJoystick().begin(), GameStateManager::getRobotsControlledByJoystick().end(), [&bot](int id) {return id == bot->getId();});});
+
     // Return variable
     std::unordered_map<std::string, v::RobotView> role_assignment;
 
