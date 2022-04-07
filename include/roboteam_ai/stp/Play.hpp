@@ -203,6 +203,18 @@ class Play {
     void reassignRobots() noexcept;
 
     /**
+     * Checks if robots should be reassigned to new roles. True if there are less/more/different robots that can be used in the distribution
+     * @return
+     */
+    bool shouldReassignRobots() noexcept;
+
+    /**
+     * The previous robots that were manually controlled with a joystick
+     * This is used to check if we need to re-deal (if a new robot is controlled or id is switched etc)
+     */
+    std::vector<int> previousRobotsControlledByJoystick{};
+
+    /**
      * The previous amount of robots
      * This is used to check if we need to re-deal (if a robot disappears for example)
      */

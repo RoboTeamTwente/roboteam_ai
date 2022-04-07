@@ -34,15 +34,7 @@ void Play::update() noexcept {
     roleStatuses.clear();
     //    RTT_INFO("Play executing: ", getName())
 
-    // Check if the amount of robots changed
-    // If so, we will re deal the roles
-    auto currentRobotNum{world->getWorld()->getRobotsNonOwning().size()};
-
-    if (currentRobotNum != previousRobotNum) {
-        //        RTT_INFO("Reassigning bots")
-        reassignRobots();
-        previousRobotNum = currentRobotNum;
-    }
+    if (shouldReassignRobots()) reassignRobots();
 
     // Refresh the RobotViews, BallViews and fields
     refreshData();
@@ -138,6 +130,26 @@ bool Play::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept {
 bool Play::isValidPlayToStart(PlayEvaluator &playEvaluator) const noexcept {
     return (interface::MainControlsWidget::ignoreInvariants ||
             std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [&playEvaluator](auto &x) { return playEvaluator.checkEvaluation(x); }));
+}
+
+bool Play::shouldReassignRobots() noexcept {
+    // Check if the amount of robots changed
+    // If so, we should re deal the roles
+    auto currentRobotNum{world->getWorld()->getRobotsNonOwning().size()};
+
+    if (currentRobotNum != previousRobotNum) {
+        previousRobotNum = currentRobotNum;
+        return true;
+    }
+
+    // If more/less/different robots are controlled manually we should redistribute the roles
+    auto currentRobotsControlledByJoystick = GameStateManager::getRobotsControlledByJoystick();
+    if (currentRobotsControlledByJoystick != previousRobotsControlledByJoystick) {
+        previousRobotsControlledByJoystick = currentRobotsControlledByJoystick;
+        return true;
+    }
+
+    return false;
 }
 
 void Play::calculateInfoForScoredRoles(world::World *_world) noexcept {}
