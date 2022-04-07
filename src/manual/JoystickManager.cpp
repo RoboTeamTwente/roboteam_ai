@@ -162,10 +162,14 @@ void JoystickManager::handleJoystickAdded(const SDL_Event &event) {
 
 /** Takes an SDL_Event and deletes and removes the correct JoystickHandler from the map of JoystickHandlers */
 void JoystickManager::handleJoystickRemoved(const SDL_Event &event) {
-    RTT_INFO("Removing joystick with InstanceID ", event.jdevice.which)
-    delete joystickHandlers.at(event.jdevice.which);
-    joystickHandlers.erase(event.jdevice.which);
-    RTT_SUCCESS("Removed joystick with InstanceID ", event.jdevice.which)
+    auto joystickIt = joystickHandlers.find(event.jdevice.which);
+    if (joystickIt != joystickHandlers.end()) {
+        delete joystickHandlers.at(event.jdevice.which);
+        joystickHandlers.erase(event.jdevice.which);
+        RTT_SUCCESS("Removed joystick with InstanceID ", event.jdevice.which)
+    } else {
+        RTT_WARNING("Could not remove joystick with InstanceId ", event.jdevice.which);
+    }
 }
 
 }  // namespace rtt::input
