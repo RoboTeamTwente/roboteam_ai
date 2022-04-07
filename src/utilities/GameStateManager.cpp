@@ -10,6 +10,8 @@ namespace rtt::ai {
 proto::SSL_Referee GameStateManager::refMsg;
 StrategyManager GameStateManager::strategymanager;
 std::mutex GameStateManager::refMsgLock;
+std::mutex GameStateManager::joystickLock;
+std::vector<int> GameStateManager::robotsControlledByJoystick;
 
 proto::SSL_Referee GameStateManager::getRefereeData() {
     std::lock_guard<std::mutex> lock(refMsgLock);
@@ -242,5 +244,21 @@ void GameStateManager::updateInterfaceGameState(const char* name) {
     } else {
         interface::Output::setInterfaceGameState(GameState("normal_play", "default"));
     }
+}
+
+void GameStateManager::addRobotControlledByJoystick(int id) {
+    //RTT_INFO("Adding id ", id, " to robotsControlledByJoystick")
+    std::lock_guard<std::mutex> lock(joystickLock);
+    robotsControlledByJoystick.push_back(id);
+}
+void GameStateManager::clearRobotsControlledByJoystick() {
+    //RTT_INFO("Clearing robotsControlledByJoystick");
+    std::lock_guard<std::mutex> lock(joystickLock);
+    robotsControlledByJoystick.clear();
+}
+
+std::vector<int> GameStateManager::getRobotsControlledByJoystick() {
+    std::lock_guard<std::mutex> lock(joystickLock);
+    return robotsControlledByJoystick;
 }
 }  // namespace rtt::ai
