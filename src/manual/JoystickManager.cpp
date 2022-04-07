@@ -118,10 +118,12 @@ void JoystickManager::loop() {
 
 /** Sends commands from JoystickHandlers */
 void JoystickManager::tickJoystickHandlers() {
+    ai::GameStateManager::clearRobotsControlledByJoystick();
     for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
         auto const &[_, world] = world::World::instance();
         auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id);
+        ai::GameStateManager::addRobotControlledByJoystick(joystickHandler.second->getCommand().id);
         rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
     }
 }
