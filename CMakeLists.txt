@@ -3,35 +3,6 @@ project(roboteam_ai)
 
 add_subdirectory(src)
 
-
-# AUTOMOC is verified to work with the following:
-# - libprotoc 3.19.4
-# - macOS 12.2.1
-# - qt 5.15.2
-
-# On some operating systems, AUTOMOC might produce errors related to protobuf files.
-# In such a case, header files to be MOC-ed must be manually specified
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC OFF)
-set(CMAKE_AUTOUIC OFF)
-set(CMAKE_INCLUDE_CURRENT_DIR OFF) # Find includes in corresponding build directories
-
-#for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
-if (APPLE)
-    set(GTEST_LIB
-            /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a
-            /usr/local/lib/libgmock.a
-            /usr/local/lib/libgmock_main.a
-            )
-else (NOT APPLE)
-    set(GTEST_LIB
-            PUBLIC gtest
-            PUBLIC gmock)
-endif ()
-
-find_package(Qt5 COMPONENTS Widgets Charts REQUIRED)
-
 ###### UTILS #######
 add_library(roboteam_ai_utils
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
@@ -480,7 +451,7 @@ target_link_libraries(roboteam_ai_tests
         PRIVATE roboteam_ai_evaluation
         PRIVATE roboteam_ai_skills
         PRIVATE roboteam_ai_control
-        PRIVATE interface_utils_lib
+        PRIVATE roboteam_interface_utils_lib
         )
 
 target_compile_options(roboteam_ai_tests PRIVATE "${COMPILER_FLAGS}")
