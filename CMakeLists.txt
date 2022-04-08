@@ -337,7 +337,7 @@ target_link_libraries(roboteam_ai_interface
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE SDL2
-        PRIVATE interface_utils_lib
+        PRIVATE roboteam_interface_utils_lib
 )
 target_compile_options(roboteam_ai_interface PRIVATE "${COMPILER_FLAGS}")
 
@@ -450,7 +450,7 @@ target_link_libraries(roboteam_ai_tests
         PRIVATE roboteam_ai_evaluation
         PRIVATE roboteam_ai_skills
         PRIVATE roboteam_ai_control
-        PRIVATE interface_utils_lib
+        PRIVATE roboteam_interface_utils_lib
         )
 
 target_compile_options(roboteam_ai_tests PRIVATE "${COMPILER_FLAGS}")
