@@ -200,6 +200,7 @@ target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_plays
+        PUBLIC roboteam_interface_utils_lib
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -366,7 +367,7 @@ target_link_libraries(roboteam_ai_interface
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE SDL2
-        PRIVATE interface_utils_lib
+        PRIVATE roboteam_interface_utils_lib
 )
 target_compile_options(roboteam_ai_interface PRIVATE "${COMPILER_FLAGS}")
 
