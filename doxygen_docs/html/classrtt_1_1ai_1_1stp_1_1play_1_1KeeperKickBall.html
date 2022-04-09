@@ -102,6 +102,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a18d0820252f4534e6c322a508f782b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb4d7886d97c9c19204e23ce96fb32dc"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#abb4d7886d97c9c19204e23ce96fb32dc">getName</a> () override</td></tr>
 <tr class="separator:abb4d7886d97c9c19204e23ce96fb32dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4747a01ba7173426c53c7940c71cb8d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a4747a01ba7173426c53c7940c71cb8d2">calculatePassLocation</a> (<a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *<a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a0c13cbd482099fa139f3a5f08d964efe">world</a>)</td></tr>
+<tr class="separator:a4747a01ba7173426c53c7940c71cb8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27b85bd78c2729c47421a5e485d268a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a27b85bd78c2729c47421a5e485d268a7">ballKicked</a> ()</td></tr>
+<tr class="separator:a27b85bd78c2729c47421a5e485d268a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75285f5ba087c4fec511022d614f1d0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a75285f5ba087c4fec511022d614f1d0a">shouldEndPlay</a> () noexcept override</td></tr>
 <tr class="separator:a75285f5ba087c4fec511022d614f1d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae63525881610390f3a9e5a490377b32e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#ae63525881610390f3a9e5a490377b32e">storePlayInfo</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#afc45c97a42c443e6884bd95502426d0d">gen::PlayInfos</a> &amp;previousPlayInfo) noexcept</td></tr>
@@ -123,6 +127,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a2b1a5df1fb4631b1bc1c8e5b0a097b2b"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a2b1a5df1fb4631b1bc1c8e5b0a097b2b">passLocation</a> = std::nullopt</td></tr>
+<tr class="separator:a2b1a5df1fb4631b1bc1c8e5b0a097b2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17fc7a716064d918aa29c072832c2ef8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a17fc7a716064d918aa29c072832c2ef8">keepPlayEvaluation</a></td></tr>
 <tr class="separator:a17fc7a716064d918aa29c072832c2ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a859e8c8abae48115eab588736926368f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a859e8c8abae48115eab588736926368f">startPlayEvaluation</a></td></tr>
@@ -149,8 +155,6 @@ Protected Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a27b85bd78c2729c47421a5e485d268a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a27b85bd78c2729c47421a5e485d268a7">ballKicked</a> ()</td></tr>
-<tr class="separator:a27b85bd78c2729c47421a5e485d268a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b71d56f8b8d8d62b7ec945847a2bec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#ad7b71d56f8b8d8d62b7ec945847a2bec">refreshData</a> () noexcept</td></tr>
 <tr class="separator:ad7b71d56f8b8d8d62b7ec945847a2bec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977b3063d4d26bee4be08d71c2ab7ccc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a977b3063d4d26bee4be08d71c2ab7ccc">distributeRoles</a> () noexcept</td></tr>
@@ -160,8 +164,6 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a74cff66a5dc049edd34d87772e160c89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a74cff66a5dc049edd34d87772e160c89">passInfo</a></td></tr>
-<tr class="separator:a74cff66a5dc049edd34d87772e160c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc2268677ee563a2f0a7efa4acff465e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#afc2268677ee563a2f0a7efa4acff465e">previousRobotNum</a> {}</td></tr>
 <tr class="separator:afc2268677ee563a2f0a7efa4acff465e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -192,9 +194,6 @@ Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool rtt::ai::stp::play::KeeperKickBall::ballKicked </td>
@@ -203,13 +202,7 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Return true if passer is done with KickAtPos tactic </p>
 
 </div>
 </div>
@@ -267,6 +260,24 @@ Private Attributes</h2></td></tr>
 <p>Calculate info for the roles that need to be calculated for scoring </p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#acfb10161677ed02c90d148e63c0ff876">rtt::ai::stp::Play</a>.</p>
+
+</div>
+</div>
+<a id="a4747a01ba7173426c53c7940c71cb8d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4747a01ba7173426c53c7940c71cb8d2">&#9670;&nbsp;</a></span>calculatePassLocation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::stp::play::KeeperKickBall::calculatePassLocation </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
+          <td class="paramname"><em>world</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -598,7 +609,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Check if play should end. True if pass arrived, if the ball is not moving anymore after pass, or if there is a better pass available </p>
+<p>This function is used to determine if &ndash; when a role is in an endTactic &ndash; the endTactic should be skipped. An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept) Optional function to force end plays </p><dl class="section return"><dt>Returns</dt><dd>True if play should end this tick </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">rtt::ai::stp::Play</a>.</p>
 
@@ -629,7 +640,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Saves all necessary information (that is needed for a potential next <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html">Play</a>), when this <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html">Play</a> will be finished </p><dl class="section return"><dt>Returns</dt><dd>Map of all the necessary information </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html#ad77b0234ab109e008aac76db341e78c5">rtt::ai::stp::play::AggressiveStopFormation</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a316363b34c7c5f84fdcd7e3ade2f2ba8">rtt::ai::stp::play::PlayTemplate</a>, and <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html#af70672486fb4ae43faa283ceadb0519b">rtt::ai::stp::play::GetBallPossession</a>.</p>
+<p>Reimplemented in <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html#ad77b0234ab109e008aac76db341e78c5">rtt::ai::stp::play::AggressiveStopFormation</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a316363b34c7c5f84fdcd7e3ade2f2ba8">rtt::ai::stp::play::PlayTemplate</a>, <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a9eb34a0311f2f36cd465953aff96d753">rtt::ai::stp::play::AttackingPass</a>, and <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html#af70672486fb4ae43faa283ceadb0519b">rtt::ai::stp::play::GetBallPossession</a>.</p>
 
 </div>
 </div>
@@ -761,26 +772,17 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a74cff66a5dc049edd34d87772e160c89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74cff66a5dc049edd34d87772e160c89">&#9670;&nbsp;</a></span>passInfo</h2>
+<a id="a2b1a5df1fb4631b1bc1c8e5b0a097b2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b1a5df1fb4631b1bc1c8e5b0a097b2b">&#9670;&nbsp;</a></span>passLocation</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a> rtt::ai::stp::play::KeeperKickBall::passInfo</td>
+          <td class="memname">std::optional&lt;<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&gt; rtt::ai::stp::play::KeeperKickBall::passLocation = std::nullopt</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Struct containing info about the pass. Calculated once for each time this play is run </p>
 
 </div>
 </div>
