@@ -75,6 +75,10 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
 }
 
 void AttackingPass::calculateInfoForRoles() noexcept {
+    calculateInfoForDefenders();
+    calculateInfoForMidfielders();
+    calculateInfoForAttackers();
+
     /// Keeper
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
@@ -102,9 +106,39 @@ void AttackingPass::calculateInfoForRoles() noexcept {
         } else if (receiverLocation.y < field.getMiddleMidGrid().getOffSetY()) {  // Receiver is going to right of the field
             stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
         } else {  // Receiver is going to middle of the field- passer will go to the closest grid on the side of the field
-            auto targetGrid = stpInfos["passer"].getRobot()->get()->getPos().y < 0 ? field.getFrontRightGrid() : field.getFrontLeftGrid();
-            stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid, gen::OffensivePosition, field, world));
+            auto targetGrid = stpInfos["passer"].getRobot()->get()->getPos().y < 0 ? field.getMiddleRightGrid() : field.getMiddleLeftGrid();
+            stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid, gen::BlockingPosition, field, world));
         }
+    }
+}
+
+void AttackingPass::calculateInfoForDefenders() noexcept {
+    stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
+    stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
+
+    stpInfos["defender_mid"].setPositionToDefend(field.getOurBottomGoalSide());
+    stpInfos["defender_mid"].setBlockDistance(BlockDistance::HALFWAY);
+
+    stpInfos["defender_right"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_right"].setBlockDistance(BlockDistance::CLOSE);
+}
+
+void AttackingPass::calculateInfoForMidfielders() noexcept {
+    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_middle"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
+}
+
+void AttackingPass::calculateInfoForAttackers() noexcept {
+    if (passInfo.passLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));
+    } else if (passInfo.passLocation.y < field.getMiddleMidGrid().getOffSetY()) {  // Receiver is going to right of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
+    } else {  // Receiver is going to middle of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));
     }
 }
 
