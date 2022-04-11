@@ -6,6 +6,7 @@
 #define RTT_KEEPERKICKBALL_H
 
 #include "stp/Play.hpp"
+#include "stp/computations/PassComputations.h"
 
 namespace rtt::ai::stp::play {
 
@@ -51,11 +52,21 @@ class KeeperKickBall : public Play {
      */
     const char* getName() override;
 
-    std::optional<Vector2> passLocation = std::nullopt;
-
-    Vector2 calculatePassLocation(world::World* world);
-    bool ballKicked();
+    /**
+     * Check if play should end. True if pass arrived, if the ball is not moving anymore after pass, or if there is a better pass available
+     */
     bool shouldEndPlay() noexcept override;
+
+   private:
+    /**
+     * Return true if passer is done with KickAtPos tactic
+     */
+    bool ballKicked();
+
+    /**
+     * Struct containing info about the pass. Calculated once for each time this play is run
+     */
+    PassInfo passInfo;
 };
 }  // namespace rtt::ai::stp::play
 
