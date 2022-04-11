@@ -171,6 +171,7 @@ target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_plays
+        PUBLIC roboteam_interface_utils_lib
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -326,6 +327,8 @@ add_library(roboteam_ai_interface
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
+        # After removing the interface, only this file should remain
+        ${PROJECT_SOURCE_DIR}/src/interface/InterfaceControllerServer.cpp
 )
 target_include_directories(roboteam_ai_interface
         PRIVATE include/roboteam_ai
@@ -335,6 +338,7 @@ target_link_libraries(roboteam_ai_interface
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE SDL2
+        PRIVATE roboteam_interface_utils_lib
 )
 target_compile_options(roboteam_ai_interface PRIVATE "${COMPILER_FLAGS}")
 
@@ -448,6 +452,7 @@ target_link_libraries(roboteam_ai_tests
         PRIVATE roboteam_ai_evaluation
         PRIVATE roboteam_ai_skills
         PRIVATE roboteam_ai_control
+        PRIVATE roboteam_interface_utils_lib
         )
 
 target_compile_options(roboteam_ai_tests PRIVATE "${COMPILER_FLAGS}")
