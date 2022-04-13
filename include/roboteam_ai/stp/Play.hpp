@@ -103,13 +103,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept;
+    [[nodiscard]] bool isValidPlayToStart() const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept;
+    [[nodiscard]] bool isValidPlayToKeep() noexcept;
 
     /**
      * Getter for the role -> status mapping
