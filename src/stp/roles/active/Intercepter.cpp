@@ -6,6 +6,7 @@
 #include "stp/roles/active/Intercepter.h"
 
 #include "stp/tactics/Intercept.h"
+#include "stp/tactics/passive/Halt.h"
 
 namespace rtt::ai::stp::role {
 
