@@ -22,7 +22,7 @@ class AttackingPass : public Play {
     /**
      *  Calculate how beneficial we expect this play to be
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -52,7 +52,7 @@ class AttackingPass : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World*) noexcept override;
+    void calculateInfoForScoredRoles(world::World*) noexcept override{};
 
     /**
      * Gets the play name

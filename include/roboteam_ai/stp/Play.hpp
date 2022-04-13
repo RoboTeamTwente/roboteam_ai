@@ -82,7 +82,7 @@ class Play {
      * @param playEvaluator with the world
      * @return a final score for the play
      */
-    virtual uint8_t score(PlayEvaluator& playEvaluator) noexcept = 0;
+    virtual uint8_t score(const rtt::world::Field& field) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays

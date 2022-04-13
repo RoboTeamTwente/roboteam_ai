@@ -42,9 +42,7 @@ AttackingPass::AttackingPass() : Play() {
         std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
 
-uint8_t AttackingPass::score(PlayEvaluator& playEvaluator) noexcept {
-    auto world = playEvaluator.getWorld();
-    auto field = world->getField().value();
+uint8_t AttackingPass::score(const rtt::world::Field& field) noexcept {
     passInfo = stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field);
 
     if (passInfo.passLocation == Vector2()) return 0;  // In case no pass is found

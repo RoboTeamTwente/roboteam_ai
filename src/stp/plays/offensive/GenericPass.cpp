@@ -50,7 +50,7 @@ GenericPass::GenericPass() : Play() {
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(PlayEvaluator& playEvaluator) noexcept { return 130; }
+uint8_t GenericPass::score(const rtt::world::Field& field) noexcept { return 130; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
