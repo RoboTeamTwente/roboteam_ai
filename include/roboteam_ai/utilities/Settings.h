@@ -51,8 +51,8 @@ class Settings {
 
    private:
     int id = 0;
-    bool yellow;
-    bool left;
+    bool yellow = true;
+    bool left = true;
     RobotHubMode robotHubMode;
 
     std::string visionIp;

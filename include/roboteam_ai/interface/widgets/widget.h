@@ -17,6 +17,7 @@
 #include "interface/api/Toggles.h"
 #include "world/Field.h"
 #include "world/World.hpp"
+#include "proto/messages_robocup_ssl_wrapper.pb.h"
 
 namespace rtt::ai::interface {
 
@@ -31,6 +32,7 @@ class Visualizer : public QWidget {
     bool robotIsSelected(int id);
     void setPlayForRobot(std::string const &view, uint8_t i);
     void setTacticForRobot(std::string const &view, uint8_t i);
+    void updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> & packets);
 
    public slots:
     void setShowRoles(bool showRoles);
@@ -43,6 +45,8 @@ class Visualizer : public QWidget {
     void setShowDebugValueInTerminal(bool showDebug);
     void toggleSelectedRobot(rtt::world::view::RobotView robot);
     void setToggleFieldDirection(bool inversed);
+    void setShowWorldDetections(bool showDetections);
+    void setShowWorld(bool showWorld);
 
    protected:
     void paintEvent(QPaintEvent *event) override;
@@ -78,6 +82,12 @@ class Visualizer : public QWidget {
 
     void calculateFieldSizeFactor(const rtt::world::Field &field);
 
+    //visualization for detection packets
+    void drawRawDetectionPackets(QPainter& painter);
+    void drawDetectionBall(QPainter& painter, const proto::SSL_DetectionBall& ball);
+    void drawDetectionRobot(QPainter& painter, bool robotIsBlue, const proto::SSL_DetectionRobot& robot);
+
+    std::vector<proto::SSL_WrapperPacket> raw_detection_packets;
     // interface variables
     std::vector<std::pair<std::string,
                           QColor>> tacticColors;  // map colors to tactic to visualize which robots work together
@@ -100,6 +110,10 @@ class Visualizer : public QWidget {
     bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
     bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
     bool fieldInversed = false;
+    bool showWorld = true;
+    bool showWorldDetections = false;
+    std::mutex worldDetectionsMutex;
+
     std::mutex rolesUpdate;
     std::mutex tacticsUpdate;
 };
