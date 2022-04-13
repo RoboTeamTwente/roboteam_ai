@@ -69,7 +69,6 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {closeToTheirGoalFlag}}});
     flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {closeToTheirGoalFlag}}});
 
-
     return flagMap;
 }
 
@@ -90,21 +89,15 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_2"].setBlockDistance(BlockDistance::PARTWAY);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); }),
-                      enemyRobots.end());
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); });
 
     auto enemyClosestToOurGoalOne = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalOne && enemyRobot->getId() == enemyClosestToOurGoalOne.value()->getId(); }),
-                      enemyRobots.end());
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalOne && enemyRobot->getId() == enemyClosestToOurGoalOne.value()->getId(); });
 
     auto enemyClosestToOurGoalTwo = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalTwo && enemyRobot->getId() == enemyClosestToOurGoalTwo.value()->getId(); }),
-                      enemyRobots.end());
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalTwo && enemyRobot->getId() == enemyClosestToOurGoalTwo.value()->getId(); });
 
     stpInfos["defender_helper_1"].setPositionToDefend(enemyClosestToOurGoalOne->get()->getPos());
     stpInfos["defender_helper_1"].setBlockDistance(BlockDistance::HALFWAY);
@@ -117,14 +110,18 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     for (auto enemy : enemyRobots) {
         double score = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, true, enemy->getPos(), world->getWorld().value(), enemy->getId(), false) *
                        FieldComputations::getDistanceToGoal(field, false, enemy->getPos());
-        enemyMap.template insert(std::pair<double, Vector2>(score, enemy->getPos()));
+        enemyMap.insert({score, enemy->getPos()});
     }
 
-    for (int i = 1; i <= 3; i++){
+    for (int i = 1; i <= 3; i++) {
         stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
         stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
 
-        enemyMap.erase(prev(enemyMap.end()));
+        if (!enemyMap.empty()) {
+            enemyMap.erase(prev(enemyMap.end()));
+        } else {
+            break;
+        }
     }
 }
 
@@ -146,7 +143,7 @@ void DefendPass::calculateInfoForHarassers() noexcept {
 
 void DefendPass::calculateInfoForOffenders() noexcept {
     stpInfos["offender_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
-    if(world->getWorld()->getBall().value()->getPos().y > 0) {
+    if (world->getWorld()->getBall().value()->getPos().y > 0) {
         stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
     } else {
         stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));

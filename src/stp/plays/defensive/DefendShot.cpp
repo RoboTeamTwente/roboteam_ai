@@ -43,7 +43,7 @@ uint8_t DefendShot::score(PlayEvaluator &playEvaluator) noexcept {
     auto goalVisibility =
         FieldComputations::getPercentageOfGoalVisibleFromPoint(field, true, enemyRobot->get()->getPos(), world->getWorld().value(), enemyRobot->get()->getId(), false);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
-    return 255 * (field.getFieldLength() - position) / field.getFieldLength() * goalVisibility/100;
+    return 255 * (field.getFieldLength() - position) / field.getFieldLength() * goalVisibility / 100;
 }
 
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
@@ -75,7 +75,7 @@ void DefendShot::calculateInfoForRoles() noexcept {
     calculateInfoForKeeper();
 }
 
-void DefendShot::calculateInfoForWallers() noexcept{
+void DefendShot::calculateInfoForWallers() noexcept {
     stpInfos["waller_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["waller_1"].setBlockDistance(BlockDistance::CLOSE);
 
@@ -91,26 +91,19 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); }),
-                      enemyRobots.end());
+    erase_if(enemyRobots,[&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId();});
 
-    auto enemyClosestToOurGoalOne= world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
+    auto enemyClosestToOurGoalOne = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalOne && enemyRobot->getId() == enemyClosestToOurGoalOne.value()->getId(); }),
-                      enemyRobots.end());
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalOne && enemyRobot->getId() == enemyClosestToOurGoalOne.value()->getId(); });
 
     auto enemyClosestToOurGoalTwo = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalTwo && enemyRobot->getId() == enemyClosestToOurGoalTwo.value()->getId(); }),
-                      enemyRobots.end());
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalTwo && enemyRobot->getId() == enemyClosestToOurGoalTwo.value()->getId(); });
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToOurGoalOne);
     stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
-
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_2"].setEnemyRobot(enemyClosestToOurGoalTwo);
@@ -118,16 +111,22 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     std::map<double, Vector2> enemyMap;
 
-    for (auto enemy : enemyRobots){
+
+    for (auto enemy : enemyRobots) {
         double score = FieldComputations::getDistanceToGoal(field, true, enemy->getPos());
-        enemyMap.template insert(std::pair<double, Vector2>(score, enemy->getPos()));
+        enemyMap.insert({score, enemy->getPos()});
     }
 
-    for (int i = 1; i <= 4; i++){
+    for (int i = 1; i <= 4; i++) {
         stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
         stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::CLOSE);
 
-        enemyMap.erase(enemyMap.begin());
+        if (!enemyMap.empty()) {
+            enemyMap.erase(enemyMap.begin());
+        } else {
+            break;
+        }
+
     }
 }
 
