@@ -80,7 +80,14 @@ void ApplicationManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
-    playChecker.setPlays(plays);
+
+    // Set the pointer to world for all plays
+    {
+        auto const &[_, world] = world::World::instance();
+        for (auto &play : plays) {
+            play->setWorld(world);
+        }
+    }
 
     int amountOfCycles = 0;
     roboteam_utils::Timer stpTimer;

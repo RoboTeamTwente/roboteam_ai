@@ -47,10 +47,16 @@ class Play {
     void initialize(gen::PlayInfos& previousPlayInfo) noexcept;
 
     /**
-     * Updates the stored world pointer and after that, updates the field instance using the updated world pointer
+     * Sets the Play's world pointer to the static world class
      * @param pointer to World
      */
-    void updateWorld(world::World* world) noexcept;
+    void setWorld(world::World* world) noexcept;
+
+    /**
+     * Updates the field in the play
+     * @param field the current field
+     */
+    void updateField(world::Field field) noexcept;
 
     /**
      * Updates (or ticks) all the roles that have robots assigned to them
