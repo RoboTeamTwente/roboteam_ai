@@ -1,6 +1,6 @@
 //
 // Created by timovdk on 5/20/20.
-/// TODO-Max specify play (Forward/Backwards/..)
+/// TODO Needs to be refactored to use new passComputations (or play should be removed)
 //
 
 #include "stp/plays/offensive/GenericPass.h"
@@ -159,21 +159,6 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     // Passer
     stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["passer"].setShotType(ShotType::PASS);
-}
-
-bool GenericPass::isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept {
-    world::Field field = world->getField().value();
-    auto closestToBall = world->getWorld()->getRobotClosestToBall();
-
-    auto canKeep = std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator](auto& x) { return playEvaluator.checkEvaluation(x); }) && !passFinished();
-    if (canKeep) {
-        if (closestToBall && closestToBall->get()->getTeam() == world::us) {
-            return true;
-        } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-            return true;
-        }
-    }
-    return false;
 }
 
 bool GenericPass::passFinished() noexcept {
