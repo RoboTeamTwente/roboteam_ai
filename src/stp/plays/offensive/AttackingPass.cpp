@@ -12,8 +12,8 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/PassReceiver.h"
 #include "stp/roles/active/Passer.h"
-#include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/Formation.h"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::ai::stp::play {
@@ -28,18 +28,17 @@ AttackingPass::AttackingPass() : Play() {
     keepPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
     keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Passer>(role::Passer("passer")),
-        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-        std::make_unique<role::Defender>(role::Defender("defender_left")),
-        std::make_unique<role::Defender>(role::Defender("defender_mid")),
-        std::make_unique<role::Defender>(role::Defender("defender_right")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_left")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_middle")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_right")),
-        std::make_unique<role::Formation>(role::Formation("attacker_left")),
-        std::make_unique<role::Formation>(role::Formation("attacker_right"))};
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                       std::make_unique<role::Passer>(role::Passer("passer")),
+                                                                                       std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("defender_left")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("defender_mid")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("defender_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_middle")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
 
 uint8_t AttackingPass::score(PlayEvaluator& playEvaluator) noexcept {
