@@ -35,7 +35,7 @@ AttackingPass::AttackingPass() : Play() {
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_mid")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_right")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_left")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_middle")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_right")),
                                                                                        std::make_unique<role::Formation>(role::Formation("attacker_left")),
                                                                                        std::make_unique<role::Formation>(role::Formation("attacker_right"))};
@@ -65,7 +65,7 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"defender_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"midfielder_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"midfielder_middle", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"midfielder_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"midfielder_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"attacker_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"attacker_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
@@ -124,7 +124,7 @@ void AttackingPass::calculateInfoForDefenders() noexcept {
 
 void AttackingPass::calculateInfoForMidfielders() noexcept {
     stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
-    stpInfos["midfielder_middle"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
     stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
 }
 
