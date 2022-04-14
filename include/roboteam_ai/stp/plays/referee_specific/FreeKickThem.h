@@ -17,17 +17,9 @@ class FreeKickThem : public Play {
     FreeKickThem();
 
     /**
-     * Gets the score for the current play
-     *
-     * On the contrary to isValidPlay() this checks how good the play actually is
-     * returns a value in range of 0 - 255 based on the factors from in the scoring vector
-     *
-     * To calculate the score of a play, the current situation (Evaluations) and future positions are taken into account.
-     * To reduce computations the calculates for the future positions are saved in an StpInfos map that will be added to
-     *  the play with the initialization.
-     *
-     * @param a StpInfos to store calculated info in
-     * @return The score, 0 - 255
+     * Calculates the score of this play to determine which play is best in this situation
+     * @param field The current Field
+     * @return The score of this play (0-255)
      */
     uint8_t score(const rtt::world::Field &field) noexcept override;
 
