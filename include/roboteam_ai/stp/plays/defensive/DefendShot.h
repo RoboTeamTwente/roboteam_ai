@@ -54,6 +54,11 @@ class DefendShot : public Play {
 
    protected:
     /**
+     * Calculates info for the wallers
+     */
+    void calculateInfoForWallers() noexcept;
+
+    /**
      * Calculates info for the defenders
      */
     void calculateInfoForDefenders() noexcept;
