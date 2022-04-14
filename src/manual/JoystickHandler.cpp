@@ -79,11 +79,11 @@ void JoystickHandler::changeRobotID() {
 void JoystickHandler::doKick() {
     if (joystickState.A) {
         command.kickType = KickType::KICK;
-        command.kickSpeed = 1.0;
+        command.kickSpeed = 3.5;
         joystickState.A = false;
     } else if (joystickState.B) {
         command.kickType = KickType::KICK;
-        command.kickSpeed = 6.5;
+        command.kickSpeed = 5;
         joystickState.B = false;
     } else {
         command.kickSpeed = 0.0;
@@ -99,8 +99,6 @@ void JoystickHandler::doChip() {
         command.kickType = KickType::CHIP;
         command.kickSpeed = 4;
         joystickState.X = false;
-    } else {
-        command.kickSpeed = 0;
     }
 }
 
