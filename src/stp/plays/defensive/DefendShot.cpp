@@ -22,16 +22,11 @@ DefendShot::DefendShot() : Play() {
     keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Defender>(role::Defender("waller_1")),
-        std::make_unique<role::Defender>(role::Defender("waller_2")),
-        std::make_unique<role::Defender>(role::Defender("waller_3")),
-        std::make_unique<role::Harasser>(role::Harasser("defender_1")),
-        std::make_unique<role::Harasser>(role::Harasser("defender_2")),
-        std::make_unique<role::Harasser>(role::Harasser("harasser")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_1")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_2")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_3")),
+        std::make_unique<role::Keeper>(role::Keeper("keeper")),           std::make_unique<role::Defender>(role::Defender("waller_1")),
+        std::make_unique<role::Defender>(role::Defender("waller_2")),     std::make_unique<role::Defender>(role::Defender("waller_3")),
+        std::make_unique<role::Harasser>(role::Harasser("defender_1")),   std::make_unique<role::Harasser>(role::Harasser("defender_2")),
+        std::make_unique<role::Harasser>(role::Harasser("harasser")),     std::make_unique<role::Defender>(role::Defender("midfielder_1")),
+        std::make_unique<role::Defender>(role::Defender("midfielder_2")), std::make_unique<role::Defender>(role::Defender("midfielder_3")),
         std::make_unique<role::Defender>(role::Defender("midfielder_4")),
     };
 }
@@ -91,7 +86,7 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
 
-    erase_if(enemyRobots,[&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId();});
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); });
 
     auto enemyClosestToOurGoalOne = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
@@ -111,7 +106,6 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     std::map<double, Vector2> enemyMap;
 
-
     for (auto enemy : enemyRobots) {
         double score = FieldComputations::getDistanceToGoal(field, true, enemy->getPos());
         enemyMap.insert({score, enemy->getPos()});
@@ -126,7 +120,6 @@ void DefendShot::calculateInfoForDefenders() noexcept {
         } else {
             break;
         }
-
     }
 }
 
