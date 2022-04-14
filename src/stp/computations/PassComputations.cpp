@@ -29,6 +29,12 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     auto passerLocation = passerIt->get()->getPos();
     us.erase(passerIt);
 
+    // If we don't have any robots that could be a receiver, just shoot towards their goal
+    if (us.empty()){
+        passInfo.passLocation = field.getTheirGoalCenter();
+        return passInfo;
+    }
+
     // This is a vector with the locations of all robots that could act as a receiver (ie all robots except the keeper and the passer)
     std::vector<Vector2> possibleReceiverLocations;
     possibleReceiverLocations.reserve(us.size());
