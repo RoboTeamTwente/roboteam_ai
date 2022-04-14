@@ -33,11 +33,7 @@ TEST_F(RTT_AI_Tests, idTests) {
     EXPECT_TRUE(passInfo.keeperId != -1);
     EXPECT_TRUE((passInfo.receiverId != -1) || (passInfo.passScore == 0));
 
-    auto us = world->getWorld()->getUs();
-    auto keeperId = world->getWorld()->getRobotClosestToPoint(world->getField()->getOurGoalCenter(), us).value()->getId();
-    erase_if(us, [keeperId](auto bot) { return bot->getId() == keeperId; });
-    auto passerId = world->getWorld()->getRobotClosestToPoint(world->getWorld()->getBall()->get()->getPos(), us).value()->getId();
-    EXPECT_EQ(passInfo.passerId, passerId);
+    auto keeperId = world->getWorld()->getRobotClosestToPoint(world->getField()->getOurGoalCenter(), rtt::world::Team::us).value()->getId();
     EXPECT_TRUE(passInfo.keeperId == keeperId);
 }
 

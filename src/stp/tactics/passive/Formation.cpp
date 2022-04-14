@@ -20,8 +20,6 @@ Formation::Formation() {
 std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!info.getPositionToMoveTo()) return std::nullopt;
-
     // Be 100% sure the dribbler is off during the formation
     skillStpInfo.setDribblerSpeed(0);
 
