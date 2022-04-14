@@ -31,10 +31,10 @@ FreeKickUs::FreeKickUs() : Play() {
                                                                                  std::make_unique<role::BallAvoider>("defender_3")};
 }
 
-uint8_t FreeKickUs::score(const rtt::world::Field& field) noexcept {
+uint8_t FreeKickUs::score(PlayEvaluator& playEvaluator) noexcept {
     //    /// List of all factors that combined results in an evaluation how good the play is.
-    //    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::FreeKickUsGameState), 1.0}};
-    //    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
+    //    scoring = {{playEvaluator.getGlobalEvaluation(eval::FreeKickUsGameState), 1.0}};
+    //    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
     return 160;
 }
 

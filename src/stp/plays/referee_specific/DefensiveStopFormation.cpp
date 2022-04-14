@@ -32,10 +32,10 @@ DefensiveStopFormation::DefensiveStopFormation() : Play() {
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2"))};
 }
 
-uint8_t DefensiveStopFormation::score(const rtt::world::Field& field) noexcept {
+uint8_t DefensiveStopFormation::score(PlayEvaluator &playEvaluator) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::BallOnOurSide, world), 1.0}};
-    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{playEvaluator.getGlobalEvaluation(eval::BallOnOurSide), 1.0}};
+    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void DefensiveStopFormation::calculateInfoForRoles() noexcept {
@@ -78,5 +78,5 @@ Dealer::FlagMap DefensiveStopFormation::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char* DefensiveStopFormation::getName() { return "Defensive Stop Formation"; }
+const char *DefensiveStopFormation::getName() { return "Defensive Stop Formation"; }
 }  // namespace rtt::ai::stp::play

@@ -24,9 +24,10 @@ void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
 }
 
-void Play::setWorld(world::World *world) noexcept { this->world = world; }
-
-void Play::updateField(world::Field field) noexcept { this->field = field; }
+void Play::updateWorld(world::World *world) noexcept {
+    this->world = world;
+    this->field = world->getField().value();
+}
 
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
@@ -129,14 +130,14 @@ void Play::distributeRoles() noexcept {
 
 std::unordered_map<Role *, Status> const &Play::getRoleStatuses() const { return roleStatuses; }
 
-bool Play::isValidPlayToKeep() noexcept {
+bool Play::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept {
     return (interface::MainControlsWidget::ignoreInvariants ||
-            (!shouldEndPlay() && std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [this](auto &x) { return PlayEvaluator::checkEvaluation(x, world); })));
+            (!shouldEndPlay() && std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator](auto &x) { return playEvaluator.checkEvaluation(x); })));
 }
 
-bool Play::isValidPlayToStart() const noexcept {
+bool Play::isValidPlayToStart(PlayEvaluator &playEvaluator) const noexcept {
     return (interface::MainControlsWidget::ignoreInvariants ||
-            std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [this](auto &x) { return PlayEvaluator::checkEvaluation(x, world); }));
+            std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [&playEvaluator](auto &x) { return playEvaluator.checkEvaluation(x); }));
 }
 
 void Play::calculateInfoForScoredRoles(world::World *_world) noexcept {}

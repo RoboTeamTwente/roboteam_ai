@@ -59,11 +59,11 @@ Dealer::FlagMap PlayTemplate::decideRoleFlags() const noexcept {
     return flagMap;  // DONT TOUCH.
 }
 
-uint8_t PlayTemplate::score(const rtt::world::Field& field) noexcept {
+uint8_t PlayTemplate::score(PlayEvaluator& playEvaluator) noexcept {
     calculateInfoForScoredRoles(playEvaluator.getWorld());  /// DISABLE IF NOT USED
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::BallCloseToUs), 1.0}};
-    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{playEvaluator.getGlobalEvaluation(eval::BallCloseToUs), 1.0}};
+    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 /// OPTIONAL -> place to calculateInfoForRoles. Make sure not to compute twice.

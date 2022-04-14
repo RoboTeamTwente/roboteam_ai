@@ -22,10 +22,10 @@ KickOffUsPrepare::KickOffUsPrepare() : Play() {
         std::make_unique<role::Formation>(role::Formation("receiver")), std::make_unique<role::Formation>(role::Formation("defender_0"))};
 }
 
-uint8_t KickOffUsPrepare::score(const rtt::world::Field& field) noexcept {
+uint8_t KickOffUsPrepare::score(PlayEvaluator &playEvaluator) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::KickOffUsPrepareGameState, world), 1.0}};
-    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{playEvaluator.getGlobalEvaluation(eval::KickOffUsPrepareGameState), 1.0}};
+    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void KickOffUsPrepare::calculateInfoForRoles() noexcept {
@@ -70,6 +70,6 @@ Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char* KickOffUsPrepare::getName() { return "Kick Off Us Prepare"; }
+const char *KickOffUsPrepare::getName() { return "Kick Off Us Prepare"; }
 
 }  // namespace rtt::ai::stp::play

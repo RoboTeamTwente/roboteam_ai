@@ -30,7 +30,7 @@ class DefendPass : public Play {
      * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(const rtt::world::Field& field) noexcept;
+    uint8_t score(PlayEvaluator& playEvaluator) noexcept;
 
     /**
      * Assigns robots to roles of this play
@@ -67,6 +67,11 @@ class DefendPass : public Play {
      * Calculates info for the harassers
      */
     void calculateInfoForHarassers() noexcept;
+
+    /**
+     * Calculates info for the offenders
+     */
+    void calculateInfoForOffenders() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 

@@ -80,14 +80,7 @@ void ApplicationManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
-
-    // Set the pointer to world for all plays
-    {
-        auto const &[_, world] = world::World::instance();
-        for (auto &play : plays) {
-            play->setWorld(world);
-        }
-    }
+    playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer stpTimer;
@@ -173,17 +166,44 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
-    ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
+    // TODO make a clear function
+    playEvaluator.clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 
-    if (!currentPlay || rtt::ai::stp::PlayDecider::interfacePlayChanged || !currentPlay->isValidPlayToKeep()) {
+    playEvaluator.update(_world);
+    playChecker.update(playEvaluator);
+
+    // Here for manual change with the interface
+    if (rtt::ai::stp::PlayDecider::interfacePlayChanged) {
+        auto validPlays = playChecker.getValidPlays();
         ai::stp::gen::PlayInfos previousPlayInfo{};
         if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
-        currentPlay = ai::stp::PlayDecider::decideBestPlay(_world, plays);
-        currentPlay->updateField(_world->getField().value());
+
+        // Before a new play is possibly chosen: save all info of current Play that is necessary for a next Play
+        currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
+        currentPlay->updateWorld(_world);
         currentPlay->initialize(previousPlayInfo);
-    } else {
-        currentPlay->updateField(_world->getField().value());
+        rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
+    }
+
+    // A new play will be chosen if the current play is not valid to keep
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
+        auto validPlays = playChecker.getValidPlays();
+        ai::stp::gen::PlayInfos previousPlayInfo{};
+        if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+
+        if (validPlays.empty()) {
+            RTT_ERROR("No valid plays")
+            currentPlay =
+                playChecker.getPlayForName("Defend Shot");  // TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
+            if (!currentPlay) {
+                return;
+            }
+        } else {
+            currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
+        }
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize(previousPlayInfo);
     }
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);

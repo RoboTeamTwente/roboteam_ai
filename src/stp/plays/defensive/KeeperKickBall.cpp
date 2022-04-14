@@ -29,7 +29,10 @@ KeeperKickBall::KeeperKickBall() : Play() {
     };
 }
 
-uint8_t KeeperKickBall::score(const rtt::world::Field& field) noexcept {
+uint8_t KeeperKickBall::score(PlayEvaluator& playEvaluator) noexcept {
+    auto world = playEvaluator.getWorld();
+    auto field = world->getField().value();
+
     // Calculate passInfo to be used during the play
     passInfo = stp::computations::PassComputations::calculatePass(gen::SafePass, world, field);
 

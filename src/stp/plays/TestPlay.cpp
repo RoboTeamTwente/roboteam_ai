@@ -25,7 +25,7 @@ TestPlay::TestPlay() : Play() {
         std::make_unique<TestRole>("role_8"), std::make_unique<TestRole>("role_9"), std::make_unique<TestRole>("role_10")};
 }
 
-uint8_t TestPlay::score(const rtt::world::Field& field) noexcept { return 0; }
+uint8_t TestPlay::score(PlayEvaluator &playEvaluator) noexcept { return 0; }
 
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -47,6 +47,6 @@ Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
 
 void TestPlay::calculateInfoForRoles() noexcept {}
 
-const char* TestPlay::getName() { return "Test Play"; }
+const char *TestPlay::getName() { return "Test Play"; }
 
 }  // namespace rtt::ai::stp

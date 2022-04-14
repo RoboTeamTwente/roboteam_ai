@@ -27,10 +27,10 @@ KickOffUs::KickOffUs() : Play() {
         std::make_unique<role::Halt>("halt_6"),   std::make_unique<role::Halt>("halt_7")};
 }
 
-uint8_t KickOffUs::score(const rtt::world::Field &field) noexcept {
+uint8_t KickOffUs::score(PlayEvaluator &playEvaluator) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::KickOffUsGameState, world), 1.0}};
-    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{playEvaluator.getGlobalEvaluation(eval::KickOffUsGameState), 1.0}};
+    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void KickOffUs::calculateInfoForRoles() noexcept {

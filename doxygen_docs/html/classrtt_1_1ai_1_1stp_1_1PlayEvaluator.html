@@ -67,9 +67,9 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
-<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp::PlayEvaluator Class Reference</div>  </div>
@@ -83,26 +83,34 @@ Classes</h2></td></tr>
 <tr class="memitem:structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring">PlayScoring</a></td></tr>
 <tr class="separator:structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:afdcb1e9041507c8a71b63521041203b2"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#afdcb1e9041507c8a71b63521041203b2">getGlobalEvaluation</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> evaluation, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world)</td></tr>
-<tr class="separator:afdcb1e9041507c8a71b63521041203b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60674abf0185e5577b287300f3a20d49"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a60674abf0185e5577b287300f3a20d49">clearGlobalScores</a> ()</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ade1d489edafac6a8a214051c2bffbda3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#ade1d489edafac6a8a214051c2bffbda3">getGlobalEvaluation</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> evaluation)</td></tr>
+<tr class="separator:ade1d489edafac6a8a214051c2bffbda3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4c853ec2362775684055a03dcf8c59c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#ac4c853ec2362775684055a03dcf8c59c">update</a> (<a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *<a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#afca62339bc5b142257130ee27ef0dbc4">world</a>) noexcept</td></tr>
+<tr class="separator:ac4c853ec2362775684055a03dcf8c59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85772b530ea3a45e9a4037ff1ccb4c06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a85772b530ea3a45e9a4037ff1ccb4c06">getWorld</a> () noexcept</td></tr>
+<tr class="separator:a85772b530ea3a45e9a4037ff1ccb4c06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60674abf0185e5577b287300f3a20d49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a60674abf0185e5577b287300f3a20d49">clearGlobalScores</a> ()</td></tr>
 <tr class="separator:a60674abf0185e5577b287300f3a20d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ab4101ca15eb7d11b34ff06c499e982"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a1ab4101ca15eb7d11b34ff06c499e982">checkEvaluation</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> globalEvaluation, const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, uint8_t cutOff=<a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a3d452ea4fa3adb5e179ceac1df091caf">control_constants::FUZZY_DEFAULT_CUTOFF</a>) noexcept</td></tr>
-<tr class="separator:a1ab4101ca15eb7d11b34ff06c499e982"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3716f303528e6c66fc6d4f5c97db5f93"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a3716f303528e6c66fc6d4f5c97db5f93">calculateScore</a> (std::vector&lt; <a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring">PlayScoring</a> &gt; &amp;scoring)</td></tr>
+<tr class="memitem:a393931c2e14adf5ef0d9702576b56f8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a393931c2e14adf5ef0d9702576b56f8c">checkEvaluation</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> globalEvaluation, uint8_t cutOff=<a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a3d452ea4fa3adb5e179ceac1df091caf">control_constants::FUZZY_DEFAULT_CUTOFF</a>) noexcept</td></tr>
+<tr class="separator:a393931c2e14adf5ef0d9702576b56f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3716f303528e6c66fc6d4f5c97db5f93"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a3716f303528e6c66fc6d4f5c97db5f93">calculateScore</a> (std::vector&lt; <a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring">PlayScoring</a> &gt; &amp;scoring)</td></tr>
 <tr class="separator:a3716f303528e6c66fc6d4f5c97db5f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a51bce1d5d8502db006cdced1300f36da"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a51bce1d5d8502db006cdced1300f36da">updateGlobalEvaluation</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> &amp;evaluation, const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world)</td></tr>
-<tr class="separator:a51bce1d5d8502db006cdced1300f36da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a243e8696fb9689dd5dec404482eb8d26"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a243e8696fb9689dd5dec404482eb8d26">updateGlobalEvaluation</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> &amp;evaluation)</td></tr>
+<tr class="separator:a243e8696fb9689dd5dec404482eb8d26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
-Static Private Attributes</h2></td></tr>
-<tr class="memitem:a4c981f92e8bca5864cf26f0cee2886ab"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; <a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a>, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a4c981f92e8bca5864cf26f0cee2886ab">scoresGlobal</a> {}</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a4c981f92e8bca5864cf26f0cee2886ab"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a>, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#a4c981f92e8bca5864cf26f0cee2886ab">scoresGlobal</a> {}</td></tr>
 <tr class="separator:a4c981f92e8bca5864cf26f0cee2886ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afca62339bc5b142257130ee27ef0dbc4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#afca62339bc5b142257130ee27ef0dbc4">world</a> {}</td></tr>
+<tr class="separator:afca62339bc5b142257130ee27ef0dbc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1758a5d666878c42880ba1f32850dd5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#ab1758a5d666878c42880ba1f32850dd5">field</a></td></tr>
+<tr class="separator:ab1758a5d666878c42880ba1f32850dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Class Documentation</h2>
 <a name="structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring" id="structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring"></a>
@@ -140,9 +148,6 @@ weight</td>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">uint8_t rtt::ai::stp::PlayEvaluator::calculateScore </td>
@@ -152,11 +157,6 @@ weight</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p>Calcalute score with the given vector of scores </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -168,8 +168,8 @@ weight</td>
 
 </div>
 </div>
-<a id="a1ab4101ca15eb7d11b34ff06c499e982"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ab4101ca15eb7d11b34ff06c499e982">&#9670;&nbsp;</a></span>checkEvaluation()</h2>
+<a id="a393931c2e14adf5ef0d9702576b56f8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a393931c2e14adf5ef0d9702576b56f8c">&#9670;&nbsp;</a></span>checkEvaluation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,12 +186,6 @@ weight</td>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>cutOff</em> = <code><a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a3d452ea4fa3adb5e179ceac1df091caf">control_constants::FUZZY_DEFAULT_CUTOFF</a></code>&#160;</td>
         </tr>
@@ -203,7 +197,7 @@ weight</td>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -223,9 +217,6 @@ weight</td>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void rtt::ai::stp::PlayEvaluator::clearGlobalScores </td>
@@ -234,48 +225,25 @@ weight</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p>Make all booleans of updatedGlobal to false (they have not been updated yet this tick) </p>
 
 </div>
 </div>
-<a id="afdcb1e9041507c8a71b63521041203b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afdcb1e9041507c8a71b63521041203b2">&#9670;&nbsp;</a></span>getGlobalEvaluation()</h2>
+<a id="ade1d489edafac6a8a214051c2bffbda3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade1d489edafac6a8a214051c2bffbda3">&#9670;&nbsp;</a></span>getGlobalEvaluation()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">uint8_t rtt::ai::stp::PlayEvaluator::getGlobalEvaluation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a>&#160;</td>
-          <td class="paramname"><em>evaluation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>evaluation</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p>Gets the score of a Global Evaluation, if it was not updated yet, update it before. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -287,8 +255,66 @@ weight</td>
 
 </div>
 </div>
-<a id="a51bce1d5d8502db006cdced1300f36da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51bce1d5d8502db006cdced1300f36da">&#9670;&nbsp;</a></span>updateGlobalEvaluation()</h2>
+<a id="a85772b530ea3a45e9a4037ff1ccb4c06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85772b530ea3a45e9a4037ff1ccb4c06">&#9670;&nbsp;</a></span>getWorld()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> * rtt::ai::stp::PlayEvaluator::getWorld </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets this world, used when a play is not initialised yet (in between plays) </p><dl class="section return"><dt>Returns</dt><dd>world </dd></dl>
+
+</div>
+</div>
+<a id="ac4c853ec2362775684055a03dcf8c59c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4c853ec2362775684055a03dcf8c59c">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::stp::PlayEvaluator::update </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td>
+          <td class="paramname"><em>world</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets this-&gt;world </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">world</td><td>World to update against </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a243e8696fb9689dd5dec404482eb8d26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a243e8696fb9689dd5dec404482eb8d26">&#9670;&nbsp;</a></span>updateGlobalEvaluation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -300,23 +326,13 @@ weight</td>
           <td class="memname">uint8_t rtt::ai::stp::PlayEvaluator::updateGlobalEvaluation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2">GlobalEvaluation</a> &amp;&#160;</td>
-          <td class="paramname"><em>evaluation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>evaluation</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -331,6 +347,29 @@ weight</td>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab1758a5d666878c42880ba1f32850dd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1758a5d666878c42880ba1f32850dd5">&#9670;&nbsp;</a></span>field</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> rtt::ai::stp::PlayEvaluator::field</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Current field from world </p>
+
+</div>
+</div>
 <a id="a4c981f92e8bca5864cf26f0cee2886ab"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4c981f92e8bca5864cf26f0cee2886ab">&#9670;&nbsp;</a></span>scoresGlobal</h2>
 
@@ -346,11 +385,34 @@ weight</td>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <p>Map of all loaded Global Evaluations scores </p>
+
+</div>
+</div>
+<a id="afca62339bc5b142257130ee27ef0dbc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afca62339bc5b142257130ee27ef0dbc4">&#9670;&nbsp;</a></span>world</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a>* rtt::ai::stp::PlayEvaluator::world {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Current world, do not use before <a class="el" href="classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#ac4c853ec2362775684055a03dcf8c59c">update()</a> </p>
 
 </div>
 </div>

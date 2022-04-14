@@ -47,16 +47,10 @@ class Play {
     void initialize(gen::PlayInfos& previousPlayInfo) noexcept;
 
     /**
-     * Sets the Play's world pointer to the static world class
+     * Updates the stored world pointer and after that, updates the field instance using the updated world pointer
      * @param pointer to World
      */
-    void setWorld(world::World* world) noexcept;
-
-    /**
-     * Updates the field in the play
-     * @param field the current field
-     */
-    void updateField(world::Field field) noexcept;
+    void updateWorld(world::World* world) noexcept;
 
     /**
      * Updates (or ticks) all the roles that have robots assigned to them
@@ -82,7 +76,7 @@ class Play {
      * @param playEvaluator with the world
      * @return a final score for the play
      */
-    virtual uint8_t score(const rtt::world::Field& field) noexcept = 0;
+    virtual uint8_t score(PlayEvaluator& playEvaluator) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -103,13 +97,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart() const noexcept;
+    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] bool isValidPlayToKeep() noexcept;
+    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept;
 
     /**
      * Getter for the role -> status mapping
