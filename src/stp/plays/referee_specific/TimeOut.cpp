@@ -30,10 +30,10 @@ TimeOut::TimeOut() : Play() {
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("time_out_10"))};
 }
 
-uint8_t TimeOut::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t TimeOut::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::TimeOutGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::TimeOutGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void TimeOut::calculateInfoForRoles() noexcept {
@@ -67,6 +67,6 @@ Dealer::FlagMap TimeOut::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *TimeOut::getName() { return "Time Out"; }
+const char* TimeOut::getName() { return "Time Out"; }
 
 }  // namespace rtt::ai::stp::play

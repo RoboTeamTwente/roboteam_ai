@@ -2,7 +2,6 @@
 #include <gtest/gtest_prod.h>
 
 #include "interface/widgets/mainWindow.h"
-#include "stp/PlayChecker.hpp"
 #include "stp/PlayDecider.hpp"
 #include "stp/PlayEvaluator.h"
 
@@ -24,12 +23,6 @@ class ApplicationManager {
      * Current best play as picked by checker + decider
      */
     ai::stp::Play* currentPlay{nullptr};
-
-    /**
-     * Checks which plays are valid out of all the plays
-     */
-
-    rtt::ai::stp::PlayChecker playChecker;
 
     /**
      * Checks, out of the valid plays, which play is the best to choose

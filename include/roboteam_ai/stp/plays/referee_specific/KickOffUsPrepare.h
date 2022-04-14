@@ -25,7 +25,7 @@ class KickOffUsPrepare : public Play {
      * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
