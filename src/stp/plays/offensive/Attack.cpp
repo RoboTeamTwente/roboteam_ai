@@ -29,10 +29,7 @@ Attack::Attack() : Play() {
         std::make_unique<role::Formation>(role::Formation("midfielder_1")), std::make_unique<role::Formation>(role::Formation("midfielder_2"))};
 }
 
-uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
-    auto world = playEvaluator.getWorld();
-    auto field = world->getField().value();
-
+uint8_t Attack::score(const rtt::world::Field& field) noexcept {
     // Score the position of the ball based on the odds of scoring
     return PositionScoring::scorePosition(world->getWorld()->getBall().value()->getPos(), gen::GoalShot, field, world).score;
 }

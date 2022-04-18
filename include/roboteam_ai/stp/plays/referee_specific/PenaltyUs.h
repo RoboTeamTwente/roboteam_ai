@@ -29,7 +29,7 @@ class PenaltyUs : public Play {
      * @param a StpInfos to store calculated info in
      * @return The score, 0 - 255
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play

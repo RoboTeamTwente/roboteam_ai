@@ -9,7 +9,7 @@ namespace rtt::ai::stp {
 /**
  * The distance the robot should block at
  */
-enum class BlockDistance { CLOSE, PARTWAY, HALFWAY, FAR};
+enum class BlockDistance { CLOSE, HALFWAY, FAR };
 
 /**
  * Whether this robot should kick or chip in the shoot skill

@@ -39,17 +39,14 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t ReflectKick::score(PlayEvaluator &playEvaluator) noexcept {
-    auto closestBot = playEvaluator.getWorld()->getWorld()->getRobotClosestToBall(world::us);
+uint8_t ReflectKick::score(const rtt::world::Field &field) noexcept {
+    auto closestBot = world->getWorld()->getRobotClosestToBall(world::us);
     auto sum = 0;
-    auto _field = playEvaluator.getWorld()->getField();
-    if (_field.has_value()) {
-        std::vector<world::view::RobotView> potentialBots = {};
-        for (auto robot : playEvaluator.getWorld()->getWorld()->getUs()) {
-            if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(_field->getTheirGoalCenter()) < _field->getFieldLength() / 4) {
-                potentialBots.push_back(robot);
-                sum += 30;
-            }
+    std::vector<world::view::RobotView> potentialBots = {};
+    for (auto robot : world->getWorld()->getUs()) {
+        if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 4) {
+            potentialBots.push_back(robot);
+            sum += 30;
         }
     }
     return sum;
