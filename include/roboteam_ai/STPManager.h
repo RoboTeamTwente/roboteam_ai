@@ -7,12 +7,12 @@
 
 namespace rtt {
 
-class ApplicationManager {
+class STPManager {
    public:
-    explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
+    explicit STPManager(ai::interface::MainWindow* mainWindow);
 
    private:
-    FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
+    FRIEND_TEST(STPManagerTest, it_handles_ROS_data);
 
     void runOneLoopCycle();
     bool fieldInitialized = false;
@@ -38,8 +38,8 @@ class ApplicationManager {
      */
     static inline std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
 
-    ApplicationManager(ApplicationManager const&) = delete;
-    ApplicationManager& operator=(ApplicationManager const&) = delete;
+    STPManager(STPManager const&) = delete;
+    STPManager& operator=(STPManager const&) = delete;
 };
 
 }  // namespace rtt

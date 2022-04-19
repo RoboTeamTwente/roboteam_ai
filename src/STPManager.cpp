@@ -1,4 +1,4 @@
-#include "ApplicationManager.h"
+#include "STPManager.h"
 
 #include <roboteam_utils/Timer.h>
 #include <stp/plays/referee_specific/TimeOut.h>
@@ -47,7 +47,7 @@ namespace ai = rtt::ai;
 namespace rtt {
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
-void ApplicationManager::start() {
+void STPManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT, std::nullopt);
     RTT_INFO("Start looping")
@@ -122,7 +122,7 @@ void ApplicationManager::start() {
 }
 
 /// Run everything with regard to behaviour trees
-void ApplicationManager::runOneLoopCycle() {
+void STPManager::runOneLoopCycle() {
     auto state = io::io.getState();
     if (state.has_field()) {
         if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
@@ -174,7 +174,7 @@ void ApplicationManager::runOneLoopCycle() {
     rtt::ai::control::ControlModule::sendAllCommands();
 }
 
-void ApplicationManager::decidePlay(world::World *_world) {
+void STPManager::decidePlay(world::World *_world) {
     ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 
@@ -191,5 +191,5 @@ void ApplicationManager::decidePlay(world::World *_world) {
     mainWindow->updatePlay(currentPlay);
 }
 
-ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
+STPManager::STPManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
 }  // namespace rtt
