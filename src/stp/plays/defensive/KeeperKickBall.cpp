@@ -21,12 +21,17 @@ KeeperKickBall::KeeperKickBall() : Play() {
     keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Passer>(role::Passer("keeper")),
-        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-        std::make_unique<role::Formation>(role::Formation("midfielder")),
-        std::make_unique<role::Formation>(role::Formation("defender")),
-    };
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Passer>(("keeper")),
+                                                                                       std::make_unique<role::PassReceiver>(("receiver")),
+                                                                                       std::make_unique<role::Formation>(("defender_left")),
+                                                                                       std::make_unique<role::Formation>(("defender_mid")),
+                                                                                       std::make_unique<role::Formation>(("defender_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_mid")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
 
 uint8_t KeeperKickBall::score(const rtt::world::Field& field) noexcept {
@@ -41,9 +46,16 @@ Dealer::FlagMap KeeperKickBall::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}, passInfo.keeperId}});
-    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}, passInfo.receiverId}});
-    flagMap.insert({"midfielder", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"defender", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {}, passInfo.receiverId}});
+    flagMap.insert({"defender_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"defender_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"defender_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_left", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"midfielder_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_right", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"attacker_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"attacker_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"attacker_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }
