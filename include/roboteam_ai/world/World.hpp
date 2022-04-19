@@ -89,7 +89,7 @@ class World {
      *
      * Undefined behavior if the pointer to settings outlives the lifetime of the settings instance
      *
-     * Usage of settings before construction of the applicationmanager will result in undefined
+     * Usage of settings before construction of the STPManager will result in undefined
      * behavior due to uninitialized memory
      */
     explicit World(Settings *settings);

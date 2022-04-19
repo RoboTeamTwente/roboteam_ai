@@ -22,7 +22,7 @@ class PlaysWidget : public QTextEdit {
 
    public slots:
     /**
-     * Slot that updates plays, gets them from ApplicationManager.
+     * Slot that updates plays, gets them from STPManager.
      * The behavior is undefined if this is called using a non-signal-slot style.
      */
     void updatePlays();
