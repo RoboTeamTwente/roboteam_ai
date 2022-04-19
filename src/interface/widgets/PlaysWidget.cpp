@@ -4,7 +4,7 @@
 
 #include "interface/widgets/PlaysWidget.hpp"
 
-#include "ApplicationManager.h"
+#include "STPManager.h"
 
 namespace rtt::ai::interface {
 inline QString formatPlay(stp::Play* play) {
@@ -47,7 +47,7 @@ PlaysWidget::PlaysWidget(QWidget* parent) : QTextEdit(parent) { setReadOnly(true
  */
 void PlaysWidget::updatePlays() {
     QString ss = {};
-    for (auto& each : ApplicationManager::plays) {
+    for (auto& each : STPManager::plays) {
         ss += formatPlay(each.get());
     }
     auto sliderPos = verticalScrollBar()->sliderPosition();

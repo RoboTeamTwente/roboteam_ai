@@ -365,7 +365,7 @@ target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 
 ###### MAIN #######
 add_executable(roboteam_ai
-        ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/STPManager.cpp
         ${PROJECT_SOURCE_DIR}/src/roboteam_ai.cpp
 )
 target_include_directories(roboteam_ai
