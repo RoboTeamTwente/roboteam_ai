@@ -24,10 +24,10 @@ KickOffThem::KickOffThem() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_8")),     std::make_unique<role::Halt>(role::Halt("halt_9"))};
 }
 
-uint8_t KickOffThem::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t KickOffThem::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::KickOffThemGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::KickOffThemGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void KickOffThem::calculateInfoForRoles() noexcept {
@@ -57,6 +57,6 @@ Dealer::FlagMap KickOffThem::decideRoleFlags() const noexcept {
 
 bool KickOffThem::shouldEndPlay() noexcept { return false; }
 
-const char *KickOffThem::getName() { return "Kick Off Them"; }
+const char* KickOffThem::getName() { return "Kick Off Them"; }
 
 }  // namespace rtt::ai::stp::play

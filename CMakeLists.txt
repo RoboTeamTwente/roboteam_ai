@@ -132,7 +132,6 @@ target_compile_options(roboteam_ai_roles PRIVATE "${COMPILER_FLAGS}")
 ###### PLAYS #######
 add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayEvaluator.cpp
         # /
@@ -366,7 +365,7 @@ target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 
 ###### MAIN #######
 add_executable(roboteam_ai
-        ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/STPManager.cpp
         ${PROJECT_SOURCE_DIR}/src/roboteam_ai.cpp
 )
 target_include_directories(roboteam_ai

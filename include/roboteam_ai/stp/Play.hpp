@@ -47,10 +47,16 @@ class Play {
     void initialize(gen::PlayInfos& previousPlayInfo) noexcept;
 
     /**
-     * Updates the stored world pointer and after that, updates the field instance using the updated world pointer
+     * Sets the Play's world pointer to the static world class
      * @param pointer to World
      */
-    void updateWorld(world::World* world) noexcept;
+    void setWorld(world::World* world) noexcept;
+
+    /**
+     * Updates the field in the play
+     * @param field the current field
+     */
+    void updateField(world::Field field) noexcept;
 
     /**
      * Updates (or ticks) all the roles that have robots assigned to them
@@ -70,13 +76,11 @@ class Play {
     virtual void calculateInfoForScoredRoles(world::World* world) noexcept = 0;
 
     /**
-     * Function  for in between plays calculation of score through the PlayEvaluator.
-     * Using the struct PlayEvaluator::PlayScoring(uint8_t score, double weight) the factors the be considered
-     * can be defined for scoring a play.
-     * @param playEvaluator with the world
-     * @return a final score for the play
+     * Scores the play based on how effective this play would be given the current world
+     * @param field The current Field class
+     * @return Score of the play (0 - 255)
      */
-    virtual uint8_t score(PlayEvaluator& playEvaluator) noexcept = 0;
+    virtual uint8_t score(const rtt::world::Field& field) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -97,13 +101,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept;
+    [[nodiscard]] bool isValidPlayToStart() const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept;
+    [[nodiscard]] bool isValidPlayToKeep() noexcept;
 
     /**
      * Getter for the role -> status mapping
