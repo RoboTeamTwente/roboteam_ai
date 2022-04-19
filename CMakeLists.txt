@@ -424,6 +424,7 @@ add_executable(roboteam_ai_tests
         ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/CorrectPlayTest.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp
         ${PROJECT_SOURCE_DIR}/test/PassingTests/PassingTests.cpp
         )
