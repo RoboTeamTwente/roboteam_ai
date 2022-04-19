@@ -6,6 +6,8 @@
 
 #include <utilities/GameStateManager.hpp>
 
+#include <stp/PlayDecider.hpp>
+
 namespace rtt::ai::interface {
 
 MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appManager) : QWidget(parent), manager{appManager} {
