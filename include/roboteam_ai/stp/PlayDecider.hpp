@@ -26,6 +26,9 @@ class PlayDecider {
      */
     static void lockInterfacePlay(Play *play);
 
+    /**
+     * Bool indicating if the current play was manually changed in the interface
+     */
     static bool interfacePlayChanged;
 
     /**

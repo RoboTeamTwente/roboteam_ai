@@ -8,6 +8,8 @@
 
 #include "control/ControlModule.h"
 #include "stp/computations/ComputationManager.h"
+#include "stp/PlayDecider.hpp"
+#include "stp/PlayEvaluator.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
 
