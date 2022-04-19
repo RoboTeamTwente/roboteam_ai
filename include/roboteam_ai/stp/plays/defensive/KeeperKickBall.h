@@ -39,21 +39,6 @@ class KeeperKickBall : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
-     * Calculates info for the defenders
-     */
-    void calculateInfoForDefenders() noexcept;
-
-    /**
-     * Calculates info for the midfielders
-     */
-    void calculateInfoForMidfielders() noexcept;
-
-    /**
-     * Calculates info for the attackers
-     */
-    void calculateInfoForAttackers() noexcept;
-
-    /**
      * Calculate info for the roles that need to be calculated for scoring
      */
     void calculateInfoForScoredRoles(world::World* world) noexcept override{};
