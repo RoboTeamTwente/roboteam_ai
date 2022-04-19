@@ -18,12 +18,8 @@ KickOffUsPrepare::KickOffUsPrepare() : Play() {
     keepPlayEvaluation.emplace_back(eval::KickOffUsPrepareGameState);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Formation>(role::Formation("keeper")),         std::make_unique<role::BallAvoider>(role::BallAvoider("kicker")),
-        std::make_unique<role::Formation>(role::Formation("defender_left")),  std::make_unique<role::Formation>(role::Formation("defender_mid")),
-        std::make_unique<role::Formation>(role::Formation("defender_right")), std::make_unique<role::Formation>(role::Formation("midfielder_left")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_mid")), std::make_unique<role::Formation>(role::Formation("midfielder_right")),
-        std::make_unique<role::Formation>(role::Formation("attacker_left")),  std::make_unique<role::Formation>(role::Formation("attacker_mid")),
-        std::make_unique<role::Formation>(role::Formation("attacker_right"))};
+        std::make_unique<role::Formation>(role::Formation("keeper")), std::make_unique<role::BallAvoider>(role::BallAvoider("kicker")),
+        std::make_unique<role::Formation>(role::Formation("receiver")), std::make_unique<role::Formation>(role::Formation("defender_0"))};
 }
 
 uint8_t KickOffUsPrepare::score(const rtt::world::Field& field) noexcept {
@@ -51,24 +47,14 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
         stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, 0.0));
     }
 
-    auto width = field.getFieldWidth();
-    auto length = field.getFieldLength();
+    auto fieldLength = field.getFieldLength();
+    auto fieldWidth = field.getFieldWidth();
 
-    // Defenders
-    double defense_line_x = field.getLeftPenaltyX() + 0.15;
-    stpInfos["defender_left"].setPositionToMoveTo(Vector2(defense_line_x, width / 5));
-    stpInfos["defender_mid"].setPositionToMoveTo(Vector2(defense_line_x, 0.0));
-    stpInfos["defender_right"].setPositionToMoveTo(Vector2(defense_line_x, -width / 5));
+    // TODO: set position to go to based on where the kicker will pass to in kickoffus
+    stpInfos["receiver"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, -0.25 * fieldWidth));
 
-    // Midfielders
-    stpInfos["midfielder_left"].setPositionToMoveTo(Vector2(-length / 5, width / 3));
-    stpInfos["midfielder_mid"].setPositionToMoveTo(Vector2(-length / 4, 0));
-    stpInfos["midfielder_right"].setPositionToMoveTo(Vector2(-length / 5, -width / 3));
-
-    // Attackers
-    stpInfos["attacker_left"].setPositionToMoveTo(Vector2(-length / 12, width / 4));
-    stpInfos["attacker_mid"].setPositionToMoveTo(Vector2(-length / 8, 0));
-    stpInfos["attacker_right"].setPositionToMoveTo(Vector2(-length / 12, -width / 4));
+    // TODO: set defender position in smarter way
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-0.15 * fieldLength, 0.25 * fieldWidth));
 }
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
@@ -78,15 +64,8 @@ Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
     flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-    flagMap.insert({"defender_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"defender_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"defender_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_left", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"midfielder_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_right", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"attacker_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"attacker_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"attacker_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
+    flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }
