@@ -19,15 +19,11 @@ class GenericPass : public Play {
     GenericPass();
 
     /**
-     * Gets the score for the current play
-     *
-     * On the contrary to isValidPlay() this checks how good the play actually is
-     * return in range of 0 - 100
-     *
-     * @param world World to get the score for (world::World::instance())
-     * @return The score, 0 - 100
+     * Calculates the score of this play to determine which play is best in this situation
+     * @param field The current Field
+     * @return The score of this play (0-255)
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -49,16 +45,7 @@ class GenericPass : public Play {
      */
     const char* getName() override;
 
-    [[nodiscard]] bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept override;
-
    protected:
-    /**
-     * Calculates the pass location
-     * @return a pair of the pass location and the score of that location
-     * The score is used to decide to which pass location to pass when there are more receivers
-     */
-    std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
-
     /**
      * Calculates all info that is necessary for a correct pass
      * The passer will get a position to pass to

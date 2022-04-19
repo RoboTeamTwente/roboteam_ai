@@ -29,10 +29,10 @@ BallPlacementThem::BallPlacementThem() : Play() {
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9"))};
 }
 
-uint8_t BallPlacementThem::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t BallPlacementThem::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::BallPlacementThemGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::BallPlacementThemGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void BallPlacementThem::calculateInfoForRoles() noexcept {
@@ -72,5 +72,5 @@ Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *BallPlacementThem::getName() { return "Ball Placement Them"; }
+const char* BallPlacementThem::getName() { return "Ball Placement Them"; }
 }  // namespace rtt::ai::stp::play

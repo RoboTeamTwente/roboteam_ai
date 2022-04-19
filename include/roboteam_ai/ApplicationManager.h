@@ -2,9 +2,8 @@
 #include <gtest/gtest_prod.h>
 
 #include "interface/widgets/mainWindow.h"
-#include "stp/PlayChecker.hpp"
-#include "stp/PlayDecider.hpp"
-#include "stp/PlayEvaluator.h"
+
+#include <stp/Play.hpp>
 
 namespace rtt {
 
@@ -21,30 +20,13 @@ class ApplicationManager {
     ai::interface::MainWindow* mainWindow;
 
     /**
-     * Current best play as picked by checker + decider
+     * Current best play as picked by the playDecider
      */
     ai::stp::Play* currentPlay{nullptr};
 
     /**
-     * Checks which plays are valid out of all the plays
-     */
-
-    rtt::ai::stp::PlayChecker playChecker;
-
-    /**
-     * Checks, out of the valid plays, which play is the best to choose
-     */
-    rtt::ai::stp::PlayDecider playDecider;
-
-    /**
-     * Holds values for computed scores, gets reset every tick
-     */
-    rtt::ai::stp::PlayEvaluator playEvaluator;
-
-    /**
      * Function that decides whether to change plays given a world and field.
      * @param _world the current world state
-     * @param field the current field state
      */
     void decidePlay(world::World* _world);
 

@@ -45,11 +45,12 @@
 
 namespace rtt::ai::stp {
 
-uint8_t PlayEvaluator::getGlobalEvaluation(GlobalEvaluation evaluation) {
-    return (scoresGlobal.contains(evaluation) ? scoresGlobal.at(evaluation) : scoresGlobal[evaluation] = updateGlobalEvaluation(evaluation));
+uint8_t PlayEvaluator::getGlobalEvaluation(GlobalEvaluation evaluation, const rtt::world::World* world) {
+    return (scoresGlobal.contains(evaluation) ? scoresGlobal.at(evaluation) : scoresGlobal[evaluation] = updateGlobalEvaluation(evaluation, world));
 }
 
-uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
+uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation, const rtt::world::World* world) {
+    auto field = world->getField().value();
     switch (evaluation) {
         case GlobalEvaluation::BallPlacementThemGameState:
             return evaluation::BallPlacementThemGameStateEvaluation().metricCheck(world, &field);
@@ -130,17 +131,11 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
             return 0;
     }
 }
-
-void PlayEvaluator::update(world::World* _world) noexcept {
-    world = _world;
-    field = _world->getField().value();
-}
-
-world::World* PlayEvaluator::getWorld() noexcept { return world; }
-
 void PlayEvaluator::clearGlobalScores() { scoresGlobal.clear(); }
 
-bool PlayEvaluator::checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff) noexcept { return getGlobalEvaluation(globalEvaluation) >= cutOff; }
+bool PlayEvaluator::checkEvaluation(GlobalEvaluation globalEvaluation, const rtt::world::World* world, uint8_t cutOff) noexcept {
+    return getGlobalEvaluation(globalEvaluation, world) >= cutOff;
+}
 
 uint8_t PlayEvaluator::calculateScore(std::vector<PlayScoring>& scoring) {
     double scoreTotal, weightTotal = 0;
