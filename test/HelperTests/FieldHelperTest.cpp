@@ -19,7 +19,6 @@ TEST(FieldHelperTests, DefenseAreaTest) {
 
     auto field = world->getField().value();
     auto fieldLength = field.getFieldLength();
-    auto fieldWidth = field.getFieldWidth();
     auto defAreaDepth = field.getLeftPenaltyLineTop().x - field.getOurGoalCenter().x;
     auto defAreaWidth = field.getTopLeftOurDefenceArea().y;
 
