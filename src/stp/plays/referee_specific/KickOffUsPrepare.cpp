@@ -18,11 +18,11 @@ KickOffUsPrepare::KickOffUsPrepare() : Play() {
     keepPlayEvaluation.emplace_back(eval::KickOffUsPrepareGameState);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Formation>(role::Formation("keeper")),      std::make_unique<role::BallAvoider>(role::BallAvoider("kicker")),
-        std::make_unique<role::Formation>(role::Formation("defender_left")), std::make_unique<role::Formation>(role::Formation("defender_mid")),
+        std::make_unique<role::Formation>(role::Formation("keeper")),         std::make_unique<role::BallAvoider>(role::BallAvoider("kicker")),
+        std::make_unique<role::Formation>(role::Formation("defender_left")),  std::make_unique<role::Formation>(role::Formation("defender_mid")),
         std::make_unique<role::Formation>(role::Formation("defender_right")), std::make_unique<role::Formation>(role::Formation("midfielder_left")),
         std::make_unique<role::Formation>(role::Formation("midfielder_mid")), std::make_unique<role::Formation>(role::Formation("midfielder_right")),
-        std::make_unique<role::Formation>(role::Formation("attacker_left")), std::make_unique<role::Formation>(role::Formation("attacker_mid")),
+        std::make_unique<role::Formation>(role::Formation("attacker_left")),  std::make_unique<role::Formation>(role::Formation("attacker_mid")),
         std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
 
@@ -69,7 +69,6 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     stpInfos["attacker_left"].setPositionToMoveTo(Vector2(-length / 12, width / 4));
     stpInfos["attacker_mid"].setPositionToMoveTo(Vector2(-length / 8, 0));
     stpInfos["attacker_right"].setPositionToMoveTo(Vector2(-length / 12, -width / 4));
-
 }
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
