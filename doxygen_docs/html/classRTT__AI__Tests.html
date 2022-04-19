@@ -65,6 +65,7 @@ $(function() {
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classRTT__AI__Tests-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">RTT_AI_Tests Class Reference</div>  </div>
@@ -94,8 +95,44 @@ Static Protected Member Functions</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a91aa205731170ebfe29ecf08bf2eea21"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRTT__AI__Tests.html#a91aa205731170ebfe29ecf08bf2eea21">world</a></td></tr>
 <tr class="separator:a91aa205731170ebfe29ecf08bf2eea21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a330eb787149536b9ea80d895e8062454"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html">rtt::ai::stp::Play</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRTT__AI__Tests.html#a330eb787149536b9ea80d895e8062454">plays</a></td></tr>
+<tr class="separator:a330eb787149536b9ea80d895e8062454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a0d94528768fc671a42c05981ec22f61e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRTT__AI__Tests.html#a0d94528768fc671a42c05981ec22f61e">constructPlays</a> ()</td></tr>
+<tr class="separator:a0d94528768fc671a42c05981ec22f61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Plays are included here </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0d94528768fc671a42c05981ec22f61e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d94528768fc671a42c05981ec22f61e">&#9670;&nbsp;</a></span>constructPlays()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RTT_AI_Tests::constructPlays </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Creates a vector containing all plays. If this already exists, clear it before adding new plays. </p>
+<p>This play is only used for testing purposes, when needed uncomment this play!</p>
+
+</div>
+</div>
 <a id="a1fced78f7fd2239f032a80f00e73b279"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1fced78f7fd2239f032a80f00e73b279">&#9670;&nbsp;</a></span>generateWorld()</h2>
 
@@ -182,6 +219,28 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a330eb787149536b9ea80d895e8062454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a330eb787149536b9ea80d895e8062454">&#9670;&nbsp;</a></span>plays</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;<a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html">rtt::ai::stp::Play</a>&gt; &gt; RTT_AI_Tests::plays</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a91aa205731170ebfe29ecf08bf2eea21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a91aa205731170ebfe29ecf08bf2eea21">&#9670;&nbsp;</a></span>world</h2>
 
