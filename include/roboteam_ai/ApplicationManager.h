@@ -3,6 +3,8 @@
 
 #include "interface/widgets/mainWindow.h"
 
+#include <stp/Play.hpp>
+
 namespace rtt {
 
 class ApplicationManager {
