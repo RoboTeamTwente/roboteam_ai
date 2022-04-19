@@ -70,8 +70,7 @@ class RTT_AI_Tests : public ::testing::Test {
 
         // Set other variables to their default values
         rtt::ai::interface::Output::setKeeperId(-1);
-        rtt::ai::GameStateManager::forceNewGameState(RefCommand::HALT, std::nullopt);
-        rtt::ai::interface::Output::setInterfaceGameState(rtt::ai::GameState("halt_strategy", "default"));
+        rtt::ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START, std::nullopt);
         rtt::ai::interface::Output::setUseRefereeCommands(false);
 
         // Make sure all plays exist as new
