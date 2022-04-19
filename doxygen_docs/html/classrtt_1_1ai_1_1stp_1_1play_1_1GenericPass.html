@@ -642,15 +642,13 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets the score for the current play</p>
-<p>On the contrary to isValidPlay() this checks how good the play actually is return in range of 0 - 100</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Calculates the score of this play to determine which play is best in this situation </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">world</td><td>World to get the score for (<a class="el" href="classrtt_1_1world_1_1World.html#a67eccfd0e7e13fc4ce20a5dd5df55c31">world::World::instance()</a>) </td></tr>
+    <tr><td class="paramname">field</td><td>The current Field </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The score, 0 - 100 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The score of this play (0-255) </dd></dl>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a9913528363209ccbe66e20b7427b1ea8">rtt::ai::stp::Play</a>.</p>
 

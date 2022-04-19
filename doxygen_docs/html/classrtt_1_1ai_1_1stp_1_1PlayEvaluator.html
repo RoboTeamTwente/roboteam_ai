@@ -210,6 +210,7 @@ weight</td>
 <p>Checks if FUZZY-TRUE score in uint8-t of global evaluation is above the TRUE threshold </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">globalEvaluation</td><td>Invariant to be checked </td></tr>
+    <tr><td class="paramname">world</td><td>the pointer to world </td></tr>
     <tr><td class="paramname">cutOff</td><td>Bottom bound value of true </td></tr>
   </table>
   </dd>
@@ -240,7 +241,7 @@ weight</td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Make all booleans of updatedGlobal to false (they have not been updated yet this tick) </p>
+<p>Clears the map of stored scores, to make sure new scores are calculated next tick </p>
 
 </div>
 </div>
@@ -279,11 +280,12 @@ weight</td>
 </div><div class="memdoc">
 <p>Gets the score of a Global Evaluation, if it was not updated yet, update it before. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">evaluation</td><td>that needs </td></tr>
+    <tr><td class="paramname">evaluation</td><td>that needs to be evaluated </td></tr>
+    <tr><td class="paramname">world</td><td>pointer to world </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>evaluated score for the evaluation, between 0 and 255 </dd></dl>
 
 </div>
 </div>

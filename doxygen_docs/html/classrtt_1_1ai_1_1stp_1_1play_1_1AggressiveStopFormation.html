@@ -536,16 +536,13 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets the score for the current play</p>
-<p>On the contrary to isValidPlay() this checks how good the play actually is returns a value in range of 0 - 255 based on the factors from in the scoring vector</p>
-<p>To calculate the score of a play, the current situation (Evaluations) and future positions are taken into account. To reduce computations the calculates for the future positions are saved in an StpInfos map that will be added to the play with the initialization.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Calculates the score of this play to determine which play is best in this situation </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>StpInfos to store calculated info in </td></tr>
+    <tr><td class="paramname">field</td><td>The current Field </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The score, 0 - 255 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The score of this play (0-255) </dd></dl>
 <p>List of all factors that combined results in an evaluation how good the play is.</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a9913528363209ccbe66e20b7427b1ea8">rtt::ai::stp::Play</a>.</p>

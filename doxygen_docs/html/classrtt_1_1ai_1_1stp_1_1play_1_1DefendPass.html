@@ -93,8 +93,8 @@ Inheritance diagram for rtt::ai::stp::play::DefendPass:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a95dd98a290bc0ff26868478462986969"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#a95dd98a290bc0ff26868478462986969">DefendPass</a> ()</td></tr>
 <tr class="separator:a95dd98a290bc0ff26868478462986969"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f66fef10c389cc0d657b86ae64d4f7d"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#a6f66fef10c389cc0d657b86ae64d4f7d">score</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;<a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56">field</a>) noexcept</td></tr>
-<tr class="separator:a6f66fef10c389cc0d657b86ae64d4f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ab97dc5254537e81082a8cfec4977f8"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#a9ab97dc5254537e81082a8cfec4977f8">score</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;<a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56">field</a>) noexcept override</td></tr>
+<tr class="separator:a9ab97dc5254537e81082a8cfec4977f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab06e52ac2b80f853f7793e67e2e7b46e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#a239709eb792970c058e595f1340b397d">Dealer::FlagMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#ab06e52ac2b80f853f7793e67e2e7b46e">decideRoleFlags</a> () const noexcept override</td></tr>
 <tr class="separator:ab06e52ac2b80f853f7793e67e2e7b46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbeacb21e074691116d12e2ecd9f83ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html#afbeacb21e074691116d12e2ecd9f83ce">calculateInfoForRoles</a> () noexcept override</td></tr>
@@ -595,8 +595,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6f66fef10c389cc0d657b86ae64d4f7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f66fef10c389cc0d657b86ae64d4f7d">&#9670;&nbsp;</a></span>score()</h2>
+<a id="a9ab97dc5254537e81082a8cfec4977f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ab97dc5254537e81082a8cfec4977f8">&#9670;&nbsp;</a></span>score()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -614,19 +614,17 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets the score for the current play</p>
-<p>On the contrary to isValidPlay() this checks how good the play actually is return in range of 0 - 100</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Calculates the score of this play to determine which play is best in this situation </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">world</td><td>World to get the score for (<a class="el" href="classrtt_1_1world_1_1World.html#a67eccfd0e7e13fc4ce20a5dd5df55c31">world::World::instance()</a>) </td></tr>
+    <tr><td class="paramname">field</td><td>The current Field </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The score, 0 - 100 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The score of this play (0-255) </dd></dl>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a9913528363209ccbe66e20b7427b1ea8">rtt::ai::stp::Play</a>.</p>
 
