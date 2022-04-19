@@ -61,19 +61,21 @@ class PlayEvaluator {
 
     /**
      * Gets the score of a Global Evaluation, if it was not updated yet, update it before.
-     * @param evaluation that needs
-     * @return
+     * @param evaluation that needs to be evaluated
+     * @param world pointer to world
+     * @return evaluated score for the evaluation, between 0 and 255
      */
     static uint8_t getGlobalEvaluation(GlobalEvaluation evaluation, const world::World* world);
 
     /**
-     * Make all booleans of updatedGlobal to false (they have not been updated yet this tick)
+     * Clears the map of stored scores, to make sure new scores are calculated next tick
      */
     static void clearGlobalScores();
 
     /**
      * Checks if FUZZY-TRUE score in uint8-t of global evaluation is above the TRUE threshold
      * @param globalEvaluation Invariant to be checked
+     * @param world the pointer to world
      * @param cutOff Bottom bound value of true
      * @return boolean if FUZZY-TRUE is high enough
      */

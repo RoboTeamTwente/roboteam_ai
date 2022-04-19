@@ -76,11 +76,9 @@ class Play {
     virtual void calculateInfoForScoredRoles(world::World* world) noexcept = 0;
 
     /**
-     * Function  for in between plays calculation of score through the PlayEvaluator.
-     * Using the struct PlayEvaluator::PlayScoring(uint8_t score, double weight) the factors the be considered
-     * can be defined for scoring a play.
-     * @param playEvaluator with the world
-     * @return a final score for the play
+     * Scores the play based on how effective this play would be given the current world
+     * @param field The current Field class
+     * @return Score of the play (0 - 255)
      */
     virtual uint8_t score(const rtt::world::Field& field) noexcept = 0;
 
