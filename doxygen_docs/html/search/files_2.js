@@ -16,6 +16,5 @@ var searchData=
   ['controlmodule_2eh_2567',['ControlModule.h',['../ControlModule_8h.html',1,'']]],
   ['controlutils_2ecpp_2568',['ControlUtils.cpp',['../ControlUtils_8cpp.html',1,'']]],
   ['controlutils_2eh_2569',['ControlUtils.h',['../ControlUtils_8h.html',1,'']]],
-  ['controlutilstest_2ecpp_2570',['ControlUtilsTest.cpp',['../ControlUtilsTest_8cpp.html',1,'']]],
-  ['correctplaytest_2ecpp_2571',['CorrectPlayTest.cpp',['../CorrectPlayTest_8cpp.html',1,'']]]
+  ['controlutilstest_2ecpp_2570',['ControlUtilsTest.cpp',['../ControlUtilsTest_8cpp.html',1,'']]]
 ];
