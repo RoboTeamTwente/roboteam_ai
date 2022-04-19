@@ -10,7 +10,7 @@
 
 namespace rtt::ai::interface {
 
-MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appManager) : QWidget(parent), manager{appManager} {
+MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) : QWidget(parent), manager{appManager} {
     Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     // todo: 2 dropdown menus, fix them to reflect new STP
@@ -104,8 +104,8 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
             return;
         }
         // simply plays[index] because they're inserted in-order
-        stp::PlayDecider::lockInterfacePlay(rtt::ApplicationManager::plays[index].get());
-        GameStateManager::updateInterfaceGameState(rtt::ApplicationManager::plays[index].get()->getName());
+        stp::PlayDecider::lockInterfacePlay(rtt::STPManager::plays[index].get());
+        GameStateManager::updateInterfaceGameState(rtt::STPManager::plays[index].get()->getName());
     });
 
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
