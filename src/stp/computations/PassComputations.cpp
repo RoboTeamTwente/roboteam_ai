@@ -22,14 +22,18 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     // Find which robot is keeper (bot closest to goal if there was not a keeper yet), store its id, and erase from us
     passInfo.keeperId = getKeeperId(us, world, field);
     if (!keeperCanPass) std::erase_if(us, [passInfo](auto& bot) { return bot->getId() == passInfo.keeperId; });
-    if (keeperCanPass) RTT_DEBUG("Keeper can pass!");
-    if (!keeperCanPass) RTT_DEBUG("Keeper cant pass!");
 
     // Find which robot should be the passer, store its id and location, and erase from us
     passInfo.passerId = getPasserId(ballLocation, us, world);
     auto passerIt = std::find_if(us.begin(), us.end(), [passInfo](auto& bot) { return bot->getId() == passInfo.passerId; });
     auto passerLocation = passerIt->get()->getPos();
     us.erase(passerIt);
+
+    // If we don't have any robots that could be a receiver, just shoot towards their goal
+    if (us.empty()){
+        passInfo.passLocation = field.getTheirGoalCenter();
+        return passInfo;
+    }
 
     // This is a vector with the locations of all robots that could act as a receiver (ie all robots except the keeper and the passer)
     std::vector<Vector2> possibleReceiverLocations;
