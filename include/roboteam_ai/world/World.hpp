@@ -89,7 +89,7 @@ class World {
      *
      * Undefined behavior if the pointer to settings outlives the lifetime of the settings instance
      *
-     * Usage of settings before construction of the applicationmanager will result in undefined
+     * Usage of settings before construction of the STPManager will result in undefined
      * behavior due to uninitialized memory
      */
     explicit World(Settings *settings);
@@ -98,7 +98,7 @@ class World {
      * Updates feedback for all robots that received feedback
      * @param feedback Feedback to apply
      */
-    void updateFeedback(google::protobuf::RepeatedPtrField<proto::RobotFeedback> feedback);
+    void updateFeedback(proto::RobotsFeedback feedback);
 
     /**
      * Updates the currentWorld

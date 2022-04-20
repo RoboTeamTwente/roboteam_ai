@@ -12,17 +12,17 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     auto targetAngle = info.getAngle();
 
     // Set angle command
-    command.set_w(static_cast<float>(targetAngle));
+    command.targetAngle = targetAngle;
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
-    command.set_dribbler(targetDribblerSpeed);
+    command.dribblerSpeed = targetDribblerSpeed;
 
     // set command ID
-    command.set_id(info.getRobot().value()->getId());
+    command.id = info.getRobot().value()->getId();
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());

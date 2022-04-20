@@ -42,8 +42,11 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
     painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
-    drawRobots(painter, world.value());
-    if (world->getBall().has_value()) drawBall(painter, world->getBall().value());
+    if(showWorld){
+        drawRobots(painter, world.value());
+        if (world->getBall().has_value()) drawBall(painter, world->getBall().value());
+    }
+
 
     // draw the drawings from the input
     auto drawings = Input::getDrawings();
@@ -116,7 +119,15 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         proto::SimulationConfiguration configuration;                    // Create packet
         configuration.mutable_ball_location()->set_x(field_position.x);  // Set x
         configuration.mutable_ball_location()->set_y(field_position.y);  // Set y
-        io::io.sendSimulationConfiguration(configuration);  // Send packet
+
+        bool sentConfig = io::io.sendSimulationConfiguration(configuration);  // Send packet
+        if (!sentConfig) {
+            RTT_WARNING("Failed to send Simulation Configuration command. Is this the primary AI?")
+        }
+    }
+
+    if(showWorldDetections ){
+        drawRawDetectionPackets(painter);
     }
 }
 
@@ -548,7 +559,7 @@ void Visualizer::drawPlusses(QPainter &painter, std::vector<Vector2> points, dou
 
 void Visualizer::drawArrows(QPainter &painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow) {
     if (points.size() >= 2) {
-        for (int i = 1; i < points.size(); i += 2) {
+        for (size_t i = 1; i < points.size(); i += 2) {
             Vector2 &arrowEnd = points.at(i - 1);
             Vector2 &arrowStart = points.at(i);
 
@@ -599,7 +610,7 @@ void Visualizer::drawPoints(QPainter &painter, std::vector<Vector2> points, doub
 
 void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
     if (points.size() >= 2) {
-        for (int i = 1; i < points.size(); i++) {
+        for (size_t i = 1; i < points.size(); i++) {
             Vector2 pointOnScreen = toScreenPosition(points.at(i));
             Vector2 prevPointOnScreen = toScreenPosition(points.at(i - 1));
             painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
@@ -624,6 +635,85 @@ void Visualizer::setPlayForRobot(std::string const &view, uint8_t i) {
 void Visualizer::setTacticForRobot(std::string const &view, uint8_t i) {
     std::lock_guard mtx{tacticsUpdate};
     tacticsForRobots.insert({i, view});
+}
+void Visualizer::setShowWorldDetections(bool showDetections) {
+    showWorldDetections = showDetections;
+}
+void Visualizer::updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets) {
+    std::lock_guard mtx{worldDetectionsMutex};
+    raw_detection_packets = packets;
+}
+void Visualizer::drawRawDetectionPackets(QPainter &painter) {
+    std::lock_guard mtx{worldDetectionsMutex};
+    for (const auto &packet : raw_detection_packets) {
+        if (packet.has_detection()) {
+            for (const auto &ball : packet.detection().balls()) {
+                drawDetectionBall(painter, ball);
+            }
+            for (const auto &robot : packet.detection().robots_blue()) {
+                drawDetectionRobot(painter, true, robot);
+            }
+            for (const auto &robot : packet.detection().robots_yellow()) {
+                drawDetectionRobot(painter, false, robot);
+            }
+        }
+    }
+}
+void Visualizer::drawDetectionBall(QPainter &painter, const proto::SSL_DetectionBall& ball) {
+    Vector2 ballWorldPos(ball.x()*0.001,ball.y()*0.001); //ssl units are in millimeters
+    rtt::Vector2 ballPosition = toScreenPosition(ballWorldPos);
+    QPointF qballPosition(ballPosition.x, ballPosition.y);
+
+    painter.setBrush(Qt::cyan);
+
+    painter.setPen(Qt::NoPen);  // stroke
+    painter.setOpacity(0.8);
+    int ballSize = Constants::BALL_RADIUS() * 2 * factor;
+
+    painter.drawEllipse(qballPosition, ballSize,ballSize);
+}
+void Visualizer::drawDetectionRobot(QPainter &painter, bool robotIsBlue, const proto::SSL_DetectionRobot &robot) {
+    Vector2 robotWorldPos = Vector2(robot.x()*0.001,robot.y()*0.001);
+    Vector2 robotpos = toScreenPosition(robotWorldPos);
+
+    // update the we are yellow
+    bool weAreYellow = SETTINGS.isYellow();
+
+    QColor robotColor = robotIsBlue ? Qt::green : Qt::red; // use contrasting colors
+
+    int ypos = robotpos.y;
+
+    // draw the robots
+    painter.setBrush(robotColor);
+    painter.setPen(Qt::transparent);
+    painter.setOpacity(0.5);
+
+    int robotDrawSize = std::max(Constants::ROBOT_RADIUS() * factor * 2, (double)Constants::ROBOT_DRAWING_SIZE());
+
+    // draw the shape of the robot with the right angle
+    QPainterPath rectPath;
+    rectPath.moveTo(0, -robotDrawSize / 2.0);
+    rectPath.arcTo(-robotDrawSize / 2.0, -robotDrawSize / 2.0, robotDrawSize, robotDrawSize, 90, 270);
+    rectPath.closeSubpath();
+
+    painter.translate(robotpos.x, robotpos.y);  // move center of coordinates to the center of robot
+
+    if (fieldInversed) {
+        painter.rotate(-toDegrees(robot.orientation()) + 45 + 180);  // rotate around the center of robot
+    } else {
+        painter.rotate(-toDegrees(robot.orientation()) + 45);  // rotate around the center of robot
+    }
+    painter.drawPath(rectPath);
+    painter.resetTransform();  // reset the translation and rotation
+
+    // draw the id in it
+    painter.setPen(Qt::black);
+    painter.setFont(QFont("ubuntu", 9));  // 22 is a number which you have to change
+    painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::number(robot.robot_id()));
+    painter.setFont(QFont("ubuntu", 11));  // 22 is a number which you have to change
+}
+void Visualizer::setShowWorld(bool setShowWorld) {
+    showWorld = setShowWorld;
 }
 
 }  // namespace rtt::ai::interface

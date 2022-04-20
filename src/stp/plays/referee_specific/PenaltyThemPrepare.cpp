@@ -24,10 +24,10 @@ PenaltyThemPrepare::PenaltyThemPrepare() : Play() {
         std::make_unique<role::Formation>(role::Formation("formation_9"))};
 }
 
-uint8_t PenaltyThemPrepare::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t PenaltyThemPrepare::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::PenaltyThemPrepareGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::PenaltyThemPrepareGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
@@ -68,6 +68,6 @@ Dealer::FlagMap PenaltyThemPrepare::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *PenaltyThemPrepare::getName() { return "Penalty Them Prepare"; }
+const char* PenaltyThemPrepare::getName() { return "Penalty Them Prepare"; }
 
 }  // namespace rtt::ai::stp::play

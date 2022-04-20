@@ -29,9 +29,7 @@ DefendShot::DefendShot() : Play() {
     };
 }
 
-uint8_t DefendShot::score(PlayEvaluator &playEvaluator) noexcept {
-    auto world = playEvaluator.getWorld();
-    auto field = world->getField().value();
+uint8_t DefendShot::score(const rtt::world::Field& field) noexcept {
     auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
     return 255 * (field.getFieldLength() - position) / field.getFieldLength();
@@ -58,8 +56,6 @@ void DefendShot::calculateInfoForRoles() noexcept {
 }
 
 void DefendShot::calculateInfoForDefenders() noexcept {
-    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
-
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
@@ -80,6 +76,6 @@ void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 }
 
-const char *DefendShot::getName() { return "Defend Shot"; }
+const char* DefendShot::getName() { return "Defend Shot"; }
 
 }  // namespace rtt::ai::stp::play
