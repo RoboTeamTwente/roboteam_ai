@@ -110,10 +110,9 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 
     for (int i = 1; i <= 4; i++) {
-        stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
-        stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::CLOSE);
-
         if (!enemyMap.empty()) {
+            stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
+            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::CLOSE);
             enemyMap.erase(enemyMap.begin());
         } else {
             break;

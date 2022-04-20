@@ -106,16 +106,15 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     std::map<double, Vector2> enemyMap;
 
     for (auto enemy : enemyRobots) {
-        double score = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, true, enemy->getPos(), world->getWorld().value(), enemy->getId(), false) *
+        double score = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, true, enemy->getPos(), world->getWorld().value(), enemy->getId(), true) *
                        FieldComputations::getDistanceToGoal(field, false, enemy->getPos());
         enemyMap.insert({score, enemy->getPos()});
     }
 
     for (int i = 1; i <= 3; i++) {
-        stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
-        stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
-
         if (!enemyMap.empty()) {
+            stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
+            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
             enemyMap.erase(prev(enemyMap.end()));
         } else {
             break;
