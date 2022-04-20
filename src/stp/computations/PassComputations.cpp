@@ -30,7 +30,7 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     us.erase(passerIt);
 
     // If we don't have any robots that could be a receiver, just shoot towards their goal
-    if (us.empty()){
+    if (us.empty()) {
         passInfo.passLocation = field.getTheirGoalCenter();
         return passInfo;
     }
@@ -116,6 +116,16 @@ double PassComputations::calculateBallTravelTime(Vector2 ballPosition, Vector2 p
     double ballSpeed = control::ControlUtils::determineKickForce(ballPosition.dist(targetPosition), ShotType::PASS);
     auto ballTime = ballPosition.dist(targetPosition) / ballSpeed;
     return travelTime + rotateTime + ballTime;
+}
+
+uint8_t PassComputations::scorePass(PassInfo passInfo, const world::World* world, const world::Field& field) {
+    constexpr double passPenaltyFactor = 0.9;  // Factor to reduce the score by to account for the inherent risk of passing (stuff going wrong, unexpected events etc)
+
+    // Score of pass is the goalshotscore, adjusted based on the LoS and openness scores. The worse the LoS/Openness, the more the score is reduced
+    auto goalShotScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::GoalShot, field, world).score);
+    auto lineOfSightScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::LineOfSight, field, world).score);
+    auto openScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::Open, field, world).score);
+    return std::clamp(static_cast<int>(goalShotScore * (lineOfSightScore / 255.0) * (openScore / 255.0) * passPenaltyFactor), 0, 255);
 }
 
 bool PassComputations::pathHasAnyRobots(Line passLine, std::vector<Vector2> robotLocations) {
