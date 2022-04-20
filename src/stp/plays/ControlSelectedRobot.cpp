@@ -17,7 +17,7 @@ ControlSelectedRobot::ControlSelectedRobot() : Play() {
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Formation>(role::Formation("robot"))};
 }
 
-uint8_t ControlSelectedRobot::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t ControlSelectedRobot::score(const rtt::world::Field& field) noexcept {
     // Since this play is only used manually, there is no need for a score
     return 0;
 }
@@ -29,7 +29,7 @@ Dealer::FlagMap ControlSelectedRobot::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-bool ControlSelectedRobot::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept {
+bool ControlSelectedRobot::shouldEndPlay() noexcept {
     // A window is required to make this work. Ensure that the window exists
     assert(window != nullptr);
     // Get the selected robots from the field visualizer

@@ -14,22 +14,16 @@ class ControlSelectedRobot : public Play {
     ControlSelectedRobot();
 
     /**
-     * Gets the score for the current play
-     *
-     * On the contrary to isValidPlay() this checks how good the play actually is
-     * return in range of 0 - 100
-     *
-     * @param world World to get the score for (world::World::instance())
-     * @return The score, 0 - 100
+     * Calculates the score of this play to determine which play is best in this situation
+     * @param field The current Field
+     * @return The score of this play (0-255)
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
-
-    bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept override;
 
     /**
      * Calculates info for the roles
@@ -45,6 +39,11 @@ class ControlSelectedRobot : public Play {
      * Gets the play name
      */
     const char* getName() override;
+
+    /**
+     * Check if play should end
+     */
+    bool shouldEndPlay() noexcept override;
 
    private:
     // Id of the robot currently selected in the interface. -1 if no robot is selected
