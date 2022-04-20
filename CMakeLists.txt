@@ -132,7 +132,6 @@ target_compile_options(roboteam_ai_roles PRIVATE "${COMPILER_FLAGS}")
 ###### PLAYS #######
 add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayEvaluator.cpp
         # /
@@ -366,7 +365,7 @@ target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 
 ###### MAIN #######
 add_executable(roboteam_ai
-        ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/STPManager.cpp
         ${PROJECT_SOURCE_DIR}/src/roboteam_ai.cpp
 )
 target_include_directories(roboteam_ai
@@ -416,6 +415,7 @@ target_compile_options(testHelpers PRIVATE "${COMPILER_FLAGS}")
 add_executable(roboteam_ai_tests
         ${PROJECT_SOURCE_DIR}/test/main.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/HelperTests/FieldHelperTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
@@ -424,6 +424,7 @@ add_executable(roboteam_ai_tests
         ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/CorrectPlayTest.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp
         ${PROJECT_SOURCE_DIR}/test/PassingTests/PassingTests.cpp
         )

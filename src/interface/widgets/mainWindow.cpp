@@ -8,7 +8,7 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent, STPManager *manager) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 

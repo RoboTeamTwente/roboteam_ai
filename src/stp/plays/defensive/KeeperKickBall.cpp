@@ -21,18 +21,20 @@ KeeperKickBall::KeeperKickBall() : Play() {
     keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Passer>(role::Passer("keeper")),
-        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-        std::make_unique<role::Formation>(role::Formation("midfielder")),
-        std::make_unique<role::Formation>(role::Formation("defender")),
-    };
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Passer>(("keeper")),
+                                                                                       std::make_unique<role::PassReceiver>(("receiver")),
+                                                                                       std::make_unique<role::Formation>(("defender_left")),
+                                                                                       std::make_unique<role::Formation>(("defender_mid")),
+                                                                                       std::make_unique<role::Formation>(("defender_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_mid")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
 
-uint8_t KeeperKickBall::score(PlayEvaluator& playEvaluator) noexcept {
-    auto world = playEvaluator.getWorld();
-    auto field = world->getField().value();
-
+uint8_t KeeperKickBall::score(const rtt::world::Field& field) noexcept {
     // Calculate passInfo to be used during the play
     passInfo = stp::computations::PassComputations::calculatePass(gen::SafePass, world, field);
 
@@ -44,14 +46,25 @@ Dealer::FlagMap KeeperKickBall::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}, passInfo.keeperId}});
-    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}, passInfo.receiverId}});
-    flagMap.insert({"midfielder", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"defender", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {}, passInfo.receiverId}});
+    flagMap.insert({"defender_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"defender_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"defender_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_left", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"midfielder_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_right", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"attacker_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"attacker_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"attacker_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }
 
 void KeeperKickBall::calculateInfoForRoles() noexcept {
+    calculateInfoForDefenders();
+    calculateInfoForMidfielders();
+    calculateInfoForAttackers();
+
     if (!ballKicked()) {
         stpInfos["receiver"].setPositionToMoveTo(passInfo.passLocation);
         stpInfos["keeper"].setPositionToShootAt(passInfo.passLocation);
@@ -69,17 +82,24 @@ void KeeperKickBall::calculateInfoForRoles() noexcept {
         // TODO: go back to KeeperBlockBall tactic
         stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(0.2, 0));
     }
-    // Passer now goes to a front grid, where the receiver is not
-    if (passInfo.passLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
-        stpInfos["defender"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getBackRightGrid(), gen::SafePosition, field, world));
-        stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
-    } else if (passInfo.passLocation.y < field.getMiddleMidGrid().getOffSetY()) {  // Receiver is going to right of the field
-        stpInfos["defender"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getBackLeftGrid(), gen::SafePosition, field, world));
-        stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
-    } else {  // Receiver is going to middle of the field- passer will go to the closest grid on the side of the field
-        stpInfos["defender"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getBackRightGrid(), gen::SafePosition, field, world));
-        stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
-    }
+}
+
+void KeeperKickBall::calculateInfoForDefenders() noexcept {
+    stpInfos["defender_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getBackLeftGrid(), gen::SafePosition, field, world));
+    stpInfos["defender_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getBackMidGrid(), gen::BlockingPosition, field, world));
+    stpInfos["defender_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getBackRightGrid(), gen::SafePosition, field, world));
+}
+
+void KeeperKickBall::calculateInfoForMidfielders() noexcept {
+    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::SafePosition, field, world));
+    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::SafePosition, field, world));
+    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::SafePosition, field, world));
+}
+
+void KeeperKickBall::calculateInfoForAttackers() noexcept {
+    stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::SafePass, field, world));
+    stpInfos["attacker_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::SafePass, field, world));
+    stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::SafePass, field, world));
 }
 
 bool KeeperKickBall::ballKicked() {

@@ -22,15 +22,11 @@ class KeeperKickBall : public Play {
     KeeperKickBall();
 
     /**
-     * Gets the score for the current play
-     *
-     * On the contrary to isValidPlay() this checks how good the play actually is
-     * return in range of 0 - 100
-     *
-     * @param world World to get the score for (world::World::instance())
-     * @return The score, 0 - 100
+     * Calculates the score of this play to determine which play is best in this situation
+     * @param field The current Field
+     * @return The score of this play (0-255)
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -41,6 +37,21 @@ class KeeperKickBall : public Play {
      * Calculates info for the roles
      */
     void calculateInfoForRoles() noexcept override;
+
+    /**
+     * Calculates info for the defenders
+     */
+    void calculateInfoForDefenders() noexcept;
+
+    /**
+     * Calculates info for the midfielders
+     */
+    void calculateInfoForMidfielders() noexcept;
+
+    /**
+     * Calculates info for the attackers
+     */
+    void calculateInfoForAttackers() noexcept;
 
     /**
      * Calculate info for the roles that need to be calculated for scoring

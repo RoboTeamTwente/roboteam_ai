@@ -22,16 +22,16 @@ proto::SSL_GeometryFieldSize FieldHelper::generateField(double field_length, dou
 }
 
 void FieldHelper::addDefenseAreas(proto::SSL_GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
-    auto top_right_penalty_stretch_begin = rtt::Vector2{field.field_length() / 2.0 - defenseAreaDepth, defenseAreaWidth / 2};
-    auto top_right_penalty_stretch_end = rtt::Vector2(field.field_length() / 2.0, defenseAreaWidth / 2);
-    auto bottom_right_penalty_stretch_begin = rtt::Vector2(field.field_length() / 2.0 - defenseAreaDepth, -defenseAreaWidth / 2);
-    auto bottom_right_penalty_stretch_end = rtt::Vector2(field.field_length() / 2.0, -defenseAreaWidth / 2);
+    auto top_right_penalty_stretch_begin = rtt::Vector2{field.field_length() / 2.0, defenseAreaWidth / 2};
+    auto top_right_penalty_stretch_end = rtt::Vector2(field.field_length() / 2.0 - defenseAreaDepth, defenseAreaWidth / 2);
+    auto bottom_right_penalty_stretch_begin = rtt::Vector2(field.field_length() / 2.0, -defenseAreaWidth / 2);
+    auto bottom_right_penalty_stretch_end = rtt::Vector2(field.field_length() / 2.0 - defenseAreaDepth, -defenseAreaWidth / 2);
     auto right_penalty_line_begin = rtt::Vector2(field.field_length() / 2.0 - defenseAreaDepth, -defenseAreaWidth / 2);
     auto right_penalty_line_end = rtt::Vector2(field.field_length() / 2.0 - defenseAreaDepth, defenseAreaWidth / 2);
-    auto top_left_penalty_stretch_begin = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, defenseAreaWidth / 2);
-    auto top_left_penalty_stretch_end = rtt::Vector2(-field.field_length() / 2.0, defenseAreaWidth / 2);
-    auto bottom_left_penalty_stretch_begin = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, -defenseAreaWidth / 2);
-    auto bottom_left_penalty_stretch_end = rtt::Vector2(-field.field_length() / 2.0, -defenseAreaWidth / 2);
+    auto top_left_penalty_stretch_begin = rtt::Vector2(-field.field_length() / 2.0, defenseAreaWidth / 2);
+    auto top_left_penalty_stretch_end = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, defenseAreaWidth / 2);
+    auto bottom_left_penalty_stretch_begin = rtt::Vector2(-field.field_length() / 2.0, -defenseAreaWidth / 2);
+    auto bottom_left_penalty_stretch_end = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, -defenseAreaWidth / 2);
     auto left_penalty_line_begin = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, -defenseAreaWidth / 2);
     auto left_penalty_line_end = rtt::Vector2(-field.field_length() / 2.0 + defenseAreaDepth, defenseAreaWidth / 2);
 

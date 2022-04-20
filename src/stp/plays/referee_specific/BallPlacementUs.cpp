@@ -18,14 +18,18 @@ BallPlacementUs::BallPlacementUs() : Play() {
     keepPlayEvaluation.emplace_back(eval::BallPlacementUsGameState);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::BallPlacer>(role::BallPlacer("ball_placer")), std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_0")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1"))};
+        std::make_unique<role::BallPlacer>(role::BallPlacer("ball_placer")),      std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_0")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_2")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_3")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_7")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_8"))};
 }
 
-uint8_t BallPlacementUs::score(PlayEvaluator& playEvaluator) noexcept {
+uint8_t BallPlacementUs::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::BallPlacementUsGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::BallPlacementUsGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void BallPlacementUs::calculateInfoForRoles() noexcept {
@@ -43,6 +47,8 @@ void BallPlacementUs::calculateInfoForRoles() noexcept {
     if (stpInfos["ball_placer"].getRobot() && stpInfos["ball_placer"].getRobot()->get()->getDistanceToBall() < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
         stpInfos["ball_placer"].setDribblerSpeed(100);
     }
+
+    /// TODO: figure out what the rest of the robots should do during our ball placement
 }
 
 Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
@@ -53,6 +59,13 @@ Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
     flagMap.insert({"ball_placer", {DealerFlagPriority::REQUIRED, {ballPlacement}}});
     flagMap.insert({"ball_avoider_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"ball_avoider_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"ball_avoider_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }

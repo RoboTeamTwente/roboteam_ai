@@ -39,9 +39,7 @@ DefendPass::DefendPass() : Play() {
     };
 }
 
-uint8_t DefendPass::score(PlayEvaluator &playEvaluator) noexcept {
-    auto world = playEvaluator.getWorld();
-    auto field = world->getField().value();
+uint8_t DefendPass::score(const rtt::world::Field& field) noexcept {
     auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
     auto goalVisibility =
@@ -150,6 +148,6 @@ void DefendPass::calculateInfoForOffenders() noexcept {
     }
 }
 
-const char *DefendPass::getName() { return "Defend Pass"; }
+const char* DefendPass::getName() { return "Defend Pass"; }
 
 }  // namespace rtt::ai::stp::play
