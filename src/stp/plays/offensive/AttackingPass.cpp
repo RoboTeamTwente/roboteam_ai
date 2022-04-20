@@ -46,7 +46,11 @@ uint8_t AttackingPass::score(const rtt::world::Field& field) noexcept {
 
     if (passInfo.passLocation == Vector2()) return 0;  // In case no pass is found
 
-    return stp::computations::PassComputations::scorePass(passInfo, world, field);
+    // Score of play is the goalshotscore, adjusted based on the LoS and openness scores. The worse the LoS/Openness, the more the score is reduced
+    auto goalShotScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::GoalShot, field, world).score);
+    auto lineOfSightScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::LineOfSight, field, world).score);
+    auto openScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::Open, field, world).score);
+    return std::clamp(static_cast<int>(goalShotScore * (lineOfSightScore / 255.0) * (openScore / 255.0)), 0, 255);
 }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {

@@ -80,8 +80,6 @@ $(function() {
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a765487b3e9f0edddb9d7ef528bb59665"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a765487b3e9f0edddb9d7ef528bb59665">calculatePass</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoreProfile">gen::ScoreProfile</a> profile, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, bool keeperCanPass=false)</td></tr>
 <tr class="separator:a765487b3e9f0edddb9d7ef528bb59665"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b4617276cfe62f74480e908a3678627"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6b4617276cfe62f74480e908a3678627">scorePass</a> (<a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a> passInfo, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field)</td></tr>
-<tr class="separator:a6b4617276cfe62f74480e908a3678627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -502,57 +500,6 @@ Static Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool indicating whether this point is (likely) possible to pass to </dd></dl>
-
-</div>
-</div>
-<a id="a6b4617276cfe62f74480e908a3678627"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b4617276cfe62f74480e908a3678627">&#9670;&nbsp;</a></span>scorePass()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t rtt::ai::stp::computations::PassComputations::scorePass </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo">PassInfo</a>&#160;</td>
-          <td class="paramname"><em>passInfo</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Scores a given pass based on how likely it is to score from the passLocation, adjusted for the riskiness of the pass </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">passInfo</td><td>The passInfo of the pass to be scored </td></tr>
-    <tr><td class="paramname">world</td><td>pointer to world </td></tr>
-    <tr><td class="paramname">field</td><td>the current field </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the score of the pass (0 - 255) </dd></dl>
 
 </div>
 </div>
