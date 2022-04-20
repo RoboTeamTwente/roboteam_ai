@@ -82,11 +82,11 @@ void Attack::calculateInfoForDefenders() noexcept {
     stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
 
-    stpInfos["defender_mid"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_mid"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_mid"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_mid"].setBlockDistance(BlockDistance::CLOSE);
 
-    stpInfos["defender_right"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_right"].setBlockDistance(BlockDistance::CLOSE);
+    stpInfos["defender_right"].setPositionToDefend(field.getOurBottomGoalSide());
+    stpInfos["defender_right"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
 void Attack::calculateInfoForMidfielders() noexcept {
