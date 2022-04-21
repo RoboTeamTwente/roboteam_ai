@@ -31,7 +31,7 @@ var searchData=
   ['intercept_2eh_952',['Intercept.h',['../Intercept_8h.html',1,'']]],
   ['intercept_5fdraw_5fvector_5fsize_953',['INTERCEPT_DRAW_VECTOR_SIZE',['../classrtt_1_1ai_1_1Constants.html#a698e21ff705c18adb7b0950fd1699eed',1,'rtt::ai::Constants']]],
   ['interceptpid_954',['interceptPID',['../classrtt_1_1ai_1_1interface_1_1Output.html#ab6a71dbf5c29bef2e424f881003f4ed0',1,'rtt::ai::interface::Output']]],
-  ['interfacecontrollerserver_955',['InterfaceControllerServer',['../classrtt_1_1Interface_1_1InterfaceControllerServer.html',1,'rtt::Interface']]],
+  ['interfacecontrollerserver_955',['InterfaceControllerServer',['../classrtt_1_1Interface_1_1InterfaceControllerServer.html#a5102eea0b89a0d327bbd48aa29813584',1,'rtt::Interface::InterfaceControllerServer::InterfaceControllerServer()'],['../classrtt_1_1Interface_1_1InterfaceControllerServer.html',1,'rtt::Interface::InterfaceControllerServer']]],
   ['interfacecontrollerserver_2ecpp_956',['InterfaceControllerServer.cpp',['../InterfaceControllerServer_8cpp.html',1,'']]],
   ['interfacecontrollerserver_2eh_957',['InterfaceControllerServer.h',['../InterfaceControllerServer_8h.html',1,'']]],
   ['interfacegamestate_958',['interfaceGameState',['../classrtt_1_1ai_1_1interface_1_1Output.html#ac0b8871b27d48c25ca6c46a5ec2b987b',1,'rtt::ai::interface::Output']]],
