@@ -63,6 +63,11 @@ class DefendPass : public Play {
      * Calculates info for the harassers
      */
     void calculateInfoForHarassers() noexcept;
+
+    /**
+     * Calculates info for the offenders
+     */
+    void calculateInfoForOffenders() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 
