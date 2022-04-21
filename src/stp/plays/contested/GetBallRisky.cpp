@@ -37,7 +37,7 @@ GetBallRisky::GetBallRisky() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("midfielder_2"))};
 }
 
-uint8_t GetBallRisky::score(PlayEvaluator &playEvaluator) noexcept { return 120; }
+uint8_t GetBallRisky::score(const rtt::world::Field &field) noexcept { return 120; }
 
 void GetBallRisky::calculateInfoForScoredRoles(world::World *world) noexcept { stpInfos["ball_getter"].setPositionToShootAt(world->getField().value().getTheirGoalCenter()); }
 

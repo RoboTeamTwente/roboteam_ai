@@ -31,8 +31,9 @@
 #include "widget.h"
 #include "world/World.hpp"
 
+#include "proto/messages_robocup_ssl_wrapper.pb.h"
 namespace rtt {
-class ApplicationManager;
+class STPManager;
 }
 
 namespace rtt::ai::interface {
@@ -45,7 +46,7 @@ class MainWindow : public QMainWindow {
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
    public:
-    explicit MainWindow(QWidget *parent = nullptr, rtt::ApplicationManager *manager = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr, rtt::STPManager *manager = nullptr);
 
     // this function is useful everywhere
     static void configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
@@ -53,6 +54,7 @@ class MainWindow : public QMainWindow {
     static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
     void updatePlay(stp::Play *play);
+    void updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket>& packets);
 
    signals:
     void updateStpWidgets();

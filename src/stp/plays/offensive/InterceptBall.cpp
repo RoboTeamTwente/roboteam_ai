@@ -36,7 +36,7 @@ InterceptBall::InterceptBall() : Play() {
     };
 }
 
-uint8_t InterceptBall::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t InterceptBall::score(const rtt::world::Field& field) noexcept {
     return 0;
 }
 

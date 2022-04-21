@@ -26,9 +26,7 @@ DefendPass::DefendPass() : Play() {
         std::make_unique<role::Defender>(role::Defender("defender_2")), std::make_unique<role::Harasser>(role::Harasser("harassing_defender"))};
 }
 
-uint8_t DefendPass::score(PlayEvaluator &playEvaluator) noexcept {
-    auto world = playEvaluator.getWorld();
-    auto field = world->getField().value();
+uint8_t DefendPass::score(const rtt::world::Field& field) noexcept {
     auto enemyRobot = world->getWorld()->getRobotClosestToBall(world::them);
     auto position = distanceFromPointToLine(field.getBottomLeftCorner(), field.getTopLeftCorner(), enemyRobot->get()->getPos());
     return 255 * (position / field.getFieldLength());
@@ -91,6 +89,6 @@ void DefendPass::calculateInfoForHarassers() noexcept {
     stpInfos["harassing_defender"].setBlockDistance(BlockDistance::CLOSE);
 }
 
-const char *DefendPass::getName() { return "Defend Pass"; }
+const char* DefendPass::getName() { return "Defend Pass"; }
 
 }  // namespace rtt::ai::stp::play

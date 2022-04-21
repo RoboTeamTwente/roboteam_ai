@@ -8,6 +8,7 @@
 #include <roboteam_utils/Grid.h>
 
 #include "stp/Play.hpp"
+#include "stp/computations/PassComputations.h"
 
 namespace rtt::ai::stp::play {
 
@@ -21,7 +22,7 @@ class AttackingPass : public Play {
     /**
      *  Calculate how beneficial we expect this play to be
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -34,9 +35,24 @@ class AttackingPass : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Calculates info for the defenders
+     */
+    void calculateInfoForDefenders() noexcept;
+
+    /**
+     * Calculates info for the midfielders
+     */
+    void calculateInfoForMidfielders() noexcept;
+
+    /**
+     * Calculates info for the attackers
+     */
+    void calculateInfoForAttackers() noexcept;
+
+    /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World*) noexcept override;
+    void calculateInfoForScoredRoles(world::World*) noexcept override{};
 
     /**
      * Gets the play name
@@ -44,14 +60,9 @@ class AttackingPass : public Play {
     const char* getName() override;
 
     /**
-     * Check if play should end. True if pass arrived or ball is not moving anymore after pass
+     * Check if play should end. True if pass arrived, if the ball is not moving anymore after pass, or if there is a better pass available
      */
     bool shouldEndPlay() noexcept override;
-
-    /**
-     *
-     */
-    void storePlayInfo(gen::PlayInfos& info) noexcept override;
 
    private:
     /**
@@ -60,14 +71,9 @@ class AttackingPass : public Play {
     bool ballKicked();
 
     /**
-     * Calculate which robots could receive a pass, and calculate the pass location based on that
+     * Struct containing info about the pass. Calculated once for each time this play is run
      */
-    gen::ScoredPosition calculatePassLocation(world::World* world);
-
-    /**
-     * The location the ball will be passed to. Calculated once for each time this play is run
-     */
-    std::optional<Vector2> passLocation = std::nullopt;
+    PassInfo passInfo;
 };
 }  // namespace rtt::ai::stp::play
 

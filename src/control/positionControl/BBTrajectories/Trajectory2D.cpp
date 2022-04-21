@@ -35,7 +35,7 @@ std::vector<Vector2> Trajectory2D::getPathApproach(double timeStep) const {
     auto totalTime = getTotalTime();
     double time = 0;
 
-    while (time < totalTime) {
+    while (time <= totalTime) {
         time += timeStep;
         points.push_back(getPosition(time));
     }
@@ -47,7 +47,7 @@ std::vector<Vector2> Trajectory2D::getVelocityVector(double timeStep) const {
     auto totalTime = getTotalTime();
     double time = 0;
 
-    while (time < totalTime) {
+    while (time <= totalTime) {
         time += timeStep;
         velocities.push_back(getVelocity(time));
     }
