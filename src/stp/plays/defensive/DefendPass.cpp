@@ -105,9 +105,9 @@ void DefendPass::calculateInfoForDefenders() noexcept {
 
     std::map<double, Vector2> enemyMap;
 
+    // TODO: figure out better scoring
     for (auto enemy : enemyRobots) {
-        double score = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, true, enemy->getPos(), world->getWorld().value(), enemy->getId(), true) *
-                       FieldComputations::getDistanceToGoal(field, false, enemy->getPos());
+        double score = FieldComputations::getTotalGoalAngle(field, true, enemy->getPos());
         enemyMap.insert({score, enemy->getPos()});
     }
 
