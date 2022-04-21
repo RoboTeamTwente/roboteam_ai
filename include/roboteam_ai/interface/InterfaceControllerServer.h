@@ -11,7 +11,8 @@
 
 namespace rtt::Interface {
     class InterfaceControllerServer: public InterfaceController<proto::ModuleState, proto::UiValues> {
-        InterfaceControllerServer() : InterfaceController<proto::ModuleState, proto::UiValues>(rtt::net::utils::ChannelType::INTERFACE_TO_AI_CHANNEL, rtt::net::utils::ChannelType::AI_TO_INTERFACE_CHANNEL, 1, 0) {}
+       public:
+        InterfaceControllerServer() : InterfaceController<proto::ModuleState, proto::UiValues>(rtt::net::utils::ChannelType::AI_TO_INTERFACE_CHANNEL, rtt::net::utils::ChannelType::INTERFACE_TO_AI_CHANNEL, 1, 1000) {}
 
         bool hasPriorityData() const noexcept override;
 

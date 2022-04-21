@@ -91,6 +91,8 @@ void STPManager::start() {
         }
     }
 
+    this->interfaceController.run();
+
     int amountOfCycles = 0;
     roboteam_utils::Timer stpTimer;
     stpTimer.loop(

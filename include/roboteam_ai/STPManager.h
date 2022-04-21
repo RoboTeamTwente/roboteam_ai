@@ -2,6 +2,7 @@
 #include <gtest/gtest_prod.h>
 
 #include "interface/widgets/mainWindow.h"
+#include <interface/InterfaceControllerServer.h>
 
 #include <stp/Play.hpp>
 
@@ -37,6 +38,7 @@ class STPManager {
      * The vector that contains all plays
      */
     static inline std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
+    Interface::InterfaceControllerServer interfaceController;
 
     STPManager(STPManager const&) = delete;
     STPManager& operator=(STPManager const&) = delete;
