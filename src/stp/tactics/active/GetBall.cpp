@@ -25,8 +25,8 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
     double ballDistance = (ballPosition - robotPosition).length();
 
     // If this robot is not the keeper, don't get the ball inside a defense area
-    if (info.getRoleName() != "keeper" && info.getRoleName() != "ball_placer" && FieldComputations::pointIsInDefenseArea(info.getField().value(), ballPosition)) {
-        ballPosition = control::ControlUtils::projectPositionToOutsideDefenseArea(info.getField().value(), ballPosition, control_constants::AVOID_BALL_DISTANCE);
+    if (info.getRoleName() != "keeper" && info.getRoleName() != "ball_placer" && FieldComputations::pointIsInDefenseArea(info.getField().value(), ballPosition, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) {
+        ballPosition = control::ControlUtils::projectPositionToOutsideDefenseArea(info.getField().value(), ballPosition, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
     }
 
     if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
