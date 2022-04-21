@@ -15,10 +15,6 @@ namespace rtt::ai::stp::computations {
 
 PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::world::World* world, const world::Field& field, bool keeperCanPass) {
     PassInfo passInfo;  // Struct used to store the information needed to execute the pass
-    if (!(world->getWorld()->getUs().size() >= 3) || (keeperCanPass && world->getWorld()->getUs().size() >= 2)){
-        RTT_WARNING("Not enough robots to pass!");
-        return passInfo;
-    }
 
     auto us = world->getWorld()->getUs();
     auto ballLocation = world->getWorld()->getBall()->get()->getPos();
@@ -30,12 +26,13 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     // Find which robot should be the passer, store its id and location, and erase from us
     passInfo.passerId = getPasserId(ballLocation, us, world);
     auto passerIt = std::find_if(us.begin(), us.end(), [passInfo](auto& bot) { return bot->getId() == passInfo.passerId; });
+    auto passerLocation = passerIt->get()->getPos();
+    us.erase(passerIt);
 
-    Vector2 passerLocation;
-    // there should always be a valid passer, since we know there are >2 robots (or 2 robots where the keeper can pass/receive), but check just in case something goes wrong
-    if (passerIt != us.end()) {
-        passerLocation = passerIt->get()->getPos();
-        us.erase(passerIt);
+    // If we don't have any robots that could be a receiver, just shoot towards their goal
+    if (us.empty()) {
+        passInfo.passLocation = field.getTheirGoalCenter();
+        return passInfo;
     }
 
     // This is a vector with the locations of all robots that could act as a receiver (ie all robots except the keeper and the passer)
@@ -61,9 +58,7 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
 
     if (passInfo.passScore == 0) {
         // If no good pass is found, pass to the robot furthest in the field
-        auto furthestRobotIt = std::max_element(possibleReceiverLocations.begin(), possibleReceiverLocations.end(), [](auto& p1, auto& p2) { return p1.x > p2.x; });
-        // We should always be able to find a furthest robot, this check avoids the AI crashing in case something does go wrong due to changes/bugs
-        passInfo.passLocation = (furthestRobotIt != possibleReceiverLocations.end()) ? *furthestRobotIt : Vector2();
+        passInfo.passLocation = *std::max_element(possibleReceiverLocations.begin(), possibleReceiverLocations.end(), [](auto& p1, auto& p2) { return p1.x > p2.x; });
     }
 
     return passInfo;
