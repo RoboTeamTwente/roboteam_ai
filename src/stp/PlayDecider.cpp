@@ -35,7 +35,7 @@ Play* PlayDecider::decideBestPlay(const rtt::world::World* world, const std::vec
         return getPlayForName("Defend Pass", plays);
     }
 
-    return std::max_element(playsWithScores.begin(), playsWithScores.end(), [](auto& lhs, auto& rhs) { return lhs.second < rhs.second; })->first;
+    return std::max_element(playsWithScores.begin(), playsWithScores.end(), [](auto& lhs, auto& rhs) { return lhs.second > rhs.second; })->first;
 }
 
 // This is only used by the interface to force new plays
