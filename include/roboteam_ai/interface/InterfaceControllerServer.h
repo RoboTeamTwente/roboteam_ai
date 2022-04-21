@@ -7,12 +7,9 @@
 
 #include <roboteam_interface_utils/InterfaceController.h>
 #include <utilities/IOManager.h>
-#include <utils/Channels.hpp>
 
 namespace rtt::Interface {
-    class InterfaceControllerServer: public InterfaceController<proto::ModuleState, proto::UiValues> {
-        InterfaceControllerServer() : InterfaceController<proto::ModuleState, proto::UiValues>(rtt::net::utils::ChannelType::INTERFACE_TO_AI_CHANNEL, rtt::net::utils::ChannelType::AI_TO_INTERFACE_CHANNEL, 1, 0) {}
-
+    class InterfaceControllerServer: public InterfaceController<16970, 1, 0, proto::ModuleState, proto::UiValues> {
         bool hasPriorityData() const noexcept override;
 
         void handleData(const proto::UiValues &state) override;
