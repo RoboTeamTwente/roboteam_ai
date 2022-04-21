@@ -46,9 +46,10 @@ uint8_t Attack::score(const rtt::world::Field& field) noexcept {
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag strikerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {}}});
+    flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {strikerFlag}}});
     flagMap.insert({"attacker_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"attacker_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -82,11 +83,11 @@ void Attack::calculateInfoForDefenders() noexcept {
     stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
 
-    stpInfos["defender_mid"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_mid"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_mid"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_mid"].setBlockDistance(BlockDistance::CLOSE);
 
-    stpInfos["defender_right"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_right"].setBlockDistance(BlockDistance::CLOSE);
+    stpInfos["defender_right"].setPositionToDefend(field.getOurBottomGoalSide());
+    stpInfos["defender_right"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
 void Attack::calculateInfoForMidfielders() noexcept {

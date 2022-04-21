@@ -15,6 +15,10 @@ namespace rtt::ai::stp::computations {
 
 PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::world::World* world, const world::Field& field, bool keeperCanPass) {
     PassInfo passInfo;  // Struct used to store the information needed to execute the pass
+    if (!(world->getWorld()->getUs().size() >= 3) || (keeperCanPass && world->getWorld()->getUs().size() >= 2)){
+        RTT_WARNING("Not enough robots to pass!");
+        return passInfo;
+    }
 
     auto us = world->getWorld()->getUs();
     auto ballLocation = world->getWorld()->getBall()->get()->getPos();
@@ -26,13 +30,12 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     // Find which robot should be the passer, store its id and location, and erase from us
     passInfo.passerId = getPasserId(ballLocation, us, world);
     auto passerIt = std::find_if(us.begin(), us.end(), [passInfo](auto& bot) { return bot->getId() == passInfo.passerId; });
-    auto passerLocation = passerIt->get()->getPos();
-    us.erase(passerIt);
 
-    // If we don't have any robots that could be a receiver, just shoot towards their goal
-    if (us.empty()){
-        passInfo.passLocation = field.getTheirGoalCenter();
-        return passInfo;
+    Vector2 passerLocation;
+    // there should always be a valid passer, since we know there are >2 robots (or 2 robots where the keeper can pass/receive), but check just in case something goes wrong
+    if (passerIt != us.end()) {
+        passerLocation = passerIt->get()->getPos();
+        us.erase(passerIt);
     }
 
     // This is a vector with the locations of all robots that could act as a receiver (ie all robots except the keeper and the passer)
@@ -58,7 +61,9 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
 
     if (passInfo.passScore == 0) {
         // If no good pass is found, pass to the robot furthest in the field
-        passInfo.passLocation = *std::max_element(possibleReceiverLocations.begin(), possibleReceiverLocations.end(), [](auto& p1, auto& p2) { return p1.x > p2.x; });
+        auto furthestRobotIt = std::max_element(possibleReceiverLocations.begin(), possibleReceiverLocations.end(), [](auto& p1, auto& p2) { return p1.x > p2.x; });
+        // We should always be able to find a furthest robot, this check avoids the AI crashing in case something does go wrong due to changes/bugs
+        passInfo.passLocation = (furthestRobotIt != possibleReceiverLocations.end()) ? *furthestRobotIt : Vector2();
     }
 
     return passInfo;
@@ -116,6 +121,16 @@ double PassComputations::calculateBallTravelTime(Vector2 ballPosition, Vector2 p
     double ballSpeed = control::ControlUtils::determineKickForce(ballPosition.dist(targetPosition), ShotType::PASS);
     auto ballTime = ballPosition.dist(targetPosition) / ballSpeed;
     return travelTime + rotateTime + ballTime;
+}
+
+uint8_t PassComputations::scorePass(PassInfo passInfo, const world::World* world, const world::Field& field) {
+    constexpr double passPenaltyFactor = 0.9;  // Factor to reduce the score by to account for the inherent risk of passing (stuff going wrong, unexpected events etc)
+
+    // Score of pass is the goalshotscore, adjusted based on the LoS and openness scores. The worse the LoS/Openness, the more the score is reduced
+    auto goalShotScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::GoalShot, field, world).score);
+    auto lineOfSightScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::LineOfSight, field, world).score);
+    auto openScore = static_cast<int>(PositionScoring::scorePosition(passInfo.passLocation, gen::Open, field, world).score);
+    return std::clamp(static_cast<int>(goalShotScore * (lineOfSightScore / 255.0) * (openScore / 255.0) * passPenaltyFactor), 0, 255);
 }
 
 bool PassComputations::pathHasAnyRobots(Line passLine, std::vector<Vector2> robotLocations) {
