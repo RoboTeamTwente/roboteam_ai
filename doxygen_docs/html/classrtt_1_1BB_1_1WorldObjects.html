@@ -95,12 +95,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8a5197400c4fe8423ccf85cce1a4f0b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a8a5197400c4fe8423ccf85cce1a4f0b8">calculateBallCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; pathPoints, double timeStep)</td></tr>
 <tr class="memdesc:a8a5197400c4fe8423ccf85cce1a4f0b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path of a robot and checks points along the path if they are too close to an approximation of the ball trajactory. If the play is "ball_placement_them" also checks for the path being inside the balltube. Adds these points and the time to collisionDatas and collisionTimes.  <a href="classrtt_1_1BB_1_1WorldObjects.html#a8a5197400c4fe8423ccf85cce1a4f0b8">More...</a><br /></td></tr>
 <tr class="separator:a8a5197400c4fe8423ccf85cce1a4f0b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c64455b744f406ab59b4837058ad16a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a1c64455b744f406ab59b4837058ad16a">calculateEnemyRobotCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, <a class="el" href="classrtt_1_1Trajectory2D.html">rtt::Trajectory2D</a> Trajectory, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;pathPoints, double timeStep)</td></tr>
-<tr class="memdesc:a1c64455b744f406ab59b4837058ad16a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path of a robot and checks points along the path if they are too close to an approximation of the enemy robot paths. Adds these points and the time to collisionDatas and collisionTimes if the difference in velocity between the two robots is more than 1.5 ms/s and we are driving faster.  <a href="classrtt_1_1BB_1_1WorldObjects.html#a1c64455b744f406ab59b4837058ad16a">More...</a><br /></td></tr>
-<tr class="separator:a1c64455b744f406ab59b4837058ad16a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbaecdaa00b2fcb057009fdc3e64f8df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#acbaecdaa00b2fcb057009fdc3e64f8df">calculateOurRobotCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;pathPoints, const std::unordered_map&lt; int, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;computedPaths, int robotId, double timeStep)</td></tr>
-<tr class="memdesc:acbaecdaa00b2fcb057009fdc3e64f8df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a path from the array of stored paths and checks points along the path if they are too close to where our robots are calculated to be at that point in time. Adds these points and the time to collisionDatas and collisionTimes.  <a href="classrtt_1_1BB_1_1WorldObjects.html#acbaecdaa00b2fcb057009fdc3e64f8df">More...</a><br /></td></tr>
-<tr class="separator:acbaecdaa00b2fcb057009fdc3e64f8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a892faa14b99f1b3b5a7cd6d7867ee16d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a892faa14b99f1b3b5a7cd6d7867ee16d">calculateEnemyRobotCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, <a class="el" href="classrtt_1_1Trajectory2D.html">rtt::Trajectory2D</a> Trajectory, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;pathPoints, double timeStep, size_t timeStepsDone)</td></tr>
+<tr class="memdesc:a892faa14b99f1b3b5a7cd6d7867ee16d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path of a robot and checks points along the path if they are too close to an approximation of the enemy robot paths. Adds these points and the time to collisionDatas and collisionTimes if the difference in velocity between the two robots is more than 1.5 ms/s and we are driving faster.  <a href="classrtt_1_1BB_1_1WorldObjects.html#a892faa14b99f1b3b5a7cd6d7867ee16d">More...</a><br /></td></tr>
+<tr class="separator:a892faa14b99f1b3b5a7cd6d7867ee16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ae6694ed0965b91d22d5336d291beb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a4ae6694ed0965b91d22d5336d291beb4">calculateOurRobotCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;pathPoints, const std::unordered_map&lt; int, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;computedPaths, int robotId, double timeStep, size_t timeStepsDone)</td></tr>
+<tr class="memdesc:a4ae6694ed0965b91d22d5336d291beb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a path from the array of stored paths and checks points along the path if they are too close to where our robots are calculated to be at that point in time. Adds these points and the time to collisionDatas and collisionTimes.  <a href="classrtt_1_1BB_1_1WorldObjects.html#a4ae6694ed0965b91d22d5336d291beb4">More...</a><br /></td></tr>
+<tr class="separator:a4ae6694ed0965b91d22d5336d291beb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fa9177b94de829a8a7cce0b5d7ff4f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a3fa9177b94de829a8a7cce0b5d7ff4f3">insertCollisionData</a> (std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &amp;collisionData)</td></tr>
 <tr class="separator:a3fa9177b94de829a8a7cce0b5d7ff4f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -249,8 +249,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1c64455b744f406ab59b4837058ad16a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c64455b744f406ab59b4837058ad16a">&#9670;&nbsp;</a></span>calculateEnemyRobotCollisions()</h2>
+<a id="a892faa14b99f1b3b5a7cd6d7867ee16d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a892faa14b99f1b3b5a7cd6d7867ee16d">&#9670;&nbsp;</a></span>calculateEnemyRobotCollisions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -283,7 +283,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeStep</em>&#160;</td>
+          <td class="paramname"><em>timeStep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>timeStepsDone</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -365,8 +371,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="acbaecdaa00b2fcb057009fdc3e64f8df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbaecdaa00b2fcb057009fdc3e64f8df">&#9670;&nbsp;</a></span>calculateOurRobotCollisions()</h2>
+<a id="a4ae6694ed0965b91d22d5336d291beb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ae6694ed0965b91d22d5336d291beb4">&#9670;&nbsp;</a></span>calculateOurRobotCollisions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -405,7 +411,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeStep</em>&#160;</td>
+          <td class="paramname"><em>timeStep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>timeStepsDone</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

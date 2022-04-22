@@ -121,7 +121,7 @@ class WorldObjects {
      * @param timeStep in seconds
      */
     void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::Trajectory2D Trajectory, std::vector<CollisionData> &collisionDatas,
-                                       const std::vector<Vector2> &pathPoints, double timeStep);
+                                       const std::vector<Vector2> &pathPoints, double timeStep, size_t timeStepsDone);
 
     /**
      * @brief Takes a path from the array of stored paths and checks points along the path if they are too close to
@@ -135,7 +135,7 @@ class WorldObjects {
      * @param timeStep in seconds
      */
     void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
-                                     const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
+                                     const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep, size_t timeStepsDone);
 
     // Inserts collisionData in the vector collisionDatas such that they are ordered from lowest collisionTime to highest
     void insertCollisionData(std::vector<CollisionData> &collisionDatas, const CollisionData &collisionData);
