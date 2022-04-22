@@ -74,7 +74,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ab7e20484989a0bdae032d8eca37b7844"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab7e20484989a0bdae032d8eca37b7844">MAX_KICK_POWER</a> = 6</td></tr>
+<tr class="memitem:ab7e20484989a0bdae032d8eca37b7844"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab7e20484989a0bdae032d8eca37b7844">MAX_KICK_POWER</a> = 6.5</td></tr>
 <tr class="memdesc:ab7e20484989a0bdae032d8eca37b7844"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kick and chip constants.  <a href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab7e20484989a0bdae032d8eca37b7844">More...</a><br /></td></tr>
 <tr class="separator:ab7e20484989a0bdae032d8eca37b7844"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6255d0c226e7cce6f321bb35463b4e23"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a6255d0c226e7cce6f321bb35463b4e23">MIN_KICK_POWER</a> = 2</td></tr>
@@ -157,6 +157,8 @@ Variables</h2></td></tr>
 <tr class="separator:a2065e692775cf964b93006329a1b0b15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab81727ccf383bbcd1212b0a811a734c8"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab81727ccf383bbcd1212b0a811a734c8">DISTANCE_TO_ROBOT_NEAR</a> = 2.2 * <a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a6571c4e8f14e7dc072d17dc431f18e48">ROBOT_RADIUS</a></td></tr>
 <tr class="separator:ab81727ccf383bbcd1212b0a811a734c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f520dc4302ed5a08e93b676c8dbf20d"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a6f520dc4302ed5a08e93b676c8dbf20d">DEFENSE_AREA_AVOIDANCE_MARGIN</a> = 0.4</td></tr>
+<tr class="separator:a6f520dc4302ed5a08e93b676c8dbf20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04a3cb6fafbe1eb9b78c04122caea777"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a04a3cb6fafbe1eb9b78c04122caea777">DISTANCE_FROM_GOAL_CLOSE</a> = 2 * <a class="el" href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a6571c4e8f14e7dc072d17dc431f18e48">control_constants::ROBOT_RADIUS</a></td></tr>
 <tr class="memdesc:a04a3cb6fafbe1eb9b78c04122caea777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeper constants.  <a href="namespacertt_1_1ai_1_1stp_1_1control__constants.html#a04a3cb6fafbe1eb9b78c04122caea777">More...</a><br /></td></tr>
 <tr class="separator:a04a3cb6fafbe1eb9b78c04122caea777"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -356,6 +358,28 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">constexpr double rtt::ai::stp::control_constants::CENTER_TO_FRONT = 0.05</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f520dc4302ed5a08e93b676c8dbf20d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f520dc4302ed5a08e93b676c8dbf20d">&#9670;&nbsp;</a></span>DEFENSE_AREA_AVOIDANCE_MARGIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN = 0.4</td>
         </tr>
       </table>
   </td>
@@ -806,7 +830,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr double rtt::ai::stp::control_constants::MAX_KICK_POWER = 6</td>
+          <td class="memname">constexpr double rtt::ai::stp::control_constants::MAX_KICK_POWER = 6.5</td>
         </tr>
       </table>
   </td>

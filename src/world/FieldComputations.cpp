@@ -16,6 +16,8 @@ bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, cons
 }
 
 bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    // TODO: dont do this. Our defenders can go to our defense area, but can't be wholly within it. So, this should be factored in by having separate margins for our/their defense zone.
+    margin = 0;
     return pointIsInDefenseArea(field, point, true, margin, backMargin);
 }
 
@@ -33,7 +35,7 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
 }
 
 bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin) {
-    return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point, margin));
+    return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point));
 }
 
 bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, const std::string roleName, double margin) {
@@ -43,7 +45,7 @@ bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, cons
         return pointIsInField(field, point, 0.5);
     }
     bool isKeeper = roleName == "keeper";
-    return pointIsInField(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
+    return pointIsInField(field, point) && !pointIsInTheirDefenseArea(field, point) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
