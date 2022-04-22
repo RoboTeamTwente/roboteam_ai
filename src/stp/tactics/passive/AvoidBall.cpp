@@ -57,7 +57,8 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
         }
     }
 
-    targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, "", control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+    targetPos =
+        control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, skillStpInfo.getRoleName(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
 
     skillStpInfo.setPositionToMoveTo(targetPos);
 
