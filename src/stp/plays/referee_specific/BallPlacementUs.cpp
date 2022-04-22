@@ -42,7 +42,6 @@ void BallPlacementUs::calculateInfoForRoles() noexcept {
     if (stpInfos["ball_placer"].getRobot())
         ballTarget -= (world->getWorld()->get()->getBall()->get()->getPos() - stpInfos["ball_placer"].getRobot()->get()->getPos()).stretchToLength(control_constants::ROBOT_RADIUS);
 
-    stpInfos["ball_placer"].setPositionToShootAt(ballTarget);
     stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
 
     if (stpInfos["ball_placer"].getRobot() && stpInfos["ball_placer"].getRobot()->get()->getDistanceToBall() < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
