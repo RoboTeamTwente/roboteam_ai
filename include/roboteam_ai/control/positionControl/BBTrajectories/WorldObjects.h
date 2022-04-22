@@ -119,9 +119,10 @@ class WorldObjects {
      * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
      * @param pathPoints, std::vector with path points
      * @param timeStep in seconds
+     * @param timeStepsDone how many seconds of the trajectory is already completed by the robot
      */
     void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::Trajectory2D Trajectory, std::vector<CollisionData> &collisionDatas,
-                                       const std::vector<Vector2> &pathPoints, double timeStep);
+                                       const std::vector<Vector2> &pathPoints, double timeStep, size_t timeStepsDone);
 
     /**
      * @brief Takes a path from the array of stored paths and checks points along the path if they are too close to
@@ -133,9 +134,10 @@ class WorldObjects {
      * @param computedPaths The paths of our own robots
      * @param robotId
      * @param timeStep in seconds
+     * @param timeStepsDone how many seconds of the trajectory is already completed by the robot
      */
     void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
-                                     const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
+                                     const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep, size_t timeStepsDone);
 
     // Inserts collisionData in the vector collisionDatas such that they are ordered from lowest collisionTime to highest
     void insertCollisionData(std::vector<CollisionData> &collisionDatas, const CollisionData &collisionData);

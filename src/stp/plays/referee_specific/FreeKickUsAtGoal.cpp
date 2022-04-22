@@ -1,32 +1,26 @@
 //
-// Created by jordi on 24-03-20.
-/// TODO-Max change to take ShootAtGoal
+// Created by Floris Hoek on 22-06-21.
 //
 
-#include "stp/plays/offensive/Attack.h"
+#include "stp/plays/referee_specific/FreeKickUsAtGoal.h"
 
 #include "stp/computations/GoalComputations.h"
-#include "stp/computations/PositionScoring.h"
 #include "stp/roles/Keeper.h"
-#include "stp/roles/active/Attacker.h"
+#include "stp/roles/active/FreeKickTaker.h"
 #include "stp/roles/passive/Defender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
 
-Attack::Attack() : Play() {
+FreeKickUsAtGoal::FreeKickUsAtGoal() : Play() {
     startPlayEvaluation.clear();
-    startPlayEvaluation.emplace_back(eval::NormalPlayGameState);
-    startPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
-    startPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
+    startPlayEvaluation.emplace_back(eval::FreeKickUsGameState);
 
     keepPlayEvaluation.clear();
-    keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
-    keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
-    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
+    keepPlayEvaluation.emplace_back(eval::NormalOrFreeKickUsGameState);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(("keeper")),
-                                                                                       std::make_unique<role::Attacker>(("striker")),
+                                                                                       std::make_unique<role::FreeKickTaker>(("free_kick_taker")),
                                                                                        std::make_unique<role::Formation>(("attacker_1")),
                                                                                        std::make_unique<role::Formation>(("attacker_2")),
                                                                                        std::make_unique<role::Formation>(("midfielder_left")),
@@ -38,18 +32,18 @@ Attack::Attack() : Play() {
                                                                                        std::make_unique<role::Defender>(("defender_right"))};
 }
 
-uint8_t Attack::score(const rtt::world::Field& field) noexcept {
-    // Score the position of the ball based on the odds of scoring
-    return PositionScoring::scorePosition(world->getWorld()->getBall().value()->getPos(), gen::GoalShot, field, world).score;
+uint8_t FreeKickUsAtGoal::score(const rtt::world::Field& field) noexcept {
+    // If we are in the FreeKickUsAtGoal gameState, we always want to execute this play
+    return control_constants::FUZZY_TRUE;
 }
 
-Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
+Dealer::FlagMap FreeKickUsAtGoal::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag strikerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag freeKickTakerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {strikerFlag}}});
+    flagMap.insert({"free_kick_taker", {DealerFlagPriority::REQUIRED, {freeKickTakerFlag}}});
     flagMap.insert({"attacker_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"attacker_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -63,7 +57,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-void Attack::calculateInfoForRoles() noexcept {
+void FreeKickUsAtGoal::calculateInfoForRoles() noexcept {
     calculateInfoForAttackers();
     calculateInfoForMidfielders();
     calculateInfoForDefenders();
@@ -72,14 +66,14 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    // Striker
+    // FreeKickTaker
     auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
-    stpInfos["striker"].setPositionToShootAt(goalTarget);
-    stpInfos["striker"].setKickOrChip(KickOrChip::KICK);
-    stpInfos["striker"].setShotType(ShotType::MAX);
+    stpInfos["free_kick_taker"].setPositionToShootAt(goalTarget);
+    stpInfos["free_kick_taker"].setKickOrChip(KickOrChip::KICK);
+    stpInfos["free_kick_taker"].setShotType(ShotType::MAX);
 }
 
-void Attack::calculateInfoForDefenders() noexcept {
+void FreeKickUsAtGoal::calculateInfoForDefenders() noexcept {
     stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
 
@@ -90,7 +84,7 @@ void Attack::calculateInfoForDefenders() noexcept {
     stpInfos["defender_right"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
-void Attack::calculateInfoForMidfielders() noexcept {
+void FreeKickUsAtGoal::calculateInfoForMidfielders() noexcept {
     stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
     stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::BlockingPosition, field, world));
     stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
@@ -110,7 +104,7 @@ void Attack::calculateInfoForMidfielders() noexcept {
     }
 }
 
-void Attack::calculateInfoForAttackers() noexcept {
+void FreeKickUsAtGoal::calculateInfoForAttackers() noexcept {
     // Set the attackers to go to the part of the field where the ball is NOT (in y-direction), since that is where the striker will be
     if (world->getWorld()->getBall().value()->getPos().y > field.getFrontLeftGrid().getOffSetY()) {  // Ball is in left of field
         stpInfos["attacker_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
@@ -124,10 +118,10 @@ void Attack::calculateInfoForAttackers() noexcept {
     }
 }
 
-bool Attack::shouldEndPlay() noexcept {
-    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "attacker" && role->finished(); });
+bool FreeKickUsAtGoal::shouldEndPlay() noexcept {
+    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "free_kick_taker" && role->finished(); });
 }
 
-const char* Attack::getName() { return "Attack"; }
+const char* FreeKickUsAtGoal::getName() { return "Free Kick Us At Goal"; }
 
 }  // namespace rtt::ai::stp::play
