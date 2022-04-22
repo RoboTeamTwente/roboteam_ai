@@ -130,4 +130,15 @@ Vector2 PositionComputations::ProjectPositionIntoFieldOnLine(const rtt::world::F
 
     return position;
 }
+Vector2 PositionComputations::ProjectPositionToValidPointOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double defenseAreaMargin, double fieldMargin) {
+    auto pointProjectedInField = ProjectPositionIntoFieldOnLine(field, position, p1, p2, fieldMargin);
+    if (!FieldComputations::pointIsInField(field, pointProjectedInField, fieldMargin)){
+        pointProjectedInField = control::ControlUtils::projectPositionToWithinField(field, position, fieldMargin);
+    }
+    auto pointProjectedOutOfDefenseArea =  ProjectPositionOutsideDefenseAreaOnLine(field, pointProjectedInField, p1, p2, defenseAreaMargin);
+    if (!FieldComputations::pointIsValidPosition(field, pointProjectedOutOfDefenseArea, defenseAreaMargin)){
+        return control::ControlUtils::projectPositionToOutsideDefenseArea(field, control::ControlUtils::projectPositionToWithinField(field, pointProjectedOutOfDefenseArea, fieldMargin), defenseAreaMargin);
+    }
+    return pointProjectedOutOfDefenseArea;
+}
 }  // namespace rtt::ai::stp
