@@ -71,7 +71,6 @@ void FreeKickUsAtGoal::calculateInfoForRoles() noexcept {
     stpInfos["free_kick_taker"].setPositionToShootAt(goalTarget);
     stpInfos["free_kick_taker"].setKickOrChip(KickOrChip::KICK);
     stpInfos["free_kick_taker"].setShotType(ShotType::MAX);
-    stpInfos["free_kick_taker"].setPositionToMoveTo(Vector2());
 }
 
 void FreeKickUsAtGoal::calculateInfoForDefenders() noexcept {
@@ -120,9 +119,8 @@ void FreeKickUsAtGoal::calculateInfoForAttackers() noexcept {
 }
 
 bool FreeKickUsAtGoal::shouldEndPlay() noexcept {
-    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {
-        return role != nullptr && role->getName() == "free_kick_taker" && strcmp(role->getCurrentTactic()->getName(), "Formation") == 0;
-    });}
+    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "free_kick_taker" && role->finished(); });
+}
 
 const char* FreeKickUsAtGoal::getName() { return "Free Kick Us At Goal"; }
 
