@@ -10,6 +10,7 @@
 #include <roboteam_utils/Circle.h>
 #include <roboteam_utils/Tube.h>
 
+#include "stp/computations/PositionComputations.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"
 #include "utilities/GameStateManager.hpp"
@@ -24,6 +25,9 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
 
     if (!skillStpInfo.getBall() || !skillStpInfo.getRobot()) return std::nullopt;
     if (!skillStpInfo.getPositionToMoveTo()) skillStpInfo.setPositionToMoveTo(info.getRobot()->get()->getPos());
+    skillStpInfo.setDribblerSpeed(0);
+
+    Vector2 targetPos = skillStpInfo.getPositionToMoveTo().value();
 
     // If gameState == stop we need to avoid using a circle around the ball
     if (std::strcmp(currentGameState.c_str(), "stop") == 0) {
@@ -35,7 +39,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
 
         // If position is within the avoidCircle, project the position on this circle
         if (avoidCircle.doesIntersectOrContain(targetPosition)) {
-            skillStpInfo.setPositionToMoveTo(avoidCircle.project(targetPosition));
+            targetPos = avoidCircle.project(targetPosition);
         }
     }
 
@@ -49,11 +53,13 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
 
         // If position is within the avoidTube, project the position on this tube
         if (avoidTube.contains(targetPosition)) {
-            skillStpInfo.setPositionToMoveTo(avoidTube.project(targetPosition));
+            targetPos = avoidTube.project(targetPosition);
         }
     }
-    skillStpInfo.setAngle(0.00001);
-    skillStpInfo.setDribblerSpeed(0);
+
+    targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, "", control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+
+    skillStpInfo.setPositionToMoveTo(targetPos);
 
     return skillStpInfo;
 }

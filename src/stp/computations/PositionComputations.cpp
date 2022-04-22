@@ -19,7 +19,7 @@ gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2
     (currentPosition.has_value()) ? bestPosition = PositionScoring::scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0, 0}, 0};
     for (const auto &nestedPoints : searchGrid.getPoints()) {
         for (const Vector2 &position : nestedPoints) {
-            if (!FieldComputations::pointIsValidPosition(field, position)) continue;
+            if (!FieldComputations::pointIsValidPosition(field, position, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) continue;
             gen::ScoredPosition consideredPosition = PositionScoring::scorePosition(position, profile, field, world);
             if (consideredPosition.score > bestPosition.score) bestPosition = consideredPosition;
         }
@@ -129,5 +129,16 @@ Vector2 PositionComputations::ProjectPositionIntoFieldOnLine(const rtt::world::F
     }
 
     return position;
+}
+Vector2 PositionComputations::ProjectPositionToValidPointOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double defenseAreaMargin, double fieldMargin) {
+    auto pointProjectedInField = ProjectPositionIntoFieldOnLine(field, position, p1, p2, fieldMargin);
+    if (!FieldComputations::pointIsInField(field, pointProjectedInField, fieldMargin)){
+        pointProjectedInField = control::ControlUtils::projectPositionToWithinField(field, position, fieldMargin);
+    }
+    auto pointProjectedOutOfDefenseArea =  ProjectPositionOutsideDefenseAreaOnLine(field, pointProjectedInField, p1, p2, defenseAreaMargin);
+    if (!FieldComputations::pointIsValidPosition(field, pointProjectedOutOfDefenseArea, defenseAreaMargin)){
+        return control::ControlUtils::projectPositionToOutsideDefenseArea(field, control::ControlUtils::projectPositionToWithinField(field, pointProjectedOutOfDefenseArea, fieldMargin), defenseAreaMargin);
+    }
+    return pointProjectedOutOfDefenseArea;
 }
 }  // namespace rtt::ai::stp

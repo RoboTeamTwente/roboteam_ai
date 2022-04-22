@@ -106,7 +106,7 @@ Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const rtt::world::Fiel
 
 Vector2 ControlUtils::projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, const std::string roleName, double margin) {
     if (!FieldComputations::pointIsInField(field, position)) {
-        position = projectPositionToWithinField(field, position, margin);
+        position = projectPositionToWithinField(field, position, 0);
     }
     bool isKeeper = roleName == "keeper";
     if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin, margin) ||
