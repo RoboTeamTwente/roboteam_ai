@@ -109,6 +109,7 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallPlacer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/FreeKickTaker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PassReceiver.cpp
         # passive
