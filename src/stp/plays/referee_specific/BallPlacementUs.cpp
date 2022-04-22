@@ -41,11 +41,7 @@ void BallPlacementUs::calculateInfoForRoles() noexcept {
 
     // Adjust placement position to be one robot radius away in the distance of movement
     if (stpInfos["ball_placer"].getRobot()) {
-//        if (!FieldComputations::pointIsInField(field, world->getWorld()->get()->getBall()->get()->getPos())) {
-//            ballTarget = world->getWorld()->get()->getBall()->get()->getPos() - stpInfos["ball_placer"].getRobot()->get()->getPos();
-//        } else {
-            ballTarget -= (world->getWorld()->get()->getBall()->get()->getPos() - stpInfos["ball_placer"].getRobot()->get()->getPos()).stretchToLength(control_constants::ROBOT_RADIUS);
-//        }
+        ballTarget -= (world->getWorld()->get()->getBall()->get()->getPos() - stpInfos["ball_placer"].getRobot()->get()->getPos()).stretchToLength(control_constants::ROBOT_RADIUS);
     }
 
     stpInfos["ball_placer"].setPositionToShootAt(ballTarget);

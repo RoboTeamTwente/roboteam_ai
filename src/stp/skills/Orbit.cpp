@@ -32,7 +32,7 @@ Status Orbit::onUpdate(const StpInfo &info) noexcept {
     if (maxVel < 0.65) maxVel = 0.65;
     if (targetVelocity.length() > maxVel) targetVelocity = targetVelocity.stretchToLength(maxVel);
 
-    command.velocity = targetVelocity*0.5;
+    command.velocity = targetVelocity * 0.5;
 
     command.targetAngle = targetAngle;
 

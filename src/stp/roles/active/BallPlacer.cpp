@@ -7,12 +7,11 @@
 
 #include <roboteam_utils/Print.h>
 
+#include "stp/tactics/GetBehindBallInDirection.h"
 #include "stp/tactics/active/DriveWithBall.h"
 #include "stp/tactics/active/GetBall.h"
 #include "stp/tactics/passive/AvoidBall.h"
-#include "stp/tactics/GetBehindBallInDirection.h"
 #include "world/FieldComputations.h"
-
 
 namespace rtt::ai::stp::role {
 
@@ -22,16 +21,16 @@ BallPlacer::BallPlacer(std::string name) : Role(std::move(name)) {
 }
 
 Status BallPlacer::update(StpInfo const& info) noexcept {
-
     // Failure if the required data is not present
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
         RTT_WARNING("Required information missing in the tactic info for ", roleName)
         return Status::Failure;
     }
 
-    if(!FieldComputations::pointIsInField(info.getField().value(), info.getBall().value()->getPos()) && robotTactics.current_num() == 0){
+    if (!FieldComputations::pointIsInField(info.getField().value(), info.getBall().value()->getPos()) && robotTactics.current_num() == 0) {
         forceNextTactic();
     }
+
     currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
     auto status = robotTactics.update(info);
