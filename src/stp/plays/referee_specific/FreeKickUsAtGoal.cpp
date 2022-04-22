@@ -2,7 +2,7 @@
 // Created by Floris Hoek on 22-06-21.
 //
 
-#include "stp/plays/referee_specific/FreeKickUs.h"
+#include "stp/plays/referee_specific/FreeKickUsAtGoal.h"
 
 #include "stp/computations/GoalComputations.h"
 #include "stp/roles/Keeper.h"
@@ -12,7 +12,7 @@
 
 namespace rtt::ai::stp::play {
 
-FreeKickUs::FreeKickUs() : Play() {
+FreeKickUsAtGoal::FreeKickUsAtGoal() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(eval::FreeKickUsGameState);
 
@@ -32,12 +32,12 @@ FreeKickUs::FreeKickUs() : Play() {
                                                                                        std::make_unique<role::Defender>(("defender_right"))};
 }
 
-uint8_t FreeKickUs::score(const rtt::world::Field& field) noexcept {
-    // If we are in the FreeKickUs gameState, we always want to execute this play
+uint8_t FreeKickUsAtGoal::score(const rtt::world::Field& field) noexcept {
+    // If we are in the FreeKickUsAtGoal gameState, we always want to execute this play
     return control_constants::FUZZY_TRUE;
 }
 
-Dealer::FlagMap FreeKickUs::decideRoleFlags() const noexcept {
+Dealer::FlagMap FreeKickUsAtGoal::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag freeKickTakerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
@@ -57,7 +57,7 @@ Dealer::FlagMap FreeKickUs::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-void FreeKickUs::calculateInfoForRoles() noexcept {
+void FreeKickUsAtGoal::calculateInfoForRoles() noexcept {
     calculateInfoForAttackers();
     calculateInfoForMidfielders();
     calculateInfoForDefenders();
@@ -73,7 +73,7 @@ void FreeKickUs::calculateInfoForRoles() noexcept {
     stpInfos["free_kick_taker"].setShotType(ShotType::MAX);
 }
 
-void FreeKickUs::calculateInfoForDefenders() noexcept {
+void FreeKickUsAtGoal::calculateInfoForDefenders() noexcept {
     stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
 
@@ -84,7 +84,7 @@ void FreeKickUs::calculateInfoForDefenders() noexcept {
     stpInfos["defender_right"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
-void FreeKickUs::calculateInfoForMidfielders() noexcept {
+void FreeKickUsAtGoal::calculateInfoForMidfielders() noexcept {
     stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
     stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::BlockingPosition, field, world));
     stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
@@ -104,7 +104,7 @@ void FreeKickUs::calculateInfoForMidfielders() noexcept {
     }
 }
 
-void FreeKickUs::calculateInfoForAttackers() noexcept {
+void FreeKickUsAtGoal::calculateInfoForAttackers() noexcept {
     // Set the attackers to go to the part of the field where the ball is NOT (in y-direction), since that is where the striker will be
     if (world->getWorld()->getBall().value()->getPos().y > field.getFrontLeftGrid().getOffSetY()) {  // Ball is in left of field
         stpInfos["attacker_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
@@ -118,10 +118,10 @@ void FreeKickUs::calculateInfoForAttackers() noexcept {
     }
 }
 
-bool FreeKickUs::shouldEndPlay() noexcept {
+bool FreeKickUsAtGoal::shouldEndPlay() noexcept {
     return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "free_kick_taker" && role->finished(); });
 }
 
-const char* FreeKickUs::getName() { return "Free Kick Us"; }
+const char* FreeKickUsAtGoal::getName() { return "Free Kick Us At Goal"; }
 
 }  // namespace rtt::ai::stp::play

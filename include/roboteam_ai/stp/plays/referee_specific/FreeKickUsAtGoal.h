@@ -2,19 +2,19 @@
 // Created by jordi on 24-03-20.
 //
 
-#ifndef RTT_FREEKICKUS_H
-#define RTT_FREEKICKUS_H
+#ifndef RTT_FREEKICKUSATGOAL_H
+#define RTT_FREEKICKUSATGOAL_H
 
 #include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
-class FreeKickUs : public Play {
+class FreeKickUsAtGoal : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    FreeKickUs();
+    FreeKickUsAtGoal();
 
     /**
      * Calculates the score of this play to determine which play is best in this situation
@@ -66,4 +66,4 @@ class FreeKickUs : public Play {
 
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_FREEKICKUS_H
+#endif  // RTT_FREEKICKUSATGOAL_H
