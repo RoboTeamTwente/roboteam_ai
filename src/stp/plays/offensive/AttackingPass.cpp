@@ -89,8 +89,8 @@ void AttackingPass::calculateInfoForRoles() noexcept {
         auto ball = world->getWorld()->getBall()->get();
         auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
         auto receiverLocation = ballTrajectory.project(passInfo.passLocation);
-        receiverLocation = PositionComputations::ProjectPositionToValidPointOnLine(field, receiverLocation, ballTrajectory.start, ballTrajectory.end,
-                                                                                   control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN, -2 * control_constants::ROBOT_RADIUS);
+        receiverLocation =
+            PositionComputations::ProjectPositionIntoFieldOnLine(field, receiverLocation, ballTrajectory.start, ballTrajectory.end, -2 * control_constants::ROBOT_RADIUS);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 
         // Passer now goes to a front grid, where the receiver is not

@@ -21,11 +21,11 @@ std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noe
     auto targetPosition = calculateTargetPosition(info.getBall().value(), defendPos, info.getBlockDistance());
 
     // Minimum distance from the defense area
-    auto margin = control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN;
+    auto margin = 2.5 * control_constants::ROBOT_RADIUS;
 
     // Project the target position outside the defense area if it is in it (within the margin)
-    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPosition, info.getRoleName(), margin)) {
-        targetPosition = PositionComputations::ProjectPositionToValidPointOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos(), margin, 0);
+    if (FieldComputations::pointIsInDefenseArea(info.getField().value(), targetPosition, margin)) {
+        targetPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos(), margin);
     }
 
     skillStpInfo.setPositionToMoveTo(targetPosition);

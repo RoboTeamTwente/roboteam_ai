@@ -8,7 +8,7 @@
 
 namespace rtt::ai::stp::control_constants {
 /// Kick and chip constants
-constexpr double MAX_KICK_POWER = 6.5;
+constexpr double MAX_KICK_POWER = 6;
 constexpr double MIN_KICK_POWER = 2;
 constexpr double MAX_POWER_KICK_DISTANCE = 8;
 constexpr double MAX_POWER_CHIP_DISTANCE = 9;
@@ -71,7 +71,6 @@ constexpr double DISTANCE_TO_ROBOT_CLOSE = ROBOT_RADIUS;
 constexpr double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS;
 constexpr double ROBOT_CLOSE_TO_POINT = 0.2;
 constexpr double DISTANCE_TO_ROBOT_NEAR = 2.2 * ROBOT_RADIUS;
-constexpr double DEFENSE_AREA_AVOIDANCE_MARGIN = 0.4;
 
 /// Keeper constants
 constexpr double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;

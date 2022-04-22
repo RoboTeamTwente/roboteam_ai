@@ -40,7 +40,7 @@ void KickOffThemPrepare::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    double defense_line_x = field.getLeftPenaltyX() + control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN;
+    double defense_line_x = field.getLeftPenaltyX() + 0.15;
     // regular bots
     stpInfos["formation_0"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
     stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));

@@ -24,21 +24,17 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
     Vector2 ballPosition = skillStpInfo.getBall().value()->getPos();
     double ballDistance = (ballPosition - robotPosition).length();
 
+    // If this robot is not the keeper, don't get the ball inside a defense area
+    if (info.getRoleName() != "keeper" && info.getRoleName() != "ball_placer" && FieldComputations::pointIsInDefenseArea(info.getField().value(), ballPosition)) {
+        ballPosition = control::ControlUtils::projectPositionToOutsideDefenseArea(info.getField().value(), ballPosition, control_constants::AVOID_BALL_DISTANCE);
+    }
+
     if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
         // don't move too close to the ball until the angle to the ball is (roughly) correct
-        auto targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), info.getRobot()->get()->getPos(), info.getRoleName(),
-                                                                            control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
-        skillStpInfo.setPositionToMoveTo(targetPos);
+        skillStpInfo.setPositionToMoveTo(skillStpInfo.getRobot()->get()->getPos());
     } else {
         // the robot will go to the position of the ball
         Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - control_constants::CENTER_TO_FRONT + 0.035);
-
-        // Don't get the ball at an invalid position
-        if (!FieldComputations::pointIsValidPosition(info.getField().value(), newRobotPosition, info.getRoleName(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) {
-            newRobotPosition =
-                control::ControlUtils::projectPointToValidPosition(info.getField().value(), newRobotPosition, info.getRoleName(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
-        }
-
         skillStpInfo.setPositionToMoveTo(newRobotPosition);
     }
 
