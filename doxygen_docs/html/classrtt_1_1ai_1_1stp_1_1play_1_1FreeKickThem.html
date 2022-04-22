@@ -157,12 +157,12 @@ Protected Attributes</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:afcb65a4182ba353d614507f4816c72c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#afcb65a4182ba353d614507f4816c72c4">calculateInfoForKeeper</a> () noexcept</td></tr>
 <tr class="separator:afcb65a4182ba353d614507f4816c72c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2d6556ace913ee04a9274c913acd28a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#ab2d6556ace913ee04a9274c913acd28a">calculateInfoForBlockers</a> () noexcept</td></tr>
+<tr class="separator:ab2d6556ace913ee04a9274c913acd28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c2344156226719fbd4c22b0425260b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a2c2344156226719fbd4c22b0425260b7">calculateInfoForDefenders</a> () noexcept</td></tr>
 <tr class="separator:a2c2344156226719fbd4c22b0425260b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b8b04002aabeb3f30ff3cb6e8a0e056"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a5b8b04002aabeb3f30ff3cb6e8a0e056">calculateInfoForOffenders</a> () noexcept</td></tr>
 <tr class="separator:a5b8b04002aabeb3f30ff3cb6e8a0e056"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5346e13d09b394e789541ba3298e77f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a5346e13d09b394e789541ba3298e77f2">calculateInfoForHarassers</a> () noexcept</td></tr>
-<tr class="separator:a5346e13d09b394e789541ba3298e77f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b71d56f8b8d8d62b7ec945847a2bec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#ad7b71d56f8b8d8d62b7ec945847a2bec">refreshData</a> () noexcept</td></tr>
 <tr class="separator:ad7b71d56f8b8d8d62b7ec945847a2bec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977b3063d4d26bee4be08d71c2ab7ccc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a977b3063d4d26bee4be08d71c2ab7ccc">distributeRoles</a> () noexcept</td></tr>
@@ -193,10 +193,37 @@ Private Attributes</h2></td></tr>
 <p>Constructor that initializes roles with roles that are necessary for this play </p>
 <p>Evaluations that have to be true to be considered when changing plays.</p>
 <p>Evaluations that have to be true to allow the play to continue, otherwise the play will change. Plays can also end using the <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">shouldEndPlay()</a>.</p>
+<p><a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html">Role</a> creation, the names should be unique. The names are used in the stpInfos-map.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab2d6556ace913ee04a9274c913acd28a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2d6556ace913ee04a9274c913acd28a">&#9670;&nbsp;</a></span>calculateInfoForBlockers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::stp::play::FreeKickThem::calculateInfoForBlockers </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Calculates info the the blockers, which block off enemy robots </p>
+
+</div>
+</div>
 <a id="a2c2344156226719fbd4c22b0425260b7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c2344156226719fbd4c22b0425260b7">&#9670;&nbsp;</a></span>calculateInfoForDefenders()</h2>
 
@@ -220,32 +247,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Calculates info for the defenders, which defend the goal </p>
-
-</div>
-</div>
-<a id="a5346e13d09b394e789541ba3298e77f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5346e13d09b394e789541ba3298e77f2">&#9670;&nbsp;</a></span>calculateInfoForHarassers()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rtt::ai::stp::play::FreeKickThem::calculateInfoForHarassers </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Calculates info for the harassers </p>
 
 </div>
 </div>
@@ -324,6 +325,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Calculates info for the roles </p>
+<p>Function where are roles get their information, make sure not to compute roles twice.</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a1bff3910044942d4910c9551a7fc3ce1">rtt::ai::stp::Play</a>.</p>
 
@@ -381,6 +383,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Assigns robots to roles of this play </p>
+<p>Flags that have a factor and a weight linked to it, can be given to a role</p>
+<p>Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a85061f4ffd6e1cf9b1b1ac99ae6db082">rtt::ai::stp::Play</a>.</p>
 

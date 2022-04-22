@@ -76,7 +76,7 @@ void STPManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickUsAtGoal>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
