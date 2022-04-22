@@ -56,6 +56,8 @@ class MainWindow : public QMainWindow {
     void updatePlay(stp::Play *play);
     void updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket>& packets);
 
+    Visualizer *getVisualizer();
+
    signals:
     void updateStpWidgets();
 

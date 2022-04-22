@@ -19,7 +19,7 @@ gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2
     (currentPosition.has_value()) ? bestPosition = PositionScoring::scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0, 0}, 0};
     for (const auto &nestedPoints : searchGrid.getPoints()) {
         for (const Vector2 &position : nestedPoints) {
-            if (!FieldComputations::pointIsValidPosition(field, position, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) continue;
+            if (!FieldComputations::pointIsValidPosition(field, position)) continue;
             gen::ScoredPosition consideredPosition = PositionScoring::scorePosition(position, profile, field, world);
             if (consideredPosition.score > bestPosition.score) bestPosition = consideredPosition;
         }

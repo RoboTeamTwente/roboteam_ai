@@ -12,9 +12,9 @@ namespace rtt::ai::stp::skill {
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
-    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) {
+    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getRoleName())) {
         RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
-        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+        targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
 
     bool useOldPathPlanning = false;
