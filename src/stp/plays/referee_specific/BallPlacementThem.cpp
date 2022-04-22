@@ -16,17 +16,13 @@ BallPlacementThem::BallPlacementThem() : Play() {
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(eval::BallPlacementThemGameState);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_0")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_2")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_3")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_7")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_8")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_0")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_2")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_3")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_7")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_8")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9"))};
 }
 
 uint8_t BallPlacementThem::score(const rtt::world::Field& field) noexcept {
@@ -35,29 +31,13 @@ uint8_t BallPlacementThem::score(const rtt::world::Field& field) noexcept {
     return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
-void BallPlacementThem::calculateInfoForRoles() noexcept {
-    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-
-    auto length = field.getFieldLength();
-    auto width = field.getFieldWidth();
-
-    stpInfos["ball_avoider_0"].setPositionToMoveTo(Vector2{-length / 5, -width / 3});
-    stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-length / 5, width / 3});
-    stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-length / 5, width / 6});
-    stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{--length / 5, -width / 6});
-    stpInfos["ball_avoider_4"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
-    stpInfos["ball_avoider_5"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
-    stpInfos["ball_avoider_6"].setPositionToMoveTo(Vector2{--length / 9, width / 4});
-    stpInfos["ball_avoider_7"].setPositionToMoveTo(Vector2{length / 4, 0.0});
-    stpInfos["ball_avoider_8"].setPositionToMoveTo(Vector2{length / 4, width / 4});
-    stpInfos["ball_avoider_9"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
-}
+void BallPlacementThem::calculateInfoForRoles() noexcept {}
 
 Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
     flagMap.insert({"ball_avoider_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"ball_avoider_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"ball_avoider_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
