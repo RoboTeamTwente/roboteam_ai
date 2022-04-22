@@ -16,6 +16,8 @@ bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, cons
 }
 
 bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    // TODO: dont do this. Our defenders can go to our defense area, but can't be wholly within it. So, this should be factored in by having separate margins for our/their defense zone.
+    margin = 0;
     return pointIsInDefenseArea(field, point, true, margin, backMargin);
 }
 
