@@ -31,6 +31,7 @@
 #include "stp/plays/referee_specific/BallPlacementUs.h"
 #include "stp/plays/referee_specific/DefensiveStopFormation.h"
 #include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/plays/referee_specific/FreeKickUsAtGoal.h"
 #include "stp/plays/referee_specific/Halt.h"
 #include "stp/plays/referee_specific/KickOffThem.h"
 #include "stp/plays/referee_specific/KickOffThemPrepare.h"
@@ -76,6 +77,7 @@ void STPManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickUsAtGoal>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
