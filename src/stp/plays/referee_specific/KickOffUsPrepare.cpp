@@ -55,7 +55,7 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();
 
     // Defenders
-    double defense_line_x = field.getLeftPenaltyX() + 0.15;
+    double defense_line_x = field.getLeftPenaltyX() + control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN;
     stpInfos["defender_left"].setPositionToMoveTo(Vector2(defense_line_x, width / 5));
     stpInfos["defender_mid"].setPositionToMoveTo(Vector2(defense_line_x, 0.0));
     stpInfos["defender_right"].setPositionToMoveTo(Vector2(defense_line_x, -width / 5));
