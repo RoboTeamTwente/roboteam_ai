@@ -12,12 +12,14 @@ var searchData=
   ['formation_2eh_2600',['Formation.h',['../roles_2passive_2Formation_8h.html',1,'(Global Namespace)'],['../tactics_2passive_2Formation_8h.html',1,'(Global Namespace)']]],
   ['freedomofrobotsglobalevaluation_2ecpp_2601',['FreedomOfRobotsGlobalEvaluation.cpp',['../FreedomOfRobotsGlobalEvaluation_8cpp.html',1,'']]],
   ['freedomofrobotsglobalevaluation_2eh_2602',['FreedomOfRobotsGlobalEvaluation.h',['../FreedomOfRobotsGlobalEvaluation_8h.html',1,'']]],
-  ['freekickthem_2ecpp_2603',['FreeKickThem.cpp',['../FreeKickThem_8cpp.html',1,'']]],
-  ['freekickthem_2eh_2604',['FreeKickThem.h',['../FreeKickThem_8h.html',1,'']]],
-  ['freekickthemgamestateevaluation_2ecpp_2605',['FreeKickThemGameStateEvaluation.cpp',['../FreeKickThemGameStateEvaluation_8cpp.html',1,'']]],
-  ['freekickthemgamestateevaluation_2eh_2606',['FreeKickThemGameStateEvaluation.h',['../FreeKickThemGameStateEvaluation_8h.html',1,'']]],
-  ['freekickus_2ecpp_2607',['FreeKickUs.cpp',['../FreeKickUs_8cpp.html',1,'']]],
-  ['freekickus_2eh_2608',['FreeKickUs.h',['../FreeKickUs_8h.html',1,'']]],
-  ['freekickusgamestateevaluation_2ecpp_2609',['FreeKickUsGameStateEvaluation.cpp',['../FreeKickUsGameStateEvaluation_8cpp.html',1,'']]],
-  ['freekickusgamestateevaluation_2eh_2610',['FreeKickUsGameStateEvaluation.h',['../FreeKickUsGameStateEvaluation_8h.html',1,'']]]
+  ['freekicktaker_2ecpp_2603',['FreeKickTaker.cpp',['../FreeKickTaker_8cpp.html',1,'']]],
+  ['freekicktaker_2eh_2604',['FreeKickTaker.h',['../FreeKickTaker_8h.html',1,'']]],
+  ['freekickthem_2ecpp_2605',['FreeKickThem.cpp',['../FreeKickThem_8cpp.html',1,'']]],
+  ['freekickthem_2eh_2606',['FreeKickThem.h',['../FreeKickThem_8h.html',1,'']]],
+  ['freekickthemgamestateevaluation_2ecpp_2607',['FreeKickThemGameStateEvaluation.cpp',['../FreeKickThemGameStateEvaluation_8cpp.html',1,'']]],
+  ['freekickthemgamestateevaluation_2eh_2608',['FreeKickThemGameStateEvaluation.h',['../FreeKickThemGameStateEvaluation_8h.html',1,'']]],
+  ['freekickusatgoal_2ecpp_2609',['FreeKickUsAtGoal.cpp',['../FreeKickUsAtGoal_8cpp.html',1,'']]],
+  ['freekickusatgoal_2eh_2610',['FreeKickUsAtGoal.h',['../FreeKickUsAtGoal_8h.html',1,'']]],
+  ['freekickusgamestateevaluation_2ecpp_2611',['FreeKickUsGameStateEvaluation.cpp',['../FreeKickUsGameStateEvaluation_8cpp.html',1,'']]],
+  ['freekickusgamestateevaluation_2eh_2612',['FreeKickUsGameStateEvaluation.h',['../FreeKickUsGameStateEvaluation_8h.html',1,'']]]
 ];
