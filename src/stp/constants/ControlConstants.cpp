@@ -77,5 +77,5 @@ constexpr double DEFENSE_AREA_AVOIDANCE_MARGIN = 0.4;
 constexpr double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
 
 /// GameState constants
-constexpr double AVOID_BALL_DISTANCE = 0.6;
+constexpr double AVOID_BALL_DISTANCE = 0.8;
 }  // namespace rtt::ai::stp::control_constants
