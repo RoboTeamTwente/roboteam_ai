@@ -34,9 +34,29 @@ class FreeKickUs : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Calculates info for the defenders
+     */
+    void calculateInfoForDefenders() noexcept;
+
+    /**
+     * Calculates info for the midfielders
+     */
+    void calculateInfoForMidfielders() noexcept;
+
+    /**
+     * Calculates info for the attackers
+     */
+    void calculateInfoForAttackers() noexcept;
+
+    /**
      * Calculate info for the roles that need to be calculated for scoring
      */
     void calculateInfoForScoredRoles(world::World*) noexcept override{};
+
+    /**
+     * Check if play should end. True when the free kick taker has kicked the ball
+     */
+    bool shouldEndPlay() noexcept override;
 
     /**
      * Gets the play name
