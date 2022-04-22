@@ -83,15 +83,20 @@ $(function() {
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html">BallPlacer</a> : <span class="keyword">public</span> <a class="code" href="classrtt_1_1ai_1_1stp_1_1Role.html">Role</a> {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;   <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html#a5be4bc6e61b5cdfc3c128ef86d1d52d4">BallPlacer</a>(std::string name);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;};</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}  <span class="comment">// namespace rtt::ai::stp::role</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// RTT_BALLPLACER_H</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    [[nodiscard]] <a class="code" href="namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3">Status</a> <a class="code" href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html#ab2af52c8b689b481374616da7a598670">update</a>(<a class="code" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> <span class="keyword">const</span>&amp; info) noexcept <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;};</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}  <span class="comment">// namespace rtt::ai::stp::role</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// RTT_BALLPLACER_H</span></div>
 <div class="ttc" id="aRole_8hpp_html"><div class="ttname"><a href="Role_8hpp.html">Role.hpp</a></div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1stp_1_1Role_html"><div class="ttname"><a href="classrtt_1_1ai_1_1stp_1_1Role.html">rtt::ai::stp::Role</a></div><div class="ttdef"><b>Definition:</b> Role.hpp:18</div></div>
 <div class="ttc" id="aclassrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer_html"><div class="ttname"><a href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html">rtt::ai::stp::role::BallPlacer</a></div><div class="ttdef"><b>Definition:</b> BallPlacer.h:12</div></div>
-<div class="ttc" id="aclassrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer_html_a5be4bc6e61b5cdfc3c128ef86d1d52d4"><div class="ttname"><a href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html#a5be4bc6e61b5cdfc3c128ef86d1d52d4">rtt::ai::stp::role::BallPlacer::BallPlacer</a></div><div class="ttdeci">BallPlacer(std::string name)</div><div class="ttdef"><b>Definition:</b> BallPlacer.cpp:14</div></div>
+<div class="ttc" id="aclassrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer_html_a5be4bc6e61b5cdfc3c128ef86d1d52d4"><div class="ttname"><a href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html#a5be4bc6e61b5cdfc3c128ef86d1d52d4">rtt::ai::stp::role::BallPlacer::BallPlacer</a></div><div class="ttdeci">BallPlacer(std::string name)</div><div class="ttdef"><b>Definition:</b> BallPlacer.cpp:18</div></div>
+<div class="ttc" id="aclassrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer_html_ab2af52c8b689b481374616da7a598670"><div class="ttname"><a href="classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html#ab2af52c8b689b481374616da7a598670">rtt::ai::stp::role::BallPlacer::update</a></div><div class="ttdeci">Status update(StpInfo const &amp;info) noexcept override</div><div class="ttdef"><b>Definition:</b> BallPlacer.cpp:23</div></div>
 <div class="ttc" id="anamespacertt_1_1ai_1_1stp_1_1role_html"><div class="ttname"><a href="namespacertt_1_1ai_1_1stp_1_1role.html">rtt::ai::stp::role</a></div><div class="ttdoc">TODO-Max change to ShooterGoal.</div><div class="ttdef"><b>Definition:</b> Attacker.h:10</div></div>
+<div class="ttc" id="anamespacertt_1_1ai_1_1stp_html_a3055c554f88c993b2e023c90717631d3"><div class="ttname"><a href="namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3">rtt::ai::stp::Status</a></div><div class="ttdeci">Status</div><div class="ttdef"><b>Definition:</b> StpInfoEnums.h:32</div></div>
+<div class="ttc" id="astructrtt_1_1ai_1_1stp_1_1StpInfo_html"><div class="ttname"><a href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">rtt::ai::stp::StpInfo</a></div><div class="ttdef"><b>Definition:</b> StpInfo.h:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
