@@ -25,7 +25,6 @@ std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::W
 
     size_t timeStepsDone;
     computedPaths.contains(robotId) && pathPoints.size() > computedPaths.at(robotId).size() ? timeStepsDone = pathPoints.size() - computedPaths.at(robotId).size() : timeStepsDone = 0;
-    if(robotId == 0) { RTT_DEBUG("TimeStepsDone:", timeStepsDone, " patPoints.size():", pathPoints.size()); }
 
     std::vector<CollisionData> collisionDatas;
 
