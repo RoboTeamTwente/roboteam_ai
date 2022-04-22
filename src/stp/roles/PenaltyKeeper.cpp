@@ -27,7 +27,7 @@ namespace rtt::ai::stp::role {
 
 PenaltyKeeper::PenaltyKeeper(std::string name) : Keeper(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Formation(), tactic::KeeperBlockBall()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Formation(), tactic::KeeperBlockBall(), tactic::GetBall(), tactic::KickAtPos()};
 }
 
 Status PenaltyKeeper::update(StpInfo const& info) noexcept {
@@ -37,8 +37,16 @@ Status PenaltyKeeper::update(StpInfo const& info) noexcept {
         return Status::Failure;
     }
 
+    bool stopBlockBall = isBallInOurDefenseAreaAndStill(info.getField().value(), info.getBall().value()->getPos(), info.getBall().value()->getVelocity());
+
     // Stop Formation tactic when ball is moving, start blocking, getting the ball and pass (normal keeper behavior)
     if (robotTactics.current_num() == 0 && info.getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) forceNextTactic();
+
+    // stop block tactic when the ball is still in our defense area, then get ball and pass
+    if (robotTactics.current_num() == 1 && stopBlockBall) forceNextTactic();
+
+    // when the robot has the ball, blocking has stopped, go pass the ball
+    if (robotTactics.current_num() == 2 && info.getRobot().value().hasBall(0.09, 0.2) && stopBlockBall) forceNextTactic();
 
     currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
