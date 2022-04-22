@@ -29,3 +29,16 @@ TEST_F(RTT_AI_Tests, KeeperKickBallTest) {
     // The ball is in the defense area and still, so we should do the Keeper Kick Ball play
     EXPECT_EQ(strcmp(bestPlay->getName(), "Keeper Kick Ball"), 0);
 }
+
+TEST_F(RTT_AI_Tests, scoringTest) {
+    world = generateWorld();
+    auto bestPlay = rtt::ai::stp::PlayDecider::decideBestPlay(world, plays);
+
+    uint8_t bestScore = 0;
+    for (auto& play : plays) {
+        auto score = play->isValidPlayToStart() ? play->score(world->getField().value()) : 0;
+        if (score > bestScore) bestScore = score;
+    }
+
+    EXPECT_EQ(bestScore, bestPlay->score(world->getField().value()));
+}
