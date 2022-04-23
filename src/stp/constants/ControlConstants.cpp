@@ -50,7 +50,7 @@ constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.10;
 // Distance margin robot to ball. Within this margin, the robot has the ball
 /// WHEN IN GRSIM, this is not used, as using feedback is a more accurate. If using this, set distance to 0.12
 /// WHEN IRL, CHANGE HAS_BALL_DISTANCE_ERROR_MARGIN TO 0.10
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.10;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.12;
 
 /// GTP Constants
 // Distance margin for 'goToPos'. If the robot is within this margin, goToPos is successful
