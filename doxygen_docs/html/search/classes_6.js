@@ -12,5 +12,6 @@ var searchData=
   ['freekickthem_2319',['FreeKickThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html',1,'rtt::ai::stp::play']]],
   ['freekickthemgamestateevaluation_2320',['FreeKickThemGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickThemGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
   ['freekickusatgoal_2321',['FreeKickUsAtGoal',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html',1,'rtt::ai::stp::play']]],
-  ['freekickusgamestateevaluation_2322',['FreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]]
+  ['freekickusgamestateevaluation_2322',['FreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['freekickuspass_2323',['FreeKickUsPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html',1,'rtt::ai::stp::play']]]
 ];
