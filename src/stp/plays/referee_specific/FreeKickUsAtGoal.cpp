@@ -5,6 +5,7 @@
 #include "stp/plays/referee_specific/FreeKickUsAtGoal.h"
 
 #include "stp/computations/GoalComputations.h"
+#include "stp/computations/PositionScoring.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/FreeKickTaker.h"
 #include "stp/roles/passive/Defender.h"
@@ -34,7 +35,7 @@ FreeKickUsAtGoal::FreeKickUsAtGoal() : Play() {
 
 uint8_t FreeKickUsAtGoal::score(const rtt::world::Field& field) noexcept {
     // If we are in the FreeKickUsAtGoal gameState, we always want to execute this play
-    return control_constants::FUZZY_TRUE;
+    return PositionScoring::scorePosition(world->getWorld()->getBall().value()->getPos(), gen::GoalShot, field, world).score;
 }
 
 Dealer::FlagMap FreeKickUsAtGoal::decideRoleFlags() const noexcept {
