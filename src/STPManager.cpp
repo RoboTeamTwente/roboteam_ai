@@ -70,10 +70,10 @@ void STPManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
