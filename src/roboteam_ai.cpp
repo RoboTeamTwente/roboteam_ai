@@ -75,6 +75,7 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
     rtt::SETTINGS.setRobothubSendPort(20011);
 
+
     RTT_INFO("AI initialized as: ", (rtt::SETTINGS.isPrimaryAI() ? "PRIMARY" : "SECONDARY"))
     RTT_INFO("Starting as color: ", (rtt::SETTINGS.isYellow() ? "YELLOW" : "BLUE"))
     RTT_INFO("Playing on side: ", (rtt::SETTINGS.isLeft() ? "LEFT" : "RIGHT"))
