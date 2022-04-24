@@ -36,7 +36,7 @@ void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine : -distanceToCenterLine;
 
     // Keeper
-    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter().x + Constants::KEEPER_CENTREGOAL_MARGIN(), world->getWorld()->getBall()->get()->getPos().y));
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
 
     // regular bots
     const std::string formation = "formation_";
