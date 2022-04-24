@@ -89,10 +89,10 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
     Position trackingVelocity = pathTrackingAlgorithmBBT.trackPathForwardAngle(currentPosition, currentVelocity, computedPathsPosVel[robotId], robotId, pidType);
     Vector2 trackingVelocityVector = {trackingVelocity.x, trackingVelocity.y};
 
-    // If there is a collision on the path (so no collision-free path could be found), lower the speed to 0.5 m/s. This increases the chances of finding a new path
+    // If there is a collision on the path (so no collision-free path could be found), lower the speed to 1 m/s. This increases the chances of finding a new path
     // while also decreasing the speed at which collisions happen
     if (commandCollision.collisionData.has_value()) {
-        if (trackingVelocityVector.length() > 0.5) trackingVelocityVector = trackingVelocityVector.stretchToLength(0.5);
+        if (trackingVelocityVector.length() > 1) trackingVelocityVector = trackingVelocityVector.stretchToLength(1);
     }
 
     commandCollision.robotCommand.velocity = trackingVelocityVector;
