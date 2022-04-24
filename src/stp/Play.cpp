@@ -89,6 +89,9 @@ void Play::refreshData() noexcept {
 
             stpInfo->second.setMaxRobotVelocity(control::ControlUtils::getMaxVelocity(stpInfo->second.getRobot()->hasBall()));
 
+            // The keeper does not need to avoid our defense area
+            if (stpInfo->second.getRoleName() == "keeper") stpInfo->second.setShouldAvoidDefenseArea(false);
+
             // Assign the new BallView and field
             stpInfo->second.setBall(newBallView);
             stpInfo->second.setField(field);
