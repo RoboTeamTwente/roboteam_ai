@@ -41,7 +41,8 @@ uint8_t KickOffUs::score(const rtt::world::Field &field) noexcept {
 
 void KickOffUs::calculateInfoForRoles() noexcept {
     // Keeper
-    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
+    // TODO: set good position to shoot at (compute pass location)- possibly do this in the keeper role
+    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     // Kicker

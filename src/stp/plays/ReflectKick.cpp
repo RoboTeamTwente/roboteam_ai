@@ -138,7 +138,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Keeper
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
+    stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
 const char *ReflectKick::getName() { return "Reflect Kick"; }

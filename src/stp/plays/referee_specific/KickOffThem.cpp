@@ -32,7 +32,8 @@ uint8_t KickOffThem::score(const rtt::world::Field& field) noexcept {
 
 void KickOffThem::calculateInfoForRoles() noexcept {
     // Keeper
-    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
+    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
+    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 }
 
