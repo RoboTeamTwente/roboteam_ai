@@ -9,7 +9,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/FreeKickTaker.h"
 #include "stp/roles/active/PassReceiver.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -24,9 +24,9 @@ FreeKickUsPass::FreeKickUsPass() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::FreeKickTaker>(role::FreeKickTaker("free_kick_taker")),
                                                                                        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_left")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_mid")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_right")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_left")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_mid")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_right")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_left")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_right")),
