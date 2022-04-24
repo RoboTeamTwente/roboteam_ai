@@ -8,7 +8,7 @@
 
 namespace rtt::ai::stp::control_constants {
 /// Kick and chip constants
-constexpr double MAX_KICK_POWER = 6.5;
+constexpr double MAX_KICK_POWER = 6;
 constexpr double MIN_KICK_POWER = 2;
 constexpr double MAX_POWER_KICK_DISTANCE = 8;
 constexpr double MAX_POWER_CHIP_DISTANCE = 9;
@@ -41,7 +41,7 @@ constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 constexpr double MAX_VEL_CMD = 8;
 constexpr double MAX_DRIBBLER_CMD = 1;
 // Angle increment per tick
-constexpr double ANGLE_RATE = 0.1 * M_PI;
+constexpr double ANGLE_RATE = 2 * M_PI;
 constexpr double MAX_VEL_WHEN_HAS_BALL = 3.0;
 
 /// HasBall margins
@@ -50,7 +50,7 @@ constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.10;
 // Distance margin robot to ball. Within this margin, the robot has the ball
 /// WHEN IN GRSIM, this is not used, as using feedback is a more accurate. If using this, set distance to 0.12
 /// WHEN IRL, CHANGE HAS_BALL_DISTANCE_ERROR_MARGIN TO 0.10
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.10;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.12;
 
 /// GTP Constants
 // Distance margin for 'goToPos'. If the robot is within this margin, goToPos is successful
@@ -71,10 +71,11 @@ constexpr double DISTANCE_TO_ROBOT_CLOSE = ROBOT_RADIUS;
 constexpr double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS;
 constexpr double ROBOT_CLOSE_TO_POINT = 0.2;
 constexpr double DISTANCE_TO_ROBOT_NEAR = 2.2 * ROBOT_RADIUS;
+constexpr double DEFENSE_AREA_AVOIDANCE_MARGIN = 0.4;
 
 /// Keeper constants
 constexpr double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
 
 /// GameState constants
-constexpr double AVOID_BALL_DISTANCE = 0.6;
+constexpr double AVOID_BALL_DISTANCE = 0.8;
 }  // namespace rtt::ai::stp::control_constants

@@ -21,11 +21,11 @@ std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noe
     auto targetPosition = calculateTargetPosition(info.getBall().value(), defendPos, info.getBlockDistance());
 
     // Minimum distance from the defense area
-    auto margin = 2.5 * control_constants::ROBOT_RADIUS;
+    auto margin = control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN;
 
     // Project the target position outside the defense area if it is in it (within the margin)
-    if (FieldComputations::pointIsInDefenseArea(info.getField().value(), targetPosition, margin)) {
-        targetPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos(), margin);
+    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPosition, info.getRoleName(), margin)) {
+        targetPosition = PositionComputations::ProjectPositionToValidPointOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos(), margin, 0);
     }
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
@@ -52,6 +52,9 @@ Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Ve
         case BlockDistance::CLOSE:
             // Default distance of 0.5m. If the ball is closer than that to the enemy, stand right in front of the ball instead.
             distance = std::min(0.5, targetToBall.length() - control_constants::ROBOT_RADIUS);
+            break;
+        case BlockDistance::PARTWAY:
+            distance = targetToBall.length() * 0.4;
             break;
         case BlockDistance::HALFWAY:
             distance = targetToBall.length() / 2;

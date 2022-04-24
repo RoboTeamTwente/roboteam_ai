@@ -213,7 +213,7 @@ void GameStateManager::updateInterfaceGameState(const char* name) {
         interface::Output::setInterfaceGameState(GameState("halt", "halt"));
     } else if (strcmp(name, "Free Kick Them") == 0) {
         interface::Output::setInterfaceGameState(GameState("free_kick_them", "default"));
-    } else if (strcmp(name, "Free Kick Us") == 0) {
+    } else if (strcmp(name, "Free Kick Us At Goal") == 0) {
         interface::Output::setInterfaceGameState(GameState("free_kick_us", "default"));
     } else if (strcmp(name, "Ball Placement Them") == 0) {
         interface::Output::setInterfaceGameState(GameState("ball_placement_them", "ballplacement_them"));
@@ -240,6 +240,7 @@ void GameStateManager::updateInterfaceGameState(const char* name) {
     } else if (strcmp(name, "Aggressive Stop Formation") == 0) {
         interface::Output::setInterfaceGameState(GameState("stop", "stop"));
     } else {
+        RTT_WARNING("Play has been selected for which no ruleset is found!");
         interface::Output::setInterfaceGameState(GameState("normal_play", "default"));
     }
 }
