@@ -103,9 +103,7 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 }
 
-void DefendShot::calculateInfoForHarassers() noexcept {
-
-}
+void DefendShot::calculateInfoForHarassers() noexcept {}
 
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
