@@ -20,16 +20,16 @@ class STPManager {
     bool robotsInitialized = false;
     ai::interface::MainWindow* mainWindow;
 
-    /**
-     * Current best play as picked by the playDecider
-     */
     ai::stp::Play* currentPlay{nullptr};
 
     /**
-     * Function that decides whether to change plays given a world and field.
-     * @param _world the current world state
+     * Ensures the correct play is selected and provided with the current data
+     * @param world The current world state
      */
-    void decidePlay(world::World* _world);
+    void updatePlay(world::World* world);
+
+    /** Returns whether we need to pick a new play */
+    bool needsNewPlay();
 
    public:
     void start();

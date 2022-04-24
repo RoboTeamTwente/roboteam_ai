@@ -161,12 +161,11 @@ void MainWindow::clearLayout(QLayout *layout) {
 void MainWindow::updateRobotsWidget() {
     std::optional<rtt::world::view::WorldDataView> currentWorld;
     {
-        auto const &[_, world] = rtt::world::World::instance();
-        if (!world) {
-            std::cerr << "World is nullptr" << std::endl;
+        //auto const &[_, world] = rtt::world::World::instance();
+        //if (!world) {
             return;
-        }
-        currentWorld = world->getWorld();
+        //}
+        //currentWorld = world->getWorld();
     }
     if (currentWorld) {
         robotsWidget->updateContents(visualizer, *currentWorld);

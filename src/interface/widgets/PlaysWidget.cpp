@@ -48,7 +48,7 @@ PlaysWidget::PlaysWidget(QWidget* parent) : QTextEdit(parent) { setReadOnly(true
 void PlaysWidget::updatePlays() {
     QString ss = {};
     for (auto& each : STPManager::plays) {
-        ss += formatPlay(each.get());
+        //ss += formatPlay(each.get());
     }
     auto sliderPos = verticalScrollBar()->sliderPosition();
     setHtml(ss);

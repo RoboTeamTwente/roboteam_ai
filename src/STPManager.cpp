@@ -48,6 +48,9 @@ namespace ai = rtt::ai;
 
 namespace rtt {
 
+const std::string DEFAULT_REFEREE_PLAY = "Defend Pass";
+const std::string DEFAULT_INTERFACE_PLAY = "halt";
+
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void STPManager::start() {
     // make sure we start in halt state for safety
@@ -71,10 +74,10 @@ void STPManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
@@ -93,6 +96,18 @@ void STPManager::start() {
         for (auto &play : plays) {
             play->setWorld(world);
         }
+    }
+
+    // Set the play options in the interface controller
+    {
+        Interface::InterfaceDropdown playSelectorDropdown;
+        playSelectorDropdown.text = "";
+        for (const auto& play : this->plays) {
+            playSelectorDropdown.options.push_back(play->getName());
+        }
+
+        Interface::InterfaceDeclaration playSelectorDeclaration("PLAY_SELECTOR", "Dropdown selector for plays", true, "", playSelectorDropdown);
+        this->interfaceController.getDeclarations().lock()->addDeclaration(playSelectorDeclaration);
     }
 
     this->interfaceController.run();
@@ -161,7 +176,7 @@ void STPManager::runOneLoopCycle() {
             world->updateField(fieldMessage);
             world->updatePositionControl();
 
-            decidePlay(world);
+            updatePlay(world);
 
         } else {
             if (robotsInitialized) {
@@ -180,20 +195,42 @@ void STPManager::runOneLoopCycle() {
     rtt::ai::control::ControlModule::sendAllCommands();
 }
 
-void STPManager::decidePlay(world::World *_world) {
+bool STPManager::needsNewPlay() {
+    std::string playSelectedByInterface = this->interfaceController.getSelectedPlay();
+
+    return this->currentPlay == nullptr
+        || !this->currentPlay->isValidPlayToKeep()
+        || (!SETTINGS.getUseReferee() && this->currentPlay->getName() != playSelectedByInterface);
+}
+
+void STPManager::updatePlay(world::World *world) {
     ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 
-    if (!currentPlay || rtt::ai::stp::PlayDecider::interfacePlayChanged || !currentPlay->isValidPlayToKeep()) {
-        ai::stp::gen::PlayInfos previousPlayInfo{};
-        if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
-        currentPlay = ai::stp::PlayDecider::decideBestPlay(_world, plays);
-        currentPlay->updateField(_world->getField().value());
-        currentPlay->initialize(previousPlayInfo);
+    if (this->needsNewPlay()) {
+        this->currentPlay = ai::stp::PlayDecider::decideNewPlay(world, STPManager::plays, this->interfaceController.getSelectedPlay());
+
+        // Initialize this new play
+        if (this->currentPlay != nullptr) {
+            //RTT_DEBUG("Selected play1 '", this->currentPlay->getName(), "'")
+
+            ai::stp::gen::PlayInfos previousPlayInfo{};
+            if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+            //RTT_DEBUG("Selected play2 '", this->currentPlay->getName(), "'")
+            currentPlay->updateField(world->getField().value());
+            currentPlay->initialize(previousPlayInfo);
+            //RTT_DEBUG("Selected play3 '", this->currentPlay->getName(), "'")
+        }
     } else {
-        currentPlay->updateField(_world->getField().value());
+        if (this->currentPlay != nullptr) {
+            currentPlay->updateField(world->getField().value());
+        }
     }
-    currentPlay->update();
+
+    // Update the current play with new data
+    if (this->currentPlay != nullptr) {
+        currentPlay->update();
+    }
     mainWindow->updatePlay(currentPlay);
 }
 

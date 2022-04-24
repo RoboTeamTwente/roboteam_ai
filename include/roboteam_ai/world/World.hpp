@@ -66,6 +66,7 @@ class World {
      */
     inline static AcquireInfo<World> instance() {
         static World worldInstance{&rtt::SETTINGS};
+
         return {std::lock_guard(worldInstance.updateMutex), &worldInstance};
     }
 

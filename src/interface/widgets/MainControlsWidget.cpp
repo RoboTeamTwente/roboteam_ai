@@ -104,7 +104,7 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) 
             return;
         }
         // simply plays[index] because they're inserted in-order
-        stp::PlayDecider::lockInterfacePlay(rtt::STPManager::plays[index].get());
+        //stp::PlayDecider::lockInterfacePlay(rtt::STPManager::plays[index].get());
         GameStateManager::updateInterfaceGameState(rtt::STPManager::plays[index].get()->getName());
     });
 
