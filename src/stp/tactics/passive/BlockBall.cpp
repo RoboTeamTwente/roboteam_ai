@@ -49,9 +49,6 @@ Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Ve
 
     double distance;
     switch (blockDistance) {
-        case BlockDistance::ROBOTRADIUS:
-            distance = control_constants::ROBOT_RADIUS;
-            break;
         case BlockDistance::CLOSE:
             // Default distance of 0.5m. If the ball is closer than that to the enemy, stand right in front of the ball instead.
             distance = std::min(0.5, targetToBall.length() - control_constants::ROBOT_RADIUS);
