@@ -106,7 +106,6 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/PenaltyKeeper.cpp
         # active
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Attacker.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallPlacer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
