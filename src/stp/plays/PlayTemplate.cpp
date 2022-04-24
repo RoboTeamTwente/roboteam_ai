@@ -74,8 +74,8 @@ void PlayTemplate::calculateInfoForScoredRoles(world::World* world) noexcept {
 void PlayTemplate::calculateInfoForRoles() noexcept {
     /// Function where are roles get their information, make sure not to compute roles twice.
     calculateInfoForScoredRoles(world);  // DONT TOUCH.
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToShootAt(field.getTheirGoalCenter());
 
     stpInfos["role_1"].setPositionToMoveTo(pos::getPosition(stpInfos["role_1"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world));
     stpInfos["role_2"].setPositionToMoveTo(pos::getPosition(stpInfos["role_2"].getPositionToMoveTo(), gen::gridRightBot, gen::OffensivePosition, field, world));

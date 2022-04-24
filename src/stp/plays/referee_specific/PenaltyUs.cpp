@@ -66,9 +66,6 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     // TODO: the shoot position might need to change
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0, -2});
-
-    // TODO: the shoot position might need to change
     stpInfos["kicker"].setPositionToShootAt(field.getTheirGoalCenter() + Vector2{1.0, 0.5});
     stpInfos["kicker"].setShotType(ShotType::PASS);
 }
