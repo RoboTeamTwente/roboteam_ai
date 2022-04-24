@@ -11,7 +11,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/BallReflector.h"
 #include "stp/roles/active/Passer.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -34,9 +34,9 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_3"))};
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_3"))};
 }
 
 uint8_t ReflectKick::score(const rtt::world::Field &field) noexcept {

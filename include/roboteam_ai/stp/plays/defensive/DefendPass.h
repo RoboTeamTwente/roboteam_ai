@@ -60,9 +60,9 @@ class DefendPass : public Play {
     void calculateInfoForKeeper() noexcept;
 
     /**
-     * Calculates info for the harassers
+     * Calculates info for the RobotDefenders
      */
-    void calculateInfoForHarassers() noexcept;
+    void calculateInfoForRobotDefenders() noexcept;
 
     /**
      * Calculates info for the offenders

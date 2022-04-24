@@ -6,7 +6,7 @@
 
 #include "stp/computations/PositionComputations.h"
 #include "stp/roles/Keeper.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -23,13 +23,13 @@ FreeKickThem::FreeKickThem() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")),
-        std::make_unique<role::Defender>(role::Defender("defender_helper_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_helper_2")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_1")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_2")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_3")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_helper_1")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_helper_2")),
+        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_1")),
+        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2")),
+        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
         std::make_unique<role::Formation>(role::Formation("harasser")),
         std::make_unique<role::Formation>(role::Formation("offender_1")),
         std::make_unique<role::Formation>(role::Formation("offender_2")),
