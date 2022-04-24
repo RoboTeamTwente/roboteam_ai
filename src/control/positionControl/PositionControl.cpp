@@ -53,15 +53,19 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
         firstCollision = worldObjects.getFirstCollision(world, field, computedTrajectories[robotId], computedPaths, robotId, avoidObjects);
 
         if (firstCollision.has_value()) {
-            //            RTT_DEBUG(firstCollision->collisionName);
-            // Create intermediate points, return a collision-free trajectory originating from the best option of these points
-            auto newTrajectory =
-                findNewTrajectory(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, maxRobotVelocity, timeStep, avoidObjects);
-            if (newTrajectory.has_value()) {
-                computedTrajectories[robotId] = newTrajectory.value();
+            if (computedTrajectories[robotId].getTotalTime() - firstCollision->collisionTime > 0.2) {
+                //            RTT_DEBUG(firstCollision->collisionName);
+                // Create intermediate points, return a collision-free trajectory originating from the best option of these points
+                auto newTrajectory =
+                    findNewTrajectory(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, maxRobotVelocity, timeStep, avoidObjects);
+                if (newTrajectory.has_value()) {
+                    computedTrajectories[robotId] = newTrajectory.value();
+                } else {
+                    commandCollision.collisionData = firstCollision;
+                    //                RTT_DEBUG("Could not find a collision-free path");
+                }
             } else {
                 commandCollision.collisionData = firstCollision;
-                //                RTT_DEBUG("Could not find a collision-free path");
             }
         }
 
