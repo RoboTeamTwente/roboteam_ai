@@ -6,6 +6,7 @@
 
 #include "utilities/IOManager.h"
 #include "world/World.hpp"
+#include "utilities/Pause.h"
 
 namespace rtt::ai {
 

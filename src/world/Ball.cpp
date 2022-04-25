@@ -4,7 +4,6 @@
 
 #include "world/Ball.hpp"
 
-#include "interface/api/Input.h"
 #include "utilities/Constants.h"
 #include "world/World.hpp"
 
@@ -105,11 +104,6 @@ void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
     const double frictionCoefficient = ai::Constants::GRSIM() ? SIMULATION_FRICTION : REAL_FRICTION;
 
     expectedEndPosition = ball->getPos() + ball->filteredVelocity.stretchToLength(ballVelSquared / frictionCoefficient);
-
-    // Visualize the Expected Ball End Position
-    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {getExpectedEndPosition()}, ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);
-    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {position, getExpectedEndPosition()}, ai::Constants::BALL_COLOR(), -1,
-                                   ai::interface::Drawing::LINES_CONNECTED);
 }
 
 void Ball::updateBallAtRobotPosition(const world::World* data) noexcept {

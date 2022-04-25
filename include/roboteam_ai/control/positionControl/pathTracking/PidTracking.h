@@ -7,11 +7,11 @@
 
 #include "PathTrackingAlgorithm.h"
 #include "control/positionControl/PositionControlUtils.h"
-#include "interface/api/Output.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/pid.h"
 #include "utilities/Constants.h"
+#include <unordered_map>
 
 namespace rtt::ai::control {
 
@@ -24,9 +24,6 @@ class PidTracking : public PathTrackingAlgorithm {
 
     // PID controllers for each robot
     std::unordered_map<int, std::pair<PID, PID>> pidMapping = {};
-
-    // updates the PID parameters from the UI
-    void updatePidValuesFromInterface(bool isKeeper);
 
    public:
     /**
@@ -43,12 +40,6 @@ class PidTracking : public PathTrackingAlgorithm {
      * @return a structure containing the tracking velocity and the orientation angle
      */
     Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle, stp::PIDType pidType) override;
-    /**
-     * Update the PID values for a specific robot
-     * @param pidType The desired PID type (intercept, regular, keeper etc.)
-     * @param robotID ID of the robot that we want to change the PID for
-     */
-    void updatePIDValues(stp::PIDType pidType, int robotID);
 };
 }  // namespace rtt::ai::control
 

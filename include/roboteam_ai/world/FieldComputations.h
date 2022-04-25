@@ -8,7 +8,6 @@
 #include <mutex>
 
 #include "control/ControlUtils.h"
-#include "interface/api/Input.h"
 #include "views/WorldDataView.hpp"
 #include "world/Field.h"
 

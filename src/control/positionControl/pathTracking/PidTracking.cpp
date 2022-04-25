@@ -14,8 +14,6 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
         pidMapping[robotId].second.setMaxIOutput(MAX_VELOCITY);
     }
 
-    updatePIDValues(pidType, robotId);
-
     Vector2 velocity{};
     velocity.x = pidMapping[robotId].first.getOutput(currentPosition.x, pathPoints.front().x);
     velocity.y = pidMapping[robotId].second.getOutput(currentPosition.y, pathPoints.front().y);
@@ -23,40 +21,4 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
     return {velocity, angle};
 }
 
-void PidTracking::updatePidValuesFromInterface(bool isKeeper) {
-    auto newPid = isKeeper ? interface::Output::getKeeperPid() : interface::Output::getNumTreePid();
-    for (auto pid : pidMapping) {
-        pidMapping[pid.first].first.setPID(newPid);
-        pidMapping[pid.first].second.setPID(newPid);
-    }
-}
-
-void PidTracking::updatePIDValues(stp::PIDType pidType, int robotID) {
-    std::tuple<double, double, double> newPID;
-
-    switch (pidType) {
-        case stp::PIDType::DEFAULT: {
-            newPID = interface::Output::getNumTreePid();
-            break;
-        }
-        case stp::PIDType::RECEIVE: {
-            newPID = interface::Output::getReceivePid();
-            break;
-        }
-        case stp::PIDType::INTERCEPT: {
-            newPID = interface::Output::getInterceptPid();
-        }
-        case stp::PIDType::KEEPER: {
-            newPID = interface::Output::getKeeperPid();
-            break;
-        }
-        case stp::PIDType::KEEPER_INTERCEPT: {
-            newPID = interface::Output::getKeeperInterceptPid();
-            break;
-        }
-    }
-
-    pidMapping[robotID].first.setPID(newPID);
-    pidMapping[robotID].second.setPID(newPID);
-}
 }  // namespace rtt::ai::control

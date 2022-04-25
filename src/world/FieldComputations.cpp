@@ -165,7 +165,6 @@ Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ou
     }
     
     std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, aboveGoal, belowGoal};
-    interface::Input::drawDebugData(defenseArea);
     return Polygon(defenseArea);
 }
 
@@ -177,14 +176,12 @@ Polygon FieldComputations::getGoalArea(const rtt_world::Field &field, bool ourGo
     Vector2 outerTopGoal = ourGoal ? field.getOurTopGoalSide() + Vector2(margin, margin) : field.getTheirTopGoalSide() + Vector2(-margin, margin);
 
     std::vector<Vector2> goalArea = {outerBottomGoal, innerBottomGoal, innerTopGoal, outerTopGoal};
-    interface::Input::drawDebugData(goalArea, ourGoal ? Qt::green : Qt::red, interface::Drawing::LINES_CONNECTED);
     return Polygon(goalArea);
 }
 
 Polygon FieldComputations::getFieldEdge(const rtt_world::Field &field, double margin) {
     std::vector<Vector2> fieldEdge = {field.getBottomLeftCorner() + Vector2(-margin, -margin), field.getTopLeftCorner() + Vector2(-margin, margin),
                                       field.getTopRightCorner() + Vector2(margin, margin), field.getBottomRightCorner() + Vector2(margin, -margin)};
-    interface::Input::drawDebugData(fieldEdge, Qt::red, interface::Drawing::LINES_CONNECTED);
     return Polygon(fieldEdge);
 }
 

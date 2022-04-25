@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <roboteam_utils/RobotCommands.hpp>
 
-#include "interface/api/Input.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
 #include "utilities/Settings.h"

@@ -1,7 +1,6 @@
 #pragma once
 #include <gtest/gtest_prod.h>
 
-#include "interface/widgets/mainWindow.h"
 #include <interface/InterfaceControllerServer.h>
 
 #include <stp/Play.hpp>
@@ -10,7 +9,7 @@ namespace rtt {
 
 class STPManager {
    public:
-    explicit STPManager(ai::interface::MainWindow* mainWindow);
+    explicit STPManager();
 
    private:
     FRIEND_TEST(STPManagerTest, it_handles_ROS_data);
@@ -18,7 +17,6 @@ class STPManager {
     void runOneLoopCycle();
     bool fieldInitialized = false;
     bool robotsInitialized = false;
-    ai::interface::MainWindow* mainWindow;
 
     ai::stp::Play* currentPlay{nullptr};
 

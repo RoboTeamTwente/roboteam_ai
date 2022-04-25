@@ -4,14 +4,6 @@
 #include "utilities/IOManager.h"
 #include "world/World.hpp"
 
-namespace ui = rtt::ai::interface;
-
-ui::MainWindow* window;
-void runStp() {
-    rtt::STPManager app{window};
-    app.start();
-}
-
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         RTT_ERROR("Incorrect amount of arguments")
@@ -65,6 +57,6 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    rtt::STPManager app{window};
+    rtt::STPManager app;
     app.start();
 }

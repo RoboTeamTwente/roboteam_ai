@@ -5,7 +5,6 @@
 #include "stp/Play.hpp"
 
 #include "control/ControlUtils.h"
-#include "interface/widgets/MainControlsWidget.h"
 
 namespace rtt::ai::stp {
 

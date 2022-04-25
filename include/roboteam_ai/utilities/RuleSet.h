@@ -5,6 +5,8 @@
 #ifndef ROBOTEAM_AI_RULESET_H
 #define ROBOTEAM_AI_RULESET_H
 
+#include <string>
+
 namespace rtt::ai {
 
 struct RuleSet {

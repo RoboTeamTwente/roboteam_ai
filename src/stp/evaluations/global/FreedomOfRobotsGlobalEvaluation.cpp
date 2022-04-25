@@ -4,6 +4,7 @@
 /// Range [0->DISTANCE_TO_ROBOT_CLOSE, DISTANCE_TO_ROBOT_FAR]
 //
 
+#include <numeric>
 #include "stp/evaluations/global/FreedomOfRobotsGlobalEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {

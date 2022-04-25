@@ -167,12 +167,6 @@ class Dealer {
     void distributeFixedIds(std::vector<v::RobotView> &robots, FlagMap &flagMap, std::unordered_map<std::string, v::RobotView> &assignments);
 
     /**
-     * Sets the keeper and ballplacer id in the gamestate if either of those roles are distributed by the dealer
-     * @param output The role division to be distributed
-     */
-    void setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output);
-
-    /**
      * Prints the cost matrix in the following format:
      *
      * ↓PRIORITY       ↓ROLE    ID→      1      2      4      6      7     10

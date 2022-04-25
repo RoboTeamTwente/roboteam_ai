@@ -129,7 +129,6 @@ void STPManager::start() {
             int fpsUpdateRate = 5;
             stpTimer.limit(
                 [&]() {
-                    ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
                 },
                 fpsUpdateRate);
@@ -161,7 +160,6 @@ void STPManager::runOneLoopCycle() {
                 roboteam_utils::rotate(&packet); //
             }
         }
-        mainWindow->updateProcessedVisionPackets(vision_packets);
 
         auto const &[_, world] = world::World::instance();
         world->updateFeedback(feedbackMessage);
@@ -231,8 +229,7 @@ void STPManager::updatePlay(world::World *world) {
     if (this->currentPlay != nullptr) {
         currentPlay->update();
     }
-    mainWindow->updatePlay(currentPlay);
 }
 
-STPManager::STPManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
+STPManager::STPManager() {}
 }  // namespace rtt
