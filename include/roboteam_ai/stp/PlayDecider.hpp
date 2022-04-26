@@ -1,17 +1,12 @@
-//
-// Created by john on 3/9/20.
-//
-
-#ifndef RTT_PLAYDECIDER_HPP
-#define RTT_PLAYDECIDER_HPP
+#pragma once
 
 #include "Play.hpp"
 
 namespace rtt::ai::stp {
 
 /**
- * Class to help pick the best play with a given world.
- * If we do not follow the referee, we pick the play selected in the interface
+ * Class to help pick the correct play in a given situation
+ * If we do not follow the referee, we pick the play selected in the interface instead
  */
 class PlayDecider {
    public:
@@ -20,7 +15,7 @@ class PlayDecider {
      * @param world The current world
      * @param plays All plays from which can be decided
      * @param interfacePlay The play that is currently selected by the interface
-     * @return the correct play to use, or nullptr when undecided
+     * @return the correct play to use, or nullptr when even the backup plays could not be picked
      */
     static Play *decideNewPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<Play>>& plays, const std::string& interfacePlay);
 
@@ -41,5 +36,3 @@ class PlayDecider {
     static Play *getPlayByName(std::string name, const std::vector<std::unique_ptr<Play>>& plays);
 };
 }  // namespace rtt::ai::stp
-
-#endif  // RTT_PLAYDECIDER_HPP

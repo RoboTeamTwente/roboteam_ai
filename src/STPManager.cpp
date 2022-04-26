@@ -205,8 +205,10 @@ void STPManager::decidePlay(world::World *_world) {
     ai::stp::ComputationManager::clearStoredComputations();
 
     if (this->needsNewPlay()) {
+        // Get play info of previous play
         ai::stp::gen::PlayInfos previousPlayInfo{};
         if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+
         currentPlay = ai::stp::PlayDecider::decideNewPlay(_world, plays, this->interfaceController.getSelectedPlay());
         currentPlay->updateField(_world->getField().value());
         currentPlay->initialize(previousPlayInfo);

@@ -6,41 +6,51 @@
 
 namespace rtt::ai::stp {
 
-Play* PlayDecider::decideNewPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<Play>>& plays, const std::string& interfacePlay) {
+// If we cannot pick a play for any reason, these will be selected
+const std::string BACKUP_REFEREE_PLAY = "Defend Pass";
+const std::string BACKUP_INTERFACE_PLAY = "halt";
+
+Play* PlayDecider::decideNewPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<Play>>& plays, const std::string& interfacePlayName) {
+    // In any case, give all plays a new score
     auto validPlayScores = getValidPlayScores(world, plays);
 
-    Play* actualInterfacePlay = getPlayByName(interfacePlay, plays);
+    Play* newPlay = nullptr;
+    if (SETTINGS.getUseReferee()) {
+        // Get the play with the highest score
+        auto it = std::max_element(validPlayScores.begin(), validPlayScores.end(), [](auto& lhs, auto& rhs) { return lhs.second < rhs.second; });
 
-    if (!SETTINGS.getUseReferee() && actualInterfacePlay != nullptr) {
-        return actualInterfacePlay;
-    }
+        // If best play was found, use it. If not, pick the backup play
+        if (it == validPlayScores.end()) {
+            RTT_WARNING("Could not pick best play")
+            newPlay = getPlayByName(BACKUP_REFEREE_PLAY, plays);
+        } else {
+            newPlay = it->first;
+        }
+    } else {
+        // Get the play selected by the interface
+        newPlay = getPlayByName(interfacePlayName, plays);
 
-    // If there are no valid plays, default to defend pass
-    if (validPlayScores.empty()) {
-        RTT_WARNING("No valid plays found!");
-        return getPlayByName("Defend Pass", plays);
-    }
-
-    return std::max_element(validPlayScores.begin(), validPlayScores.end(), [](auto& lhs, auto& rhs) { return lhs.second < rhs.second; })->first;
-}
-
-std::vector<std::pair<Play*, uint8_t>> PlayDecider::getValidPlayScores(const world::World* world, const std::vector<std::unique_ptr<Play>>& plays) {
-    // TODO: Combine these two for loops
-    // Get all valid plays
-    std::vector<ai::stp::Play*> validPlays;
-    for (auto& each : plays) {
-        if (each->isValidPlayToStart()) {
-            validPlays.push_back(each.get());
+        // If the play selected by the interface could not be found, pick the backup play
+        if (newPlay == nullptr) {
+            RTT_WARNING("Could not find play '", interfacePlayName, "' selected by the interface")
+            newPlay = getPlayByName(BACKUP_INTERFACE_PLAY, plays);
         }
     }
 
-    std::vector<std::pair<ai::stp::Play*, uint8_t>> validPlayScores;
-    validPlayScores.reserve(validPlays.size());
+    if (newPlay == nullptr) RTT_ERROR("Failed to pick backup plays")
+    return newPlay;
+}
 
-    auto field = world->getField().value();
-    for (const auto& play : validPlays) {
-        validPlayScores.emplace_back(play, play->score(field));
+std::vector<std::pair<Play*, uint8_t>> PlayDecider::getValidPlayScores(const world::World* world, const std::vector<std::unique_ptr<Play>>& plays) {
+    std::vector<std::pair<Play*, uint8_t>> validPlayScores;
+    validPlayScores.reserve(validPlayScores.size());
+
+    for (auto& play : plays) {
+        if (play->isValidPlayToStart()) {
+            validPlayScores.emplace_back(play.get(), play->score(world->getField().value()));
+        }
     }
+
     return validPlayScores;
 }
 

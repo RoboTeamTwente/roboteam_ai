@@ -52,29 +52,11 @@ proto::ModuleState InterfaceControllerServer::getDataForRemote(bool expired) con
 }
 
 std::string InterfaceControllerServer::getSelectedPlay() {
-    //std::cout << "Current interface play: " << this->selectedPlay << std::endl;
     return this->selectedPlay;
-//    std::string selectedPlay = "";
-//
-//    auto pl = this->vals->getSetting("PLAY_SELECTOR");
-//    if (pl.has_value()) {
-//        RTT_DEBUG("HAS VALUE")
-//    }
-//
-//    auto interfacePlaySelector = this->decls->getDeclaration("PLAY_SELECTOR");;
-//    if (interfacePlaySelector.has_value()) {
-//        auto dropdownMenu = std::get_if<Interface::InterfaceDropdown>(&interfacePlaySelector.value().options);
-//        selectedPlay = dropdownMenu->text;
-//    } else {
-    //    }
-    //
-//        RTT_DEBUG("No play selector yet")
-//    return selectedPlay;
 }
 
 void InterfaceControllerServer::setSelectedPlay(const std::string &newPlay) {
     if (newPlay != this->selectedPlay) {
-        RTT_DEBUG("Changed play to: ", newPlay)
         rtt::ai::GameStateManager::updateInterfaceGameState(newPlay.c_str());
     }
 
