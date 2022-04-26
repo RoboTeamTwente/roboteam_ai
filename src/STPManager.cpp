@@ -95,6 +95,18 @@ void STPManager::start() {
         }
     }
 
+    // Set the play options in the interface controller
+    {
+        Interface::InterfaceDropdown playSelectorDropdown;
+        playSelectorDropdown.text = "";
+        for (const auto& play : this->plays) {
+            playSelectorDropdown.options.push_back(play->getName());
+        }
+
+        Interface::InterfaceDeclaration playSelectorDeclaration("PLAY_SELECTOR", "Dropdown selector for plays", true, "", playSelectorDropdown);
+        this->interfaceController.getDeclarations().lock()->addDeclaration(playSelectorDeclaration);
+    }
+
     this->interfaceController.run();
 
     int amountOfCycles = 0;
@@ -180,14 +192,22 @@ void STPManager::runOneLoopCycle() {
     rtt::ai::control::ControlModule::sendAllCommands();
 }
 
+bool STPManager::needsNewPlay() {
+    std::string playSelectedByInterface = this->interfaceController.getSelectedPlay();
+
+    return this->currentPlay == nullptr
+        || !this->currentPlay->isValidPlayToKeep()
+        || (!SETTINGS.getUseReferee() && this->currentPlay->getName() != playSelectedByInterface);
+}
+
 void STPManager::decidePlay(world::World *_world) {
     ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 
-    if (!currentPlay || rtt::ai::stp::PlayDecider::interfacePlayChanged || !currentPlay->isValidPlayToKeep()) {
+    if (this->needsNewPlay()) {
         ai::stp::gen::PlayInfos previousPlayInfo{};
         if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
-        currentPlay = ai::stp::PlayDecider::decideBestPlay(_world, plays);
+        currentPlay = ai::stp::PlayDecider::decideNewPlay(_world, plays, this->interfaceController.getSelectedPlay());
         currentPlay->updateField(_world->getField().value());
         currentPlay->initialize(previousPlayInfo);
     } else {

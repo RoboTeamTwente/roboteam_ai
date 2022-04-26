@@ -10,44 +10,35 @@
 namespace rtt::ai::stp {
 
 /**
- * Decides the best play from a vector of plays.
- * If there is a play set in the interface, this play will be picked.
+ * Class to help pick the best play with a given world.
+ * If we do not follow the referee, we pick the play selected in the interface
  */
 class PlayDecider {
-    /**
-     * play that's set from the interface in case it's overridden
-     */
-    static inline Play *interfacePlay;
-
    public:
     /**
-     * Sets the locked play, read variable above
-     * @param play Play to lock to
+     * Decides which new play needs to be selected
+     * @param world The current world
+     * @param plays All plays from which can be decided
+     * @param interfacePlay The play that is currently selected by the interface
+     * @return the correct play to use, or nullptr when undecided
      */
-    static void lockInterfacePlay(Play *play);
+    static Play *decideNewPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<Play>>& plays, const std::string& interfacePlay);
 
     /**
-     * Bool indicating if the current play was manually changed in the interface
+     * Gives a score to all valid plays, and returns pairs that were calculated
+     * @param world The world pointer
+     * @param plays All plays
+     * @return pairs of valid plays with their score
      */
-    static bool interfacePlayChanged;
+    static std::vector<std::pair<Play*, uint8_t>> getValidPlayScores(const world::World* world, const std::vector<std::unique_ptr<Play>>& plays);
 
     /**
-     * This function checks if there is a locked play. If there is, pick that play.
-     * If there isn't, pick the play with the highest score
-     * @param World The world pointer
-     * @param plays the vector of plays
-     * @return The best play for the current tick
-     * (either a locked play through the interface or just the highest scored play)
+     * Gets the play that has the name. Nullptr if that play does not exist
+     * @param name The name of the wanted play
+     * @param plays The vector of plays in which needs to be searched
+     * @return the play with the given play, or nullptr when that play does not exist
      */
-    static Play *decideBestPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<ai::stp::Play>>& plays) noexcept;
-
-    /**
-     * Returns (a pointer to) a play with a given name
-     * @param name name of the play. Should exactly match the name returned by the getName() method in the play
-     * @param plays all plays to check the name for
-     * @return the play with the given name, or a nullptr if no such play is found
-     */
-    static Play* getPlayForName(std::string name, const std::vector<std::unique_ptr<ai::stp::Play>>& plays);
+    static Play *getPlayByName(std::string name, const std::vector<std::unique_ptr<Play>>& plays);
 };
 }  // namespace rtt::ai::stp
 

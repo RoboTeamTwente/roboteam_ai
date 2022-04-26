@@ -30,6 +30,7 @@ class STPManager {
      * @param _world the current world state
      */
     void decidePlay(world::World* _world);
+    bool needsNewPlay();
 
    public:
     void start();
