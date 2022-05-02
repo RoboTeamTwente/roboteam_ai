@@ -3,6 +3,8 @@
 //
 
 #include <gtest/gtest.h>
+#include <helpers/FieldHelper.h>
+#include <roboteam_utils/Random.h>
 #include <world/Field.h>
 #include <world/FieldComputations.h>
 
@@ -182,36 +184,78 @@ TEST(FieldComputationTest, line_intersection_with_defence_area) {
      * LineSegment intersects twice with the boundary of the defence area. */
     Vector2 startTestLine = testField.getLeftPenaltyLineBottom() + Vector2(1.5, 0.5);
     Vector2 endTestLine = testField.getLeftPenaltyLineBottom() + Vector2(-0.5, -1.5);
-    std::shared_ptr<Vector2> actualIntersection = FieldComputations::lineIntersectionWithDefenceArea(testField, true, startTestLine, endTestLine, 0.5);
+    std::shared_ptr<Vector2> actualIntersection = FieldComputations::lineIntersectionWithDefenseArea(testField, true, startTestLine, endTestLine, 0.5);
     Vector2 expectedIntersection = testField.getLeftPenaltyLineBottom() + Vector2(0.5, -0.5);
     EXPECT_EQ(*actualIntersection, expectedIntersection);
     startTestLine = testField.getRightPenaltyLineTop() + Vector2(-0.5, -0.499);
     endTestLine = testField.getTopRightTheirDefenceArea() + Vector2(0.5, -0.499);
-    actualIntersection = FieldComputations::lineIntersectionWithDefenceArea(testField, false, startTestLine, endTestLine, -0.5);
+    actualIntersection = FieldComputations::lineIntersectionWithDefenseArea(testField, false, startTestLine, endTestLine, -0.5);
     EXPECT_EQ(actualIntersection, nullptr);
     startTestLine = testField.getRightPenaltyLineBottom() + Vector2(0.0, 0.5);
     endTestLine = testField.getRightPenaltyLineTop();
-    actualIntersection = FieldComputations::lineIntersectionWithDefenceArea(testField, false, startTestLine, endTestLine, 0.0);
+    actualIntersection = FieldComputations::lineIntersectionWithDefenseArea(testField, false, startTestLine, endTestLine, 0.0);
     EXPECT_EQ(*actualIntersection, startTestLine);
     startTestLine = testField.getTheirGoalCenter();
     endTestLine = (testField.getLeftPenaltyLineTop() + testField.getLeftPenaltyLineBottom()) / 2;
-    actualIntersection = FieldComputations::lineIntersectionWithDefenceArea(testField, true, startTestLine, endTestLine, -0.1);
+    actualIntersection = FieldComputations::lineIntersectionWithDefenseArea(testField, true, startTestLine, endTestLine, -0.1);
     EXPECT_EQ(actualIntersection, nullptr);
     endTestLine = testField.getTopLeftOurDefenceArea() * 2 - testField.getBottomLeftOurDefenceArea();
     startTestLine = testField.getLeftPenaltyLineBottom() * 0.99 + endTestLine * 0.01;
-    actualIntersection = FieldComputations::lineIntersectionWithDefenceArea(testField, true, startTestLine, endTestLine, 0.0);
+    actualIntersection = FieldComputations::lineIntersectionWithDefenseArea(testField, true, startTestLine, endTestLine, 0.0);
     expectedIntersection = (testField.getTopLeftOurDefenceArea() + testField.getLeftPenaltyLineTop()) / 2;
     EXPECT_EQ(*actualIntersection, expectedIntersection);
     startTestLine = testField.getTopRightTheirDefenceArea() + Vector2(-0.5, 0.2);
     endTestLine = testField.getRightPenaltyLineBottom() + Vector2(0.6, -0.2);
-    actualIntersection = FieldComputations::lineIntersectionWithDefenceArea(testField, false, startTestLine, endTestLine, 0.2);
+    actualIntersection = FieldComputations::lineIntersectionWithDefenseArea(testField, false, startTestLine, endTestLine, 0.2);
     EXPECT_EQ(*actualIntersection, startTestLine);
     Vector2 intersectStart = testField.getBottomLeftOurDefenceArea() * 0.8 + testField.getBottomLeftOurDefenceArea() * 0.2;
     Vector2 intersectEnd = testField.getLeftPenaltyLineBottom() * 0.25 + testField.getLeftPenaltyLineTop() * 0.75;
     startTestLine = intersectStart * 10 - intersectEnd * 9;
     endTestLine = intersectEnd * 10 - intersectStart * 9;
-    actualIntersection = FieldComputations::lineIntersectionWithDefenceArea(testField, true, startTestLine, endTestLine, 0.0);
+    actualIntersection = FieldComputations::lineIntersectionWithDefenseArea(testField, true, startTestLine, endTestLine, 0.0);
     EXPECT_EQ(*actualIntersection, intersectStart);
 }
 
+TEST(FieldComputationTest, projectionTests) {
+    Field field = testhelpers::FieldHelper::generateField();
+    Vector2 belowGoal = field.getBottomLeftOurDefenceArea();
+    Vector2 aboveGoal = field.getTopLeftOurDefenceArea();
+    Vector2 topPenalty = field.getLeftPenaltyLineTop();
+
+    // Random point in our defense area
+    auto pointInDefenseArea = Vector2(SimpleRandom::getDouble(aboveGoal.x, topPenalty.x), SimpleRandom::getDouble(belowGoal.y, aboveGoal.y));
+    EXPECT_TRUE(FieldComputations::pointIsInOurDefenseArea(field, pointInDefenseArea));
+
+    auto projectedPoint = FieldComputations::projectPointOutOfDefenseArea(field, pointInDefenseArea);
+    EXPECT_FALSE(FieldComputations::pointIsInOurDefenseArea(field, projectedPoint));
+
+    auto pointOutsideField = Vector2(field.getLeftmostX() - 0.05, field.getTopmostY() + 0.05);
+    EXPECT_FALSE(FieldComputations::pointIsInField(field, pointOutsideField));
+    projectedPoint = FieldComputations::projectPointInField(field, pointOutsideField);
+    EXPECT_TRUE(FieldComputations::pointIsInField(field, projectedPoint));
+
+    auto pointBehindGoal = field.getOurGoalCenter() + Vector2(-0.10, 0);
+    projectedPoint = FieldComputations::projectPointInField(field, pointBehindGoal);
+    EXPECT_TRUE(FieldComputations::pointIsInOurDefenseArea(field, projectedPoint));
+
+    auto pointBehindDefArea = Vector2(6.047, -1.12139);
+    projectedPoint = FieldComputations::projectPointToValidPosition(field, pointBehindDefArea);
+    EXPECT_TRUE(FieldComputations::pointIsValidPosition(field, projectedPoint));
+}
+
+TEST(FieldComputationTest, projectionOnLineTests){
+    Field field = testhelpers::FieldHelper::generateField();
+    auto line = LineSegment(Vector2(), field.getTheirGoalCenter());
+    auto pointToProject = Vector2(5.5, -1);
+
+    auto projectedPoint = FieldComputations::projectPointToValidPositionOnLine(field, pointToProject, line.start, line.end);
+    EXPECT_TRUE(FieldComputations::pointIsValidPosition(field, projectedPoint));
+    EXPECT_TRUE(line.isOnLine(projectedPoint));
+
+    auto pointOutsideField = Vector2(1, -4.6);
+    line = LineSegment(pointOutsideField, Vector2());
+    projectedPoint = FieldComputations::projectPointIntoFieldOnLine(field, pointOutsideField, pointOutsideField, Vector2());
+    EXPECT_TRUE(FieldComputations::pointIsInField(field, projectedPoint));
+    EXPECT_TRUE(line.isOnLine(projectedPoint));
+}
 }  // namespace rtt

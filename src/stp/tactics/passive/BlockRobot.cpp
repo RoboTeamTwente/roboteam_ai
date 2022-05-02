@@ -29,8 +29,7 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
     auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), positionToDefend, enemyDistanceToPoint);
 
     auto projectedPosition =
-        PositionComputations::ProjectPositionToValidPointOnLine(info.getField().value(), desiredRobotPosition, positionToDefend, info.getEnemyRobot()->get()->getPos(),
-                                                                control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN, 0);
+        FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), desiredRobotPosition, positionToDefend, info.getEnemyRobot()->get()->getPos());
 
     skillStpInfo.setPositionToMoveTo(projectedPosition);
 
