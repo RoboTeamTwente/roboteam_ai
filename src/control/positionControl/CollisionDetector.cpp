@@ -26,12 +26,12 @@ std::optional<Vector2> CollisionDetector::getCollisionBetweenPoints(const Vector
 bool CollisionDetector::isPointInsideField(const Vector2& point) { return FieldComputations::pointIsInField(*field, point, Constants::ROBOT_RADIUS()); }
 
 std::optional<Vector2> CollisionDetector::getDefenseAreaCollision(const Vector2& point, const Vector2& nextPoint) {
-    auto ourDefenseCollision = FieldComputations::lineIntersectionWithDefenseArea(*field, true, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+    auto ourDefenseCollision = FieldComputations::lineIntersectionWithDefenceArea(*field, true, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
     if (ourDefenseCollision) {
         return *ourDefenseCollision;
     }
 
-    auto theirDefenseCollision = FieldComputations::lineIntersectionWithDefenseArea(*field, false, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+    auto theirDefenseCollision = FieldComputations::lineIntersectionWithDefenceArea(*field, false, point, nextPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
     if (!theirDefenseCollision) {
         return std::nullopt;
     }

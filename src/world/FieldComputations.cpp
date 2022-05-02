@@ -2,20 +2,27 @@
 
 #include <roboteam_utils/Shadow.h>
 
+#include "utilities/GameStateManager.hpp"
 #include "world/views/WorldDataView.hpp"
 
-namespace rtt::ai {
+namespace rtt {
+namespace ai {
 
 using util = control::ControlUtils;
 
-bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
-    auto defenseArea = FieldComputations::getDefenseArea(field, true, margin, backMargin);
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin) {
+    auto defenseArea = FieldComputations::getDefenseArea(field, isOurDefenceArea, margin, backMargin);
     return defenseArea.contains(point);
 }
 
+bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
+    // TODO: dont do this. Our defenders can go to our defense area, but can't be wholly within it. So, this should be factored in by having separate margins for our/their defense zone.
+    margin = 0;
+    return pointIsInDefenseArea(field, point, true, margin, backMargin);
+}
+
 bool FieldComputations::pointIsInTheirDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
-    auto defenseArea = FieldComputations::getDefenseArea(field, false, margin, backMargin);
-    return defenseArea.contains(point);
+    return pointIsInDefenseArea(field, point, false, margin, backMargin);
 }
 
 bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
@@ -27,12 +34,18 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
             point.y >= field.getBottommostY() - margin);
 }
 
-bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, stp::AvoidObjects avoidObjects, double fieldMargin, double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
-    if (avoidObjects.shouldAvoidOutOfField && !pointIsInField(field, point, fieldMargin)) return false;
-    if (avoidObjects.shouldAvoidDefenseArea &&
-        (pointIsInOurDefenseArea(field, point, ourDefenseAreaMargin) || pointIsInTheirDefenseArea(field, point, theirDefenseAreaMargin)))
-        return false;
-    return true;
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin) {
+    return (!pointIsInOurDefenseArea(field, point, margin) && !pointIsInTheirDefenseArea(field, point, margin) && pointIsInField(field, point));
+}
+
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, const std::string roleName, double margin) {
+    if (roleName == "ball_placer") {
+        // If this robot is the ball placer, the point is valid as long as it is not more than 0.5m out of the field (this should be adjusted if the field barriers are
+        // further/closer
+        return pointIsInField(field, point, 0.5);
+    }
+    bool isKeeper = roleName == "keeper";
+    return pointIsInField(field, point) && !pointIsInTheirDefenseArea(field, point) && (isKeeper || !pointIsInOurDefenseArea(field, point, margin));
 }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
@@ -46,7 +59,7 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::F
                                                               bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    auto &robots = ourTeam ? world.getThem() : world.getUs();
+    auto& robots = ourTeam ? world.getThem() : world.getUs();
     for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, robots, id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
@@ -105,7 +118,7 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
     }
 }
 
-std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
+std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
                                                                             double margin) {
     auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
     auto intersections = defenseArea.intersections({lineStart, lineEnd});
@@ -144,14 +157,14 @@ Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ou
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
     Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
 
-    if (aboveGoal.y < belowGoal.y) {
+    if (aboveGoal.y < belowGoal.y){
         std::swap(aboveGoal, belowGoal);
     }
-    if (topPenalty.y < bottomPenalty.y) {
+    if (topPenalty.y < bottomPenalty.y){
         std::swap(topPenalty, bottomPenalty);
     }
-
-    std::vector<Vector2> defenseArea = {belowGoal, bottomPenalty, topPenalty, aboveGoal};
+    
+    std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, aboveGoal, belowGoal};
     interface::Input::drawDebugData(defenseArea);
     return Polygon(defenseArea);
 }
@@ -229,85 +242,15 @@ std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegme
     return blockades;
 }
 
-Vector2 FieldComputations::projectPointInField(const world::Field &field, Vector2 point, double margin) {
-    Vector2 projectedPoint;
-    projectedPoint.x = std::clamp(point.x, field.getLeftmostX() + margin + PROJECTION_MARGIN, field.getRightmostX() - margin - PROJECTION_MARGIN);
-    projectedPoint.y = std::clamp(point.y, field.getBottommostY() + margin + PROJECTION_MARGIN, field.getTopmostY() - margin - PROJECTION_MARGIN);
-    return projectedPoint;
+Vector2 FieldComputations::placePointInField(const rtt_world::Field &field, const Vector2 &point) {
+    if (pointIsValidPosition(field, point)) return point;
+    Vector2 fixedPoint = point;
+    double margin = 0.005;
+    if (point.y > field.getTopLeftCorner().y) fixedPoint.y = field.getTopLeftCorner().y + margin;          // Top
+    if (point.x > field.getBottomRightCorner().x) fixedPoint.x = field.getBottomRightCorner().x - margin;  // Right
+    if (point.y > field.getBottomRightCorner().y) fixedPoint.y = field.getBottomRightCorner().y - margin;  // Bot
+    if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x + margin;          // Left
+    return fixedPoint;
 }
-
-Vector2 FieldComputations::projectPointOutOfDefenseArea(const world::Field &field, Vector2 point, double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
-    if (pointIsInField(field, point) && !pointIsInTheirDefenseArea(field, point, theirDefenseAreaMargin) && !pointIsInOurDefenseArea(field, point, ourDefenseAreaMargin)) return point;
-
-    // If the point is not in the field yet, project it into the field
-    if (!pointIsInField(field, point)) {
-        point = projectPointInField(field, point);
-    }
-
-    // Calculate how far the point is from the defense area border in the x and y direction
-    double xDiff;
-    double yDiff;
-    if (pointIsInOurDefenseArea(field, point, ourDefenseAreaMargin)){
-        xDiff = (field.getLeftPenaltyLineBottom().x + ourDefenseAreaMargin + PROJECTION_MARGIN) - point.x;
-        yDiff = point.y > 0 ? (field.getLeftPenaltyLineTop().y + ourDefenseAreaMargin + PROJECTION_MARGIN) - point.y : (field.getLeftPenaltyLineBottom().y - ourDefenseAreaMargin - PROJECTION_MARGIN) - point.y;
-    }
-    else if (pointIsInTheirDefenseArea(field, point, theirDefenseAreaMargin)){
-        xDiff = (field.getRightPenaltyLineBottom().x - theirDefenseAreaMargin - PROJECTION_MARGIN) - point.x;
-        yDiff = point.y > 0 ? (field.getRightPenaltyLineTop().y + theirDefenseAreaMargin + PROJECTION_MARGIN) - point.y : (field.getRightPenaltyLineBottom().y - theirDefenseAreaMargin - PROJECTION_MARGIN) - point.y;
-    }
-    else return point; // In case it is in neither defense area, just return the point
-
-    if (fabs(xDiff) < fabs(yDiff)) return {point.x + xDiff, point.y};
-    return {point.x, point.y + yDiff};
-}
-
-Vector2 FieldComputations::projectPointToValidPosition(const world::Field &field, Vector2 point, stp::AvoidObjects avoidObjects, double fieldMargin, double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
-    Vector2 projectedPos = point;
-    if (avoidObjects.shouldAvoidOutOfField) projectedPos = projectPointInField(field, projectedPos);
-    if (avoidObjects.shouldAvoidDefenseArea) projectedPos = projectPointOutOfDefenseArea(field, projectedPos, ourDefenseAreaMargin, theirDefenseAreaMargin);
-    return projectedPos;
-}
-
-Vector2 FieldComputations::projectPointIntoFieldOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, double fieldMargin) {
-    auto projectedPos = LineSegment(p1, p2).project(point);
-    if (FieldComputations::pointIsInField(field, projectedPos, fieldMargin)) return projectedPos;
-
-    auto intersection_lhs = FieldComputations::lineIntersectionWithField(field, projectedPos, p1, fieldMargin - PROJECTION_MARGIN);
-    auto intersection_rhs = FieldComputations::lineIntersectionWithField(field, projectedPos, p2, fieldMargin - PROJECTION_MARGIN);
-
-    // If there is no point  on this line inside the field, project the position into the field and return it
-    if (!intersection_lhs && !intersection_rhs) return projectPointInField(field, projectedPos, fieldMargin);
-    double dist_lhs = intersection_lhs ? point.dist(*intersection_lhs) : std::numeric_limits<double>::max();
-    double dist_rhs = intersection_rhs ? point.dist(*intersection_rhs) : std::numeric_limits<double>::max();
-    return (dist_lhs < dist_rhs ? *intersection_lhs : *intersection_rhs); // return the intersection closest to the point
-}
-
-Vector2 FieldComputations::projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects, double fieldMargin, double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
-    auto pointProjectedInField = projectPointIntoFieldOnLine(field, point, p1, p2, fieldMargin);
-
-    bool ourGoal; // Which goal's defense area the projected point is in
-    double margin; // The margin to be used for the defense area- set to ourDefenseMargin or theirDefenseAreaMargin depending on where the projected pos is
-    if (pointIsInOurDefenseArea(field, pointProjectedInField, ourDefenseAreaMargin)) {
-        margin = ourDefenseAreaMargin;
-        ourGoal = true;
-    } else if (pointIsInTheirDefenseArea(field, pointProjectedInField, theirDefenseAreaMargin)){
-        margin = theirDefenseAreaMargin;
-        ourGoal = false;
-    } else {
-        return pointProjectedInField; // If the projected position is not in a defense area, return it
-    }
-
-    std::vector<Vector2> intersections;
-    auto defenseAreaVertices = getDefenseArea(field, ourGoal, margin + PROJECTION_MARGIN, 0).vertices;
-    // Loop over the all lines of the defense area except the goal line and check for intersections
-    for (size_t i = 0; i < defenseAreaVertices.size() - 1; i++){
-        auto intersection = LineSegment(defenseAreaVertices[i], defenseAreaVertices[i+1]).intersects({p1, p2});
-        if (intersection) intersections.push_back(intersection.value());
-    }
-
-    // If there is no point  on this line outside the defense area, project the position out of the defense area and return it
-    if (intersections.empty()) return projectPointOutOfDefenseArea(field, pointProjectedInField, margin);
-
-    // Return the intersection closest to the given point
-    return *std::min_element(intersections.begin(), intersections.end(), [&point](auto lhs, auto rhs) { return point.dist(lhs) < point.dist(rhs); });}
+}  // namespace ai
 }  // namespace rtt

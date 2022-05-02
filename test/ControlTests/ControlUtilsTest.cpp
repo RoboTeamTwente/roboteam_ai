@@ -120,3 +120,110 @@ TEST(ControlUtils, object_velocity_aimed_at_point) {
     EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0, 0}, {1, 1}, {1, 0}, rtt::toRadians(90)));
     EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0, 0}, {-1, -1}, {-1, 0}, rtt::toRadians(90)));
 }
+
+TEST_F(RTT_AI_Tests, projectionTest) {
+    world = generateWorld();
+    auto field = world->getField().value();
+    Vector2 belowGoal = field.getBottomLeftOurDefenceArea();
+    Vector2 aboveGoal = field.getTopLeftOurDefenceArea();
+    Vector2 topPenalty = field.getLeftPenaltyLineTop();
+
+    auto posX = SimpleRandom::getDouble(aboveGoal.x, topPenalty.x);
+    auto posY = SimpleRandom::getDouble(belowGoal.y, aboveGoal.y);
+
+    // Point in our defense area
+    auto point = Vector2(posX, posY);
+
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, point));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, point));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsValidPosition(field, point, "", 0));
+
+    auto projectedPosition = rtt::ai::control::ControlUtils::projectPositionToOutsideDefenseArea(field, point, 0);
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", 0));
+
+    projectedPosition = rtt::ai::stp::PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(field, point, point, Vector2(), 0);
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", 0));
+
+    projectedPosition = rtt::ai::stp::PositionComputations::ProjectPositionToValidPointOnLine(field, point, point, Vector2(), 0, 0);
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", 0));
+
+    projectedPosition = rtt::ai::control::ControlUtils::projectPointToValidPosition(field, point, "", 0);
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", 0));
+
+    auto pointOutsideOfField = Vector2(field.getLeftmostX() - 0.05, field.getTopmostY() + 0.05);
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInField(field, pointOutsideOfField));
+
+    projectedPosition = rtt::ai::control::ControlUtils::projectPositionToWithinField(field, point, 0);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+
+    projectedPosition = rtt::ai::stp::PositionComputations::ProjectPositionIntoFieldOnLine(field, pointOutsideOfField, pointOutsideOfField, Vector2(), 0);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+
+    projectedPosition = rtt::ai::control::ControlUtils::projectPointToValidPosition(field, pointOutsideOfField, "", 0);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", 0));
+
+    projectedPosition = rtt::ai::stp::PositionComputations::ProjectPositionToValidPointOnLine(field, pointOutsideOfField, pointOutsideOfField, Vector2(), 0, 0);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", 0));
+
+    // Here, there is not a valid line to be projected on
+    projectedPosition = rtt::ai::stp::PositionComputations::ProjectPositionToValidPointOnLine(field, pointOutsideOfField, pointOutsideOfField, pointOutsideOfField, 0, 0);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, projectedPosition));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", 0));
+}
+
+TEST_F(RTT_AI_Tests, projectionTestWithMargins) {
+    world = generateWorld();
+    auto field = world->getField().value();
+    Vector2 belowGoal = field.getBottomLeftOurDefenceArea();
+    Vector2 aboveGoal = field.getTopLeftOurDefenceArea();
+    Vector2 topPenalty = field.getLeftPenaltyLineTop();
+
+    auto posX = SimpleRandom::getDouble(aboveGoal.x, topPenalty.x);
+    auto posY = SimpleRandom::getDouble(belowGoal.y, aboveGoal.y);
+
+    // Point in our defense area
+    auto pointInDefenseArea = Vector2(posX, posY);
+    auto pointOutsideOfField = Vector2(field.getLeftmostX() - 0.05, field.getTopmostY() + 0.05);
+
+    auto projectedPosition = rtt::ai::stp::PositionComputations::ProjectPositionToValidPointOnLine(field, pointOutsideOfField, pointOutsideOfField, pointOutsideOfField,
+                                                                                                   rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN, 0);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+
+    projectedPosition = rtt::ai::stp::PositionComputations::ProjectPositionToValidPointOnLine(field, pointInDefenseArea, pointInDefenseArea, pointInDefenseArea,
+                                                                                              rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN, 0);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+
+    projectedPosition = rtt::ai::control::ControlUtils::projectPointToValidPosition(field, pointOutsideOfField, "", rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+
+    projectedPosition = rtt::ai::control::ControlUtils::projectPointToValidPosition(field, pointInDefenseArea, "", rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsInField(field, projectedPosition));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInOurDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_FALSE(rtt::ai::FieldComputations::pointIsInTheirDefenseArea(field, projectedPosition, rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+    EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(field, projectedPosition, "", rtt::ai::stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN));
+}

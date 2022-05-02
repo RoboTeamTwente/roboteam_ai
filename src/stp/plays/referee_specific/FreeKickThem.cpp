@@ -127,11 +127,11 @@ void FreeKickThem::calculateInfoForHarassers() noexcept {
     auto ballPos = world->getWorld()->getBall()->get()->getPos();
     auto goalPos = field.getOurGoalCenter();
 
-    auto targetPos = (ballPos + goalPos) / 2;
-    targetPos = FieldComputations::projectPointToValidPositionOnLine(field, targetPos, ballPos, goalPos);
-    if (targetPos.dist(ballPos) <= 0.6) {
+    auto targetPos = (ballPos+goalPos)/2;
+    targetPos = control::ControlUtils::projectPointToValidPosition(field, targetPos, "harasser", 0);
+    if (targetPos.dist(ballPos) <= 0.6){
         // If we're within 60cm of the ball, move the target pos to be 60cm away
-        targetPos += (ballPos - targetPos).stretchToLength(0.6 - targetPos.dist(ballPos));
+        targetPos += (ballPos - targetPos).stretchToLength(0.6- targetPos.dist(ballPos));
     }
     stpInfos["harasser"].setPositionToMoveTo(targetPos);
 }
