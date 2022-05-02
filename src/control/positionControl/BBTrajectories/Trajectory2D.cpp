@@ -8,6 +8,8 @@
 
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 
+#include "roboteam_utils/Print.h"
+
 namespace rtt {
 
 Trajectory2D::Trajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc) {
@@ -35,6 +37,13 @@ std::vector<Vector2> Trajectory2D::getPathApproach(double timeStep) const {
     auto totalTime = getTotalTime();
     double time = 0;
 
+    if (totalTime == std::numeric_limits<double>::infinity()) {
+        // TODO: Prevent this from happening!
+        RTT_ERROR("Infinite while loop")
+        //throw std::runtime_error("Total time of infinity!");
+        return {getPosition(0)};
+    }
+
     while (time <= totalTime) {
         time += timeStep;
         points.push_back(getPosition(time));
@@ -46,6 +55,13 @@ std::vector<Vector2> Trajectory2D::getVelocityVector(double timeStep) const {
     std::vector<Vector2> velocities;
     auto totalTime = getTotalTime();
     double time = 0;
+
+    if (totalTime == std::numeric_limits<double>::infinity()) {
+        // TODO: Prevent this from happening!
+        RTT_ERROR("Infinite while loop")
+        //throw std::runtime_error("Total time of infinity!");
+        return {getPosition(0)};
+    }
 
     while (time <= totalTime) {
         time += timeStep;
