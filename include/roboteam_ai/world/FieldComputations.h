@@ -31,7 +31,8 @@ namespace rtt_world = rtt::world;
 class FieldComputations {
    private:
     static constexpr double NEGLIGIBLE_LENGTH = 0.000001;  // If a line length is below or equal to this threshold then is it neglected during determining the blockades.
-    static constexpr double PROJECTION_MARGIN = 0.02; // Some extra padding that is added when projecting positions, to make sure that the projected position is not exactly on lines/intersections
+    static constexpr double PROJECTION_MARGIN =
+        0.02;  // Some extra padding that is added when projecting positions, to make sure that the projected position is not exactly on lines/intersections
 
    public:
     /**
@@ -84,7 +85,8 @@ class FieldComputations {
      * @param avoidObjects Struct indicating which areas of the field should be avoided. Defaults to avoid entering the defense area and leaving the field
      * @return True if the point is not within any area that has to be avoided according to avoidObjects (note that shouldAvoidBall is not taken into consideration)
      */
-    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0.0, double ourDefenseAreaMargin = 0.0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0.0,
+                                     double ourDefenseAreaMargin = 0.0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
 
     /**
      * Project given position to within the field with a certain margin
@@ -105,7 +107,8 @@ class FieldComputations {
      * Note that the returned position will always be within the field, even if this is not the closest position that is out of the defense area.
      * If the given point is already out of the defense area, this same point is returned.
      */
-    static Vector2 projectPointOutOfDefenseArea(const rtt::world::Field &field, Vector2 point, double ourDefenseAreaMargin = 0.0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+    static Vector2 projectPointOutOfDefenseArea(const rtt::world::Field &field, Vector2 point, double ourDefenseAreaMargin = 0.0,
+                                                double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
 
     /**
      * Project given position to a valid position given which parts of the field should be avoided (note that shouldAvoidBall is not taken into consideration)
@@ -114,12 +117,13 @@ class FieldComputations {
      * @param avoidObjects Struct indicating which areas of the field should be avoided. Defaults to avoid entering the defense area and leaving the field
      * @param fieldMargin The outwards margin in which the field area will get expanded/shrunk in all directions. A positive value means that the field area will be
      * expanded, a negative value means that the field area will be shrunk.
-     * @param ourDefenseAreaMargin The outwards margin in which our defense area will get expanded/shrunk (except behind the goal). A positive value means that the defense area will be
-     * expanded, a negative value means that the defense area will be shrunk.
+     * @param ourDefenseAreaMargin The outwards margin in which our defense area will get expanded/shrunk (except behind the goal). A positive value means that the defense area
+     * will be expanded, a negative value means that the defense area will be shrunk.
      * @param theirDefenseAreaMargin The outwards margin in which their defense area will get expanded/shrunk
      * @return The position closest to the given point that fulfills the criteria set in avoidObjects (except ball avoidance)
      */
-    static Vector2 projectPointToValidPosition(const rtt::world::Field &field, Vector2 point, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0.0, double ourDefenseAreaMargin = 0.0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+    static Vector2 projectPointToValidPosition(const rtt::world::Field &field, Vector2 point, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0.0,
+                                               double ourDefenseAreaMargin = 0.0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
 
     /**
      * Projects the given point into the field on a line between two given points.
@@ -132,7 +136,7 @@ class FieldComputations {
      * @return The position in the field closest to p1 on the line between p1 and p2.
      * If no such position can be found, return the closest position in the field from the given point (but not on the given line).
      */
-    static Vector2 projectPointIntoFieldOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, double fieldMargin);
+    static Vector2 projectPointIntoFieldOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, double fieldMargin = 0.0);
 
     /**
      * Projects the given point to a valid position, as defined by avoidObjects, on a line between two given points.
@@ -143,13 +147,14 @@ class FieldComputations {
      * @param avoidObjects Struct indicating which areas of the field should be avoided. Defaults to avoid entering the defense area and leaving the field
      * @param fieldMargin The outwards margin in which the field area will get expanded/shrunk in all directions. A positive value means that the field area will be
      * expanded, a negative value means that the field area will be shrunk.
-     * @param ourDefenseAreaMargin The outwards margin in which our defense area will get expanded/shrunk (except behind the goal). A positive value means that the defense area will be
-     * expanded, a negative value means that the defense area will be shrunk.
+     * @param ourDefenseAreaMargin The outwards margin in which our defense area will get expanded/shrunk (except behind the goal). A positive value means that the defense area
+     * will be expanded, a negative value means that the defense area will be shrunk.
      * @param theirDefenseAreaMargin The outwards margin in which their defense area will get expanded/shrunk
      * @return The closest valid position to the given point on the line between p1 and p2.
      * If no such position can be found, return the closest valid position to the given point (but not on the given line).
      */
-    static Vector2 projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0,  double ourDefenseAreaMargin = 0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+    static Vector2 projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0,
+                                                     double ourDefenseAreaMargin = 0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
 
     /**
      * Get the percentage of goal visible from a given point, i.e. how much of the goal can be reached by directly shooting a ball over the ground from a given point without
