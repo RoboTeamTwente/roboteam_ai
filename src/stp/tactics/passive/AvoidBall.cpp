@@ -57,8 +57,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
         }
     }
 
-    targetPos =
-        FieldComputations::projectPointToValidPosition(info.getField().value(), targetPos, skillStpInfo.getObjectsToAvoid());
+    targetPos = FieldComputations::projectPointToValidPosition(info.getField().value(), targetPos, skillStpInfo.getObjectsToAvoid());
 
     skillStpInfo.setPositionToMoveTo(targetPos);
 
