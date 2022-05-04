@@ -28,9 +28,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const& info) noe
     skillStpInfo.setDribblerSpeed(0);
 
     Vector2 targetPos = skillStpInfo.getPositionToMoveTo().value();
-
     auto ballPosition = skillStpInfo.getBall()->get()->getPos();
-    auto targetPosition = skillStpInfo.getPositionToMoveTo().value();
 
     std::unique_ptr<Shape> avoidShape;
 

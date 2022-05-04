@@ -60,9 +60,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
     } else {
         auto ball = world->getWorld()->getBall()->get();
         auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
-        auto receiverLocation = ballTrajectory.project(passLocation);
-        receiverLocation =
-            PositionComputations::ProjectPositionIntoFieldOnLine(field, receiverLocation, ballTrajectory.start, ballTrajectory.end, -2 * control_constants::ROBOT_RADIUS);
+        auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
     }
 }
