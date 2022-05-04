@@ -26,7 +26,8 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
     if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
         // don't move too close to the ball until the angle to the ball is (roughly) correct
-        skillStpInfo.setPositionToMoveTo(FieldComputations::projectPointToValidPosition(info.getField().value(), skillStpInfo.getRobot()->get()->getPos(), info.getObjectsToAvoid()));
+        skillStpInfo.setPositionToMoveTo(
+            FieldComputations::projectPointToValidPosition(info.getField().value(), skillStpInfo.getRobot()->get()->getPos(), info.getObjectsToAvoid()));
     } else {
         // the robot will go to the position of the ball
         Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - control_constants::CENTER_TO_FRONT + 0.035);

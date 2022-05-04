@@ -5,8 +5,8 @@
 #include "stp/plays/defensive/DefendShot.h"
 
 #include "stp/roles/Keeper.h"
-#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/active/Harasser.h"
+#include "stp/roles/passive/BallDefender.h"
 
 namespace rtt::ai::stp::play {
 
@@ -34,9 +34,7 @@ DefendShot::DefendShot() : Play() {
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_6"))};
 }
 
-uint8_t DefendShot::score(const rtt::world::Field& field) noexcept {
-    return 255;
-}
+uint8_t DefendShot::score(const rtt::world::Field& field) noexcept { return 255; }
 
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

@@ -60,8 +60,8 @@ class FreeKickThem : public Play {
     void calculateInfoForOffenders() noexcept;
 
     /**
-    *  Calculates info for the harassers
-    */
+     *  Calculates info for the harassers
+     */
     void calculateInfoForHarassers() noexcept;
 };
 }  // namespace rtt::ai::stp::play

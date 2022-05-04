@@ -24,7 +24,8 @@ std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::W
     auto pathPoints = Trajectory.getPathApproach(timeStep);
 
     size_t timeStepsDone;
-    computedPaths.contains(robotId) && pathPoints.size() > computedPaths.at(robotId).size() ? timeStepsDone = pathPoints.size() - computedPaths.at(robotId).size() : timeStepsDone = 0;
+    computedPaths.contains(robotId) && pathPoints.size() > computedPaths.at(robotId).size() ? timeStepsDone = pathPoints.size() - computedPaths.at(robotId).size()
+                                                                                            : timeStepsDone = 0;
 
     std::vector<CollisionData> collisionDatas;
 
