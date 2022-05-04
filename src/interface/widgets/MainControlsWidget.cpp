@@ -4,8 +4,9 @@
 
 #include "interface/widgets/MainControlsWidget.h"
 
-#include <stp/PlayDecider.hpp>
 #include <utilities/GameStateManager.hpp>
+
+#include <stp/PlayDecider.hpp>
 
 namespace rtt::ai::interface {
 

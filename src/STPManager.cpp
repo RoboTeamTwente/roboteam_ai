@@ -7,9 +7,9 @@
 #include <chrono>
 
 #include "control/ControlModule.h"
+#include "stp/computations/ComputationManager.h"
 #include "stp/PlayDecider.hpp"
 #include "stp/PlayEvaluator.h"
-#include "stp/computations/ComputationManager.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
 
@@ -71,10 +71,10 @@ void STPManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
@@ -137,11 +137,11 @@ void STPManager::runOneLoopCycle() {
         auto fieldMessage = state.field().field();
         auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
 
-        std::vector<proto::SSL_WrapperPacket> vision_packets(state.processed_vision_packets().begin(), state.processed_vision_packets().end());
+        std::vector<proto::SSL_WrapperPacket> vision_packets(state.processed_vision_packets().begin(),state.processed_vision_packets().end());
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
-            for (auto &packet : vision_packets) {
-                roboteam_utils::rotate(&packet);  //
+            for (auto& packet : vision_packets){
+                roboteam_utils::rotate(&packet); //
             }
         }
         mainWindow->updateProcessedVisionPackets(vision_packets);

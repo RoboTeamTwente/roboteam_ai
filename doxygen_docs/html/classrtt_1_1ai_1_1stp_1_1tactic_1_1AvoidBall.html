@@ -122,6 +122,8 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a35be8571412d041bfe1e54ac337ebea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af23ec48dc3feb0ece5af3efa2ff3a080"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html#af23ec48dc3feb0ece5af3efa2ff3a080">isEndTactic</a> () noexcept override</td></tr>
 <tr class="separator:af23ec48dc3feb0ece5af3efa2ff3a080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a30e6f263816fc5ae0be8e5ca3225b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html#aa6a30e6f263816fc5ae0be8e5ca3225b">calculateNewPosition</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> targetPos, const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field, const std::unique_ptr&lt; Shape &gt; &amp;avoidShape)</td></tr>
+<tr class="separator:aa6a30e6f263816fc5ae0be8e5ca3225b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0fd5d86d4348615c2796e619bac1686"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html#ac0fd5d86d4348615c2796e619bac1686">getName</a> () override</td></tr>
 <tr class="separator:ac0fd5d86d4348615c2796e619bac1686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -177,6 +179,57 @@ Private Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>std::optional&lt;SkillInfo&gt; based on the <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> parameter </dd></dl>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#a4cfea3dd9c7299b30f32a1abf0cf2356">rtt::ai::stp::Tactic</a>.</p>
+
+</div>
+</div>
+<a id="aa6a30e6f263816fc5ae0be8e5ca3225b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a30e6f263816fc5ae0be8e5ca3225b">&#9670;&nbsp;</a></span>calculateNewPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::stp::tactic::AvoidBall::calculateNewPosition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
+          <td class="paramname"><em>targetPos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unique_ptr&lt; Shape &gt; &amp;&#160;</td>
+          <td class="paramname"><em>avoidShape</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Computes a new location to go to that is outside of the avoidShape and a valid position </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">targetPos</td><td>the position the robot would like to go to </td></tr>
+    <tr><td class="paramname">field</td><td>the current field </td></tr>
+    <tr><td class="paramname">avoidShape</td><td>the area in the field that needs to be avoided </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>new position to go to which is valid and outside the avoidShape, or the original targetPos is no such position is found (although this is very unlikely). </dd></dl>
 
 </div>
 </div>

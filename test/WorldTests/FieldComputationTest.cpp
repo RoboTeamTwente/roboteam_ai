@@ -243,7 +243,7 @@ TEST(FieldComputationTest, projectionTests) {
     EXPECT_TRUE(FieldComputations::pointIsValidPosition(field, projectedPoint));
 }
 
-TEST(FieldComputationTest, projectionOnLineTests) {
+TEST(FieldComputationTest, projectionOnLineTests){
     Field field = testhelpers::FieldHelper::generateField();
     auto line = LineSegment(Vector2(), field.getTheirGoalCenter());
     auto pointToProject = Vector2(5.5, -1);

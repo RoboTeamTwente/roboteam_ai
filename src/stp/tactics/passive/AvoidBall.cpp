@@ -17,9 +17,9 @@
 
 namespace rtt::ai::stp::tactic {
 
-AvoidBall::AvoidBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
+AvoidBall::AvoidBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
-std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const& info) noexcept {
     StpInfo skillStpInfo = info;
     auto currentGameState = GameStateManager::getCurrentGameState().getStrategyName();
 
@@ -28,36 +28,26 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
     skillStpInfo.setDribblerSpeed(0);
 
     Vector2 targetPos = skillStpInfo.getPositionToMoveTo().value();
+    auto ballPosition = skillStpInfo.getBall()->get()->getPos();
 
-    // If gameState == stop we need to avoid using a circle around the ball
-    if (std::strcmp(currentGameState.c_str(), "stop") == 0) {
-        auto ballPosition = skillStpInfo.getBall()->get()->getPos();
-        auto targetPosition = skillStpInfo.getPositionToMoveTo().value();
+    std::unique_ptr<Shape> avoidShape;
 
-        // Circle around the ball with default avoid radius (0.5m)
-        auto avoidCircle = Circle(ballPosition, control_constants::AVOID_BALL_DISTANCE);
-
-        // If position is within the avoidCircle, project the position on this circle
-        if (avoidCircle.doesIntersectOrContain(targetPosition)) {
-            targetPos = avoidCircle.project(targetPosition);
-        }
+    // During ball placement, we need to avoid the are between the ball and the target position by a certain margin
+    if (currentGameState == "ball_placement_us" || currentGameState == "ball_placement_them") {
+        avoidShape = std::make_unique<Tube>(Tube(ballPosition, GameStateManager::getRefereeDesignatedPosition(), control_constants::AVOID_BALL_DISTANCE));
+    } else {
+        // During stop gamestate, we need to avoid the area directly around the ball.
+        avoidShape = std::make_unique<Circle>(Circle(ballPosition, control_constants::AVOID_BALL_DISTANCE));
     }
 
-    // If gameState == ballPlacement we need to avoid using a tube on the shortest path from the ball to the ball placement position
-    else if (currentGameState == "ball_placement_us" || currentGameState == "ball_placement_them") {
-        auto ballPosition = skillStpInfo.getBall()->get()->getPos();
-        auto targetPosition = skillStpInfo.getPositionToMoveTo().value();
-
-        // Tube around the shortest path from ball to placement position with default avoid radius (0.5m)
-        auto avoidTube = Tube(ballPosition, GameStateManager::getRefereeDesignatedPosition(), control_constants::AVOID_BALL_DISTANCE);
-
-        // If position is within the avoidTube, project the position on this tube
-        if (avoidTube.contains(targetPosition)) {
-            targetPos = avoidTube.project(targetPosition);
+    if (avoidShape->contains(targetPosition)) {
+        auto projectedPos = avoidShape->project(targetPosition);
+        if (FieldComputations::pointIsValidPosition(info.getField().value(), projectedPos))
+            targetPos = projectedPos;
+        else {
+            targetPos = calculateNewPosition(targetPos, info.getField().value(), avoidShape);
         }
     }
-
-    targetPos = FieldComputations::projectPointToValidPosition(info.getField().value(), targetPos, skillStpInfo.getObjectsToAvoid());
 
     skillStpInfo.setPositionToMoveTo(targetPos);
 
@@ -66,16 +56,38 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
 
 bool AvoidBall::isEndTactic() noexcept { return true; }
 
-bool AvoidBall::isTacticFailing(const StpInfo &info) noexcept {
+bool AvoidBall::isTacticFailing(const StpInfo& info) noexcept {
     return (info.getRoleName() == "ball_placer" &&
             (info.getBall()->get()->getPos() - rtt::ai::GameStateManager::getRefereeDesignatedPosition()).length() > control_constants::BALL_PLACEMENT_MARGIN);
 }
 
-bool AvoidBall::shouldTacticReset(const StpInfo &info) noexcept {
-    double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
-    return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
+bool AvoidBall::shouldTacticReset(const StpInfo& info) noexcept { return false; }
+
+Vector2 AvoidBall::calculateNewPosition(Vector2 targetPos, const rtt::world::Field& field, const std::unique_ptr<Shape>& avoidShape) {
+    Vector2 newTarget = targetPos;  // The new position to go to
+    bool pointFound = false;
+    for (int distanceSteps = 0; distanceSteps < 5; ++distanceSteps) {
+        // Use a larger grid each iteration in case no valid point is found
+        auto distance = 3 * control_constants::AVOID_BALL_DISTANCE + distanceSteps * control_constants::AVOID_BALL_DISTANCE / 2.0;
+        auto possiblePoints = Grid(targetPos.x - distance / 2.0, targetPos.y - distance / 2.0, distance, distance, 3, 3).getPoints();
+        double dist = 1e3;
+        for (auto& pointVector : possiblePoints) {
+            for (auto& point : pointVector) {
+                if (FieldComputations::pointIsValidPosition(field, point) && !avoidShape->contains(point)) {
+                    if (targetPos.dist(point) < dist) {
+                        dist = targetPos.dist(point);
+                        newTarget = point;
+                        pointFound = true;
+                    }
+                }
+            }
+        }
+        if (pointFound) break;  // As soon as a valid point is found, don't look at more points further away
+    }
+    if (newTarget == targetPos) RTT_WARNING("Could not find good position to avoid ball");
+    return newTarget;
 }
 
-const char *AvoidBall::getName() { return "Avoid Ball"; }
+const char* AvoidBall::getName() { return "Avoid Ball"; }
 
 }  // namespace rtt::ai::stp::tactic

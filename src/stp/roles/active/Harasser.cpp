@@ -3,7 +3,6 @@
 //
 
 #include "stp/roles/active/Harasser.h"
-
 #include "stp/tactics/active/GetBall.h"
 
 namespace rtt::ai::stp::role {

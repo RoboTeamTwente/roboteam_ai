@@ -2,9 +2,13 @@
 
 namespace rtt::Interface {
 
-bool InterfaceControllerServer::hasPriorityData() const noexcept { return true; }
+bool InterfaceControllerServer::hasPriorityData() const noexcept {
+    return true;
+}
 
-void InterfaceControllerServer::handleData(const proto::UiValues &state) { this->vals->handleData(state, this->decls); }
+void InterfaceControllerServer::handleData(const proto::UiValues &state) {
+    this->vals->handleData(state, this->decls);
+}
 
 proto::ModuleState InterfaceControllerServer::getDataForRemote(bool expired) const noexcept {
     auto state = rtt::ai::io::io.getState();
@@ -25,4 +29,4 @@ proto::ModuleState InterfaceControllerServer::getDataForRemote(bool expired) con
     return mod;
 }
 
-}  // namespace rtt::Interface
+} // namespace rtt::Interface

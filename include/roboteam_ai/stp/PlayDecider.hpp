@@ -17,14 +17,14 @@ class PlayDecider {
     /**
      * play that's set from the interface in case it's overridden
      */
-    static inline Play* interfacePlay;
+    static inline Play *interfacePlay;
 
    public:
     /**
      * Sets the locked play, read variable above
      * @param play Play to lock to
      */
-    static void lockInterfacePlay(Play* play);
+    static void lockInterfacePlay(Play *play);
 
     /**
      * Bool indicating if the current play was manually changed in the interface
@@ -39,7 +39,7 @@ class PlayDecider {
      * @return The best play for the current tick
      * (either a locked play through the interface or just the highest scored play)
      */
-    static Play* decideBestPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<ai::stp::Play>>& plays) noexcept;
+    static Play *decideBestPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<ai::stp::Play>>& plays) noexcept;
 
     /**
      * Returns (a pointer to) a play with a given name

@@ -7,9 +7,9 @@
 
 #include <roboteam_utils/Print.h>
 
+#include "stp/tactics/active/GetBehindBallInDirection.h"
 #include "stp/tactics/active/DriveWithBall.h"
 #include "stp/tactics/active/GetBall.h"
-#include "stp/tactics/active/GetBehindBallInDirection.h"
 #include "stp/tactics/passive/AvoidBall.h"
 #include "world/FieldComputations.h"
 

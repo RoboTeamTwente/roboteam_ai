@@ -96,7 +96,7 @@ void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands)
     if (state.has_last_seen_world()) {
         const auto world = getState().last_seen_world();
         const auto robots = rtt::SETTINGS.isYellow() ? world.yellow() : world.blue();
-        for (auto& robotCommand : robotCommands) {
+        for (auto &robotCommand : robotCommands) {
             for (const auto robot : robots) {
                 if (robot.id() == robotCommand.id) {
                     robotCommand.cameraAngleOfRobot = robot.angle();

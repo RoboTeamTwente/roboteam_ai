@@ -57,3 +57,4 @@ TEST(FieldHelperTests, FieldTest) {
     EXPECT_FALSE(FieldComputations::pointIsInField(field, rtt::Vector2(0.51 * fieldLength, 0.51 * fieldWidth)));
     EXPECT_FALSE(FieldComputations::pointIsInField(field, rtt::Vector2(-0.51 * fieldLength, -0.51 * fieldWidth)));
 }
+
