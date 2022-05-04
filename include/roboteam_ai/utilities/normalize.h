@@ -90,22 +90,22 @@ void rotate(rtt::RobotCommand *command);
  * Rotates all relevant fields of the wrapper packet (robots, ball and geometry)
  * @param packet
  */
-void rotate(proto::SSL_WrapperPacket * packet);
+void rotate(proto::SSL_WrapperPacket *packet);
 
 /**
  * rotates all relevant fields of the detection frame (robots and ball)
  * @param packet
  */
-void rotate(proto::SSL_DetectionFrame * frame);
+void rotate(proto::SSL_DetectionFrame *frame);
 
 /**
  * Rotates a detection robot
  */
-void rotate(proto::SSL_DetectionRobot * robot);
+void rotate(proto::SSL_DetectionRobot *robot);
 
 /**
  * Rotates a detection ball
  * @param ball
  */
-void rotate(proto::SSL_DetectionBall * ball);
+void rotate(proto::SSL_DetectionBall *ball);
 }  // namespace roboteam_utils

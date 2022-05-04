@@ -23,8 +23,7 @@ uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eD
      *              -_                               /
      */
 
-
-    double evalScore = 1;          // Default score (= perfect line of sight)
+    double evalScore = 1;                    // Default score (= perfect line of sight)
     constexpr double outerAngle = M_PI / 6;  // 30 degrees- enemies outside this angle are not considered
     for (size_t i = 0; i < eAngles.size(); i++) {
         if (eAngles[i] < outerAngle) {
