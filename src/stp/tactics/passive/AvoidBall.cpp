@@ -40,8 +40,8 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const& info) noe
         avoidShape = std::make_unique<Circle>(Circle(ballPosition, control_constants::AVOID_BALL_DISTANCE));
     }
 
-    if (avoidShape->contains(targetPosition)) {
-        auto projectedPos = avoidShape->project(targetPosition);
+    if (avoidShape->contains(targetPos)) {
+        auto projectedPos = avoidShape->project(targetPos);
         if (FieldComputations::pointIsValidPosition(info.getField().value(), projectedPos))
             targetPos = projectedPos;
         else {
