@@ -124,9 +124,9 @@ void JoystickManager::tickJoystickHandlers() {
         auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id);
         if (joystickHandler.second->getCommand().kickSpeed > 0) {
             RTT_DEBUG("KickSpeed = ", joystickHandler.second->getCommand().kickSpeed);
-            RTT_DEBUG("KickType = ", joystickHandler.second->getCommand().kickType == KickType::KICK
-                                         ? "Kick"
-                                         : (joystickHandler.second->getCommand().kickType == KickType::CHIP) ? "Chip" : "NoKick");
+            RTT_DEBUG("KickType = ", joystickHandler.second->getCommand().kickType == KickType::KICK     ? "Kick"
+                                     : (joystickHandler.second->getCommand().kickType == KickType::CHIP) ? "Chip"
+                                                                                                         : "NoKick");
         }
         rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
     }
