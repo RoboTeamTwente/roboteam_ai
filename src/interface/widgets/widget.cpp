@@ -42,11 +42,10 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
     painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
-    if(showWorld){
+    if (showWorld) {
         drawRobots(painter, world.value());
         if (world->getBall().has_value()) drawBall(painter, world->getBall().value());
     }
-
 
     // draw the drawings from the input
     auto drawings = Input::getDrawings();
@@ -126,7 +125,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         }
     }
 
-    if(showWorldDetections ){
+    if (showWorldDetections) {
         drawRawDetectionPackets(painter);
     }
 }
@@ -636,9 +635,7 @@ void Visualizer::setTacticForRobot(std::string const &view, uint8_t i) {
     std::lock_guard mtx{tacticsUpdate};
     tacticsForRobots.insert({i, view});
 }
-void Visualizer::setShowWorldDetections(bool showDetections) {
-    showWorldDetections = showDetections;
-}
+void Visualizer::setShowWorldDetections(bool showDetections) { showWorldDetections = showDetections; }
 void Visualizer::updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets) {
     std::lock_guard mtx{worldDetectionsMutex};
     raw_detection_packets = packets;
@@ -659,8 +656,8 @@ void Visualizer::drawRawDetectionPackets(QPainter &painter) {
         }
     }
 }
-void Visualizer::drawDetectionBall(QPainter &painter, const proto::SSL_DetectionBall& ball) {
-    Vector2 ballWorldPos(ball.x()*0.001,ball.y()*0.001); //ssl units are in millimeters
+void Visualizer::drawDetectionBall(QPainter &painter, const proto::SSL_DetectionBall &ball) {
+    Vector2 ballWorldPos(ball.x() * 0.001, ball.y() * 0.001);  // ssl units are in millimeters
     rtt::Vector2 ballPosition = toScreenPosition(ballWorldPos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
 
@@ -670,16 +667,16 @@ void Visualizer::drawDetectionBall(QPainter &painter, const proto::SSL_Detection
     painter.setOpacity(0.8);
     int ballSize = Constants::BALL_RADIUS() * 2 * factor;
 
-    painter.drawEllipse(qballPosition, ballSize,ballSize);
+    painter.drawEllipse(qballPosition, ballSize, ballSize);
 }
 void Visualizer::drawDetectionRobot(QPainter &painter, bool robotIsBlue, const proto::SSL_DetectionRobot &robot) {
-    Vector2 robotWorldPos = Vector2(robot.x()*0.001,robot.y()*0.001);
+    Vector2 robotWorldPos = Vector2(robot.x() * 0.001, robot.y() * 0.001);
     Vector2 robotpos = toScreenPosition(robotWorldPos);
 
     // update the we are yellow
     bool weAreYellow = SETTINGS.isYellow();
 
-    QColor robotColor = robotIsBlue ? Qt::green : Qt::red; // use contrasting colors
+    QColor robotColor = robotIsBlue ? Qt::green : Qt::red;  // use contrasting colors
 
     int ypos = robotpos.y;
 
@@ -712,8 +709,6 @@ void Visualizer::drawDetectionRobot(QPainter &painter, bool robotIsBlue, const p
     painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::number(robot.robot_id()));
     painter.setFont(QFont("ubuntu", 11));  // 22 is a number which you have to change
 }
-void Visualizer::setShowWorld(bool setShowWorld) {
-    showWorld = setShowWorld;
-}
+void Visualizer::setShowWorld(bool setShowWorld) { showWorld = setShowWorld; }
 
 }  // namespace rtt::ai::interface
