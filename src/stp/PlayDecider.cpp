@@ -8,7 +8,7 @@ namespace rtt::ai::stp {
 
 // If we cannot pick a play for any reason, these will be selected
 const std::string BACKUP_REFEREE_PLAY = "Defend Pass";
-const std::string BACKUP_INTERFACE_PLAY = "halt";
+const std::string BACKUP_INTERFACE_PLAY = "Halt";
 
 Play* PlayDecider::decideNewPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<Play>>& plays, const std::string& interfacePlayName) {
     // In any case, give all plays a new score
