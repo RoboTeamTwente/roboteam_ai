@@ -5,7 +5,7 @@
 #include <utilities/Constants.h>
 #include <utilities/Settings.h>
 #include <world/Field.h>
-#include <roboteam_utils/AIData.hpp>
+
 #include <RobotCommandsNetworker.hpp>
 #include <SettingsNetworker.hpp>
 #include <SimulationConfigurationNetworker.hpp>
@@ -49,8 +49,8 @@ class IOManager {
    public:
     void publishAllRobotCommands(rtt::RobotCommands& robotCommands);
     bool publishAIData(const AIData&);
-    void publishSettings(const Settings &settings);
-    void onSettingsOfPrimaryAI(const proto::Setting &settings);
+    void publishSettings(const Settings& settings);
+    void onSettingsOfPrimaryAI(const proto::Setting& settings);
     // Returns success. Only Primary AI is allowed to send simulation configuration
     bool sendSimulationConfiguration(const proto::SimulationConfiguration& configuration);
 

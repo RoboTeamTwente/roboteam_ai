@@ -26,18 +26,13 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
     if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > control_constants::HAS_BALL_ANGLE_ERROR_MARGIN * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
         // don't move too close to the ball until the angle to the ball is (roughly) correct
-        auto targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), info.getRobot()->get()->getPos(), info.getRoleName(),
-                                                                            control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
-        skillStpInfo.setPositionToMoveTo(targetPos);
+        skillStpInfo.setPositionToMoveTo(
+            FieldComputations::projectPointToValidPosition(info.getField().value(), skillStpInfo.getRobot()->get()->getPos(), info.getObjectsToAvoid()));
     } else {
         // the robot will go to the position of the ball
         Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - control_constants::CENTER_TO_FRONT + 0.035);
 
-        // Don't get the ball at an invalid position
-        if (!FieldComputations::pointIsValidPosition(info.getField().value(), newRobotPosition, info.getRoleName(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) {
-            newRobotPosition =
-                control::ControlUtils::projectPointToValidPosition(info.getField().value(), newRobotPosition, info.getRoleName(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
-        }
+        newRobotPosition = FieldComputations::projectPointToValidPosition(info.getField().value(), newRobotPosition, info.getObjectsToAvoid());
 
         skillStpInfo.setPositionToMoveTo(newRobotPosition);
     }

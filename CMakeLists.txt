@@ -107,6 +107,7 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/PenaltyKeeper.cpp
         # active
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Attacker.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallPlacer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
@@ -115,10 +116,10 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PassReceiver.cpp
         # passive
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/BallAvoider.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Defender.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/BallDefender.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/RobotDefender.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp
 )
 target_include_directories(roboteam_ai_roles

@@ -7,9 +7,9 @@
 #include <world/views/RobotView.hpp>
 
 #include "stp/roles/Keeper.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
-#include "stp/roles/passive/Harasser.h"
+#include "stp/roles/passive/RobotDefender.h"
 
 namespace rtt::ai::stp::play {
 
@@ -26,14 +26,14 @@ DefendPass::DefendPass() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")),
-        std::make_unique<role::Defender>(role::Defender("defender_helper_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_helper_2")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_1")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_2")),
-        std::make_unique<role::Defender>(role::Defender("midfielder_3")),
-        std::make_unique<role::Harasser>(role::Harasser("harasser")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_helper_1")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_helper_2")),
+        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_1")),
+        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2")),
+        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
+        std::make_unique<role::RobotDefender>(role::RobotDefender("robot_defender")),
         std::make_unique<role::Formation>(role::Formation("offender_1")),
         std::make_unique<role::Formation>(role::Formation("offender_2")),
     };
@@ -56,7 +56,7 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closestToBallFlag}}});
+    flagMap.insert({"robot_defender", {DealerFlagPriority::HIGH_PRIORITY, {closestToBallFlag}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"defender_helper_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
@@ -73,7 +73,7 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
 void DefendPass::calculateInfoForRoles() noexcept {
     calculateInfoForDefenders();
     calculateInfoForKeeper();
-    calculateInfoForHarassers();
+    calculateInfoForRobotDefenders();
     calculateInfoForOffenders();
 }
 
@@ -129,13 +129,13 @@ void DefendPass::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 }
 
-void DefendPass::calculateInfoForHarassers() noexcept {
+void DefendPass::calculateInfoForRobotDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
 
-    stpInfos["harasser"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["harasser"].setEnemyRobot(enemyClosestToBall);
-    stpInfos["harasser"].setBlockDistance(BlockDistance::CLOSE);
+    stpInfos["robot_defender"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["robot_defender"].setEnemyRobot(enemyClosestToBall);
+    stpInfos["robot_defender"].setBlockDistance(BlockDistance::CLOSE);
 }
 
 void DefendPass::calculateInfoForOffenders() noexcept {

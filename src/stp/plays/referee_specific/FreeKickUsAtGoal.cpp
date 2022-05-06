@@ -8,7 +8,7 @@
 #include "stp/computations/PositionScoring.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/FreeKickTaker.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -28,9 +28,9 @@ FreeKickUsAtGoal::FreeKickUsAtGoal() : Play() {
                                                                                        std::make_unique<role::Formation>(("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(("midfielder_right")),
                                                                                        std::make_unique<role::Formation>(("attacking_midfielder")),
-                                                                                       std::make_unique<role::Defender>(("defender_left")),
-                                                                                       std::make_unique<role::Defender>(("defender_mid")),
-                                                                                       std::make_unique<role::Defender>(("defender_right"))};
+                                                                                       std::make_unique<role::BallDefender>(("defender_left")),
+                                                                                       std::make_unique<role::BallDefender>(("defender_mid")),
+                                                                                       std::make_unique<role::BallDefender>(("defender_right"))};
 }
 
 uint8_t FreeKickUsAtGoal::score(const rtt::world::Field& field) noexcept {
@@ -123,7 +123,8 @@ void FreeKickUsAtGoal::calculateInfoForAttackers() noexcept {
 bool FreeKickUsAtGoal::shouldEndPlay() noexcept {
     return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {
         return role != nullptr && role->getName() == "free_kick_taker" && strcmp(role->getCurrentTactic()->getName(), "Formation") == 0;
-    });}
+    });
+}
 
 const char* FreeKickUsAtGoal::getName() { return "Free Kick Us At Goal"; }
 

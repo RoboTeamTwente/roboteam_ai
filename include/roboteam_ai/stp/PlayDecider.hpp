@@ -17,7 +17,7 @@ class PlayDecider {
      * @param interfacePlay The play that is currently selected by the interface
      * @return the correct play to use, or nullptr when even the backup plays could not be picked
      */
-    static Play *decideNewPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<Play>>& plays, const std::string& interfacePlay);
+    static Play* decideNewPlay(const rtt::world::World* world, const std::vector<std::unique_ptr<Play>>& plays, const std::string& interfacePlay);
 
     /**
      * Gives a score to all valid plays, and returns pairs that were calculated
@@ -33,6 +33,6 @@ class PlayDecider {
      * @param plays The vector of plays in which needs to be searched
      * @return the play with the given play, or nullptr when that play does not exist
      */
-    static Play *getPlayByName(std::string name, const std::vector<std::unique_ptr<Play>>& plays);
+    static Play* getPlayByName(std::string name, const std::vector<std::unique_ptr<Play>>& plays);
 };
 }  // namespace rtt::ai::stp

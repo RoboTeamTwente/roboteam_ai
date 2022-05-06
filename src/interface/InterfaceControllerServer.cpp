@@ -5,9 +5,7 @@
 
 namespace rtt::Interface {
 
-bool InterfaceControllerServer::hasPriorityData() const noexcept {
-    return false;
-}
+bool InterfaceControllerServer::hasPriorityData() const noexcept { return false; }
 
 void InterfaceControllerServer::handleData(const proto::UiValues &state) {
     this->vals->handleData(state, this->decls);

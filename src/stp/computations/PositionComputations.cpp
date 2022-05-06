@@ -19,7 +19,7 @@ gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2
     (currentPosition.has_value()) ? bestPosition = PositionScoring::scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0, 0}, 0};
     for (const auto &nestedPoints : searchGrid.getPoints()) {
         for (const Vector2 &position : nestedPoints) {
-            if (!FieldComputations::pointIsValidPosition(field, position, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) continue;
+            if (!FieldComputations::pointIsValidPosition(field, position)) continue;
             gen::ScoredPosition consideredPosition = PositionScoring::scorePosition(position, profile, field, world);
             if (consideredPosition.score > bestPosition.score) bestPosition = consideredPosition;
         }
@@ -36,7 +36,7 @@ Vector2 PositionComputations::getWallPosition(int index, int amountDefenders, co
 
 std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::world::Field &field, const rtt::world::World *world, int amountDefenders) {
     if (amountDefenders <= 0) return {};  // we need at least 1 defender to be able to compute a wall
-    Vector2 ballPos = FieldComputations::placePointInField(field, world->getWorld().value().getBall()->get()->getPos());
+    Vector2 ballPos = FieldComputations::projectPointInField(field, world->getWorld().value().getBall()->get()->getPos());
     double radius = control_constants::ROBOT_RADIUS;
     double spacingRobots = radius * 2;
     double spaceBetweenDefenseArea = field.getFieldLength() / 30;  // Because path planning is weird about being right next to a defense area
@@ -100,45 +100,5 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     std::sort(std::begin(positions), std::end(positions), [](Vector2 a, Vector2 b) { return a.length() > b.length(); });
     return positions;
-}
-
-Vector2 PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
-    if (!FieldComputations::pointIsInDefenseArea(field, position, margin)) {
-        return position;
-    }
-    auto intersection = FieldComputations::lineIntersectionWithDefenceArea(field, true, p1, p2, margin);
-    if (intersection) {
-        return *intersection;
-    }
-
-    intersection = FieldComputations::lineIntersectionWithDefenceArea(field, false, p1, p2, margin);
-    if (intersection) {
-        return *intersection;
-    }
-
-    return position;
-}
-
-Vector2 PositionComputations::ProjectPositionIntoFieldOnLine(const rtt::world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin) {
-    if (FieldComputations::pointIsInField(field, position, margin)) {
-        return position;
-    }
-    auto intersection = FieldComputations::lineIntersectionWithField(field, p1, p2, margin);
-    if (intersection) {
-        return *intersection;
-    }
-
-    return position;
-}
-Vector2 PositionComputations::ProjectPositionToValidPointOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double defenseAreaMargin, double fieldMargin) {
-    auto pointProjectedInField = ProjectPositionIntoFieldOnLine(field, position, p1, p2, fieldMargin);
-    if (!FieldComputations::pointIsInField(field, pointProjectedInField, fieldMargin)){
-        pointProjectedInField = control::ControlUtils::projectPositionToWithinField(field, position, fieldMargin);
-    }
-    auto pointProjectedOutOfDefenseArea =  ProjectPositionOutsideDefenseAreaOnLine(field, pointProjectedInField, p1, p2, defenseAreaMargin);
-    if (!FieldComputations::pointIsValidPosition(field, pointProjectedOutOfDefenseArea, defenseAreaMargin)){
-        return control::ControlUtils::projectPositionToOutsideDefenseArea(field, control::ControlUtils::projectPositionToWithinField(field, pointProjectedOutOfDefenseArea, fieldMargin), defenseAreaMargin);
-    }
-    return pointProjectedOutOfDefenseArea;
 }
 }  // namespace rtt::ai::stp

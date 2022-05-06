@@ -15,7 +15,7 @@ namespace rtt::ai::stp::computations {
 
 PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::world::World* world, const world::Field& field, bool keeperCanPass) {
     PassInfo passInfo;  // Struct used to store the information needed to execute the pass
-    if (world->getWorld()->getUs().size() < (keeperCanPass ? 2 : 3)){
+    if (world->getWorld()->getUs().size() < (keeperCanPass ? 2 : 3)) {
         RTT_WARNING("Not enough robots to pass!");
         return passInfo;
     }
@@ -82,7 +82,7 @@ bool PassComputations::pointIsValidPassLocation(Vector2 point, Vector2 ballLocat
     if (point.dist(ballLocation) < MINIMUM_PASS_DISTANCE) return false;
     constexpr double MINIMUM_LINE_OF_SIGHT = 10.0;  // The minimum LoS to be a valid pass, otherwise, the pass will go into an enemy robot
     if (PositionScoring::scorePosition(point, gen::LineOfSight, field, world).score < MINIMUM_LINE_OF_SIGHT) return false;
-    if (!FieldComputations::pointIsValidPosition(field, point, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN)) return false;
+    if (!FieldComputations::pointIsValidPosition(field, point)) return false;
 
     // Pass is valid if the above conditions are met and there is a robot whose travel time is smaller than the balls travel time (i.e. the robot can actually receive the ball)
     auto ballTravelTime = calculateBallTravelTime(ballLocation, passerLocation, point);

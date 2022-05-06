@@ -1,10 +1,11 @@
 #pragma once
 #include <gtest/gtest_prod.h>
 
-#include "interface/widgets/mainWindow.h"
 #include <interface/InterfaceControllerServer.h>
 
 #include <stp/Play.hpp>
+
+#include "interface/widgets/mainWindow.h"
 
 namespace rtt {
 

@@ -41,8 +41,7 @@ uint8_t KickOffUs::score(const rtt::world::Field &field) noexcept {
 
 void KickOffUs::calculateInfoForRoles() noexcept {
     // Keeper
-    // TODO: set good position to shoot at (compute pass location)- possibly do this in the keeper role
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     // Kicker
@@ -61,9 +60,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
     } else {
         auto ball = world->getWorld()->getBall()->get();
         auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
-        auto receiverLocation = ballTrajectory.project(passLocation);
-        receiverLocation =
-            PositionComputations::ProjectPositionIntoFieldOnLine(field, receiverLocation, ballTrajectory.start, ballTrajectory.end, -2 * control_constants::ROBOT_RADIUS);
+        auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
     }
 }

@@ -11,7 +11,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/PassReceiver.h"
 #include "stp/roles/active/Passer.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Halt.h"
 
@@ -42,7 +42,7 @@ GenericPass::GenericPass() : Play() {
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_3")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_4")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_5")),
@@ -56,14 +56,13 @@ void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
 
     /// Keeper
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     /// Passer and receivers
     // calculate all info necessary to execute a pass
     calculateInfoForPass(ball);
 
-    /// Defender
+    /// BallDefender
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
