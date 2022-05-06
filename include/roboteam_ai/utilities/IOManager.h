@@ -5,10 +5,11 @@
 #include <utilities/Constants.h>
 #include <utilities/Settings.h>
 #include <world/Field.h>
-
+#include <roboteam_utils/AIData.hpp>
 #include <RobotCommandsNetworker.hpp>
 #include <SettingsNetworker.hpp>
 #include <SimulationConfigurationNetworker.hpp>
+#include <AIDataNetworker.hpp>
 #include <WorldNetworker.hpp>
 #include <iostream>
 #include <mutex>
@@ -33,6 +34,9 @@ class IOManager {
     std::unique_ptr<rtt::net::RobotCommandsBluePublisher> robotCommandsBluePublisher;
     std::unique_ptr<rtt::net::RobotCommandsYellowPublisher> robotCommandsYellowPublisher;
 
+    std::unique_ptr<rtt::net::AIYellowDataPublisher> yellowDataPublisher;
+    std::unique_ptr<rtt::net::AIBlueDataPublisher> blueDataPublisher;
+
     // Only the primary AI publishes settings. The secondary AI subscribes to those settings so they are on the same line
     std::unique_ptr<rtt::net::SettingsPublisher> settingsPublisher;
     std::unique_ptr<rtt::net::SettingsSubscriber> settingsSubscriber;
@@ -44,6 +48,7 @@ class IOManager {
 
    public:
     void publishAllRobotCommands(rtt::RobotCommands& robotCommands);
+    bool publishAIData(const AIData&);
     void publishSettings(const Settings &settings);
     void onSettingsOfPrimaryAI(const proto::Setting &settings);
     // Returns success. Only Primary AI is allowed to send simulation configuration

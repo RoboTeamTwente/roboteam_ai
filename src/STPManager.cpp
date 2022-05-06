@@ -12,6 +12,7 @@
 #include "stp/PlayEvaluator.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
+#include <utilities/InterfaceData.hpp>
 
 /**
  * Plays are included here
@@ -135,6 +136,9 @@ void STPManager::start() {
             if (SETTINGS.isPrimaryAI()) {
                 stpTimer.limit([&]() { io::io.publishSettings(SETTINGS); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
+
+            io::io.publishAIData(InterfaceData::getData());
+            InterfaceData::clearData();
         },
         ai::Constants::STP_TICK_RATE());
 }
