@@ -106,9 +106,20 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
 }
 
 std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
-                                                                            double margin) {
+                                                                            double margin, bool ignoreGoalLine) {
     auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
-    auto intersections = defenseArea.intersections({lineStart, lineEnd});
+
+    std::vector<Vector2> intersections;
+    if (!ignoreGoalLine) {
+        intersections = defenseArea.intersections({lineStart, lineEnd});
+    } else {
+        auto defenseAreaVertices = defenseArea.vertices;
+        // Loop over the all lines of the defense area except the goal line and check for intersections
+        for (size_t i = 0; i < defenseAreaVertices.size() - 1; i++) {
+            auto intersection = LineSegment(defenseAreaVertices[i], defenseAreaVertices[i + 1]).intersects({lineStart, lineEnd});
+            if (intersection) intersections.push_back(intersection.value());
+        }
+    }
 
     if (intersections.size() == 1) {
         return std::make_shared<Vector2>(intersections.at(0));
