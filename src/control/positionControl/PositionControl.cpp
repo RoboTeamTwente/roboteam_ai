@@ -9,35 +9,8 @@
 #include <Tracy.hpp>
 
 namespace rtt::ai::control {
-RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                                  Vector2 &targetPosition, stp::PIDType pidType) {
-    collisionDetector.setField(field);
 
-    // if the robot is close to the final position and can't get there, stop
-    if ((currentPosition - targetPosition).length() < FINAL_AVOIDANCE_DISTANCE && collisionDetector.getRobotCollisionBetweenPoints(currentPosition, targetPosition)) {
-        RTT_INFO("Path collides with something close to the target position for robot ID ", robotId)
-        return {};
-    }
-    if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
-        computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
-    }
-    interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
-
-    RobotCommand command = {};
-    Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity, computedPaths[robotId], robotId, pidType);
-    command.velocity = Vector2(trackingVelocity.x, trackingVelocity.y);
-    command.targetAngle = trackingVelocity.rot;
-    return command;
-}
-
-bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, const Vector2 &currentVelocity, int robotId) {
-    return computedPaths[robotId].empty() || PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
-           (currentVelocity != Vector2(0, 0) && collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
-}
-
-void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) { collisionDetector.setRobotPositions(robotPositions); }
+void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) {  }
 
 rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
                                                                      Vector2 currentVelocity, Vector2 targetPosition, double maxRobotVelocity, stp::PIDType pidType,

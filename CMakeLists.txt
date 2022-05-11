@@ -265,15 +265,9 @@ target_compile_options(roboteam_ai_computation PRIVATE "${COMPILER_FLAGS}")
 add_library(roboteam_ai_control
         ${PROJECT_SOURCE_DIR}/src/control/ControlModule.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/DensePathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BBTPathTracking.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
