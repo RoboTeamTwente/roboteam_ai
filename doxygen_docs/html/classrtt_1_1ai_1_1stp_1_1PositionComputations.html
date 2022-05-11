@@ -83,6 +83,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:abe8970b8c1238aa9b886c7b74711c9a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab02389c2e7f4d881acdf4dd11e04effe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe">getWallPosition</a> (int index, int amountDefenders, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world)</td></tr>
 <tr class="separator:ab02389c2e7f4d881acdf4dd11e04effe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc950c394f1575479a78cb14a753258e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionComputations.html#acc950c394f1575479a78cb14a753258e">getBallBlockPosition</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world)</td></tr>
+<tr class="separator:acc950c394f1575479a78cb14a753258e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="aeb15a3e633899a90ab80e5e008345604"></a>
@@ -137,6 +139,50 @@ Static Public Member Functions</h2></td></tr>
 <p>Find intersect of ball to goal on the border of the defense area</p>
 <p>Intersect found with defense area: Place robots around the intersect in front of defense area</p>
 <p>No intersects with defense area: The ball should be outside the field if this happens. Place robots in the same spot everytime when this happens, if no positions it segfaults.</p>
+
+</div>
+</div>
+<a id="acc950c394f1575479a78cb14a753258e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc950c394f1575479a78cb14a753258e">&#9670;&nbsp;</a></span>getBallBlockPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::stp::PositionComputations::getBallBlockPosition </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
+          <td class="paramname"><em>world</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Calculates where a robot should stand to prevent the ball from going in the goal </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td>The current field </td></tr>
+    <tr><td class="paramname">world</td><td>The current world </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The position a robot should go to to block the ball (this does not depend on the position of any of our robots) </dd></dl>
 
 </div>
 </div>

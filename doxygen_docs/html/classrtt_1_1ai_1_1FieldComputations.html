@@ -111,8 +111,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a3c80c4e9609f98967c20db1f70a172e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab124c62848060939c82a1f8f136dffe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#aab124c62848060939c82a1f8f136dffe">getPenaltyPoint</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal)</td></tr>
 <tr class="separator:aab124c62848060939c82a1f8f136dffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad63440769b6a36ec69f7e344c42afe34"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#ad63440769b6a36ec69f7e344c42afe34">lineIntersectionWithDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineStart, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineEnd, double margin)</td></tr>
-<tr class="separator:ad63440769b6a36ec69f7e344c42afe34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d3634924856a550f4fc8c8286b08e2e"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a4d3634924856a550f4fc8c8286b08e2e">lineIntersectionWithDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineStart, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineEnd, double margin, bool ignoreGoalLine=false)</td></tr>
+<tr class="separator:a4d3634924856a550f4fc8c8286b08e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ac3192ff7505c7e829bffb6c0c1cc4c"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a2ac3192ff7505c7e829bffb6c0c1cc4c">lineIntersectionWithField</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineStart, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineEnd, double margin)</td></tr>
 <tr class="separator:a2ac3192ff7505c7e829bffb6c0c1cc4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a503b401be51f54a45e17f7aa05eacf13"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a503b401be51f54a45e17f7aa05eacf13">getTotalGoalAngle</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point)</td></tr>
@@ -752,8 +752,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad63440769b6a36ec69f7e344c42afe34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad63440769b6a36ec69f7e344c42afe34">&#9670;&nbsp;</a></span>lineIntersectionWithDefenseArea()</h2>
+<a id="a4d3634924856a550f4fc8c8286b08e2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d3634924856a550f4fc8c8286b08e2e">&#9670;&nbsp;</a></span>lineIntersectionWithDefenseArea()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -789,7 +789,13 @@ Static Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>margin</em>&#160;</td>
+          <td class="paramname"><em>margin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>ignoreGoalLine</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -810,6 +816,7 @@ Static Private Attributes</h2></td></tr>
     <tr><td class="paramname">lineStart</td><td>The location of the start of the LineSegment. </td></tr>
     <tr><td class="paramname">lineEnd</td><td>The location of the end of the LineSegment. </td></tr>
     <tr><td class="paramname">margin</td><td>The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked). </td></tr>
+    <tr><td class="paramname">ignoreGoalLine</td><td>If true, do not count intersections with the goal line (the line of the defense area that overlaps with the left line of the field). </td></tr>
   </table>
   </dd>
 </dl>
