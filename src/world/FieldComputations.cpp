@@ -293,8 +293,10 @@ Vector2 FieldComputations::projectPointIntoFieldOnLine(const world::Field &field
     return (dist_lhs < dist_rhs ? *intersection_lhs : *intersection_rhs); // return the intersection closest to the point
 }
 
-Vector2 FieldComputations::projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects, double fieldMargin, double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
-    auto pointProjectedInField = projectPointIntoFieldOnLine(field, point, p1, p2, fieldMargin);
+Vector2 FieldComputations::projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects, double fieldMargin,
+                                                             double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
+    // Subtract PROJECTION_MARGIN to avoid the situation where the point is between the left field line and our goal line (-6.0 < x < -5.9)
+    auto pointProjectedInField = projectPointIntoFieldOnLine(field, point, p1, p2, fieldMargin - PROJECTION_MARGIN);
 
     bool ourGoal; // Which goal's defense area the projected point is in
     double margin; // The margin to be used for the defense area- set to ourDefenseMargin or theirDefenseAreaMargin depending on where the projected pos is
