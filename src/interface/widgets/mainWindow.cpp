@@ -36,8 +36,10 @@ MainWindow::MainWindow(QWidget *parent, STPManager *manager) : QMainWindow(paren
                                            Constants::STD_SHOW_DEBUG_VALUES());
     MainWindow::configureCheckableMenuItem("Inverse interface", "show rolenames", viewMenu, visualizer, SLOT(setToggleFieldDirection(bool)), false);
 
-    MainWindow::configureCheckableMenuItem("Show raw world detections","shows all the raw world detections which have been processed by world",viewMenu,visualizer,SLOT(setShowWorldDetections(bool)),false);
-    MainWindow::configureCheckableMenuItem("Show processed world","shows the robots and the ball. Only turn this off if you know what you are doing!", viewMenu,visualizer,SLOT(setShowWorld(bool)),true);
+    MainWindow::configureCheckableMenuItem("Show raw world detections", "shows all the raw world detections which have been processed by world", viewMenu, visualizer,
+                                           SLOT(setShowWorldDetections(bool)), false);
+    MainWindow::configureCheckableMenuItem("Show processed world", "shows the robots and the ball. Only turn this off if you know what you are doing!", viewMenu, visualizer,
+                                           SLOT(setShowWorld(bool)), true);
     // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
     auto mainControlsWidget = new MainControlsWidget(this, manager);
@@ -183,8 +185,6 @@ void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualize
 void MainWindow::setKeeperRole(stp::Role *keeperRole, stp::Status state) { keeperStpWidget->updateKeeperContents(keeperRole, state); }
 
 void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
-void MainWindow::updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets) {
-    visualizer->updateProcessedVisionPackets(packets);
-}
+void MainWindow::updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets) { visualizer->updateProcessedVisionPackets(packets); }
 
 }  // namespace rtt::ai::interface

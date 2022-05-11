@@ -3,10 +3,10 @@
 //
 
 #include "stp/roles/Keeper.h"
-#include "stp/tactics/KeeperBlockBall.h"
 
 #include <roboteam_utils/Print.h>
 
+#include "stp/tactics/KeeperBlockBall.h"
 
 namespace rtt::ai::stp::role {
 

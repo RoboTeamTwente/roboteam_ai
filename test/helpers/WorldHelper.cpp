@@ -19,7 +19,7 @@ double WorldHelper::getRandomValue(double min, double max) {
 /*
  * Generate a random position on a field
  */
-rtt::Vector2 WorldHelper::getRandomFieldPosition(const proto::SSL_GeometryFieldSize& field) {
+rtt::Vector2 WorldHelper::getRandomFieldPosition(const proto::SSL_GeometryFieldSize &field) {
     auto randomX = getRandomValue(-(field.field_length() / 2000.0), field.field_length() / 2000.0);
     auto randomY = getRandomValue(-(field.field_width() / 2000.0), field.field_width() / 2000.0);
     return {randomX, randomY};

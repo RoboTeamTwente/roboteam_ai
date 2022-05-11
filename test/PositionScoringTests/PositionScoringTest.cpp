@@ -82,7 +82,7 @@ void saveBallLocation(world::World* world, const std::string& fileName) {
 }  // namespace rtt
 
 int main(int argc, char* argv[]) {
-    //rtt::ai::Constants::init();
+    // rtt::ai::Constants::init();
     auto world = rtt::generateWorld();
 
     /// Set the profile to be used when scoring positions

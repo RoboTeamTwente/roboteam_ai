@@ -15,7 +15,7 @@ namespace rtt::ai::stp::computations {
 
 PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::world::World* world, const world::Field& field, bool keeperCanPass) {
     PassInfo passInfo;  // Struct used to store the information needed to execute the pass
-    if (world->getWorld()->getUs().size() < (keeperCanPass ? 2 : 3)){
+    if (world->getWorld()->getUs().size() < (keeperCanPass ? 2 : 3)) {
         RTT_WARNING("Not enough robots to pass!");
         return passInfo;
     }
