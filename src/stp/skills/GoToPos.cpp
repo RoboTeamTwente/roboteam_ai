@@ -23,10 +23,6 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos,
         info.getMaxRobotVelocity(), info.getPidType().value(), info.getObjectsToAvoid());
 
-    if (commandCollision.collisionData.has_value()) {
-        // return Status::Failure;
-    }
-
     double targetVelocityLength;
     if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS / 2) {
         RTT_DEBUG("Setting max vel");

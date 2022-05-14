@@ -6,11 +6,11 @@
 #define RTT_POSITIONCONTROL_H
 
 #include <queue>
-
 #include <roboteam_utils/RobotCommands.hpp>
 
 #include "BBTrajectories/Trajectory2D.h"
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
+#include "control/positionControl/CollisionDetector.h"
 #include "control/positionControl/pathTracking/BBTPathTracking.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
 #include "utilities/StpInfoEnums.h"
@@ -28,6 +28,7 @@ class PositionControl {
     static constexpr double FINAL_AVOIDANCE_DISTANCE = 4 * Constants::ROBOT_RADIUS();
 
     rtt::BB::WorldObjects worldObjects;
+    rtt::ai::control::CollisionDetector collisionDetector;
     BBTPathTracking pathTrackingAlgorithmBBT;
 
     std::unordered_map<int, Trajectory2D> computedTrajectories;
@@ -88,7 +89,7 @@ class PositionControl {
      */
     std::optional<Trajectory2D> findNewTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
                                                   std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, double maxRobotVelocity, double timeStep,
-                                                  stp::AvoidObjects AvoidObjects);
+                                                  stp::AvoidObjects AvoidObjects, std::optional<rtt::ai::control::Collision> firstCollisionDetector);
 
     // If no collision on trajectory to intermediatePoint, create new points along this trajectory in timeStep increments.
     // Then loop through these new points, generate trajectories from these to the original target and check for collisions.
@@ -119,7 +120,8 @@ class PositionControl {
      * @param targetPosition the desired position that the robot has to reach
      * @return A vector with coordinates of the intermediate points
      */
-    std::vector<Vector2> createIntermediatePoints(const rtt::world::Field &field, int robotId, std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition);
+    std::vector<Vector2> createIntermediatePoints(const rtt::world::Field &field, int robotId, std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,
+                                                  std::optional<rtt::ai::control::Collision> firstCollisionDetector);
 
     /**
      * @brief Gives each intermediate point a score for how close the point is to the collisionPosition
@@ -129,6 +131,8 @@ class PositionControl {
      */
     std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>> scoreIntermediatePoints(
         std::vector<Vector2> &intermediatePoints, std::optional<BB::CollisionData> &firstCollision);
+
+    CollisionDetector &getCollisionDetector();
 };
 
 }  // namespace rtt::ai::control

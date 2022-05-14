@@ -278,7 +278,9 @@ add_library(roboteam_ai_control
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/AnglePID.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
 )
+
 target_include_directories(roboteam_ai_control
         PRIVATE include/roboteam_ai
 )

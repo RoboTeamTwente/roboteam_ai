@@ -3,7 +3,6 @@
 //
 
 #include "world/World.hpp"
-#include <Tracy.hpp>
 
 namespace rtt::world {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
@@ -92,11 +91,14 @@ void World::updateTickTime() noexcept {
 }
 
 void World::updatePositionControl() {
-    ZoneScopedN("Update Position Control");
-    std::vector<Vector2> robotPositions(getWorld()->getRobotsNonOwning().size());
-    std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robotPositions.begin(),
-                   [](const auto &robot) -> Vector2 { return (robot->getPos()); });
-    positionControl.setRobotPositions(robotPositions);
+    auto &collisionDetector = positionControl.getCollisionDetector();
+    collisionDetector.setField(getField());
+
+    // TODO: Ball can be null!!!!
+    collisionDetector.updatePositions(getWorld()->getRobotsNonOwning(), getWorld()->getBall().value());
+
+    auto gameState = rtt::ai::GameStateManager::getCurrentGameState();
+    collisionDetector.setMinBallDistance(gameState.getRuleSet().minDistanceToBall);
 }
 
 uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
