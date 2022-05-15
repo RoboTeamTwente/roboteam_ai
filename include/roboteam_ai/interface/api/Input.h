@@ -10,9 +10,11 @@
 #include <QtGui/QColor>
 #include <iostream>
 #include <mutex>
+#include <span>
 #include <tuple>
 
 #include "Toggles.h"
+#include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 
 namespace rtt::ai::interface {
 
@@ -48,6 +50,8 @@ class Input {
     static void clearDrawings();
     static const std::vector<Drawing> getDrawings();
     static void drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0,
+                         double height = 4.0, double strokeWidth = 2.0);
+    static void drawData(Visual visual, std::span<const BB::PosVelVector> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0,
                          double height = 4.0, double strokeWidth = 2.0);
     static void drawDebugData(std::vector<Vector2> points, QColor color = Qt::yellow, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0,
                               double height = 4.0, double strokeWidth = 4.0);

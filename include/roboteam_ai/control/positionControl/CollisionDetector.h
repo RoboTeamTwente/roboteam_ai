@@ -8,59 +8,131 @@
 #include <span>
 #include <vector>
 
-#include "control/positionControl/BBTrajectories/Trajectory2D.h"
+#include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "utilities/Constants.h"
 #include "world/Field.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai::control {
 
-struct BallObstacle {
-    Vector2 position;
-    Vector2 velocity;
-};
-
-struct RobotObstacle {
-    Vector2 position;
-    Vector2 velocity;
-    int robotId;
-};
-
 struct Obstacles {
-    BallObstacle ball;
-    std::vector<RobotObstacle> robotsThem;
-    std::vector<RobotObstacle> robotsUs;
+    BB::PosVelVector ball;
+    std::vector<BB::PosVelVector> robotsThem;
+    std::unordered_map<int, BB::PosVelVector> robotsUs;
 };
 
 struct Collision {
     Vector2 position;
-    double time;
+    Vector2 velocity;
+    int timeStep;
 };
 
-using PathPoints = std::span<const Vector2>;
+template <typename T>
+concept PathPointType = std::is_same_v < std::decay_t<T>,
+Vector2 > || std::is_same_v<std::decay_t<T>, BB::PosVelVector>;
 
 class CollisionDetector {
    private:
-    static constexpr double SCAN_RANGE = 2.0;
-    static constexpr double TIME_STEP = 0.1;
-    static constexpr double TIMELINE_SIZE = SCAN_RANGE / TIME_STEP;
-
+    static constexpr int TIME_STEP = ai::Constants::POSITION_CONTROL_TIME_STEP();
+    static constexpr int STEP_COUNT = ai::Constants::POSITION_CONTROL_STEP_COUNT();
     static constexpr double MIN_ROBOT_DISTANCE = 3 * ai::Constants::ROBOT_RADIUS_MAX();
     double minBallDistance = 0.0;
 
     std::vector<Obstacles> timeline;
     std::optional<rtt::world::Field> field;
-    [[nodiscard]] static bool isCollision(const Vector2& origin, const Vector2& target, const double& threshold);
 
-    std::optional<Collision> getFirstObjectCollision(PathPoints pathPoints, const int& robotId);
-    std::optional<Collision> getFirstFieldCollision(PathPoints pathPoints);
-    std::optional<Collision> getFirstDefenseAreaCollision(PathPoints pathPoints);
+    /**
+     * @brief Consolidation of collision detection logic.
+     * @tparam pathPoint PathPoint to check for collisions.
+     * @param obstaclePos Obstacle to check against.
+     * @param minDistance Minimum distance between origin and obstacle.
+     * */
+    template <PathPointType T>
+    [[nodiscard]] static bool isCollision(const T& pathPoint, const Vector2& obstaclePos, double minDistance);
+
+    /**
+     * @brief Finds the first (time-wise) collision with dynamic obstacles(ball and robots) on the path
+     * @tparam pathPoints Trajectory approximation
+     * @param robotId Robot id to ignore (i.e it self)
+     * @param timeOffset Time offset to start checking from
+     * @param shouldAvoidBall Whether to avoid the ball or not
+     * @param timeLimit Time limit to check for collisions
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstObjectCollision(std::span<T> path, int robotId, bool shouldAvoidBall, int timeOffset = 0, int timeLimit = STEP_COUNT) const;
+
+    /**
+     * @brief Finds the first (time-wise) collision with the playing field.
+     * @tparam pathPoints Trajectory approximation
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstFieldCollision(std::span<T> path) const;
+
+    /**
+     * @brief Finds the first (time-wise) collision with defense area.
+     * @tparam pathPoints Trajectory approximation
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstDefenseAreaCollision(std::span<T> path) const;
+
+    /**
+     * @brief Unwrap the PathPointType to Vector2 at compile-time.
+     * @tparam container PathPoint to unwrap.
+     */
+    template <PathPointType T>
+    [[nodiscard]] static constexpr const Vector2& unwrapPosition(const T& container);
 
    public:
     CollisionDetector();
-    std::optional<Collision> getFirstCollision(const int& robotId, PathPoints pathPoints);
+
+    /**
+     * @brief Finds the first (time-wise) collision with any obstacle on the path.
+     * @tparam pathPoints Trajectory approximation
+     * @param robotId Robot id to ignore (i.e it self)
+     * @param avoidObjects what objects to avoid
+     * @param timeOffset Time offset to start checking from
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstCollision(std::span<T> path, int robotId, const stp::AvoidObjects& avoidObjects, int timeOffset = 0) const;
+
+    /**
+     * @brief Check if given position is occupied.
+     * Occupied means that there is and object in the given position that is *not* moving.
+     * @tparam position Position to check.
+     * @param robotId Robot id to ignore (i.e it self)
+     * @param avoidObjects what objects to avoid
+     */
+    template <PathPointType T>
+    [[nodiscard]] bool isOccupied(T& position, int robotId, const stp::AvoidObjects& avoidObjects) const;
+
+    /**
+     * @brief Set minimal allowed distance from the ball.
+     * @tparam distance minimal allowed distance.
+     */
     void setMinBallDistance(double distance);
+
+    /**
+     * @brief Updates filed reference for collision checking with playing field and defense area.
+     * @param field Playing field.
+     */
     void setField(const std::optional<rtt::world::Field>& field);
-    void updatePositions(const std::vector<rtt::world::view::RobotView>& robots, const rtt::world::view::BallView& ball);
+
+    /**
+     * @brief Updates the timeline with obstacles positions. Must be called *once* at the start of each tick.
+     * For enemy robots and the ball the position is approximated.
+     * For our robots only the observer position is updated (i.e the current position) or
+     * if our robot is not moving the current position is set for all time steps.
+     * @param robots Robots to update the timeline with
+     * @param ball Ball to update the timeline with
+     */
+    void updateTimeline(const std::vector<rtt::world::view::RobotView>& robots, const std::optional<rtt::world::view::BallView>& ball);
+
+    /**
+     * @brief Updates the timeline with path approximation generated by path planning.
+     * @param path Trajectory approximation.
+     * @param currentPosition Current position of the robot.
+     * @param robotId Id of robot to update the path for
+     */
+    void updateTimelineForOurRobot(std::span<const BB::PosVelVector> path, const Vector2& currentPosition, int robotId);
 };
 }  // namespace rtt::ai::control

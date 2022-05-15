@@ -7,7 +7,8 @@
 namespace rtt::ai::control {
 
 Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle, stp::PIDType pidType) {
-    PositionControlUtils::removeFirstIfReached(pathPoints, currentPosition);
+    // TODO: Done by BBT Tracking
+    //    PositionControlUtils::removeFirstIfReached(pathPoints, currentPosition);
     if (pidMapping.find(robotId) == pidMapping.end()) {
         pidMapping[robotId] = std::make_pair(PID(), PID());
         pidMapping[robotId].first.setMaxIOutput(MAX_VELOCITY);

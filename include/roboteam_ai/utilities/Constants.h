@@ -68,6 +68,11 @@ class Constants {
     static double CENTRE_TO_FRONT();
     static double CLOSE_TO_BORDER_DISTANCE();
 
+    // POSITION CONTROL //
+    static constexpr int POSITION_CONTROL_TIME_STEP() { return 100; };
+    static constexpr int POSITION_CONTROL_SCAN_RANGE() { return 2500; };
+    static constexpr int POSITION_CONTROL_STEP_COUNT() { return Constants::POSITION_CONTROL_SCAN_RANGE() / Constants::POSITION_CONTROL_TIME_STEP(); };
+
     static double HAS_BALL_DISTANCE();
     static double HAS_BALL_ANGLE();
 

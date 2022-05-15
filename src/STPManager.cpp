@@ -4,8 +4,6 @@
 #include <stp/plays/referee_specific/TimeOut.h>
 #include <utilities/normalize.h>
 
-#include <Tracy.hpp>
-
 #include <chrono>
 
 #include "control/ControlModule.h"
@@ -101,15 +99,21 @@ void STPManager::start() {
     roboteam_utils::Timer stpTimer;
     stpTimer.loop(
         [&]() {
-            ZoneScopedN("STP Loop");
+            // uncomment the 4 lines of code below to time and display the duration of each loop of the AI
+            std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
             runOneLoopCycle();
-            amountOfCycles++;
+            std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
 
-            // update the measured FPS, but limit this function call to only run 5 times/s at most
+            auto loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+            if (loopcycleDuration > 16) {
+                RTT_ERROR("Loop cycle duration = ", loopcycleDuration);
+            }
+            amountOfCycles++;
             int fpsUpdateRate = 5;
             stpTimer.limit(
                 [&]() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
+                    ai::interface::Input::clearDrawings();
                     amountOfCycles = 0;
                 },
                 fpsUpdateRate);
@@ -175,7 +179,6 @@ void STPManager::runOneLoopCycle() {
 }
 
 void STPManager::decidePlay(world::World *_world) {
-    ZoneScopedN("Decide Play")
     ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 

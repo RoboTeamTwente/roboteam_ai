@@ -4,6 +4,8 @@
 
 #include "world/World.hpp"
 
+#include "utilities/GameStateManager.hpp"
+
 namespace rtt::world {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
     if (currentWorld) {
@@ -93,10 +95,7 @@ void World::updateTickTime() noexcept {
 void World::updatePositionControl() {
     auto &collisionDetector = positionControl.getCollisionDetector();
     collisionDetector.setField(getField());
-
-    // TODO: Ball can be null!!!!
-    collisionDetector.updatePositions(getWorld()->getRobotsNonOwning(), getWorld()->getBall().value());
-
+    collisionDetector.updateTimeline(getWorld()->getRobotsNonOwning(), getWorld()->getBall());
     auto gameState = rtt::ai::GameStateManager::getCurrentGameState();
     collisionDetector.setMinBallDistance(gameState.getRuleSet().minDistanceToBall);
 }

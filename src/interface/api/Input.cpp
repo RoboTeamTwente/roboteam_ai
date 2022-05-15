@@ -26,6 +26,15 @@ void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, i
     drawings.emplace_back(visual, std::move(points), std::move(color), robotId, method, width, height, strokeWidth);
 }
 
+void Input::drawData(Visual visual, std::span<const BB::PosVelVector> points, QColor color, int robotId, Drawing::DrawingMethod method, double width, double height,
+                     double strokeWidth) {
+    auto pathVectors = std::vector<Vector2>();
+    pathVectors.reserve(points.size());
+
+    std::transform(points.begin(), points.end(), std::back_inserter(pathVectors), [](const BB::PosVelVector &pathPoint) { return pathPoint.position; });
+    drawData(visual, std::move(pathVectors), std::move(color), robotId, method, width, height, strokeWidth);
+}
+
 /*
  * Useful for debugging:  quickly draw a vector of points.
  */
@@ -36,6 +45,8 @@ void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId
 
 const std::vector<Drawing> Input::getDrawings() {
     std::lock_guard<std::mutex> lock(drawingMutex);
+    //    auto vectorCopy = std::move(drawings);
+    //    drawings = {};
     return drawings;
 }
 

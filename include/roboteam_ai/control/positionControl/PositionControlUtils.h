@@ -16,6 +16,7 @@ class PositionControlUtils {
 
     // minimum distance needed to consider the current target reached
     static constexpr double MIN_DISTANCE_TARGET_REACHED = 2 * Constants::ROBOT_RADIUS();
+    static constexpr double MIN_DISTANCE_AROUND_TARGET = 8 * Constants::ROBOT_RADIUS();
 
    public:
     /**
@@ -34,12 +35,9 @@ class PositionControlUtils {
      */
     static bool isTargetReached(const Vector2 &targetPos, const Vector2 &currentPosition);
 
-    /**
-     * Removes the first element in the path in the case the first point is reached
-     * @param path the vector of path points
-     * @param currentPosition the current position of the robot
-     */
-    static void removeFirstIfReached(std::vector<Vector2> &path, const Vector2 &currentPosition);
+    static bool isAroundTarget(const Vector2 &targetPos, const Vector2 &currentPos);
+
+    static bool isMoving(const Vector2 &velocity);
 };
 }  // namespace rtt::ai::control
 
