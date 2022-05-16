@@ -62,7 +62,11 @@ void ControlModule::limitAngularVel(rtt::RobotCommand& command, std::optional<rt
             command.targetAngle = robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE);
         }
     }
-    // TODO: Well, then also limit the target angular velocity just like target angle!
+    else if (robot->hasBall()){
+        // TODO: Tune this value
+        constexpr double maxAngularVelWithBall = 0.5;
+        command.targetAngularVelocity = std::clamp(command.targetAngularVelocity, -maxAngularVelWithBall, maxAngularVelWithBall);
+    }
 }
 
 void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const rtt::RobotCommand& command, const rtt::world::World* data) noexcept {
