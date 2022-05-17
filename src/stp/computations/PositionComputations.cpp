@@ -101,41 +101,4 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     std::sort(std::begin(positions), std::end(positions), [](Vector2 a, Vector2 b) { return a.length() > b.length(); });
     return positions;
 }
-
-Vector2 PositionComputations::getBallBlockPosition(const world::Field &field, const world::World *world) {
-    if (!world->getWorld()->getBall()) return {field.getLeftPenaltyPoint()};  // If there is no ball, return a default value
-
-    // If the ball is moving towards our defense area, stand its trajectory
-    auto ball = world->getWorld()->getBall()->get();
-    if (ball->getVelocity().length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) {
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
-        auto interceptionPoint =
-            FieldComputations::lineIntersectionWithDefenseArea(field, true, ballTrajectory.start, ballTrajectory.end, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN, true);
-        if (interceptionPoint) return *interceptionPoint;
-    }
-
-    // If there is an enemy close to the ball and it is looking towards our goal, stand on the line that the enemy is looking in
-    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(rtt::world::Team::them);
-    if (enemyClosestToBall && enemyClosestToBall->get()->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
-        auto start = enemyClosestToBall->get()->getPos();
-        auto robotAngle = enemyClosestToBall->get()->getAngle();
-        auto end = start + robotAngle.toVector2().stretchToLength(field.getFieldLength());
-        auto intersection = LineSegment(field.getOurBottomGoalSide() - Vector2(0, 0.20), field.getOurTopGoalSide() + Vector2(0, 0.20)).intersects({start, end});
-        if (intersection) {
-            return FieldComputations::projectPointToValidPositionOnLine(field, intersection.value(), start, end, AvoidObjects(), 0.0,
-                                                                        control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN, control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
-        }
-    }
-
-    // If there is no enemy about to shoot and the ball is not moving towards the goal, simply stand in between the ball and our goal center
-    auto ballToGoalIntersection =
-        FieldComputations::lineIntersectionWithDefenseArea(field, true, ball->getPos(), field.getOurGoalCenter(), control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN, true);
-    if (ballToGoalIntersection) return *ballToGoalIntersection;
-
-    // If there is no ball to goal intersection (this essentially means the ball is in our defense area), stand at the ball projected on our defense area
-    auto targetX = std::clamp(ball->getPos().x, field.getLeftmostX(), field.getLeftPenaltyLineBottom().x);
-    auto targetY = std::clamp(ball->getPos().y, field.getLeftPenaltyLineBottom().y, field.getLeftPenaltyLineTop().y);
-    return {FieldComputations::projectPointToValidPosition(field, {targetX, targetY})};
-}
-
 }  // namespace rtt::ai::stp

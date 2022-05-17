@@ -106,20 +106,9 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
 }
 
 std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
-                                                                            double margin, bool ignoreGoalLine) {
+                                                                            double margin) {
     auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
-
-    std::vector<Vector2> intersections;
-    if (!ignoreGoalLine) {
-        intersections = defenseArea.intersections({lineStart, lineEnd});
-    } else {
-        auto defenseAreaVertices = defenseArea.vertices;
-        // Loop over the all lines of the defense area except the goal line and check for intersections
-        for (size_t i = 0; i < defenseAreaVertices.size() - 1; i++) {
-            auto intersection = LineSegment(defenseAreaVertices[i], defenseAreaVertices[i + 1]).intersects({lineStart, lineEnd});
-            if (intersection) intersections.push_back(intersection.value());
-        }
-    }
+    auto intersections = defenseArea.intersections({lineStart, lineEnd});
 
     if (intersections.size() == 1) {
         return std::make_shared<Vector2>(intersections.at(0));
@@ -298,8 +287,7 @@ Vector2 FieldComputations::projectPointIntoFieldOnLine(const world::Field &field
 
 Vector2 FieldComputations::projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects, double fieldMargin,
                                                              double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
-    // Subtract PROJECTION_MARGIN to avoid the situation where the point is between the left field line and our goal line (-6.0 < x < -5.9)
-    auto pointProjectedInField = projectPointIntoFieldOnLine(field, point, p1, p2, fieldMargin - PROJECTION_MARGIN);
+    auto pointProjectedInField = projectPointIntoFieldOnLine(field, point, p1, p2, fieldMargin);
 
     bool ourGoal;   // Which goal's defense area the projected point is in
     double margin;  // The margin to be used for the defense area- set to ourDefenseMargin or theirDefenseAreaMargin depending on where the projected pos is
