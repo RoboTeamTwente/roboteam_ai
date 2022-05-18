@@ -109,7 +109,8 @@ void ControlModule::simulator_angular_control(const std::optional<::rtt::world::
         Angle target_angle(robot_command.targetAngle);
         // get relevant PID controller
         if (simulatorAnglePIDmap.contains(robot->get()->getId())) {
-            ang_velocity_out = simulatorAnglePIDmap.at(robot->get()->getId()).getOutput(target_angle, current_angle);
+            auto extrapolated_angle = current_angle + Angle(simulatorAnglePIDmap.at(robot->get()->getId()).getPreviousOutput() / Constants::STP_TICK_RATE());
+            ang_velocity_out = simulatorAnglePIDmap.at(robot->get()->getId()).getOutput(target_angle, extrapolated_angle);
         } else {
             // initialize PID controller for robot
             // below tuning only works ish for erforce, is completely useless in grsim

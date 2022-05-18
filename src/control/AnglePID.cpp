@@ -27,6 +27,6 @@ double rtt::AnglePID::getOutput(rtt::Angle target_angle, rtt::Angle current_angl
     output = std::clamp(output, min, max);
     // Save error to previous error
     previous_error = error;
-
+    previous_output = output;
     return output;
 }
