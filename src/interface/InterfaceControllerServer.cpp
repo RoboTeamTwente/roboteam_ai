@@ -2,31 +2,27 @@
 
 namespace rtt::Interface {
 
+bool InterfaceControllerServer::hasPriorityData() const noexcept { return true; }
 
 void InterfaceControllerServer::handleData(const proto::UiValues &state) { this->vals->handleData(state, this->decls); }
 
-proto::ModuleState InterfaceControllerServer::getDataForRemote() const noexcept {
+proto::ModuleState InterfaceControllerServer::getDataForRemote(bool expired) const noexcept {
+    auto state = rtt::ai::io::io.getState();
+
     proto::ModuleState mod;
-    proto::Handshake hand;
-    hand.set_module_name("IFACE");
+    mod.mutable_system_state()->Swap(&state);
 
-    auto val = this->vals->toProto();
-    hand.mutable_values()->Swap(&val);
+    if (expired) {
+        proto::Handshake hand;
+        hand.set_module_name("IFACE");
 
-    mod.mutable_handshakes()->Add(std::move(hand));
+        auto val = this->vals->toProto();
+        hand.mutable_values()->Swap(&val);
+
+        mod.mutable_handshakes()->Add(std::move(hand));
+    }
 
     return mod;
-}
-
-void InterfaceControllerServer::loop() {
-    while (this->shouldRun) {
-        this->update_marker.acquire();
-        loop_iter();
-    }
-}
-
-void InterfaceControllerServer::trigger_update() {
-    this->update_marker.release();
 }
 
 }  // namespace rtt::Interface
