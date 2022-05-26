@@ -5,7 +5,7 @@
 #include "world/WorldData.hpp"
 
 namespace rtt::world {
-WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept
+WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings) noexcept
     : time{protoMsg.time()} {
     auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
     auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
@@ -20,10 +20,10 @@ WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings co
     robots.reserve(amountUs + amountThem);
 
     for (auto &each : ours) {
-        robots.emplace_back(feedback, each, Team::us, getBall());
+        robots.emplace_back( each, Team::us, getBall());
     }
     for (auto &each : others) {
-        robots.emplace_back(feedback, each, Team::them, getBall());
+        robots.emplace_back( each, Team::them, getBall());
     }
 
     us.reserve(amountUs);
