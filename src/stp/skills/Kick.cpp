@@ -4,8 +4,6 @@
 
 #include "stp/skills/Kick.h"
 
-#include "stp/constants/ControlConstants.h"
-
 namespace rtt::ai::stp::skill {
 
 Status Kick::onUpdate(const StpInfo &info) noexcept {

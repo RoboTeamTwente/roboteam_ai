@@ -2,13 +2,12 @@
 // Created by mrlukasbos on 8-2-19.
 //
 
+#include "utilities/Constants.h"
+
 #include <assert.h>
 #include <roboteam_utils/Print.h>
 
-#include "utilities/Settings.h"
-#include "utilities/Constants.h"
-
-// TODO: Clean this up and remove unneeded variables
+#include <iostream>
 
 namespace rtt::ai {
 
@@ -111,6 +110,8 @@ double Constants::MAX_BALL_RANGE() { return 0.04; }
 
 double Constants::MAX_KICK_RANGE() { return 0.05; }
 
+double Constants::HAS_BALL_ANGLE() { return 0.2; }
+
 double Constants::MAX_INTERCEPT_TIME() { return 3.0; }
 
 double Constants::MAX_RECEIVE_TIME() { return 1.0; }
@@ -164,12 +165,6 @@ bool Constants::STD_SHOW_DEBUG_VALUES() { return true; }
 bool Constants::STD_USE_REFEREE() { return true; }
 
 bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
-
-// The max distance the ball can be from the robot for the robot to have the ball
-double Constants::HAS_BALL_DISTANCE() { return (SETTINGS.getRobotHubMode() == Settings::BASESTATION) ? 0.10 : 0.12; }
-
-// The max angle the ball can have to the robot for the robot to have the ball
-double Constants::HAS_BALL_ANGLE() { return 0.10; }
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;

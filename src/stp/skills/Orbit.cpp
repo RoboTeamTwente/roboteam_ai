@@ -4,8 +4,6 @@
 
 #include "stp/skills/Orbit.h"
 
-#include "stp/constants/ControlConstants.h"
-
 namespace rtt::ai::stp::skill {
 
 Status Orbit::onUpdate(const StpInfo &info) noexcept {

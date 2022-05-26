@@ -5,7 +5,6 @@
 #include "stp/skills/Rotate.h"
 
 #include "control/ControlUtils.h"
-#include "stp/constants/ControlConstants.h"
 
 namespace rtt::ai::stp::skill {
 

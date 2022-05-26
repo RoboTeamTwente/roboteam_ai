@@ -4,7 +4,6 @@
 
 #include "world/views/WorldDataView.hpp"
 
-#include "stp/constants/ControlConstants.h"
 #include "world/WorldData.hpp"
 
 namespace rtt::world::view {

@@ -10,7 +10,6 @@
 #include <roboteam_utils/Print.h>
 
 #include "control/ControlUtils.h"
-#include "stp/constants/ControlConstants.h"
 #include "stp/skills/Rotate.h"
 #include "stp/skills/Shoot.h"
 

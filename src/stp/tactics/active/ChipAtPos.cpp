@@ -8,7 +8,6 @@
 #include "stp/tactics/active/ChipAtPos.h"
 
 #include "control/ControlUtils.h"
-#include "stp/constants/ControlConstants.h"
 #include "stp/skills/Chip.h"
 #include "stp/skills/Rotate.h"
 
