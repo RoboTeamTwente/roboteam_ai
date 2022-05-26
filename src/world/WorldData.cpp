@@ -3,6 +3,7 @@
 //
 
 #include "world/WorldData.hpp"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::world {
 WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings) noexcept
@@ -29,6 +30,13 @@ WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings co
     us.reserve(amountUs);
     them.reserve(amountThem);
     setViewVectors();
+
+    //TODO: add information from robots which were only seen on feedback but not on vision
+    if (settings.isYellow() && protoMsg.yellow_unseen_robots_size() > 0){
+        RTT_INFO("Received feedback from unseen robots!")
+    }else if (!settings.isYellow() && protoMsg.blue_unseen_robots_size() > 0){
+        RTT_INFO("Received feedback from unseen robots!")
+    }
 }
 
 std::vector<view::RobotView> const &WorldData::getUs() const noexcept { return us; }
