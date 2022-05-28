@@ -3,10 +3,9 @@
 //
 
 #include "world/WorldData.hpp"
-#include "roboteam_utils/Print.h"
 
 namespace rtt::world {
-WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings) noexcept
+WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept
     : time{protoMsg.time()} {
     auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
     auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
@@ -21,22 +20,15 @@ WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings co
     robots.reserve(amountUs + amountThem);
 
     for (auto &each : ours) {
-        robots.emplace_back( each, Team::us, getBall());
+        robots.emplace_back(feedback, each, Team::us, getBall());
     }
     for (auto &each : others) {
-        robots.emplace_back( each, Team::them, getBall());
+        robots.emplace_back(feedback, each, Team::them, getBall());
     }
 
     us.reserve(amountUs);
     them.reserve(amountThem);
     setViewVectors();
-
-    //TODO: add information from robots which were only seen on feedback but not on vision
-    if (settings.isYellow() && protoMsg.yellow_unseen_robots_size() > 0){
-        RTT_WARNING("Received feedback from unseen robots!")
-    }else if (!settings.isYellow() && protoMsg.blue_unseen_robots_size() > 0){
-        RTT_WARNING("Received feedback from unseen robots!")
-    }
 }
 
 std::vector<view::RobotView> const &WorldData::getUs() const noexcept { return us; }
