@@ -108,7 +108,7 @@ void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands)
 }
 
 void IOManager::publishAllRobotCommands(rtt::RobotCommands& robotCommands) {
-    if (!pause->getPause() && !robotCommands.empty()) {
+    if (!pause->getPause()) {
         this->addCameraAngleToRobotCommands(robotCommands);
 
         this->publishRobotCommands(robotCommands, rtt::SETTINGS.isYellow());
@@ -119,9 +119,9 @@ bool IOManager::publishRobotCommands(const rtt::RobotCommands& aiCommand, bool f
     bool sentCommands = false;
 
     if (forTeamYellow && this->robotCommandsYellowPublisher != nullptr) {
-        sentCommands = this->robotCommandsYellowPublisher->publish(aiCommand) > 0;
+        sentCommands = this->robotCommandsYellowPublisher->publish(aiCommand);
     } else if (!forTeamYellow && this->robotCommandsBluePublisher != nullptr) {
-        sentCommands = this->robotCommandsBluePublisher->publish(aiCommand) > 0;
+        sentCommands = this->robotCommandsBluePublisher->publish(aiCommand);
     }
 
     if (!sentCommands) {
@@ -172,7 +172,7 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
 
 bool IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) {
     if (this->simulationConfigurationPublisher != nullptr) {
-        return this->simulationConfigurationPublisher->publish(configuration) > 0;
+        return this->simulationConfigurationPublisher->publish(configuration);
     }
     return false;
 }
