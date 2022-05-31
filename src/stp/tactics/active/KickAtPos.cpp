@@ -9,6 +9,7 @@
 #include "stp/tactics/active/KickAtPos.h"
 
 #include "control/ControlUtils.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/Kick.h"
 #include "stp/skills/Rotate.h"
 
