@@ -94,11 +94,6 @@ class World {
      */
     explicit World(Settings *settings);
 
-    /**
-     * Updates feedback for all robots that received feedback
-     * @param feedback Feedback to apply
-     */
-    void updateFeedback(proto::RobotsFeedback feedback);
 
     /**
      * Updates the currentWorld
@@ -209,11 +204,7 @@ class World {
      */
     std::mutex updateMutex;
 
-    /**
-     * Map used to update robots on construction
-     * Done so an immutable state can be preserved
-     */
-    std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
+
 
     /**
      * History of the world, this is where old world data is pushed to

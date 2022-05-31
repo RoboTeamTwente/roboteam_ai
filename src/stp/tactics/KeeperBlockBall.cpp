@@ -6,6 +6,7 @@
 
 #include "control/ControlUtils.h"
 #include "roboteam_utils/LineSegment.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"
 
