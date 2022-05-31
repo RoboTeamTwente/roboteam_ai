@@ -90,7 +90,7 @@ bool KickOffUs::shouldEndPlay() noexcept {
         if (stpInfos["receiver"].getRobot()->hasBall()) return true;
 
         // True if the kick_off_taker has shot the ball, but it is now stationary (pass was too soft, was reflected, etc.)
-        return ballKicked() && stpInfos["kick_off_taker"].getRobot()->get()->getDistanceToBall() >= control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 1.5 &&
+        return ballKicked() && stpInfos["kick_off_taker"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
                world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL;
     }
     return false;
