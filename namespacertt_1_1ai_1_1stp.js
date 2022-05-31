@@ -7,9 +7,11 @@ var namespacertt_1_1ai_1_1stp =
       [ "BALL_GOT_SHOT_LIMIT", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#aa8b98c67e91a1bbd0830a58216211d13", null ],
       [ "BALL_IS_CLOSE", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a698051354245c440ac40068a61237b48", null ],
       [ "BALL_IS_MOVING_SLOW_LIMIT", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a296817cdf1a97b2ebd3ccff76d2dcf5b", null ],
+      [ "BALL_PLACEMENT_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab9a25435f59d30d9fbed119582370ff6", null ],
       [ "BALL_RADIUS", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a8fbe72118c5a9251e3a531ce4b7ce257", null ],
       [ "BALL_STILL_VEL", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a5baaa7b811964a3a0afdf32840b9cd42", null ],
       [ "CENTER_TO_FRONT", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#aa47ef791660935a050e3d381aba0d10d", null ],
+      [ "DEFENSE_AREA_AVOIDANCE_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a6f520dc4302ed5a08e93b676c8dbf20d", null ],
       [ "DISTANCE_FROM_GOAL_CLOSE", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a04a3cb6fafbe1eb9b78c04122caea777", null ],
       [ "DISTANCE_TO_ROBOT_CLOSE", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a92fc415d7e591863a124877293f42487", null ],
       [ "DISTANCE_TO_ROBOT_FAR", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a80eb7623c73d836e2001017fa638f3f9", null ],
@@ -21,8 +23,8 @@ var namespacertt_1_1ai_1_1stp =
       [ "FUZZY_TRUE", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#abd94b835220f65a1d26e2e5834cacef3", null ],
       [ "GO_TO_POS_ANGLE_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a39f7f3e46cab97f2db6fbd41f448d9c3", null ],
       [ "GO_TO_POS_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab901068e85cad865ba809d79bb9b6c9b", null ],
-      [ "HAS_BALL_ANGLE_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a4ffd693e9b5bf6a6523cfeeb1aac195e", null ],
-      [ "HAS_BALL_DISTANCE_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab8976970142b32091bc158c486757a53", null ],
+      [ "HAS_BALL_ANGLE_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a1eca88ea5ea7b2e0d62bc00018c01afa", null ],
+      [ "HAS_BALL_DISTANCE_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a41892528e3de820626416377e654989c", null ],
       [ "HAS_CHIPPED_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a05e7b22aaead80c05e581b7e8976ada2", null ],
       [ "HAS_KICKED_ERROR_MARGIN", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a04e24cd2d84ffdc44bff5e601c684c99", null ],
       [ "MAX_CHIP_ATTEMPTS", "namespacertt_1_1ai_1_1stp_1_1control__constants.html#a2d74c258a6019a2f4064c661f4ea9258", null ],
@@ -47,9 +49,11 @@ var namespacertt_1_1ai_1_1stp =
     [ "role", "namespacertt_1_1ai_1_1stp_1_1role.html", "namespacertt_1_1ai_1_1stp_1_1role" ],
     [ "skill", "namespacertt_1_1ai_1_1stp_1_1skill.html", "namespacertt_1_1ai_1_1stp_1_1skill" ],
     [ "tactic", "namespacertt_1_1ai_1_1stp_1_1tactic.html", "namespacertt_1_1ai_1_1stp_1_1tactic" ],
+    [ "ComputationManager", "classrtt_1_1ai_1_1stp_1_1ComputationManager.html", "classrtt_1_1ai_1_1stp_1_1ComputationManager" ],
+    [ "PassInfo", "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo", "namespacertt_1_1ai_1_1stp_structrtt_1_1ai_1_1stp_1_1PassInfo_dup" ],
     [ "PositionComputations", "classrtt_1_1ai_1_1stp_1_1PositionComputations.html", "classrtt_1_1ai_1_1stp_1_1PositionComputations" ],
+    [ "PositionScoring", "classrtt_1_1ai_1_1stp_1_1PositionScoring.html", "classrtt_1_1ai_1_1stp_1_1PositionScoring" ],
     [ "Play", "classrtt_1_1ai_1_1stp_1_1Play.html", "classrtt_1_1ai_1_1stp_1_1Play" ],
-    [ "PlayChecker", "classrtt_1_1ai_1_1stp_1_1PlayChecker.html", "classrtt_1_1ai_1_1stp_1_1PlayChecker" ],
     [ "PlayDecider", "classrtt_1_1ai_1_1stp_1_1PlayDecider.html", "classrtt_1_1ai_1_1stp_1_1PlayDecider" ],
     [ "PlayEvaluator", "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html", "classrtt_1_1ai_1_1stp_1_1PlayEvaluator" ],
     [ "TestPlay", "classrtt_1_1ai_1_1stp_1_1TestPlay.html", "classrtt_1_1ai_1_1stp_1_1TestPlay" ],
@@ -59,10 +63,13 @@ var namespacertt_1_1ai_1_1stp =
     [ "StpInfo", "structrtt_1_1ai_1_1stp_1_1StpInfo.html", "structrtt_1_1ai_1_1stp_1_1StpInfo" ],
     [ "Tactic", "classrtt_1_1ai_1_1stp_1_1Tactic.html", "classrtt_1_1ai_1_1stp_1_1Tactic" ],
     [ "TestTactic", "classrtt_1_1ai_1_1stp_1_1TestTactic.html", "classrtt_1_1ai_1_1stp_1_1TestTactic" ],
+    [ "AvoidObjects", "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects", "namespacertt_1_1ai_1_1stp_structrtt_1_1ai_1_1stp_1_1AvoidObjects_dup" ],
     [ "eval", "namespacertt_1_1ai_1_1stp.html#a34dadb614a5733e50f941d370203fe38", null ],
     [ "pos", "namespacertt_1_1ai_1_1stp.html#a83fa6a77ed959db605992275d14eb0fc", null ],
     [ "BlockDistance", "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3", [
+      [ "ROBOTRADIUS", "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3a0a9fb394fbdec0184b132e8c11ddcd0e", null ],
       [ "CLOSE", "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3a7286293c9125ac7d7bace94c190bc16d", null ],
+      [ "PARTWAY", "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3aa86d5d549f71995dfca3099d90dc306b", null ],
       [ "HALFWAY", "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3ad9ed1ae6b46bb488c4a73ce0925b48b2", null ],
       [ "FAR", "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3a31234537adb52d5df18dc9596010708b", null ]
     ] ],
@@ -76,6 +83,7 @@ var namespacertt_1_1ai_1_1stp =
       [ "KickOffThemGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ad0eccb3bf8b9bccf5974bf05174c07ea", null ],
       [ "KickOffThemPrepareGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a0e2b8981ed7407b5ca5c113a119894c1", null ],
       [ "KickOffUsGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a6ba59a078887ab3a8e64d33eb9df2c44", null ],
+      [ "KickOffUsOrNormalGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a8775b2cb4565888e8ebbd38b82b9a34b", null ],
       [ "KickOffUsPrepareGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a8b2e0ec0ee9abd81565de89b1cccb822", null ],
       [ "NormalOrFreeKickUsGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ab3a6430b6ea1e49bb0d83a901f1a5b08", null ],
       [ "NormalPlayGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2adcda5e2a3f4ea07543fe7d8d642d027b", null ],
@@ -92,6 +100,8 @@ var namespacertt_1_1ai_1_1stp =
       [ "BallMovesSlow", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a92a649dbcfbf97f49c3700ef0c3deb44", null ],
       [ "BallOnOurSide", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a0da9db34d6df52ddc7b31add5894a621", null ],
       [ "BallOnTheirSide", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a52e638a2d35b495523933ae29854444b", null ],
+      [ "BallInOurDefenseAreaAndStill", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a310169b790806221862dfaac167191b8", null ],
+      [ "BallNotInOurDefenseAreaAndStill", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a5fb2385fbd0166e0c9d58c7921526f34", null ],
       [ "BallShotOrCloseToThem", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a1a1caf0b53bf83178e0753300587ed4c", null ],
       [ "DistanceFromBall", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ad51ff90a12d29afbe00c85d2af387945", null ],
       [ "FreedomOfRobots", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2abe8f556061f5ee5c3439ebd5e9707216", null ],
@@ -99,6 +109,8 @@ var namespacertt_1_1ai_1_1stp =
       [ "GoalVision", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a7f70d3b478205253812373ab9fdc85d3", null ],
       [ "NoGoalVisionFromBall", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a1b04ba41304eb2e7c212d993d6332e05", null ],
       [ "WeHaveBall", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2af2ba8afcb2e9eabf67f47533279d16b7", null ],
+      [ "TheyHaveBall", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ab814ca078159c72443842e27c00f6430", null ],
+      [ "TheyDoNotHaveBall", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a254d9501b13270c01374c0a3161c4580", null ],
       [ "WeHaveMajority", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2afd33f2e0c22effb59e2feba180201955", null ]
     ] ],
     [ "KickOrChip", "namespacertt_1_1ai_1_1stp.html#a8a168b78725926f5901d2f6370784113", [
@@ -123,6 +135,5 @@ var namespacertt_1_1ai_1_1stp =
       [ "Failure", "namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3ae139a585510a502bbf1841cf589f5086", null ],
       [ "Running", "namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3a5bda814c4aedb126839228f1a3d92f09", null ]
     ] ],
-    [ "operator<<", "namespacertt_1_1ai_1_1stp.html#a24b1c4fad3e401c35e8355457367697c", null ],
-    [ "blockEnumSize", "namespacertt_1_1ai_1_1stp.html#af31b8ef31f12f08db69fad79d6f0b908", null ]
+    [ "operator<<", "namespacertt_1_1ai_1_1stp.html#a24b1c4fad3e401c35e8355457367697c", null ]
 ];

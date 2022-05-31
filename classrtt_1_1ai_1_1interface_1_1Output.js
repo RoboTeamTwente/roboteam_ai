@@ -10,6 +10,7 @@ var classrtt_1_1ai_1_1interface_1_1Output =
     [ "getShowDebugValues", "classrtt_1_1ai_1_1interface_1_1Output.html#aac54c8a1509b2c649af976dce0768be7", null ],
     [ "isTimeOutAtTop", "classrtt_1_1ai_1_1interface_1_1Output.html#a41085c75bcf1ad60e72ebdd0c27ba32f", null ],
     [ "sendHaltCommand", "classrtt_1_1ai_1_1interface_1_1Output.html#a1ac969e062f9b1da8838bddb6681209a", null ],
+    [ "setBallPlacerId", "classrtt_1_1ai_1_1interface_1_1Output.html#a3c34336bb7ca06eb7b03af2b6d6551a7", null ],
     [ "setInterceptPid", "classrtt_1_1ai_1_1interface_1_1Output.html#a20e9d1322073257f5ffec60f00cb0f93", null ],
     [ "setInterfaceGameState", "classrtt_1_1ai_1_1interface_1_1Output.html#adf24f5bbd3ee154090d093bf7cf90c0a", null ],
     [ "setKeeperId", "classrtt_1_1ai_1_1interface_1_1Output.html#a92d754c0b08d608894ac9ebf3e7cf4d2", null ],

@@ -7,8 +7,5 @@ var dir_d9706f8287f978cf2af98d8a16a21519 =
     [ "ControlModule.h", "ControlModule_8h.html", [
       [ "ControlModule", "classrtt_1_1ai_1_1control_1_1ControlModule.html", "classrtt_1_1ai_1_1control_1_1ControlModule" ]
     ] ],
-    [ "ControlUtils.h", "ControlUtils_8h.html", "ControlUtils_8h" ],
-    [ "RobotCommand.h", "RobotCommand_8h.html", [
-      [ "RobotCommand", "classrtt_1_1RobotCommand.html", "classrtt_1_1RobotCommand" ]
-    ] ]
+    [ "ControlUtils.h", "ControlUtils_8h.html", "ControlUtils_8h" ]
 ];

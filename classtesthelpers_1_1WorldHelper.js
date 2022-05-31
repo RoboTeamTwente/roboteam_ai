@@ -6,8 +6,8 @@ var classtesthelpers_1_1WorldHelper =
     [ "generateRandomRobot", "classtesthelpers_1_1WorldHelper.html#a71264c6c02cc6f4b1ee597e3a2320686", null ],
     [ "generateRandomRobots", "classtesthelpers_1_1WorldHelper.html#ab0fe933bb083e04a9ce4ee772a6ac5b6", null ],
     [ "getLocationRightBeforeRobot", "classtesthelpers_1_1WorldHelper.html#a4cd903ac47c7857e6f95fa8203a68525", null ],
-    [ "getRandomFieldPosition", "classtesthelpers_1_1WorldHelper.html#a2d6fd06b3d2e52e2a21459d272f968f8", null ],
+    [ "getRandomFieldPosition", "classtesthelpers_1_1WorldHelper.html#a7345cb932c2dfbe340051d04969d2b7b", null ],
     [ "getRandomValue", "classtesthelpers_1_1WorldHelper.html#a923101faaff976777ba290d051bdbaf4", null ],
     [ "getRandomVelocity", "classtesthelpers_1_1WorldHelper.html#a9b4c89c1867e9814e20b515ea848511d", null ],
-    [ "getWorldMsg", "classtesthelpers_1_1WorldHelper.html#a00e4b3db8f0478b1f5df72cca658b0c5", null ]
+    [ "getWorldMsg", "classtesthelpers_1_1WorldHelper.html#a62246662bddfba53f3fa2d710e5ff5e2", null ]
 ];

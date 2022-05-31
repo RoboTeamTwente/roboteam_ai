@@ -15,18 +15,6 @@ var Dealer_8h =
       [ "sumScore", "classrtt_1_1ai_1_1Dealer.html#a3bbf524d6fc7b7f8ac7516bed9219d2d", null ],
       [ "sumWeights", "classrtt_1_1ai_1_1Dealer.html#aa5f6e5e7bca9ca5c98b3784d220b8621", null ]
     ] ],
-    [ "RoleScores", "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleScores", [
-      [ "priority", "classrtt_1_1ai_1_1Dealer.html#a4ee88424e9935154310e2d718564c38d", null ],
-      [ "robotScores", "classrtt_1_1ai_1_1Dealer.html#a3ef3e92ab32b2e530f43891fc3aed4bc", null ]
-    ] ],
-    [ "DealerDistribute", "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1DealerDistribute", [
-      [ "currentIDs", "classrtt_1_1ai_1_1Dealer.html#af0bd96749de430b0a1a6ec2ed0ce8dee", null ],
-      [ "currentRoles", "classrtt_1_1ai_1_1Dealer.html#a2d3ebba7753b152affe94520326a9195", null ],
-      [ "currentScores", "classrtt_1_1ai_1_1Dealer.html#ab9c29840dd057557c1d3edaddf9b22c5", null ],
-      [ "newAssignments", "classrtt_1_1ai_1_1Dealer.html#a2610380ee97d4b893e50693a8355eff6", null ],
-      [ "originalIDsIndex", "classrtt_1_1ai_1_1Dealer.html#a421ccd4cb295ba1a38ea18bdf116761f", null ],
-      [ "originalRolesIndex", "classrtt_1_1ai_1_1Dealer.html#a5ad0f5509bf72d6dafc4e6b544872c1f", null ]
-    ] ],
     [ "DealerFlagPriority", "Dealer_8h.html#a749f4888e489115d32ef0cf1417cd617", [
       [ "LOW_PRIORITY", "Dealer_8h.html#a749f4888e489115d32ef0cf1417cd617a22fdb5e22079d83faa87d80ea2165e0e", null ],
       [ "MEDIUM_PRIORITY", "Dealer_8h.html#a749f4888e489115d32ef0cf1417cd617a307477ed458f1be90c98bc864d361f88", null ],

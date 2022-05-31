@@ -8,6 +8,7 @@ var dir_0a846dc5526bdab5a9165f74a6db4830 =
     [ "KickOffThemGameStateEvaluation.cpp", "KickOffThemGameStateEvaluation_8cpp.html", null ],
     [ "KickOffThemPrepareGameStateEvaluation.cpp", "KickOffThemPrepareGameStateEvaluation_8cpp.html", null ],
     [ "KickOffUsGameStateEvaluation.cpp", "KickOffUsGameStateEvaluation_8cpp.html", null ],
+    [ "KickOffUsOrNormalGameStateEvaluation.cpp", "KickOffUsOrNormalGameStateEvaluation_8cpp.html", null ],
     [ "KickOffUsPrepareGameStateEvaluation.cpp", "KickOffUsPrepareGameStateEvaluation_8cpp.html", null ],
     [ "NormalOrFreeKickUsGameStateEvaluation.cpp", "NormalOrFreeKickUsGameStateEvaluation_8cpp.html", null ],
     [ "NormalPlayGameStateEvaluation.cpp", "NormalPlayGameStateEvaluation_8cpp.html", null ],

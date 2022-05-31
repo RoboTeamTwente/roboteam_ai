@@ -9,6 +9,9 @@ var dir_6b23b5c5a865e30368fc1f138f517bcd =
     [ "GetBall.h", "GetBall_8h.html", [
       [ "GetBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall" ]
     ] ],
+    [ "GetBehindBallInDirection.h", "GetBehindBallInDirection_8h.html", [
+      [ "GetBehindBallInDirection", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection" ]
+    ] ],
     [ "KickAtPos.h", "KickAtPos_8h.html", [
       [ "KickAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos" ]
     ] ],

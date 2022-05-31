@@ -92,16 +92,16 @@ $(document).ready(function(){initNavTree('IOManager_8h.html',''); initResizable(
 <div class="title">IOManager.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;networking/Publisher.h&gt;</code><br />
-<code>#include &lt;networking/Subscriber.h&gt;</code><br />
-<code>#include &lt;roboteam_proto/AICommand.pb.h&gt;</code><br />
-<code>#include &lt;roboteam_proto/Setting.pb.h&gt;</code><br />
-<code>#include &lt;roboteam_proto/State.pb.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;proto/SimulationConfiguration.pb.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="Constants_8h_source.html">utilities/Constants.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="Settings_8h_source.html">utilities/Settings.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="Field_8h_source.html">world/Field.h</a>&gt;</code><br />
+<code>#include &lt;RobotCommandsNetworker.hpp&gt;</code><br />
+<code>#include &lt;SettingsNetworker.hpp&gt;</code><br />
+<code>#include &lt;SimulationConfigurationNetworker.hpp&gt;</code><br />
+<code>#include &lt;WorldNetworker.hpp&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;networking/Pair.hpp&gt;</code><br />
-<code>#include &quot;<a class="el" href="Constants_8h_source.html">utilities/Constants.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Field_8h_source.html">world/Field.h</a>&quot;</code><br />
 </div>
 <p><a href="IOManager_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -117,7 +117,6 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacertt_1_1world"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1world.html">rtt::world</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacertt_1_1ai"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai.html">rtt::ai</a></td></tr>
-<tr class="memdesc:namespacertt_1_1ai"><td class="mdescLeft">&#160;</td><td class="mdescRight">This issue occurs when there are multiple roles classes (defender+midfielder) that have the same priority. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacertt_1_1ai_1_1io"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1io.html">rtt::ai::io</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>

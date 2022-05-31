@@ -101,26 +101,23 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aac6fc67941e0b893a969c03b83b6e3af"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#aac6fc67941e0b893a969c03b83b6e3af">velocityLimiter</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;vel, double maxVel=<a class="el" href="classrtt_1_1ai_1_1Constants.html#a9113165eb919d1bbb08eeda60d35d9b0">Constants::MAX_VEL</a>(), double minVel=0.0, bool listenToReferee=true)</td></tr>
 <tr class="memdesc:aac6fc67941e0b893a969c03b83b6e3af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#aac6fc67941e0b893a969c03b83b6e3af">More...</a><br /></td></tr>
 <tr class="separator:aac6fc67941e0b893a969c03b83b6e3af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15e5383c5e62c8c2ac10e0a5c219282c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a15e5383c5e62c8c2ac10e0a5c219282c">accelerationLimiter</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;targetVel, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;prevVel, const <a class="el" href="ControlUtils_8h.html#a190e260c90ed557590c2ca7d74a4e490">Angle</a> &amp;targetAngle, double sidewaysAcceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#a1e1fd9faa7579b66baa47c13e098d23d">Constants::MAX_ACC_LOWER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>(), double forwardsAcceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#a05196b31cc4df145dc45fb579e0d0300">Constants::MAX_ACC_UPPER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>(), double sidewaysDeceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#aeee2868b9d0114f424d68ed201554738">Constants::MAX_DEC_LOWER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>(), double forwardsDeceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#a926316de36cd5dc06146ef9511aed321">Constants::MAX_DEC_UPPER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>())</td></tr>
-<tr class="memdesc:a15e5383c5e62c8c2ac10e0a5c219282c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Limits acceleration.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a15e5383c5e62c8c2ac10e0a5c219282c">More...</a><br /></td></tr>
-<tr class="separator:a15e5383c5e62c8c2ac10e0a5c219282c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8846e14bbf9eba6f72c76ae4c11e9d90"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a8846e14bbf9eba6f72c76ae4c11e9d90">accelerationLimiter</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;targetVel, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;prevVel, const <a class="el" href="ControlUtils_8h.html#a190e260c90ed557590c2ca7d74a4e490">Angle</a> &amp;targetAngle, double sidewaysAcceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#a1e1fd9faa7579b66baa47c13e098d23d">Constants::MAX_ACC_LOWER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>(), double forwardsAcceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#a05196b31cc4df145dc45fb579e0d0300">Constants::MAX_ACC_UPPER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>(), double sidewaysDeceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#aeee2868b9d0114f424d68ed201554738">Constants::MAX_DEC_LOWER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>(), double forwardsDeceleration=<a class="el" href="classrtt_1_1ai_1_1Constants.html#a926316de36cd5dc06146ef9511aed321">Constants::MAX_DEC_UPPER</a>()/<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>())</td></tr>
+<tr class="memdesc:a8846e14bbf9eba6f72c76ae4c11e9d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Limits acceleration.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a8846e14bbf9eba6f72c76ae4c11e9d90">More...</a><br /></td></tr>
+<tr class="separator:a8846e14bbf9eba6f72c76ae4c11e9d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a409196842b57352c0d22e5d388c8f90f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a409196842b57352c0d22e5d388c8f90f">objectVelocityAimedToPoint</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;objectPosition, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;velocity, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, double maxDifference=0.3)</td></tr>
 <tr class="separator:a409196842b57352c0d22e5d388c8f90f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba622aad9b9c0b499f502b024500dd64"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#aba622aad9b9c0b499f502b024500dd64">projectPositionToWithinField</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> position, double margin)</td></tr>
-<tr class="separator:aba622aad9b9c0b499f502b024500dd64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cdaea73ba5f0391ff61800e84a6199f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a8cdaea73ba5f0391ff61800e84a6199f">projectPositionToOutsideDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> position, double margin)</td></tr>
-<tr class="memdesc:a8cdaea73ba5f0391ff61800e84a6199f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Projects the position outside the defense area.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a8cdaea73ba5f0391ff61800e84a6199f">More...</a><br /></td></tr>
-<tr class="separator:a8cdaea73ba5f0391ff61800e84a6199f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a33af6aff51eb2132f1b7fcb1c92b1583">determineChipForce</a> (const double distance, <a class="el" href="namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87ab">stp::ShotType</a> shotType) noexcept</td></tr>
 <tr class="memdesc:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the chip force.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a33af6aff51eb2132f1b7fcb1c92b1583">More...</a><br /></td></tr>
 <tr class="separator:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4c9f77efa7e4d281119074b2a278501"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#ad4c9f77efa7e4d281119074b2a278501">determineKickForce</a> (const double distance, <a class="el" href="namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87ab">stp::ShotType</a> shotType) noexcept</td></tr>
 <tr class="memdesc:ad4c9f77efa7e4d281119074b2a278501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the kick force.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#ad4c9f77efa7e4d281119074b2a278501">More...</a><br /></td></tr>
 <tr class="separator:ad4c9f77efa7e4d281119074b2a278501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dc71636610c32b9652a32b5bcfca0f7"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a0dc71636610c32b9652a32b5bcfca0f7">getMaxVelocity</a> (bool hasBall)</td></tr>
+<tr class="separator:a0dc71636610c32b9652a32b5bcfca0f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a15e5383c5e62c8c2ac10e0a5c219282c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15e5383c5e62c8c2ac10e0a5c219282c">&#9670;&nbsp;</a></span>accelerationLimiter()</h2>
+<a id="a8846e14bbf9eba6f72c76ae4c11e9d90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8846e14bbf9eba6f72c76ae4c11e9d90">&#9670;&nbsp;</a></span>accelerationLimiter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,25 +147,25 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>sidewaysAcceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#a1e1fd9faa7579b66baa47c13e098d23d">Constants::MAX_ACC_LOWER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>()</code>, </td>
+          <td class="paramname"><em>sidewaysAcceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#a1e1fd9faa7579b66baa47c13e098d23d">Constants::MAX_ACC_LOWER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>()</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>forwardsAcceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#a05196b31cc4df145dc45fb579e0d0300">Constants::MAX_ACC_UPPER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>()</code>, </td>
+          <td class="paramname"><em>forwardsAcceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#a05196b31cc4df145dc45fb579e0d0300">Constants::MAX_ACC_UPPER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>()</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>sidewaysDeceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#aeee2868b9d0114f424d68ed201554738">Constants::MAX_DEC_LOWER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>()</code>, </td>
+          <td class="paramname"><em>sidewaysDeceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#aeee2868b9d0114f424d68ed201554738">Constants::MAX_DEC_LOWER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>()</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>forwardsDeceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#a926316de36cd5dc06146ef9511aed321">Constants::MAX_DEC_UPPER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a4a6e15e4ebb15dbe9d4192bb9a77e600">Constants::TICK_RATE</a>()</code>&#160;</td>
+          <td class="paramname"><em>forwardsDeceleration</em> = <code><a class="el" href="classrtt_1_1ai_1_1Constants.html#a926316de36cd5dc06146ef9511aed321">Constants::MAX_DEC_UPPER</a>()&#160;/&#160;<a class="el" href="classrtt_1_1ai_1_1Constants.html#a2eb213b4623956180539817cf4252cba">Constants::STP_TICK_RATE</a>()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -322,6 +319,39 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a0dc71636610c32b9652a32b5bcfca0f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dc71636610c32b9652a32b5bcfca0f7">&#9670;&nbsp;</a></span>getMaxVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rtt::ai::control::ControlUtils::getMaxVelocity </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>hasBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Determine the max allowed velocity considering the game state and whether the robot has the ball </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hasBall</td><td>Whether this robot has the ball </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The max allowed velocity for this robot </dd></dl>
+
+</div>
+</div>
 <a id="a409196842b57352c0d22e5d388c8f90f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a409196842b57352c0d22e5d388c8f90f">&#9670;&nbsp;</a></span>objectVelocityAimedToPoint()</h2>
 
@@ -367,93 +397,6 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8cdaea73ba5f0391ff61800e84a6199f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cdaea73ba5f0391ff61800e84a6199f">&#9670;&nbsp;</a></span>projectPositionToOutsideDefenseArea()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::control::ControlUtils::projectPositionToOutsideDefenseArea </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
-          <td class="paramname"><em>position</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>margin</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Projects the position outside the defense area. </p>
-
-</div>
-</div>
-<a id="aba622aad9b9c0b499f502b024500dd64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba622aad9b9c0b499f502b024500dd64">&#9670;&nbsp;</a></span>projectPositionToWithinField()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::control::ControlUtils::projectPositionToWithinField </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td>
-          <td class="paramname"><em>position</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>margin</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Returns point in field closest to a given point. If the point is already in the field it returns the same as the input. </p>
 
 </div>
 </div>

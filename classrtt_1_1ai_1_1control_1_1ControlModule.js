@@ -1,13 +1,13 @@
 var classrtt_1_1ai_1_1control_1_1ControlModule =
 [
-    [ "addRobotCommand", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a332400ddcc8f2adc02d8c0f2cb630729", null ],
-    [ "limitAngularVel", "classrtt_1_1ai_1_1control_1_1ControlModule.html#ad521a37fc63258f037b3f6fe522e99b7", null ],
-    [ "limitRobotCommand", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a97d1d6f29c010e9bb90b6322e27bde13", null ],
-    [ "limitVel", "classrtt_1_1ai_1_1control_1_1ControlModule.html#ac85614142c78abf95ecc0d21e6f9d6b8", null ],
-    [ "rotateRobotCommand", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a890120b264e5c0a01da15e1c61bba398", null ],
+    [ "addRobotCommand", "classrtt_1_1ai_1_1control_1_1ControlModule.html#ab3c2721ef92932e32cc060c847be9edd", null ],
+    [ "limitAngularVel", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a617266c078a647731d7dcd166b84f541", null ],
+    [ "limitRobotCommand", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a9705f8be2e44fa106a911b2e07510114", null ],
+    [ "limitVel", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a0ed36c5c8f10179f669cfbc8d01fc2c8", null ],
+    [ "rotateRobotCommand", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a7dbb8c2e2347fef7089cf563ae2162a6", null ],
     [ "sendAllCommands", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a0fadb136765f78b16de7198756c104bc", null ],
-    [ "simulator_angular_control", "classrtt_1_1ai_1_1control_1_1ControlModule.html#acfd8f4de12a180c652b1a5ead45d1771", null ],
-    [ "robotCommands", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a319ec720088c6154183cdaea61327451", null ],
+    [ "simulator_angular_control", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a1f75d8cffa6713ca144407de79d4ce4c", null ],
+    [ "robotCommands", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a6e296b3b7426b09bd3d4ca57ce94da58", null ],
     [ "robotCommandsMutex", "classrtt_1_1ai_1_1control_1_1ControlModule.html#ad0ee0903224fd00f63bdba27639a3428", null ],
     [ "simulatorAnglePIDmap", "classrtt_1_1ai_1_1control_1_1ControlModule.html#a74653484152b631fc32cbcb09f29bebd", null ]
 ];

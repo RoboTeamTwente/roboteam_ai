@@ -86,9 +86,7 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1stp_1_1role_1_1Penal
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1role_1_1PenaltyKeeper-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp::role::PenaltyKeeper Class Reference</div>  </div>
@@ -126,11 +124,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3a4dd278c94db922409c690ae5d13b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html#ab3a4dd278c94db922409c690ae5d13b4">reset</a> () noexcept</td></tr>
 <tr class="separator:ab3a4dd278c94db922409c690ae5d13b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
-Static Protected Member Functions</h2></td></tr>
-<tr class="memitem:a7c56b9161cc8dc9dc19a7506a73280e8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html#a7c56b9161cc8dc9dc19a7506a73280e8">isBallInOurDefenseAreaAndStill</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;ballPos, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;ballVel) noexcept</td></tr>
-<tr class="separator:a7c56b9161cc8dc9dc19a7506a73280e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a79b97d8f1a5eec0916220c20fb95db68"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html#a79b97d8f1a5eec0916220c20fb95db68">currentRobot</a></td></tr>
@@ -139,11 +132,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a0575952e375783fee4350fcb97be888c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9a9c436e9711e707dfb0f43b5601d91"><td class="memItemLeft" align="right" valign="top">collections::state_machine&lt; <a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html">Tactic</a>, <a class="el" href="namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3">Status</a>, <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html">StpInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html#af9a9c436e9711e707dfb0f43b5601d91">robotTactics</a></td></tr>
 <tr class="separator:af9a9c436e9711e707dfb0f43b5601d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a7f78e49300af7c33a4074ee49aacc319"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html#a7f78e49300af7c33a4074ee49aacc319">shouldRoleReset</a> (bool <a class="el" href="classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html#a7c56b9161cc8dc9dc19a7506a73280e8">isBallInOurDefenseAreaAndStill</a>) noexcept</td></tr>
-<tr class="separator:a7f78e49300af7c33a4074ee49aacc319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2b4a60efcba9c8829f5e16a44b629518"></a>
@@ -309,57 +297,6 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7c56b9161cc8dc9dc19a7506a73280e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c56b9161cc8dc9dc19a7506a73280e8">&#9670;&nbsp;</a></span>isBallInOurDefenseAreaAndStill()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::ai::stp::role::Keeper::isBallInOurDefenseAreaAndStill </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>ballPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>ballVel</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Checks if ball is in our defense area and still </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>Field </td></tr>
-    <tr><td class="paramname">ballPos</td><td>Ball position </td></tr>
-    <tr><td class="paramname">ballVel</td><td>Ball velocity </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if ball is in our defense area and still </dd></dl>
-
-</div>
-</div>
 <a id="ab3a4dd278c94db922409c690ae5d13b4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3a4dd278c94db922409c690ae5d13b4">&#9670;&nbsp;</a></span>reset()</h2>
 
@@ -383,39 +320,6 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Resets the tactics, skills and robot of this role so re-dealing of robots works as expected </p>
-
-</div>
-</div>
-<a id="a7f78e49300af7c33a4074ee49aacc319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f78e49300af7c33a4074ee49aacc319">&#9670;&nbsp;</a></span>shouldRoleReset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::ai::stp::role::Keeper::shouldRoleReset </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>isBallInOurDefenseAreaAndStill</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Resets state machine when ball is in our defense area and still and current tactic is not KeeperBlockBall </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">isBallInOurDefenseAreaAndStill</td><td>True if ball is in our defense area and still </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if isBallInOurDefenseAreaAndStill and current tactic is not KeeperBlockBall </dd></dl>
 
 </div>
 </div>
@@ -450,7 +354,7 @@ Private Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status that the current tactic returns </dd></dl>
 
-<p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html#a5d58ff420f299fb3cd4974afa1b400c8">rtt::ai::stp::role::Keeper</a>.</p>
+<p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html#ae37bbc212bbf3af61007918004e13678">rtt::ai::stp::Role</a>.</p>
 
 </div>
 </div>

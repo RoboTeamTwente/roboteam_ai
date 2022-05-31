@@ -1,5 +1,8 @@
 var dir_a50c4729086dbefab67b19b7357c2fe0 =
 [
+    [ "BBTPathTracking.h", "BBTPathTracking_8h.html", [
+      [ "BBTPathTracking", "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html", "classrtt_1_1ai_1_1control_1_1BBTPathTracking" ]
+    ] ],
     [ "DensePathTracking.h", "DensePathTracking_8h.html", [
       [ "DensePathTracking", "classrtt_1_1ai_1_1control_1_1DensePathTracking.html", "classrtt_1_1ai_1_1control_1_1DensePathTracking" ]
     ] ],

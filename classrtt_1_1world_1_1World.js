@@ -18,7 +18,6 @@ var classrtt_1_1world_1_1World =
     [ "operator=", "classrtt_1_1world_1_1World.html#a98ab746c94697f1d4d356f2306217c0f", null ],
     [ "setWorld", "classrtt_1_1world_1_1World.html#af64f484d43512bff1fae5ae1fad707e8", null ],
     [ "toHistory", "classrtt_1_1world_1_1World.html#a2cfed82ae1c49dbbad14faba417c5bfc", null ],
-    [ "updateFeedback", "classrtt_1_1world_1_1World.html#af6860d1a4a045188fd0a1d418b6b8060", null ],
     [ "updateField", "classrtt_1_1world_1_1World.html#a840a30aa25c67c3a11ac7cd003ef22f3", null ],
     [ "updateField", "classrtt_1_1world_1_1World.html#a48b2b38662fcceaa737e8a2a0e5e4863", null ],
     [ "updatePositionControl", "classrtt_1_1world_1_1World.html#a2dae5f1da4f100d9b65971a24fdd7229", null ],
@@ -33,6 +32,5 @@ var classrtt_1_1world_1_1World =
     [ "positionControl", "classrtt_1_1world_1_1World.html#abceba3734a6a81257d95b038843674e3", null ],
     [ "settings", "classrtt_1_1world_1_1World.html#ade7077c71dd1255b56e116e3cbf8b8df", null ],
     [ "tickDuration", "classrtt_1_1world_1_1World.html#a9db7bcdeb956aac56a65e1d2874fa3b8", null ],
-    [ "updateMap", "classrtt_1_1world_1_1World.html#a37dcfd173e2eb2834f2e733382ba9d93", null ],
     [ "updateMutex", "classrtt_1_1world_1_1World.html#aef21ad06dd8c0993f12ef3f696d0c22b", null ]
 ];

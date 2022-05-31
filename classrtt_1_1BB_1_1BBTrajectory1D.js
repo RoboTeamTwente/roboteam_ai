@@ -6,6 +6,7 @@ var classrtt_1_1BB_1_1BBTrajectory1D =
     [ "fullBrakePos", "classrtt_1_1BB_1_1BBTrajectory1D.html#a97c209882742f5b1ad593dfb933e30d8", null ],
     [ "generateTrajectory", "classrtt_1_1BB_1_1BBTrajectory1D.html#a981aa31eb0041731748bbab7a6658807", null ],
     [ "getAcceleration", "classrtt_1_1BB_1_1BBTrajectory1D.html#ae27fbb9778792333e48980525e08e7cf", null ],
+    [ "getParts", "classrtt_1_1BB_1_1BBTrajectory1D.html#a352197ae1db0b8b32db86008044d728c", null ],
     [ "getPosition", "classrtt_1_1BB_1_1BBTrajectory1D.html#af073c5d73169926ee80522793cae0c88", null ],
     [ "getTimeCurrentPart1D", "classrtt_1_1BB_1_1BBTrajectory1D.html#a8eaa897fa509fc920b920657b1457cc3", null ],
     [ "getTotalTime", "classrtt_1_1BB_1_1BBTrajectory1D.html#a0603d33e5925737ade7e96b8c84ff25b", null ],

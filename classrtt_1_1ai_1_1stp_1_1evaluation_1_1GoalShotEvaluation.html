@@ -85,9 +85,7 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1stp_1_1evaluation_1_
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp::evaluation::GoalShotEvaluation Class Reference</div>  </div>
@@ -96,114 +94,14 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1stp_1_1evaluation_1_
 
 <p><code>#include &lt;<a class="el" href="GoalShotEvaluation_8h_source.html">GoalShotEvaluation.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:aab694ee02696de477898966b774b5c52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html#aab694ee02696de477898966b774b5c52">GoalShotEvaluation</a> () noexcept</td></tr>
-<tr class="separator:aab694ee02696de477898966b774b5c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc90a2e1a5af17dcb9c5279313634434"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html#adc90a2e1a5af17dcb9c5279313634434">metricCheck</a> (double goalVisibility, double goalDistance, double goalAngle) const noexcept</td></tr>
-<tr class="separator:adc90a2e1a5af17dcb9c5279313634434"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a24b5b6887209daa75abdebad4456b0"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html#a6a24b5b6887209daa75abdebad4456b0">getName</a> ()</td></tr>
-<tr class="separator:a6a24b5b6887209daa75abdebad4456b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:ab4f245e9110ce557d2d7f9a7d2ce5c19"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html#ab4f245e9110ce557d2d7f9a7d2ce5c19">calculateMetric</a> (const double &amp;x) const noexcept</td></tr>
-<tr class="separator:ab4f245e9110ce557d2d7f9a7d2ce5c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a132cb174266bcb26b144cbb17573f9d5"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; nativeformat::param::Param &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html#a132cb174266bcb26b144cbb17573f9d5">piecewiseLinearFunction</a></td></tr>
-<tr class="separator:a132cb174266bcb26b144cbb17573f9d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a668eeb1e55b712c9e4579f3b23cd8877"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html#a668eeb1e55b712c9e4579f3b23cd8877">metricCheck</a> (double goalVisibility, double goalAngle) noexcept</td></tr>
+<tr class="separator:a668eeb1e55b712c9e4579f3b23cd8877"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aab694ee02696de477898966b774b5c52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab694ee02696de477898966b774b5c52">&#9670;&nbsp;</a></span>GoalShotEvaluation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">rtt::ai::stp::evaluation::GoalShotEvaluation::GoalShotEvaluation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Creates a piecewise linear function that looks as follows:</p>
-<p>(0,255) | XXXXXX | XXX | XXX | XXX (0,0) |XXX (evalScore)</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab4f245e9110ce557d2d7f9a7d2ce5c19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4f245e9110ce557d2d7f9a7d2ce5c19">&#9670;&nbsp;</a></span>calculateMetric()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t rtt::ai::stp::evaluation::GoalShotEvaluation::calculateMetric </td>
-          <td>(</td>
-          <td class="paramtype">const double &amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Calculates the actual metric value using the piecewise linear function member </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td>the x of the function </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>metric value between 0-255 </dd></dl>
-
-</div>
-</div>
-<a id="a6a24b5b6887209daa75abdebad4456b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a24b5b6887209daa75abdebad4456b0">&#9670;&nbsp;</a></span>getName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* rtt::ai::stp::evaluation::GoalShotEvaluation::getName </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="adc90a2e1a5af17dcb9c5279313634434"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc90a2e1a5af17dcb9c5279313634434">&#9670;&nbsp;</a></span>metricCheck()</h2>
+<a id="a668eeb1e55b712c9e4579f3b23cd8877"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a668eeb1e55b712c9e4579f3b23cd8877">&#9670;&nbsp;</a></span>metricCheck()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,62 +119,28 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>goalDistance</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>goalAngle</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns a uint8_t score linked to a position for its possibility to score a goal from it </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Score ability to make a goal from position based on how much of the goal is visible and the angular size of the goal </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">goalVisibility</td><td>% visibility of the goal (taking in account other robots) </td></tr>
-    <tr><td class="paramname">goalDistance</td><td>distance from point to goal </td></tr>
-    <tr><td class="paramname">goalAngle</td><td>angle from point to goal (0 is straight in front the middle) </td></tr>
+    <tr><td class="paramname">goalAngle</td><td>angular size of the goal (relative to the goal angle from the penalty point) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t score </dd></dl>
-<p>Visibility, Root-Function -&gt; Favor Higher visibility Too low vis means not a valid pos, difference between higher vis doesnt matter as much (not linear), high vis is caped. -&gt; Linear from 0% to 70%, after 70% max score.</p>
-<p>Distance, Linear-Factor -&gt; Favor closer</p>
-<p>Angle, Linear -&gt; Favor in front</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a132cb174266bcb26b144cbb17573f9d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a132cb174266bcb26b144cbb17573f9d5">&#9670;&nbsp;</a></span>piecewiseLinearFunction</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;nativeformat::param::Param&gt; rtt::ai::stp::evaluation::GoalShotEvaluation::piecewiseLinearFunction</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Unique pointer to the piecewise linear function that calculates the fuzzy value </p>
 
 </div>
 </div>

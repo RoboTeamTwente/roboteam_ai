@@ -4,7 +4,6 @@ var namespacertt_1_1ai =
     [ "interface", "namespacertt_1_1ai_1_1interface.html", "namespacertt_1_1ai_1_1interface" ],
     [ "io", "namespacertt_1_1ai_1_1io.html", "namespacertt_1_1ai_1_1io" ],
     [ "stp", "namespacertt_1_1ai_1_1stp.html", "namespacertt_1_1ai_1_1stp" ],
-    [ "world", "namespacertt_1_1ai_1_1world.html", null ],
     [ "Constants", "classrtt_1_1ai_1_1Constants.html", "classrtt_1_1ai_1_1Constants" ],
     [ "Dealer", "classrtt_1_1ai_1_1Dealer.html", "classrtt_1_1ai_1_1Dealer" ],
     [ "GameState", "structrtt_1_1ai_1_1GameState.html", "structrtt_1_1ai_1_1GameState" ],

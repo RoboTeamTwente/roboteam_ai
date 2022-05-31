@@ -9,6 +9,7 @@ var dir_afeda408d7bf40626f71dd586a465dfc =
       [ "GameStateManager", "classrtt_1_1ai_1_1GameStateManager.html", "classrtt_1_1ai_1_1GameStateManager" ]
     ] ],
     [ "IOManager.h", "IOManager_8h.html", "IOManager_8h" ],
+    [ "normalize.h", "normalize_8h.html", "normalize_8h" ],
     [ "Pause.h", "Pause_8h.html", [
       [ "Pause", "classrtt_1_1ai_1_1Pause.html", "classrtt_1_1ai_1_1Pause" ]
     ] ],
@@ -19,6 +20,7 @@ var dir_afeda408d7bf40626f71dd586a465dfc =
       [ "RuleSet", "structrtt_1_1ai_1_1RuleSet.html", "structrtt_1_1ai_1_1RuleSet" ]
     ] ],
     [ "Settings.h", "Settings_8h.html", "Settings_8h" ],
+    [ "StpInfoEnums.h", "StpInfoEnums_8h.html", "StpInfoEnums_8h" ],
     [ "StrategyManager.h", "StrategyManager_8h.html", [
       [ "StrategyManager", "classrtt_1_1ai_1_1StrategyManager.html", "classrtt_1_1ai_1_1StrategyManager" ]
     ] ]

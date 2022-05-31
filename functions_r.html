@@ -90,6 +90,9 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 <li>radius
 : <a class="el" href="namespacertt_1_1world.html#a489575c4716185399532449180a4563e">rtt::world::FieldArc</a>
 </li>
+<li>raw_detection_packets
+: <a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a78100d02c679ef02071b873ef0b386c9">rtt::ai::interface::Visualizer</a>
+</li>
 <li>REAL_LIFE_CIRCLES
 : <a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca717b5060eb07f66c6de02ccf95d35e6c">rtt::ai::interface::Drawing</a>
 </li>
@@ -104,6 +107,9 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 </li>
 <li>receivePID
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1Output.html#a40928b5e64d3d8247b39742dd12e3e75">rtt::ai::interface::Output</a>
+</li>
+<li>receiverId
+: <a class="el" href="namespacertt_1_1ai_1_1stp.html#a6dc616622d328046b30e5a7cfaf90e81">rtt::ai::stp::PassInfo</a>
 </li>
 <li>receiverPositionLeft
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#ac53395287adab03879c5fa0986c15f79">rtt::ai::stp::play::GenericPass</a>
@@ -192,7 +198,7 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 , <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a27a4f9995826e2126aae6935b77e9213">rtt::ai::stp::StpInfo</a>
 </li>
 <li>Robot()
-: <a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a251932725a6e89d0ba7f47d4b62ce59e">rtt::world::robot::Robot</a>
+: <a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a8e6a885311ed709cf9de85d6a08761d1">rtt::world::robot::Robot</a>
 </li>
 <li>ROBOT_COLOR_BLUE()
 : <a class="el" href="classrtt_1_1ai_1_1Constants.html#a50a3b56143dde15a3b4f354ee8ab518f">rtt::ai::Constants</a>
@@ -227,20 +233,32 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 <li>robotCommand
 : <a class="el" href="namespacertt_1_1BB.html#abfc5aa61eea384b6ea171677135c8e6b">rtt::BB::CommandCollision</a>
 </li>
-<li>RobotCommand()
-: <a class="el" href="classrtt_1_1RobotCommand.html#a9055388d2c7a9f553804ccd7cb1309dd">rtt::RobotCommand</a>
-</li>
-<li>robotCommandPublisher
-: <a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a40f8112557a6ce8be3e4e7b982856732">rtt::ai::io::IOManager</a>
-</li>
 <li>robotCommands
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1ControlModule.html#a319ec720088c6154183cdaea61327451">rtt::ai::control::ControlModule</a>
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1ControlModule.html#a6e296b3b7426b09bd3d4ca57ce94da58">rtt::ai::control::ControlModule</a>
+</li>
+<li>robotCommandsBluePublisher
+: <a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#a6bf5a4699ab935a3fb7af4185cdaeb18">rtt::ai::io::IOManager</a>
 </li>
 <li>robotCommandsMutex
 : <a class="el" href="classrtt_1_1ai_1_1control_1_1ControlModule.html#ad0ee0903224fd00f63bdba27639a3428">rtt::ai::control::ControlModule</a>
 </li>
+<li>robotCommandsYellowPublisher
+: <a class="el" href="classrtt_1_1ai_1_1io_1_1IOManager.html#af5af3d63f79ed376e7ed842bff1efe6e">rtt::ai::io::IOManager</a>
+</li>
+<li>RobotDefender()
+: <a class="el" href="classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender.html#af1b0700403b9dc8eb62bdfffd585a7c4">rtt::ai::stp::role::RobotDefender</a>
+</li>
 <li>robotHasBall()
 : <a class="el" href="classrtt_1_1world_1_1view_1_1WorldDataView.html#a458787283c74ebb89ef056e6bc60b044">rtt::world::view::WorldDataView</a>
+</li>
+<li>RobotHubMode
+: <a class="el" href="classrtt_1_1Settings.html#accfc2ef1af7f3331ef9a5b2abc345fa0">rtt::Settings</a>
+</li>
+<li>robotHubMode
+: <a class="el" href="classrtt_1_1Settings.html#a1197abdc0a0d04444f9767bf0990991b">rtt::Settings</a>
+</li>
+<li>robotHubModeToString()
+: <a class="el" href="classrtt_1_1Settings.html#a8f76b11643dc74c6d4e37bbac1a5b8fb">rtt::Settings</a>
 </li>
 <li>robothubSendIp
 : <a class="el" href="classrtt_1_1Settings.html#ab7eb6165f67fc241523f1dfe4ab13153">rtt::Settings</a>
@@ -287,9 +305,6 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 <li>robotsCanGoOutOfField
 : <a class="el" href="structrtt_1_1ai_1_1RuleSet.html#a9b00765bcf36489dc9c3be65b6117c30">rtt::ai::RuleSet</a>
 </li>
-<li>robotScores
-: <a class="el" href="classrtt_1_1ai_1_1Dealer.html#a3ef3e92ab32b2e530f43891fc3aed4bc">rtt::ai::Dealer::RoleScores</a>
-</li>
 <li>RobotSelector
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1ManualControlWidget.html#a4de9a0af1a2220c51772bb53618eed20">rtt::ai::interface::ManualControlWidget</a>
 </li>
@@ -297,7 +312,7 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1Toggle.html#a678616b8bf6f0535fe0196c110262247">rtt::ai::interface::Toggle</a>
 </li>
 <li>robotsInitialized
-: <a class="el" href="classrtt_1_1ApplicationManager.html#acbc0fd0c951fd7f7f23d7a6ded690532">rtt::ApplicationManager</a>
+: <a class="el" href="classrtt_1_1STPManager.html#a8795d7364c8c7ec513ea11eaaed859a2">rtt::STPManager</a>
 </li>
 <li>robotsNonOwning
 : <a class="el" href="classrtt_1_1world_1_1WorldData.html#accd954c93e207d9af0f35e8ca4172ad6">rtt::world::WorldData</a>
@@ -319,6 +334,7 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 </li>
 <li>roleName
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html#a0575952e375783fee4350fcb97be888c">rtt::ai::stp::Role</a>
+, <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a85b040068008db82349f2a7a38659301">rtt::ai::stp::StpInfo</a>
 </li>
 <li>roles
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a0329d2814e2651902bb05f23659e0084">rtt::ai::stp::Play</a>
@@ -336,7 +352,7 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#ad81747ffd05aa07a413f336e90cb51e2">rtt::ai::interface::Visualizer</a>
 </li>
 <li>rotateRobotCommand()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1ControlModule.html#a890120b264e5c0a01da15e1c61bba398">rtt::ai::control::ControlModule</a>
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1ControlModule.html#a7dbb8c2e2347fef7089cf563ae2162a6">rtt::ai::control::ControlModule</a>
 </li>
 <li>RuleSet()
 : <a class="el" href="structrtt_1_1ai_1_1RuleSet.html#a64a61316f4f8928b9d23539c1ca5082c">rtt::ai::RuleSet</a>
@@ -363,7 +379,7 @@ $(document).ready(function(){initNavTree('functions_r.html',''); initResizable()
 : <a class="el" href="classrtt_1_1input_1_1JoystickManager.html#a3a81da477b8b9f00891dcaf8101cfeb0">rtt::input::JoystickManager</a>
 </li>
 <li>runOneLoopCycle()
-: <a class="el" href="classrtt_1_1ApplicationManager.html#a0d04e2221ac93ca886dd4ca49699dfed">rtt::ApplicationManager</a>
+: <a class="el" href="classrtt_1_1STPManager.html#ae2f6fcaa9e36e0cace65dfb1397ce568">rtt::STPManager</a>
 </li>
 </ul>
 </div><!-- contents -->

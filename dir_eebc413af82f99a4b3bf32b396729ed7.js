@@ -6,7 +6,7 @@ var dir_eebc413af82f99a4b3bf32b396729ed7 =
     [ "stp", "dir_0df202608cdebc95724f5dea7fa38c05.html", "dir_0df202608cdebc95724f5dea7fa38c05" ],
     [ "utilities", "dir_afeda408d7bf40626f71dd586a465dfc.html", "dir_afeda408d7bf40626f71dd586a465dfc" ],
     [ "world", "dir_b58f30187fa33ad62db2b98c9200edb5.html", "dir_b58f30187fa33ad62db2b98c9200edb5" ],
-    [ "ApplicationManager.h", "ApplicationManager_8h.html", [
-      [ "ApplicationManager", "classrtt_1_1ApplicationManager.html", "classrtt_1_1ApplicationManager" ]
+    [ "STPManager.h", "STPManager_8h.html", [
+      [ "STPManager", "classrtt_1_1STPManager.html", "classrtt_1_1STPManager" ]
     ] ]
 ];

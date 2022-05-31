@@ -6,6 +6,6 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "stp", "dir_71906deff00c706128a95d3938125d0a.html", "dir_71906deff00c706128a95d3938125d0a" ],
     [ "utilities", "dir_7b5d38f1875f1b693f62ca6a108a1129.html", "dir_7b5d38f1875f1b693f62ca6a108a1129" ],
     [ "world", "dir_6826d79532171ff2338799cfd298b875.html", "dir_6826d79532171ff2338799cfd298b875" ],
-    [ "ApplicationManager.cpp", "ApplicationManager_8cpp.html", null ],
-    [ "roboteam_ai.cpp", "roboteam__ai_8cpp.html", "roboteam__ai_8cpp" ]
+    [ "roboteam_ai.cpp", "roboteam__ai_8cpp.html", "roboteam__ai_8cpp" ],
+    [ "STPManager.cpp", "STPManager_8cpp.html", null ]
 ];

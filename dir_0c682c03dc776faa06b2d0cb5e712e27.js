@@ -12,11 +12,17 @@ var dir_0c682c03dc776faa06b2d0cb5e712e27 =
     [ "BallGotShotGlobalEvaluation.h", "BallGotShotGlobalEvaluation_8h.html", [
       [ "BallGotShotGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation" ]
     ] ],
+    [ "BallInOurDefenseAreaAndStillGlobalEvaluation.h", "BallInOurDefenseAreaAndStillGlobalEvaluation_8h.html", [
+      [ "BallInOurDefenseAreaAndStillGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation" ]
+    ] ],
     [ "BallIsFreeGlobalEvaluation.h", "BallIsFreeGlobalEvaluation_8h.html", [
       [ "BallIsFreeGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation" ]
     ] ],
     [ "BallMovesSlowGlobalEvaluation.h", "BallMovesSlowGlobalEvaluation_8h.html", [
       [ "BallMovesSlowGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation" ]
+    ] ],
+    [ "BallNotInOurDefenseAreaAndStillGlobalEvaluation.h", "BallNotInOurDefenseAreaAndStillGlobalEvaluation_8h.html", [
+      [ "BallNotInOurDefenseAreaAndStillGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallNotInOurDefenseAreaAndStillGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallNotInOurDefenseAreaAndStillGlobalEvaluation" ]
     ] ],
     [ "BallOnOurSideGlobalEvaluation.h", "BallOnOurSideGlobalEvaluation_8h.html", [
       [ "BallOnOurSideGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallOnOurSideGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallOnOurSideGlobalEvaluation" ]
@@ -38,6 +44,12 @@ var dir_0c682c03dc776faa06b2d0cb5e712e27 =
     ] ],
     [ "NoGoalVisionFromBallGlobalEvaluation.h", "NoGoalVisionFromBallGlobalEvaluation_8h.html", [
       [ "NoGoalVisionFromBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1NoGoalVisionFromBallGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1NoGoalVisionFromBallGlobalEvaluation" ]
+    ] ],
+    [ "TheyDoNotHaveBallGlobalEvaluation.h", "TheyDoNotHaveBallGlobalEvaluation_8h.html", [
+      [ "TheyDoNotHaveBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TheyDoNotHaveBallGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TheyDoNotHaveBallGlobalEvaluation" ]
+    ] ],
+    [ "TheyHaveBallGlobalEvaluation.h", "TheyHaveBallGlobalEvaluation_8h.html", [
+      [ "TheyHaveBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TheyHaveBallGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TheyHaveBallGlobalEvaluation" ]
     ] ],
     [ "WeHaveBallGlobalEvaluation.h", "WeHaveBallGlobalEvaluation_8h.html", [
       [ "WeHaveBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveBallGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveBallGlobalEvaluation" ]

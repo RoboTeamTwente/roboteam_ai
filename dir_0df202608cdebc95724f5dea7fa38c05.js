@@ -8,9 +8,6 @@ var dir_0df202608cdebc95724f5dea7fa38c05 =
     [ "skills", "dir_fe7f5f47651a9d83213bb931a46f71b3.html", "dir_fe7f5f47651a9d83213bb931a46f71b3" ],
     [ "tactics", "dir_9249fde91b006441fe7f8c465d99df7f.html", "dir_9249fde91b006441fe7f8c465d99df7f" ],
     [ "Play.hpp", "Play_8hpp.html", "Play_8hpp" ],
-    [ "PlayChecker.hpp", "PlayChecker_8hpp.html", [
-      [ "PlayChecker", "classrtt_1_1ai_1_1stp_1_1PlayChecker.html", "classrtt_1_1ai_1_1stp_1_1PlayChecker" ]
-    ] ],
     [ "PlayDecider.hpp", "PlayDecider_8hpp.html", [
       [ "PlayDecider", "classrtt_1_1ai_1_1stp_1_1PlayDecider.html", "classrtt_1_1ai_1_1stp_1_1PlayDecider" ]
     ] ],

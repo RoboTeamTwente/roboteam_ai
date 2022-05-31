@@ -8,7 +8,7 @@ var classTestSkill =
     [ "refreshRobotCommand", "classTestSkill.html#afa6b5f998d8ba252485177937d3724c7", null ],
     [ "terminate", "classTestSkill.html#a0f136c2ac131c1b44b65cb9eeba823fe", null ],
     [ "update", "classTestSkill.html#aab9578d86a91f8a16f5c02200ca3b5e8", null ],
-    [ "command", "classTestSkill.html#a3c4c292db1f050d40bca51c01d8740fe", null ],
+    [ "command", "classTestSkill.html#ae3db983eda1761d7ccd3f68a0ef731dd", null ],
     [ "currentStatus", "classTestSkill.html#a62d571b925906855b84dfc185a0b5ee8", null ],
     [ "robot", "classTestSkill.html#a8625bf35b1b36ec18fd8ff68926ec0d4", null ]
 ];

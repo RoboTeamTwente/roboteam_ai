@@ -15,8 +15,11 @@ var dir_f436f6959f549ff06d542465ec82274d =
     [ "FreeKickThem.h", "FreeKickThem_8h.html", [
       [ "FreeKickThem", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem" ]
     ] ],
-    [ "FreeKickUs.h", "FreeKickUs_8h.html", [
-      [ "FreeKickUs", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUs.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUs" ]
+    [ "FreeKickUsAtGoal.h", "FreeKickUsAtGoal_8h.html", [
+      [ "FreeKickUsAtGoal", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal" ]
+    ] ],
+    [ "FreeKickUsPass.h", "FreeKickUsPass_8h.html", [
+      [ "FreeKickUsPass", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass" ]
     ] ],
     [ "Halt.h", "plays_2referee__specific_2Halt_8h.html", [
       [ "Halt", "classrtt_1_1ai_1_1stp_1_1play_1_1Halt.html", "classrtt_1_1ai_1_1stp_1_1play_1_1Halt" ]

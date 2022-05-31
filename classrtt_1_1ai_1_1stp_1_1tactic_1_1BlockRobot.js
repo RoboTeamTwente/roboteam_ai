@@ -2,7 +2,7 @@ var classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot =
 [
     [ "BlockRobot", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html#ad6728186ef4d96fc825a44a7a474da89", null ],
     [ "calculateAngle", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html#a7dd6c78c3221ac4169ba76c579964bba", null ],
-    [ "calculateDesiredRobotPosition", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html#a3f42f041c57a5136b5613e9958043f77", null ],
+    [ "calculateDesiredRobotPosition", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html#a2ae333005e6ed27da3e9b68bbeb3a681", null ],
     [ "calculateInfoForSkill", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html#ab483b0fde3fde2b73e16b3fe6b0ef866", null ],
     [ "forceTacticSuccess", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html#ab496bf1614c47ef3e466cd235eb84aab", null ],
     [ "getCurrentSkill", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html#a483d158a091f8347c3c25983b22d015f", null ],

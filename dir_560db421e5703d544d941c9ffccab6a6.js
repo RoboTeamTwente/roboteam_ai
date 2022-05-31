@@ -24,6 +24,9 @@ var dir_560db421e5703d544d941c9ffccab6a6 =
     [ "KickOffUsGameStateEvaluation.h", "KickOffUsGameStateEvaluation_8h.html", [
       [ "KickOffUsGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsGameStateEvaluation" ]
     ] ],
+    [ "KickOffUsOrNormalGameStateEvaluation.h", "KickOffUsOrNormalGameStateEvaluation_8h.html", [
+      [ "KickOffUsOrNormalGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsOrNormalGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsOrNormalGameStateEvaluation" ]
+    ] ],
     [ "KickOffUsPrepareGameStateEvaluation.h", "KickOffUsPrepareGameStateEvaluation_8h.html", [
       [ "KickOffUsPrepareGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsPrepareGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsPrepareGameStateEvaluation" ]
     ] ],

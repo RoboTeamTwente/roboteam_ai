@@ -13,6 +13,12 @@ var dir_98f7714cbbe3133e35c235b7273bc717 =
     [ "BBTrajectory2D.h", "BBTrajectory2D_8h.html", [
       [ "BBTrajectory2D", "classrtt_1_1BB_1_1BBTrajectory2D.html", "classrtt_1_1BB_1_1BBTrajectory2D" ]
     ] ],
+    [ "Trajectory1D.h", "Trajectory1D_8h.html", [
+      [ "Trajectory1D", "classrtt_1_1Trajectory1D.html", "classrtt_1_1Trajectory1D" ]
+    ] ],
+    [ "Trajectory2D.h", "Trajectory2D_8h.html", [
+      [ "Trajectory2D", "classrtt_1_1Trajectory2D.html", "classrtt_1_1Trajectory2D" ]
+    ] ],
     [ "WorldObjects.h", "WorldObjects_8h.html", [
       [ "CollisionData", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData", [
         [ "collisionName", "namespacertt_1_1BB.html#a8ae7fce9a99d8e8449e806d5d7c1427b", null ],

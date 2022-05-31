@@ -2,19 +2,19 @@ var hierarchy =
 [
     [ "rtt::world::World::AcquireInfo< T >", "classrtt_1_1world_1_1World.html#structrtt_1_1world_1_1World_1_1AcquireInfo", null ],
     [ "rtt::AnglePID", "classrtt_1_1AnglePID.html", null ],
-    [ "rtt::ApplicationManager", "classrtt_1_1ApplicationManager.html", null ],
+    [ "rtt::ai::stp::AvoidObjects", "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects", null ],
     [ "rtt::world::ball::Ball", "classrtt_1_1world_1_1ball_1_1Ball.html", null ],
     [ "rtt::ai::BallPossession", "classrtt_1_1ai_1_1BallPossession.html", null ],
     [ "rtt::world::view::BallView", "classrtt_1_1world_1_1view_1_1BallView.html", null ],
     [ "rtt::ai::stp::evaluation::BaseEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BaseEvaluation.html", [
-      [ "falseInvariant", "classfalseInvariant.html", null ],
-      [ "falseInvariant", "classfalseInvariant.html", null ],
       [ "rtt::ai::stp::evaluation::BallCloseToThemGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToThemGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallCloseToUsGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToUsGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallClosestToUsGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallClosestToUsGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallGotShotGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html", null ],
+      [ "rtt::ai::stp::evaluation::BallInOurDefenseAreaAndStillGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallIsFreeGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallMovesSlowGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html", null ],
+      [ "rtt::ai::stp::evaluation::BallNotInOurDefenseAreaAndStillGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallNotInOurDefenseAreaAndStillGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallOnOurSideGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallOnOurSideGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallOnTheirSideGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallOnTheirSideGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::BallPlacementThemGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallPlacementThemGameStateEvaluation.html", null ],
@@ -29,6 +29,7 @@ var hierarchy =
       [ "rtt::ai::stp::evaluation::KickOffThemGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffThemGameStateEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::KickOffThemPrepareGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffThemPrepareGameStateEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::KickOffUsGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsGameStateEvaluation.html", null ],
+      [ "rtt::ai::stp::evaluation::KickOffUsOrNormalGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsOrNormalGameStateEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::KickOffUsPrepareGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsPrepareGameStateEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::NoGoalVisionFromBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1NoGoalVisionFromBallGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::NormalOrFreeKickUsGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1NormalOrFreeKickUsGameStateEvaluation.html", null ],
@@ -38,13 +39,14 @@ var hierarchy =
       [ "rtt::ai::stp::evaluation::PenaltyUsGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsGameStateEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::PenaltyUsPrepareGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsPrepareGameStateEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::StopGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1StopGameStateEvaluation.html", null ],
+      [ "rtt::ai::stp::evaluation::TheyDoNotHaveBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TheyDoNotHaveBallGlobalEvaluation.html", null ],
+      [ "rtt::ai::stp::evaluation::TheyHaveBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TheyHaveBallGlobalEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::TimeOutGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeOutGameStateEvaluation.html", null ],
       [ "rtt::ai::stp::evaluation::WeHaveBallGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveBallGlobalEvaluation.html", null ],
-      [ "rtt::ai::stp::evaluation::WeHaveMajorityGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveMajorityGlobalEvaluation.html", null ],
-      [ "trueInvariant", "classtrueInvariant.html", null ],
-      [ "trueInvariant", "classtrueInvariant.html", null ]
+      [ "rtt::ai::stp::evaluation::WeHaveMajorityGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveMajorityGlobalEvaluation.html", null ]
     ] ],
     [ "rtt::BB::BBPosVelAcc", "structrtt_1_1BB_1_1BBPosVelAcc.html", null ],
+    [ "rtt::ai::control::BBTPathTracking", "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html", null ],
     [ "rtt::BB::BBTrajectory1D", "classrtt_1_1BB_1_1BBTrajectory1D.html", null ],
     [ "rtt::BB::BBTrajectory2D", "classrtt_1_1BB_1_1BBTrajectory2D.html", null ],
     [ "rtt::BB::BBTrajectoryPart", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart", null ],
@@ -52,11 +54,11 @@ var hierarchy =
     [ "rtt::BB::CollisionData", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData", null ],
     [ "rtt::ai::control::CollisionDetector", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html", null ],
     [ "rtt::BB::CommandCollision", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1CommandCollision", null ],
+    [ "rtt::ai::stp::ComputationManager", "classrtt_1_1ai_1_1stp_1_1ComputationManager.html", null ],
     [ "rtt::ai::Constants", "classrtt_1_1ai_1_1Constants.html", null ],
     [ "rtt::ai::control::ControlModule", "classrtt_1_1ai_1_1control_1_1ControlModule.html", null ],
     [ "rtt::ai::control::ControlUtils", "classrtt_1_1ai_1_1control_1_1ControlUtils.html", null ],
     [ "rtt::ai::Dealer", "classrtt_1_1ai_1_1Dealer.html", null ],
-    [ "rtt::ai::Dealer::DealerDistribute", "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1DealerDistribute", null ],
     [ "rtt::ai::Dealer::DealerFlag", "structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html", null ],
     [ "rtt::ai::interface::Drawing", "structrtt_1_1ai_1_1interface_1_1Drawing.html", null ],
     [ "rtt::world::Field", "classrtt_1_1world_1_1Field.html", null ],
@@ -73,6 +75,9 @@ var hierarchy =
     [ "rtt::ai::stp::evaluation::GoalShotEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html", null ],
     [ "rtt::ai::control::GraphNode", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1GraphNode", null ],
     [ "rtt::ai::interface::Input", "classrtt_1_1ai_1_1interface_1_1Input.html", null ],
+    [ "InterfaceController", null, [
+      [ "rtt::Interface::InterfaceControllerServer", "classrtt_1_1Interface_1_1InterfaceControllerServer.html", null ]
+    ] ],
     [ "rtt::ai::io::IOManager", "classrtt_1_1ai_1_1io_1_1IOManager.html", null ],
     [ "jcv_cast_align_struct", "Voronoi_8h.html#unionjcv__cast__align__struct", null ],
     [ "jcv_clipper", "Voronoi_8h.html#struct__jcv__clipper", null ],
@@ -93,6 +98,7 @@ var hierarchy =
     [ "rtt::ai::stp::evaluation::OpennessEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html", null ],
     [ "rtt::ai::interface::Output", "classrtt_1_1ai_1_1interface_1_1Output.html", null ],
     [ "rtt::ai::stp::computations::PassComputations", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html", null ],
+    [ "rtt::ai::stp::PassInfo", "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo", null ],
     [ "rtt::ai::control::PathPlanningAlgorithm", "classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm.html", [
       [ "rtt::ai::control::NumTreesPlanning", "classrtt_1_1ai_1_1control_1_1NumTreesPlanning.html", null ]
     ] ],
@@ -103,13 +109,6 @@ var hierarchy =
     ] ],
     [ "rtt::ai::Pause", "classrtt_1_1ai_1_1Pause.html", null ],
     [ "rtt::ai::stp::Play", "classrtt_1_1ai_1_1stp_1_1Play.html", [
-      [ "AlwaysFalse", "classAlwaysFalse.html", null ],
-      [ "AlwaysFalse", "classAlwaysFalse.html", null ],
-      [ "AlwaysValid", "classAlwaysValid.html", [
-        [ "AnotherAlwaysTrue", "classAnotherAlwaysTrue.html", null ],
-        [ "AnotherAlwaysTrue", "classAnotherAlwaysTrue.html", null ]
-      ] ],
-      [ "AlwaysValid", "classAlwaysValid.html", null ],
       [ "rtt::ai::stp::TestPlay", "classrtt_1_1ai_1_1stp_1_1TestPlay.html", null ],
       [ "rtt::ai::stp::play::AggressiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html", null ],
       [ "rtt::ai::stp::play::Attack", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html", null ],
@@ -120,11 +119,13 @@ var hierarchy =
       [ "rtt::ai::stp::play::DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html", null ],
       [ "rtt::ai::stp::play::DefensiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html", null ],
       [ "rtt::ai::stp::play::FreeKickThem", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html", null ],
-      [ "rtt::ai::stp::play::FreeKickUs", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUs.html", null ],
+      [ "rtt::ai::stp::play::FreeKickUsAtGoal", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html", null ],
+      [ "rtt::ai::stp::play::FreeKickUsPass", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html", null ],
       [ "rtt::ai::stp::play::GenericPass", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html", null ],
       [ "rtt::ai::stp::play::GetBallPossession", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html", null ],
       [ "rtt::ai::stp::play::GetBallRisky", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky.html", null ],
       [ "rtt::ai::stp::play::Halt", "classrtt_1_1ai_1_1stp_1_1play_1_1Halt.html", null ],
+      [ "rtt::ai::stp::play::KeeperKickBall", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html", null ],
       [ "rtt::ai::stp::play::KickOffThem", "classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html", null ],
       [ "rtt::ai::stp::play::KickOffThemPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThemPrepare.html", null ],
       [ "rtt::ai::stp::play::KickOffUs", "classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html", null ],
@@ -137,7 +138,6 @@ var hierarchy =
       [ "rtt::ai::stp::play::ReflectKick", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html", null ],
       [ "rtt::ai::stp::play::TimeOut", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html", null ]
     ] ],
-    [ "rtt::ai::stp::PlayChecker", "classrtt_1_1ai_1_1stp_1_1PlayChecker.html", null ],
     [ "rtt::ai::stp::PlayDecider", "classrtt_1_1ai_1_1stp_1_1PlayDecider.html", null ],
     [ "rtt::ai::stp::PlayEvaluator", "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html", null ],
     [ "rtt::ai::stp::PlayEvaluator::PlayScoring", "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring", null ],
@@ -145,6 +145,7 @@ var hierarchy =
     [ "rtt::ai::control::PositionControl", "classrtt_1_1ai_1_1control_1_1PositionControl.html", null ],
     [ "rtt::ai::control::PositionControlUtils", "classrtt_1_1ai_1_1control_1_1PositionControlUtils.html", null ],
     [ "rtt::ai::stp::gen::PositionScores", "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1PositionScores", null ],
+    [ "rtt::ai::stp::PositionScoring", "classrtt_1_1ai_1_1stp_1_1PositionScoring.html", null ],
     [ "QGroupBox", null, [
       [ "rtt::ai::interface::PidBox", "classrtt_1_1ai_1_1interface_1_1PidBox.html", null ]
     ] ],
@@ -167,18 +168,18 @@ var hierarchy =
       [ "rtt::ai::interface::Visualizer", "classrtt_1_1ai_1_1interface_1_1Visualizer.html", null ]
     ] ],
     [ "rtt::world::robot::Robot", "classrtt_1_1world_1_1robot_1_1Robot.html", null ],
-    [ "rtt::RobotCommand", "classrtt_1_1RobotCommand.html", null ],
     [ "rtt::ai::Dealer::RobotRoleScore", "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore", null ],
     [ "rtt::world::view::RobotView", "classrtt_1_1world_1_1view_1_1RobotView.html", null ],
     [ "rtt::ai::stp::Role", "classrtt_1_1ai_1_1stp_1_1Role.html", [
       [ "rtt::ai::stp::TestRole", "classrtt_1_1ai_1_1stp_1_1TestRole.html", null ],
       [ "rtt::ai::stp::role::Attacker", "classrtt_1_1ai_1_1stp_1_1role_1_1Attacker.html", null ],
       [ "rtt::ai::stp::role::BallAvoider", "classrtt_1_1ai_1_1stp_1_1role_1_1BallAvoider.html", null ],
+      [ "rtt::ai::stp::role::BallDefender", "classrtt_1_1ai_1_1stp_1_1role_1_1BallDefender.html", null ],
       [ "rtt::ai::stp::role::BallGetter", "classrtt_1_1ai_1_1stp_1_1role_1_1BallGetter.html", null ],
       [ "rtt::ai::stp::role::BallPlacer", "classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html", null ],
       [ "rtt::ai::stp::role::BallReflector", "classrtt_1_1ai_1_1stp_1_1role_1_1BallReflector.html", null ],
-      [ "rtt::ai::stp::role::Defender", "classrtt_1_1ai_1_1stp_1_1role_1_1Defender.html", null ],
       [ "rtt::ai::stp::role::Formation", "classrtt_1_1ai_1_1stp_1_1role_1_1Formation.html", null ],
+      [ "rtt::ai::stp::role::FreeKickTaker", "classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker.html", null ],
       [ "rtt::ai::stp::role::Halt", "classrtt_1_1ai_1_1stp_1_1role_1_1Halt.html", null ],
       [ "rtt::ai::stp::role::Harasser", "classrtt_1_1ai_1_1stp_1_1role_1_1Harasser.html", null ],
       [ "rtt::ai::stp::role::Keeper", "classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html", [
@@ -186,10 +187,10 @@ var hierarchy =
       ] ],
       [ "rtt::ai::stp::role::PassReceiver", "classrtt_1_1ai_1_1stp_1_1role_1_1PassReceiver.html", null ],
       [ "rtt::ai::stp::role::Passer", "classrtt_1_1ai_1_1stp_1_1role_1_1Passer.html", null ],
+      [ "rtt::ai::stp::role::RobotDefender", "classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender.html", null ],
       [ "rtt::ai::stp::role::Waller", "classrtt_1_1ai_1_1stp_1_1role_1_1Waller.html", null ]
     ] ],
     [ "rtt::ai::Dealer::RoleInfo", "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleInfo", null ],
-    [ "rtt::ai::Dealer::RoleScores", "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleScores", null ],
     [ "rtt::ai::RuleSet", "structrtt_1_1ai_1_1RuleSet.html", null ],
     [ "rtt::ai::stp::gen::ScoredPosition", "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoredPosition", null ],
     [ "rtt::ai::stp::gen::ScoreProfile", "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoreProfile", null ],
@@ -206,6 +207,7 @@ var hierarchy =
     ] ],
     [ "rtt::ai::stp::gen::StoreInfo", "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1StoreInfo", null ],
     [ "rtt::ai::stp::StpInfo", "structrtt_1_1ai_1_1stp_1_1StpInfo.html", null ],
+    [ "rtt::STPManager", "classrtt_1_1STPManager.html", null ],
     [ "rtt::ai::StrategyManager", "classrtt_1_1ai_1_1StrategyManager.html", null ],
     [ "rtt::ai::stp::Tactic", "classrtt_1_1ai_1_1stp_1_1Tactic.html", [
       [ "MockTactic", "classMockTactic.html", null ],
@@ -227,9 +229,14 @@ var hierarchy =
       [ "rtt::ai::stp::tactic::ShootAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html", null ],
       [ "rtt::ai::stp::tactic::Walling", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html", null ]
     ] ],
+    [ "testing::Test", null, [
+      [ "RTT_AI_Tests", "classRTT__AI__Tests.html", null ]
+    ] ],
     [ "rtt::ai::stp::evaluation::TimeToPositionEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeToPositionEvaluation.html", null ],
     [ "rtt::ai::interface::Toggle", "classrtt_1_1ai_1_1interface_1_1Toggle.html", null ],
     [ "rtt::ai::interface::Toggles", "classrtt_1_1ai_1_1interface_1_1Toggles.html", null ],
+    [ "rtt::Trajectory1D", "classrtt_1_1Trajectory1D.html", null ],
+    [ "rtt::Trajectory2D", "classrtt_1_1Trajectory2D.html", null ],
     [ "rtt::ai::control::VoronoiPathPlanning", "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html", null ],
     [ "rtt::world::World", "classrtt_1_1world_1_1World.html", null ],
     [ "rtt::world::WorldData", "classrtt_1_1world_1_1WorldData.html", null ],

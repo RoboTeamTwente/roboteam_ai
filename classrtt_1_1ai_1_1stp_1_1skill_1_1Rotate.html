@@ -89,6 +89,7 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1stp_1_1skill_1_1Rota
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::stp::skill::Rotate Class Reference</div>  </div>
@@ -128,8 +129,8 @@ Protected Member Functions</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a62d571b925906855b84dfc185a0b5ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Skill.html#a62d571b925906855b84dfc185a0b5ee8">currentStatus</a></td></tr>
 <tr class="separator:a62d571b925906855b84dfc185a0b5ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c4c292db1f050d40bca51c01d8740fe"><td class="memItemLeft" align="right" valign="top">proto::RobotCommand&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Skill.html#a3c4c292db1f050d40bca51c01d8740fe">command</a></td></tr>
-<tr class="separator:a3c4c292db1f050d40bca51c01d8740fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3db983eda1761d7ccd3f68a0ef731dd"><td class="memItemLeft" align="right" valign="top">rtt::RobotCommand&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Skill.html#ae3db983eda1761d7ccd3f68a0ef731dd">command</a></td></tr>
+<tr class="separator:ae3db983eda1761d7ccd3f68a0ef731dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8625bf35b1b36ec18fd8ff68926ec0d4"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Skill.html#a8625bf35b1b36ec18fd8ff68926ec0d4">robot</a></td></tr>
 <tr class="separator:a8625bf35b1b36ec18fd8ff68926ec0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -139,6 +140,11 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:af9cc4625ef017ae42e209bca2f70e5e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a6fc736385ed0f389fdf15c26cfe1ef"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a0a6fc736385ed0f389fdf15c26cfe1ef">getName</a> () override</td></tr>
 <tr class="separator:a0a6fc736385ed0f389fdf15c26cfe1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a9553030ee0ed13a6802a70b35df77ac5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a9553030ee0ed13a6802a70b35df77ac5">withinMarginCount</a> = 0</td></tr>
+<tr class="separator:a9553030ee0ed13a6802a70b35df77ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8ff0319d5018d2f697c38494d0568991"></a>
@@ -369,8 +375,8 @@ Private Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a3c4c292db1f050d40bca51c01d8740fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c4c292db1f050d40bca51c01d8740fe">&#9670;&nbsp;</a></span>command</h2>
+<a id="ae3db983eda1761d7ccd3f68a0ef731dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3db983eda1761d7ccd3f68a0ef731dd">&#9670;&nbsp;</a></span>command</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -379,7 +385,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">proto::RobotCommand rtt::ai::stp::Skill::command</td>
+          <td class="memname">rtt::RobotCommand rtt::ai::stp::Skill::command</td>
         </tr>
       </table>
   </td>
@@ -435,6 +441,29 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Robot this skill controls </p>
+
+</div>
+</div>
+<a id="a9553030ee0ed13a6802a70b35df77ac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9553030ee0ed13a6802a70b35df77ac5">&#9670;&nbsp;</a></span>withinMarginCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rtt::ai::stp::skill::Rotate::withinMarginCount = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Counts how long the robot is within the rotational error margin </p>
 
 </div>
 </div>

@@ -6,7 +6,7 @@ var classrtt_1_1world_1_1view_1_1RobotView =
     [ "~RobotView", "classrtt_1_1world_1_1view_1_1RobotView.html#ad02151cd2fd9f53ee480644cbe76ce04", null ],
     [ "get", "classrtt_1_1world_1_1view_1_1RobotView.html#abdf777a21002f4bd5ef19de77d5006a7", null ],
     [ "getKicker", "classrtt_1_1world_1_1view_1_1RobotView.html#a5f8adf21284e3b97a19b171ed1da58fa", null ],
-    [ "hasBall", "classrtt_1_1world_1_1view_1_1RobotView.html#a338587650dab4fcec378dc626d28edfb", null ],
+    [ "hasBall", "classrtt_1_1world_1_1view_1_1RobotView.html#a43a81a19494bc916f8938587b40b3c24", null ],
     [ "hasBallAccordingToVision", "classrtt_1_1world_1_1view_1_1RobotView.html#ad5f4be51d1423f4ecc400ffa8a52c398", null ],
     [ "operator bool", "classrtt_1_1world_1_1view_1_1RobotView.html#ac324758164b159c618c93d1d3dfc2b89", null ],
     [ "operator*", "classrtt_1_1world_1_1view_1_1RobotView.html#ad1dc35567d1440e9befdfd1498385652", null ],

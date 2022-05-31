@@ -5,5 +5,8 @@ var dir_1f4f8293e19accd0418730220915db59 =
     ] ],
     [ "DefendShot.h", "DefendShot_8h.html", [
       [ "DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot" ]
+    ] ],
+    [ "KeeperKickBall.h", "KeeperKickBall_8h.html", [
+      [ "KeeperKickBall", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall" ]
     ] ]
 ];
