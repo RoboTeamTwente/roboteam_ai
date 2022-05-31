@@ -5,217 +5,156 @@
 
 #include "stp/plays/offensive/AttackingPass.h"
 
-#include <roboteam_utils/Tube.h>
-#include <stp/roles/passive/Defender.h>
+#include <roboteam_utils/LineSegment.h>
 
 #include "stp/computations/PassComputations.h"
-#include "stp/computations/PositionComputations.h"
+#include "stp/computations/PositionScoring.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/PassReceiver.h"
 #include "stp/roles/active/Passer.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
+#include "world/views/RobotView.hpp"
 
 namespace rtt::ai::stp::play {
 AttackingPass::AttackingPass() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
-    startPlayEvaluation.emplace_back(GlobalEvaluation::BallCloseToUs);
-    startPlayEvaluation.emplace_back(GlobalEvaluation::NoGoalVisionFromBall);
-    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
-    keepPlayEvaluation.emplace_back(GlobalEvaluation::NoGoalVisionFromBall);
-    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Passer>(role::Passer("passer")),
-                                                                                       std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
-                                                                                       std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_0")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("waller_0")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("waller_1")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_0")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_1"))};
-
-    // initialize stpInfos
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
-    for (auto &role : roles) {
-        role->reset();
-        auto roleName{role->getName()};
-        stpInfos.emplace(roleName, StpInfo{});
-    }
+                                                                                       std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_left")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_mid")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_right")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_left")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
 
-uint8_t AttackingPass::score(PlayEvaluator &playEvaluator) noexcept {
-    // TODO: Uncomment this (and actually implement the scoring) when you want to score this play based on
-    //  how good the attacking pass will be
-    // calculateInfoForScoredRoles(playEvaluator.getWorld());
+uint8_t AttackingPass::score(const rtt::world::Field& field) noexcept {
+    passInfo = stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field);
 
-    scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
-    // std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::GoalVisionFromBall), 1)};
-    // std::make_pair(std::max({stpInfos["receiver_left"].getRoleScore().value(),stpInfos["receiver_right"].getRoleScore().value()}),1)};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();
+    if (passInfo.passLocation == Vector2()) return 0;  // In case no pass is found
+
+    return stp::computations::PassComputations::scorePass(passInfo, world, field);
 }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag passerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {passerFlag}}});
-    flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
-    flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
-    flagMap.insert({"midfielder_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}, passInfo.keeperId}});
+    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {}, passInfo.passerId}});
+    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}, passInfo.receiverId}});
+    flagMap.insert({"defender_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"defender_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"defender_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"midfielder_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"midfielder_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"midfielder_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"attacker_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"attacker_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
 
     return flagMap;
 }
 
-void AttackingPass::calculateInfoForScoredRoles(world::World *world) noexcept {
-    rtt::world::Field field = world->getField().value();
-
-    // Receiver
-    stpInfos["receiver_left"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridRightBot, gen::GoalShootPosition, field, world));
-    stpInfos["receiver_right"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world));
-}
-
 void AttackingPass::calculateInfoForRoles() noexcept {
-    auto ball = world->getWorld()->getBall()->get();
-    //        calculateInfoForScoredRoles(world);
+    calculateInfoForDefenders();
+    calculateInfoForMidfielders();
+    calculateInfoForAttackers();
+
     /// Keeper
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
-    stpInfos["keeper"].setKickOrChip(KickOrChip::CHIP);
 
-    /// Passer and receivers
-    // calculate all info necessary to execute a pass
-    calculateInfoForPass(ball);
+    /// Midfielder
+    stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::SafePosition, field, world));
 
-    /// Defenders
-    auto enemyRobots = world->getWorld()->getThem();
-
-    stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_0"].setEnemyRobot(enemyRobots[0]);
-    stpInfos["defender_0"].setBlockDistance(BlockDistance::CLOSE);
-    //(stpInfos.find("defender_0")->second.getRobot()->get()->getPos()-enemyRobots[0].get()->getPos()).length()/2
-
-    stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_1"].setEnemyRobot(enemyRobots[1]);
-    stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
-
-    /// Wallers that will block the line from the ball to the goal
-    stpInfos["waller_0"].setPositionToMoveTo(pos::getWallPosition(0, 2, field, world));
-    stpInfos["waller_1"].setPositionToMoveTo(pos::getWallPosition(1, 2, field, world));
-
-    /// Slightly aggressive midfielders
-    stpInfos["midfielder_0"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(), gen::gridMidFieldMid, gen::OffensivePosition, field, world));
-    stpInfos["midfielder_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), gen::gridMidFieldBot, gen::OffensivePosition, field, world));
-    stpInfos["midfielder_2"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), gen::gridMidFieldTop, gen::OffensivePosition, field, world));
-}
-
-std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, std::vector<world::view::RobotView> enemyRobots) {
-    std::vector<Vector2> positions = {};
-    positions.reserve(numberOfDefenders);
-
-    for (int i = 0; i < numberOfDefenders; i++) {
-        positions.push_back(enemyRobots[i].get()->getPos());
-    }
-    return positions;
-}
-
-const char *AttackingPass::getName() { return "AttackingPass"; }
-
-// TODO: This function should be split, the passing for this play and the receiving in another play
-void AttackingPass::calculateInfoForPass(const world::ball::Ball *ball) noexcept {
-    /// Recalculate pass positions if we did not shoot yet
-    /// For the receive locations, divide the field up into grids where the passers should stand,
-    /// and find the best locations in those grids
-    auto receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), gen::gridRightBot, gen::GoalShootPosition, field, world);
-    auto receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world);
-
-    stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos());
-
-    std::vector<gen::ScoredPosition> positions = {receiverPositionLeft, receiverPositionRight};
-    Vector2 passLocation = computations::PassComputations::determineBestPosForPass(positions);
-
-    /// If no good pass found, pass to closest robot
-    if (passLocation == Vector2{0, 0}) {
-        passLocation = world->getWorld()->getRobotClosestToPoint(stpInfos["passer"].getPositionToMoveTo().value(), world::us)->get()->getPos();
-    }
-
-    /// Receiver should intercept when constraints are met
-    if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionLeft.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passLocation);
-    } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionRight.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passLocation);
-    }
-
-    // Receiver
-    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.position);
-    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.position);
-
-    // decide kick or chip
-    auto passLine = Tube(ball->getPos(), passLocation, control_constants::ROBOT_CLOSE_TO_POINT / 2);
-    auto allBots = world->getWorld()->getRobotsNonOwning();
-    // For all bots except passer and receivers, check if they are on the pass line, aka robot should chip
-    if (std::any_of(allBots.begin(), allBots.end(), [&](const auto &bot) {
-            if ((stpInfos["passer"].getRobot() && bot->getId() == stpInfos["passer"].getRobot()->get()->getId()) ||
-                (stpInfos["receiver_left"].getRobot() && bot->getId() == stpInfos["receiver_left"].getRobot()->get()->getId()) ||
-                (stpInfos["receiver_right"].getRobot() && bot->getId() == stpInfos["receiver_right"].getRobot()->get()->getId())) {
-                return false;
-            }
-            return passLine.contains(bot->getPos());
-        })) {
-        stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
-    } else {
+    if (!ballKicked()) {
+        stpInfos["receiver"].setPositionToMoveTo(passInfo.passLocation);
+        stpInfos["passer"].setPositionToShootAt(passInfo.passLocation);
+        stpInfos["passer"].setShotType(ShotType::PASS);
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
-    }
-    // Passer
-    stpInfos["passer"].setPositionToShootAt(passLocation);
-    stpInfos["passer"].setShotType(ShotType::PASS);
-}
+    } else {
+        // Receiver goes to the passLocation projected on the trajectory of the ball
+        auto ball = world->getWorld()->getBall()->get();
+        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
+        auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
+        stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 
-/// To be reimplemented, removed as the implementation of the default isValidPlayToStart is changing
-bool AttackingPass::isValidPlayToStart(PlayEvaluator *playEvaluator) noexcept {
-    auto closestToBall = world->getWorld()->getRobotClosestToBall();
-
-    auto canKeep = std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [playEvaluator](auto &x) { return playEvaluator->checkEvaluation(x); }) && !passFinished();
-
-    if (canKeep) {
-        if (closestToBall && closestToBall->get()->getTeam() == world::us) {
-            return true;
-        } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-            return true;
+        // Passer now goes to a front grid, where the receiver is not
+        if (receiverLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
+            stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::BlockingPosition, field, world));
+        } else if (receiverLocation.y < field.getMiddleMidGrid().getOffSetY()) {  // Receiver is going to right of the field
+            stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::BlockingPosition, field, world));
+        } else {  // Receiver is going to middle of the field- passer will go to the closest grid on the side of the field
+            auto targetGrid = stpInfos["passer"].getRobot()->get()->getPos().y < 0 ? field.getMiddleRightGrid() : field.getMiddleLeftGrid();
+            stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid, gen::BlockingPosition, field, world));
         }
     }
-    return false;
 }
 
-bool AttackingPass::passFinished() noexcept {
-    // TODO: improve this condition
-    // Pass is done when one of the receivers is really close to the ball
-    return (stpInfos["receiver_left"].getRobot() && stpInfos["receiver_left"].getRobot()->get()->getDistanceToBall() < 0.08) ||
-           (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getDistanceToBall() < 0.08);
+void AttackingPass::calculateInfoForDefenders() noexcept {
+    stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
+    stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
+
+    stpInfos["defender_mid"].setPositionToDefend(field.getOurBottomGoalSide());
+    stpInfos["defender_mid"].setBlockDistance(BlockDistance::HALFWAY);
+
+    stpInfos["defender_right"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_right"].setBlockDistance(BlockDistance::CLOSE);
 }
 
-void AttackingPass::storePlayInfo(gen::PlayInfos &info) noexcept {
-    gen::StoreInfo passer;
-    passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
-    passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
-    info.insert({gen::KeyInfo::isPasser, passer});
+void AttackingPass::calculateInfoForMidfielders() noexcept {
+    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
 }
+
+void AttackingPass::calculateInfoForAttackers() noexcept {
+    if (passInfo.passLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));
+    } else if (passInfo.passLocation.y < field.getMiddleMidGrid().getOffSetY()) {  // Receiver is going to right of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
+    } else {  // Receiver is going to middle of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));
+    }
+}
+
+bool AttackingPass::ballKicked() {
+    // TODO: create better way of checking when ball has been kicked
+    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {
+        return role != nullptr && role->getName() == "passer" && strcmp(role->getCurrentTactic()->getName(), "Formation") == 0;
+    });
+}
+
+bool AttackingPass::shouldEndPlay() noexcept {
+    if (stpInfos["receiver"].getRobot() && stpInfos["passer"].getRobot()) {
+        // True if receiver has ball
+        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+
+        // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
+        if (ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
+            world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL)
+            return true;
+    }
+    // True if a different pass has a higher score than the current pass (by some margin)
+    return !ballKicked() && stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
+                                1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score;
+}
+
+const char* AttackingPass::getName() { return "AttackingPass"; }
 }  // namespace rtt::ai::stp::play

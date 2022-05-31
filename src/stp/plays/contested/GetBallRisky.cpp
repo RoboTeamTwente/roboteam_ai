@@ -7,7 +7,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/BallGetter.h"
 #include "stp/roles/active/PassReceiver.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 
 namespace rtt::ai::stp::play {
 
@@ -29,15 +29,15 @@ GetBallRisky::GetBallRisky() : Play() {
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_0")),
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_1")),
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_2"))};
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_0")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("midfielder_0")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("midfielder_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2"))};
 }
 
-uint8_t GetBallRisky::score(PlayEvaluator &playEvaluator) noexcept { return 120; }
+uint8_t GetBallRisky::score(const rtt::world::Field &field) noexcept { return 120; }
 
 void GetBallRisky::calculateInfoForScoredRoles(world::World *world) noexcept { stpInfos["ball_getter"].setPositionToShootAt(world->getField().value().getTheirGoalCenter()); }
 
@@ -60,11 +60,11 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     stpInfos["receiver_0"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), gen::gridRightTop, gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
     stpInfos["receiver_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_1"].getPositionToMoveTo(), gen::gridRightBot, gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_1"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::OffensivePosition, field, world));
     stpInfos["receiver_2"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), gen::gridRightMid, gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), field.getFrontMidGrid(), gen::OffensivePosition, field, world));
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(enemyAttacker);

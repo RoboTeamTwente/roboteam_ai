@@ -1,5 +1,5 @@
 //
-// Created by jordi on 14-05-20.
+// Created by agata on 14/01/2022.
 //
 
 #ifndef RTT_DEFENDPASS_H
@@ -22,15 +22,11 @@ class DefendPass : public Play {
     DefendPass();
 
     /**
-     * Gets the score for the current play
-     *
-     * On the contrary to isValidPlay() this checks how good the play actually is
-     * return in range of 0 - 100
-     *
-     * @param world World to get the score for (world::World::instance())
-     * @return The score, 0 - 100
+     * Calculates the score of this play to determine which play is best in this situation
+     * @param field The current Field
+     * @return The score of this play (0-255)
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -59,19 +55,14 @@ class DefendPass : public Play {
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the blockers
-     */
-    void calculateInfoForBlockers() noexcept;
-
-    /**
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;
 
     /**
-     * Calculates info for the harassers
+     * Calculates info for the RobotDefenders
      */
-    void calculateInfoForHarassers() noexcept;
+    void calculateInfoForRobotDefenders() noexcept;
 
     /**
      * Calculates info for the offenders

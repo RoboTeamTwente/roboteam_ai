@@ -35,7 +35,6 @@ PlayTemplate::PlayTemplate() : Play() {
         std::make_unique<role::Formation>("role_2"), std::make_unique<role::Formation>("role_3"), std::make_unique<role::Formation>("role_4"),
         std::make_unique<role::Formation>("role_5"), std::make_unique<role::Formation>("role_6"), std::make_unique<role::Waller>("waller_0"),
         std::make_unique<role::Waller>("waller_1"),  std::make_unique<role::Waller>("waller_2")};
-    initRoles();  // DONT TOUCH.
 }
 
 Dealer::FlagMap PlayTemplate::decideRoleFlags() const noexcept {
@@ -60,11 +59,11 @@ Dealer::FlagMap PlayTemplate::decideRoleFlags() const noexcept {
     return flagMap;  // DONT TOUCH.
 }
 
-uint8_t PlayTemplate::score(PlayEvaluator& playEvaluator) noexcept {
+uint8_t PlayTemplate::score(const rtt::world::Field& field) noexcept {
     calculateInfoForScoredRoles(playEvaluator.getWorld());  /// DISABLE IF NOT USED
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::BallCloseToUs), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::BallCloseToUs), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 /// OPTIONAL -> place to calculateInfoForRoles. Make sure not to compute twice.
@@ -75,8 +74,8 @@ void PlayTemplate::calculateInfoForScoredRoles(world::World* world) noexcept {
 void PlayTemplate::calculateInfoForRoles() noexcept {
     /// Function where are roles get their information, make sure not to compute roles twice.
     calculateInfoForScoredRoles(world);  // DONT TOUCH.
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToShootAt(field.getTheirGoalCenter());
 
     stpInfos["role_1"].setPositionToMoveTo(pos::getPosition(stpInfos["role_1"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field, world));
     stpInfos["role_2"].setPositionToMoveTo(pos::getPosition(stpInfos["role_2"].getPositionToMoveTo(), gen::gridRightBot, gen::OffensivePosition, field, world));

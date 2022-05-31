@@ -5,50 +5,33 @@
 #include "stp/evaluations/position/LineOfSightEvaluation.h"
 
 #include <cmath>
-#include <string>
 
+#include "stp/constants/ControlConstants.h"
 namespace rtt::ai::stp::evaluation {
-LineOfSightEvaluation::LineOfSightEvaluation() noexcept {
-    /**
-     * Creates a piecewise linear function that looks as follows:
-     *
-     * (0,255)  |XXX
-     *          |   XXX
-     *          |      XXX
-     *          |         XXX
-     *   (0,0)  |------------XXX
-     *                 (evalScore)
+
+uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eDists, std::vector<double>& eAngles) noexcept {
+    /**             _-                                \
+     *           _-                                    \
+     *        _-                                        \        The line of sight score is evaluated as follows:
+     *     _-                                            \
+     *  _-                                               |
+     * B=================================================Target   If there is an enemy on the line from the ball to the target (angle=0),
+     *  -_                                               |         the LoS score is 0.
+     *     -_                                           |         At angles > 0, the score slowly scales up to 1 (which is at 30 deg)
+     *        -_                                       /
+     *           -_                                   /
+     *              -_                               /
      */
 
-    piecewiseLinearFunction =
-        nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "positionLineOfSight");
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 0.0);
-    piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, 50.0);
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, 50.0);
-}
-
-uint8_t LineOfSightEvaluation::metricCheck(double pDist, std::vector<double>& eDists, std::vector<double>& eAngles) const noexcept {
-    double evalScore = 0;
-    /**
-     *      /\                                            The positions in side the areas are evaluated.
-     *    /   \            __________-----------------|
-     *  /     |------------                           |    1. If there is a robot close and in front of the ball (1),
-     * B   1   ==================== 2================ T       OR the angle is near 0 (so in path) the position is
-     *  \     |------------__________                 |       returned as BAD = 0.
-     *    \   /                      -----------------|    2. If there is a robot in side (2), there angle is evaluated.
-     *      \/
-     */
-    for (int i = 0; i < eAngles.size(); i++) {
-        if (eDists[i] < pDist && std::abs(eAngles[i]) < M_PI_2 / 3) {                                          // 30 degrees
-            if (eDists[i] < control_constants::DISTANCE_TO_ROBOT_FAR || std::abs(eAngles[i]) < M_PI_2 / 18) {  // 5 degrees
-                return 0;
-            } else {
-                evalScore += pow((M_PI_2 / 3 / std::abs(eAngles[i])), 2);
-            }
+    double evalScore = 1;                    // Default score (= perfect line of sight)
+    constexpr double outerAngle = M_PI / 6;  // 30 degrees- enemies outside this angle are not considered
+    for (size_t i = 0; i < eAngles.size(); i++) {
+        if (eAngles[i] < outerAngle) {
+            // This scales from 0 (at 4 radii in front of the enemy) to 1 (at 4 radii behind the enemy). This smoothens the transitions around robots
+            auto distFadeFactor = std::clamp((-1.0 / (8 * control_constants::ROBOT_RADIUS) * (eDists[i] - pDist)) + 0.5, 0.0, 1.0);
+            evalScore -= std::pow((1 / (outerAngle)) * (outerAngle - eAngles[i]), 2) * distFadeFactor;
         }
     }
-    return calculateMetric(evalScore);
+    return std::clamp(static_cast<int>(evalScore * 255), 0, 255);
 }
-
-uint8_t LineOfSightEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
 }  // namespace rtt::ai::stp::evaluation

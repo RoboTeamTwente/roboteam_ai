@@ -3,8 +3,8 @@
 //
 #include <gtest/gtest.h>
 
-#include "include/roboteam_ai/world/Ball.hpp"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/Ball.hpp"
+#include "world/World.hpp"
 #include "world/views/BallView.hpp"
 
 namespace rtt::world::ball {

@@ -7,6 +7,8 @@
 
 #include <roboteam_utils/Vector2.h>
 
+#include <vector>
+
 #include "BBTrajectory1D.h"
 
 namespace rtt::BB {
@@ -99,6 +101,21 @@ class BBTrajectory2D {
      * @brief Gets tEnd of the current part
      */
     [[nodiscard]] double getTotalTime() const;
+
+    /**
+     * @brief Returns a vector with all the velocities (Vector2) at specified timeSteps
+     */
+    [[nodiscard]] std::vector<Vector2> getVelocityVector(double timeStep) const;
+
+    /**
+     * @brief Transforms the BBTrajectory into a posVelVector at specified timeSteps
+     */
+    [[nodiscard]] std::vector<std::pair<Vector2, Vector2>> getPosVelVector(double timeStep);
+
+    /**
+     * @brief Returns all the trajectory parts in both dimensions to use in the general trajectory class
+     */
+    [[nodiscard]] std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> getParts();
 
    private:
     /**

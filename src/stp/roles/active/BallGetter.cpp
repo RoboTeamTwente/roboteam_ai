@@ -4,8 +4,8 @@
 
 #include "stp/roles/active/BallGetter.h"
 
-#include "stp/tactics/GetBehindBallInDirection.h"
 #include "stp/tactics/active/GetBall.h"
+#include "stp/tactics/active/GetBehindBallInDirection.h"
 
 namespace rtt::ai::stp::role {
 

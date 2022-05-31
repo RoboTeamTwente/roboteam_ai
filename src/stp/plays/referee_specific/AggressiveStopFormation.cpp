@@ -30,13 +30,12 @@ AggressiveStopFormation::AggressiveStopFormation() : Play() {
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_1")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_3"))};
-    initRoles();  // DONT TOUCH.
 }
 
-uint8_t AggressiveStopFormation::score(PlayEvaluator& playEvaluator) noexcept {
+uint8_t AggressiveStopFormation::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::BallOnTheirSide), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::BallOnTheirSide, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void AggressiveStopFormation::calculateInfoForRoles() noexcept {

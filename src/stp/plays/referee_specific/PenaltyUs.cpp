@@ -29,7 +29,6 @@ PenaltyUs::PenaltyUs() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_4")),     std::make_unique<role::Halt>(role::Halt("halt_5")),         std::make_unique<role::Halt>(role::Halt("halt_6")),
         std::make_unique<role::Halt>(role::Halt("halt_7")),     std::make_unique<role::Halt>(role::Halt("halt_8")),
     };
-    //    initRoles(); // DONT TOUCH.
 }
 
 Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
@@ -54,10 +53,10 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
     return flagMap;  // DONT TOUCH.
 }
 
-uint8_t PenaltyUs::score(PlayEvaluator& playEvaluator) noexcept {
+uint8_t PenaltyUs::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::PenaltyUsGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::PenaltyUsGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void PenaltyUs::calculateInfoForRoles() noexcept {
@@ -65,9 +64,6 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
 
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-
-    // TODO: the shoot position might need to change
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0, -2});
 
     // TODO: the shoot position might need to change
     stpInfos["kicker"].setPositionToShootAt(field.getTheirGoalCenter() + Vector2{1.0, 0.5});

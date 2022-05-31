@@ -11,7 +11,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QShortcut>
 
-#include "ApplicationManager.h"
+#include "STPManager.h"
 #include "widget.h"
 
 namespace rtt::ai::interface {
@@ -21,7 +21,7 @@ class MainControlsWidget : public QWidget {
 
    public:
     void updatePlays();
-    explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager *manager = nullptr);
+    explicit MainControlsWidget(QWidget *parent = nullptr, STPManager *manager = nullptr);
 
     inline static std::atomic<bool> ignoreInvariants;
 
@@ -30,23 +30,23 @@ class MainControlsWidget : public QWidget {
     QPushButton *pauseBtn;
     QPushButton *toggleColorBtn;
     QPushButton *toggleSideBtn;
-    QPushButton *toggleSerialBtn;
+    QPushButton *toggleRobotHubModeBtn;
     QShortcut *spaceClick;
 
     QComboBox *select_play;
     QComboBox *select_goalie;
     QComboBox *select_ruleset;
 
-    ApplicationManager *manager;
+    STPManager *manager;
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
-    void setToggleSerialBtnLayout() const;
+    void setToggleRobotHubModeBtnLayout() const;
 
    public slots:
     void toggleOurColorParam();
     void toggleOurSideParam();
-    void toggleSerialParam();
+    void toggleRobotHubModeParam();
     void sendPauseSignal();
     void updatePause();
     void setUseReferee(bool useRef);

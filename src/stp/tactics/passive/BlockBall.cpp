@@ -1,15 +1,10 @@
-//
-// Created by timovdk on 5/12/20.
-/// Will position the Robot between the BALL and another Robot
-
-/// PASSIVE
-//
+/// Places our robot between the ball and a given target position (either enemy robot or position to defend)
 
 #include "stp/tactics/passive/BlockBall.h"
 
 #include <roboteam_utils/Circle.h>
 
-#include "control/ControlUtils.h"
+#include "stp/computations/PositionComputations.h"
 #include "stp/skills/GoToPos.h"
 
 namespace rtt::ai::stp::tactic {
@@ -22,17 +17,15 @@ std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noe
     if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !(skillStpInfo.getEnemyRobot() || skillStpInfo.getPositionToDefend()))
         return std::nullopt;
 
-    auto field = info.getField().value();
-    auto ball = info.getBall().value();
-    auto robot = info.getRobot().value();
-    auto defendPos = (info.getEnemyRobot()) ? info.getEnemyRobot().value()->getPos() : info.getPositionToDefend().value();
-    auto robotToBall = ball->getPos() - robot->getPos();
+    auto defendPos = info.getEnemyRobot() ? info.getEnemyRobot().value()->getPos() : info.getPositionToDefend().value();
+    auto targetPosition = calculateTargetPosition(info.getBall().value(), defendPos, info.getBlockDistance());
 
-    auto targetPosition = calculateTargetPosition(ball, defendPos);
-
-    auto targetAngle = robotToBall.angle();
+    // Make sure this position is valid
+    targetPosition = FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos());
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
+
+    auto targetAngle = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
     skillStpInfo.setAngle(targetAngle);
 
     return skillStpInfo;
@@ -42,23 +35,40 @@ bool BlockBall::isEndTactic() noexcept { return true; }
 
 bool BlockBall::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept {
-    double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
-    return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
-}
+bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept { return false; }
 
 const char *BlockBall::getName() { return "Block Ball"; }
 
-Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Vector2 defendPos) noexcept {
-    Vector2 targetPosition{};
-    // Stay between the ball and the defend position
-    // TODO: Tune this distance
-    const double BLOCK_DISTANCE(0.5);
-    auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
-    // Project the defend pos on the circle to get the position to block
-    targetPosition = ballCircle.project(defendPos);
-    targetPosition = ball->getPos().scale(2) - targetPosition;
-    return targetPosition;
+Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Vector2 defendPos, BlockDistance blockDistance) noexcept {
+    auto targetToBall = ball->getPos() - defendPos;
+
+    double distance;
+    switch (blockDistance) {
+        case BlockDistance::ROBOTRADIUS:
+            distance = control_constants::ROBOT_RADIUS;
+            break;
+        case BlockDistance::CLOSE:
+            // Default distance of 0.5m. If the ball is closer than that to the enemy, stand right in front of the ball instead.
+            distance = std::min(0.5, targetToBall.length() - control_constants::ROBOT_RADIUS);
+            break;
+        case BlockDistance::PARTWAY:
+            distance = targetToBall.length() * 0.4;
+            break;
+        case BlockDistance::HALFWAY:
+            distance = targetToBall.length() / 2;
+            break;
+        case BlockDistance::FAR:
+            distance = targetToBall.length() - 0.5;
+            break;
+        default:
+            distance = targetToBall.length() / 2;
+            break;
+    }
+
+    // Do not get closer than 4 robot radii (to avoid collisions)
+    distance = std::max(4 * control_constants::ROBOT_RADIUS, distance);
+
+    return defendPos + targetToBall.stretchToLength(distance);
 }
 
 }  // namespace rtt::ai::stp::tactic

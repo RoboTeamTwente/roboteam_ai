@@ -9,6 +9,7 @@
 #include "stp/tactics/active/KickAtPos.h"
 
 #include "control/ControlUtils.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/Kick.h"
 #include "stp/skills/Rotate.h"
 
@@ -32,8 +33,6 @@ std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noe
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
-    // When the angle is not within the margin, dribble so we don't lose the ball while rotating
-    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;

@@ -6,6 +6,7 @@
 
 #include "stp/roles/Keeper.h"
 #include "stp/roles/passive/Halt.h"
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -23,16 +24,15 @@ KickOffThem::KickOffThem() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_8")),     std::make_unique<role::Halt>(role::Halt("halt_9"))};
 }
 
-uint8_t KickOffThem::score(PlayEvaluator &playEvaluator) noexcept {
+uint8_t KickOffThem::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::KickOffThemGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::KickOffThemGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void KickOffThem::calculateInfoForRoles() noexcept {
     // Keeper
-    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 }
 
@@ -54,6 +54,8 @@ Dealer::FlagMap KickOffThem::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *KickOffThem::getName() { return "Kick Off Them"; }
+bool KickOffThem::shouldEndPlay() noexcept { return false; }
+
+const char* KickOffThem::getName() { return "Kick Off Them"; }
 
 }  // namespace rtt::ai::stp::play

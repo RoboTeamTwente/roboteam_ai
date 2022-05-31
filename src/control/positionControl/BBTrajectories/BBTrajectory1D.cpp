@@ -92,7 +92,7 @@ void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double
 }
 
 BBTrajectory1D::BBTrajectory1D(double startPos, double startVel, double endPos, double maximumVel, double maximumAcc)
-    : initialPos{startPos}, initialVel{startVel}, finalPos{endPos}, maxAcc{maximumAcc}, maxVel{maximumVel} {
+    : initialPos{startPos}, finalPos{endPos}, initialVel{startVel}, maxAcc{maximumAcc}, maxVel{maximumVel} {
     generateTrajectory(startPos, startVel, endPos, maximumVel, maximumAcc);
 }
 
@@ -128,7 +128,6 @@ double BBTrajectory1D::getAcceleration(double t) const {
     }
     BBTrajectoryPart piece = parts[0];
     // we step through the parts and try to find the relevant part on which the time is.
-    double tPieceStart = 0;
     for (int i = 0; i < numParts; ++i) {
         piece = parts[i];
         if (trajTime <= parts[i].tEnd) {
@@ -180,4 +179,13 @@ double BBTrajectory1D::getPosition(double t) const {
 }
 
 bool BBTrajectory1D::inLastPart(double t) const { return t >= parts[numParts - 2].tEnd; }
+
+std::vector<BB::BBTrajectoryPart> BBTrajectory1D::getParts() {
+    std::vector<BB::BBTrajectoryPart> partsVector;
+    partsVector.reserve(numParts);
+    for (int i = 0; i < numParts; i++) {
+        partsVector.push_back(parts[i]);
+    }
+    return partsVector;
+}
 }  // namespace rtt::BB

@@ -4,9 +4,9 @@
 
 #include <gtest/gtest.h>
 #include <interface/api/Output.h>
-#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+#include <proto/messages_robocup_ssl_referee.pb.h>
 
-#include <include/roboteam_ai/world/World.hpp>
+#include <world/World.hpp>
 
 #include "helpers/FieldHelper.h"
 #include "helpers/WorldHelper.h"
@@ -34,11 +34,11 @@ TEST(RefereeTest, it_gets_and_sets_the_ref) {
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_YELLOW);
     rtt::ai::GameStateManager::setRefereeData(refereeData, worldPtr);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "time_out");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "penalty_us_prepare");
 
     refereeData.set_stage(proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_BLUE);
     rtt::ai::GameStateManager::setRefereeData(refereeData, worldPtr);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "time_out");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().getStrategyName(), "penalty_them_prepare");
 }

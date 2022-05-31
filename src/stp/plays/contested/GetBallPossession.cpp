@@ -8,7 +8,7 @@
 #include "stp/evaluations/position/TimeToPositionEvaluation.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/BallGetter.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Waller.h"
 
@@ -27,9 +27,9 @@ GetBallPossession::GetBallPossession() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_0")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
@@ -46,11 +46,11 @@ GetBallPossession::GetBallPossession() : Play() {
     }
 }
 
-uint8_t GetBallPossession::score(PlayEvaluator& playEvaluator) noexcept {
-    scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1.0}};
+uint8_t GetBallPossession::score(const rtt::world::Field& field) noexcept {
+    scoring = {{PlayEvaluator::getGlobalEvaluation(GlobalEvaluation::BallCloseToUs, world), 1.0}};
     // std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallIsFree), 1)};
     // std::make_pair(stpInfos["ball_getter"].getRoleScore().value(),1)};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();
 }
 
 void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {
@@ -64,8 +64,6 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     calculateInfoForScoredRoles(world);
 
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    // If keeper has ball, shoot at one of our robots thats closest to our goal
-    stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
@@ -80,11 +78,11 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["midfielder_0"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(), gen::gridMidFieldBot, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(), field.getMiddleLeftGrid(), gen::SafePosition, field, world));
     stpInfos["midfielder_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), gen::gridMidFieldMid, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), field.getMiddleMidGrid(), gen::SafePosition, field, world));
     stpInfos["midfielder_2"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), gen::gridMidFieldTop, gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(), field.getMiddleRightGrid(), gen::SafePosition, field, world));
 
     stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
     stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));
@@ -116,9 +114,13 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
 const char* GetBallPossession::getName() { return "Get Ball Possession"; }
 
 void GetBallPossession::storePlayInfo(gen::PlayInfos& info) noexcept {
-    gen::StoreInfo ball_getter;
-    ball_getter.robotID = stpInfos["ball_getter"].getRobot()->get()->getId();
-    ball_getter.moveToPosition = stpInfos["ball_getter"].getPositionToMoveTo();
-    info.insert({gen::KeyInfo::hasBall, ball_getter});
+    if (stpInfos["ball_getter"].getRobot()) {
+        gen::StoreInfo ball_getter;
+        ball_getter.robotID = stpInfos["ball_getter"].getRobot()->get()->getId();
+        ball_getter.moveToPosition = stpInfos["ball_getter"].getPositionToMoveTo();
+        info.insert({gen::KeyInfo::hasBall, ball_getter});
+    } else {
+        RTT_WARNING("No ball_getter found. PlayInfo not stored");
+    }
 }
 }  // namespace rtt::ai::stp::play

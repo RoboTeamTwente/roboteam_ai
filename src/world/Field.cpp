@@ -4,6 +4,10 @@
 
 #include "world/Field.h"
 
+#include <roboteam_utils/Print.h>
+
+#include "utilities/Settings.h"
+
 namespace rtt::world {
 
 Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
@@ -11,6 +15,7 @@ Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
     initFieldOthers();
+    initFieldGrids();
 }
 
 void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -27,11 +32,13 @@ void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
         FieldLineSegment newLine;
         if (NAME_MAP.find(line.name()) != NAME_MAP.end()) {
             newLine.name = std::string(NAME_MAP[line.name()]);
-            newLine.begin = mm_to_m(line.p1());
-            newLine.end = mm_to_m(line.p2());
+
+            newLine.begin = mm_to_m({line.p1().x(), line.p1().y()});
+
+            newLine.end = mm_to_m({line.p2().x(), line.p2().y()});
             newLine.thickness = mm_to_m(line.thickness());
             *(RELATED_FIELD_LINE[newLine.name]) = newLine;
-            allFieldLines.push_back(newLine);
+            this->allFieldLines.push_back(newLine);
         }
     }
 }
@@ -41,7 +48,7 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
         FieldArc newArc;
         if (NAME_MAP.find(arc.name()) != NAME_MAP.end()) {
             newArc.name = std::string(NAME_MAP[arc.name()]);
-            newArc.center = mm_to_m(arc.center());
+            newArc.center = mm_to_m({arc.center().x(), arc.center().y()});
             newArc.a1 = mm_to_m(arc.a1());
             newArc.a2 = mm_to_m(arc.a2());
             newArc.radius = mm_to_m(arc.radius());
@@ -49,6 +56,29 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
             *(RELATED_FIELD_ARC[newArc.name]) = newArc;
         }
     }
+}
+
+void Field::initFieldGrids() {
+    auto gridLength = getFieldLength() / numSegmentsX;
+    auto gridWidth = getFieldWidth() / numSegmentsY;
+
+    auto bottomX = getLeftmostX();
+    auto middleX = getLeftmostX() + gridLength;
+    auto topX = getLeftmostX() + gridLength * 2;
+
+    auto leftY = getBottommostY() + gridWidth * 2;
+    auto middleY = getBottommostY() + gridWidth;
+    auto rightY = getBottommostY();
+
+    backLeftGrid = Grid(bottomX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    backMidGrid = Grid(bottomX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    backRightGrid = Grid(bottomX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleLeftGrid = Grid(middleX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleMidGrid = Grid(middleX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleRightGrid = Grid(middleX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontLeftGrid = Grid(topX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontMidGrid = Grid(topX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontRightGrid = Grid(topX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
 }
 
 void Field::initFieldOthers() {
@@ -97,7 +127,7 @@ void Field::initFieldOthers() {
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
 
-Vector2 Field::mm_to_m(Vector2 vector) { return {vector.x / 1000, vector.y / 1000}; }
+Vector2 Field::mm_to_m(const Vector2 &vector) { return {vector.x / 1000, vector.y / 1000}; }
 
 double Field::getFieldWidth() const { return getFieldValue(fieldWidth); }
 
@@ -193,13 +223,31 @@ const Vector2 &Field::getTopRightTheirDefenceArea() const { return getFieldVecto
 
 const Vector2 &Field::getBottomRightTheirDefenceArea() const { return getFieldVector(bottomRightTheirDefenceArea); }
 
+const Grid &Field::getBackLeftGrid() const { return getFieldGrid(backLeftGrid); }
+
+const Grid &Field::getBackMidGrid() const { return getFieldGrid(backMidGrid); }
+
+const Grid &Field::getBackRightGrid() const { return getFieldGrid(backRightGrid); }
+
+const Grid &Field::getMiddleLeftGrid() const { return getFieldGrid(middleLeftGrid); }
+
+const Grid &Field::getMiddleMidGrid() const { return getFieldGrid(middleMidGrid); }
+
+const Grid &Field::getMiddleRightGrid() const { return getFieldGrid(middleRightGrid); }
+
+const Grid &Field::getFrontLeftGrid() const { return getFieldGrid(frontLeftGrid); }
+
+const Grid &Field::getFrontMidGrid() const { return getFieldGrid(frontMidGrid); }
+
+const Grid &Field::getFrontRightGrid() const { return getFieldGrid(frontRightGrid); }
+
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
         return fieldValue.value();
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
-        std::cout << "Warning: access undefined field value in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field value in the Field class (world might not be turned on?).")
         return 0.0;
     }
 }
@@ -210,7 +258,7 @@ const FieldLineSegment &Field::getFieldLine(const std::optional<FieldLineSegment
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Warning: access undefined field line in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field line in the Field class (world might not be turned on?).")
 
         static FieldLineSegment standard = {};
         return standard;
@@ -223,7 +271,7 @@ const Vector2 &Field::getFieldVector(const std::optional<Vector2> &fieldVector) 
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Warning: access undefined field vector in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field vector in the Field class (world might not be turned on?).")
 
         static Vector2 standard = {};
         return standard;
@@ -236,9 +284,22 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Warning: access undefined field arc in the Field class (world might not be turned on?)." << std::endl;
+        RTT_WARNING("Access undefined field arc in the Field class (world might not be turned on?).")
 
         static FieldArc standard = {};
+        return standard;
+    }
+}
+
+const Grid &Field::getFieldGrid(const std::optional<Grid> &fieldGrid) const {
+    if (fieldGrid) {
+        return fieldGrid.value();
+    } else {
+        /* This clause is needed, because the default constructor could have been called. In which case the variables
+        have not been assigned a value. */
+        RTT_WARNING("Access undefined grid in the Field class (world might not be turned on?).")
+
+        static Grid standard = Grid(0, 0, 0, 0, 0, 0);
         return standard;
     }
 }
@@ -358,7 +419,15 @@ Field &Field::operator=(const Field &old) noexcept {
     bottomLeftOurDefenceArea = old.bottomLeftOurDefenceArea;
     topRightTheirDefenceArea = old.topRightTheirDefenceArea;
     bottomRightTheirDefenceArea = old.bottomRightTheirDefenceArea;
-
+    backLeftGrid = old.backLeftGrid;
+    backMidGrid = old.backMidGrid;
+    backRightGrid = old.backRightGrid;
+    middleLeftGrid = old.middleLeftGrid;
+    middleMidGrid = old.middleMidGrid;
+    middleRightGrid = old.middleRightGrid;
+    frontLeftGrid = old.frontLeftGrid;
+    frontMidGrid = old.frontMidGrid;
+    frontRightGrid = old.frontRightGrid;
     return *this;
 }
 

@@ -1,5 +1,5 @@
 //
-// Created by jordi on 27-03-20.
+// Created by agata on 14/01/2022.
 //
 
 #ifndef RTT_DEFENDSHOT_H
@@ -22,15 +22,11 @@ class DefendShot : public Play {
     DefendShot();
 
     /**
-     * Gets the score for the current play
-     *
-     * On the contrary to isValidPlay() this checks how good the play actually is
-     * return in range of 0 - 100
-     *
-     * @param world World to get the score for (world::World::instance())
-     * @return The score, 0 - 100
+     * Calculates the score of this play to determine which play is best in this situation
+     * @param field The current Field
+     * @return The score of this play (0-255)
      */
-    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+    uint8_t score(const rtt::world::Field& field) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -54,12 +50,17 @@ class DefendShot : public Play {
 
    protected:
     /**
+     * Calculates info for the wallers
+     */
+    void calculateInfoForWallers() noexcept;
+
+    /**
      * Calculates info for the defenders
      */
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the harassers
+     * Calculates info for the Harassers
      */
     void calculateInfoForHarassers() noexcept;
 
@@ -67,16 +68,6 @@ class DefendShot : public Play {
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;
-
-    /**
-     * Calculates info for the midfielders
-     */
-    void calculateInfoForMidfielders() noexcept;
-
-    /**
-     * Calculates info for the offenders
-     */
-    void calculateInfoForOffenders() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 

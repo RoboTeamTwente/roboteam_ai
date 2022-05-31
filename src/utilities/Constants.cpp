@@ -2,12 +2,13 @@
 // Created by mrlukasbos on 8-2-19.
 //
 
-#include "utilities/Constants.h"
-
 #include <assert.h>
 #include <roboteam_utils/Print.h>
 
-#include <iostream>
+#include "utilities/Settings.h"
+#include "utilities/Constants.h"
+
+// TODO: Clean this up and remove unneeded variables
 
 namespace rtt::ai {
 
@@ -34,7 +35,8 @@ void Constants::OVERWRITE_GRSIM(bool grsim) {
     robotOutputTargetGrSim = grsim;
 }
 
-int Constants::DEFAULT_KEEPER_ID() { return 0; }
+/// Set to a valid Id to make that robot keeper. Otherwise, keeper will be first distributed based on cost.
+int Constants::DEFAULT_KEEPER_ID() { return -1; }
 
 bool Constants::FEEDBACK_ENABLED() { return true; }
 
@@ -65,11 +67,11 @@ double Constants::MIN_ANGLE() { return -M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
-int Constants::MAX_DRIBBLER_CMD() { return 31; }
+int Constants::MAX_DRIBBLER_CMD() { return 1; }
 
 double Constants::MIN_VEL() { return 0.2; }
 
-double Constants::MAX_ACC_UPPER() { return 5.0; }
+double Constants::MAX_ACC_UPPER() { return 3.0; }
 
 double Constants::MAX_ACC_LOWER() { return 3.0; }
 
@@ -108,8 +110,6 @@ double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
 double Constants::MAX_BALL_RANGE() { return 0.04; }
 
 double Constants::MAX_KICK_RANGE() { return 0.05; }
-
-double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
 double Constants::MAX_INTERCEPT_TIME() { return 3.0; }
 
@@ -164,6 +164,12 @@ bool Constants::STD_SHOW_DEBUG_VALUES() { return true; }
 bool Constants::STD_USE_REFEREE() { return true; }
 
 bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
+
+// The max distance the ball can be from the robot for the robot to have the ball
+double Constants::HAS_BALL_DISTANCE() { return (SETTINGS.getRobotHubMode() == Settings::BASESTATION) ? 0.10 : 0.12; }
+
+// The max angle the ball can have to the robot for the robot to have the ball
+double Constants::HAS_BALL_ANGLE() { return 0.10; }
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;

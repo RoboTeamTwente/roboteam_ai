@@ -4,7 +4,10 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_utils/Angle.h>
-#include <test/helpers/FieldHelper.h>
+
+#include "TestFixtures/TestFixture.h"
+#include "roboteam_utils/Random.h"
+#include "world/FieldComputations.h"
 
 namespace cr = rtt::ai::control;
 using Vector2 = rtt::Vector2;
@@ -35,10 +38,10 @@ TEST(ControlUtils, accelerationLimiter) {
     Vector2 prevVel;
     Vector2 targetVel;
     Angle targetAngle;
-    const double sA = Constants::MAX_ACC_LOWER() / Constants::TICK_RATE();
-    const double fA = Constants::MAX_ACC_UPPER() / Constants::TICK_RATE();
-    const double sD = Constants::MAX_DEC_LOWER() / Constants::TICK_RATE();
-    const double fD = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE();
+    const double sA = Constants::MAX_ACC_LOWER() / Constants::STP_TICK_RATE();
+    const double fA = Constants::MAX_ACC_UPPER() / Constants::STP_TICK_RATE();
+    const double sD = Constants::MAX_DEC_LOWER() / Constants::STP_TICK_RATE();
+    const double fD = Constants::MAX_DEC_UPPER() / Constants::STP_TICK_RATE();
     const double error = 0.0001;
 
     prevVel = Vector2(1.0, 0.0);

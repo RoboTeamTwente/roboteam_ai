@@ -51,6 +51,7 @@ extern const double HAS_BALL_DISTANCE_ERROR_MARGIN;
 // GTP Constants
 extern const double GO_TO_POS_ERROR_MARGIN;
 extern const double GO_TO_POS_ANGLE_ERROR_MARGIN;
+extern const double BALL_PLACEMENT_MARGIN;
 
 // Invariant constants
 extern const uint8_t FUZZY_TRUE;
@@ -63,6 +64,7 @@ extern const double DISTANCE_TO_ROBOT_CLOSE;
 extern const double DISTANCE_TO_ROBOT_FAR;
 extern const double ROBOT_CLOSE_TO_POINT;
 extern const double DISTANCE_TO_ROBOT_NEAR;
+extern const double DEFENSE_AREA_AVOIDANCE_MARGIN;
 
 // Keeper constants
 extern const double DISTANCE_FROM_GOAL_CLOSE;

@@ -4,7 +4,7 @@
 
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
-#include <roboteam_proto/RobotFeedback.pb.h>
+#include <proto/RobotFeedback.pb.h>
 #include <roboteam_utils/Print.h>
 
 #include <vector>
@@ -89,19 +89,11 @@ class World {
      *
      * Undefined behavior if the pointer to settings outlives the lifetime of the settings instance
      *
-     * Usage of settings before construction of the applicationmanager will result in undefined
+     * Usage of settings before construction of the STPManager will result in undefined
      * behavior due to uninitialized memory
      */
     explicit World(Settings *settings);
 
-    /**
-     * Updates feedback for a specific robot
-     * @param robotId Robot id of robot cache to update
-     * @param feedback Feedback to apply, do not use after passing
-     *
-     * Undefined behavior may occur if feedback is used after being passed to this function
-     */
-    void updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback);
 
     /**
      * Updates the currentWorld
@@ -212,11 +204,7 @@ class World {
      */
     std::mutex updateMutex;
 
-    /**
-     * Map used to update robots on construction
-     * Done so an immutable state can be preserved
-     */
-    std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
+
 
     /**
      * History of the world, this is where old world data is pushed to

@@ -4,14 +4,13 @@
 // TODO-Max compare to ChipAtPos
 
 /// ACTIVE
-//
-//
 
 #include "stp/tactics/active/ShootAtPos.h"
 
 #include <roboteam_utils/Print.h>
 
 #include "control/ControlUtils.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/Rotate.h"
 #include "stp/skills/Shoot.h"
 
@@ -47,7 +46,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForKick(StpInfo const &info) noe
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     // Set the dribblerSpeed
-    skillStpInfo.setDribblerSpeed(50);
+    skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }
@@ -65,10 +64,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForChip(StpInfo const &info) noe
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
-    // When rotating, we need to dribble to keep the ball, but when chipping we don't
-    if (skills.current_num() == 0) {
-        skillStpInfo.setDribblerSpeed(30);
-    }
+    skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }
@@ -81,14 +77,11 @@ bool ShootAtPos::isEndTactic() noexcept {
 bool ShootAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    return (!info.getRobot()->hasBall() && info.getBall()->get()->getFilteredVelocity().length() < control_constants::BALL_STILL_VEL) || !info.getPositionToShootAt();
+    return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
 }
 
 bool ShootAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
-    if (info.getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-        return false;
-    }
     if (skills.current_num() != 0) {
         double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
         return info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle()) > errorMargin;

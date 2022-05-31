@@ -10,7 +10,7 @@
 #include "control/ControlUtils.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"
-#include "utilities/GameStateManager.hpp"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::tactic {
 GetBall::GetBall() { skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
@@ -20,31 +20,37 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
     if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
-    Vector2 robotPosition = info.getRobot().value()->getPos();
-    Vector2 ballPosition = info.getBall().value()->getPos();
+    Vector2 robotPosition = skillStpInfo.getRobot().value()->getPos();
+    Vector2 ballPosition = skillStpInfo.getBall().value()->getPos();
+    double ballDistance = (ballPosition - robotPosition).length();
 
-    // If this robot is not the keeper, don't get the ball inside a defense area
-    if (info.getRobot()->get()->getId() != GameStateManager::getCurrentGameState().keeperId && FieldComputations::pointIsInDefenseArea(info.getField().value(), ballPosition)) {
-        ballPosition = control::ControlUtils::projectPositionToOutsideDefenseArea(info.getField().value(), ballPosition, control_constants::AVOID_BALL_DISTANCE);
+    if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > Constants::HAS_BALL_ANGLE() * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
+        // don't move too close to the ball until the angle to the ball is (roughly) correct
+        skillStpInfo.setPositionToMoveTo(
+            FieldComputations::projectPointToValidPosition(info.getField().value(), skillStpInfo.getRobot()->get()->getPos(), info.getObjectsToAvoid()));
+    } else {
+        // the robot will go to the position of the ball
+        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - control_constants::CENTER_TO_FRONT + 0.035);
+
+        newRobotPosition = FieldComputations::projectPointToValidPosition(info.getField().value(), newRobotPosition, info.getObjectsToAvoid());
+
+        skillStpInfo.setPositionToMoveTo(newRobotPosition);
     }
 
-    // the robot will go to the position of the ball
-    double ballDistance = (ballPosition - robotPosition).length();
-    Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - control_constants::CENTER_TO_FRONT + 0.035);
+    skillStpInfo.setAngle((ballPosition - robotPosition).angle());
 
     if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
-        skillStpInfo.setAngle((ballPosition - robotPosition).angle());
         skillStpInfo.setDribblerSpeed(100);
     }
-
-    skillStpInfo.setPositionToMoveTo(newRobotPosition);
 
     return skillStpInfo;
 }
 
 bool GetBall::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return !info.getRobot()->hasBall(); }
+bool GetBall::shouldTacticReset(const StpInfo &info) noexcept {
+    return (info.getRobot()->get()->getAngleDiffToBall() < Constants::HAS_BALL_ANGLE() * M_PI) && (skills.current_num() == 1);
+}
 
 bool GetBall::isEndTactic() noexcept {
     // This is not an end tactic

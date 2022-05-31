@@ -4,49 +4,59 @@
 
 #include "stp/skills/Orbit.h"
 
-#include <ApplicationManager.h>
-
-#include "control/ControlUtils.h"
+#include "stp/constants/ControlConstants.h"
 
 namespace rtt::ai::stp::skill {
 
 Status Orbit::onUpdate(const StpInfo &info) noexcept {
     Vector2 directionVector = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos());
-    Angle normalAngle = directionVector.rotate(M_PI).rotate(M_PI_2).toAngle();
+    double normalAngle = directionVector.rotate(M_PI).rotate(M_PI_2).angle();
+    Angle targetAngle = (info.getPositionToShootAt().value() - info.getBall()->get()->getPos()).toAngle();
 
-    Vector2 initialVelocity = info.getRobot()->get()->getVel();
-    double initX = cos(initialVelocity.toAngle()) * initialVelocity.length();
-    double initY = sin(initialVelocity.toAngle()) * initialVelocity.length();
+    double margin = control_constants::ROBOT_RADIUS + 1.5 * stp::control_constants::BALL_RADIUS;
+    double adjustDistance = (info.getRobot()->get()->getDistanceToBall() - margin);
 
-    double margin = stp::control_constants::ROBOT_RADIUS + 2 * stp::control_constants::BALL_RADIUS;
-    Vector2 adjustDistance = directionVector.normalize().scale(info.getRobot()->get()->getDistanceToBall() - margin);
+    // Get the direction of movement, counterclockwise or clockwise
+    auto direction = Angle(directionVector).rotateDirection(targetAngle) ? -1.0 : 1.0;
 
-    double multiplier = -sin(0.5 * (directionVector - info.getAngle()).toAngle());
+    double error = targetAngle.shortestAngleDiff(directionVector.angle());
+    error = error * direction;
 
-    double x = cos(normalAngle) * multiplier + cos(adjustDistance.toAngle()) * adjustDistance.length();  //- initX adjustment for initial velocity?;
-    double y = sin(normalAngle) * multiplier + sin(adjustDistance.toAngle()) * adjustDistance.length();  //- initY adjustment for initial velocity?;
+    // Use PID controller to determine desired velocity multiplier
+    auto multiplier = velPid.getOutput(error, 0);
 
-    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    command.set_w(info.getAngle());
+    // Velocity consists of a part to create the circular movement, and an adjustment for distance to the ball
+    Vector2 targetVelocity;
+    targetVelocity.x = cos(normalAngle) * multiplier + 3 * cos(directionVector.toAngle()) * adjustDistance;
+    targetVelocity.y = sin(normalAngle) * multiplier + 3 * sin(directionVector.toAngle()) * adjustDistance;
 
-    // Don't rotate and move at the same time
-    if (info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle()) < M_PI_4) {
-        command.mutable_vel()->set_x(static_cast<float>(x));
-        command.mutable_vel()->set_y(static_cast<float>(y));
-    }
+    auto maxVel = directionVector.length() * 4;
+    if (maxVel < 0.65) maxVel = 0.65;
+    if (targetVelocity.length() > maxVel) targetVelocity = targetVelocity.stretchToLength(maxVel);
+
+    command.velocity = targetVelocity * 0.5;
+
+    command.targetAngle = targetAngle;
 
     // set command ID
-    command.set_id(info.getRobot().value()->getId());
+    command.id = info.getRobot().value()->getId();
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
     // Check if successful
-    if (directionVector.rotate(M_PI).toAngle().shortestAngleDiff(info.getAngle()) < errorMargin) {
-        return Status::Success;
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+    if (directionVector.toAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+        counter++;
+    } else {
+        counter = 0;
     }
 
-    return Status::Running;
+    // If the robot is within the error margin for 5 consecutive ticks, return success
+    if (counter > 5)
+        return Status::Success;
+    else
+        return Status::Running;
 }
 
 const char *Orbit::getName() { return "Orbit"; }

@@ -1,18 +1,17 @@
 #ifndef ROBOTEAM_AI_IO_MANAGERRRR_H
 #define ROBOTEAM_AI_IO_MANAGERRRR_H
 
-#include <networking/Publisher.h>
-#include <networking/Subscriber.h>
-#include <roboteam_proto/AICommand.pb.h>
-#include <roboteam_proto/Setting.pb.h>
-#include <roboteam_proto/State.pb.h>
+#include <proto/SimulationConfiguration.pb.h>
+#include <utilities/Constants.h>
+#include <utilities/Settings.h>
+#include <world/Field.h>
 
+#include <RobotCommandsNetworker.hpp>
+#include <SettingsNetworker.hpp>
+#include <SimulationConfigurationNetworker.hpp>
+#include <WorldNetworker.hpp>
 #include <iostream>
 #include <mutex>
-#include <networking/Pair.hpp>
-
-#include "utilities/Constants.h"
-#include "world/Field.h"
 
 namespace rtt::world {
 class World;
@@ -27,24 +26,33 @@ using namespace rtt::world;
 class IOManager {
    private:
     proto::State state;
-    proto::Subscriber<proto::State> *worldSubscriber;
-    void handleState(proto::State &state);
+    std::unique_ptr<rtt::net::WorldSubscriber> worldSubscriber;
+    std::unique_ptr<rtt::net::SimulationConfigurationPublisher> simulationConfigurationPublisher;
+    void handleState(const proto::State& state);
 
-    proto::Publisher<proto::AICommand> *robotCommandPublisher;
-    proto::Publisher<proto::Setting> *settingsPublisher;
+    std::unique_ptr<rtt::net::RobotCommandsBluePublisher> robotCommandsBluePublisher;
+    std::unique_ptr<rtt::net::RobotCommandsYellowPublisher> robotCommandsYellowPublisher;
 
-    rtt::ai::Pause *pause;
+    // Only the primary AI publishes settings. The secondary AI subscribes to those settings so they are on the same line
+    std::unique_ptr<rtt::net::SettingsPublisher> settingsPublisher;
+    std::unique_ptr<rtt::net::SettingsSubscriber> settingsSubscriber;
 
-    rtt::networking::PairReceiver<16970> *central_server_connection;
+    rtt::ai::Pause* pause;
+
+    void addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands);
+    bool publishRobotCommands(const rtt::RobotCommands& robotCommands, bool isForTeamYellow);
 
    public:
-    ~IOManager();
-    explicit IOManager() = default;
-    void publishAllRobotCommands(const std::vector<proto::RobotCommand> &vector);
-    void publishSettings(proto::Setting setting);
-    void handleCentralServerConnection();
-    void init(int teamId);
+    void publishAllRobotCommands(rtt::RobotCommands& robotCommands);
+    void publishSettings(const Settings& settings);
+    void onSettingsOfPrimaryAI(const proto::Setting& settings);
+    // Returns success. Only Primary AI is allowed to send simulation configuration
+    bool sendSimulationConfiguration(const proto::SimulationConfiguration& configuration);
+
+    bool init(bool isPrimaryAI);
     proto::State getState();
+
+    bool obtainTeamColorChannel(bool yellowChannel);
 
     std::mutex stateMutex;
 };

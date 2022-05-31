@@ -26,10 +26,10 @@ KickOffThemPrepare::KickOffThemPrepare() : Play() {
         std::make_unique<role::Formation>(role::Formation("formation_9"))};
 }
 
-uint8_t KickOffThemPrepare::score(PlayEvaluator& playEvaluator) noexcept {
+uint8_t KickOffThemPrepare::score(const rtt::world::Field& field) noexcept {
     /// List of all factors that combined results in an evaluation how good the play is.
-    scoring = {{playEvaluator.getGlobalEvaluation(eval::KickOffThemPrepareGameState), 1.0}};
-    return (lastScore = playEvaluator.calculateScore(scoring)).value();  // DONT TOUCH.
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::KickOffThemPrepareGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void KickOffThemPrepare::calculateInfoForRoles() noexcept {
@@ -40,7 +40,7 @@ void KickOffThemPrepare::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    double defense_line_x = field.getLeftPenaltyX() + 0.15;
+    double defense_line_x = field.getLeftPenaltyX() + control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN;
     // regular bots
     stpInfos["formation_0"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
     stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));

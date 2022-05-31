@@ -11,7 +11,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/BallReflector.h"
 #include "stp/roles/active/Passer.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -34,22 +34,19 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_3"))};
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_3"))};
 }
 
-uint8_t ReflectKick::score(PlayEvaluator &playEvaluator) noexcept {
-    auto closestBot = playEvaluator.getWorld()->getWorld()->getRobotClosestToBall(world::us);
+uint8_t ReflectKick::score(const rtt::world::Field &field) noexcept {
+    auto closestBot = world->getWorld()->getRobotClosestToBall(world::us);
     auto sum = 0;
-    auto _field = playEvaluator.getWorld()->getField();
-    if (_field.has_value()) {
-        std::vector<world::view::RobotView> potentialBots = {};
-        for (auto robot : playEvaluator.getWorld()->getWorld()->getUs()) {
-            if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(_field->getTheirGoalCenter()) < _field->getFieldLength() / 4) {
-                potentialBots.push_back(robot);
-                sum += 30;
-            }
+    std::vector<world::view::RobotView> potentialBots = {};
+    for (auto robot : world->getWorld()->getUs()) {
+        if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 4) {
+            potentialBots.push_back(robot);
+            sum += 30;
         }
     }
     return sum;
@@ -141,7 +138,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Keeper
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToShootAt(Vector2());
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
 }
 
 const char *ReflectKick::getName() { return "Reflect Kick"; }

@@ -24,7 +24,8 @@ class Constants {
 
     /// TICK RATE ///
     static constexpr int GAME_ANALYSIS_TICK_RATE() { return 5; };
-    static constexpr int TICK_RATE() { return 60; };
+    static constexpr int STP_TICK_RATE() { return 60; };
+    static constexpr int SETTINGS_BROADCAST_RATE() { return 1; }
 
     /// LOGGING ///
     static bool SHOW_LONGEST_TICK();
@@ -67,8 +68,11 @@ class Constants {
     static double CENTRE_TO_FRONT();
     static double CLOSE_TO_BORDER_DISTANCE();
 
+    static double HAS_BALL_DISTANCE();
+    static double HAS_BALL_ANGLE();
+
     /// REF STATES ///
-    static constexpr double MAX_VEL() { return 8.0; };
+    static constexpr double MAX_VEL() { return 1.5; };
     static constexpr double MAX_STOP_STATE_VEL() { return 1.5; };
     static constexpr double MAX_VEL_BALLPLACEMENT() { return 3.0; };
     static int DEFAULT_KEEPER_ID();
@@ -84,7 +88,6 @@ class Constants {
     static double OUT_OF_FIELD_MARGIN();
     static double MAX_BALL_BOUNCE_RANGE();
     static double MAX_BALL_RANGE();  // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double HAS_BALL_ANGLE();
     static double MAX_KICK_RANGE();
     static double MAX_PASS_DISTANCE();
     static bool REFLECT_KICK();

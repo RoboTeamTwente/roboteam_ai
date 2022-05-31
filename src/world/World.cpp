@@ -62,7 +62,7 @@ std::optional<view::WorldDataView> World::getHistoryWorld(size_t ticksAgo) const
 }
 
 void World::updateWorld(proto::World &protoWorld) {
-    WorldData data{this, protoWorld, *settings, updateMap};
+    WorldData data{this, protoWorld, *settings};
     setWorld(data);
 }
 
@@ -75,7 +75,6 @@ void World::updateField(rtt::world::Field &protoField) { this->currentField = pr
 
 World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} { history.reserve(HISTORY_SIZE); }
 
-void World::updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback) { updateMap = std::move(feedback); }
 
 void World::updateTickTime() noexcept {
     if (!getWorld()) {  // no world currently

@@ -5,8 +5,8 @@
 #ifndef RTT_ROBOT_HPP
 #define RTT_ROBOT_HPP
 
-#include <roboteam_proto/RobotFeedback.pb.h>
-#include <roboteam_proto/WorldRobot.pb.h>
+#include <proto/RobotFeedback.pb.h>
+#include <proto/WorldRobot.pb.h>
 
 #include <optional>
 
@@ -23,7 +23,7 @@ namespace rtt::world::robot {
  */
 class Robot {
    private:
-    uint32_t id;
+    int id;
     Team team;
 
     Vector2 pos;
@@ -50,9 +50,9 @@ class Robot {
     float ballPos{};
 
    private:
-    void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
+    void updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept;
 
-    void setId(uint32_t id) noexcept;
+    void setId(int id) noexcept;
 
     void setTeam(Team team) noexcept;
 
@@ -89,7 +89,7 @@ class Robot {
     void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
 
    public:
-    [[nodiscard]] uint32_t getId() const noexcept;
+    [[nodiscard]] int getId() const noexcept;
 
     [[nodiscard]] Team getTeam() const noexcept;
 
@@ -126,7 +126,7 @@ class Robot {
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 
    public:
-    explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
+    explicit Robot(const proto::WorldRobot &copy, Team team = both,
                    std::optional<rtt::world::view::BallView> ball = std::nullopt, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
     Robot &operator=(Robot const &) = default;
