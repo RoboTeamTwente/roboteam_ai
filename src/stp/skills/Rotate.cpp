@@ -37,7 +37,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     }
 
     // Check whether the robot has been within the margin
-    if (withinMarginCount > 5) {
+    if (withinMarginCount > 2) {
         return Status::Success;
     } else {
         return Status::Running;

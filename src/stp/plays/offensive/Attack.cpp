@@ -74,6 +74,11 @@ void Attack::calculateInfoForRoles() noexcept {
 
     // Striker
     auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
+
+    auto ballTarget = world->getWorld()->get()->getBall()->get()->getPos();
+
+    stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
+
     stpInfos["striker"].setPositionToShootAt(goalTarget);
     stpInfos["striker"].setKickOrChip(KickOrChip::KICK);
     stpInfos["striker"].setShotType(ShotType::MAX);

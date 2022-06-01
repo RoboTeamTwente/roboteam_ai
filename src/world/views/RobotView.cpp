@@ -22,11 +22,11 @@ bool RobotView::hasBall(double maxDist, double maxAngle) const noexcept {
     // In all other cases, we check for distance and ballsensor, one of which needs to be true
     bool robotHasBall = false;
 
-    if (this->robotPtr->getTeam() == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR) {
-        robotHasBall = get()->ballSensorSeesBall();
-    } else {
+//    if (this->robotPtr->getTeam() == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR) {
+//        robotHasBall = get()->ballSensorSeesBall();
+//    } else {
         robotHasBall = get()->ballSensorSeesBall() || hasBallAccordingToVision(maxDist, maxAngle);
-    }
+//    }
 
     return robotHasBall;
 }

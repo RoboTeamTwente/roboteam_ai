@@ -5,6 +5,7 @@
 
 #include "stp/roles/active/Attacker.h"
 
+#include "stp/tactics/active/GetBehindBallInDirection.h"
 #include "stp/tactics/active/GetBall.h"
 #include "stp/tactics/active/KickAtPos.h"
 
@@ -12,6 +13,6 @@ namespace rtt::ai::stp::role {
 
 Attacker::Attacker(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall(), tactic::KickAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBehindBallInDirection(), tactic::GetBall(), tactic::KickAtPos()};
 }
 }  // namespace rtt::ai::stp::role
