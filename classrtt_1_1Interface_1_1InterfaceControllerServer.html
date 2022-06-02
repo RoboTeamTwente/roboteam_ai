@@ -85,7 +85,9 @@ $(document).ready(function(){initNavTree('classrtt_1_1Interface_1_1InterfaceCont
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classrtt_1_1Interface_1_1InterfaceControllerServer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::Interface::InterfaceControllerServer Class Reference</div>  </div>
@@ -100,16 +102,26 @@ Inheritance diagram for rtt::Interface::InterfaceControllerServer:</div>
   <img src="classrtt_1_1Interface_1_1InterfaceControllerServer.png" alt=""/>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a0e2f925911c8c6db48b4848afae04b4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#a0e2f925911c8c6db48b4848afae04b4c">trigger_update</a> ()</td></tr>
+<tr class="separator:a0e2f925911c8c6db48b4848afae04b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a5102eea0b89a0d327bbd48aa29813584"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#a5102eea0b89a0d327bbd48aa29813584">InterfaceControllerServer</a> ()</td></tr>
 <tr class="separator:a5102eea0b89a0d327bbd48aa29813584"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa68fae1f654f3301754d2f1193234fa4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#aa68fae1f654f3301754d2f1193234fa4">hasPriorityData</a> () const noexcept override</td></tr>
-<tr class="separator:aa68fae1f654f3301754d2f1193234fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d883a1b0502322c6f70988bb070bffa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#a8d883a1b0502322c6f70988bb070bffa">loop</a> () override</td></tr>
+<tr class="separator:a8d883a1b0502322c6f70988bb070bffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef1bdab6a2f369917741683cdae7f689"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#aef1bdab6a2f369917741683cdae7f689">handleData</a> (const proto::UiValues &amp;state) override</td></tr>
 <tr class="separator:aef1bdab6a2f369917741683cdae7f689"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a09975cccf3f3e2b0a3cd70cd79a5c4"><td class="memItemLeft" align="right" valign="top">proto::ModuleState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#a1a09975cccf3f3e2b0a3cd70cd79a5c4">getDataForRemote</a> (bool expired) const noexcept override</td></tr>
-<tr class="separator:a1a09975cccf3f3e2b0a3cd70cd79a5c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1866c6200460313d4bdb736adadce4d3"><td class="memItemLeft" align="right" valign="top">proto::ModuleState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#a1866c6200460313d4bdb736adadce4d3">getDataForRemote</a> () const noexcept override</td></tr>
+<tr class="separator:a1866c6200460313d4bdb736adadce4d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ae5ff0807be2a9bf0fdfc22cc85742a34"><td class="memItemLeft" align="right" valign="top">std::binary_semaphore&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1Interface_1_1InterfaceControllerServer.html#ae5ff0807be2a9bf0fdfc22cc85742a34">update_marker</a> {1}</td></tr>
+<tr class="separator:ae5ff0807be2a9bf0fdfc22cc85742a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5102eea0b89a0d327bbd48aa29813584"></a>
@@ -138,8 +150,8 @@ Private Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1a09975cccf3f3e2b0a3cd70cd79a5c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a09975cccf3f3e2b0a3cd70cd79a5c4">&#9670;&nbsp;</a></span>getDataForRemote()</h2>
+<a id="a1866c6200460313d4bdb736adadce4d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1866c6200460313d4bdb736adadce4d3">&#9670;&nbsp;</a></span>getDataForRemote()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,8 +162,7 @@ Private Member Functions</h2></td></tr>
         <tr>
           <td class="memname">proto::ModuleState rtt::Interface::InterfaceControllerServer::getDataForRemote </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>expired</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -190,8 +201,8 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa68fae1f654f3301754d2f1193234fa4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa68fae1f654f3301754d2f1193234fa4">&#9670;&nbsp;</a></span>hasPriorityData()</h2>
+<a id="a8d883a1b0502322c6f70988bb070bffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d883a1b0502322c6f70988bb070bffa">&#9670;&nbsp;</a></span>loop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,15 +211,55 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool rtt::Interface::InterfaceControllerServer::hasPriorityData </td>
+          <td class="memname">void rtt::Interface::InterfaceControllerServer::loop </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0e2f925911c8c6db48b4848afae04b4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e2f925911c8c6db48b4848afae04b4c">&#9670;&nbsp;</a></span>trigger_update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::Interface::InterfaceControllerServer::trigger_update </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae5ff0807be2a9bf0fdfc22cc85742a34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5ff0807be2a9bf0fdfc22cc85742a34">&#9670;&nbsp;</a></span>update_marker</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::binary_semaphore rtt::Interface::InterfaceControllerServer::update_marker {1}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
