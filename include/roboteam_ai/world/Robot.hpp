@@ -50,7 +50,7 @@ class Robot {
     float ballPos{};
 
    private:
-    void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
+    void updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept;
 
     void setId(int id) noexcept;
 
@@ -126,7 +126,7 @@ class Robot {
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 
    public:
-    explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
+    explicit Robot(const proto::WorldRobot &copy, Team team = both,
                    std::optional<rtt::world::view::BallView> ball = std::nullopt, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
     Robot &operator=(Robot const &) = default;
