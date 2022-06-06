@@ -1,7 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ab5f09cfa9cd1ddb2a6990cb3c1b4d691":[9,0,0,0,3,3,10,7],
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ac4bb4809544b2a8440be703459bb5c22":[9,0,0,0,3,3,10,2],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ad7b71d56f8b8d8d62b7ec945847a2bec":[9,0,0,0,3,3,10,12],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ae0c6ce7335a11d00664df9351a446551":[9,0,0,0,3,3,10,22],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ae63525881610390f3a9e5a490377b32e":[9,0,0,0,3,3,10,16],
@@ -249,5 +247,7 @@ var NAVTREEINDEX9 =
 "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a08d160cb230d9755757973cba99702bc":[9,0,0,0,3,3,7,21],
 "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a0c13cbd482099fa139f3a5f08d964efe":[9,0,0,0,3,3,7,38],
 "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a17fc7a716064d918aa29c072832c2ef8":[9,0,0,0,3,3,7,25],
-"classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a193d5fef143c93145b2e1e8f2b2a04f2":[9,0,0,0,3,3,7,9]
+"classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a193d5fef143c93145b2e1e8f2b2a04f2":[9,0,0,0,3,3,7,9],
+"classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a1bedbbfd15bdaba064e8e6ef0234e633":[9,0,0,0,3,3,7,28],
+"classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a28810234510bd387db880010350316f6":[9,0,0,0,3,3,7,16]
 };

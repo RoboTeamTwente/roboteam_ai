@@ -1,7 +1,5 @@
 var NAVTREEINDEX6 =
 {
-"classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html#ae35e6b0a4d976aff1034b814c56c5b2c":[9,0,0,0,0,6,6],
-"classrtt_1_1ai_1_1interface_1_1GraphWidget.html":[9,0,0,0,1,5],
 "classrtt_1_1ai_1_1interface_1_1GraphWidget.html#a0ee86759cd0c647ba81ea9dc3cb17d54":[9,0,0,0,1,5,3],
 "classrtt_1_1ai_1_1interface_1_1GraphWidget.html#a280a1a745e90409430518c4489eb05fc":[9,0,0,0,1,5,4],
 "classrtt_1_1ai_1_1interface_1_1GraphWidget.html#a4714b633f6b89488a2a2f006b41c765c":[9,0,0,0,1,5,6],
@@ -249,5 +247,7 @@ var NAVTREEINDEX6 =
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac4b15a614974a467c6c1ff5f3390c4f2":[9,0,0,0,1,17,19],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac670f3facab3b4c92ca1a9fb6d06cb02":[9,0,0,0,1,17,49],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac6cae5467348479ff6008d7ffb565f18":[9,0,0,0,1,17,53],
-"classrtt_1_1ai_1_1interface_1_1Visualizer.html#acd03b76d73a9b34e3f65665f792283b1":[9,0,0,0,1,17,38]
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#acd03b76d73a9b34e3f65665f792283b1":[9,0,0,0,1,17,38],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#ace1f42e3b660d71a385a4a27f09a89b4":[9,0,0,0,1,17,67],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#ad81747ffd05aa07a413f336e90cb51e2":[9,0,0,0,1,17,52]
 };

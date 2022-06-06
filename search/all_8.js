@@ -34,11 +34,12 @@ var searchData=
   ['hasball_892',['hasBall',['../classrtt_1_1world_1_1view_1_1RobotView.html#a43a81a19494bc916f8938587b40b3c24',1,'rtt::world::view::RobotView::hasBall()'],['../namespacertt_1_1ai_1_1stp_1_1gen.html#adf800162b3021c871d2bf895c20bc2d8ab1e84fff34510d643da18f3a05f463cc',1,'rtt::ai::stp::gen::hasBall()']]],
   ['hasballaccordingtovision_893',['hasBallAccordingToVision',['../classrtt_1_1world_1_1view_1_1RobotView.html#ad5f4be51d1423f4ecc400ffa8a52c398',1,'rtt::world::view::RobotView']]],
   ['hasfollowupcommand_894',['hasFollowUpCommand',['../structrtt_1_1ai_1_1RefGameState.html#ac826243573eba96d270835057d933e40',1,'rtt::ai::RefGameState']]],
-  ['height_895',['height',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#a3636cc1d7a8cd31baffb46ef5f9a9059',1,'rtt::ai::interface::Drawing']]],
-  ['high_5fpriority_896',['HIGH_PRIORITY',['../namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617a3871b7c0f6c5b83aeb99d88cfe8a0984',1,'rtt::ai']]],
-  ['history_897',['history',['../classrtt_1_1world_1_1World.html#a639e895a7af6abe1c09d3b94b2f99e4b',1,'rtt::world::World']]],
-  ['history_5fsize_898',['HISTORY_SIZE',['../classrtt_1_1world_1_1World.html#a180a2fb20d870f79f35f23e422db25ac',1,'rtt::world::World']]],
-  ['historyretrievaltest_2ecpp_899',['HistoryRetrievalTest.cpp',['../HistoryRetrievalTest_8cpp.html',1,'']]],
-  ['historytests_2ecpp_900',['HistoryTests.cpp',['../HistoryTests_8cpp.html',1,'']]],
-  ['horizontallayout_901',['horizontalLayout',['../classrtt_1_1ai_1_1interface_1_1MainWindow.html#ad5a6a01c484ef54d0e51414200a41d4d',1,'rtt::ai::interface::MainWindow']]]
+  ['hasprioritydata_895',['hasPriorityData',['../classrtt_1_1Interface_1_1InterfaceControllerServer.html#aa68fae1f654f3301754d2f1193234fa4',1,'rtt::Interface::InterfaceControllerServer']]],
+  ['height_896',['height',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#a3636cc1d7a8cd31baffb46ef5f9a9059',1,'rtt::ai::interface::Drawing']]],
+  ['high_5fpriority_897',['HIGH_PRIORITY',['../namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617a3871b7c0f6c5b83aeb99d88cfe8a0984',1,'rtt::ai']]],
+  ['history_898',['history',['../classrtt_1_1world_1_1World.html#a639e895a7af6abe1c09d3b94b2f99e4b',1,'rtt::world::World']]],
+  ['history_5fsize_899',['HISTORY_SIZE',['../classrtt_1_1world_1_1World.html#a180a2fb20d870f79f35f23e422db25ac',1,'rtt::world::World']]],
+  ['historyretrievaltest_2ecpp_900',['HistoryRetrievalTest.cpp',['../HistoryRetrievalTest_8cpp.html',1,'']]],
+  ['historytests_2ecpp_901',['HistoryTests.cpp',['../HistoryTests_8cpp.html',1,'']]],
+  ['horizontallayout_902',['horizontalLayout',['../classrtt_1_1ai_1_1interface_1_1MainWindow.html#ad5a6a01c484ef54d0e51414200a41d4d',1,'rtt::ai::interface::MainWindow']]]
 ];
