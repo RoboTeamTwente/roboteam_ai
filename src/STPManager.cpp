@@ -193,6 +193,8 @@ void STPManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     rtt::ai::control::ControlModule::sendAllCommands();
+
+    this->interfaceController.trigger_update();
 }
 
 bool STPManager::needsNewPlay() {

@@ -33,6 +33,9 @@ proto::ModuleState InterfaceControllerServer::getDataForRemote() const noexcept 
 
     auto val = this->vals->toProto();
     hand.mutable_values()->Swap(&val);
+    auto decls = this->decls->toProto();
+
+    hand.mutable_declarations()->Swap(&decls);
 
     mod.mutable_handshakes()->Add(std::move(hand));
 
@@ -51,7 +54,6 @@ void InterfaceControllerServer::setSelectedPlay(const std::string &newPlay) {
     this->selectedPlay = newPlay;
 }
 
-} // namespace rtt::Interface
 void InterfaceControllerServer::loop() {
     while (this->shouldRun) {
         this->update_marker.acquire();
@@ -60,6 +62,7 @@ void InterfaceControllerServer::loop() {
 }
 
 void InterfaceControllerServer::trigger_update() {
+    RTT_INFO("Sending data to interface");
     this->update_marker.release();
 }
 
