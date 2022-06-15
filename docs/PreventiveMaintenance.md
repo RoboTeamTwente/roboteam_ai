@@ -67,7 +67,7 @@ A problem that is quite common in programming is how to pass your information fr
 #### Pass by Constructor
 Pass by Constructor is a quite common practice within the software community, which is a technique where you pass information to the class using its constructor, so when the class is created. In case of the Chip class you will pass the zSpeed as information when the Chip class is created. In a class diagram this solution looks like:
 
-![Pass by Constructor](PassByConstructor.png)
+![Pass by Constructor](images/PassByConstructor.png)
 
 And from a caller perspective it looks like:
 ```
@@ -79,7 +79,7 @@ The pros of this solution is that you enforce that all information that is neede
 #### Pass by Interface Method
 Pass by Interface Method means that you pass the information by the method inherited from a commonly used interface. In this example we know that the Chip class inherits from the Skill interface. So to pass zSpeed as information, we need to adjust the execute method in the Skill interface such that it uses zSpeed as parameter. In a class diagram this solution looks like:
 
-![Pass by Interface method](InterfaceMethod.png)
+![Pass by Interface method](images/InterfaceMethod.png)
 
 And from a caller perspective it looks like:
 ```
@@ -91,11 +91,11 @@ The pros of this solution is that it is a quite simple design. Furthermore you c
 #### Pass by Interface Method (Advanced)
 With the Pass by Interface Method technique you can also do more advanced stuff, like using optional arguments (https://en.cppreference.com/w/cpp/utility/optional) or using null values in case some information is not needed. Also you could pass a class as parameter that encapsulates the necessary data needed for skills, which looks like:
 
-![Pass by Interface method (using Class as parameter)](InterfaceMethodClass.png)
+![Pass by Interface method (using Class as parameter)](images/InterfaceMethodClass.png)
 
 The advantage of this is that the class parameter could partially deal with the missing values, however a clear disadvantage is that this makes everything more complex than necessary. However if child classes are too different then they should not share the same interface. For example if there is a subgroup of classes that uses different parameters than other classes, they should inherit from a seperate interface. With an adapter pattern you can now substitute the new interface in the old interface, which in case of the Chipping example gives the following class diagram:
 
-![Pass by Interface method (with Adapter)](InterfaceMethodAdapter.png)
+![Pass by Interface method (with Adapter)](images/InterfaceMethodAdapter.png)
 
 Where the implementation of the adapter class looks like:
 ```
@@ -117,7 +117,7 @@ class AirSkillAdapter implements Skill {
 #### Pass by Additional Method (Setter)
 The third solution is to Pass Information by Additional Method. This additional method is called a setter, which you can create per parameter that needs to be passed or you can have 1 setter function that sets all parameters at once. In a class diagram this solution looks like:
 
-![Pass by Additional Method](PassByAdditionalMethod.png)
+![Pass by Additional Method](images/PassByAdditionalMethod.png)
 
 And from a caller perspective it looks like:
 ```
