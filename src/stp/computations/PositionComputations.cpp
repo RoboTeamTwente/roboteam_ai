@@ -40,13 +40,13 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     double radius = control_constants::ROBOT_RADIUS;
     double spacingRobots = radius * 0.5;
-    double spaceBetweenDefenseArea = 2 * radius;  // Because path planning is weird about being right next to a defense area
+    double spaceBetweenDefenseArea = 2 * radius;
 
     Vector2 ballPos = FieldComputations::projectPointInField(field, world->getWorld().value().getBall()->get()->getPos());
 
     std::vector<Vector2> positions = {};
 
-    Vector2 lineBorderIntersect;
+    Vector2 projectedPosition;
     std::vector<Vector2> lineBorderIntersects = {};
 
     /// Get defense area border geometry
@@ -58,25 +58,21 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         for (const LineSegment line : defenseAreaBorder) {  // Vector is made to check if there is only 1 intersect
             if (line.doesIntersect(ball2GoalLine)) {
                 auto intersect = line.intersects(ball2GoalLine);
-                if (intersect.has_value() &&
-                    // check if there is an intersect and that the intersect is not with the goal line
-                    intersect->x - field.getOurGoalCenter().x > radius + control_constants::GO_TO_POS_ERROR_MARGIN)
+                if (intersect.has_value()) {
                     lineBorderIntersects.push_back(intersect.value());
+                }
             }
         }
     }
 
     if (!lineBorderIntersects.empty()) {
-        lineBorderIntersect = lineBorderIntersects.front();  // Always use the first (as there should only be one).
+        std::sort(std::begin(lineBorderIntersects), std::end(lineBorderIntersects), [](Vector2 a, Vector2 b) { return a.x > b.x; });
+        projectedPosition = lineBorderIntersects.front();  // Always use the first one
+    } else {
+        projectedPosition = Vector2{field.getOurGoalCenter().x, field.getBottomLeftOurDefenceArea().y};
     }
 
-    Vector2 projectedPosition = lineBorderIntersect;
-
-    RTT_DEBUG("Position ", projectedPosition);
-
     LineSegment wallLine;
-
-    bool wallIsSlanted = false;
 
     if (ballPos.x < field.getLeftPenaltyLineBottom().x) {
         // case when the projected position is below penalty line
@@ -94,7 +90,6 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     } else {
         wallLine = LineSegment(ballPos, field.getOurGoalCenter());
         wallLine.rotate(M_PI / 2, projectedPosition);
-        wallIsSlanted = true;
     }
 
     int i = 1;
@@ -103,11 +98,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         while (positions.size() < static_cast<size_t>(amountDefenders)) {
             auto circle = Circle(projectedPosition, (i - 0.5) * spacingRobots + j * radius);
             std::vector<Vector2> intersects;
-            if (wallIsSlanted) {
-                intersects = circle.intersects(wallLine);
-            } else {
-                intersects = circle.intersectsCircleWithLineSegment(wallLine);
-            }
+            intersects = circle.intersectsWithLineSegment(wallLine);
             for (auto intersect : intersects) {
                 positions.push_back(intersect);
             }
@@ -119,11 +110,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         while (positions.size() < static_cast<size_t>(amountDefenders)) {
             auto circle = Circle(projectedPosition, i * 2 * radius + spacingRobots * i);
             std::vector<Vector2> intersects;
-            if (wallIsSlanted) {
-                intersects = circle.intersects(wallLine);
-            } else {
-                intersects = circle.intersectsCircleWithLineSegment(wallLine);
-            }
+            intersects = circle.intersectsWithLineSegment(wallLine);
             for (auto intersect : intersects) {
                 positions.push_back(intersect);
             }
@@ -131,29 +118,18 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         }
     }
 
-    // get the check where to put remaining defenders if the position array is not full
-    // add a check for when the last position is outside of the field
-    /// No intersects with defense area: The ball should be outside the field if this happens.
-    /// Place robots in the same spot everytime when this happens, if no positions it segfaults.
-    if (!FieldComputations::pointIsInField(field, ballPos)) {
-        RTT_DEBUG("Waller in Class ifif");
-
-        if (FieldComputations::pointIsInOurDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), 0.5, 1) ||
-            !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
-            double wallPosX = 0.4 * field.getFieldLength();
-            double posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
-            positions.reserve(amountDefenders);
-            for (int i = 0; i < amountDefenders; i++) {
-                positions.emplace_back(Vector2{posX, field.getBottomLeftOurDefenceArea().y + i * control_constants::ROBOT_RADIUS * 3});
-            }
+    // For the robots not to change the position withing the wall
+    if (ballPos.x < field.getLeftPenaltyLineBottom().x) {
+        if (ballPos.y < 0) {
+            std::sort(std::begin(positions), std::end(positions), [](Vector2 a, Vector2 b) { return a.x < b.x; });
+        } else {
+            std::sort(std::begin(positions), std::end(positions), [](Vector2 a, Vector2 b) { return a.x > b.x; });
         }
+    } else {
+        std::sort(std::begin(positions), std::end(positions), [](Vector2 a, Vector2 b) { return a.y < b.y; });
     }
 
-    std::sort(std::begin(positions), std::end(positions), [](Vector2 a, Vector2 b) { return a.length() > b.length(); });
-    RTT_DEBUG("POS SIZE ", positions.size())
-
     return positions;
-
 }
 
 }  // namespace rtt::ai::stp
