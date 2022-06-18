@@ -1,6 +1,11 @@
 var searchData=
 [
-  ['visualizationsettingswidget_2369',['VisualizationSettingsWidget',['../classrtt_1_1ai_1_1interface_1_1VisualizationSettingsWidget.html',1,'rtt::ai::interface']]],
-  ['visualizer_2370',['Visualizer',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html',1,'rtt::ai::interface']]],
-  ['voronoipathplanning_2371',['VoronoiPathPlanning',['../classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html',1,'rtt::ai::control']]]
+  ['waller_2186',['Waller',['../classrtt_1_1ai_1_1stp_1_1role_1_1Waller.html',1,'rtt::ai::stp::role']]],
+  ['walling_2187',['Walling',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html',1,'rtt::ai::stp::tactic']]],
+  ['wehaveballglobalevaluation_2188',['WeHaveBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['wehavemajorityglobalevaluation_2189',['WeHaveMajorityGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveMajorityGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['world_2190',['World',['../classrtt_1_1world_1_1World.html',1,'rtt::world']]],
+  ['worlddata_2191',['WorldData',['../classrtt_1_1world_1_1WorldData.html',1,'rtt::world']]],
+  ['worlddataview_2192',['WorldDataView',['../classrtt_1_1world_1_1view_1_1WorldDataView.html',1,'rtt::world::view']]],
+  ['worldhelper_2193',['WorldHelper',['../classtesthelpers_1_1WorldHelper.html',1,'testhelpers']]]
 ];

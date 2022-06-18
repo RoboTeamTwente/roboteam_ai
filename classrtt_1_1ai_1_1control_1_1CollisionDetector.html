@@ -86,6 +86,8 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1control_1_1Collision
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector-members.html">List of all members</a>  </div>
@@ -98,155 +100,82 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1control_1_1Collision
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae906d8add547c1aaea714b2b07a68bfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ae906d8add547c1aaea714b2b07a68bfc">isCollisionBetweenPoints</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialPoint, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;nextPoint)</td></tr>
-<tr class="separator:ae906d8add547c1aaea714b2b07a68bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29c7dd8bf66ab0bae06c2964d3816dbf"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a29c7dd8bf66ab0bae06c2964d3816dbf">getRobotCollisionBetweenPoints</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialPoint, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;nextPoint)</td></tr>
-<tr class="separator:a29c7dd8bf66ab0bae06c2964d3816dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a484556e324415749873fd1a216a9eb55"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a484556e324415749873fd1a216a9eb55">isPointInsideField</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point)</td></tr>
-<tr class="separator:a484556e324415749873fd1a216a9eb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a062aef57fc6e5a26264b1afb1f5ab0b5"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a062aef57fc6e5a26264b1afb1f5ab0b5">getDefenseAreaCollision</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;nextPoint)</td></tr>
-<tr class="separator:a062aef57fc6e5a26264b1afb1f5ab0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a0ccc70ab021c5f0f65b7ec77daf76f"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a5a0ccc70ab021c5f0f65b7ec77daf76f">getCollisionBetweenPoints</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;nextPoint)</td></tr>
-<tr class="separator:a5a0ccc70ab021c5f0f65b7ec77daf76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e2c888be75511be774d3f113e529d3c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a1e2c888be75511be774d3f113e529d3c">getRobotPositions</a> ()</td></tr>
-<tr class="separator:a1e2c888be75511be774d3f113e529d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d1708e58ace3a7835ca215a77a4c9e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a7d1708e58ace3a7835ca215a77a4c9e2">setField</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;<a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a296e3c3fc05c155a66fb3b0153bf849c">field</a>)</td></tr>
-<tr class="separator:a7d1708e58ace3a7835ca215a77a4c9e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1aa682e09acef1df076a73804591757"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#af1aa682e09acef1df076a73804591757">setRobotPositions</a> (std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;<a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a9868c9172109e6ade667231037f882b9">robotPositions</a>)</td></tr>
-<tr class="separator:af1aa682e09acef1df076a73804591757"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4d47a6612029e7b1a29c60d60219db7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#aa4d47a6612029e7b1a29c60d60219db7">CollisionDetector</a> ()</td></tr>
+<tr class="separator:aa4d47a6612029e7b1a29c60d60219db7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0332bc7e010c7740b81eda7d8f06c9c"><td class="memTemplParams" colspan="2">template&lt;PathPointType T&gt; </td></tr>
+<tr class="memitem:ab0332bc7e010c7740b81eda7d8f06c9c"><td class="memTemplItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab0332bc7e010c7740b81eda7d8f06c9c">getFirstCollision</a> (std::span&lt; T &gt; path, int robotId, const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;avoidObjects, int timeOffset=0) const</td></tr>
+<tr class="memdesc:ab0332bc7e010c7740b81eda7d8f06c9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first (time-wise) collision with any obstacle on the path.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab0332bc7e010c7740b81eda7d8f06c9c">More...</a><br /></td></tr>
+<tr class="separator:ab0332bc7e010c7740b81eda7d8f06c9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99e1d76d224fe1da9c65ad7e03046682"><td class="memTemplParams" colspan="2">template&lt;PathPointType T&gt; </td></tr>
+<tr class="memitem:a99e1d76d224fe1da9c65ad7e03046682"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a99e1d76d224fe1da9c65ad7e03046682">isOccupied</a> (T &amp;position, int robotId, const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;avoidObjects) const</td></tr>
+<tr class="memdesc:a99e1d76d224fe1da9c65ad7e03046682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if given position is occupied. Occupied means that there is and object in the given position that is <em>not</em> moving.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a99e1d76d224fe1da9c65ad7e03046682">More...</a><br /></td></tr>
+<tr class="separator:a99e1d76d224fe1da9c65ad7e03046682"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac286f7c2702c85a2181216fc0056be52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ac286f7c2702c85a2181216fc0056be52">setMinBallDistance</a> (double distance)</td></tr>
+<tr class="memdesc:ac286f7c2702c85a2181216fc0056be52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set minimal allowed distance from the ball.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ac286f7c2702c85a2181216fc0056be52">More...</a><br /></td></tr>
+<tr class="separator:ac286f7c2702c85a2181216fc0056be52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad27175fdef7487af343a061a29fa41a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ad27175fdef7487af343a061a29fa41a3">setField</a> (const std::optional&lt; <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &gt; &amp;<a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a979098d15b161c024c031bdb5d6a6557">field</a>)</td></tr>
+<tr class="memdesc:ad27175fdef7487af343a061a29fa41a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates filed reference for collision checking with playing field and defense area.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ad27175fdef7487af343a061a29fa41a3">More...</a><br /></td></tr>
+<tr class="separator:ad27175fdef7487af343a061a29fa41a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3f26f9c0a6d765de9109effd1916b3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ae3f26f9c0a6d765de9109effd1916b3a">updateTimeline</a> (const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">rtt::world::view::RobotView</a> &gt; &amp;robots, const std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1BallView.html">rtt::world::view::BallView</a> &gt; &amp;ball)</td></tr>
+<tr class="memdesc:ae3f26f9c0a6d765de9109effd1916b3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the timeline with obstacles positions. Must be called <em>once</em> at the start of each tick. For enemy robots and the ball the position is approximated. For our robots only the observer position is updated (i.e the current position) or if our robot is not moving the current position is set for all time steps.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ae3f26f9c0a6d765de9109effd1916b3a">More...</a><br /></td></tr>
+<tr class="separator:ae3f26f9c0a6d765de9109effd1916b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a556c55cbc00289678dc5592b71d1bf3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a556c55cbc00289678dc5592b71d1bf3f">updateTimelineForOurRobot</a> (std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt; path, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;currentPosition, int robotId)</td></tr>
+<tr class="memdesc:a556c55cbc00289678dc5592b71d1bf3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the timeline with path approximation generated by path planning.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a556c55cbc00289678dc5592b71d1bf3f">More...</a><br /></td></tr>
+<tr class="separator:a556c55cbc00289678dc5592b71d1bf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a96e3b7bf592658cebc9243e65c613456"><td class="memTemplParams" colspan="2">template&lt;PathPointType T&gt; </td></tr>
+<tr class="memitem:a96e3b7bf592658cebc9243e65c613456"><td class="memTemplItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a96e3b7bf592658cebc9243e65c613456">getFirstObjectCollision</a> (std::span&lt; T &gt; path, int robotId, bool shouldAvoidBall, int timeOffset=0, int timeLimit=<a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a64b2e27edd252d581a748b53527f1f5a">STEP_COUNT</a>) const</td></tr>
+<tr class="memdesc:a96e3b7bf592658cebc9243e65c613456"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first (time-wise) collision with dynamic obstacles(ball and robots) on the path.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a96e3b7bf592658cebc9243e65c613456">More...</a><br /></td></tr>
+<tr class="separator:a96e3b7bf592658cebc9243e65c613456"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36a63bca1d120099907e9498eddae251"><td class="memTemplParams" colspan="2">template&lt;PathPointType T&gt; </td></tr>
+<tr class="memitem:a36a63bca1d120099907e9498eddae251"><td class="memTemplItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a36a63bca1d120099907e9498eddae251">getFirstFieldCollision</a> (std::span&lt; T &gt; path) const</td></tr>
+<tr class="memdesc:a36a63bca1d120099907e9498eddae251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first (time-wise) collision with the playing field.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a36a63bca1d120099907e9498eddae251">More...</a><br /></td></tr>
+<tr class="separator:a36a63bca1d120099907e9498eddae251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0cc017bfcccede5ef6222e1be4920be"><td class="memTemplParams" colspan="2">template&lt;PathPointType T&gt; </td></tr>
+<tr class="memitem:aa0cc017bfcccede5ef6222e1be4920be"><td class="memTemplItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#aa0cc017bfcccede5ef6222e1be4920be">getFirstDefenseAreaCollision</a> (std::span&lt; T &gt; path) const</td></tr>
+<tr class="memdesc:aa0cc017bfcccede5ef6222e1be4920be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first (time-wise) collision with defense area.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#aa0cc017bfcccede5ef6222e1be4920be">More...</a><br /></td></tr>
+<tr class="separator:aa0cc017bfcccede5ef6222e1be4920be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:ab7a35c5a9d065d6e5d71bf994fb33ec4"><td class="memTemplParams" colspan="2">template&lt;PathPointType T&gt; </td></tr>
+<tr class="memitem:ab7a35c5a9d065d6e5d71bf994fb33ec4"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab7a35c5a9d065d6e5d71bf994fb33ec4">isCollision</a> (const T &amp;pathPoint, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;obstaclePos, double minDistance)</td></tr>
+<tr class="memdesc:ab7a35c5a9d065d6e5d71bf994fb33ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consolidation of collision detection logic.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab7a35c5a9d065d6e5d71bf994fb33ec4">More...</a><br /></td></tr>
+<tr class="separator:ab7a35c5a9d065d6e5d71bf994fb33ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57b834b4cc789d483a9fb4b31bc4ac43"><td class="memTemplParams" colspan="2">template&lt;PathPointType T&gt; </td></tr>
+<tr class="memitem:a57b834b4cc789d483a9fb4b31bc4ac43"><td class="memTemplItemLeft" align="right" valign="top">static constexpr const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a57b834b4cc789d483a9fb4b31bc4ac43">unwrapPosition</a> (const T &amp;container)</td></tr>
+<tr class="memdesc:a57b834b4cc789d483a9fb4b31bc4ac43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unwrap the PathPointType to Vector2 at compile-time.  <a href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a57b834b4cc789d483a9fb4b31bc4ac43">More...</a><br /></td></tr>
+<tr class="separator:a57b834b4cc789d483a9fb4b31bc4ac43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a9868c9172109e6ade667231037f882b9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a9868c9172109e6ade667231037f882b9">robotPositions</a></td></tr>
-<tr class="separator:a9868c9172109e6ade667231037f882b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a296e3c3fc05c155a66fb3b0153bf849c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a296e3c3fc05c155a66fb3b0153bf849c">field</a> = nullptr</td></tr>
-<tr class="separator:a296e3c3fc05c155a66fb3b0153bf849c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c2f0096ccc656ad3f2d6c98febe7b9e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a9c2f0096ccc656ad3f2d6c98febe7b9e">minBallDistance</a> = 0.0</td></tr>
+<tr class="separator:a9c2f0096ccc656ad3f2d6c98febe7b9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99bd925426812e2cfa4253bac26aca56"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Obstacles">Obstacles</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a99bd925426812e2cfa4253bac26aca56">timeline</a></td></tr>
+<tr class="separator:a99bd925426812e2cfa4253bac26aca56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a979098d15b161c024c031bdb5d6a6557"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a979098d15b161c024c031bdb5d6a6557">field</a></td></tr>
+<tr class="separator:a979098d15b161c024c031bdb5d6a6557"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:ac9969c2b4849e60788aa414ebe745ee0"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ac9969c2b4849e60788aa414ebe745ee0">DEFAULT_ROBOT_COLLISION_RADIUS</a> = 3.0 * <a class="el" href="classrtt_1_1ai_1_1Constants.html#af98ade4368626149da14fd9c2ed2a3c2">Constants::ROBOT_RADIUS</a>()</td></tr>
-<tr class="separator:ac9969c2b4849e60788aa414ebe745ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72c29c12fcc5aed0977bca109325891c"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a72c29c12fcc5aed0977bca109325891c">TIME_STEP</a> = <a class="el" href="classrtt_1_1ai_1_1Constants.html#ac0103cd6c7f01807757481d3cd2f806d">ai::Constants::POSITION_CONTROL_TIME_STEP</a>()</td></tr>
+<tr class="separator:a72c29c12fcc5aed0977bca109325891c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64b2e27edd252d581a748b53527f1f5a"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a64b2e27edd252d581a748b53527f1f5a">STEP_COUNT</a> = <a class="el" href="classrtt_1_1ai_1_1Constants.html#abae1a458aab15cf276c7cae9dfb04ae6">ai::Constants::POSITION_CONTROL_STEP_COUNT</a>()</td></tr>
+<tr class="separator:a64b2e27edd252d581a748b53527f1f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba1ca577eff251cf5d0f4fb7b45a1ea0"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#aba1ca577eff251cf5d0f4fb7b45a1ea0">MIN_ROBOT_DISTANCE</a> = 3 * <a class="el" href="classrtt_1_1ai_1_1Constants.html#a68673839b62305c8822c4d2cf75381e9">ai::Constants::ROBOT_RADIUS_MAX</a>()</td></tr>
+<tr class="separator:aba1ca577eff251cf5d0f4fb7b45a1ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Checks for collision between points and different components of the field: robots, defence area, etc. Check isCollisionBetweenPoints method for more details </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5a0ccc70ab021c5f0f65b7ec77daf76f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a0ccc70ab021c5f0f65b7ec77daf76f">&#9670;&nbsp;</a></span>getCollisionBetweenPoints()</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aa4d47a6612029e7b1a29c60d60219db7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4d47a6612029e7b1a29c60d60219db7">&#9670;&nbsp;</a></span>CollisionDetector()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::ai::control::CollisionDetector::getCollisionBetweenPoints </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>point</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>nextPoint</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Calls the defense area collision and robot collision and returns the closest one to the first point </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">point</td><td>first point of the line </td></tr>
-    <tr><td class="paramname">nextPoint</td><td>second point of the line </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the closest collision point with a robot / the defense area; std::nullopt if no collisions </dd></dl>
-
-</div>
-</div>
-<a id="a062aef57fc6e5a26264b1afb1f5ab0b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a062aef57fc6e5a26264b1afb1f5ab0b5">&#9670;&nbsp;</a></span>getDefenseAreaCollision()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::ai::control::CollisionDetector::getDefenseAreaCollision </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>point</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>nextPoint</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Check if the line intersects the defense area (adding a margin equal to the robot collision radius) and return the closest point of intersection </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">point</td><td>first point of the line </td></tr>
-    <tr><td class="paramname">nextPoint</td><td>second point of the line </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the closest intersection with the defense area, or std::nullopt if there is no intersection </dd></dl>
-
-</div>
-</div>
-<a id="a29c7dd8bf66ab0bae06c2964d3816dbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29c7dd8bf66ab0bae06c2964d3816dbf">&#9670;&nbsp;</a></span>getRobotCollisionBetweenPoints()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::ai::control::CollisionDetector::getRobotCollisionBetweenPoints </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>initialPoint</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>nextPoint</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Checks whether the line drawn by the two points comes close to any robot (excepting the current one) and returns that robot's position </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">initialPoint</td><td></td></tr>
-    <tr><td class="paramname">nextPoint</td><td></td></tr>
-    <tr><td class="paramname">currentRobotPosition</td><td>the current robot position (should be ignored when checking) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the colliding robot position, or a std::nullopt if there is no collision </dd></dl>
-
-</div>
-</div>
-<a id="a1e2c888be75511be774d3f113e529d3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e2c888be75511be774d3f113e529d3c">&#9670;&nbsp;</a></span>getRobotPositions()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::ai::control::CollisionDetector::getRobotPositions </td>
+          <td class="memname">rtt::ai::control::CollisionDetector::CollisionDetector </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -256,23 +185,238 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae906d8add547c1aaea714b2b07a68bfc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae906d8add547c1aaea714b2b07a68bfc">&#9670;&nbsp;</a></span>isCollisionBetweenPoints()</h2>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab0332bc7e010c7740b81eda7d8f06c9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0332bc7e010c7740b81eda7d8f06c9c">&#9670;&nbsp;</a></span>getFirstCollision()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;PathPointType T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool rtt::ai::control::CollisionDetector::isCollisionBetweenPoints </td>
+          <td class="memname">template std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt; rtt::ai::control::CollisionDetector::getFirstCollision&lt; const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>initialPoint</em>, </td>
+          <td class="paramtype">std::span&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;&#160;</td>
+          <td class="paramname"><em>avoidObjects</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeOffset</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finds the first (time-wise) collision with any obstacle on the path. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">pathPoints</td><td>Trajectory approximation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">robotId</td><td>Robot id to ignore (i.e it self) </td></tr>
+    <tr><td class="paramname">avoidObjects</td><td>what objects to avoid </td></tr>
+    <tr><td class="paramname">timeOffset</td><td>Time offset to start checking from </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa0cc017bfcccede5ef6222e1be4920be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0cc017bfcccede5ef6222e1be4920be">&#9670;&nbsp;</a></span>getFirstDefenseAreaCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;PathPointType T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt; rtt::ai::control::CollisionDetector::getFirstDefenseAreaCollision </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Finds the first (time-wise) collision with defense area. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">pathPoints</td><td>Trajectory approximation </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a36a63bca1d120099907e9498eddae251"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36a63bca1d120099907e9498eddae251">&#9670;&nbsp;</a></span>getFirstFieldCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;PathPointType T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt; rtt::ai::control::CollisionDetector::getFirstFieldCollision </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Finds the first (time-wise) collision with the playing field. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">pathPoints</td><td>Trajectory approximation </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a96e3b7bf592658cebc9243e65c613456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96e3b7bf592658cebc9243e65c613456">&#9670;&nbsp;</a></span>getFirstObjectCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;PathPointType T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt; rtt::ai::control::CollisionDetector::getFirstObjectCollision </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>shouldAvoidBall</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeOffset</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeLimit</em> = <code><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a64b2e27edd252d581a748b53527f1f5a">STEP_COUNT</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Finds the first (time-wise) collision with dynamic obstacles(ball and robots) on the path. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">pathPoints</td><td>Trajectory approximation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">robotId</td><td>Robot id to ignore (i.e it self) </td></tr>
+    <tr><td class="paramname">timeOffset</td><td>Time offset to start checking from </td></tr>
+    <tr><td class="paramname">shouldAvoidBall</td><td>Whether to avoid the ball or not </td></tr>
+    <tr><td class="paramname">timeLimit</td><td>Time limit to check for collisions </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab7a35c5a9d065d6e5d71bf994fb33ec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7a35c5a9d065d6e5d71bf994fb33ec4">&#9670;&nbsp;</a></span>isCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;PathPointType T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::ai::control::CollisionDetector::isCollision </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>pathPoint</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>nextPoint</em>&#160;</td>
+          <td class="paramname"><em>obstaclePos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minDistance</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -280,45 +424,83 @@ Static Private Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Checks if a new point can be followed by a robot from a starting position. This implies having no collisions with other robots, the outside of the field, or the defence area </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">initialPoint</td><td>the starting point </td></tr>
-    <tr><td class="paramname">nextPoint</td><td>the destination point </td></tr>
+
+<p>Consolidation of collision detection logic. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">pathPoint</td><td>PathPoint to check for collisions. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if there is no collision, false otherwise </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obstaclePos</td><td>Obstacle to check against. </td></tr>
+    <tr><td class="paramname">minDistance</td><td>Minimum distance between origin and obstacle. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="a484556e324415749873fd1a216a9eb55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a484556e324415749873fd1a216a9eb55">&#9670;&nbsp;</a></span>isPointInsideField()</h2>
+<a id="a99e1d76d224fe1da9c65ad7e03046682"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99e1d76d224fe1da9c65ad7e03046682">&#9670;&nbsp;</a></span>isOccupied()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;PathPointType T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool rtt::ai::control::CollisionDetector::isPointInsideField </td>
+          <td class="memname">template bool rtt::ai::control::CollisionDetector::isOccupied&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>point</em></td><td>)</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;&#160;</td>
+          <td class="paramname"><em>avoidObjects</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Check if the point is inside the field </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">point</td><td>the point to check </td></tr>
+
+<p>Check if given position is occupied. Occupied means that there is and object in the given position that is <em>not</em> moving. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">position</td><td>Position to check. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the point is in the field </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">robotId</td><td>Robot id to ignore (i.e it self) </td></tr>
+    <tr><td class="paramname">avoidObjects</td><td>what objects to avoid </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="a7d1708e58ace3a7835ca215a77a4c9e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d1708e58ace3a7835ca215a77a4c9e2">&#9670;&nbsp;</a></span>setField()</h2>
+<a id="ad27175fdef7487af343a061a29fa41a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad27175fdef7487af343a061a29fa41a3">&#9670;&nbsp;</a></span>setField()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -326,45 +508,66 @@ Static Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void rtt::ai::control::CollisionDetector::setField </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;&#160;</td>
+          <td class="paramtype">const std::optional&lt; <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>field</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Updates filed reference for collision checking with playing field and defense area. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td>Playing field. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a id="af1aa682e09acef1df076a73804591757"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1aa682e09acef1df076a73804591757">&#9670;&nbsp;</a></span>setRobotPositions()</h2>
+<a id="ac286f7c2702c85a2181216fc0056be52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac286f7c2702c85a2181216fc0056be52">&#9670;&nbsp;</a></span>setMinBallDistance()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void rtt::ai::control::CollisionDetector::setRobotPositions </td>
+          <td class="memname">void rtt::ai::control::CollisionDetector::setMinBallDistance </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>robotPositions</em></td><td>)</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>distance</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set minimal allowed distance from the ball. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">distance</td><td>minimal allowed distance. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="ac9969c2b4849e60788aa414ebe745ee0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9969c2b4849e60788aa414ebe745ee0">&#9670;&nbsp;</a></span>DEFAULT_ROBOT_COLLISION_RADIUS</h2>
+<a id="a57b834b4cc789d483a9fb4b31bc4ac43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57b834b4cc789d483a9fb4b31bc4ac43">&#9670;&nbsp;</a></span>unwrapPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;PathPointType T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr double rtt::ai::control::CollisionDetector::DEFAULT_ROBOT_COLLISION_RADIUS = 3.0 * <a class="el" href="classrtt_1_1ai_1_1Constants.html#af98ade4368626149da14fd9c2ed2a3c2">Constants::ROBOT_RADIUS</a>()</td>
+          <td class="memname">constexpr const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp; rtt::ai::control::CollisionDetector::unwrapPosition </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>container</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -374,10 +577,100 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Unwrap the PathPointType to Vector2 at compile-time. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">container</td><td>PathPoint to unwrap. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a id="a296e3c3fc05c155a66fb3b0153bf849c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a296e3c3fc05c155a66fb3b0153bf849c">&#9670;&nbsp;</a></span>field</h2>
+<a id="ae3f26f9c0a6d765de9109effd1916b3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3f26f9c0a6d765de9109effd1916b3a">&#9670;&nbsp;</a></span>updateTimeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::control::CollisionDetector::updateTimeline </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">rtt::world::view::RobotView</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>robots</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1BallView.html">rtt::world::view::BallView</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>ball</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the timeline with obstacles positions. Must be called <em>once</em> at the start of each tick. For enemy robots and the ball the position is approximated. For our robots only the observer position is updated (i.e the current position) or if our robot is not moving the current position is set for all time steps. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">robots</td><td>Robots to update the timeline with </td></tr>
+    <tr><td class="paramname">ball</td><td>Ball to update the timeline with </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a556c55cbc00289678dc5592b71d1bf3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a556c55cbc00289678dc5592b71d1bf3f">&#9670;&nbsp;</a></span>updateTimelineForOurRobot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::control::CollisionDetector::updateTimelineForOurRobot </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
+          <td class="paramname"><em>currentPosition</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotId</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the timeline with path approximation generated by path planning. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Trajectory approximation. </td></tr>
+    <tr><td class="paramname">currentPosition</td><td>Current position of the robot. </td></tr>
+    <tr><td class="paramname">robotId</td><td>Id of robot to update the path for </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a979098d15b161c024c031bdb5d6a6557"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a979098d15b161c024c031bdb5d6a6557">&#9670;&nbsp;</a></span>field</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -386,7 +679,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a>* rtt::ai::control::CollisionDetector::field = nullptr</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a>&gt; rtt::ai::control::CollisionDetector::field</td>
         </tr>
       </table>
   </td>
@@ -398,8 +691,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a9868c9172109e6ade667231037f882b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9868c9172109e6ade667231037f882b9">&#9670;&nbsp;</a></span>robotPositions</h2>
+<a id="aba1ca577eff251cf5d0f4fb7b45a1ea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba1ca577eff251cf5d0f4fb7b45a1ea0">&#9670;&nbsp;</a></span>MIN_ROBOT_DISTANCE</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -408,7 +701,95 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&gt; rtt::ai::control::CollisionDetector::robotPositions</td>
+          <td class="memname">constexpr double rtt::ai::control::CollisionDetector::MIN_ROBOT_DISTANCE = 3 * <a class="el" href="classrtt_1_1ai_1_1Constants.html#a68673839b62305c8822c4d2cf75381e9">ai::Constants::ROBOT_RADIUS_MAX</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c2f0096ccc656ad3f2d6c98febe7b9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c2f0096ccc656ad3f2d6c98febe7b9e">&#9670;&nbsp;</a></span>minBallDistance</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rtt::ai::control::CollisionDetector::minBallDistance = 0.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64b2e27edd252d581a748b53527f1f5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64b2e27edd252d581a748b53527f1f5a">&#9670;&nbsp;</a></span>STEP_COUNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int rtt::ai::control::CollisionDetector::STEP_COUNT = <a class="el" href="classrtt_1_1ai_1_1Constants.html#abae1a458aab15cf276c7cae9dfb04ae6">ai::Constants::POSITION_CONTROL_STEP_COUNT</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a72c29c12fcc5aed0977bca109325891c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72c29c12fcc5aed0977bca109325891c">&#9670;&nbsp;</a></span>TIME_STEP</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int rtt::ai::control::CollisionDetector::TIME_STEP = <a class="el" href="classrtt_1_1ai_1_1Constants.html#ac0103cd6c7f01807757481d3cd2f806d">ai::Constants::POSITION_CONTROL_TIME_STEP</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99bd925426812e2cfa4253bac26aca56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99bd925426812e2cfa4253bac26aca56">&#9670;&nbsp;</a></span>timeline</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Obstacles">Obstacles</a>&gt; rtt::ai::control::CollisionDetector::timeline</td>
         </tr>
       </table>
   </td>

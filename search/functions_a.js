@@ -1,10 +1,15 @@
 var searchData=
 [
-  ['limitangularvel_3345',['limitAngularVel',['../classrtt_1_1ai_1_1control_1_1ControlModule.html#a617266c078a647731d7dcd166b84f541',1,'rtt::ai::control::ControlModule']]],
-  ['limitrobotcommand_3346',['limitRobotCommand',['../classrtt_1_1ai_1_1control_1_1ControlModule.html#a9705f8be2e44fa106a911b2e07510114',1,'rtt::ai::control::ControlModule']]],
-  ['limitvel_3347',['limitVel',['../classrtt_1_1ai_1_1control_1_1ControlModule.html#a0ed36c5c8f10179f669cfbc8d01fc2c8',1,'rtt::ai::control::ControlModule']]],
-  ['lineintersectionwithdefensearea_3348',['lineIntersectionWithDefenseArea',['../classrtt_1_1ai_1_1FieldComputations.html#a4d3634924856a550f4fc8c8286b08e2e',1,'rtt::ai::FieldComputations']]],
-  ['lineintersectionwithfield_3349',['lineIntersectionWithField',['../classrtt_1_1ai_1_1FieldComputations.html#a2ac3192ff7505c7e829bffb6c0c1cc4c',1,'rtt::ai::FieldComputations']]],
-  ['lockinterfaceplay_3350',['lockInterfacePlay',['../classrtt_1_1ai_1_1stp_1_1PlayDecider.html#ac6f1dd2004af803ed8f3d4162fea75c7',1,'rtt::ai::stp::PlayDecider']]],
-  ['loop_3351',['loop',['../classrtt_1_1input_1_1JoystickManager.html#ab5143297b4b54eb416aee1c8339c4ea0',1,'rtt::input::JoystickManager']]]
+  ['keeper_3056',['Keeper',['../classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html#aace591f3388b5813861562a809d7c8b3',1,'rtt::ai::stp::role::Keeper']]],
+  ['keeper_5fcentregoal_5fmargin_3057',['KEEPER_CENTREGOAL_MARGIN',['../classrtt_1_1ai_1_1Constants.html#aba63b17d4f68f02696a08462ed47d933',1,'rtt::ai::Constants']]],
+  ['keeper_5fhelp_5fdraw_5fsize_3058',['KEEPER_HELP_DRAW_SIZE',['../classrtt_1_1ai_1_1Constants.html#a5941a65f7ea6df4c658712c17c6b8c8c',1,'rtt::ai::Constants']]],
+  ['keeper_5fpenalty_5fline_5fmargin_3059',['KEEPER_PENALTY_LINE_MARGIN',['../classrtt_1_1ai_1_1Constants.html#a3546b5aa1e700052dc6dbd08e657eb50',1,'rtt::ai::Constants']]],
+  ['keeper_5fpost_5fmargin_3060',['KEEPER_POST_MARGIN',['../classrtt_1_1ai_1_1Constants.html#afd6fe341b00acdb49b548311465fa5ea',1,'rtt::ai::Constants']]],
+  ['keeperblockball_3061',['KeeperBlockBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a90925906e42a4da8344a7f568dd77c79',1,'rtt::ai::stp::tactic::KeeperBlockBall']]],
+  ['keeperkickball_3062',['KeeperKickBall',['../classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#adf40ab90d6253afdd83c24480c9ff182',1,'rtt::ai::stp::play::KeeperKickBall']]],
+  ['kickatpos_3063',['KickAtPos',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html#a8953fce5339c0188caf1ee7e0f5c05a3',1,'rtt::ai::stp::tactic::KickAtPos']]],
+  ['kickoffthem_3064',['KickOffThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html#a13104a844dcc01cffe55679f05a35907',1,'rtt::ai::stp::play::KickOffThem']]],
+  ['kickoffthemprepare_3065',['KickOffThemPrepare',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThemPrepare.html#a122f7c0e06a8b7655b13e71c1b7328f1',1,'rtt::ai::stp::play::KickOffThemPrepare']]],
+  ['kickoffus_3066',['KickOffUs',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html#ab39adadcbeeb3305154b8832dd13a752',1,'rtt::ai::stp::play::KickOffUs']]],
+  ['kickoffusprepare_3067',['KickOffUsPrepare',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUsPrepare.html#acc7c31d01bd4a7cb2ab8106b1e50673c',1,'rtt::ai::stp::play::KickOffUsPrepare']]]
 ];

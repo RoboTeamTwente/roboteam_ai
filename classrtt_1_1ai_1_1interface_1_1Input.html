@@ -111,6 +111,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ae497b1c2daba9e67cbaaef55caa37b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a536be38b9a0ceb22def407599353187b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Input.html#a536be38b9a0ceb22def407599353187b">drawData</a> (<a class="el" href="namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850b">Visual</a> visual, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; points, QColor color, int robotId=-1, <a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3ac">Drawing::DrawingMethod</a> method=<a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca55b082fd7f24463df1e7cf8d0d12b881">Drawing::DOTS</a>, double width=4.0, double height=4.0, double strokeWidth=2.0)</td></tr>
 <tr class="separator:a536be38b9a0ceb22def407599353187b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d98c3c650a3340657d9330791e466d2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Input.html#a2d98c3c650a3340657d9330791e466d2">drawData</a> (<a class="el" href="namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850b">Visual</a> visual, std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt; points, QColor color, int robotId=-1, <a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3ac">Drawing::DrawingMethod</a> method=<a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca55b082fd7f24463df1e7cf8d0d12b881">Drawing::DOTS</a>, double width=4.0, double height=4.0, double strokeWidth=2.0)</td></tr>
+<tr class="separator:a2d98c3c650a3340657d9330791e466d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a514a5d0c60e4eed2821975c3a2dd635f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Input.html#a514a5d0c60e4eed2821975c3a2dd635f">drawDebugData</a> (std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; points, QColor color=Qt::yellow, int robotId=-1, <a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3ac">Drawing::DrawingMethod</a> method=<a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca55b082fd7f24463df1e7cf8d0d12b881">Drawing::DOTS</a>, double width=4.0, double height=4.0, double strokeWidth=4.0)</td></tr>
 <tr class="separator:a514a5d0c60e4eed2821975c3a2dd635f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad258c0db0e27b4d4ed5b4445b51e81ba"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1interface_1_1Input.html#ad258c0db0e27b4d4ed5b4445b51e81ba">getFps</a> ()</td></tr>
@@ -206,8 +208,80 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a2d98c3c650a3340657d9330791e466d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d98c3c650a3340657d9330791e466d2">&#9670;&nbsp;</a></span>drawData() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::ai::interface::Input::drawData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1interface.html#a8d90a29300cff704e14867fce51b850b">Visual</a>&#160;</td>
+          <td class="paramname"><em>visual</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QColor&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotId</em> = <code>-1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3ac">Drawing::DrawingMethod</a>&#160;</td>
+          <td class="paramname"><em>method</em> = <code><a class="el" href="structrtt_1_1ai_1_1interface_1_1Drawing.html#af19bf534f3bd5384ae71df536b01f3aca55b082fd7f24463df1e7cf8d0d12b881">Drawing::DOTS</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>width</em> = <code>4.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>height</em> = <code>4.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>strokeWidth</em> = <code>2.0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a536be38b9a0ceb22def407599353187b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a536be38b9a0ceb22def407599353187b">&#9670;&nbsp;</a></span>drawData()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a536be38b9a0ceb22def407599353187b">&#9670;&nbsp;</a></span>drawData() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

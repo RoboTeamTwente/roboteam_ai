@@ -1,17 +1,16 @@
 var searchData=
 [
-  ['field_2228',['Field',['../classrtt_1_1world_1_1Field.html',1,'rtt::world']]],
-  ['fieldarc_2229',['FieldArc',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldArc',1,'rtt::world']]],
-  ['fieldcomputations_2230',['FieldComputations',['../classrtt_1_1ai_1_1FieldComputations.html',1,'rtt::ai']]],
-  ['fieldhelper_2231',['FieldHelper',['../classtesthelpers_1_1FieldHelper.html',1,'testhelpers']]],
-  ['fieldlinesegment_2232',['FieldLineSegment',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldLineSegment',1,'rtt::world']]],
-  ['flagscore_2233',['FlagScore',['../classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1FlagScore',1,'rtt::ai::Dealer']]],
-  ['formation_2234',['Formation',['../classrtt_1_1ai_1_1stp_1_1role_1_1Formation.html',1,'rtt::ai::stp::role::Formation'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation.html',1,'rtt::ai::stp::tactic::Formation']]],
-  ['freedomofrobotsglobalevaluation_2235',['FreedomOfRobotsGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreedomOfRobotsGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekicktaker_2236',['FreeKickTaker',['../classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker.html',1,'rtt::ai::stp::role']]],
-  ['freekickthem_2237',['FreeKickThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html',1,'rtt::ai::stp::play']]],
-  ['freekickthemgamestateevaluation_2238',['FreeKickThemGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickThemGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekickusatgoal_2239',['FreeKickUsAtGoal',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html',1,'rtt::ai::stp::play']]],
-  ['freekickusgamestateevaluation_2240',['FreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekickuspass_2241',['FreeKickUsPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html',1,'rtt::ai::stp::play']]]
+  ['gamestate_2065',['GameState',['../structrtt_1_1ai_1_1GameState.html',1,'rtt::ai']]],
+  ['gamestatemanager_2066',['GameStateManager',['../classrtt_1_1ai_1_1GameStateManager.html',1,'rtt::ai']]],
+  ['genericpass_2067',['GenericPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html',1,'rtt::ai::stp::play']]],
+  ['getball_2068',['GetBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall.html',1,'rtt::ai::stp::tactic']]],
+  ['getballpossession_2069',['GetBallPossession',['../classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html',1,'rtt::ai::stp::play']]],
+  ['getballrisky_2070',['GetBallRisky',['../classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky.html',1,'rtt::ai::stp::play']]],
+  ['getbehindballindirection_2071',['GetBehindBallInDirection',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html',1,'rtt::ai::stp::tactic']]],
+  ['goalcomputations_2072',['GoalComputations',['../classrtt_1_1ai_1_1stp_1_1computations_1_1GoalComputations.html',1,'rtt::ai::stp::computations']]],
+  ['goalshotevaluation_2073',['GoalShotEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['goalvisionfromballglobalevaluation_2074',['GoalVisionFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalVisionFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['goalvisionglobalevaluation_2075',['GoalVisionGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalVisionGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['gotopos_2076',['GoToPos',['../classrtt_1_1ai_1_1stp_1_1skill_1_1GoToPos.html',1,'rtt::ai::stp::skill']]],
+  ['graphwidget_2077',['GraphWidget',['../classrtt_1_1ai_1_1interface_1_1GraphWidget.html',1,'rtt::ai::interface']]]
 ];
