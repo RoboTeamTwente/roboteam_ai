@@ -28,7 +28,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         auto const &world = worldPtr->getWorld();
         auto const &field = worldPtr->getField();
 
-        if (!world.has_value() || !world.value()->weHaveRobots()) {
+        if (!world.has_value()) {
             painter.drawText(24, 24, "Waiting for incoming world state");
             return;
         }
