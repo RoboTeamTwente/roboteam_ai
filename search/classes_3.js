@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['dealer_2043',['Dealer',['../classrtt_1_1ai_1_1Dealer.html',1,'rtt::ai']]],
-  ['dealerflag_2044',['DealerFlag',['../structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html',1,'rtt::ai::Dealer']]],
-  ['defendpass_2045',['DefendPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html',1,'rtt::ai::stp::play']]],
-  ['defendshot_2046',['DefendShot',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html',1,'rtt::ai::stp::play']]],
-  ['defensivestopformation_2047',['DefensiveStopFormation',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html',1,'rtt::ai::stp::play']]],
-  ['distancefromballglobalevaluation_2048',['DistanceFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1DistanceFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['drawing_2049',['Drawing',['../structrtt_1_1ai_1_1interface_1_1Drawing.html',1,'rtt::ai::interface']]],
-  ['drivewithball_2050',['DriveWithBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html',1,'rtt::ai::stp::tactic']]]
+  ['chip_2210',['Chip',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html',1,'rtt::ai::stp::skill']]],
+  ['chipatpos_2211',['ChipAtPos',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1ChipAtPos.html',1,'rtt::ai::stp::tactic']]],
+  ['collisiondata_2212',['CollisionData',['../namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData',1,'rtt::BB']]],
+  ['collisiondetector_2213',['CollisionDetector',['../classrtt_1_1ai_1_1control_1_1CollisionDetector.html',1,'rtt::ai::control']]],
+  ['commandcollision_2214',['CommandCollision',['../namespacertt_1_1BB.html#structrtt_1_1BB_1_1CommandCollision',1,'rtt::BB']]],
+  ['computationmanager_2215',['ComputationManager',['../classrtt_1_1ai_1_1stp_1_1ComputationManager.html',1,'rtt::ai::stp']]],
+  ['constants_2216',['Constants',['../classrtt_1_1ai_1_1Constants.html',1,'rtt::ai']]],
+  ['controlmodule_2217',['ControlModule',['../classrtt_1_1ai_1_1control_1_1ControlModule.html',1,'rtt::ai::control']]],
+  ['controlutils_2218',['ControlUtils',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html',1,'rtt::ai::control']]]
 ];

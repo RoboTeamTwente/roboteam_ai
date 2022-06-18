@@ -1,17 +1,12 @@
 var searchData=
 [
-  ['field_2051',['Field',['../classrtt_1_1world_1_1Field.html',1,'rtt::world']]],
-  ['fieldarc_2052',['FieldArc',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldArc',1,'rtt::world']]],
-  ['fieldcomputations_2053',['FieldComputations',['../classrtt_1_1ai_1_1FieldComputations.html',1,'rtt::ai']]],
-  ['fieldhelper_2054',['FieldHelper',['../classtesthelpers_1_1FieldHelper.html',1,'testhelpers']]],
-  ['fieldlinesegment_2055',['FieldLineSegment',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldLineSegment',1,'rtt::world']]],
-  ['flagscore_2056',['FlagScore',['../classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1FlagScore',1,'rtt::ai::Dealer']]],
-  ['formation_2057',['Formation',['../classrtt_1_1ai_1_1stp_1_1role_1_1Formation.html',1,'rtt::ai::stp::role::Formation'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation.html',1,'rtt::ai::stp::tactic::Formation']]],
-  ['freedomofrobotsglobalevaluation_2058',['FreedomOfRobotsGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreedomOfRobotsGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekicktaker_2059',['FreeKickTaker',['../classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker.html',1,'rtt::ai::stp::role']]],
-  ['freekickthem_2060',['FreeKickThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html',1,'rtt::ai::stp::play']]],
-  ['freekickthemgamestateevaluation_2061',['FreeKickThemGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickThemGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekickusatgoal_2062',['FreeKickUsAtGoal',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html',1,'rtt::ai::stp::play']]],
-  ['freekickusgamestateevaluation_2063',['FreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekickuspass_2064',['FreeKickUsPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html',1,'rtt::ai::stp::play']]]
+  ['dealer_2219',['Dealer',['../classrtt_1_1ai_1_1Dealer.html',1,'rtt::ai']]],
+  ['dealerflag_2220',['DealerFlag',['../structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html',1,'rtt::ai::Dealer']]],
+  ['defendpass_2221',['DefendPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html',1,'rtt::ai::stp::play']]],
+  ['defendshot_2222',['DefendShot',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html',1,'rtt::ai::stp::play']]],
+  ['defensivestopformation_2223',['DefensiveStopFormation',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html',1,'rtt::ai::stp::play']]],
+  ['densepathtracking_2224',['DensePathTracking',['../classrtt_1_1ai_1_1control_1_1DensePathTracking.html',1,'rtt::ai::control']]],
+  ['distancefromballglobalevaluation_2225',['DistanceFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1DistanceFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['drawing_2226',['Drawing',['../structrtt_1_1ai_1_1interface_1_1Drawing.html',1,'rtt::ai::interface']]],
+  ['drivewithball_2227',['DriveWithBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html',1,'rtt::ai::stp::tactic']]]
 ];

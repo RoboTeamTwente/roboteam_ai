@@ -98,137 +98,24 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1control_1_1BBTPathTr
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac4d32167b65bda59e57402293f964fb0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#ac4d32167b65bda59e57402293f964fb0">BBTPathTracking</a> (int <a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a6766b2f0e0026e26e876edd4016e5334">robotId</a>, const <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html">CollisionDetector</a> &amp;<a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a6c6247b3f670ddab26f24ff13a02ab53">collisionDetector</a>)</td></tr>
-<tr class="separator:ac4d32167b65bda59e57402293f964fb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab6a75b7d5365b839115aacbe98e878e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460">UpdatePath</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aab6a75b7d5365b839115aacbe98e878e">shouldUpdatePath</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;currentPos, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;targetPos, const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;avoidObjects)</td></tr>
-<tr class="memdesc:aab6a75b7d5365b839115aacbe98e878e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the path needs to be recomputed (e.g. when target has changed)  <a href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aab6a75b7d5365b839115aacbe98e878e">More...</a><br /></td></tr>
-<tr class="separator:aab6a75b7d5365b839115aacbe98e878e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52d5d1dd250c4c64c7bea495b00d8311"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a52d5d1dd250c4c64c7bea495b00d8311">updatePath</a> (std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt; &amp;&amp;newPath)</td></tr>
-<tr class="memdesc:a52d5d1dd250c4c64c7bea495b00d8311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the path.  <a href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a52d5d1dd250c4c64c7bea495b00d8311">More...</a><br /></td></tr>
-<tr class="separator:a52d5d1dd250c4c64c7bea495b00d8311"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeeee16325941373d8f50a3e617794cdc"><td class="memItemLeft" align="right" valign="top">Position&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aeeee16325941373d8f50a3e617794cdc">trackPathForwardAngle</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;currentPosition, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;currentVelocity, <a class="el" href="namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eb">stp::PIDType</a> pidType)</td></tr>
-<tr class="memdesc:aeeee16325941373d8f50a3e617794cdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes and returns next position and angle to be send to the robot.  <a href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aeeee16325941373d8f50a3e617794cdc">More...</a><br /></td></tr>
-<tr class="separator:aeeee16325941373d8f50a3e617794cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dab96f1786b80f252f0ee31659f74fd"><td class="memItemLeft" align="right" valign="top">std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a5dab96f1786b80f252f0ee31659f74fd">getRemainingPath</a> ()</td></tr>
-<tr class="memdesc:a5dab96f1786b80f252f0ee31659f74fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns readonly view of the remaining path.  <a href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a5dab96f1786b80f252f0ee31659f74fd">More...</a><br /></td></tr>
-<tr class="separator:a5dab96f1786b80f252f0ee31659f74fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9489158f186972175a5e925ceb6cc563"><td class="memItemLeft" align="right" valign="top">Position&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a9489158f186972175a5e925ceb6cc563">trackPathForwardAngle</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;currentPosition, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;currentVelocity, std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;pathVelocityPoints, int robotId, <a class="el" href="namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eb">stp::PIDType</a> pidType)</td></tr>
+<tr class="separator:a9489158f186972175a5e925ceb6cc563"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:ae4f45c9e8de405d44124ab44da7ae152"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1ai_1_1control_1_1PidTracking.html">PidTracking</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#ae4f45c9e8de405d44124ab44da7ae152">pidTracking</a></td></tr>
 <tr class="separator:ae4f45c9e8de405d44124ab44da7ae152"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c6247b3f670ddab26f24ff13a02ab53"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html">CollisionDetector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a6c6247b3f670ddab26f24ff13a02ab53">collisionDetector</a></td></tr>
-<tr class="separator:a6c6247b3f670ddab26f24ff13a02ab53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6766b2f0e0026e26e876edd4016e5334"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a6766b2f0e0026e26e876edd4016e5334">robotId</a></td></tr>
-<tr class="separator:a6766b2f0e0026e26e876edd4016e5334"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06b02265149887c97d19ca597d7d4afa"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a06b02265149887c97d19ca597d7d4afa">path</a></td></tr>
-<tr class="separator:a06b02265149887c97d19ca597d7d4afa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfc336ad12bcfb1a0c2a405c2dcb40fd"><td class="memItemLeft" align="right" valign="top">std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#abfc336ad12bcfb1a0c2a405c2dcb40fd">remainingPath</a></td></tr>
-<tr class="separator:abfc336ad12bcfb1a0c2a405c2dcb40fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:aadcf94a85f36202466ed66fbcac98b0d"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aadcf94a85f36202466ed66fbcac98b0d">STEPS_AHEAD</a> = 1</td></tr>
-<tr class="separator:aadcf94a85f36202466ed66fbcac98b0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f8b393802925b0308bc404ea47f6ac1"><td class="memItemLeft" align="right" valign="top">static constexpr unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a4f8b393802925b0308bc404ea47f6ac1">STEPS_AHEAD</a> = 1</td></tr>
+<tr class="separator:a4f8b393802925b0308bc404ea47f6ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Path tracker for single robot. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac4d32167b65bda59e57402293f964fb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4d32167b65bda59e57402293f964fb0">&#9670;&nbsp;</a></span>BBTPathTracking()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">rtt::ai::control::BBTPathTracking::BBTPathTracking </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html">CollisionDetector</a> &amp;&#160;</td>
-          <td class="paramname"><em>collisionDetector</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5dab96f1786b80f252f0ee31659f74fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5dab96f1786b80f252f0ee31659f74fd">&#9670;&nbsp;</a></span>getRemainingPath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt; rtt::ai::control::BBTPathTracking::getRemainingPath </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns readonly view of the remaining path. </p>
-
-</div>
-</div>
-<a id="aab6a75b7d5365b839115aacbe98e878e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab6a75b7d5365b839115aacbe98e878e">&#9670;&nbsp;</a></span>shouldUpdatePath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460">UpdatePath</a> rtt::ai::control::BBTPathTracking::shouldUpdatePath </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>currentPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>targetPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;&#160;</td>
-          <td class="paramname"><em>avoidObjects</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Determine if the path needs to be recomputed (e.g. when target has changed) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">currentPos</td><td>Current position of the robot </td></tr>
-    <tr><td class="paramname">targetPos</td><td>Target position of the robot from STP </td></tr>
-    <tr><td class="paramname">avoidObjects</td><td>Objects deemed to be obstacles for collision detection</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>UpdatePath::DONT_UPDATE (i.e. 0) if the path is up to date else ret_val &gt; 0 </dd></dl>
-
-</div>
-</div>
-<a id="aeeee16325941373d8f50a3e617794cdc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeeee16325941373d8f50a3e617794cdc">&#9670;&nbsp;</a></span>trackPathForwardAngle()</h2>
+<div class="textblock"><p>Path tracking algorithm for BBT </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9489158f186972175a5e925ceb6cc563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9489158f186972175a5e925ceb6cc563">&#9670;&nbsp;</a></span>trackPathForwardAngle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -248,6 +135,18 @@ Static Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>pathVelocityPoints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eb">stp::PIDType</a>&#160;</td>
           <td class="paramname"><em>pidType</em>&#160;</td>
         </tr>
@@ -258,91 +157,24 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Computes and returns next position and angle to be send to the robot. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Generates an output velocity and angle according to the implemented algorithm. After reaching a certain distance to the closest path point, it will go to the next one. <br  />
+<br  />
+ <a class="el" href="classrtt_1_1ai_1_1control_1_1DensePathTracking.html">DensePathTracking</a> looks at the target position after N steps and follows that using a PID controller (the <a class="el" href="classrtt_1_1ai_1_1control_1_1PidTracking.html">PidTracking</a>). It is assumed that the path is dense. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">currentPos</td><td>Current position of the robot </td></tr>
-    <tr><td class="paramname">currentVel</td><td>Current velocity of the robot </td></tr>
-    <tr><td class="paramname">pidType</td><td>PID type to be used (TODO: What is pid type?) </td></tr>
+    <tr><td class="paramname">currentPosition</td><td></td></tr>
+    <tr><td class="paramname">currentVelocity</td><td></td></tr>
+    <tr><td class="paramname">pathPoints</td><td>the path as a list of points </td></tr>
+    <tr><td class="paramname">velocityPoints</td><td>the path as a list of velocities </td></tr>
+    <tr><td class="paramname">robotId</td><td>the ID of the current robot </td></tr>
+    <tr><td class="paramname">angle</td><td>the desired orientation angle of the robot - if omitted, the robot will face its velocity </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Next position and velocity to be send to the robot </dd></dl>
-
-</div>
-</div>
-<a id="a52d5d1dd250c4c64c7bea495b00d8311"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52d5d1dd250c4c64c7bea495b00d8311">&#9670;&nbsp;</a></span>updatePath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rtt::ai::control::BBTPathTracking::updatePath </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt; &amp;&amp;&#160;</td>
-          <td class="paramname"><em>newPath</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Update the path. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">newPath</td><td>New path to be used </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd>a structure containing the tracking velocity and the orientation angle </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a6c6247b3f670ddab26f24ff13a02ab53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c6247b3f670ddab26f24ff13a02ab53">&#9670;&nbsp;</a></span>collisionDetector</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html">CollisionDetector</a>&amp; rtt::ai::control::BBTPathTracking::collisionDetector</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a06b02265149887c97d19ca597d7d4afa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06b02265149887c97d19ca597d7d4afa">&#9670;&nbsp;</a></span>path</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a>&gt; rtt::ai::control::BBTPathTracking::path</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ae4f45c9e8de405d44124ab44da7ae152"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae4f45c9e8de405d44124ab44da7ae152">&#9670;&nbsp;</a></span>pidTracking</h2>
 
@@ -365,8 +197,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="abfc336ad12bcfb1a0c2a405c2dcb40fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfc336ad12bcfb1a0c2a405c2dcb40fd">&#9670;&nbsp;</a></span>remainingPath</h2>
+<a id="a4f8b393802925b0308bc404ea47f6ac1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f8b393802925b0308bc404ea47f6ac1">&#9670;&nbsp;</a></span>STEPS_AHEAD</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -375,51 +207,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::span&lt;const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a>&gt; rtt::ai::control::BBTPathTracking::remainingPath</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6766b2f0e0026e26e876edd4016e5334"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6766b2f0e0026e26e876edd4016e5334">&#9670;&nbsp;</a></span>robotId</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const int rtt::ai::control::BBTPathTracking::robotId</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aadcf94a85f36202466ed66fbcac98b0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadcf94a85f36202466ed66fbcac98b0d">&#9670;&nbsp;</a></span>STEPS_AHEAD</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr size_t rtt::ai::control::BBTPathTracking::STEPS_AHEAD = 1</td>
+          <td class="memname">constexpr unsigned long rtt::ai::control::BBTPathTracking::STEPS_AHEAD = 1</td>
         </tr>
       </table>
   </td>

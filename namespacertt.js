@@ -6,6 +6,8 @@ var namespacertt =
     [ "Interface", "namespacertt_1_1Interface.html", "namespacertt_1_1Interface" ],
     [ "world", "namespacertt_1_1world.html", "namespacertt_1_1world" ],
     [ "AnglePID", "classrtt_1_1AnglePID.html", "classrtt_1_1AnglePID" ],
+    [ "Trajectory1D", "classrtt_1_1Trajectory1D.html", "classrtt_1_1Trajectory1D" ],
+    [ "Trajectory2D", "classrtt_1_1Trajectory2D.html", "classrtt_1_1Trajectory2D" ],
     [ "STPManager", "classrtt_1_1STPManager.html", "classrtt_1_1STPManager" ],
     [ "Settings", "classrtt_1_1Settings.html", "classrtt_1_1Settings" ],
     [ "generateWorld", "namespacertt.html#a3c7f39951eb291b23d6f3a06262f365e", null ],
