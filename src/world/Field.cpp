@@ -70,15 +70,15 @@ void Field::initFieldGrids() {
     auto middleY = getBottommostY() + gridWidth;
     auto rightY = getBottommostY();
 
-    backLeftGrid = Grid(bottomX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    backMidGrid = Grid(bottomX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    backRightGrid = Grid(bottomX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    middleLeftGrid = Grid(middleX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    middleMidGrid = Grid(middleX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    middleRightGrid = Grid(middleX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    frontLeftGrid = Grid(topX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    frontMidGrid = Grid(topX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    frontRightGrid = Grid(topX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    backLeftGrid = GeneralGrid(bottomX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    backMidGrid = GeneralGrid(bottomX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    backRightGrid = GeneralGrid(bottomX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleLeftGrid = GeneralGrid(middleX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleMidGrid = GeneralGrid(middleX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    middleRightGrid = GeneralGrid(middleX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontLeftGrid = GeneralGrid(topX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontMidGrid = GeneralGrid(topX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    frontRightGrid = GeneralGrid(topX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
 }
 
 void Field::initFieldOthers() {
@@ -223,23 +223,23 @@ const Vector2 &Field::getTopRightTheirDefenceArea() const { return getFieldVecto
 
 const Vector2 &Field::getBottomRightTheirDefenceArea() const { return getFieldVector(bottomRightTheirDefenceArea); }
 
-const Grid &Field::getBackLeftGrid() const { return getFieldGrid(backLeftGrid); }
+const GeneralGrid &Field::getBackLeftGrid() const { return getFieldGrid(backLeftGrid); }
 
-const Grid &Field::getBackMidGrid() const { return getFieldGrid(backMidGrid); }
+const GeneralGrid &Field::getBackMidGrid() const { return getFieldGrid(backMidGrid); }
 
-const Grid &Field::getBackRightGrid() const { return getFieldGrid(backRightGrid); }
+const GeneralGrid &Field::getBackRightGrid() const { return getFieldGrid(backRightGrid); }
 
-const Grid &Field::getMiddleLeftGrid() const { return getFieldGrid(middleLeftGrid); }
+const GeneralGrid &Field::getMiddleLeftGrid() const { return getFieldGrid(middleLeftGrid); }
 
-const Grid &Field::getMiddleMidGrid() const { return getFieldGrid(middleMidGrid); }
+const GeneralGrid &Field::getMiddleMidGrid() const { return getFieldGrid(middleMidGrid); }
 
-const Grid &Field::getMiddleRightGrid() const { return getFieldGrid(middleRightGrid); }
+const GeneralGrid &Field::getMiddleRightGrid() const { return getFieldGrid(middleRightGrid); }
 
-const Grid &Field::getFrontLeftGrid() const { return getFieldGrid(frontLeftGrid); }
+const GeneralGrid &Field::getFrontLeftGrid() const { return getFieldGrid(frontLeftGrid); }
 
-const Grid &Field::getFrontMidGrid() const { return getFieldGrid(frontMidGrid); }
+const GeneralGrid &Field::getFrontMidGrid() const { return getFieldGrid(frontMidGrid); }
 
-const Grid &Field::getFrontRightGrid() const { return getFieldGrid(frontRightGrid); }
+const GeneralGrid &Field::getFrontRightGrid() const { return getFieldGrid(frontRightGrid); }
 
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
@@ -291,7 +291,7 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
     }
 }
 
-const Grid &Field::getFieldGrid(const std::optional<Grid> &fieldGrid) const {
+const GeneralGrid &Field::getFieldGrid(const std::optional<GeneralGrid> &fieldGrid) const {
     if (fieldGrid) {
         return fieldGrid.value();
     } else {
@@ -299,7 +299,7 @@ const Grid &Field::getFieldGrid(const std::optional<Grid> &fieldGrid) const {
         have not been assigned a value. */
         RTT_WARNING("Access undefined grid in the Field class (world might not be turned on?).")
 
-        static Grid standard = Grid(0, 0, 0, 0, 0, 0);
+        static GeneralGrid standard = GeneralGrid(0, 0, 0, 0, 0, 0);
         return standard;
     }
 }

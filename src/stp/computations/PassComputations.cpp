@@ -69,11 +69,11 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     return passInfo;
 }
 
-Grid PassComputations::getPassGrid(const world::Field& field) {
+GeneralGrid PassComputations::getPassGrid(const world::Field& field) {
     double gridWidth = field.getFieldWidth();
     double gridLength = field.getFieldLength();
     int numPoints = 9;
-    return Grid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints);  // 81 points spread over the whole field
+    return GeneralGrid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints);  // 81 points spread over the whole field
 }
 
 bool PassComputations::pointIsValidPassLocation(Vector2 point, Vector2 ballLocation, const std::vector<Vector2>& possibleReceiverLocations, Vector2 passerLocation,

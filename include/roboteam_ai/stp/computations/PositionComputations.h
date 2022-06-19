@@ -44,7 +44,7 @@ class PositionComputations {
      * @param world
      * @return the best position within that grid with its score
      */
-    static gen::ScoredPosition getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
+    static gen::ScoredPosition getPosition(std::optional<rtt::Vector2> currentPosition, const GeneralGrid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
                                            const world::World *world);
 
     /**

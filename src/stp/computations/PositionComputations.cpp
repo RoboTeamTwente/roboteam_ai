@@ -13,7 +13,7 @@
 
 namespace rtt::ai::stp {
 
-gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
+gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2> currentPosition, const GeneralGrid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
                                                       const world::World *world) {
     gen::ScoredPosition bestPosition;
     (currentPosition.has_value()) ? bestPosition = PositionScoring::scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0, 0}, 0};

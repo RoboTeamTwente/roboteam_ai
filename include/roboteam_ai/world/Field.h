@@ -269,31 +269,31 @@ class Field {
     std::optional<Vector2> bottomRightTheirDefenceArea;
 
     // The left area in the back of the field (nearest side to our goal)
-    std::optional<Grid> backLeftGrid;
+    std::optional<GeneralGrid> backLeftGrid;
 
     // The middle area in the back of the field (nearest side to our goal)
-    std::optional<Grid> backMidGrid;
+    std::optional<GeneralGrid> backMidGrid;
 
     // The right area in the back of the field (nearest side to our goal)
-    std::optional<Grid> backRightGrid;
+    std::optional<GeneralGrid> backRightGrid;
 
     // The left area in the middle of the field
-    std::optional<Grid> middleLeftGrid;
+    std::optional<GeneralGrid> middleLeftGrid;
 
     // The middle area in the middle of the field
-    std::optional<Grid> middleMidGrid;
+    std::optional<GeneralGrid> middleMidGrid;
 
     // The right area in the middle of the field
-    std::optional<Grid> middleRightGrid;
+    std::optional<GeneralGrid> middleRightGrid;
 
     // The left area in the front of the field (nearest side to their goal)
-    std::optional<Grid> frontLeftGrid;
+    std::optional<GeneralGrid> frontLeftGrid;
 
     // The middle area in the front of the field (nearest side to their goal)
-    std::optional<Grid> frontMidGrid;
+    std::optional<GeneralGrid> frontMidGrid;
 
     // The right area in the front of the field (nearest side to their goal)
-    std::optional<Grid> frontRightGrid;
+    std::optional<GeneralGrid> frontRightGrid;
 
    public:
     /**
@@ -370,15 +370,15 @@ class Field {
     const Vector2 &getTopRightTheirDefenceArea() const;
     const Vector2 &getBottomRightTheirDefenceArea() const;
     const FieldArc &getCenterCircle() const;
-    const Grid &getBackLeftGrid() const;
-    const Grid &getBackMidGrid() const;
-    const Grid &getBackRightGrid() const;
-    const Grid &getMiddleLeftGrid() const;
-    const Grid &getMiddleMidGrid() const;
-    const Grid &getMiddleRightGrid() const;
-    const Grid &getFrontLeftGrid() const;
-    const Grid &getFrontMidGrid() const;
-    const Grid &getFrontRightGrid() const;
+    const GeneralGrid &getBackLeftGrid() const;
+    const GeneralGrid &getBackMidGrid() const;
+    const GeneralGrid &getBackRightGrid() const;
+    const GeneralGrid &getMiddleLeftGrid() const;
+    const GeneralGrid &getMiddleMidGrid() const;
+    const GeneralGrid &getMiddleRightGrid() const;
+    const GeneralGrid &getFrontLeftGrid() const;
+    const GeneralGrid &getFrontMidGrid() const;
+    const GeneralGrid &getFrontRightGrid() const;
 
     /**
      * Get all the lines of the field
@@ -424,7 +424,7 @@ class Field {
     /**
      * This method deals with getting field grids and what should happen when a field grid is missing.
      */
-    const Grid &getFieldGrid(const std::optional<Grid> &fieldGrid) const;
+    const GeneralGrid &getFieldGrid(const std::optional<GeneralGrid> &fieldGrid) const;
 
     /**
      * Convert a float measured in millimeters to meters (is needed, because proto message contains values measured in
