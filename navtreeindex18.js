@@ -1,18 +1,5 @@
 var NAVTREEINDEX18 =
 {
-"namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727a6826aa8fe94a2b35cbcef306b5d9d40e":[8,0,1,4,8,1],
-"namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727a6e5f2747daba8cda60dca36edf058525":[8,0,1,4,8,2],
-"namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727acf22de144f22db9f78a42e1cea77e026":[8,0,1,4,8,0],
-"namespacertt_1_1world.html#a2b5a00c102b1d5a3f15f56c3ca9c4a61":[10,0,1,0,5,3,0,3],
-"namespacertt_1_1world.html#a31d4801faced63ffb3564a2d9ab5f8cd":[10,0,1,0,5,3,0,2],
-"namespacertt_1_1world.html#a489575c4716185399532449180a4563e":[10,0,1,0,5,3,1,4],
-"namespacertt_1_1world.html#a9eef72eecbb85a6de510463421d207dc":[10,0,1,0,5,3,0,0],
-"namespacertt_1_1world.html#aae52832fc6ecd3f2aa4a926dfcc2b016":[10,0,1,0,5,3,1,1],
-"namespacertt_1_1world.html#abca02025f876a6ff8a2ff04f325849f8":[10,0,1,0,5,3,1,5],
-"namespacertt_1_1world.html#acef6112e5f81a542c942ecb1b40b4426":[10,0,1,0,5,3,1,0],
-"namespacertt_1_1world.html#aecc35df13e52238cc33e2f52187eb3bd":[10,0,1,0,5,3,0,1],
-"namespacertt_1_1world.html#af2ce80178f475e4d0268ed7c07483bf2":[10,0,1,0,5,3,1,3],
-"namespacertt_1_1world.html#structrtt_1_1world_1_1FieldArc":[10,0,1,0,5,3,1],
 "namespacertt_1_1world.html#structrtt_1_1world_1_1FieldLineSegment":[10,0,1,0,5,3,0],
 "namespacertt_1_1world_1_1ball.html":[8,0,1,4,0],
 "namespacertt_1_1world_1_1ball.html#a28da93a95ada4c31f26f0283d4d6e3d2":[8,0,1,4,0,6],

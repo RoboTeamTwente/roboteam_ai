@@ -87,7 +87,9 @@ $(document).ready(function(){initNavTree('namespacertt_1_1world.html',''); initR
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::world Namespace Reference</div>  </div>
 </div><!--header-->
@@ -115,6 +117,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1WorldData.html">WorldData</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a71106a9b4caa2fade811b2cc29fa0cf4"><td class="memItemLeft" align="right" valign="top">typedef Grid3x3&lt; FastGrid&lt; <a class="el" href="namespacertt_1_1world.html#a2e4c099cc6af0fc78461ad7b84bd0e29">GRID_SEGMENTS_X</a>, <a class="el" href="namespacertt_1_1world.html#a2938139d8c54847dfadd69e184dad36f">GRID_SEGMENTS_Y</a>, FastRectangle &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1world.html#a71106a9b4caa2fade811b2cc29fa0cf4">FieldGrid</a></td></tr>
+<tr class="separator:a71106a9b4caa2fade811b2cc29fa0cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a2693830c458f8c00b121957069de6727"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727">Team</a> : short { <a class="el" href="namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727acf22de144f22db9f78a42e1cea77e026">us</a>
@@ -122,6 +129,13 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727a6e5f2747daba8cda60dca36edf058525">both</a>
  }</td></tr>
 <tr class="separator:a2693830c458f8c00b121957069de6727"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2e4c099cc6af0fc78461ad7b84bd0e29"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1world.html#a2e4c099cc6af0fc78461ad7b84bd0e29">GRID_SEGMENTS_X</a> = 3</td></tr>
+<tr class="separator:a2e4c099cc6af0fc78461ad7b84bd0e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2938139d8c54847dfadd69e184dad36f"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1world.html#a2938139d8c54847dfadd69e184dad36f">GRID_SEGMENTS_Y</a> = 3</td></tr>
+<tr class="separator:a2938139d8c54847dfadd69e184dad36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Class Documentation</h2>
 <a name="structrtt_1_1world_1_1FieldLineSegment" id="structrtt_1_1world_1_1FieldLineSegment"></a>
@@ -218,6 +232,21 @@ thickness</td>
 
 </div>
 </div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a71106a9b4caa2fade811b2cc29fa0cf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71106a9b4caa2fade811b2cc29fa0cf4">&#9670;&nbsp;</a></span>FieldGrid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef Grid3x3&lt;FastGrid&lt;<a class="el" href="namespacertt_1_1world.html#a2e4c099cc6af0fc78461ad7b84bd0e29">GRID_SEGMENTS_X</a>, <a class="el" href="namespacertt_1_1world.html#a2938139d8c54847dfadd69e184dad36f">GRID_SEGMENTS_Y</a>, FastRectangle&gt; &gt; <a class="el" href="namespacertt_1_1world.html#a71106a9b4caa2fade811b2cc29fa0cf4">rtt::world::FieldGrid</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a2693830c458f8c00b121957069de6727"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2693830c458f8c00b121957069de6727">&#9670;&nbsp;</a></span>Team</h2>
@@ -237,6 +266,51 @@ thickness</td>
 <tr><td class="fieldname"><a id="a2693830c458f8c00b121957069de6727a6e5f2747daba8cda60dca36edf058525"></a>both&#160;</td><td class="fielddoc"><p>If a robot has both as team -&gt; invalid. </p>
 </td></tr>
 </table>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a2e4c099cc6af0fc78461ad7b84bd0e29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e4c099cc6af0fc78461ad7b84bd0e29">&#9670;&nbsp;</a></span>GRID_SEGMENTS_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int rtt::world::GRID_SEGMENTS_X = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2938139d8c54847dfadd69e184dad36f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2938139d8c54847dfadd69e184dad36f">&#9670;&nbsp;</a></span>GRID_SEGMENTS_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int rtt::world::GRID_SEGMENTS_Y = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
