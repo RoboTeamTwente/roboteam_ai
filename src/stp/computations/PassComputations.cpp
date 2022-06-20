@@ -45,16 +45,13 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
         possibleReceiverLocations.emplace_back(robot->getPos());
     }
 
-    auto possiblePassLocationsVector = getPassGrid(field).getPoints();
-    for (auto& pointVector : possiblePassLocationsVector) {
-        for (auto& point : pointVector) {
-            if (pointIsValidPassLocation(point, ballLocation, possibleReceiverLocations, passerLocation, field, world)) {
-                gen::ScoredPosition scoredPosition = PositionScoring::scorePosition(point, profile, field, world);
-                if (scoredPosition.score > passInfo.passScore) {
-                    passInfo.passScore = scoredPosition.score;
-                    passInfo.passLocation = scoredPosition.position;
-                    passInfo.receiverId = world->getWorld()->getRobotClosestToPoint(passInfo.passLocation, us).value()->getId();
-                }
+    for (const auto& point : getPassPoints(field)) {
+        if (pointIsValidPassLocation(point, ballLocation, possibleReceiverLocations, passerLocation, field, world)) {
+            gen::ScoredPosition scoredPosition = PositionScoring::scorePosition(point, profile, field, world);
+            if (scoredPosition.score > passInfo.passScore) {
+                passInfo.passScore = scoredPosition.score;
+                passInfo.passLocation = scoredPosition.position;
+                passInfo.receiverId = world->getWorld()->getRobotClosestToPoint(passInfo.passLocation, us).value()->getId();
             }
         }
     }
@@ -69,11 +66,14 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     return passInfo;
 }
 
-GeneralGrid PassComputations::getPassGrid(const world::Field& field) {
-    double gridWidth = field.getFieldWidth();
-    double gridLength = field.getFieldLength();
-    int numPoints = 9;
-    return GeneralGrid(-gridLength / 2, -gridWidth / 2, gridWidth, gridLength, numPoints, numPoints);  // 81 points spread over the whole field
+std::vector<Vector2> PassComputations::getPassPoints(const world::Field& field) {
+    double halfWidth = field.getFieldLength() / 2;
+    double halfHeight = field.getFieldWidth() / 2;
+
+    constexpr int SIDE_LENGTH = 9; // 9 * 9 = 81 points spread equally over the whole field
+    FastGrid<SIDE_LENGTH, SIDE_LENGTH, FastRectangle> passGrid(LazyRectangle({-halfWidth, -halfHeight}, {halfWidth, halfHeight}));
+
+    return passGrid.getPoints();
 }
 
 bool PassComputations::pointIsValidPassLocation(Vector2 point, Vector2 ballLocation, const std::vector<Vector2>& possibleReceiverLocations, Vector2 passerLocation,

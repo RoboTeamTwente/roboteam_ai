@@ -72,8 +72,6 @@ void GenericPass::calculateInfoForRoles() noexcept {
     if (stpInfos["midfielder_1"].getRobot()) {
         stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
     }
-    auto fieldWidth = field.getFieldWidth();
-    auto searchGrid = GeneralGrid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
     // TODO: check if SafePosition is the right profile to use
     stpInfos["midfielder_1"].setPositionToMoveTo(
         PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), field.getGrid().middleMiddleCell().getPoints(), gen::SafePosition, field, world));
