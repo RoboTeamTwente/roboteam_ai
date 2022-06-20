@@ -60,11 +60,11 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     stpInfos["receiver_0"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), field.getFrontLeftGrid().getPoints1D(), gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), field.getGrid().topRightCell().getPoints(), gen::OffensivePosition, field, world));
     stpInfos["receiver_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_1"].getPositionToMoveTo(), field.getFrontRightGrid().getPoints1D(), gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_1"].getPositionToMoveTo(), field.getGrid().bottomRightCell().getPoints(), gen::OffensivePosition, field, world));
     stpInfos["receiver_2"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), field.getFrontMidGrid().getPoints1D(), gen::OffensivePosition, field, world));
+        PositionComputations::getPosition(stpInfos["receiver_2"].getPositionToMoveTo(), field.getGrid().middleRightCell().getPoints(), gen::OffensivePosition, field, world));
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(enemyAttacker);

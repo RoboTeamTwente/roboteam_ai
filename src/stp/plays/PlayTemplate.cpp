@@ -68,7 +68,7 @@ uint8_t PlayTemplate::score(const rtt::world::Field& field) noexcept {
 
 /// OPTIONAL -> place to calculateInfoForRoles. Make sure not to compute twice.
 void PlayTemplate::calculateInfoForScoredRoles(world::World* world) noexcept {
-    stpInfos["role_0"].setPositionToMoveTo(pos::getPosition(stpInfos["role_0"].getPositionToMoveTo(), gen::gridRightMid.getPoints1D(), gen::SafePosition, world->getField(), world));
+    stpInfos["role_0"].setPositionToMoveTo(pos::getPosition(stpInfos["role_0"].getPositionToMoveTo(), gen::gridRightMid.getPoints(), gen::SafePosition, world->getField(), world));
 }
 
 void PlayTemplate::calculateInfoForRoles() noexcept {
@@ -77,12 +77,12 @@ void PlayTemplate::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    stpInfos["role_1"].setPositionToMoveTo(pos::getPosition(stpInfos["role_1"].getPositionToMoveTo(), gen::gridRightTop.getPoints1D(), gen::GoalShootPosition, field, world));
-    stpInfos["role_2"].setPositionToMoveTo(pos::getPosition(stpInfos["role_2"].getPositionToMoveTo(), gen::gridRightBot.getPoints1D(), gen::OffensivePosition, field, world));
-    stpInfos["role_3"].setPositionToMoveTo(pos::getPosition(stpInfos["role_3"].getPositionToMoveTo(), gen::gridMidFieldMid.getPoints1D(), gen::SafePosition, field, world));
-    stpInfos["role_4"].setPositionToMoveTo(pos::getPosition(stpInfos["role_4"].getPositionToMoveTo(), gen::gridMidFieldTop.getPoints1D(), gen::GoalShootPosition, field, world));
-    stpInfos["role_5"].setPositionToMoveTo(pos::getPosition(stpInfos["role_5"].getPositionToMoveTo(), gen::gridMidFieldBot.getPoints1D(), gen::OffensivePosition, field, world));
-    stpInfos["role_6"].setPositionToMoveTo(pos::getPosition(stpInfos["role_6"].getPositionToMoveTo(), gen::gridMidFieldMid.getPoints1D(), gen::GoalShootPosition, field, world));
+    stpInfos["role_1"].setPositionToMoveTo(pos::getPosition(stpInfos["role_1"].getPositionToMoveTo(), gen::gridRightTop.getPoints(), gen::GoalShootPosition, field, world));
+    stpInfos["role_2"].setPositionToMoveTo(pos::getPosition(stpInfos["role_2"].getPositionToMoveTo(), gen::gridRightBot.getPoints(), gen::OffensivePosition, field, world));
+    stpInfos["role_3"].setPositionToMoveTo(pos::getPosition(stpInfos["role_3"].getPositionToMoveTo(), gen::gridMidFieldMid.getPoints(), gen::SafePosition, field, world));
+    stpInfos["role_4"].setPositionToMoveTo(pos::getPosition(stpInfos["role_4"].getPositionToMoveTo(), gen::gridMidFieldTop.getPoints(), gen::GoalShootPosition, field, world));
+    stpInfos["role_5"].setPositionToMoveTo(pos::getPosition(stpInfos["role_5"].getPositionToMoveTo(), gen::gridMidFieldBot.getPoints(), gen::OffensivePosition, field, world));
+    stpInfos["role_6"].setPositionToMoveTo(pos::getPosition(stpInfos["role_6"].getPositionToMoveTo(), gen::gridMidFieldMid.getPoints(), gen::GoalShootPosition, field, world));
 
     stpInfos["waller_0"].setPositionToMoveTo(pos::getWallPosition(0, 3, field, world));
     stpInfos["waller_1"].setPositionToMoveTo(pos::getWallPosition(1, 3, field, world));

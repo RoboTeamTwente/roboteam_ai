@@ -70,7 +70,7 @@ void FreeKickUsPass::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     /// Midfielder
-    stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid().getPoints1D(), gen::SafePosition, field, world));
+    stpInfos["midfielder"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().middleMiddleCell().getPoints(), gen::SafePosition, field, world));
 
     if (!ballKicked()) {
         stpInfos["receiver"].setPositionToMoveTo(passInfo.passLocation);
@@ -85,13 +85,13 @@ void FreeKickUsPass::calculateInfoForRoles() noexcept {
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 
         // free_kick_taker now goes to a front grid, where the receiver is not
-        if (receiverLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
-            stpInfos["free_kick_taker"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid().getPoints1D(), gen::BlockingPosition, field, world));
-        } else if (receiverLocation.y < field.getMiddleMidGrid().getOffSetY()) {  // Receiver is going to right of the field
-            stpInfos["free_kick_taker"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid().getPoints1D(), gen::BlockingPosition, field, world));
+        if (receiverLocation.y > field.getGrid().topRightCell().bottom()) {  // Receiver is going to left of the field
+            stpInfos["free_kick_taker"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().bottomMiddleCell().getPoints(), gen::BlockingPosition, field, world));
+        } else if (receiverLocation.y < field.getGrid().middleMiddleCell().bottom()) {  // Receiver is going to right of the field
+            stpInfos["free_kick_taker"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().topMiddleCell().getPoints(), gen::BlockingPosition, field, world));
         } else {  // Receiver is going to middle of the field- free_kick_taker will go to the closest grid on the side of the field
-            auto targetGrid = stpInfos["free_kick_taker"].getRobot()->get()->getPos().y < 0 ? field.getMiddleRightGrid() : field.getMiddleLeftGrid();
-            stpInfos["free_kick_taker"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid.getPoints1D(), gen::BlockingPosition, field, world));
+            auto targetGrid = stpInfos["free_kick_taker"].getRobot()->get()->getPos().y < 0 ? field.getGrid().bottomMiddleCell() : field.getGrid().topMiddleCell();
+            stpInfos["free_kick_taker"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid.getPoints(), gen::BlockingPosition, field, world));
         }
     }
 }
@@ -108,21 +108,21 @@ void FreeKickUsPass::calculateInfoForDefenders() noexcept {
 }
 
 void FreeKickUsPass::calculateInfoForMidfielders() noexcept {
-    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid().getPoints1D(), gen::OffensivePosition, field, world));
-    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid().getPoints1D(), gen::OffensivePosition, field, world));
-    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid().getPoints1D(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().topMiddleCell().getPoints(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().middleMiddleCell().getPoints(), gen::OffensivePosition, field, world));
+    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().bottomMiddleCell().getPoints(), gen::OffensivePosition, field, world));
 }
 
 void FreeKickUsPass::calculateInfoForAttackers() noexcept {
-    if (passInfo.passLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
-        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid().getPoints1D(), gen::OffensivePosition, field, world));
-        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid().getPoints1D(), gen::OffensivePosition, field, world));
-    } else if (passInfo.passLocation.y < field.getMiddleMidGrid().getOffSetY()) {  // Receiver is going to right of the field
-        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid().getPoints1D(), gen::OffensivePosition, field, world));
-        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid().getPoints1D(), gen::OffensivePosition, field, world));
+    if (passInfo.passLocation.y > field.getGrid().topRightCell().bottom()) {  // Receiver is going to left of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().middleRightCell().getPoints(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().bottomRightCell().getPoints(), gen::OffensivePosition, field, world));
+    } else if (passInfo.passLocation.y < field.getGrid().middleMiddleCell().bottom()) {  // Receiver is going to right of the field
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().topRightCell().getPoints(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().middleRightCell().getPoints(), gen::OffensivePosition, field, world));
     } else {  // Receiver is going to middle of the field
-        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid().getPoints1D(), gen::OffensivePosition, field, world));
-        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid().getPoints1D(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().topRightCell().getPoints(), gen::OffensivePosition, field, world));
+        stpInfos["attacker_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().bottomRightCell().getPoints(), gen::OffensivePosition, field, world));
     }
 }
 

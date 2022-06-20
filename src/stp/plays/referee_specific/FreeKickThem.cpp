@@ -137,11 +137,11 @@ void FreeKickThem::calculateInfoForHarassers() noexcept {
 }
 
 void FreeKickThem::calculateInfoForOffenders() noexcept {
-    stpInfos["offender_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid().getPoints1D(), gen::OffensivePosition, field, world));
+    stpInfos["offender_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().middleRightCell().getPoints(), gen::OffensivePosition, field, world));
     if (world->getWorld()->getBall().value()->getPos().y > 0) {
-        stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid().getPoints1D(), gen::OffensivePosition, field, world));
+        stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().topRightCell().getPoints(), gen::OffensivePosition, field, world));
     } else {
-        stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid().getPoints1D(), gen::OffensivePosition, field, world));
+        stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getGrid().bottomRightCell().getPoints(), gen::OffensivePosition, field, world));
     }
 }
 
