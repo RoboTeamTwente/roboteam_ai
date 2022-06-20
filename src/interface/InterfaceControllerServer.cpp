@@ -62,7 +62,6 @@ void InterfaceControllerServer::loop() {
 }
 
 void InterfaceControllerServer::trigger_update() {
-    RTT_INFO("Sending data to interface");
     this->update_marker.release();
 }
 
