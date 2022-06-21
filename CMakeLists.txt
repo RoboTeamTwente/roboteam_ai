@@ -330,7 +330,7 @@ add_library(roboteam_ai_interface
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
         # After removing the interface, only this file should remain
-        ${PROJECT_SOURCE_DIR}/src/interface/InterfaceControllerServer.cpp
+        #${PROJECT_SOURCE_DIR}/src/interface/InterfaceControllerServer.cpp
 )
 target_include_directories(roboteam_ai_interface
         PRIVATE include/roboteam_ai
