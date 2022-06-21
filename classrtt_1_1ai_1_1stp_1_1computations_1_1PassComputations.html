@@ -104,8 +104,8 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a323553d82554ada04cf6934d9f72262e"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a323553d82554ada04cf6934d9f72262e">getPassPoints</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field)</td></tr>
-<tr class="separator:a323553d82554ada04cf6934d9f72262e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac585248e2a5d032b0a634b7872935cd4"><td class="memItemLeft" align="right" valign="top">static Grid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#ac585248e2a5d032b0a634b7872935cd4">getPassGrid</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field)</td></tr>
+<tr class="separator:ac585248e2a5d032b0a634b7872935cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d9d2ef21a8668a9bd471d378ee71106"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a3d9d2ef21a8668a9bd471d378ee71106">pointIsValidPassLocation</a> (<a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> point, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> ballLocation, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;possibleReceiverLocations, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> passerLocation, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world)</td></tr>
 <tr class="separator:a3d9d2ef21a8668a9bd471d378ee71106"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa54e3d817f4c0b62207b29cf39c58302"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#aa54e3d817f4c0b62207b29cf39c58302">getKeeperId</a> (const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">world::view::RobotView</a> &gt; &amp;possibleRobots, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;field)</td></tr>
@@ -375,8 +375,8 @@ Static Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a323553d82554ada04cf6934d9f72262e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a323553d82554ada04cf6934d9f72262e">&#9670;&nbsp;</a></span>getPassPoints()</h2>
+<a id="ac585248e2a5d032b0a634b7872935cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac585248e2a5d032b0a634b7872935cd4">&#9670;&nbsp;</a></span>getPassGrid()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,7 +385,7 @@ Static Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::ai::stp::computations::PassComputations::getPassPoints </td>
+          <td class="memname">Grid rtt::ai::stp::computations::PassComputations::getPassGrid </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">world::Field</a> &amp;&#160;</td>
           <td class="paramname"><em>field</em></td><td>)</td>
@@ -398,7 +398,7 @@ Static Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets a list of all possible pass locations </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Gets the grid of points containing all possible pass locations </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">field</td><td>the current field </td></tr>
   </table>
