@@ -1,5 +1,8 @@
 var NAVTREEINDEX7 =
 {
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#acd03b76d73a9b34e3f65665f792283b1":[9,0,0,0,1,17,38],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#ace1f42e3b660d71a385a4a27f09a89b4":[9,0,0,0,1,17,67],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#ad81747ffd05aa07a413f336e90cb51e2":[9,0,0,0,1,17,52],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ad8b5e4029bf04f390205b8cd43268638":[9,0,0,0,1,17,12],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ae12c9127313ba02e452180ba8cf7857b":[9,0,0,0,1,17,13],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ae82cb4476a9d254031287d56254e5175":[9,0,0,0,1,17,14],
@@ -87,8 +90,8 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[10,0,1,0,3,9,1],
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[9,0,0,0,3,13,0],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html":[9,0,0,0,3,9],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#a8e18322e427d62af1a4111d9289bb07e":[9,0,0,0,3,9,2],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe":[9,0,0,0,3,9,3],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#abe8970b8c1238aa9b886c7b74711c9a7":[9,0,0,0,3,9,2],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html#acc950c394f1575479a78cb14a753258e":[9,0,0,0,3,9,1],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aeb15a3e633899a90ab80e5e008345604":[9,0,0,0,3,9,0],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html":[9,0,0,0,3,10],
@@ -210,12 +213,12 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html":[9,0,0,0,3,0,1],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a0626a2255f37ab5815ae87164eb6bbb8":[9,0,0,0,3,0,1,6],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a22a89e19f50438abc4c59f4385bf069e":[9,0,0,0,3,0,1,0],
+"classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a323553d82554ada04cf6934d9f72262e":[9,0,0,0,3,0,1,5],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a3d9d2ef21a8668a9bd471d378ee71106":[9,0,0,0,3,0,1,7],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6a66f6eadf80387d1a2fb17ecef2827c":[9,0,0,0,3,0,1,4],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6b4617276cfe62f74480e908a3678627":[9,0,0,0,3,0,1,8],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a765487b3e9f0edddb9d7ef528bb59665":[9,0,0,0,3,0,1,1],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#aa54e3d817f4c0b62207b29cf39c58302":[9,0,0,0,3,0,1,3],
-"classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#ac585248e2a5d032b0a634b7872935cd4":[9,0,0,0,3,0,1,5],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#af4e8d665496030778207457a85cb4f1d":[9,0,0,0,3,0,1,2],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToThemGlobalEvaluation.html":[9,0,0,0,3,1,20],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToThemGlobalEvaluation.html#a0a23ca1e0a757fa05b05a630124e540c":[9,0,0,0,3,1,20,4],
@@ -246,8 +249,5 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html#ac26f2c6628cf8388ffd0a85608f94989":[9,0,0,0,3,1,24,0],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html":[9,0,0,0,3,1,25],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a1492ba7d90369319bdb63109b831b3c9":[9,0,0,0,3,1,25,2],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a2e194fcdd823535bb9fa9d80366131db":[9,0,0,0,3,1,25,0],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#ade44db60608bdbe328f6d105405b8b91":[9,0,0,0,3,1,25,3],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#af5c04c03c5ed3dda605ddcd148ebfac4":[9,0,0,0,3,1,25,4],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#aff16bdcc97c22a18a1b7b7026657cce0":[9,0,0,0,3,1,25,1]
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a2e194fcdd823535bb9fa9d80366131db":[9,0,0,0,3,1,25,0]
 };
