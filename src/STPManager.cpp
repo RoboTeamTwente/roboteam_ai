@@ -104,9 +104,26 @@ void STPManager::start() {
             playSelectorDropdown.options.push_back(play->getName());
         }
 
-        Interface::InterfaceDeclaration playSelectorDeclaration("PLAY_SELECTOR", "Dropdown selector for plays", true, "", playSelectorDropdown);
-        this->interfaceController.getDeclarations().lock()->addDeclaration(playSelectorDeclaration);
+        Interface::InterfaceDeclaration playSelectorDeclaration("PLAY_SELECTOR", "Dropdown selector for plays", false, std::string("Halt"), playSelectorDropdown);
+        Interface::InterfaceDeclaration sideSelectorDecl("IS_RIGHT", "Side selector", true, true, Interface::InterfaceCheckbox(""));
+        Interface::InterfaceDeclaration colourSelectorDecl("IS_YELLOW", "Colour selector", true, true, Interface::InterfaceCheckbox(""));
+        Interface::InterfaceDeclaration refSelectorDecl("USE_REFEREE", "Colour selector", true, true, Interface::InterfaceCheckbox(""));
+        Interface::InterfaceDeclaration invSelectorDecl("IGNORE_INVARIANTS", "Colour selector", false, false, Interface::InterfaceCheckbox(""));
+
+        if (auto ctrl = this->interfaceController.getDeclarations().lock()) {
+            ctrl->addDeclaration(playSelectorDeclaration);
+            ctrl->addDeclaration(sideSelectorDecl);
+            ctrl->addDeclaration(colourSelectorDecl);
+            ctrl->addDeclaration(refSelectorDecl);
+            ctrl->addDeclaration(invSelectorDecl);
+        }
+
+        if (auto ctrl = this->interfaceController.getValues().lock()) {
+            ctrl->populateWithDefaults(this->interfaceController.getDeclarations());
+        }
     }
+
+
 
     this->interfaceController.run();
 
