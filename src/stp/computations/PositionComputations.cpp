@@ -13,16 +13,14 @@
 
 namespace rtt::ai::stp {
 
-gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field,
+gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2> currentPosition, const std::vector<Vector2> &searchPoints, gen::ScoreProfile profile, const world::Field &field,
                                                       const world::World *world) {
     gen::ScoredPosition bestPosition;
     (currentPosition.has_value()) ? bestPosition = PositionScoring::scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0, 0}, 0};
-    for (const auto &nestedPoints : searchGrid.getPoints()) {
-        for (const Vector2 &position : nestedPoints) {
-            if (!FieldComputations::pointIsValidPosition(field, position)) continue;
-            gen::ScoredPosition consideredPosition = PositionScoring::scorePosition(position, profile, field, world);
-            if (consideredPosition.score > bestPosition.score) bestPosition = consideredPosition;
-        }
+    for (const auto &position : searchPoints) {
+        if (!FieldComputations::pointIsValidPosition(field, position)) continue;
+        gen::ScoredPosition consideredPosition = PositionScoring::scorePosition(position, profile, field, world);
+        if (consideredPosition.score > bestPosition.score) bestPosition = consideredPosition;
     }
     return bestPosition;
 }

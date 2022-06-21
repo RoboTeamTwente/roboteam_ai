@@ -22,8 +22,8 @@ void GenericPass::onInitialize() noexcept {
     passerShot = false;
 
     // Make sure we calculate pass positions at least once
-    receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::GoalShootPosition, field, world);
-    receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::GoalShootPosition, field, world);
+    receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), field.getGrid().topRightCell().getPoints(), gen::GoalShootPosition, field, world);
+    receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getGrid().bottomRightCell().getPoints(), gen::GoalShootPosition, field, world);
     passingPosition = receiverPositionRight.position;
 }
 
@@ -72,11 +72,9 @@ void GenericPass::calculateInfoForRoles() noexcept {
     if (stpInfos["midfielder_1"].getRobot()) {
         stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
     }
-    auto fieldWidth = field.getFieldWidth();
-    auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
     // TODO: check if SafePosition is the right profile to use
     stpInfos["midfielder_1"].setPositionToMoveTo(
-        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), field.getMiddleMidGrid(), gen::SafePosition, field, world));
+        PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(), field.getGrid().middleMiddleCell().getPoints(), gen::SafePosition, field, world));
 }
 
 Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
@@ -114,9 +112,9 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     if (!passerShot) {
         /// For the receive locations, divide the field up into grids where the passers should stand,
         /// and find the best locations in those grids
-        receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), field.getFrontLeftGrid(), gen::GoalShootPosition, field, world);
+        receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), field.getGrid().topRightCell().getPoints(), gen::GoalShootPosition, field, world);
         receiverPositionRight =
-            PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getFrontRightGrid(), gen::GoalShootPosition, field, world);
+            PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(), field.getGrid().bottomRightCell().getPoints(), gen::GoalShootPosition, field, world);
 
         /// From the available receivers, select the best
         if (receiverPositionLeft.score > receiverPositionRight.score) {

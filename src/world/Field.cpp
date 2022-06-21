@@ -15,7 +15,7 @@ Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
     initFieldOthers();
-    initFieldGrids();
+    initFieldGrid(sslFieldSize);
 }
 
 void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -58,27 +58,15 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     }
 }
 
-void Field::initFieldGrids() {
-    auto gridLength = getFieldLength() / numSegmentsX;
-    auto gridWidth = getFieldWidth() / numSegmentsY;
+void Field::initFieldGrid(const proto::SSL_GeometryFieldSize &sslFieldSize) {
+    double halfFieldWidth = mm_to_m(static_cast<float>(sslFieldSize.field_length())) / 2;
+    double halfFieldHeight = mm_to_m(static_cast<float>(sslFieldSize.field_width())) / 2;
 
-    auto bottomX = getLeftmostX();
-    auto middleX = getLeftmostX() + gridLength;
-    auto topX = getLeftmostX() + gridLength * 2;
+    Vector2 topLeft(-halfFieldWidth, halfFieldHeight);
+    Vector2 bottomRight(halfFieldWidth, -halfFieldHeight);
 
-    auto leftY = getBottommostY() + gridWidth * 2;
-    auto middleY = getBottommostY() + gridWidth;
-    auto rightY = getBottommostY();
-
-    backLeftGrid = Grid(bottomX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    backMidGrid = Grid(bottomX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    backRightGrid = Grid(bottomX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    middleLeftGrid = Grid(middleX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    middleMidGrid = Grid(middleX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    middleRightGrid = Grid(middleX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    frontLeftGrid = Grid(topX, leftY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    frontMidGrid = Grid(topX, middleY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
-    frontRightGrid = Grid(topX, rightY, gridWidth, gridLength, numSegmentsX, numSegmentsY);
+    LazyRectangle gridBoundary(topLeft, bottomRight);
+    this->grid = FieldGrid(gridBoundary);
 }
 
 void Field::initFieldOthers() {
@@ -223,23 +211,18 @@ const Vector2 &Field::getTopRightTheirDefenceArea() const { return getFieldVecto
 
 const Vector2 &Field::getBottomRightTheirDefenceArea() const { return getFieldVector(bottomRightTheirDefenceArea); }
 
-const Grid &Field::getBackLeftGrid() const { return getFieldGrid(backLeftGrid); }
+const FieldGrid& Field::getGrid() const {
+    if (this->grid.has_value()) {
+        return grid.value();
+    } else {
+        /* This clause is needed, because the default constructor could have been called, in which case the variables
+        have not been assigned a value. */
+        RTT_WARNING("Access undefined grid in the Field class (world might not be turned on?).")
 
-const Grid &Field::getBackMidGrid() const { return getFieldGrid(backMidGrid); }
-
-const Grid &Field::getBackRightGrid() const { return getFieldGrid(backRightGrid); }
-
-const Grid &Field::getMiddleLeftGrid() const { return getFieldGrid(middleLeftGrid); }
-
-const Grid &Field::getMiddleMidGrid() const { return getFieldGrid(middleMidGrid); }
-
-const Grid &Field::getMiddleRightGrid() const { return getFieldGrid(middleRightGrid); }
-
-const Grid &Field::getFrontLeftGrid() const { return getFieldGrid(frontLeftGrid); }
-
-const Grid &Field::getFrontMidGrid() const { return getFieldGrid(frontMidGrid); }
-
-const Grid &Field::getFrontRightGrid() const { return getFieldGrid(frontRightGrid); }
+        static FieldGrid standard = FieldGrid(LazyRectangle({0,0}, {0,0}));
+        return standard;
+    }
+}
 
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
@@ -287,19 +270,6 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
         RTT_WARNING("Access undefined field arc in the Field class (world might not be turned on?).")
 
         static FieldArc standard = {};
-        return standard;
-    }
-}
-
-const Grid &Field::getFieldGrid(const std::optional<Grid> &fieldGrid) const {
-    if (fieldGrid) {
-        return fieldGrid.value();
-    } else {
-        /* This clause is needed, because the default constructor could have been called. In which case the variables
-        have not been assigned a value. */
-        RTT_WARNING("Access undefined grid in the Field class (world might not be turned on?).")
-
-        static Grid standard = Grid(0, 0, 0, 0, 0, 0);
         return standard;
     }
 }
@@ -419,15 +389,7 @@ Field &Field::operator=(const Field &old) noexcept {
     bottomLeftOurDefenceArea = old.bottomLeftOurDefenceArea;
     topRightTheirDefenceArea = old.topRightTheirDefenceArea;
     bottomRightTheirDefenceArea = old.bottomRightTheirDefenceArea;
-    backLeftGrid = old.backLeftGrid;
-    backMidGrid = old.backMidGrid;
-    backRightGrid = old.backRightGrid;
-    middleLeftGrid = old.middleLeftGrid;
-    middleMidGrid = old.middleMidGrid;
-    middleRightGrid = old.middleRightGrid;
-    frontLeftGrid = old.frontLeftGrid;
-    frontMidGrid = old.frontMidGrid;
-    frontRightGrid = old.frontRightGrid;
+    grid = old.grid;
     return *this;
 }
 

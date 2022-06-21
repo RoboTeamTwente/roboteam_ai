@@ -52,11 +52,11 @@ class PassComputations {
 
    private:
     /**
-     * Gets the grid of points containing all possible pass locations
+     * Gets a list of all possible pass locations
      * @param field the current field
      * @return a Grid class containing a vector of vectors, which in turn contain all possible pass locations
      */
-    static Grid getPassGrid(const world::Field& field);
+    static std::vector<Vector2> getPassPoints(const world::Field& field);
 
     /**
      * Indicates whether the given point 1) a valid point to pass to in terms of ssl-rules and 2) whether it is feasible ot pass there

@@ -27,12 +27,16 @@ struct FieldArc {
     float thickness;
 };
 
+constexpr int GRID_SEGMENTS_X = 3;
+constexpr int GRID_SEGMENTS_Y = 3;
+typedef Grid3x3<FastGrid<GRID_SEGMENTS_X, GRID_SEGMENTS_Y, FastRectangle>> FieldGrid;
+
 /**
  * Stores all data which is directly obtained by the field camera (this data can change during the match) and store all
  * singular constant data (data that does not change through the match) about the field, which combined includes: <br>
  * - Length, widths, heights of the field, goals and boundary. <br>
  * - The location, direction and sizes of all lines on the field. <br>
- * - The location and sizes of all arcs on the field. <br>
+ * - The location and sizes of all arcs on thegrid field. <br>
  * - Important and frequently used locations of the field, e.g. positions around our and the opponents goal.
  *
  * All these values are expressed in meters. Moreover the encoding of the field looks like:
@@ -268,32 +272,8 @@ class Field {
     // The bottom left corner of their defence area (note that this is not equal to the bottom of their goal side).
     std::optional<Vector2> bottomRightTheirDefenceArea;
 
-    // The left area in the back of the field (nearest side to our goal)
-    std::optional<Grid> backLeftGrid;
-
-    // The middle area in the back of the field (nearest side to our goal)
-    std::optional<Grid> backMidGrid;
-
-    // The right area in the back of the field (nearest side to our goal)
-    std::optional<Grid> backRightGrid;
-
-    // The left area in the middle of the field
-    std::optional<Grid> middleLeftGrid;
-
-    // The middle area in the middle of the field
-    std::optional<Grid> middleMidGrid;
-
-    // The right area in the middle of the field
-    std::optional<Grid> middleRightGrid;
-
-    // The left area in the front of the field (nearest side to their goal)
-    std::optional<Grid> frontLeftGrid;
-
-    // The middle area in the front of the field (nearest side to their goal)
-    std::optional<Grid> frontMidGrid;
-
-    // The right area in the front of the field (nearest side to their goal)
-    std::optional<Grid> frontRightGrid;
+    // A grid that contains the whole field. Left is our side, right is opponents side
+    std::optional<FieldGrid> grid;
 
    public:
     /**
@@ -370,15 +350,7 @@ class Field {
     const Vector2 &getTopRightTheirDefenceArea() const;
     const Vector2 &getBottomRightTheirDefenceArea() const;
     const FieldArc &getCenterCircle() const;
-    const Grid &getBackLeftGrid() const;
-    const Grid &getBackMidGrid() const;
-    const Grid &getBackRightGrid() const;
-    const Grid &getMiddleLeftGrid() const;
-    const Grid &getMiddleMidGrid() const;
-    const Grid &getMiddleRightGrid() const;
-    const Grid &getFrontLeftGrid() const;
-    const Grid &getFrontMidGrid() const;
-    const Grid &getFrontRightGrid() const;
+    const FieldGrid &getGrid() const; // Method that returns the grid, will also handle an uninitialized grid.
 
     /**
      * Get all the lines of the field
@@ -422,11 +394,6 @@ class Field {
     const FieldArc &getFieldArc(const std::optional<FieldArc> &fieldArc) const;
 
     /**
-     * This method deals with getting field grids and what should happen when a field grid is missing.
-     */
-    const Grid &getFieldGrid(const std::optional<Grid> &fieldGrid) const;
-
-    /**
      * Convert a float measured in millimeters to meters (is needed, because proto message contains values measured in
      * millimeters).
      */
@@ -453,9 +420,9 @@ class Field {
     void initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize);
 
     /**
-     * Initialize the field grids (this function is only called inse the contructor)
+     * Initialize the grid with the given boundary (this function is only called in the contructor)
      */
-    void initFieldGrids();
+    void initFieldGrid(const proto::SSL_GeometryFieldSize &sslFieldSize);
 
     /**
      * Initialize the other field values, linesegments, arcs and vectors (this function is only called inside the constructor)
