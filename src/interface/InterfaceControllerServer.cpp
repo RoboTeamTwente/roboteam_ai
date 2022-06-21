@@ -18,6 +18,20 @@ void InterfaceControllerServer::handleData(const proto::UiValues &state) {
             SETTINGS.setIgnoreInvariants(val.second.bool_value());
         } else if (val.first == "USE_REFEREE" && val.second.has_bool_value()) {
             SETTINGS.setUseReferee(val.second.bool_value());
+
+            if (val.second.bool_value()) {
+                auto plays = decls->getDeclaration("PLAY_SELECTOR");
+                plays->isMutable = false;
+                if (!plays.has_value()) return;
+
+                decls->addDeclaration(*plays);
+            } else {
+                auto plays = decls->getDeclaration("PLAY_SELECTOR");
+                plays->isMutable = true;
+                if (!plays.has_value()) return;
+
+                decls->addDeclaration(*plays);
+            }
         } else if (val.first == "PLAY_SELECTOR" && val.second.has_text_value()) {
             this->setSelectedPlay(val.second.text_value());
         } else {
