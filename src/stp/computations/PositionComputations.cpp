@@ -54,16 +54,8 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     /// Find intersect of ball to goal on the border of the defense area
     LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
-    for (auto i : defenseAreaBorder) {
-        for (const LineSegment line : defenseAreaBorder) {  // Vector is made to check if there is only 1 intersect
-            if (line.doesIntersect(ball2GoalLine)) {
-                auto intersect = line.intersects(ball2GoalLine);
-                if (intersect.has_value()) {
-                    lineBorderIntersects.push_back(intersect.value());
-                }
-            }
-        }
-    }
+
+    lineBorderIntersects = FieldComputations::getDefenseArea(field, true, spaceBetweenDefenseArea, 0).intersections(ball2GoalLine);
 
     if (!lineBorderIntersects.empty()) {
         std::sort(std::begin(lineBorderIntersects), std::end(lineBorderIntersects), [](Vector2 a, Vector2 b) { return a.x > b.x; });
