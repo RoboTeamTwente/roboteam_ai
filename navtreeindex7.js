@@ -87,9 +87,8 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[10,0,1,0,3,9,1],
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[9,0,0,0,3,13,0],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html":[9,0,0,0,3,9],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe":[9,0,0,0,3,9,3],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#abe8970b8c1238aa9b886c7b74711c9a7":[9,0,0,0,3,9,2],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#acc950c394f1575479a78cb14a753258e":[9,0,0,0,3,9,1],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe":[9,0,0,0,3,9,2],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#abe8970b8c1238aa9b886c7b74711c9a7":[9,0,0,0,3,9,1],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aeb15a3e633899a90ab80e5e008345604":[9,0,0,0,3,9,0],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html":[9,0,0,0,3,10],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a1eb43dc9737f55dcd04ea3a844a36493":[9,0,0,0,3,10,2],
@@ -249,5 +248,6 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a2e194fcdd823535bb9fa9d80366131db":[9,0,0,0,3,1,25,0],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#ade44db60608bdbe328f6d105405b8b91":[9,0,0,0,3,1,25,3],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#af5c04c03c5ed3dda605ddcd148ebfac4":[9,0,0,0,3,1,25,4],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#aff16bdcc97c22a18a1b7b7026657cce0":[9,0,0,0,3,1,25,1]
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#aff16bdcc97c22a18a1b7b7026657cce0":[9,0,0,0,3,1,25,1],
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallNotInOurDefenseAreaAndStillGlobalEvaluation.html":[9,0,0,0,3,1,26]
 };
