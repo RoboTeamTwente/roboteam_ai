@@ -14,6 +14,7 @@ add_library(roboteam_ai_utils
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/normalize.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/InterfaceData.cpp
 )
 target_link_libraries(roboteam_ai_utils
         PRIVATE roboteam_networking

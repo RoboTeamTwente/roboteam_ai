@@ -42,7 +42,7 @@ class WorldData {
      *
      * Ownership is taken of protoMsg
      */
-    WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
+    WorldData(const World *data, proto::World &protoMsg, rtt::Settings const &settings) noexcept;
 
     /**
      * Owning container of robots

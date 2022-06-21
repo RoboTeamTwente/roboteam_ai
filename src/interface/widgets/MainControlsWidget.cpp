@@ -10,7 +10,7 @@
 namespace rtt::ai::interface {
 
 MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) : QWidget(parent), manager{appManager} {
-    Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
+    SETTINGS.setUseReferee(Constants::STD_USE_REFEREE());
 
     // todo: 2 dropdown menus, fix them to reflect new STP
     vLayout = new QVBoxLayout();
@@ -28,8 +28,8 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) 
 
     // todo: the hacks for SLOTS() are unbelievable
     // functions to select strategies
-    MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
-    MainWindow::configureCheckBox("Ignore invariants", refHorizontalLayout, this, SLOT(setIgnoreInvariants(bool)), false);
+//    MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
+//    MainWindow::configureCheckBox("Ignore invariants", refHorizontalLayout, this, SLOT(setIgnoreInvariants(bool)), false);
 
     toggleRobotHubModeBtn = new QPushButton("--");
 
@@ -43,11 +43,11 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) 
     auto gameStateLayout = new QVBoxLayout();
 
     // get the strategy names from Switches
-    select_play = new QComboBox();
-    gameStateLayout->addWidget(select_play);
-    select_play->setStyleSheet(
-        QString::fromUtf8("QComboBox:disabled"
-                          "{ color: gray }"));
+//    select_play = new QComboBox();
+//    gameStateLayout->addWidget(select_play);
+//    select_play->setStyleSheet(
+//        QString::fromUtf8("QComboBox:disabled"
+//                          "{ color: gray }"));
 
     auto keeperHorizontalLayout = new QHBoxLayout();
 
@@ -72,26 +72,26 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) 
         QString::fromUtf8("QComboBox:disabled"
                           "{ color: gray }"));
 
-    auto settingsButtonsLayout = new QHBoxLayout();
-    toggleColorBtn = new QPushButton("Color");
-    QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
-    settingsButtonsLayout->addWidget(toggleColorBtn);
-    toggleColorBtn->setStyleSheet(
-        QString::fromUtf8("QPushButton:disabled"
-                          "{ color: gray }"));
+//    auto settingsButtonsLayout = new QHBoxLayout();
+//    toggleColorBtn = new QPushButton("Color");
+//    QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
+//    settingsButtonsLayout->addWidget(toggleColorBtn);
+//    toggleColorBtn->setStyleSheet(
+//        QString::fromUtf8("QPushButton:disabled"
+//                          "{ color: gray }"));
+//
+//    setToggleColorBtnLayout();
+//
+//    toggleSideBtn = new QPushButton("Side");
+//    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
+//    settingsButtonsLayout->addWidget(toggleSideBtn);
+//    toggleSideBtn->setStyleSheet(
+//        QString::fromUtf8("QPushButton:disabled"
+//                          "{ color: gray }"));
+//
+//    setToggleSideBtnLayout();
 
-    setToggleColorBtnLayout();
-
-    toggleSideBtn = new QPushButton("Side");
-    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
-    settingsButtonsLayout->addWidget(toggleSideBtn);
-    toggleSideBtn->setStyleSheet(
-        QString::fromUtf8("QPushButton:disabled"
-                          "{ color: gray }"));
-
-    setToggleSideBtnLayout();
-
-    gameStateLayout->addLayout(settingsButtonsLayout);
+//    gameStateLayout->addLayout(settingsButtonsLayout);
 
     gameStateBox->setLayout(gameStateLayout);
     vLayout->addWidget(gameStateBox);
@@ -102,9 +102,10 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) 
         if (index == -1) {
             return;
         }
+        RTT_ERROR("This function is deprecated")
         // simply plays[index] because they're inserted in-order
-        stp::PlayDecider::lockInterfacePlay(rtt::STPManager::plays[index].get());
-        GameStateManager::updateInterfaceGameState(rtt::STPManager::plays[index].get()->getName());
+        //stp::PlayDecider::lockInterfacePlay(rtt::STPManager::plays[index].get());
+        //GameStateManager::updateInterfaceGameState(rtt::STPManager::plays[index].get()->getName());
     });
 
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
@@ -117,12 +118,11 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, STPManager *appManager) 
         interface::Output::setRuleSetName(rulesetName.toStdString());
     });
 
-    setUseReferee(Output::usesRefereeCommands());
     this->setLayout(vLayout);
 }
 
 void MainControlsWidget::setUseReferee(bool useRef) {
-    Output::setUseRefereeCommands(useRef);
+    SETTINGS.setUseReferee(useRef);
 
     select_play->setDisabled(useRef);
     select_ruleset->setDisabled(useRef);
@@ -183,21 +183,21 @@ void MainControlsWidget::updatePause() {
 }
 
 void MainControlsWidget::setToggleColorBtnLayout() const {
-    if (SETTINGS.isYellow()) {
-        toggleColorBtn->setStyleSheet("background-color: orange;");  // orange is more readable
-        toggleColorBtn->setText("Playing as Yellow");
-    } else {
-        toggleColorBtn->setStyleSheet("background-color: blue;");
-        toggleColorBtn->setText("Playing as Blue");
-    }
+//    if (SETTINGS.isYellow()) {
+//        toggleColorBtn->setStyleSheet("background-color: orange;");  // orange is more readable
+//        toggleColorBtn->setText("Playing as Yellow");
+//    } else {
+//        toggleColorBtn->setStyleSheet("background-color: blue;");
+//        toggleColorBtn->setText("Playing as Blue");
+//    }
 }
 
 void MainControlsWidget::setToggleSideBtnLayout() const {
-    if (SETTINGS.isLeft()) {
-        toggleSideBtn->setText("◀ Playing as left");
-    } else {
-        toggleSideBtn->setText("Playing as right ▶");
-    }
+//    if (SETTINGS.isLeft()) {
+//        toggleSideBtn->setText("◀ Playing as left");
+//    } else {
+//        toggleSideBtn->setText("Playing as right ▶");
+//    }
 }
 
 void MainControlsWidget::setToggleRobotHubModeBtnLayout() const {
@@ -225,8 +225,8 @@ void MainControlsWidget::updateContents() {
         select_goalie->setStyleSheet("background-color: #cc0000;");
     }
 
-    this->setToggleSideBtnLayout();
-    this->setToggleColorBtnLayout();
+//    this->setToggleSideBtnLayout();
+//    this->setToggleColorBtnLayout();
     this->setToggleRobotHubModeBtnLayout();
 }
 
@@ -237,6 +237,8 @@ void MainControlsWidget::updatePlays() {
     }
 }
 
-void MainControlsWidget::setIgnoreInvariants(bool ignore) { MainControlsWidget::ignoreInvariants = ignore; }
+void MainControlsWidget::setIgnoreInvariants(bool ignore) {
+//    SETTINGS.setIgnoreInvariants(ignore);
+}
 
 }  // namespace rtt::ai::interface

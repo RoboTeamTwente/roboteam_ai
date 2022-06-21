@@ -1,6 +1,8 @@
 #pragma once
 #include <gtest/gtest_prod.h>
 
+#include <interface/InterfaceControllerServer.h>
+
 #include <stp/Play.hpp>
 
 #include "interface/widgets/mainWindow.h"
@@ -29,6 +31,7 @@ class STPManager {
      * @param _world the current world state
      */
     void decidePlay(world::World* _world);
+    bool needsNewPlay();
 
    public:
     void start();
@@ -37,6 +40,7 @@ class STPManager {
      * The vector that contains all plays
      */
     static inline std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
+    Interface::InterfaceControllerServer interfaceController;
 
     STPManager(STPManager const&) = delete;
     STPManager& operator=(STPManager const&) = delete;

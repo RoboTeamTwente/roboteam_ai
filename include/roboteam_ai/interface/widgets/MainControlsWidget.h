@@ -23,8 +23,6 @@ class MainControlsWidget : public QWidget {
     void updatePlays();
     explicit MainControlsWidget(QWidget *parent = nullptr, STPManager *manager = nullptr);
 
-    inline static std::atomic<bool> ignoreInvariants;
-
    private:
     QVBoxLayout *vLayout;
     QPushButton *pauseBtn;

@@ -7,6 +7,7 @@
 #include <roboteam_utils/LineSegment.h>
 
 #include "roboteam_utils/Circle.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Orbit.h"
 

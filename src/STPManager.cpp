@@ -12,6 +12,7 @@
 #include "stp/computations/ComputationManager.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
+#include <utilities/InterfaceData.hpp>
 
 /**
  * Plays are included here
@@ -95,6 +96,20 @@ void STPManager::start() {
         }
     }
 
+    // Set the play options in the interface controller
+    {
+        Interface::InterfaceDropdown playSelectorDropdown;
+        playSelectorDropdown.text = "";
+        for (const auto& play : this->plays) {
+            playSelectorDropdown.options.push_back(play->getName());
+        }
+
+        Interface::InterfaceDeclaration playSelectorDeclaration("PLAY_SELECTOR", "Dropdown selector for plays", true, "", playSelectorDropdown);
+        this->interfaceController.getDeclarations().lock()->addDeclaration(playSelectorDeclaration);
+    }
+
+    this->interfaceController.run();
+
     int amountOfCycles = 0;
     roboteam_utils::Timer stpTimer;
     stpTimer.loop(
@@ -121,6 +136,9 @@ void STPManager::start() {
             if (SETTINGS.isPrimaryAI()) {
                 stpTimer.limit([&]() { io::io.publishSettings(SETTINGS); }, ai::Constants::SETTINGS_BROADCAST_RATE());
             }
+
+            io::io.publishAIData(InterfaceData::getData());
+            InterfaceData::clearData();
         },
         ai::Constants::STP_TICK_RATE());
 }
@@ -135,7 +153,7 @@ void STPManager::runOneLoopCycle() {
         // Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
         auto worldMessage = state.last_seen_world();
         auto fieldMessage = state.field().field();
-        auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
+
 
         std::vector<proto::SSL_WrapperPacket> vision_packets(state.processed_vision_packets().begin(), state.processed_vision_packets().end());
         if (!SETTINGS.isLeft()) {
@@ -147,7 +165,6 @@ void STPManager::runOneLoopCycle() {
         mainWindow->updateProcessedVisionPackets(vision_packets);
 
         auto const &[_, world] = world::World::instance();
-        world->updateFeedback(feedbackMessage);
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {
@@ -176,16 +193,28 @@ void STPManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     rtt::ai::control::ControlModule::sendAllCommands();
+
+    this->interfaceController.trigger_update();
+}
+
+bool STPManager::needsNewPlay() {
+    std::string playSelectedByInterface = this->interfaceController.getSelectedPlay();
+
+    return this->currentPlay == nullptr
+        || !this->currentPlay->isValidPlayToKeep()
+        || (!SETTINGS.getUseReferee() && this->currentPlay->getName() != playSelectedByInterface);
 }
 
 void STPManager::decidePlay(world::World *_world) {
     ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 
-    if (!currentPlay || rtt::ai::stp::PlayDecider::interfacePlayChanged || !currentPlay->isValidPlayToKeep()) {
+    if (this->needsNewPlay()) {
+        // Get play info of previous play
         ai::stp::gen::PlayInfos previousPlayInfo{};
         if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
-        currentPlay = ai::stp::PlayDecider::decideBestPlay(_world, plays);
+
+        currentPlay = ai::stp::PlayDecider::decideNewPlay(_world, plays, this->interfaceController.getSelectedPlay());
         currentPlay->updateField(_world->getField().value());
         currentPlay->initialize(previousPlayInfo);
     } else {

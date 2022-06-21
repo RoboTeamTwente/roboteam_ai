@@ -157,7 +157,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
 // Initialize static variables
 GameState GameStateManager::getCurrentGameState() {
     GameState newGameState;
-    if (interface::Output::usesRefereeCommands()) {
+    if (SETTINGS.getUseReferee()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
         if (SETTINGS.isYellow()) {

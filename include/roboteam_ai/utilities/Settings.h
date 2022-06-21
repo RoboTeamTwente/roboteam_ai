@@ -26,6 +26,12 @@ class Settings {
     bool isLeft() const;
     void setLeft(bool left);
 
+    bool getIgnoreInvariants() const;
+    void setIgnoreInvariants(bool ignoreInvariants);
+
+    bool getUseReferee() const;
+    void setUseReferee(bool useReferee);
+
     RobotHubMode getRobotHubMode() const;
     bool setRobotHubMode(RobotHubMode mode);
 
@@ -53,6 +59,8 @@ class Settings {
     int id = 0;
     bool yellow = true;
     bool left = true;
+    bool ignoreInvariants = false;
+    bool useReferee = true;
     RobotHubMode robotHubMode;
 
     std::string visionIp;

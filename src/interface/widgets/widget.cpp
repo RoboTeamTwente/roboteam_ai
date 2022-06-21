@@ -527,7 +527,7 @@ void Visualizer::drawBallPlacementTarget(QPainter &painter) {
     painter.drawLine(marker.x - 5, marker.y - 5, marker.x + 5, marker.y + 5);
     painter.drawLine(marker.x + 5, marker.y - 5, marker.x - 5, marker.y + 5);
 
-    if (Output::usesRefereeCommands()) {
+    if (SETTINGS.getUseReferee()) {
         Vector2 ballPlacementTarget = toScreenPosition(Vector2(GameStateManager::getRefereeDesignatedPosition()));
         painter.setBrush(Qt::transparent);
         painter.setPen(Qt::green);

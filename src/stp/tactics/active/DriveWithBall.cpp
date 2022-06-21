@@ -9,8 +9,8 @@
 
 #include "stp/tactics/active/DriveWithBall.h"
 
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/GoToPos.h"
-#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 

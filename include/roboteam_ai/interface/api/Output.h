@@ -28,7 +28,6 @@ class Output {
     static std::mutex showDebugMutex;
 
     static rtt::Vector2 markerPosition;
-    static bool useRefereeCommands;
     static bool showDebugValuesInTerminal;
     static bool timeOutAtTop;
 
@@ -50,8 +49,6 @@ class Output {
     static bool showCoachTimeTaken();
     static bool showFullDebugNumTreeInfo();
 
-    static bool usesRefereeCommands();
-    static void setUseRefereeCommands(bool useRefereeCommands);
     static const rtt::Vector2 &getInterfaceMarkerPosition();
     static void setMarkerPosition(const rtt::Vector2 &ballPlacementTarget);
     static void setTimeOutTop(bool top);

@@ -6,6 +6,7 @@
 
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "roboteam_utils/Print.h"
+#include <utilities/InterfaceData.hpp>
 
 namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
@@ -20,6 +21,13 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
     if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
     }
+
+    // NEW_INTERFACE
+    InterfaceData::addRobotPath({
+        .robotId = robotId,
+        .points = this->computedPaths[robotId]
+    });
+    // OLD_INTERFACE
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
@@ -78,6 +86,12 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
         }
     }
 
+    // NEW_INTERFACE
+    InterfaceData::addRobotPath({
+        .robotId = robotId,
+        .points = this->computedPaths[robotId]
+    });
+    // OLD_INTERFACE
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::darkMagenta, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::magenta, robotId, interface::Drawing::DOTS);
@@ -119,6 +133,7 @@ std::optional<Trajectory2D> PositionControl::findNewTrajectory(const rtt::world:
         auto trajectoryAroundCollision = calculateTrajectoryAroundCollision(world, field, intermediatePathCollision, trajectoryToIntermediatePoint, targetPosition, robotId,
                                                                             maxRobotVelocity, timeStep, avoidObjects);
         if (trajectoryAroundCollision.has_value()) {
+            // OLD_INTERFACE
             interface::Input::drawData(interface::Visual::PATHFINDING, intermediatePoints, Qt::green, robotId, interface::Drawing::CROSSES);
             interface::Input::drawData(interface::Visual::PATHFINDING, {firstCollision->collisionPosition}, Qt::red, robotId, interface::Drawing::CROSSES);
 

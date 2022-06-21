@@ -115,6 +115,15 @@ void IOManager::publishAllRobotCommands(rtt::RobotCommands& robotCommands) {
     }
 }
 
+bool IOManager::publishAIData(const AIData& data) {
+    if (rtt::SETTINGS.isYellow() && this->yellowDataPublisher != nullptr) {
+        return this->yellowDataPublisher->publish(data);
+    } else if (!rtt::SETTINGS.isYellow() && this->blueDataPublisher != nullptr) {
+        return this->blueDataPublisher->publish(data);
+    }
+    return false;
+}
+
 bool IOManager::publishRobotCommands(const rtt::RobotCommands& aiCommand, bool forTeamYellow) {
     bool sentCommands = false;
 
@@ -147,10 +156,13 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
         if (!obtainedChannel) {
             try {
                 this->robotCommandsYellowPublisher = std::make_unique<rtt::net::RobotCommandsYellowPublisher>();
+                this->yellowDataPublisher = std::make_unique<rtt::net::AIYellowDataPublisher>();
                 this->robotCommandsBluePublisher = nullptr;
+                this->blueDataPublisher = nullptr;
                 obtainedChannel = true;
             } catch (const zmqpp::zmq_internal_exception& e) {
                 this->robotCommandsYellowPublisher = nullptr;
+                this->yellowDataPublisher = nullptr;
             }
         }
     } else {
@@ -159,10 +171,13 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
         if (!obtainedChannel) {
             try {
                 this->robotCommandsBluePublisher = std::make_unique<rtt::net::RobotCommandsBluePublisher>();
+                this->blueDataPublisher = std::make_unique<rtt::net::AIBlueDataPublisher>();
                 this->robotCommandsYellowPublisher = nullptr;
+                this->yellowDataPublisher = nullptr;
                 obtainedChannel = true;
             } catch (const zmqpp::zmq_internal_exception& e) {
                 this->robotCommandsBluePublisher = nullptr;
+                this->blueDataPublisher = nullptr;
             }
         }
     }
