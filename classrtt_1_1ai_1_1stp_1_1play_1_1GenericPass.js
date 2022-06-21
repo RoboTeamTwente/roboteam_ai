@@ -23,6 +23,8 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass =
     [ "update", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a52fc8b6075367b48ae05021829ebcc8f", null ],
     [ "updateField", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a08d160cb230d9755757973cba99702bc", null ],
     [ "field", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56", null ],
+    [ "gridLeft", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a99a9551fe21a1e5699726d7318ec238e", null ],
+    [ "gridRight", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a714a5f6cb6d98fa39e919052c3ae7be7", null ],
     [ "keepPlayEvaluation", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a17fc7a716064d918aa29c072832c2ef8", null ],
     [ "lastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a81d204e55bab023d2937c1420abd04ad", null ],
     [ "passerShot", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a9488ef95882f676041cf055a013f8ce8", null ],
