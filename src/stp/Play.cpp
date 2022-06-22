@@ -6,6 +6,7 @@
 
 #include "control/ControlUtils.h"
 #include "interface/widgets/MainControlsWidget.h"
+#include <Tracy.hpp>
 
 namespace rtt::ai::stp {
 
@@ -29,6 +30,7 @@ void Play::setWorld(world::World *world) noexcept { this->world = world; }
 void Play::updateField(world::Field field) noexcept { this->field = field; }
 
 void Play::update() noexcept {
+    ZoneScopedN("Play Update");
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
     //    RTT_INFO("Play executing: ", getName())

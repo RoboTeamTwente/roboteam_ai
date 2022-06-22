@@ -56,6 +56,7 @@ target_include_directories(roboteam_ai_skills
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_skills
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -91,6 +92,7 @@ target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_tactics
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_utils
         PRIVATE roboteam_networking
         PRIVATE Qt5::Widgets
@@ -173,6 +175,7 @@ target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_plays
+        PRIVATE Tracy::TracyClient
         PUBLIC roboteam_interface_utils_lib
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
@@ -286,6 +289,7 @@ target_include_directories(roboteam_ai_control
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_control
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -360,6 +364,7 @@ target_include_directories(roboteam_ai_world
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_world
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -375,6 +380,7 @@ target_include_directories(roboteam_ai
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking

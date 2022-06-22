@@ -3,6 +3,7 @@
 //
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 
+#include <Tracy.hpp>
 #include <algorithm>
 #include <utility>
 
@@ -15,6 +16,7 @@ WorldObjects::WorldObjects() = default;
 
 std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const Trajectory2D &Trajectory,
                                                              const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, ai::stp::AvoidObjects avoidObjects) {
+    ZoneScopedN("Get First Collision");
     gameState = rtt::ai::GameStateManager::getCurrentGameState();
     ruleset = gameState.getRuleSet();
     // TODO: return the kind of collision
