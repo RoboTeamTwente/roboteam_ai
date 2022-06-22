@@ -90,7 +90,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         while (positions.size() < static_cast<size_t>(amountDefenders)) {
             auto circle = Circle(projectedPosition, (i - 0.5) * spacingRobots + j * radius);
             std::vector<Vector2> intersects;
-            intersects = circle.intersectsWithLineSegment(wallLine);
+            intersects = circle.intersects(wallLine);
             for (auto intersect : intersects) {
                 positions.push_back(intersect);
             }
@@ -102,7 +102,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
         while (positions.size() < static_cast<size_t>(amountDefenders)) {
             auto circle = Circle(projectedPosition, i * 2 * radius + spacingRobots * i);
             std::vector<Vector2> intersects;
-            intersects = circle.intersectsWithLineSegment(wallLine);
+            intersects = circle.intersects(wallLine);
             for (auto intersect : intersects) {
                 positions.push_back(intersect);
             }
