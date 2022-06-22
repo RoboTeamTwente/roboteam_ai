@@ -4,6 +4,7 @@
 
 #include "control/positionControl/pathPlanning/BBTPathPlanning.h"
 
+#include <Tracy.hpp>
 #include <functional>
 
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
@@ -15,6 +16,7 @@ BBTPathPlanning::BBTPathPlanning(double fieldWidth, double maxVelocity, int robo
     : robotId(robotId), collisionDetector(collisionDetector), fieldWidth(fieldWidth), maxVelocity(maxVelocity) {}
 
 std::vector<BB::PosVelVector> BBTPathPlanning::generateNewPath(const Vector2& initialPos, const Vector2& initialVel, const Vector2& targetPos) const {
+    ZoneScopedN("Generate New Path");
     auto trajectory = BB::BBTrajectory2D(initialPos, initialVel, targetPos, maxVelocity, ai::Constants::MAX_ACC_UPPER());
     auto posVel = trajectory.getPosVelVector();
 
@@ -36,6 +38,7 @@ std::vector<BB::PosVelVector> BBTPathPlanning::generateNewPath(const Vector2& in
 }
 
 std::vector<BB::PosVelVector> BBTPathPlanning::extractPath(CombinedTrajectory&& combineTraj) const {
+    ZoneScopedN("Extract Path");
     auto path = std::vector<BB::PosVelVector>();
     const auto initialPosVel = combineTraj.initialTrajectory.getPosVelVector();
     const auto endPosVel = combineTraj.endTrajectory.getPosVelVector();
@@ -47,6 +50,7 @@ std::vector<BB::PosVelVector> BBTPathPlanning::extractPath(CombinedTrajectory&& 
 }
 
 std::vector<Vector2> BBTPathPlanning::generateIntermediatePoints(const Vector2& center) const {
+    ZoneScopedN("Generate Intermediate Points");
     const auto circlesRadius = {fieldWidth / 8, fieldWidth / 4, fieldWidth / 2};
     auto intermediatePoints = std::vector<Vector2>();
     intermediatePoints.reserve(INTERMEDIATE_POINTS_PER_CIRCLE * circlesRadius.size());
@@ -69,11 +73,13 @@ void BBTPathPlanning::updateConstraints(const rtt::world::Field& field, const st
 
 CombinedTrajectory BBTPathPlanning::bestTrajectoryForIntermediatePoint(const Vector2& initialPos, const Vector2& initialVel, const Vector2& intermediatePoint,
                                                                        const Vector2& targetPos) const {
+    ZoneScopedN("Find Best Trajectory");
     auto bestTrajectory = CombinedTrajectory{BB::BBTrajectory2D(initialPos, initialVel, intermediatePoint, maxVelocity, ai::Constants::MAX_ACC_UPPER())};
 
     const auto initialPosVel = bestTrajectory.initialTrajectory.getPosVelVector();
     // Checking each step is not necessary and takes too much time
     for (int i = 0; i < initialPosVel.size(); i += 2) {
+        ZoneScopedN("Optimize Trajectory");
         const auto& cutoffPoint = initialPosVel[i];
         auto endTrajectory = BB::BBTrajectory2D(cutoffPoint.position, cutoffPoint.velocity, targetPos, maxVelocity, ai::Constants::MAX_ACC_UPPER());
         const auto& endPath = endTrajectory.getPathApproach();

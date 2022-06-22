@@ -4,6 +4,7 @@
 
 #include "control/positionControl/CollisionDetector.h"
 
+#include <Tracy.hpp>
 #include <span>
 
 #include "control/positionControl/PositionControlUtils.h"
@@ -12,6 +13,7 @@ namespace rtt::ai::control {
 
 template <PathPointType T>
 std::optional<Collision> CollisionDetector::getFirstObjectCollision(std::span<T> path, int robotId, bool shouldAvoidBall, int timeOffset, int timeLimit) const {
+    ZoneScopedN("Get Object Collision");
     for (int i = timeOffset; i < path.size() && i < STEP_COUNT && i <= timeLimit; i++) {
         auto pathPoint = path[i];
         auto obstacles = timeline[i];
@@ -37,6 +39,7 @@ std::optional<Collision> CollisionDetector::getFirstObjectCollision(std::span<T>
 
 template <PathPointType T>
 std::optional<Collision> CollisionDetector::getFirstFieldCollision(std::span<T> path) const {
+    ZoneScopedN("Get Field Collision");
     if (!field.has_value()) return std::nullopt;
 
     for (int i = 0; i < path.size(); i++) {
@@ -53,6 +56,7 @@ std::optional<Collision> CollisionDetector::getFirstFieldCollision(std::span<T> 
 
 template <PathPointType T>
 std::optional<Collision> CollisionDetector::getFirstDefenseAreaCollision(std::span<T> path) const {
+    ZoneScopedN("Get Defense Area Collision");
     if (!field.has_value()) return std::nullopt;
 
     auto ourDefenseArea = rtt::ai::FieldComputations::getDefenseArea(field.value(), true, 0, 0);
@@ -73,6 +77,7 @@ CollisionDetector::CollisionDetector() { timeline.resize(STEP_COUNT); }
 
 template <PathPointType T>
 std::optional<Collision> CollisionDetector::getFirstCollision(std::span<T> path, int robotId, const stp::AvoidObjects& avoidObjects, int timeOffset) const {
+    ZoneScopedN("Get First Collision");
     // Collision with objects always takes precedence (i.e. happens BEFORE collision with field or defense area) over field collisions.
     auto collision = getFirstObjectCollision(path, robotId, avoidObjects.shouldAvoidBall, timeOffset);
     if (avoidObjects.shouldAvoidOutOfField && !collision.has_value()) collision = getFirstFieldCollision(path);

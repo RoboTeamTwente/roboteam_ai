@@ -7,10 +7,12 @@
 #include "roboteam_utils/Print.h"
 #include "roboteam_utils/Timer.h"
 #include "world/World.hpp"
+#include <Tracy.hpp>
 
 namespace rtt::ai::stp::skill {
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
+    ZoneScopedN("GoToPos");
     auto &robotValue = robot.value();
     Vector2 targetPos = info.getPositionToMoveTo().value();
 

@@ -5,6 +5,7 @@
 #include "world/World.hpp"
 
 #include "utilities/GameStateManager.hpp"
+#include <Tracy.hpp>
 
 namespace rtt::world {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
@@ -93,6 +94,7 @@ void World::updateTickTime() noexcept {
 }
 
 void World::updatePositionControl() {
+    ZoneScopedN("Update Position Control");
     auto &collisionDetector = positionControl.getCollisionDetector();
     collisionDetector.setField(getField());
     collisionDetector.updateTimeline(getWorld()->getRobotsNonOwning(), getWorld()->getBall());
