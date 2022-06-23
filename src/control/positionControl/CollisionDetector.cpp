@@ -134,7 +134,7 @@ template <PathPointType T>
 bool CollisionDetector::isOccupied(T& position, int robotId, const stp::AvoidObjects& avoidObjects) const {
     auto path = std::vector{unwrapPosition(position)};
     auto collision = getFirstObjectCollision(std::span(path), robotId, avoidObjects.shouldAvoidBall, 0, 1);
-    return collision.has_value() && PositionControlUtils::isMoving(collision->velocity);
+    return collision.has_value() && !PositionControlUtils::isMoving(collision->velocity);
 }
 
 template <PathPointType T>
