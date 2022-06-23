@@ -125,7 +125,7 @@ void CollisionDetector::updateTimelineForOurRobot(std::span<const BB::PosVelVect
     // Sometimes robot did not reach the next step, thus we want to offset the collision by 1.
     // timeline[0] is filed with current position at the start of the tick
     int offset = !path.empty() && !PositionControlUtils::isTargetReached(path[0].position, currentPosition) ? 1 : 0;
-    for (int i = 0; i < STEP_COUNT; i++) {
+    for (int i = offset; i < STEP_COUNT; i++) {
         timeline[i].robotsUs[robotId] = i < path.size() ? path[i] : BB::PosVelVector{currentPosition, Vector2{0, 0}};
     }
 }
