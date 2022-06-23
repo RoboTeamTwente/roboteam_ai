@@ -1,14 +1,21 @@
 var classrtt_1_1ai_1_1control_1_1CollisionDetector =
 [
-    [ "getCollisionBetweenPoints", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a5a0ccc70ab021c5f0f65b7ec77daf76f", null ],
-    [ "getDefenseAreaCollision", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a062aef57fc6e5a26264b1afb1f5ab0b5", null ],
-    [ "getRobotCollisionBetweenPoints", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a29c7dd8bf66ab0bae06c2964d3816dbf", null ],
-    [ "getRobotPositions", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a1e2c888be75511be774d3f113e529d3c", null ],
-    [ "isCollisionBetweenPoints", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ae906d8add547c1aaea714b2b07a68bfc", null ],
-    [ "isPointInsideField", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a484556e324415749873fd1a216a9eb55", null ],
-    [ "setField", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a7d1708e58ace3a7835ca215a77a4c9e2", null ],
-    [ "setRobotPositions", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#af1aa682e09acef1df076a73804591757", null ],
-    [ "DEFAULT_ROBOT_COLLISION_RADIUS", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ac9969c2b4849e60788aa414ebe745ee0", null ],
-    [ "field", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a296e3c3fc05c155a66fb3b0153bf849c", null ],
-    [ "robotPositions", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a9868c9172109e6ade667231037f882b9", null ]
+    [ "CollisionDetector", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#aa4d47a6612029e7b1a29c60d60219db7", null ],
+    [ "getFirstCollision", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab0332bc7e010c7740b81eda7d8f06c9c", null ],
+    [ "getFirstDefenseAreaCollision", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#aa0cc017bfcccede5ef6222e1be4920be", null ],
+    [ "getFirstFieldCollision", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a36a63bca1d120099907e9498eddae251", null ],
+    [ "getFirstObjectCollision", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a96e3b7bf592658cebc9243e65c613456", null ],
+    [ "isCollision", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab7a35c5a9d065d6e5d71bf994fb33ec4", null ],
+    [ "isOccupied", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a99e1d76d224fe1da9c65ad7e03046682", null ],
+    [ "setField", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ad27175fdef7487af343a061a29fa41a3", null ],
+    [ "setMinBallDistance", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ac286f7c2702c85a2181216fc0056be52", null ],
+    [ "unwrapPosition", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a57b834b4cc789d483a9fb4b31bc4ac43", null ],
+    [ "updateTimeline", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ae3f26f9c0a6d765de9109effd1916b3a", null ],
+    [ "updateTimelineForOurRobot", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a556c55cbc00289678dc5592b71d1bf3f", null ],
+    [ "field", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a979098d15b161c024c031bdb5d6a6557", null ],
+    [ "MIN_ROBOT_DISTANCE", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#aba1ca577eff251cf5d0f4fb7b45a1ea0", null ],
+    [ "minBallDistance", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a9c2f0096ccc656ad3f2d6c98febe7b9e", null ],
+    [ "STEP_COUNT", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a64b2e27edd252d581a748b53527f1f5a", null ],
+    [ "TIME_STEP", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a72c29c12fcc5aed0977bca109325891c", null ],
+    [ "timeline", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a99bd925426812e2cfa4253bac26aca56", null ]
 ];

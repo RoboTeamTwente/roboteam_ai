@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['maincontrolswidget_2286',['MainControlsWidget',['../classrtt_1_1ai_1_1interface_1_1MainControlsWidget.html',1,'rtt::ai::interface']]],
-  ['mainwindow_2287',['MainWindow',['../classrtt_1_1ai_1_1interface_1_1MainWindow.html',1,'rtt::ai::interface']]],
-  ['manualcontrolwidget_2288',['ManualControlWidget',['../classrtt_1_1ai_1_1interface_1_1ManualControlWidget.html',1,'rtt::ai::interface']]],
-  ['mocktactic_2289',['MockTactic',['../classMockTactic.html',1,'']]]
+  ['nogoalvisionfromballglobalevaluation_2101',['NoGoalVisionFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1NoGoalVisionFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['normalorfreekickusgamestateevaluation_2102',['NormalOrFreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1NormalOrFreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['normalplaygamestateevaluation_2103',['NormalPlayGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1NormalPlayGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]]
 ];

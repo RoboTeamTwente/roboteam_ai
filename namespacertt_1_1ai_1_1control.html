@@ -86,7 +86,9 @@ $(document).ready(function(){initNavTree('namespacertt_1_1ai_1_1control.html',''
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::ai::control Namespace Reference</div>  </div>
 </div><!--header-->
@@ -99,67 +101,334 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html">ControlUtils</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structrtt_1_1ai_1_1control_1_1Obstacles"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Obstacles">Obstacles</a></td></tr>
+<tr class="separator:structrtt_1_1ai_1_1control_1_1Obstacles"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structrtt_1_1ai_1_1control_1_1Collision"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a></td></tr>
+<tr class="separator:structrtt_1_1ai_1_1control_1_1Collision"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html">CollisionDetector</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1NumTreesPlanning.html">NumTreesPlanning</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm.html">PathPlanningAlgorithm</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structrtt_1_1ai_1_1control_1_1GraphNode"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1GraphNode">GraphNode</a></td></tr>
-<tr class="separator:structrtt_1_1ai_1_1control_1_1GraphNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html">VoronoiPathPlanning</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1PathPointNode.html">PathPointNode</a></td></tr>
+<tr class="memitem:structrtt_1_1ai_1_1control_1_1CombinedTrajectory"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1CombinedTrajectory">CombinedTrajectory</a></td></tr>
+<tr class="memdesc:structrtt_1_1ai_1_1control_1_1CombinedTrajectory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper container for 2 trajectories and path-score Combining 2 trajectories is an <em>expensive</em> operation, thus it's better to defer that step to the latest possible moment. cutoffIndex indicates where endTrajectory connects with initialTrajectory (i.e how many points are used from the initialTrajectory) Lower score indicated better path (e.g score = 100 is better than score = 150)  <a href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1CombinedTrajectory">More...</a><br /></td></tr>
+<tr class="separator:structrtt_1_1ai_1_1control_1_1CombinedTrajectory"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathPlanning.html">BBTPathPlanning</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html">BBTPathTracking</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1DensePathTracking.html">DensePathTracking</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1PathTrackingAlgorithm.html">PathTrackingAlgorithm</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1PidTracking.html">PidTracking</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structrtt_1_1ai_1_1control_1_1PositionControlCommand"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1PositionControlCommand">PositionControlCommand</a></td></tr>
+<tr class="separator:structrtt_1_1ai_1_1control_1_1PositionControlCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html">PositionControl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControlUtils.html">PositionControlUtils</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:acc60c14cde3bafcdccee07e9f9d9d460"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460">UpdatePath</a> { <a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460a5fe9d7dd447b85cf4c1ac3d4c098a3c6">DONT_UPDATE</a>
+, <a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460a8e27ef31c7128bb8ac295cdf15a5398e">UPDATE_TARGET_CHANGED</a>
+, <a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460a9db87f0d12fe84022207ab98cf09124f">UPDATE_TARGET_REACHED</a>
+, <a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460a2293c73bd6da30c17157b6fbff8671f6">UPDATE_COLLISION_DETECTED</a>
+ }</td></tr>
+<tr class="separator:acc60c14cde3bafcdccee07e9f9d9d460"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:afdb9f885573a5217b868ba5104591e65"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#afdb9f885573a5217b868ba5104591e65">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460">UpdatePath</a> updatePath)</td></tr>
+<tr class="separator:afdb9f885573a5217b868ba5104591e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a780d75422eead4022e0dffcf85bb30bc"><td class="memItemLeft" align="right" valign="top">template std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#a780d75422eead4022e0dffcf85bb30bc">CollisionDetector::getFirstCollision&lt; BB::PosVelVector &gt;</a> (std::span&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;, int, const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;, int) const</td></tr>
+<tr class="separator:a780d75422eead4022e0dffcf85bb30bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af24b42c74e994cc97c8e527c85889c42"><td class="memItemLeft" align="right" valign="top">template std::optional&lt; <a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#af24b42c74e994cc97c8e527c85889c42">CollisionDetector::getFirstCollision&lt; const BB::PosVelVector &gt;</a> (std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;, int, const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;, int) const</td></tr>
+<tr class="separator:af24b42c74e994cc97c8e527c85889c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefb443efdf757a2d73ffe34c622055e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#aefb443efdf757a2d73ffe34c622055e4">TEST</a> (NumTreePosControlTest, it_obeys_the_referee)</td></tr>
 <tr class="separator:aefb443efdf757a2d73ffe34c622055e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a331eb320463691513f3efeb5c7f89b80"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a331eb320463691513f3efeb5c7f89b80"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#a331eb320463691513f3efeb5c7f89b80">PathPointType</a></td></tr>
+<tr class="separator:a331eb320463691513f3efeb5c7f89b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Class Documentation</h2>
-<a name="structrtt_1_1ai_1_1control_1_1GraphNode" id="structrtt_1_1ai_1_1control_1_1GraphNode"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1GraphNode">&#9670;&nbsp;</a></span>rtt::ai::control::GraphNode</h2>
+<a name="structrtt_1_1ai_1_1control_1_1Obstacles" id="structrtt_1_1ai_1_1control_1_1Obstacles"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1Obstacles">&#9670;&nbsp;</a></span>rtt::ai::control::Obstacles</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct rtt::ai::control::GraphNode</td>
+          <td class="memname">struct rtt::ai::control::Obstacles</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock"></div><table class="fieldtable">
 <tr><th colspan="3">Class Members</th></tr>
 <tr><td class="fieldtype">
-<a id="a0d5dbe1ce913db83a4852c4df356b61e"></a>double</td>
+<a id="a230f042a2a0bb3a6440ca45f3a31ea33"></a>PosVelVector</td>
 <td class="fieldname">
-distance</td>
+ball</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="afb3c4519237b6e7d549a408092bb7e07"></a><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a></td>
+<a id="ad585e1b26d502698149688ea482667c1"></a>vector&lt; PosVelVector &gt;</td>
 <td class="fieldname">
-nextNodePosition</td>
+robotsThem</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="aac7e5f60042d26a322fe1212bcf6a6f1"></a>unordered_map&lt; int, PosVelVector &gt;</td>
+<td class="fieldname">
+robotsUs</td>
 <td class="fielddoc">
 </td></tr>
 </table>
 
 </div>
 </div>
+<a name="structrtt_1_1ai_1_1control_1_1Collision" id="structrtt_1_1ai_1_1control_1_1Collision"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1Collision">&#9670;&nbsp;</a></span>rtt::ai::control::Collision</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct rtt::ai::control::Collision</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"></div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a871d79a668b5d04c0aa4fbeb1589975b"></a><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a></td>
+<td class="fieldname">
+position</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a32182152c385e9256b163a26adbd425c"></a>int</td>
+<td class="fieldname">
+timeStep</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a871f619dba3093b74a5bb0e4fa24d233"></a><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a></td>
+<td class="fieldname">
+velocity</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="structrtt_1_1ai_1_1control_1_1CombinedTrajectory" id="structrtt_1_1ai_1_1control_1_1CombinedTrajectory"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1CombinedTrajectory">&#9670;&nbsp;</a></span>rtt::ai::control::CombinedTrajectory</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct rtt::ai::control::CombinedTrajectory</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Wrapper container for 2 trajectories and path-score Combining 2 trajectories is an <em>expensive</em> operation, thus it's better to defer that step to the latest possible moment. cutoffIndex indicates where endTrajectory connects with initialTrajectory (i.e how many points are used from the initialTrajectory) Lower score indicated better path (e.g score = 100 is better than score = 150) </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a8ec98316f53a317d5c0b75a08f4811c1"></a>int</td>
+<td class="fieldname">
+cutoffIndex</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="abb7ae08a6d50630fdea00379d48f2c9f"></a>BBTrajectory2D</td>
+<td class="fieldname">
+endTrajectory</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="af37a4b537abf405669c6cad1e8c84ef2"></a>BBTrajectory2D</td>
+<td class="fieldname">
+initialTrajectory</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a4b24b0a2195067297b628cedb6ee9141"></a>int</td>
+<td class="fieldname">
+score</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="structrtt_1_1ai_1_1control_1_1PositionControlCommand" id="structrtt_1_1ai_1_1control_1_1PositionControlCommand"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1PositionControlCommand">&#9670;&nbsp;</a></span>rtt::ai::control::PositionControlCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct rtt::ai::control::PositionControlCommand</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"></div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a257139e78b289e232ffe856ba7239dc5"></a>bool</td>
+<td class="fieldname">
+isOccupied</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="aea06224896ad0b471e6939e6574c989c"></a>RobotCommand</td>
+<td class="fieldname">
+robotCommand</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="acc60c14cde3bafcdccee07e9f9d9d460"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc60c14cde3bafcdccee07e9f9d9d460">&#9670;&nbsp;</a></span>UpdatePath</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460">rtt::ai::control::UpdatePath</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acc60c14cde3bafcdccee07e9f9d9d460a5fe9d7dd447b85cf4c1ac3d4c098a3c6"></a>DONT_UPDATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acc60c14cde3bafcdccee07e9f9d9d460a8e27ef31c7128bb8ac295cdf15a5398e"></a>UPDATE_TARGET_CHANGED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acc60c14cde3bafcdccee07e9f9d9d460a9db87f0d12fe84022207ab98cf09124f"></a>UPDATE_TARGET_REACHED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acc60c14cde3bafcdccee07e9f9d9d460a2293c73bd6da30c17157b6fbff8671f6"></a>UPDATE_COLLISION_DETECTED&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a780d75422eead4022e0dffcf85bb30bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a780d75422eead4022e0dffcf85bb30bc">&#9670;&nbsp;</a></span>CollisionDetector::getFirstCollision&lt; BB::PosVelVector &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">template std::optional&lt;<a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a>&gt; <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab0332bc7e010c7740b81eda7d8f06c9c">rtt::ai::control::CollisionDetector::getFirstCollision</a>&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af24b42c74e994cc97c8e527c85889c42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af24b42c74e994cc97c8e527c85889c42">&#9670;&nbsp;</a></span>CollisionDetector::getFirstCollision&lt; const BB::PosVelVector &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">template std::optional&lt;<a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">Collision</a>&gt; <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ab0332bc7e010c7740b81eda7d8f06c9c">rtt::ai::control::CollisionDetector::getFirstCollision</a>&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector">BB::PosVelVector</a> &gt;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">stp::AvoidObjects</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afdb9f885573a5217b868ba5104591e65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdb9f885573a5217b868ba5104591e65">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; rtt::ai::control::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacertt_1_1ai_1_1control.html#acc60c14cde3bafcdccee07e9f9d9d460">UpdatePath</a>&#160;</td>
+          <td class="paramname"><em>updatePath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aefb443efdf757a2d73ffe34c622055e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aefb443efdf757a2d73ffe34c622055e4">&#9670;&nbsp;</a></span>TEST()</h2>
 
@@ -186,6 +455,26 @@ nextNodePosition</td>
       </table>
 </div><div class="memdoc">
 
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a331eb320463691513f3efeb5c7f89b80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a331eb320463691513f3efeb5c7f89b80">&#9670;&nbsp;</a></span>PathPointType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept rtt::ai::control::PathPointType</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= std::is_same_v &lt; std::decay_t&lt;T&gt;,</div>
+<div class="line"><a class="code" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; || std::is_same_v&lt;std::decay_t&lt;T&gt;, BB::PosVelVector&gt;</div>
+<div class="ttc" id="aControlUtils_8h_html_acfb8903fac5809ad6180aee41b325f82"><div class="ttname"><a href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a></div><div class="ttdeci">rtt::Vector2 Vector2</div><div class="ttdef"><b>Definition:</b> ControlUtils.h:19</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

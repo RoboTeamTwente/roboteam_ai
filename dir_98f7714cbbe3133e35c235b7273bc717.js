@@ -11,25 +11,10 @@ var dir_98f7714cbbe3133e35c235b7273bc717 =
       [ "BBTrajectory1D", "classrtt_1_1BB_1_1BBTrajectory1D.html", "classrtt_1_1BB_1_1BBTrajectory1D" ]
     ] ],
     [ "BBTrajectory2D.h", "BBTrajectory2D_8h.html", [
+      [ "PosVelVector", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector", [
+        [ "position", "namespacertt_1_1BB.html#a46525c496b08c4b58a26981960ba788a", null ],
+        [ "velocity", "namespacertt_1_1BB.html#a5bc5d53c566b077fa48b46e899bee1b4", null ]
+      ] ],
       [ "BBTrajectory2D", "classrtt_1_1BB_1_1BBTrajectory2D.html", "classrtt_1_1BB_1_1BBTrajectory2D" ]
-    ] ],
-    [ "Trajectory1D.h", "Trajectory1D_8h.html", [
-      [ "Trajectory1D", "classrtt_1_1Trajectory1D.html", "classrtt_1_1Trajectory1D" ]
-    ] ],
-    [ "Trajectory2D.h", "Trajectory2D_8h.html", [
-      [ "Trajectory2D", "classrtt_1_1Trajectory2D.html", "classrtt_1_1Trajectory2D" ]
-    ] ],
-    [ "WorldObjects.h", "WorldObjects_8h.html", [
-      [ "CollisionData", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData", [
-        [ "collisionName", "namespacertt_1_1BB.html#a8ae7fce9a99d8e8449e806d5d7c1427b", null ],
-        [ "collisionPosition", "namespacertt_1_1BB.html#a2b13a15488b2e38d41330562a804003f", null ],
-        [ "collisionTime", "namespacertt_1_1BB.html#a1bd86ec9864edb3ca01508e11d300eeb", null ],
-        [ "obstaclePosition", "namespacertt_1_1BB.html#a15b57dbcf85e12fcc1f7888c0c5ea856", null ]
-      ] ],
-      [ "CommandCollision", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1CommandCollision", [
-        [ "collisionData", "namespacertt_1_1BB.html#a34e25524ed46d4a0cae16db3c488fc1a", null ],
-        [ "robotCommand", "namespacertt_1_1BB.html#abfc5aa61eea384b6ea171677135c8e6b", null ]
-      ] ],
-      [ "WorldObjects", "classrtt_1_1BB_1_1WorldObjects.html", "classrtt_1_1BB_1_1WorldObjects" ]
     ] ]
 ];

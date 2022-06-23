@@ -1,10 +1,17 @@
 var searchData=
 [
-  ['jcv_5fcast_5falign_5fstruct_2264',['jcv_cast_align_struct',['../Voronoi_8h.html#unionjcv__cast__align__struct',1,'']]],
-  ['jcv_5fhalfedge_2265',['jcv_halfedge',['../Voronoi_8h.html#structjcv__halfedge',1,'']]],
-  ['jcv_5fmemoryblock_2266',['jcv_memoryblock',['../Voronoi_8h.html#structjcv__memoryblock',1,'']]],
-  ['jcv_5fpriorityqueue_2267',['jcv_priorityqueue',['../Voronoi_8h.html#structjcv__priorityqueue',1,'']]],
-  ['joystickhandler_2268',['JoystickHandler',['../classrtt_1_1input_1_1JoystickHandler.html',1,'rtt::input']]],
-  ['joystickmanager_2269',['JoystickManager',['../classrtt_1_1input_1_1JoystickManager.html',1,'rtt::input']]],
-  ['joystickstate_2270',['JoystickState',['../namespacertt_1_1input.html#classrtt_1_1input_1_1JoystickState',1,'rtt::input']]]
+  ['keeper_2082',['Keeper',['../classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html',1,'rtt::ai::stp::role']]],
+  ['keeperblockball_2083',['KeeperBlockBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html',1,'rtt::ai::stp::tactic']]],
+  ['keeperkickball_2084',['KeeperKickBall',['../classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html',1,'rtt::ai::stp::play']]],
+  ['kick_2085',['Kick',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Kick.html',1,'rtt::ai::stp::skill']]],
+  ['kickatpos_2086',['KickAtPos',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html',1,'rtt::ai::stp::tactic']]],
+  ['kickoffthem_2087',['KickOffThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThem.html',1,'rtt::ai::stp::play']]],
+  ['kickoffthemgamestateevaluation_2088',['KickOffThemGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffThemGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['kickoffthemprepare_2089',['KickOffThemPrepare',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThemPrepare.html',1,'rtt::ai::stp::play']]],
+  ['kickoffthempreparegamestateevaluation_2090',['KickOffThemPrepareGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffThemPrepareGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['kickoffus_2091',['KickOffUs',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html',1,'rtt::ai::stp::play']]],
+  ['kickoffusgamestateevaluation_2092',['KickOffUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['kickoffusornormalgamestateevaluation_2093',['KickOffUsOrNormalGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsOrNormalGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['kickoffusprepare_2094',['KickOffUsPrepare',['../classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUsPrepare.html',1,'rtt::ai::stp::play']]],
+  ['kickoffuspreparegamestateevaluation_2095',['KickOffUsPrepareGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1KickOffUsPrepareGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]]
 ];
