@@ -1,8 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"classrtt_1_1ai_1_1Constants.html#a3452d23638a7c90dd194effd84761134":[9,0,0,0,4,59],
-"classrtt_1_1ai_1_1Constants.html#a3546b5aa1e700052dc6dbd08e657eb50":[9,0,0,0,4,26],
-"classrtt_1_1ai_1_1Constants.html#a3b3f9bd0fb3df39549cd187bc3004ca4":[9,0,0,0,4,99],
 "classrtt_1_1ai_1_1Constants.html#a3c221f938716ed974921ce620b04296f":[9,0,0,0,4,75],
 "classrtt_1_1ai_1_1Constants.html#a3de556210f943edfe3e5edc52061324b":[9,0,0,0,4,63],
 "classrtt_1_1ai_1_1Constants.html#a3eacadde4f79371e28fd72ecf83d05ca":[9,0,0,0,4,13],
@@ -202,15 +199,16 @@ var NAVTREEINDEX4 =
 "classrtt_1_1ai_1_1control_1_1BBTPathPlanning.html#afe21ead74bee656533b6a9d00bf86f38":[9,0,0,0,0,6,11],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html":[9,0,0,0,0,7],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a06b02265149887c97d19ca597d7d4afa":[9,0,0,0,0,7,6],
+"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a080049772da530ac20b47c22686a8e60":[9,0,0,0,0,7,11],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a52d5d1dd250c4c64c7bea495b00d8311":[9,0,0,0,0,7,4],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a5dab96f1786b80f252f0ee31659f74fd":[9,0,0,0,0,7,1],
-"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a6766b2f0e0026e26e876edd4016e5334":[9,0,0,0,0,7,9],
+"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a6766b2f0e0026e26e876edd4016e5334":[9,0,0,0,0,7,8],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a6c6247b3f670ddab26f24ff13a02ab53":[9,0,0,0,0,7,5],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aab6a75b7d5365b839115aacbe98e878e":[9,0,0,0,0,7,2],
-"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aadcf94a85f36202466ed66fbcac98b0d":[9,0,0,0,0,7,10],
-"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#abfc336ad12bcfb1a0c2a405c2dcb40fd":[9,0,0,0,0,7,8],
+"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aadcf94a85f36202466ed66fbcac98b0d":[9,0,0,0,0,7,9],
+"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#ab738c89f9b99de7defd64fa44b393f9c":[9,0,0,0,0,7,10],
+"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#abfc336ad12bcfb1a0c2a405c2dcb40fd":[9,0,0,0,0,7,7],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#ac4d32167b65bda59e57402293f964fb0":[9,0,0,0,0,7,0],
-"classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#ae4f45c9e8de405d44124ab44da7ae152":[9,0,0,0,0,7,7],
 "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aeeee16325941373d8f50a3e617794cdc":[9,0,0,0,0,7,3],
 "classrtt_1_1ai_1_1control_1_1CollisionDetector.html":[9,0,0,0,0,4],
 "classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a36a63bca1d120099907e9498eddae251":[9,0,0,0,0,4,3],
@@ -249,5 +247,7 @@ var NAVTREEINDEX4 =
 "classrtt_1_1ai_1_1control_1_1ControlUtils.html#a8846e14bbf9eba6f72c76ae4c11e9d90":[9,0,0,0,0,1,0],
 "classrtt_1_1ai_1_1control_1_1ControlUtils.html#a94fc63fb464ca4b57f20f294c644c115":[9,0,0,0,0,1,1],
 "classrtt_1_1ai_1_1control_1_1ControlUtils.html#aac6fc67941e0b893a969c03b83b6e3af":[9,0,0,0,0,1,6],
-"classrtt_1_1ai_1_1control_1_1ControlUtils.html#ad4c9f77efa7e4d281119074b2a278501":[9,0,0,0,0,1,3]
+"classrtt_1_1ai_1_1control_1_1ControlUtils.html#ad4c9f77efa7e4d281119074b2a278501":[9,0,0,0,0,1,3],
+"classrtt_1_1ai_1_1control_1_1PositionControl.html":[9,0,0,0,0,9],
+"classrtt_1_1ai_1_1control_1_1PositionControl.html#a78cbd2f0c2c4cbe871113bd2290112d3":[9,0,0,0,0,9,1]
 };

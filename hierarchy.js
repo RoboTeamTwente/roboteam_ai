@@ -89,7 +89,6 @@ var hierarchy =
     [ "rtt::ai::stp::computations::PassComputations", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html", null ],
     [ "rtt::ai::stp::PassInfo", "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo", null ],
     [ "rtt::ai::Pause", "classrtt_1_1ai_1_1Pause.html", null ],
-    [ "rtt::ai::control::PidTracking", "classrtt_1_1ai_1_1control_1_1PidTracking.html", null ],
     [ "rtt::ai::stp::Play", "classrtt_1_1ai_1_1stp_1_1Play.html", [
       [ "rtt::ai::stp::TestPlay", "classrtt_1_1ai_1_1stp_1_1TestPlay.html", null ],
       [ "rtt::ai::stp::play::AggressiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html", null ],

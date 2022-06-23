@@ -8,7 +8,6 @@ var namespacertt_1_1ai_1_1control =
     [ "CombinedTrajectory", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1CombinedTrajectory", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1CombinedTrajectory_dup" ],
     [ "BBTPathPlanning", "classrtt_1_1ai_1_1control_1_1BBTPathPlanning.html", "classrtt_1_1ai_1_1control_1_1BBTPathPlanning" ],
     [ "BBTPathTracking", "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html", "classrtt_1_1ai_1_1control_1_1BBTPathTracking" ],
-    [ "PidTracking", "classrtt_1_1ai_1_1control_1_1PidTracking.html", "classrtt_1_1ai_1_1control_1_1PidTracking" ],
     [ "PositionControlCommand", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1PositionControlCommand", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1PositionControlCommand_dup" ],
     [ "PositionControl", "classrtt_1_1ai_1_1control_1_1PositionControl.html", "classrtt_1_1ai_1_1control_1_1PositionControl" ],
     [ "PositionControlUtils", "classrtt_1_1ai_1_1control_1_1PositionControlUtils.html", "classrtt_1_1ai_1_1control_1_1PositionControlUtils" ],

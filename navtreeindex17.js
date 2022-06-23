@@ -1,12 +1,5 @@
 var NAVTREEINDEX17 =
 {
-"namespacertt_1_1ai_1_1stp_1_1gen.html#af638718ceb86b45558cddbf9a205e7af":[8,0,1,0,3,3,7],
-"namespacertt_1_1ai_1_1stp_1_1gen.html#afc45c97a42c443e6884bd95502426d0d":[8,0,1,0,3,3,4],
-"namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1PositionScores":[10,0,1,0,3,1,1,0],
-"namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoreProfile":[10,0,1,0,3,1,1,1],
-"namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoredPosition":[10,0,1,0,3,1,1,2],
-"namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1StoreInfo":[10,0,1,0,3,1,1,3],
-"namespacertt_1_1ai_1_1stp_1_1play.html":[8,0,1,0,3,4],
 "namespacertt_1_1ai_1_1stp_1_1role.html":[8,0,1,0,3,5],
 "namespacertt_1_1ai_1_1stp_1_1skill.html":[8,0,1,0,3,6],
 "namespacertt_1_1ai_1_1stp_1_1tactic.html":[8,0,1,0,3,7],

@@ -19,9 +19,6 @@ var NAVTREEINDEX2 =
 "PidBox_8cpp.html":[10,0,2,1,1,4],
 "PidBox_8h.html":[10,0,1,0,1,1,4],
 "PidBox_8h_source.html":[10,0,1,0,1,1,4],
-"PidTracking_8cpp.html":[10,0,2,0,0,2,1],
-"PidTracking_8h.html":[10,0,1,0,0,0,2,1],
-"PidTracking_8h_source.html":[10,0,1,0,0,0,2,1],
 "PidsWidget_8cpp.html":[10,0,2,1,1,5],
 "PidsWidget_8h.html":[10,0,1,0,1,1,5],
 "PidsWidget_8h_source.html":[10,0,1,0,1,1,5],
@@ -249,5 +246,8 @@ var NAVTREEINDEX2 =
 "Toggles_8h.html":[10,0,1,0,1,0,2],
 "Toggles_8h.html#a32502a1646cc497e4d4868294944d75d":[10,0,1,0,1,0,2,4],
 "Toggles_8h.html#a32502a1646cc497e4d4868294944d75da4eca42dd55582be3e1054e8c2524e470":[10,0,1,0,1,0,2,4,1],
-"Toggles_8h.html#a32502a1646cc497e4d4868294944d75da787a35f4aa72f7409c711600b4f91081":[10,0,1,0,1,0,2,4,0]
+"Toggles_8h.html#a32502a1646cc497e4d4868294944d75da787a35f4aa72f7409c711600b4f91081":[10,0,1,0,1,0,2,4,0],
+"Toggles_8h.html#a76bcf0e45432f575389388fa52ad4b7e":[10,0,1,0,1,0,2,3],
+"Toggles_8h.html#a76bcf0e45432f575389388fa52ad4b7eab4f5787ac1f67720ba4e6a886ab3fdcd":[10,0,1,0,1,0,2,3,1],
+"Toggles_8h.html#a76bcf0e45432f575389388fa52ad4b7eac1a80e67e389d304996887f7bc57a662":[10,0,1,0,1,0,2,3,2]
 };

@@ -1,12 +1,5 @@
 var NAVTREEINDEX13 =
 {
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html#ac7dba7916b5fc648439cb51181d01358":[9,0,0,0,3,6,4,11],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html#ad88137e2f86c846345d9d1cbafb1ad95":[9,0,0,0,3,6,4,1],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html#af4a9f63577d36c0cf178aae99fb0fd00":[9,0,0,0,3,6,4,9],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html":[9,0,0,0,3,6,15],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#a0dd3439d999970125264ce7fccadff49":[9,0,0,0,3,6,15,13],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#a2406ddec88191f369b72206849a1d9a4":[9,0,0,0,3,6,15,6],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#a242748b42fbc99613b65f6500eb12f8f":[9,0,0,0,3,6,15,14],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#a41b530090205f1f7b526c6c358edffd1":[9,0,0,0,3,6,15,8],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#a483d158a091f8347c3c25983b22d015f":[9,0,0,0,3,6,15,3],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#a6457ee2158912eca961fcd352857e536":[9,0,0,0,3,6,15,10],
@@ -249,5 +242,12 @@ var NAVTREEINDEX13 =
 "classrtt_1_1world_1_1Field.html#aeceb9d51bca02c343842f55a71061e7a":[9,0,0,4,5,103],
 "classrtt_1_1world_1_1Field.html#af080df62b89e0428a2e6f4bb7c5a2226":[9,0,0,4,5,62],
 "classrtt_1_1world_1_1Field.html#af111fd7a7f66edbcddf194980bd2ce11":[9,0,0,4,5,142],
-"classrtt_1_1world_1_1Field.html#af1b4af1246f8f9ee682bf3e8181a399a":[9,0,0,4,5,21]
+"classrtt_1_1world_1_1Field.html#af1b4af1246f8f9ee682bf3e8181a399a":[9,0,0,4,5,21],
+"classrtt_1_1world_1_1Field.html#af29beb61b4796547a879071078f07b5c":[9,0,0,4,5,56],
+"classrtt_1_1world_1_1Field.html#af5b86f950d8d2e5686c21cd509b457be":[9,0,0,4,5,130],
+"classrtt_1_1world_1_1Field.html#af5f7e88e7f34478c751a9841e9556794":[9,0,0,4,5,128],
+"classrtt_1_1world_1_1Field.html#af8419d76b361caf1c5f3758f0f20b434":[9,0,0,4,5,37],
+"classrtt_1_1world_1_1Field.html#af87fef7186560f7fffff7a6bbb5a67cc":[9,0,0,4,5,109],
+"classrtt_1_1world_1_1Field.html#af9d579510ee1f813e0b0c8971a1bf654":[9,0,0,4,5,1],
+"classrtt_1_1world_1_1Field.html#afbff0f0aa5765c36e65c632b5e15f886":[9,0,0,4,5,14]
 };
