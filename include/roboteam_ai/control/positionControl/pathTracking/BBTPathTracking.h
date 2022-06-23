@@ -7,12 +7,12 @@
 
 #include <span>
 
-#include "PidTracking.h"
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "control/positionControl/CollisionDetector.h"
 #include "control/positionControl/PositionControlUtils.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/Vector2.h"
+#include "roboteam_utils/pid.h"
 #include "utilities/Constants.h"
 
 namespace rtt::ai::control {
@@ -49,10 +49,12 @@ inline std::ostream& operator<<(std::ostream& os, const UpdatePath updatePath) {
 class BBTPathTracking {
    private:
     static constexpr size_t STEPS_AHEAD = 1;
-    PidTracking pidTracking;
+    const int robotId;
     const CollisionDetector& collisionDetector;
 
-    const int robotId;
+    PID xPID;
+    PID yPID;
+
     std::vector<BB::PosVelVector> path;
     std::span<const BB::PosVelVector> remainingPath;
 

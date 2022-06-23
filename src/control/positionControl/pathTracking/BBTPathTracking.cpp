@@ -34,14 +34,18 @@ Position BBTPathTracking::trackPathForwardAngle(const Vector2 &currentPosition, 
         remainingPath = remainingPath.subspan(lookAhead);
     }
 
-    std::vector<Vector2> tempPath{currentTarget};
-    Position pidPosition = pidTracking.trackPath(currentPosition, currentVelocity, tempPath, robotId, 0, pidType);
-    Vector2 pidVelocity{pidPosition.x, pidPosition.y};
-    if (remainingPath.size() > 2) {
-        pidVelocity = pidVelocity.stretchToLength(currentTargetVelocity.length());
-    }
-    Position returnPosition{pidVelocity.x, pidVelocity.y, (currentTarget - currentPosition).angle()};
-    return returnPosition;
+    const auto newPid = PositionControlUtils::getPIDValue(pidType);
+    xPID.setPID(newPid);
+    yPID.setPID(newPid);
+
+    auto pidVelocity =
+        Vector2{
+            xPID.getOutput(currentPosition.x, currentTarget.x),
+            yPID.getOutput(currentPosition.y, currentTarget.y),
+        }
+            .stretchToLength(currentTargetVelocity.length());
+
+    return {pidVelocity.x, pidVelocity.y, (currentTarget - currentPosition).angle()};
 }
 
 UpdatePath BBTPathTracking::shouldUpdatePath(const Vector2 &currentPos, const Vector2 &targetPos, const stp::AvoidObjects &avoidObjects) {
@@ -58,7 +62,10 @@ void BBTPathTracking::updatePath(std::vector<BB::PosVelVector> &&newPath) {
     path = std::move(newPath);
     remainingPath = std::span(path);
 }
-BBTPathTracking::BBTPathTracking(int robotId, const CollisionDetector &collisionDetector) : collisionDetector(collisionDetector), robotId(robotId) {}
+BBTPathTracking::BBTPathTracking(int robotId, const CollisionDetector &collisionDetector) : robotId(robotId), collisionDetector(collisionDetector) {
+    xPID.setMaxIOutput(Constants::MAX_VEL());
+    yPID.setMaxIOutput(Constants::MAX_VEL());
+}
 
 std::span<const BB::PosVelVector> BBTPathTracking::getRemainingPath() { return remainingPath; }
 

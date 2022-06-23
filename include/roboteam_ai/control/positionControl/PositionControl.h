@@ -11,7 +11,6 @@
 #include "control/positionControl/CollisionDetector.h"
 #include "control/positionControl/pathPlanning/BBTPathPlanning.h"
 #include "control/positionControl/pathTracking/BBTPathTracking.h"
-#include "control/positionControl/pathTracking/PidTracking.h"
 #include "utilities/StpInfoEnums.h"
 
 namespace rtt::ai::control {
