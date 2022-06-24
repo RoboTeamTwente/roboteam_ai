@@ -4,6 +4,9 @@
 
 #include "world/World.hpp"
 
+#include "utilities/GameStateManager.hpp"
+#include <Tracy.hpp>
+
 namespace rtt::world {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
     if (currentWorld) {
@@ -91,10 +94,12 @@ void World::updateTickTime() noexcept {
 }
 
 void World::updatePositionControl() {
-    std::vector<Vector2> robotPositions(getWorld()->getRobotsNonOwning().size());
-    std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robotPositions.begin(),
-                   [](const auto &robot) -> Vector2 { return (robot->getPos()); });
-    positionControl.setRobotPositions(robotPositions);
+    ZoneScopedN("Update Position Control");
+    auto &collisionDetector = positionControl.getCollisionDetector();
+    collisionDetector.setField(getField());
+    collisionDetector.updateTimeline(getWorld()->getRobotsNonOwning(), getWorld()->getBall());
+    auto gameState = rtt::ai::GameStateManager::getCurrentGameState();
+    collisionDetector.setMinBallDistance(gameState.getRuleSet().minDistanceToBall);
 }
 
 uint64_t World::getTimeDifference() const noexcept { return tickDuration; }

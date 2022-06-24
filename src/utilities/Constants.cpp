@@ -252,4 +252,10 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
 }
 
+double Constants::POSITION_CONTROL_MAX_TARGET_DEVIATION() { return 0.05; }
+
+double Constants::POSITION_CONTROL_MAX_STILL_VELOCITY() { return 0.05; }
+
+double Constants::POSITION_CONTROL_MIN_DISTANCE_REACHED() { return ROBOT_RADIUS(); }
+
 }  // namespace rtt::ai

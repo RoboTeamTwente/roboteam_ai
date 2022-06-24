@@ -10,8 +10,14 @@
 #include <vector>
 
 #include "BBTrajectory1D.h"
+#include "utilities/Constants.h"
 
 namespace rtt::BB {
+
+struct PosVelVector {
+    Vector2 position;
+    Vector2 velocity;
+};
 
 /**
  * @author Rolf
@@ -34,21 +40,8 @@ class BBTrajectory2D {
      * @param maxVel The maximum allowed velocity for this path.
      * @param maxAcc The maximum allowed acceleration allowed for the robot on this path
      */
-    BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc);
-
-    /**
-     * @brief  Computes a bang bang trajectory with a given alpha value.
-     * This is NOT time optimal and may give very 'unphysical' paths for high or low alpha value.
-     * Don't use this constructor unless you know what you are doing.
-     * @param initialPos The initial position to start the trajectory from
-     * @param initialVel The initial velocity to start the trajectory from
-     * @param finalPos The final position to arrive at.
-     * @param maxVel The maximum allowed velocity for this path.
-     * @param maxAcc The maximum allowed acceleration allowed for the robot on this path
-     * @param alpha The chosen angle, should be between 0 and M_PI_2. Angle 0 gives all of the control to the x dimension
-     * whilst at M_PI all of the velocity/acceleration is given to y dimension.
-     */
-    BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc, double alpha);
+    BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc,
+                   double timeStep = ai::Constants::POSITION_CONTROL_TIME_STEP() / 1000.0);
 
     /**
      * @brief  Computes a time-optimal bang-bang trajectory.
@@ -84,18 +77,11 @@ class BBTrajectory2D {
     [[nodiscard]] Vector2 getAcceleration(double t) const;
 
     /**
-     * @brief This function computes a straight line approximation that goes through all the points.
-     * This can be useful for e.g. visualization
-     * @return a vector with N positions spaced equally in time.
-     */
-    [[nodiscard]] std::vector<Vector2> getStraightLines(unsigned int N) const;
-
-    /**
      * @brief Approaches the BangBangTrajectory by dividing the path in points which are separated by timeStep seconds
      * @param timeStep time between pathpoints
      * @return
      */
-    [[nodiscard]] std::vector<Vector2> getPathApproach(double timeStep) const;
+    [[nodiscard]] std::vector<Vector2> &getPathApproach();
 
     /**
      * @brief Gets tEnd of the current part
@@ -105,12 +91,12 @@ class BBTrajectory2D {
     /**
      * @brief Returns a vector with all the velocities (Vector2) at specified timeSteps
      */
-    [[nodiscard]] std::vector<Vector2> getVelocityVector(double timeStep) const;
+    [[nodiscard]] std::vector<Vector2> &getVelocityVector();
 
     /**
      * @brief Transforms the BBTrajectory into a posVelVector at specified timeSteps
      */
-    [[nodiscard]] std::vector<std::pair<Vector2, Vector2>> getPosVelVector(double timeStep);
+    [[nodiscard]] std::vector<PosVelVector> getPosVelVector();
 
     /**
      * @brief Returns all the trajectory parts in both dimensions to use in the general trajectory class
@@ -134,6 +120,10 @@ class BBTrajectory2D {
 
     BBTrajectory1D x;
     BBTrajectory1D y;
+
+    double timeStep = ai::Constants::POSITION_CONTROL_TIME_STEP() / 1000.0;
+    std::vector<Vector2> positions;
+    std::vector<Vector2> velocities;
 };
 }  // namespace rtt::BB
 #endif  // RTT_BBTRAJECTORY2D_H

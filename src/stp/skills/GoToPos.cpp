@@ -4,35 +4,37 @@
 
 #include "stp/skills/GoToPos.h"
 
-#include "control/positionControl/BBTrajectories/WorldObjects.h"
+#include "roboteam_utils/Print.h"
+#include "roboteam_utils/Timer.h"
 #include "world/World.hpp"
+#include <Tracy.hpp>
 
 namespace rtt::ai::stp::skill {
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
+    ZoneScopedN("GoToPos");
+    auto &robotValue = robot.value();
     Vector2 targetPos = info.getPositionToMoveTo().value();
+
+    if (!targetPos.isNotNaN()) {
+        RTT_ERROR("GoToPos: targetPos is nan for robot id: ", robotValue->getId());
+        return Status::Failure;
+    }
 
     if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getObjectsToAvoid())) {
         RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
         targetPos = FieldComputations::projectPointToValidPosition(info.getField().value(), targetPos, info.getObjectsToAvoid());
     }
 
-    bool useOldPathPlanning = false;
-    rtt::BB::CommandCollision commandCollision;
+    auto controlCommand =
+        info.getCurrentWorld()->getRobotPositionController()->computeAndTrackTrajectory(info.getField().value(), robotValue->getId(), robotValue->getPos(), robotValue->getVel(),
+                                                                                        targetPos, info.getMaxRobotVelocity(), info.getPidType().value(), info.getObjectsToAvoid());
 
-    if (useOldPathPlanning) {
-        // Calculate commands from path planning and tracking
-        commandCollision.robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
-            info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
-    } else {
-        // _______Use this one for the BBT pathplanning and tracking_______
-        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackTrajectory(
-            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos,
-            info.getMaxRobotVelocity(), info.getPidType().value(), info.getObjectsToAvoid());
-    }
-
-    if (commandCollision.collisionData.has_value()) {
-        // return Status::Failure;
+    if (controlCommand.isOccupied) {
+        // TODO: This should NOT be neccessary
+        command.velocity = Vector2(0, 0);
+        forwardRobotCommand(info.getCurrentWorld());
+        return Status::Failure;
     }
 
     double targetVelocityLength;
@@ -40,10 +42,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         RTT_DEBUG("Setting max vel");
         targetVelocityLength = info.getMaxRobotVelocity();
     } else {
-        targetVelocityLength = std::clamp(commandCollision.robotCommand.velocity.length(), 0.0, info.getMaxRobotVelocity());
+        targetVelocityLength = std::clamp(controlCommand.robotCommand.velocity.length(), 0.0, info.getMaxRobotVelocity());
     }
-    // Clamp and set velocity
-    Vector2 targetVelocity = commandCollision.robotCommand.velocity.stretchToLength(targetVelocityLength);
+    Vector2 targetVelocity = controlCommand.robotCommand.velocity.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
     command.velocity = targetVelocity;
@@ -58,13 +59,13 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     command.dribblerSpeed = targetDribblerSpeed;
 
     // set command ID
-    command.id = info.getRobot().value()->getId();
+    //    command.id = robot.value()->getId();
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
     // Check if successful
-    if ((info.getRobot().value()->getPos() - targetPos).length() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN) {
+    if ((robotValue->getPos() - targetPos).length() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN) {
         return Status::Success;
     } else {
         return Status::Running;

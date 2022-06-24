@@ -1,77 +1,138 @@
 //
-// Created by ratoone on 10-12-19.
+// Created by martin on 11-5-22.
 //
 
-#ifndef RTT_COLLISIONDETECTOR_H
-#define RTT_COLLISIONDETECTOR_H
+#pragma once
 
+#include <optional>
+#include <span>
+#include <vector>
+
+#include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "utilities/Constants.h"
 #include "world/Field.h"
-#include "world/views/RobotView.hpp"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai::control {
 
-/**
- * Checks for collision between points and different components of the field: robots, defence area, etc.
- * Check isCollisionBetweenPoints method for more details
- */
-class CollisionDetector {
-   private:
-    static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 3.0 * Constants::ROBOT_RADIUS();
-
-    std::vector<Vector2> robotPositions;
-    const rtt::world::Field* field = nullptr;
-
-   public:
-    /**
-     * Checks if a new point can be followed by a robot from a starting position. This implies having
-     * no collisions with other robots, the outside of the field, or the defence area
-     * @param initialPoint the starting point
-     * @param nextPoint the destination point
-     * @return true if there is no collision, false otherwise
-     */
-    bool isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
-
-    /**
-     * Checks whether the line drawn by the two points comes close to any robot (excepting the current one)
-     * and returns that robot's position
-     * @param initialPoint
-     * @param nextPoint
-     * @param currentRobotPosition the current robot position (should be ignored when checking)
-     * @return the colliding robot position, or a std::nullopt if there is no collision
-     */
-    std::optional<Vector2> getRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
-
-    /**
-     * Check if the point is inside the field
-     * @param point the point to check
-     * @return true if the point is in the field
-     */
-    bool isPointInsideField(const Vector2& point);
-
-    /**
-     * Check if the line intersects the defense area (adding a margin equal to the robot collision radius)
-     * and return the closest point of intersection
-     * @param point first point of the line
-     * @param nextPoint second point of the line
-     * @return the closest intersection with the defense area, or std::nullopt if there is no intersection
-     */
-    std::optional<Vector2> getDefenseAreaCollision(const Vector2& point, const Vector2& nextPoint);
-
-    /**
-     * Calls the defense area collision and robot collision and returns the closest one to the first point
-     * @param point first point of the line
-     * @param nextPoint second point of the line
-     * @return the closest collision point with a robot / the defense area; std::nullopt if no collisions
-     */
-    std::optional<Vector2> getCollisionBetweenPoints(const Vector2& point, const Vector2& nextPoint);
-
-    std::vector<Vector2> getRobotPositions();
-
-    void setField(const rtt::world::Field& field);
-
-    void setRobotPositions(std::vector<Vector2>& robotPositions);
+struct Obstacles {
+    BB::PosVelVector ball;
+    std::vector<BB::PosVelVector> robotsThem;
+    std::unordered_map<int, BB::PosVelVector> robotsUs;
 };
 
+struct Collision {
+    Vector2 position;
+    Vector2 velocity;
+    int timeStep;
+};
+
+template <typename T>
+concept PathPointType = std::is_same_v < std::decay_t<T>,
+Vector2 > || std::is_same_v<std::decay_t<T>, BB::PosVelVector>;
+
+class CollisionDetector {
+   private:
+    static constexpr int TIME_STEP = ai::Constants::POSITION_CONTROL_TIME_STEP();
+    static constexpr int STEP_COUNT = ai::Constants::POSITION_CONTROL_STEP_COUNT();
+    static constexpr double MIN_ROBOT_DISTANCE = 3 * ai::Constants::ROBOT_RADIUS_MAX();
+    double minBallDistance = 0.0;
+
+    std::vector<Obstacles> timeline;
+    std::optional<rtt::world::Field> field;
+
+    /**
+     * @brief Consolidation of collision detection logic.
+     * @tparam pathPoint PathPoint to check for collisions.
+     * @param obstaclePos Obstacle to check against.
+     * @param minDistance Minimum distance between origin and obstacle.
+     * */
+    template <PathPointType T>
+    [[nodiscard]] static bool isCollision(const T& pathPoint, const Vector2& obstaclePos, double minDistance);
+
+    /**
+     * @brief Finds the first (time-wise) collision with dynamic obstacles(ball and robots) on the path
+     * @tparam pathPoints Trajectory approximation
+     * @param robotId Robot id to ignore (i.e it self)
+     * @param timeOffset Time offset to start checking from
+     * @param shouldAvoidBall Whether to avoid the ball or not
+     * @param timeLimit Time limit to check for collisions
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstObjectCollision(std::span<T> path, int robotId, bool shouldAvoidBall, int timeOffset = 0, int timeLimit = STEP_COUNT) const;
+
+    /**
+     * @brief Finds the first (time-wise) collision with the playing field.
+     * @tparam pathPoints Trajectory approximation
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstFieldCollision(std::span<T> path) const;
+
+    /**
+     * @brief Finds the first (time-wise) collision with defense area.
+     * @tparam pathPoints Trajectory approximation
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstDefenseAreaCollision(std::span<T> path) const;
+
+    /**
+     * @brief Unwrap the PathPointType to Vector2 at compile-time.
+     * @tparam container PathPoint to unwrap.
+     */
+    template <PathPointType T>
+    [[nodiscard]] static constexpr const Vector2& unwrapPosition(const T& container);
+
+   public:
+    CollisionDetector();
+
+    /**
+     * @brief Finds the first (time-wise) collision with any obstacle on the path.
+     * @tparam pathPoints Trajectory approximation
+     * @param robotId Robot id to ignore (i.e it self)
+     * @param avoidObjects what objects to avoid
+     * @param timeOffset Time offset to start checking from
+     */
+    template <PathPointType T>
+    [[nodiscard]] std::optional<Collision> getFirstCollision(std::span<T> path, int robotId, const stp::AvoidObjects& avoidObjects, int timeOffset = 0) const;
+
+    /**
+     * @brief Check if given position is occupied.
+     * Occupied means that there is and object in the given position that is *not* moving.
+     * @tparam position Position to check.
+     * @param robotId Robot id to ignore (i.e it self)
+     * @param avoidObjects what objects to avoid
+     */
+    template <PathPointType T>
+    [[nodiscard]] bool isOccupied(T& position, int robotId, const stp::AvoidObjects& avoidObjects) const;
+
+    /**
+     * @brief Set minimal allowed distance from the ball.
+     * @tparam distance minimal allowed distance.
+     */
+    void setMinBallDistance(double distance);
+
+    /**
+     * @brief Updates filed reference for collision checking with playing field and defense area.
+     * @param field Playing field.
+     */
+    void setField(const std::optional<rtt::world::Field>& field);
+
+    /**
+     * @brief Updates the timeline with obstacles positions. Must be called *once* at the start of each tick.
+     * For enemy robots and the ball the position is approximated.
+     * For our robots only the observer position is updated (i.e the current position) or
+     * if our robot is not moving the current position is set for all time steps.
+     * @param robots Robots to update the timeline with
+     * @param ball Ball to update the timeline with
+     */
+    void updateTimeline(const std::vector<rtt::world::view::RobotView>& robots, const std::optional<rtt::world::view::BallView>& ball);
+
+    /**
+     * @brief Updates the timeline with path approximation generated by path planning.
+     * @param path Trajectory approximation.
+     * @param currentPosition Current position of the robot.
+     * @param robotId Id of robot to update the path for
+     */
+    void updateTimelineForOurRobot(std::span<const BB::PosVelVector> path, const Vector2& currentPosition, int robotId);
+};
 }  // namespace rtt::ai::control
-#endif  // RTT_COLLISIONDETECTOR_H

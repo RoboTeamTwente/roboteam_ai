@@ -10,6 +10,7 @@
 #include "control/ControlUtils.h"
 #include "roboteam_utils/Tube.h"
 #include "stp/constants/ControlConstants.h"
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::computations {
 

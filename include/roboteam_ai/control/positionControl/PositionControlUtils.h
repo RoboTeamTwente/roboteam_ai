@@ -5,18 +5,13 @@
 #ifndef RTT_POSITIONCONTROLUTILS_H
 #define RTT_POSITIONCONTROLUTILS_H
 
+#include "interface/api/Output.h"
 #include "roboteam_utils/Vector2.h"
-#include "utilities/Constants.h"
+#include "utilities/StpInfoEnums.h"
 
 namespace rtt::ai::control {
 
 class PositionControlUtils {
-   private:
-    static constexpr double MAX_TARGET_DEVIATION = 0.05;
-
-    // minimum distance needed to consider the current target reached
-    static constexpr double MIN_DISTANCE_TARGET_REACHED = 2 * Constants::ROBOT_RADIUS();
-
    public:
     /**
      * If the distance between the old target and the new target > MAX_TARGET_DEVIATION
@@ -35,11 +30,25 @@ class PositionControlUtils {
     static bool isTargetReached(const Vector2 &targetPos, const Vector2 &currentPosition);
 
     /**
-     * Removes the first element in the path in the case the first point is reached
-     * @param path the vector of path points
-     * @param currentPosition the current position of the robot
+     * Is the target moving
+     * @param velocity
      */
-    static void removeFirstIfReached(std::vector<Vector2> &path, const Vector2 &currentPosition);
+    static bool isMoving(const Vector2 &velocity);
+
+    static pidVals getPIDValue(const stp::PIDType &pidType) {
+        switch (pidType) {
+            case stp::PIDType::DEFAULT:
+                return interface::Output::getNumTreePid();
+            case stp::PIDType::RECEIVE:
+                return interface::Output::getReceivePid();
+            case stp::PIDType::INTERCEPT:
+                return interface::Output::getInterceptPid();
+            case stp::PIDType::KEEPER:
+                return interface::Output::getKeeperPid();
+            case stp::PIDType::KEEPER_INTERCEPT:
+                return interface::Output::getKeeperInterceptPid();
+        }
+    }
 };
 }  // namespace rtt::ai::control
 

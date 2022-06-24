@@ -56,6 +56,7 @@ target_include_directories(roboteam_ai_skills
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_skills
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -91,6 +92,7 @@ target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_tactics
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_utils
         PRIVATE roboteam_networking
         PRIVATE Qt5::Widgets
@@ -173,6 +175,7 @@ target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_plays
+        PRIVATE Tracy::TracyClient
         PUBLIC roboteam_interface_utils_lib
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
@@ -262,30 +265,21 @@ target_compile_options(roboteam_ai_computation PRIVATE "${COMPILER_FLAGS}")
 add_library(roboteam_ai_control
         ${PROJECT_SOURCE_DIR}/src/control/ControlModule.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/DensePathTracking.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BBTPathTracking.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory1D.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory2D.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/Trajectory1D.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/Trajectory2D.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
         ${PROJECT_SOURCE_DIR}/src/control/AnglePID.cpp
-)
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/BBTPathPlanning.cpp
+        )
+
 target_include_directories(roboteam_ai_control
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_control
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -360,6 +354,7 @@ target_include_directories(roboteam_ai_world
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_world
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
@@ -375,6 +370,7 @@ target_include_directories(roboteam_ai
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai
+        PRIVATE Tracy::TracyClient
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
