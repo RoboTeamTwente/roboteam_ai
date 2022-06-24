@@ -26,10 +26,8 @@ Position BBTPathTracking::trackPathForwardAngle(const Vector2 &currentPosition, 
     }
 
     auto lookAhead = std::min(remainingPath.size(), STEPS_AHEAD);
-    Vector2 currentTarget = std::next(remainingPath.begin(), lookAhead - 1)->position;
-    Vector2 currentTargetVelocity = std::next(remainingPath.begin(), lookAhead - 1)->velocity;
-
-    if (PositionControlUtils::isTargetReached(currentTarget, currentPosition)) {
+    const auto &currentTarget = std::next(remainingPath.begin(), lookAhead - 1);
+    if (PositionControlUtils::isTargetReached(currentTarget->position, currentPosition)) {
         // Track the Nth point, or the last if the size is smaller than N; the untracked ones are discarded
         remainingPath = remainingPath.subspan(lookAhead);
     }
@@ -40,12 +38,12 @@ Position BBTPathTracking::trackPathForwardAngle(const Vector2 &currentPosition, 
 
     auto pidVelocity =
         Vector2{
-            xPID.getOutput(currentPosition.x, currentTarget.x),
-            yPID.getOutput(currentPosition.y, currentTarget.y),
+            xPID.getOutput(currentPosition.x, currentTarget->position.x),
+            yPID.getOutput(currentPosition.y, currentTarget->position.y),
         }
-            .stretchToLength(currentTargetVelocity.length());
+            .stretchToLength(currentTarget->velocity.length());
 
-    return {pidVelocity.x, pidVelocity.y, (currentTarget - currentPosition).angle()};
+    return {pidVelocity.x, pidVelocity.y, (currentTarget->position - currentPosition).angle()};
 }
 
 UpdatePath BBTPathTracking::shouldUpdatePath(const Vector2 &currentPos, const Vector2 &targetPos, const stp::AvoidObjects &avoidObjects) {
