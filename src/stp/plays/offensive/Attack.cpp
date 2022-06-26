@@ -9,19 +9,19 @@
 #include "stp/computations/PositionScoring.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Attacker.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
 
 Attack::Attack() : Play() {
     startPlayEvaluation.clear();
-    startPlayEvaluation.emplace_back(eval::NormalOrFreeKickUsGameState);
+    startPlayEvaluation.emplace_back(eval::NormalPlayGameState);
     startPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
     startPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     keepPlayEvaluation.clear();
-    keepPlayEvaluation.emplace_back(eval::NormalOrFreeKickUsGameState);
+    keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
     keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
@@ -33,9 +33,9 @@ Attack::Attack() : Play() {
                                                                                        std::make_unique<role::Formation>(("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(("midfielder_right")),
                                                                                        std::make_unique<role::Formation>(("attacking_midfielder")),
-                                                                                       std::make_unique<role::Defender>(("defender_left")),
-                                                                                       std::make_unique<role::Defender>(("defender_mid")),
-                                                                                       std::make_unique<role::Defender>(("defender_right"))};
+                                                                                       std::make_unique<role::BallDefender>(("defender_left")),
+                                                                                       std::make_unique<role::BallDefender>(("defender_mid")),
+                                                                                       std::make_unique<role::BallDefender>(("defender_right"))};
 }
 
 uint8_t Attack::score(const rtt::world::Field& field) noexcept {
@@ -125,7 +125,7 @@ void Attack::calculateInfoForAttackers() noexcept {
 }
 
 bool Attack::shouldEndPlay() noexcept {
-    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "attacker" && role->finished(); });
+    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "striker" && role->finished(); });
 }
 
 const char* Attack::getName() { return "Attack"; }

@@ -60,7 +60,7 @@ class DefendShot : public Play {
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the harassers
+     * Calculates info for the Harassers
      */
     void calculateInfoForHarassers() noexcept;
 

@@ -20,13 +20,8 @@ std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noe
     auto defendPos = info.getEnemyRobot() ? info.getEnemyRobot().value()->getPos() : info.getPositionToDefend().value();
     auto targetPosition = calculateTargetPosition(info.getBall().value(), defendPos, info.getBlockDistance());
 
-    // Minimum distance from the defense area
-    auto margin = 2.5 * control_constants::ROBOT_RADIUS;
-
-    // Project the target position outside the defense area if it is in it (within the margin)
-    if (FieldComputations::pointIsInDefenseArea(info.getField().value(), targetPosition, margin)) {
-        targetPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos(), margin);
-    }
+    // Make sure this position is valid
+    targetPosition = FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos());
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
 
@@ -49,6 +44,9 @@ Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Ve
 
     double distance;
     switch (blockDistance) {
+        case BlockDistance::ROBOTRADIUS:
+            distance = control_constants::ROBOT_RADIUS;
+            break;
         case BlockDistance::CLOSE:
             // Default distance of 0.5m. If the ball is closer than that to the enemy, stand right in front of the ball instead.
             distance = std::min(0.5, targetToBall.length() - control_constants::ROBOT_RADIUS);

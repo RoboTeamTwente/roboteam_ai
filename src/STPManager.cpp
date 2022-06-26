@@ -8,9 +8,9 @@
 #include <chrono>
 
 #include "control/ControlModule.h"
-#include "stp/computations/ComputationManager.h"
 #include "stp/PlayDecider.hpp"
 #include "stp/PlayEvaluator.h"
+#include "stp/computations/ComputationManager.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
 
@@ -32,6 +32,8 @@
 #include "stp/plays/referee_specific/BallPlacementUs.h"
 #include "stp/plays/referee_specific/DefensiveStopFormation.h"
 #include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/plays/referee_specific/FreeKickUsAtGoal.h"
+#include "stp/plays/referee_specific/FreeKickUsPass.h"
 #include "stp/plays/referee_specific/Halt.h"
 #include "stp/plays/referee_specific/KickOffThem.h"
 #include "stp/plays/referee_specific/KickOffThemPrepare.h"
@@ -70,13 +72,15 @@ void STPManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickUsAtGoal>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickUsPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
@@ -133,19 +137,18 @@ void STPManager::runOneLoopCycle() {
         // Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
         auto worldMessage = state.last_seen_world();
         auto fieldMessage = state.field().field();
-        auto feedbackMessage = SETTINGS.isYellow() ? state.last_seen_world().yellowfeedback() : state.last_seen_world().bluefeedback();
 
-        std::vector<proto::SSL_WrapperPacket> vision_packets(state.processed_vision_packets().begin(),state.processed_vision_packets().end());
+
+        std::vector<proto::SSL_WrapperPacket> vision_packets(state.processed_vision_packets().begin(), state.processed_vision_packets().end());
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
-            for (auto& packet : vision_packets){
-                roboteam_utils::rotate(&packet); //
+            for (auto &packet : vision_packets) {
+                roboteam_utils::rotate(&packet);  //
             }
         }
         mainWindow->updateProcessedVisionPackets(vision_packets);
 
         auto const &[_, world] = world::World::instance();
-        world->updateFeedback(feedbackMessage);
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {

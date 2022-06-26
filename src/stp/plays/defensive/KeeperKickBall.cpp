@@ -6,6 +6,7 @@
 
 #include "stp/computations/PassComputations.h"
 #include "stp/computations/PositionScoring.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/roles/active/PassReceiver.h"
 #include "stp/roles/active/Passer.h"
 #include "stp/roles/passive/Formation.h"
@@ -73,9 +74,7 @@ void KeeperKickBall::calculateInfoForRoles() noexcept {
         auto ball = world->getWorld()->getBall().value();
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
-        auto receiverLocation = ballTrajectory.project(passInfo.passLocation);
-        receiverLocation =
-            PositionComputations::ProjectPositionIntoFieldOnLine(field, receiverLocation, ballTrajectory.start, ballTrajectory.end, -2 * control_constants::ROBOT_RADIUS);
+        auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 
         // Keeper goes back to his goal
@@ -115,7 +114,7 @@ bool KeeperKickBall::shouldEndPlay() noexcept {
         if (stpInfos["receiver"].getRobot()->hasBall()) return true;
 
         // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
-        if (ballKicked() && stpInfos["keeper"].getRobot()->get()->getDistanceToBall() >= control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 1.5 &&
+        if (ballKicked() && stpInfos["keeper"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
             world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL)
             return true;
     }

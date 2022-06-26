@@ -2,8 +2,8 @@
 // Created by rolf on 26-09-20.
 //
 
-#include <gtest/gtest.h>
 #include <control/positionControl/BBTrajectories/BBTrajectory1D.h>
+#include <gtest/gtest.h>
 
 namespace rtt::BB {
 // A profile that only decellerates from the start

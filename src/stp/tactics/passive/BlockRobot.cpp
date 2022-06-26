@@ -22,16 +22,16 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
 
     skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPositionToDefend().value()));
 
-    auto posMargin = 0;
+    auto positionToDefend = info.getPositionToDefend().value();
 
-    auto projectedRobotPosition = PositionComputations::ProjectPositionOutsideDefenseAreaOnLine(
-        info.getField().value(), info.getPositionToDefend().value(), info.getPositionToDefend().value(), info.getEnemyRobot()->get()->getPos(), posMargin);
+    auto enemyDistanceToPoint = positionToDefend.dist(info.getEnemyRobot()->get()->getPos());
 
-    auto enemyDistanceToProjectedPos = projectedRobotPosition.dist(info.getEnemyRobot()->get()->getPos());
+    auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), positionToDefend, enemyDistanceToPoint);
 
-    auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), projectedRobotPosition, enemyDistanceToProjectedPos);
+    auto projectedPosition =
+        FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), desiredRobotPosition, positionToDefend, info.getEnemyRobot()->get()->getPos());
 
-    skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
+    skillStpInfo.setPositionToMoveTo(projectedPosition);
 
     return skillStpInfo;
 }

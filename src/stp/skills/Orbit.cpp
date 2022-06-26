@@ -4,6 +4,8 @@
 
 #include "stp/skills/Orbit.h"
 
+#include "stp/constants/ControlConstants.h"
+
 namespace rtt::ai::stp::skill {
 
 Status Orbit::onUpdate(const StpInfo &info) noexcept {
@@ -32,7 +34,7 @@ Status Orbit::onUpdate(const StpInfo &info) noexcept {
     if (maxVel < 0.65) maxVel = 0.65;
     if (targetVelocity.length() > maxVel) targetVelocity = targetVelocity.stretchToLength(maxVel);
 
-    command.velocity = targetVelocity;
+    command.velocity = targetVelocity * 0.5;
 
     command.targetAngle = targetAngle;
 

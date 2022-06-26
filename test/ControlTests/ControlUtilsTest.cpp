@@ -4,7 +4,10 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_utils/Angle.h>
-#include <helpers/FieldHelper.h>
+
+#include "TestFixtures/TestFixture.h"
+#include "roboteam_utils/Random.h"
+#include "world/FieldComputations.h"
 
 namespace cr = rtt::ai::control;
 using Vector2 = rtt::Vector2;

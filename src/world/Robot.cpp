@@ -8,7 +8,7 @@
 #include "world/World.hpp"
 
 namespace rtt::world::robot {
-Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world::Team team, std::optional<view::BallView> ball,
+Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional<view::BallView> ball,
              unsigned char dribblerState, unsigned long worldNumber)
     : id{static_cast<int>(copy.id())},
       team{team},
@@ -25,8 +25,8 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
     }
 
     if (team == Team::us) {
-        if (feedback.find(id) != feedback.end()) {
-            updateFromFeedback(feedback[id]);
+        if(copy.has_feedbackinfo()){
+            updateFromFeedback(copy.feedbackinfo());
         }
     }
 
@@ -109,10 +109,11 @@ unsigned long Robot::getLastUpdatedWorldNumber() const noexcept { return lastUpd
 
 void Robot::setLastUpdatedWorldNumber(unsigned long _lastUpdatedWorldNumber) noexcept { Robot::lastUpdatedWorldNumber = _lastUpdatedWorldNumber; }
 
-void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
+void Robot::updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept {
+    //TODO: add processing of more of the fields of feedback
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ball_sensor_is_working());
-        setBatteryLow(feedback.battery_level() < 22); // TODO: Define what is considered a 'low' voltage
+        setBatteryLow(feedback.battery_level() < 22);  // TODO: Define what is considered a 'low' voltage
         setBallSensorSeesBall(feedback.has_ball());
         setBallPosBallSensor(feedback.ball_position());
     }

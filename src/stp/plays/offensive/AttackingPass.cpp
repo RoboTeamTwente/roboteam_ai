@@ -9,10 +9,11 @@
 
 #include "stp/computations/PassComputations.h"
 #include "stp/computations/PositionScoring.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/PassReceiver.h"
 #include "stp/roles/active/Passer.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 #include "world/views/RobotView.hpp"
 
@@ -31,9 +32,9 @@ AttackingPass::AttackingPass() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Passer>(role::Passer("passer")),
                                                                                        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_left")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_mid")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_right")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_left")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_mid")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_right")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_left")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_right")),
@@ -88,9 +89,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ball = world->getWorld()->getBall()->get();
         auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
-        auto receiverLocation = ballTrajectory.project(passInfo.passLocation);
-        receiverLocation =
-            PositionComputations::ProjectPositionIntoFieldOnLine(field, receiverLocation, ballTrajectory.start, ballTrajectory.end, -2 * control_constants::ROBOT_RADIUS);
+        auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 
         // Passer now goes to a front grid, where the receiver is not
@@ -148,7 +147,7 @@ bool AttackingPass::shouldEndPlay() noexcept {
         if (stpInfos["receiver"].getRobot()->hasBall()) return true;
 
         // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
-        if (ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 1.5 &&
+        if (ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
             world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL)
             return true;
     }

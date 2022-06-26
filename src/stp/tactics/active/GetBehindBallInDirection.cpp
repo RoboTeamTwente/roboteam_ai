@@ -2,11 +2,12 @@
 // Created by jordi on 06-04-20.
 // Rebuilt by alexander on 21-12-21
 //
-#include "stp/tactics/GetBehindBallInDirection.h"
+#include "stp/tactics/active/GetBehindBallInDirection.h"
 
 #include <roboteam_utils/LineSegment.h>
 
 #include "roboteam_utils/Circle.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Orbit.h"
 

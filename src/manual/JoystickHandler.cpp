@@ -77,14 +77,24 @@ void JoystickHandler::changeRobotID() {
 }
 
 void JoystickHandler::doKick() {
+    static int counter = 0;
     if (joystickState.A) {
         command.kickType = KickType::KICK;
         command.kickSpeed = 3.5;
-        joystickState.A = false;
+        counter++;
+        // Loop 5 times to be sure that the robot actually kicks
+        if (counter >= 5) {
+            joystickState.A = false;
+            counter = 0;
+        }
     } else if (joystickState.B) {
         command.kickType = KickType::KICK;
         command.kickSpeed = 5;
-        joystickState.B = false;
+        counter++;
+        if (counter >= 5) {
+            joystickState.B = false;
+            counter = 0;
+        }
     } else {
         command.kickSpeed = 0.0;
     }
