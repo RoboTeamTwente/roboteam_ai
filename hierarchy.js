@@ -115,6 +115,7 @@ var hierarchy =
       [ "rtt::ai::stp::play::AttackingPass", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html", null ],
       [ "rtt::ai::stp::play::BallPlacementThem", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html", null ],
       [ "rtt::ai::stp::play::BallPlacementUs", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementUs.html", null ],
+      [ "rtt::ai::stp::play::ControlSelectedRobot", "classrtt_1_1ai_1_1stp_1_1play_1_1ControlSelectedRobot.html", null ],
       [ "rtt::ai::stp::play::DefendPass", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html", null ],
       [ "rtt::ai::stp::play::DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html", null ],
       [ "rtt::ai::stp::play::DefensiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html", null ],

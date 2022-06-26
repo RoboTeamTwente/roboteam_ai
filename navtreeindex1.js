@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"DefendShot_8h.html":[10,0,1,0,3,3,1,1],
+"DefendShot_8h_source.html":[10,0,1,0,3,3,1,1],
+"DefensiveStopFormation_8cpp.html":[10,0,2,3,3,3,3],
 "DefensiveStopFormation_8h.html":[10,0,1,0,3,3,3,3],
 "DefensiveStopFormation_8h_source.html":[10,0,1,0,3,3,3,3],
 "DensePathTracking_8cpp.html":[10,0,2,0,0,2,1],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "PenaltyKeeper_8h.html":[10,0,1,0,3,4,3],
 "PenaltyKeeper_8h_source.html":[10,0,1,0,3,4,3],
 "PenaltyThemGameStateEvaluation_8cpp.html":[10,0,2,3,2,0,12],
-"PenaltyThemGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,12],
-"PenaltyThemGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,12],
-"PenaltyThemPrepareGameStateEvaluation_8cpp.html":[10,0,2,3,2,0,13],
-"PenaltyThemPrepareGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,13]
+"PenaltyThemGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,12]
 };
