@@ -5,6 +5,7 @@
 #include "stp/evaluations/position/OpennessEvaluation.h"
 
 #include <cmath>
+#include <algorithm>
 
 namespace rtt::ai::stp::evaluation {
 uint8_t OpennessEvaluation::metricCheck(std::vector<double>& enemyDistances, double radius) noexcept {
