@@ -4,6 +4,7 @@
 
 #include "stp/evaluations/position/BlockingEvaluation.h"
 
+#include <algorithm>
 #include <cmath>
 
 namespace rtt::ai::stp::evaluation {
