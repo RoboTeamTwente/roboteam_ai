@@ -8,7 +8,6 @@ var classrtt_1_1ai_1_1interface_1_1MainWindow =
     [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#acf2c750347cdc7c47e7d1444deca0138", null ],
     [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ad1d135fa3b4a47e5b6c4b8b97fb347a6", null ],
     [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ab3fa259dce98754473c8e61bbe830f4d", null ],
-    [ "getVisualizer", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a8a028da5248dc7e8f38916d6b1f44fde", null ],
     [ "setKeeperRole", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a98bf5b2bb5b505edf5ae9dc7642e4d08", null ],
     [ "setPlayForRobot", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a2742f0846df3daa3f57f233edbfae3e1", null ],
     [ "setTacticForRobot", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a3b727eabc6b17836e16da5bce185e46e", null ],

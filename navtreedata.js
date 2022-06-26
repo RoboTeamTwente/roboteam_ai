@@ -161,24 +161,24 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AggressiveStopFormation_8cpp.html",
-"DefendShot_8h.html",
-"PenaltyThemGameStateEvaluation_8h_source.html",
-"TimeToPositionEvaluation_8h_source.html",
-"classMockTactic.html#ac7dba7916b5fc648439cb51181d01358",
-"classrtt_1_1ai_1_1Constants.html#a9029336bc399c022218dd65305d5f9ad",
-"classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html#ac7b5d559d44b063cd7d2f863bb777f4a",
-"classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac6cae5467348479ff6008d7ffb565f18",
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#ade44db60608bdbe328f6d105405b8b91",
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ab23ad33458ed975661cdc593bdf40968",
-"classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a447b46dba282ae0e1452f52744b382e1",
-"classrtt_1_1ai_1_1stp_1_1play_1_1KickOffThemPrepare.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56",
-"classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#ac01b265d0205301878bc49bbd76100ff",
-"classrtt_1_1ai_1_1stp_1_1skill_1_1GoToPos.html#a8ff0319d5018d2f697c38494d0568991",
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#ab496bf1614c47ef3e466cd235eb84aab",
-"classrtt_1_1world_1_1Field.html#ace1a6a08606b937d9625a7d408e4e765",
-"dir_0eb674b60a459414e51eb1d11af076b5.html",
-"namespaceroboteam__utils.html#a55f2b285dde6b93aac1269ac9a9cc7ae",
-"namespacertt_1_1ai_1_1stp_1_1gen.html#aea74bbddaa4d900c85190a28b3953c83"
+"DefensiveStopFormation_8h.html",
+"PenaltyThemPrepareGameStateEvaluation_8h_source.html",
+"Toggles_8h.html#a32502a1646cc497e4d4868294944d75d",
+"classMockTactic.html#afd7ea83d131cd9afb0b941e2ebd75457",
+"classrtt_1_1ai_1_1Constants.html#a91f068dfe2c2077d9d161dd43a710153",
+"classrtt_1_1ai_1_1interface_1_1GraphWidget.html#a0ee86759cd0c647ba81ea9dc3cb17d54",
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#ad8b5e4029bf04f390205b8cd43268638",
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallNotInOurDefenseAreaAndStillGlobalEvaluation.html#a398b540794c69beedd6c0f9e6c2acad7",
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ad7b71d56f8b8d8d62b7ec945847a2bec",
+"classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a455ee304b8e923b16ec8229f5daa24bc",
+"classrtt_1_1ai_1_1stp_1_1play_1_1KickOffUs.html#ae0c6ce7335a11d00664df9351a446551",
+"classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html#aec23bc25f782eea1f79c29cd3d5f9d99",
+"classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a62d571b925906855b84dfc185a0b5ee8",
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#aedddbc26d83a8ba5da1adc0b2881040a",
+"classrtt_1_1world_1_1World.html#a3c7cbd450ac3b8e5d436b98e2a1c7fc6",
+"dir_80c23c3cadd8fcc741290018b5b2de5d.html",
+"namespacertt_1_1BB.html#ad276ea232760b17cab9c9462ac8c11c4",
+"namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727a6e5f2747daba8cda60dca36edf058525"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

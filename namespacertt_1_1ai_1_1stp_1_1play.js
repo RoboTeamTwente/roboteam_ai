@@ -2,7 +2,6 @@ var namespacertt_1_1ai_1_1stp_1_1play =
 [
     [ "GetBallPossession", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession" ],
     [ "GetBallRisky", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky" ],
-    [ "ControlSelectedRobot", "classrtt_1_1ai_1_1stp_1_1play_1_1ControlSelectedRobot.html", "classrtt_1_1ai_1_1stp_1_1play_1_1ControlSelectedRobot" ],
     [ "DefendPass", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass" ],
     [ "DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot" ],
     [ "KeeperKickBall", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall" ],

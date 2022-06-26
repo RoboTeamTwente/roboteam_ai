@@ -206,9 +206,6 @@ var NAVTREEINDEX0 =
 "ControlModule_8cpp.html":[10,0,2,0,2],
 "ControlModule_8h.html":[10,0,1,0,0,2],
 "ControlModule_8h_source.html":[10,0,1,0,0,2],
-"ControlSelectedRobot_8cpp.html":[10,0,2,3,3,4],
-"ControlSelectedRobot_8h.html":[10,0,1,0,3,3,4],
-"ControlSelectedRobot_8h_source.html":[10,0,1,0,3,3,4],
 "ControlUtilsTest_8cpp.html":[10,0,3,0,2],
 "ControlUtilsTest_8cpp.html#a17000514ed97774597f8ea6b1c01e29a":[10,0,3,0,2,6],
 "ControlUtilsTest_8cpp.html#a4a46470680ddc7c18b051296095b9efd":[10,0,3,0,2,3],
@@ -249,5 +246,8 @@ var NAVTREEINDEX0 =
 "DefendPass_8cpp.html":[10,0,2,3,3,1,0],
 "DefendPass_8h.html":[10,0,1,0,3,3,1,0],
 "DefendPass_8h_source.html":[10,0,1,0,3,3,1,0],
-"DefendShot_8cpp.html":[10,0,2,3,3,1,1]
+"DefendShot_8cpp.html":[10,0,2,3,3,1,1],
+"DefendShot_8h.html":[10,0,1,0,3,3,1,1],
+"DefendShot_8h_source.html":[10,0,1,0,3,3,1,1],
+"DefensiveStopFormation_8cpp.html":[10,0,2,3,3,3,3]
 };
