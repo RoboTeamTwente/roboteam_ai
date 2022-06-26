@@ -91,19 +91,20 @@ $(document).ready(function(){initNavTree('PositionControl_8h.html',''); initResi
 <div class="title">PositionControl.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;queue&gt;</code><br />
-<code>#include &lt;roboteam_utils/RobotCommands.hpp&gt;</code><br />
-<code>#include &quot;<a class="el" href="CollisionDetector_8h_source.html">control/positionControl/CollisionDetector.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="BBTPathPlanning_8h_source.html">control/positionControl/pathPlanning/BBTPathPlanning.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;roboteam_utils/RobotCommands.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="Trajectory2D_8h_source.html">BBTrajectories/Trajectory2D.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="CollisionDetector_8h_source.html">CollisionDetector.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="WorldObjects_8h_source.html">control/positionControl/BBTrajectories/WorldObjects.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="NumTreesPlanning_8h_source.html">control/positionControl/pathPlanning/NumTreesPlanning.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="BBTPathTracking_8h_source.html">control/positionControl/pathTracking/BBTPathTracking.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="DensePathTracking_8h_source.html">control/positionControl/pathTracking/DensePathTracking.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PidTracking_8h_source.html">control/positionControl/pathTracking/PidTracking.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="StpInfoEnums_8h_source.html">utilities/StpInfoEnums.h</a>&quot;</code><br />
 </div>
 <p><a href="PositionControl_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:structrtt_1_1ai_1_1control_1_1PositionControlCommand"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1PositionControlCommand">rtt::ai::control::PositionControlCommand</a></td></tr>
-<tr class="separator:structrtt_1_1ai_1_1control_1_1PositionControlCommand"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html">rtt::ai::control::PositionControl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -116,36 +117,6 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacertt_1_1ai_1_1control"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html">rtt::ai::control</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/><h2 class="groupheader">Class Documentation</h2>
-<a name="structrtt_1_1ai_1_1control_1_1PositionControlCommand" id="structrtt_1_1ai_1_1control_1_1PositionControlCommand"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1PositionControlCommand">&#9670;&nbsp;</a></span>rtt::ai::control::PositionControlCommand</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct rtt::ai::control::PositionControlCommand</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"></div><table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a id="a257139e78b289e232ffe856ba7239dc5"></a>bool</td>
-<td class="fieldname">
-isOccupied</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="aea06224896ad0b471e6939e6574c989c"></a>RobotCommand</td>
-<td class="fieldname">
-robotCommand</td>
-<td class="fielddoc">
-</td></tr>
-</table>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -118,11 +118,11 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html#a81a31a17d9f7c1332195117971ca1f74">rtt::ai::stp::play::TimeOut</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1TestPlay.html#a63f79e60000f75faf4dfc9315456afe7">rtt::ai::stp::TestPlay</a>
 </li>
+<li>scoreIntermediatePoints()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#a9d50398e7b85759b70ffb60f1eb495a5">rtt::ai::control::PositionControl</a>
+</li>
 <li>scorePass()
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6b4617276cfe62f74480e908a3678627">rtt::ai::stp::computations::PassComputations</a>
-</li>
-<li>scorePath()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathPlanning.html#a08bc0962ceee4d7992c7cbdf8a39c3bd">rtt::ai::control::BBTPathPlanning</a>
 </li>
 <li>scorePosition()
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a30871798672da8461926bb63d54b3f00">rtt::ai::stp::PositionScoring</a>
@@ -189,7 +189,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#aab17b5e074c5a6d07bf24c472d4d5870">rtt::ai::stp::StpInfo</a>
 </li>
 <li>setField()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ad27175fdef7487af343a061a29fa41a3">rtt::ai::control::CollisionDetector</a>
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a7d1708e58ace3a7835ca215a77a4c9e2">rtt::ai::control::CollisionDetector</a>
 , <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#ad2dd0e9eb842154e881523454b11f034">rtt::ai::stp::StpInfo</a>
 </li>
 <li>setFps()
@@ -241,14 +241,14 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 <li>setMaxRobotVelocity()
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#ac4f0191be550edf701259b9677e58f35">rtt::ai::stp::StpInfo</a>
 </li>
-<li>setMinBallDistance()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ac286f7c2702c85a2181216fc0056be52">rtt::ai::control::CollisionDetector</a>
-</li>
 <li>setNumTreePid()
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1Output.html#a794101e0ccee80fc488b148694c992b7">rtt::ai::interface::Output</a>
 </li>
 <li>setObjectsToAvoid()
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a8af12b1702377cb1e06f84cbb8cccc1c">rtt::ai::stp::StpInfo</a>
+</li>
+<li>setParent()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PathPointNode.html#ace7ba415980060f0b7add0f6d2e900d3">rtt::ai::control::PathPointNode</a>
 </li>
 <li>setPause()
 : <a class="el" href="classrtt_1_1ai_1_1Pause.html#a3ea052093052d878382f016978aec7ff">rtt::ai::Pause</a>
@@ -304,6 +304,10 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 </li>
 <li>setRobothubSendPort()
 : <a class="el" href="classrtt_1_1Settings.html#a0aa037f0f50bf509cf0ac899b5988351">rtt::Settings</a>
+</li>
+<li>setRobotPositions()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#af1aa682e09acef1df076a73804591757">rtt::ai::control::CollisionDetector</a>
+, <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#aebe89d070c772826f309714387686315">rtt::ai::control::PositionControl</a>
 </li>
 <li>setRoleName()
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#af75aeb911553108d67f5cc5c0032bf49">rtt::ai::stp::StpInfo</a>
@@ -441,6 +445,12 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0d763e50ca74385381add422b4568227">rtt::ai::stp::play::PlayTemplate</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">rtt::ai::stp::Play</a>
 </li>
+<li>shouldRecalculatePath()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#a544d739feb3aea71d107b801e2a4054d">rtt::ai::control::PositionControl</a>
+</li>
+<li>shouldRecalculateTrajectory()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#a292ce1b38dc90f02072764ae85b4ce2e">rtt::ai::control::PositionControl</a>
+</li>
 <li>shouldTacticReset()
 : <a class="el" href="classMockTactic.html#a5b71704c2e3a289abb3075e248577d30">MockTactic</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html#a35be8571412d041bfe1e54ac337ebea8">rtt::ai::stp::tactic::AvoidBall</a>
@@ -461,9 +471,6 @@ $(document).ready(function(){initNavTree('functions_func_s.html',''); initResiza
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#a0530ffa7fe49eb66d4fc717086cfe949">rtt::ai::stp::Tactic</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html#a0ce0417a51f56eb90b162a363415c463">rtt::ai::stp::tactic::Walling</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1TestTactic.html#a1197153c427e64c749ef9fc57bacfc2e">rtt::ai::stp::TestTactic</a>
-</li>
-<li>shouldUpdatePath()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aab6a75b7d5365b839115aacbe98e878e">rtt::ai::control::BBTPathTracking</a>
 </li>
 <li>shouldVisualize()
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a586bf3c64a3d5c72c79fb7a0d2a650c4">rtt::ai::interface::Visualizer</a>

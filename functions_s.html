@@ -88,8 +88,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 
 <h3><a id="index_s"></a>- s -</h3><ul>
 <li>score
-: <a class="el" href="namespacertt_1_1ai_1_1control.html#a4b24b0a2195067297b628cedb6ee9141">rtt::ai::control::CombinedTrajectory</a>
-, <a class="el" href="classrtt_1_1ai_1_1Dealer.html#a89e3f7131deb54621ec7fb8261ca543a">rtt::ai::Dealer::FlagScore</a>
+: <a class="el" href="classrtt_1_1ai_1_1Dealer.html#a89e3f7131deb54621ec7fb8261ca543a">rtt::ai::Dealer::FlagScore</a>
 , <a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#a53348e84fb4db6a3509e2688f0c6e3ed">rtt::ai::stp::gen::ScoredPosition</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html#a1b9341b32c4f0fdb3ca3e7e391eb961b">rtt::ai::stp::play::AggressiveStopFormation</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#adbf756d7b42aed51a78933d42da976be">rtt::ai::stp::play::Attack</a>
@@ -127,6 +126,9 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>scoreGoalShot
 : <a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#ac6f77d94a1ffa7e2dd3db7975f1b6cce">rtt::ai::stp::gen::PositionScores</a>
 </li>
+<li>scoreIntermediatePoints()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#a9d50398e7b85759b70ffb60f1eb495a5">rtt::ai::control::PositionControl</a>
+</li>
 <li>scoreLineOfSight
 : <a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#a581911d4fdedc0d2cf46b470d30e51c5">rtt::ai::stp::gen::PositionScores</a>
 </li>
@@ -135,9 +137,6 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 </li>
 <li>scorePass()
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6b4617276cfe62f74480e908a3678627">rtt::ai::stp::computations::PassComputations</a>
-</li>
-<li>scorePath()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathPlanning.html#a08bc0962ceee4d7992c7cbdf8a39c3bd">rtt::ai::control::BBTPathPlanning</a>
 </li>
 <li>scorePosition()
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a30871798672da8461926bb63d54b3f00">rtt::ai::stp::PositionScoring</a>
@@ -237,7 +236,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#aab17b5e074c5a6d07bf24c472d4d5870">rtt::ai::stp::StpInfo</a>
 </li>
 <li>setField()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ad27175fdef7487af343a061a29fa41a3">rtt::ai::control::CollisionDetector</a>
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a7d1708e58ace3a7835ca215a77a4c9e2">rtt::ai::control::CollisionDetector</a>
 , <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#ad2dd0e9eb842154e881523454b11f034">rtt::ai::stp::StpInfo</a>
 </li>
 <li>setFps()
@@ -289,14 +288,14 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>setMaxRobotVelocity()
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#ac4f0191be550edf701259b9677e58f35">rtt::ai::stp::StpInfo</a>
 </li>
-<li>setMinBallDistance()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#ac286f7c2702c85a2181216fc0056be52">rtt::ai::control::CollisionDetector</a>
-</li>
 <li>setNumTreePid()
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1Output.html#a794101e0ccee80fc488b148694c992b7">rtt::ai::interface::Output</a>
 </li>
 <li>setObjectsToAvoid()
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#a8af12b1702377cb1e06f84cbb8cccc1c">rtt::ai::stp::StpInfo</a>
+</li>
+<li>setParent()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PathPointNode.html#ace7ba415980060f0b7add0f6d2e900d3">rtt::ai::control::PathPointNode</a>
 </li>
 <li>setPause()
 : <a class="el" href="classrtt_1_1ai_1_1Pause.html#a3ea052093052d878382f016978aec7ff">rtt::ai::Pause</a>
@@ -352,6 +351,10 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 </li>
 <li>setRobothubSendPort()
 : <a class="el" href="classrtt_1_1Settings.html#a0aa037f0f50bf509cf0ac899b5988351">rtt::Settings</a>
+</li>
+<li>setRobotPositions()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#af1aa682e09acef1df076a73804591757">rtt::ai::control::CollisionDetector</a>
+, <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#aebe89d070c772826f309714387686315">rtt::ai::control::PositionControl</a>
 </li>
 <li>setRoleName()
 : <a class="el" href="structrtt_1_1ai_1_1stp_1_1StpInfo.html#af75aeb911553108d67f5cc5c0032bf49">rtt::ai::stp::StpInfo</a>
@@ -516,6 +519,12 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0d763e50ca74385381add422b4568227">rtt::ai::stp::play::PlayTemplate</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">rtt::ai::stp::Play</a>
 </li>
+<li>shouldRecalculatePath()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#a544d739feb3aea71d107b801e2a4054d">rtt::ai::control::PositionControl</a>
+</li>
+<li>shouldRecalculateTrajectory()
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html#a292ce1b38dc90f02072764ae85b4ce2e">rtt::ai::control::PositionControl</a>
+</li>
 <li>shouldTacticReset()
 : <a class="el" href="classMockTactic.html#a5b71704c2e3a289abb3075e248577d30">MockTactic</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html#a35be8571412d041bfe1e54ac337ebea8">rtt::ai::stp::tactic::AvoidBall</a>
@@ -536,9 +545,6 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#a0530ffa7fe49eb66d4fc717086cfe949">rtt::ai::stp::Tactic</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html#a0ce0417a51f56eb90b162a363415c463">rtt::ai::stp::tactic::Walling</a>
 , <a class="el" href="classrtt_1_1ai_1_1stp_1_1TestTactic.html#a1197153c427e64c749ef9fc57bacfc2e">rtt::ai::stp::TestTactic</a>
-</li>
-<li>shouldUpdatePath()
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aab6a75b7d5365b839115aacbe98e878e">rtt::ai::control::BBTPathTracking</a>
 </li>
 <li>shouldVisualize()
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1Visualizer.html#a586bf3c64a3d5c72c79fb7a0d2a650c4">rtt::ai::interface::Visualizer</a>
@@ -636,6 +642,14 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>simulatorAnglePIDmap
 : <a class="el" href="classrtt_1_1ai_1_1control_1_1ControlModule.html#a74653484152b631fc32cbcb09f29bebd">rtt::ai::control::ControlModule</a>
 </li>
+<li>sites
+: <a class="el" href="Voronoi_8h.html#a674e40b5a214f393ae920cb9dd7419ab">jcv_context_internal</a>
+, <a class="el" href="Voronoi_8h.html#a69d9870711ac94a22dd891fc224c0d86">jcv_diagram</a>
+, <a class="el" href="Voronoi_8h.html#ae0ab2357e93e70fe54b34803a2e210c0">jcv_edge</a>
+</li>
+<li>sizefree
+: <a class="el" href="Voronoi_8h.html#a47a25ecdc9b4b2405cc517511033c59c">jcv_memoryblock</a>
+</li>
 <li>skills
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1Tactic.html#a242748b42fbc99613b65f6500eb12f8f">rtt::ai::stp::Tactic</a>
 </li>
@@ -713,11 +727,9 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 <li>STD_USE_REFEREE()
 : <a class="el" href="classrtt_1_1ai_1_1Constants.html#a3b3f9bd0fb3df39549cd187bc3004ca4">rtt::ai::Constants</a>
 </li>
-<li>STEP_COUNT
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a64b2e27edd252d581a748b53527f1f5a">rtt::ai::control::CollisionDetector</a>
-</li>
 <li>STEPS_AHEAD
-: <a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#aadcf94a85f36202466ed66fbcac98b0d">rtt::ai::control::BBTPathTracking</a>
+: <a class="el" href="classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a4f8b393802925b0308bc404ea47f6ac1">rtt::ai::control::BBTPathTracking</a>
+, <a class="el" href="classrtt_1_1ai_1_1control_1_1DensePathTracking.html#a92a6d93aa28d65ea1d4521683a0b9a2b">rtt::ai::control::DensePathTracking</a>
 </li>
 <li>stickLeft
 : <a class="el" href="namespacertt_1_1input.html#a101f12692d9c7ad0fecc76db5259a8c8">rtt::input::JoystickState</a>
@@ -747,7 +759,7 @@ $(document).ready(function(){initNavTree('functions_s.html',''); initResizable()
 : <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a08a78e2b6bb5fb4f75d0c9dc572d25fa">rtt::ai::stp::Play</a>
 </li>
 <li>STPManager()
-: <a class="el" href="classrtt_1_1STPManager.html#a7a8473167698f237b45ee23f334fa538">rtt::STPManager</a>
+: <a class="el" href="classrtt_1_1STPManager.html#a8edcab477fc8c4d1c1e9c782005ceb47">rtt::STPManager</a>
 </li>
 <li>STPVisualizerWidget()
 : <a class="el" href="classrtt_1_1ai_1_1interface_1_1STPVisualizerWidget.html#a2c9ca901ec55a6d0c069210724f8fabf">rtt::ai::interface::STPVisualizerWidget</a>

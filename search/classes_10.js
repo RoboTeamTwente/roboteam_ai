@@ -1,16 +1,17 @@
 var searchData=
 [
-  ['scoredposition_2149',['ScoredPosition',['../namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoredPosition',1,'rtt::ai::stp::gen']]],
-  ['scoreprofile_2150',['ScoreProfile',['../namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoreProfile',1,'rtt::ai::stp::gen']]],
-  ['settings_2151',['Settings',['../classrtt_1_1Settings.html',1,'rtt']]],
-  ['settingswidget_2152',['SettingsWidget',['../classrtt_1_1ai_1_1interface_1_1SettingsWidget.html',1,'rtt::ai::interface']]],
-  ['shoot_2153',['Shoot',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Shoot.html',1,'rtt::ai::stp::skill']]],
-  ['shootatpos_2154',['ShootAtPos',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html',1,'rtt::ai::stp::tactic']]],
-  ['skill_2155',['Skill',['../classrtt_1_1ai_1_1stp_1_1Skill.html',1,'rtt::ai::stp']]],
-  ['stopgamestateevaluation_2156',['StopGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1StopGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['storeinfo_2157',['StoreInfo',['../namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1StoreInfo',1,'rtt::ai::stp::gen']]],
-  ['stpinfo_2158',['StpInfo',['../structrtt_1_1ai_1_1stp_1_1StpInfo.html',1,'rtt::ai::stp']]],
-  ['stpmanager_2159',['STPManager',['../classrtt_1_1STPManager.html',1,'rtt']]],
-  ['stpvisualizerwidget_2160',['STPVisualizerWidget',['../classrtt_1_1ai_1_1interface_1_1STPVisualizerWidget.html',1,'rtt::ai::interface']]],
-  ['strategymanager_2161',['StrategyManager',['../classrtt_1_1ai_1_1StrategyManager.html',1,'rtt::ai']]]
+  ['receive_2329',['Receive',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html',1,'rtt::ai::stp::tactic']]],
+  ['refgamestate_2330',['RefGameState',['../structrtt_1_1ai_1_1RefGameState.html',1,'rtt::ai']]],
+  ['reflectkick_2331',['ReflectKick',['../classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html',1,'rtt::ai::stp::play']]],
+  ['robot_2332',['Robot',['../classrtt_1_1world_1_1robot_1_1Robot.html',1,'rtt::world::robot']]],
+  ['robotdefender_2333',['RobotDefender',['../classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender.html',1,'rtt::ai::stp::role']]],
+  ['robotrolescore_2334',['RobotRoleScore',['../classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore',1,'rtt::ai::Dealer']]],
+  ['robotswidget_2335',['RobotsWidget',['../classrtt_1_1ai_1_1interface_1_1RobotsWidget.html',1,'rtt::ai::interface']]],
+  ['robotview_2336',['RobotView',['../classrtt_1_1world_1_1view_1_1RobotView.html',1,'rtt::world::view']]],
+  ['role_2337',['Role',['../classrtt_1_1ai_1_1stp_1_1Role.html',1,'rtt::ai::stp']]],
+  ['roleinfo_2338',['RoleInfo',['../classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleInfo',1,'rtt::ai::Dealer']]],
+  ['rotate_2339',['Rotate',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html',1,'rtt::ai::stp::skill']]],
+  ['rtt_5fai_5ftests_2340',['RTT_AI_Tests',['../classRTT__AI__Tests.html',1,'']]],
+  ['ruleset_2341',['RuleSet',['../structrtt_1_1ai_1_1RuleSet.html',1,'rtt::ai']]],
+  ['rulesetwidget_2342',['RuleSetWidget',['../classrtt_1_1ai_1_1interface_1_1RuleSetWidget.html',1,'rtt::ai::interface']]]
 ];

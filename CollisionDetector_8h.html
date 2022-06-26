@@ -86,28 +86,19 @@ $(document).ready(function(){initNavTree('CollisionDetector_8h.html',''); initRe
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
 <div class="title">CollisionDetector.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;optional&gt;</code><br />
-<code>#include &lt;span&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="BBTrajectory2D_8h_source.html">control/positionControl/BBTrajectories/BBTrajectory2D.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Constants_8h_source.html">utilities/Constants.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="Constants_8h_source.html">utilities/Constants.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Field_8h_source.html">world/Field.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="FieldComputations_8h_source.html">world/FieldComputations.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RobotView_8hpp_source.html">world/views/RobotView.hpp</a>&quot;</code><br />
 </div>
 <p><a href="CollisionDetector_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:structrtt_1_1ai_1_1control_1_1Obstacles"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Obstacles">rtt::ai::control::Obstacles</a></td></tr>
-<tr class="separator:structrtt_1_1ai_1_1control_1_1Obstacles"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structrtt_1_1ai_1_1control_1_1Collision"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision">rtt::ai::control::Collision</a></td></tr>
-<tr class="separator:structrtt_1_1ai_1_1control_1_1Collision"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1CollisionDetector.html">rtt::ai::control::CollisionDetector</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -119,84 +110,7 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacertt_1_1ai_1_1control"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html">rtt::ai::control</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a331eb320463691513f3efeb5c7f89b80"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a331eb320463691513f3efeb5c7f89b80"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1control.html#a331eb320463691513f3efeb5c7f89b80">rtt::ai::control::PathPointType</a></td></tr>
-<tr class="separator:a331eb320463691513f3efeb5c7f89b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/><h2 class="groupheader">Class Documentation</h2>
-<a name="structrtt_1_1ai_1_1control_1_1Obstacles" id="structrtt_1_1ai_1_1control_1_1Obstacles"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1Obstacles">&#9670;&nbsp;</a></span>rtt::ai::control::Obstacles</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct rtt::ai::control::Obstacles</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"></div><table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a id="a230f042a2a0bb3a6440ca45f3a31ea33"></a>PosVelVector</td>
-<td class="fieldname">
-ball</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="ad585e1b26d502698149688ea482667c1"></a>vector&lt; PosVelVector &gt;</td>
-<td class="fieldname">
-robotsThem</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="aac7e5f60042d26a322fe1212bcf6a6f1"></a>unordered_map&lt; int, PosVelVector &gt;</td>
-<td class="fieldname">
-robotsUs</td>
-<td class="fielddoc">
-</td></tr>
-</table>
-
-</div>
-</div>
-<a name="structrtt_1_1ai_1_1control_1_1Collision" id="structrtt_1_1ai_1_1control_1_1Collision"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structrtt_1_1ai_1_1control_1_1Collision">&#9670;&nbsp;</a></span>rtt::ai::control::Collision</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct rtt::ai::control::Collision</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"></div><table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a id="a871d79a668b5d04c0aa4fbeb1589975b"></a><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a></td>
-<td class="fieldname">
-position</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a32182152c385e9256b163a26adbd425c"></a>int</td>
-<td class="fieldname">
-timeStep</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a871f619dba3093b74a5bb0e4fa24d233"></a><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a></td>
-<td class="fieldname">
-velocity</td>
-<td class="fielddoc">
-</td></tr>
-</table>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

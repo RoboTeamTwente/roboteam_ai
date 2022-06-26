@@ -5,13 +5,16 @@ var annotated_dup =
         [ "control", "namespacertt_1_1ai_1_1control.html", [
           [ "ControlModule", "classrtt_1_1ai_1_1control_1_1ControlModule.html", "classrtt_1_1ai_1_1control_1_1ControlModule" ],
           [ "ControlUtils", "classrtt_1_1ai_1_1control_1_1ControlUtils.html", "classrtt_1_1ai_1_1control_1_1ControlUtils" ],
-          [ "Obstacles", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Obstacles", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1Obstacles_dup" ],
-          [ "Collision", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1Collision", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1Collision_dup" ],
           [ "CollisionDetector", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html", "classrtt_1_1ai_1_1control_1_1CollisionDetector" ],
-          [ "CombinedTrajectory", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1CombinedTrajectory", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1CombinedTrajectory_dup" ],
-          [ "BBTPathPlanning", "classrtt_1_1ai_1_1control_1_1BBTPathPlanning.html", "classrtt_1_1ai_1_1control_1_1BBTPathPlanning" ],
+          [ "NumTreesPlanning", "classrtt_1_1ai_1_1control_1_1NumTreesPlanning.html", "classrtt_1_1ai_1_1control_1_1NumTreesPlanning" ],
+          [ "PathPlanningAlgorithm", "classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm.html", "classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm" ],
+          [ "GraphNode", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1GraphNode", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1GraphNode_dup" ],
+          [ "VoronoiPathPlanning", "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html", "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning" ],
+          [ "PathPointNode", "classrtt_1_1ai_1_1control_1_1PathPointNode.html", "classrtt_1_1ai_1_1control_1_1PathPointNode" ],
           [ "BBTPathTracking", "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html", "classrtt_1_1ai_1_1control_1_1BBTPathTracking" ],
-          [ "PositionControlCommand", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1PositionControlCommand", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1PositionControlCommand_dup" ],
+          [ "DensePathTracking", "classrtt_1_1ai_1_1control_1_1DensePathTracking.html", "classrtt_1_1ai_1_1control_1_1DensePathTracking" ],
+          [ "PathTrackingAlgorithm", "classrtt_1_1ai_1_1control_1_1PathTrackingAlgorithm.html", "classrtt_1_1ai_1_1control_1_1PathTrackingAlgorithm" ],
+          [ "PidTracking", "classrtt_1_1ai_1_1control_1_1PidTracking.html", "classrtt_1_1ai_1_1control_1_1PidTracking" ],
           [ "PositionControl", "classrtt_1_1ai_1_1control_1_1PositionControl.html", "classrtt_1_1ai_1_1control_1_1PositionControl" ],
           [ "PositionControlUtils", "classrtt_1_1ai_1_1control_1_1PositionControlUtils.html", "classrtt_1_1ai_1_1control_1_1PositionControlUtils" ]
         ] ],
@@ -199,8 +202,10 @@ var annotated_dup =
         [ "BBTrajectoryPart", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart", "namespacertt_1_1BB_structrtt_1_1BB_1_1BBTrajectoryPart_dup" ],
         [ "BBPosVelAcc", "structrtt_1_1BB_1_1BBPosVelAcc.html", "structrtt_1_1BB_1_1BBPosVelAcc" ],
         [ "BBTrajectory1D", "classrtt_1_1BB_1_1BBTrajectory1D.html", "classrtt_1_1BB_1_1BBTrajectory1D" ],
-        [ "PosVelVector", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1PosVelVector", "namespacertt_1_1BB_structrtt_1_1BB_1_1PosVelVector_dup" ],
-        [ "BBTrajectory2D", "classrtt_1_1BB_1_1BBTrajectory2D.html", "classrtt_1_1BB_1_1BBTrajectory2D" ]
+        [ "BBTrajectory2D", "classrtt_1_1BB_1_1BBTrajectory2D.html", "classrtt_1_1BB_1_1BBTrajectory2D" ],
+        [ "CollisionData", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData", "namespacertt_1_1BB_structrtt_1_1BB_1_1CollisionData_dup" ],
+        [ "CommandCollision", "namespacertt_1_1BB.html#structrtt_1_1BB_1_1CommandCollision", "namespacertt_1_1BB_structrtt_1_1BB_1_1CommandCollision_dup" ],
+        [ "WorldObjects", "classrtt_1_1BB_1_1WorldObjects.html", "classrtt_1_1BB_1_1WorldObjects" ]
       ] ],
       [ "input", "namespacertt_1_1input.html", [
         [ "JoystickHandler", "classrtt_1_1input_1_1JoystickHandler.html", "classrtt_1_1input_1_1JoystickHandler" ],
@@ -229,6 +234,8 @@ var annotated_dup =
         [ "WorldData", "classrtt_1_1world_1_1WorldData.html", "classrtt_1_1world_1_1WorldData" ]
       ] ],
       [ "AnglePID", "classrtt_1_1AnglePID.html", "classrtt_1_1AnglePID" ],
+      [ "Trajectory1D", "classrtt_1_1Trajectory1D.html", "classrtt_1_1Trajectory1D" ],
+      [ "Trajectory2D", "classrtt_1_1Trajectory2D.html", "classrtt_1_1Trajectory2D" ],
       [ "STPManager", "classrtt_1_1STPManager.html", "classrtt_1_1STPManager" ],
       [ "Settings", "classrtt_1_1Settings.html", "classrtt_1_1Settings" ]
     ] ],
@@ -236,6 +243,18 @@ var annotated_dup =
       [ "FieldHelper", "classtesthelpers_1_1FieldHelper.html", "classtesthelpers_1_1FieldHelper" ],
       [ "WorldHelper", "classtesthelpers_1_1WorldHelper.html", "classtesthelpers_1_1WorldHelper" ]
     ] ],
+    [ "jcv_cast_align_struct", "Voronoi_8h.html#unionjcv__cast__align__struct", "Voronoi_8h_unionjcv__cast__align__struct" ],
+    [ "jcv_clipper", "Voronoi_8h.html#struct__jcv__clipper", "Voronoi_8h_struct__jcv__clipper" ],
+    [ "jcv_context_internal", "Voronoi_8h.html#struct__jcv__context__internal", "Voronoi_8h_struct__jcv__context__internal" ],
+    [ "jcv_diagram", "Voronoi_8h.html#struct__jcv__diagram", "Voronoi_8h_struct__jcv__diagram" ],
+    [ "jcv_edge", "Voronoi_8h.html#struct__jcv__edge", "Voronoi_8h_struct__jcv__edge" ],
+    [ "jcv_graphedge", "Voronoi_8h.html#struct__jcv__graphedge", "Voronoi_8h_struct__jcv__graphedge" ],
+    [ "jcv_halfedge", "Voronoi_8h.html#structjcv__halfedge", "Voronoi_8h_structjcv__halfedge" ],
+    [ "jcv_memoryblock", "Voronoi_8h.html#structjcv__memoryblock", "Voronoi_8h_structjcv__memoryblock" ],
+    [ "jcv_point", "Voronoi_8h.html#struct__jcv__point", "Voronoi_8h_struct__jcv__point" ],
+    [ "jcv_priorityqueue", "Voronoi_8h.html#structjcv__priorityqueue", "Voronoi_8h_structjcv__priorityqueue" ],
+    [ "jcv_rect", "Voronoi_8h.html#struct__jcv__rect", "Voronoi_8h_struct__jcv__rect" ],
+    [ "jcv_site", "Voronoi_8h.html#struct__jcv__site", "Voronoi_8h_struct__jcv__site" ],
     [ "MockTactic", "classMockTactic.html", "classMockTactic" ],
     [ "RTT_AI_Tests", "classRTT__AI__Tests.html", "classRTT__AI__Tests" ],
     [ "TestSkill", "classTestSkill.html", "classTestSkill" ]
