@@ -124,7 +124,7 @@ void FreeKickThem::calculateInfoForKeeper() noexcept {
 }
 
 void FreeKickThem::calculateInfoForHarassers() noexcept {
-    auto ballPos = world->getWorld()->getBall()->get()->getPos();
+    auto ballPos = world->getWorld()->getBall()->get()->position;
     auto goalPos = field.getOurGoalCenter();
 
     auto targetPos = (ballPos + goalPos) / 2;
@@ -138,7 +138,7 @@ void FreeKickThem::calculateInfoForHarassers() noexcept {
 
 void FreeKickThem::calculateInfoForOffenders() noexcept {
     stpInfos["offender_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
-    if (world->getWorld()->getBall().value()->getPos().y > 0) {
+    if (world->getWorld()->getBall().value()->position.y > 0) {
         stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
     } else {
         stpInfos["offender_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));

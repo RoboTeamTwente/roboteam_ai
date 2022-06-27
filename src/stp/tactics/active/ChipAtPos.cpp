@@ -29,7 +29,7 @@ std::optional<StpInfo> ChipAtPos::calculateInfoForSkill(StpInfo const &info) noe
     skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the chip force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    double distanceBallToTarget = (info.getBall()->get()->position - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     // When rotating, we need to dribble to keep the ball, but when chipping we don't

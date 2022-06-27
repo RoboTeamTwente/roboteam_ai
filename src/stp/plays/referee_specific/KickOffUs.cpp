@@ -59,7 +59,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
         stpInfos["receiver"].setPositionToMoveTo(passLocation);
     } else {
         auto ball = world->getWorld()->getBall()->get();
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getVelocity().stretchToLength(field.getFieldLength()));
+        auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
     }
@@ -91,7 +91,7 @@ bool KickOffUs::shouldEndPlay() noexcept {
 
         // True if the kick_off_taker has shot the ball, but it is now stationary (pass was too soft, was reflected, etc.)
         return ballKicked() && stpInfos["kick_off_taker"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-               world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL;
+               world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL;
     }
     return false;
 }

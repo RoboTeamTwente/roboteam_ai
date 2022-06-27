@@ -16,7 +16,7 @@ class World;
 namespace rtt::world::ball {
 
 class Ball {
-   private:
+public:
     Vector2 position; /// Position of the ball
     Vector2 velocity; /// Velocity of the ball
     bool visible = false; /// Whether the ball is visible by any camera
@@ -46,15 +46,6 @@ class Ball {
      * Also updates which robot has the ball and the location
      */
     void updateBallAtRobotPosition(const world::World *data) noexcept;
-
-   public:
-    [[nodiscard]] const Vector2 &getPos() const noexcept;
-
-    [[nodiscard]] const Vector2 &getVelocity() const noexcept;
-
-    [[nodiscard]] bool isVisible() const noexcept;
-
-    [[nodiscard]] const Vector2 &getExpectedEndPosition() const noexcept;
 
     /**
      * Create a Ball object with the current data about the ball.

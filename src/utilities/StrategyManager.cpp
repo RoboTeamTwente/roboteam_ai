@@ -22,7 +22,7 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
     if ((currentRefGameState.commandId == RefCommand::DIRECT_FREE_THEM || currentRefGameState.commandId == RefCommand::DIRECT_FREE_US ||
          currentRefGameState.commandId == RefCommand::DO_KICKOFF || currentRefGameState.commandId == RefCommand::DEFEND_KICKOFF ||
          currentRefGameState.commandId == RefCommand::INDIRECT_FREE_US || currentRefGameState.commandId == RefCommand::INDIRECT_FREE_THEM) &&
-        ballOpt.has_value() && (ballOpt.value()->getVelocity().length() > stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT)) {
+        ballOpt.has_value() && (ballOpt.value()->velocity.length() > stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT)) {
         RefGameState newState = getRefGameStateForRefCommand(RefCommand::NORMAL_START);
         currentRefGameState = newState;
         currentRefCmd = command;

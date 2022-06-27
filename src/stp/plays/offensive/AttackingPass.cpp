@@ -88,7 +88,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     } else {
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ball = world->getWorld()->getBall()->get();
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getVelocity().stretchToLength(field.getFieldLength()));
+        auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 
@@ -148,7 +148,7 @@ bool AttackingPass::shouldEndPlay() noexcept {
 
         // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
         if (ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-            world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL)
+            world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL)
             return true;
     }
     // True if a different pass has a higher score than the current pass (by some margin)

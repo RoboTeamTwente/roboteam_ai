@@ -26,8 +26,8 @@ std::optional<StpInfo> GetBehindBallInDirection::calculateInfoForSkill(StpInfo c
     skillStpInfo.setAngle((info.getPositionToShootAt().value() - info.getRobot()->get()->getPos()).angle());
 
     // If the robot is far from the ball, go to the target position
-    if ((info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).length() > 0.5) {
-        auto targetPos = GetBehindBallInDirection::calculateTargetPosition(info.getBall()->get()->getPos(), info.getRobot()->get()->getPos(), info.getPositionToShootAt().value());
+    if ((info.getBall()->get()->position - info.getRobot()->get()->getPos()).length() > 0.5) {
+        auto targetPos = GetBehindBallInDirection::calculateTargetPosition(info.getBall()->get()->position, info.getRobot()->get()->getPos(), info.getPositionToShootAt().value());
         skillStpInfo.setPositionToMoveTo(targetPos);
     }
 
@@ -61,7 +61,7 @@ Vector2 GetBehindBallInDirection::calculateTargetPosition(Vector2 ballPosition, 
 bool GetBehindBallInDirection::isTacticFailing(const StpInfo &info) noexcept { return !info.getPositionToShootAt(); }
 
 bool GetBehindBallInDirection::shouldTacticReset(const StpInfo &info) noexcept {
-    return ((info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).length() > 0.5) && (skills.current_num() == 1);
+    return ((info.getBall()->get()->position - info.getRobot()->get()->getPos()).length() > 0.5) && (skills.current_num() == 1);
 }
 
 bool GetBehindBallInDirection::isEndTactic() noexcept {

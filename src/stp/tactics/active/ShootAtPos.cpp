@@ -42,7 +42,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForKick(StpInfo const &info) noe
     skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the kick force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    double distanceBallToTarget = (info.getBall()->get()->position - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     // Set the dribblerSpeed
@@ -61,7 +61,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForChip(StpInfo const &info) noe
     skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the chip force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    double distanceBallToTarget = (info.getBall()->get()->position - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     skillStpInfo.setDribblerSpeed(100);

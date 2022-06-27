@@ -31,8 +31,8 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
     }
 
     if (ball.has_value()) {
-        setDistanceToBall(pos.dist((*ball)->getPos()));
-        auto angleRobotToBall = ((*ball)->getPos() - pos).angle();
+        setDistanceToBall(pos.dist((*ball)->position));
+        auto angleRobotToBall = ((*ball)->position - pos).angle();
         setAngleDiffToBall(angle.shortestAngleDiff(Angle(angleRobotToBall)));
     }
 }

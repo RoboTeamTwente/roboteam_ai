@@ -45,14 +45,6 @@ Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos(
     initializeCalculations(data);
 }
 
-const Vector2& Ball::getPos() const noexcept { return position; }
-
-const Vector2& Ball::getVelocity() const noexcept { return velocity; }
-
-bool Ball::isVisible() const noexcept { return visible; }
-
-const Vector2& Ball::getExpectedEndPosition() const noexcept { return expectedEndPosition; }
-
 void Ball::initializeCalculations(const world::World* data) noexcept {
     initBallAtRobotPosition(data);
     updateExpectedBallEndPosition(data);
@@ -74,14 +66,14 @@ void Ball::initBallAtRobotPosition(const world::World* data) noexcept {
 
     auto previousBall = optionalPreviousBall.value();
 
-    if (position != Vector2() || previousBall->getPos() == Vector2()) {
+    if (position != Vector2() || previousBall->position == Vector2()) {
         return;
     }
 
     // Current ball does not have a position, set it to the old pos
     auto rbtView = previousWorld->getRobotClosestToBall(us);
     if (rbtView) {
-        this->position = previousBall->getPos();
+        this->position = previousBall->position;
     }
 }
 
@@ -100,19 +92,19 @@ void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
 
     auto ball = optionalPreviousBall.value();
 
-    double ballVelSquared = ball->getVelocity().length2();
+    double ballVelSquared = ball->velocity.length2();
     const double frictionCoefficient = ai::Constants::GRSIM() ? SIMULATION_FRICTION : REAL_FRICTION;
 
-    expectedEndPosition = ball->getPos() + ball->velocity.stretchToLength(ballVelSquared / frictionCoefficient);
+    expectedEndPosition = ball->position + ball->velocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
     // Visualize the Expected Ball End Position
-    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {getExpectedEndPosition()}, ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);
-    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {position, getExpectedEndPosition()}, ai::Constants::BALL_COLOR(), -1,
+    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {expectedEndPosition}, ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);
+    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {position, expectedEndPosition}, ai::Constants::BALL_COLOR(), -1,
                                    ai::interface::Drawing::LINES_CONNECTED);
 }
 
 void Ball::updateBallAtRobotPosition(const world::World* data) noexcept {
-    if (isVisible()) {
+    if (visible) {
         return;
     }
 

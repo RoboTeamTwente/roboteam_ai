@@ -88,8 +88,8 @@ void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field
 
 void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, std::vector<Vector2> pathPoints, double timeStep) {
     if (ruleset.minDistanceToBall > 0) {
-        auto startPositionBall = world->getWorld()->getBall()->get()->getPos();
-        auto VelocityBall = world->getWorld()->getBall()->get()->getVelocity();
+        auto startPositionBall = world->getWorld()->getBall()->get()->position;
+        auto VelocityBall = world->getWorld()->getBall()->get()->velocity;
         std::vector<Vector2> ballTrajectory;
 
         // TODO: improve ball trajectory approximation
@@ -122,7 +122,7 @@ void WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world,
         // The >= 2 is used for checking for collisions within 2 seconds
         // TODO: fine tune maximum collision check time
         if (currentTime - timeStepsDone * timeStep >= 2) break;
-        // Vector2 ourVel = Trajectory.getVelocity(currentTime);
+        // Vector2 ourVel = Trajectory.getVelocityBall(currentTime);
         for (const auto &theirRobot : theirRobots) {
             Vector2 theirVel = theirRobot->getVel();
             // TODO: improve position prediction. Current model uses x + v*t

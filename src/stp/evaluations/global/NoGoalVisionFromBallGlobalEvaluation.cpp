@@ -19,7 +19,7 @@ NoGoalVisionFromBallGlobalEvaluation::NoGoalVisionFromBallGlobalEvaluation() noe
 
 uint8_t NoGoalVisionFromBallGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
     return calculateMetric(
-        FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, world->getWorld()->getBall().value()->getPos(), world->getWorld().value(), -1, false));
+        FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, world->getWorld()->getBall().value()->position, world->getWorld().value(), -1, false));
 }
 
 uint8_t NoGoalVisionFromBallGlobalEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }

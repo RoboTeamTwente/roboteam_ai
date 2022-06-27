@@ -21,7 +21,7 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
     if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     Vector2 robotPosition = skillStpInfo.getRobot().value()->getPos();
-    Vector2 ballPosition = skillStpInfo.getBall().value()->getPos();
+    Vector2 ballPosition = skillStpInfo.getBall().value()->position;
     double ballDistance = (ballPosition - robotPosition).length();
 
     if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > Constants::HAS_BALL_ANGLE() * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
