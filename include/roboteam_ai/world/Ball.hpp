@@ -17,25 +17,10 @@ namespace rtt::world::ball {
 
 class Ball {
    private:
-    /**
-     * The position where this ball currently is
-     */
-    Vector2 position;
-
-    /**
-     * The current velocity of the ball
-     */
-    Vector2 velocity;
-
-    /**
-     * Boolean flag that indicates whether the ball is currently visible by any camera
-     */
-    bool visible = false;
-
-    /**
-     * Expected ball end position (where it lays still) after following its path
-     */
-    Vector2 expectedEndPosition;
+    Vector2 position; /// Position of the ball
+    Vector2 velocity; /// Velocity of the ball
+    bool visible = false; /// Whether the ball is visible by any camera
+    Vector2 expectedEndPosition; /// Expected position of the ball after it stopped moving
 
     /**
      * Initializes:
@@ -72,11 +57,6 @@ class Ball {
     [[nodiscard]] const Vector2 &getExpectedEndPosition() const noexcept;
 
     /**
-     * Default ctor for containers
-     */
-    Ball() = default;
-
-    /**
      * Create a Ball object with the current data about the ball.
      * @param copy The current data about the ball
      */
@@ -85,14 +65,11 @@ class Ball {
     /**
      * Defaulted constructors
      */
+    Ball() = default;
     Ball &operator=(Ball const &) = default;
-
     Ball(Ball const &) = default;
-
     Ball &operator=(Ball &&) = default;
-
     Ball(Ball &&) = default;
-
     ~Ball() = default;
 };
 
