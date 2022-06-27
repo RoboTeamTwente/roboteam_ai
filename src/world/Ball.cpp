@@ -53,11 +53,8 @@ bool Ball::isVisible() const noexcept { return visible; }
 
 const Vector2& Ball::getExpectedEndPosition() const noexcept { return expectedEndPosition; }
 
-const Vector2& Ball::getFilteredVelocity() const noexcept { return filteredVelocity; }
-
 void Ball::initializeCalculations(const world::World* data) noexcept {
     initBallAtRobotPosition(data);
-    filterBallVelocity(data);
     updateExpectedBallEndPosition(data);
     updateBallAtRobotPosition(data);
 }
@@ -88,35 +85,6 @@ void Ball::initBallAtRobotPosition(const world::World* data) noexcept {
     }
 }
 
-void Ball::filterBallVelocity(const world::World* data) noexcept {
-    std::optional<view::WorldDataView> previousWorld = data->getHistoryWorld(1);
-
-    if (!previousWorld) {
-        return;
-    }
-    auto optionalPreviousBall = previousWorld->getBall();
-
-    if (!optionalPreviousBall.has_value()) {
-        return;
-    }
-
-    auto oldBall = optionalPreviousBall.value();
-
-    double velocityDifference = (velocity - oldBall->filteredVelocity).length() * ai::Constants::STP_TICK_RATE();
-    double factor = fmin(FILTER_MAX_FACTOR_FOR_VELOCITY, velocityDifference * FILTER_MAX_FACTOR_FOR_VELOCITY / FILTER_VELOCITY_WITH_MAX_FACTOR);
-
-    filteredVelocity = (oldBall->filteredVelocity * (1 - factor) + velocity * factor);
-
-    /* When the Ball does not appear on the camera and later appears on the camera then the expected velocity suddenly
-     * jumps to a very high value and so does the filtered velocity jump to a very high value. It will then take quite
-     * long time for this filtered velocity to return to a more realistic velocity. To prevent this we will check if
-     * the filtered velocity exceed some threshold value and if it does then we use the expected velocity as estimation
-     * for the filtered velocity instead. */
-    if (filteredVelocity.length2() > MAXIMUM_FILTER_VELOCITY) {
-        filteredVelocity = velocity;
-    }
-}
-
 void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
     std::optional<view::WorldDataView> previousWorld = data->getHistoryWorld(1);
 
@@ -132,10 +100,10 @@ void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
 
     auto ball = optionalPreviousBall.value();
 
-    double ballVelSquared = ball->getFilteredVelocity().length2();
+    double ballVelSquared = ball->getVelocity().length2();
     const double frictionCoefficient = ai::Constants::GRSIM() ? SIMULATION_FRICTION : REAL_FRICTION;
 
-    expectedEndPosition = ball->getPos() + ball->filteredVelocity.stretchToLength(ballVelSquared / frictionCoefficient);
+    expectedEndPosition = ball->getPos() + ball->velocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
     // Visualize the Expected Ball End Position
     ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {getExpectedEndPosition()}, ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);

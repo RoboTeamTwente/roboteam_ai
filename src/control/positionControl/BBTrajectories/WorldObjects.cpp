@@ -89,7 +89,7 @@ void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field
 void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, std::vector<Vector2> pathPoints, double timeStep) {
     if (ruleset.minDistanceToBall > 0) {
         auto startPositionBall = world->getWorld()->getBall()->get()->getPos();
-        auto VelocityBall = world->getWorld()->getBall()->get()->getFilteredVelocity();
+        auto VelocityBall = world->getWorld()->getBall()->get()->getVelocity();
         std::vector<Vector2> ballTrajectory;
 
         // TODO: improve ball trajectory approximation

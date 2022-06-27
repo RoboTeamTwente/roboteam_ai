@@ -80,7 +80,7 @@ void FreeKickUsPass::calculateInfoForRoles() noexcept {
     } else {
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ball = world->getWorld()->getBall()->get();
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
+        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getVelocity().stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 

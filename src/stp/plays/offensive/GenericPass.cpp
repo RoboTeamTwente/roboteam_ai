@@ -103,7 +103,7 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
 const char* GenericPass::getName() { return "Generic Pass"; }
 
 void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
-    if (!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
+    if (!passerShot && ball->getVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
         passerShot = true;
     }
 
@@ -131,9 +131,9 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     }
     /// Receiver should intercept when constraints are met
     if (passLeft && ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionLeft.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+        receiverPositionLeft.position = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).project(passingPosition);
     } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionRight.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+        receiverPositionRight.position = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).project(passingPosition);
     }
     // Receiver
     stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.position);

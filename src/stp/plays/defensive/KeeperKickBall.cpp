@@ -73,7 +73,7 @@ void KeeperKickBall::calculateInfoForRoles() noexcept {
     } else {
         auto ball = world->getWorld()->getBall().value();
         // Receiver goes to the passLocation projected on the trajectory of the ball
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
+        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getVelocity().stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
 

@@ -38,13 +38,7 @@ class Ball {
     Vector2 expectedEndPosition;
 
     /**
-     * The velocity but thn adjusted to determine a more realistic end position
-     */
-    Vector2 filteredVelocity;
-
-    /**
      * Initializes:
-     *  Filtered velocity
      *  Expected end pos
      *  Sets position if it's currently unknown
      *  Updates position
@@ -55,11 +49,6 @@ class Ball {
      * Initializes ball at the robot's position if `this` does not have a position
      */
     void initBallAtRobotPosition(const world::World *data) noexcept;
-
-    /**
-     * Sets filteredVelocity
-     */
-    void filterBallVelocity(const world::World *data) noexcept;
 
     /**
      * Updates the expected ball end position
@@ -81,8 +70,6 @@ class Ball {
     [[nodiscard]] bool isVisible() const noexcept;
 
     [[nodiscard]] const Vector2 &getExpectedEndPosition() const noexcept;
-
-    [[nodiscard]] const Vector2 &getFilteredVelocity() const noexcept;
 
     /**
      * Default ctor for containers
