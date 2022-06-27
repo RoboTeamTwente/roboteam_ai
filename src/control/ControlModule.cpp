@@ -7,7 +7,6 @@
 #include <roboteam_utils/Print.h>
 
 #include "control/ControlUtils.h"
-#include "iostream"
 #include "utilities/Constants.h"
 #include "utilities/IOManager.h"
 #include "utilities/Settings.h"
@@ -153,15 +152,16 @@ void ControlModule::setAngularVelocity(const std::optional<::rtt::world::view::R
         double P = 4.0;
         double I = 0.0;
         double D = 0.01;
-        double max_ang_vel = 5.0;  // rad/s
+        double max_ang_vel = 2.0 * M_PI;  // rad/s
         double dt = 1. / double(Constants::STP_TICK_RATE());
 
         AnglePID pid(P, I, D, max_ang_vel, dt);
         ang_velocity_out = pid.getOutput(target_angle, current_angle);
         angularVelPIDMap.insert({robot->get()->getId(), pid});
     }
+
     robot_command.useAngularVelocity = true;
-    ang_velocity_out = std::clamp(ang_velocity_out, -8.0 * M_PI, 8.0 * M_PI);
+    ang_velocity_out = std::clamp(ang_velocity_out, -2.0 * M_PI, 2.0 * M_PI);
     robot_command.targetAngularVelocity = static_cast<float>(ang_velocity_out);
     }
 }  // namespace rtt::ai::control
