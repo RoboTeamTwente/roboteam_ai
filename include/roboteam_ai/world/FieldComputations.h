@@ -9,6 +9,7 @@
 
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
+#include "stp/constants/ControlConstants.h"
 #include "utilities/StpInfoEnums.h"
 #include "views/WorldDataView.hpp"
 #include "world/Field.h"
@@ -226,9 +227,11 @@ class FieldComputations {
      * @param lineEnd The location of the end of the LineSegment.
      * @param margin The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
      * be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked).
+     * @param ignoreGoalLine If true, do not count intersections with the goal line (the line of the defense area that overlaps with the left line of the field).
      * @return The closest intersection point to the start of the LineSegment. In case of no intersection point return a null pointer.
      */
-    static std::shared_ptr<Vector2> lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd, double margin);
+    static std::shared_ptr<Vector2> lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd, double margin,
+                                                                    bool ignoreGoalLine = false);
 
     /**
      * Determine the intersection between a LineSegment and the field lines and return the intersection point closest to the start of the line (if the LineSegment

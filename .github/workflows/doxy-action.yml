@@ -31,7 +31,5 @@ jobs:
         with:
           publish_branch: doxygen_docs  # documentation can be found in this branch
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: "."
+          publish_dir: "./html"
           commit_message: ${{ github.event.head_commit.message }}
-          enable_jekyll: false
-          keep_files: true
