@@ -19,81 +19,39 @@ namespace rtt::world::ball {
 constexpr static float SIMULATION_FRICTION = 1.22;
 
 /**
- * The expected movement friction of the ball during simulation
+ * The expected movement friction of the ball on the field
  */
-constexpr static float REAL_FRICTION = 0.61;
+constexpr static float REAL_FRICTION = 0.5;
 
-/**
- * The maximum possible factor used for the Kalman filter which is used when filtering the velocity.
- */
-constexpr static float FILTER_MAX_FACTOR_FOR_VELOCITY = 0.8;
-
-/**
- * The smallest velocity used for the Kalman filter for which we have that the factor is equal
- * THRESHOLD_ROBOT_CLOSE_TO_BALL. Larger velocities will also have THRESHOLD_ROBOT_CLOSE_TO_BALL as factor.
- */
-constexpr static float FILTER_VELOCITY_WITH_MAX_FACTOR = 8.0;
-
-/**
- * The threshold used for the filtered velocity, if it exceeds this value then we use the velocity
- * instead as estimation for the filtered velocity. More information can be found in the comment in the
- * filterBallVelocity method of the Ball.cpp file.
- */
-constexpr static float MAXIMUM_FILTER_VELOCITY = 100.0;
 
 Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos().x(), copy.pos().y()}, velocity{copy.vel().x(), copy.vel().y()}, visible{copy.visible()} {
-    initializeCalculations(data);
-}
-
-void Ball::initializeCalculations(const world::World* data) noexcept {
-    initBallAtRobotPosition(data);
+    if (!visible || position == Vector2()){
+        initBallAtExpectedPosition(data);
+        updateBallAtRobotPosition(data);
+    }
     updateExpectedBallEndPosition(data);
-    updateBallAtRobotPosition(data);
 }
 
-void Ball::initBallAtRobotPosition(const world::World* data) noexcept {
+void Ball::initBallAtExpectedPosition(const world::World* data) noexcept {
     std::optional<view::WorldDataView> previousWorld = data->getHistoryWorld(1);
 
-    if (!previousWorld) {
+    if (!previousWorld || !previousWorld->getBall()) {
         return;
     }
-
-    auto optionalPreviousBall = previousWorld->getBall();
-
-    if (!optionalPreviousBall.has_value()) {
-        return;
-    }
-
-    auto previousBall = optionalPreviousBall.value();
-
-    if (position != Vector2() || previousBall->position == Vector2()) {
-        return;
-    }
-
-    // Current ball does not have a position, set it to the old pos
-    auto rbtView = previousWorld->getRobotClosestToBall(us);
-    if (rbtView) {
-        this->position = previousBall->position;
-    }
+    position = previousWorld->getBall().value()->position;
 }
 
 void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
     std::optional<view::WorldDataView> previousWorld = data->getHistoryWorld(1);
 
-    if (!previousWorld) {
+    if (!previousWorld || !previousWorld->getBall()) {
         return;
     }
 
-    auto optionalPreviousBall = previousWorld->getBall();
-
-    if (!optionalPreviousBall) {
-        return;
-    }
-
-    auto ball = optionalPreviousBall.value();
+    auto ball = previousWorld->getBall().value();
 
     double ballVelSquared = ball->velocity.length2();
-    const double frictionCoefficient = ai::Constants::GRSIM() ? SIMULATION_FRICTION : REAL_FRICTION;
+    const double frictionCoefficient = SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR ? SIMULATION_FRICTION : REAL_FRICTION;
 
     expectedEndPosition = ball->position + ball->velocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
@@ -104,32 +62,19 @@ void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
 }
 
 void Ball::updateBallAtRobotPosition(const world::World* data) noexcept {
-    if (visible) {
-        return;
-    }
-
     std::optional<view::WorldDataView> world = data->getWorld();
-
     if (!world.has_value()) return;
 
     std::optional<rtt::world::view::RobotView> robotWithBall = world->whichRobotHasBall();
     if (!robotWithBall.has_value()) {
+        RTT_DEBUG("No robot has ball");
         return;
     }
 
-    std::pair<uint8_t, Team> newRobotIdTeam = {(*robotWithBall)->getId(), (*robotWithBall)->getTeam()};
-    view::RobotView newRobotWithBall{nullptr};
-    for (auto robot : world->getUs()) {
-        if (robot->getId() != newRobotIdTeam.first || robot->getTeam() != newRobotIdTeam.second) {
-            continue;
-        }
-        newRobotWithBall = robot;
-    }
-    if (!newRobotWithBall) {
-        return;
-    }
-    double distanceInFrontOfRobot = ai::Constants::ROBOT_RADIUS() + ai::Constants::BALL_RADIUS();
-    position = newRobotWithBall->getPos() + newRobotWithBall->getAngle().toVector2(distanceInFrontOfRobot);
+    RTT_DEBUG("Placing ball in front of robot");
+    // Place the ball where we would expect it to be given that this robot has the ball
+    double distanceInFrontOfRobot = ai::stp::control_constants::CENTER_TO_FRONT + ai::Constants::BALL_RADIUS();
+    position = robotWithBall->get()->getPos() + robotWithBall->get()->getAngle().toVector2(distanceInFrontOfRobot);
 }
 
 }  // namespace rtt::world::ball

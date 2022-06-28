@@ -23,17 +23,9 @@ public:
     Vector2 expectedEndPosition; /// Expected position of the ball after it stopped moving
 
     /**
-     * Initializes:
-     *  Expected end pos
-     *  Sets position if it's currently unknown
-     *  Updates position
+     * Initializes ball at the previously seen position, if the current ball is not visible
      */
-    void initializeCalculations(const world::World *data) noexcept;
-
-    /**
-     * Initializes ball at the robot's position if `this` does not have a position
-     */
-    void initBallAtRobotPosition(const world::World *data) noexcept;
+    void initBallAtExpectedPosition(const world::World *data) noexcept;
 
     /**
      * Updates the expected ball end position
@@ -41,9 +33,7 @@ public:
     void updateExpectedBallEndPosition(const world::World *data) noexcept;
 
     /**
-     * Updates expectedEndPosition and draws to interface
-     * If ball not visible -> get last position if robot can confirm
-     * Also updates which robot has the ball and the location
+     * Places the ball in front of the robot that has the ball, if any
      */
     void updateBallAtRobotPosition(const world::World *data) noexcept;
 
