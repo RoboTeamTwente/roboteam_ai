@@ -83,14 +83,14 @@ bool WorldDataView::ourRobotHasBall(uint8_t id, double maxDist) const noexcept {
     auto robot = getRobotForId(id, true);
     if (!robot) return false;
 
-    return (*robot).hasBall(maxDist);
+    return (*robot)->hasBall();
 }
 
 bool WorldDataView::theirRobotHasBall(int id, double maxDist) const noexcept {
     auto robot = getRobotForId(id, false);
     if (!robot) return false;
 
-    return (*robot).hasBall(maxDist);
+    return (*robot)->hasBall();
 }
 
 std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team, double maxDist) {

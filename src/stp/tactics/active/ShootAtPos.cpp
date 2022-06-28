@@ -77,7 +77,7 @@ bool ShootAtPos::isEndTactic() noexcept {
 bool ShootAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    return !info.getRobot().value()->hasBall() || !info.getPositionToShootAt();
 }
 
 bool ShootAtPos::shouldTacticReset(const StpInfo &info) noexcept {

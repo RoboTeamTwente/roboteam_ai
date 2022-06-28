@@ -87,7 +87,7 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
 bool KickOffUs::shouldEndPlay() noexcept {
     if (stpInfos["receiver"].getRobot() && stpInfos["kick_off_taker"].getRobot()) {
         // True if receiver has ball
-        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+        if (stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
         // True if the kick_off_taker has shot the ball, but it is now stationary (pass was too soft, was reflected, etc.)
         return ballKicked() && stpInfos["kick_off_taker"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&

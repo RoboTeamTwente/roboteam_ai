@@ -111,7 +111,7 @@ bool KeeperKickBall::ballKicked() {
 bool KeeperKickBall::shouldEndPlay() noexcept {
     if (stpInfos["receiver"].getRobot() && stpInfos["keeper"].getRobot()) {
         // True if receiver has ball
-        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+        if (stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
         // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
         if (ballKicked() && stpInfos["keeper"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&

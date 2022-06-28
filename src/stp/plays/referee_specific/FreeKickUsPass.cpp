@@ -136,7 +136,7 @@ bool FreeKickUsPass::ballKicked() {
 bool FreeKickUsPass::shouldEndPlay() noexcept {
     if (stpInfos["receiver"].getRobot() && stpInfos["free_kick_taker"].getRobot()) {
         // True if receiver has ball
-        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+        if (stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
         // True if the free_kick_taker has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
         if (ballKicked() && stpInfos["free_kick_taker"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&

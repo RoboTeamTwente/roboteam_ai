@@ -38,7 +38,7 @@ std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info)
 
 bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept {
     // Fail if we don't have the ball or there is no movement position
-    return !info.getRobot()->hasBall() || !info.getPositionToMoveTo();
+    return !info.getRobot().value()->hasBall() || !info.getPositionToMoveTo();
 }
 
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {

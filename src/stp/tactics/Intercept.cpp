@@ -42,7 +42,7 @@ bool Intercept::isTacticFailing(const StpInfo& info) noexcept {
 
 bool Intercept::shouldTacticReset(const StpInfo& info) noexcept {
     // If the robot does not have the ball, reset so GoToPos is called to move to the ball again
-    return !info.getRobot()->hasBall(stp::control_constants::ROBOT_RADIUS);
+    return !info.getRobot().value()->hasBall();
 }
 
 double Intercept::calculateAngle(const world::view::RobotView& robot, const world::view::BallView& ball) { return (ball->position - robot->getPos()).angle(); }

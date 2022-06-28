@@ -50,7 +50,7 @@ bool ChipAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // robot doesn't have the ball or if there is no shootTarget
     // But only check when we are not chipping
     if (skills.current_num() != 1) {
-        return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+        return !info.getRobot().value()->hasBall() || !info.getPositionToShootAt();
     }
     return false;
 }

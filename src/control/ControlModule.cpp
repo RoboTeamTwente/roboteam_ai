@@ -38,7 +38,7 @@ void ControlModule::limitVel(rtt::RobotCommand& command, std::optional<rtt::worl
     }
 
     // Limit robot velocity when the robot has the ball
-    if (robot->hasBall() && limitedVelocity.length() > stp::control_constants::MAX_VEL_WHEN_HAS_BALL) {
+    if (robot.value()->hasBall() && limitedVelocity.length() > stp::control_constants::MAX_VEL_WHEN_HAS_BALL) {
         // Clamp velocity
         limitedVelocity = control::ControlUtils::velocityLimiter(limitedVelocity, stp::control_constants::MAX_VEL_WHEN_HAS_BALL, 0.0, false);
     }
@@ -49,7 +49,7 @@ void ControlModule::limitVel(rtt::RobotCommand& command, std::optional<rtt::worl
 void ControlModule::limitAngularVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
     // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
     // Might want to limit on the robot itself
-    if (robot->hasBall() && !command.useAngularVelocity) {
+    if (robot.value()->hasBall() && !command.useAngularVelocity) {
         auto targetAngle = command.targetAngle;
         // TODO: Why use optional robotView if we never check for the case where it does not contain one?
         auto robotAngle = robot.value()->getAngle();
