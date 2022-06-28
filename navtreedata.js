@@ -176,9 +176,9 @@ var NAVTREEINDEX =
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a62d571b925906855b84dfc185a0b5ee8",
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#aedddbc26d83a8ba5da1adc0b2881040a",
 "classrtt_1_1world_1_1World.html#a3c7cbd450ac3b8e5d436b98e2a1c7fc6",
-"dir_97b8b843edde78053d8f82875db4fcca.html",
-"namespacertt_1_1ai.html#a3425a916c75e6652c1ec69cf1a46e2c8",
-"namespacertt_1_1world.html#abca02025f876a6ff8a2ff04f325849f8"
+"dir_80c23c3cadd8fcc741290018b5b2de5d.html",
+"namespacertt_1_1BB.html#ad276ea232760b17cab9c9462ac8c11c4",
+"namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727a6e5f2747daba8cda60dca36edf058525"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

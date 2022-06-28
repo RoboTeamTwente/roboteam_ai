@@ -86,7 +86,8 @@ $(document).ready(function(){initNavTree('classrtt_1_1world_1_1ball_1_1Ball.html
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classrtt_1_1world_1_1ball_1_1Ball-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rtt::world::ball::Ball Class Reference</div>  </div>
@@ -97,19 +98,20 @@ $(document).ready(function(){initNavTree('classrtt_1_1world_1_1ball_1_1Ball.html
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a42d9e53bb546c17a6221687cd24bf88d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a42d9e53bb546c17a6221687cd24bf88d">initializeCalculations</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
-<tr class="memdesc:a42d9e53bb546c17a6221687cd24bf88d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expected position of the ball after it stopped moving.  <a href="classrtt_1_1world_1_1ball_1_1Ball.html#a42d9e53bb546c17a6221687cd24bf88d">More...</a><br /></td></tr>
-<tr class="separator:a42d9e53bb546c17a6221687cd24bf88d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b84215c10e8fd30a62176cc7f00f31b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a3b84215c10e8fd30a62176cc7f00f31b">initBallAtRobotPosition</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
-<tr class="separator:a3b84215c10e8fd30a62176cc7f00f31b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1edbfd8ee6958a018343328b6d40fd55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a1edbfd8ee6958a018343328b6d40fd55">updateExpectedBallEndPosition</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
-<tr class="separator:a1edbfd8ee6958a018343328b6d40fd55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ec83d57b89e3a45488407cc7d009209"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a6ec83d57b89e3a45488407cc7d009209">updateBallAtRobotPosition</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
-<tr class="separator:a6ec83d57b89e3a45488407cc7d009209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c2d10db386c41ed5992a80bea2d0352"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a6c2d10db386c41ed5992a80bea2d0352">Ball</a> (const proto::WorldBall &amp;copy, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data)</td></tr>
-<tr class="separator:a6c2d10db386c41ed5992a80bea2d0352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0fca707ad270a8d47fa53154115104e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#af0fca707ad270a8d47fa53154115104e">getPos</a> () const noexcept</td></tr>
+<tr class="separator:af0fca707ad270a8d47fa53154115104e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89ed907ceb16e67e2d33d588e8bdec44"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a89ed907ceb16e67e2d33d588e8bdec44">getVelocity</a> () const noexcept</td></tr>
+<tr class="separator:a89ed907ceb16e67e2d33d588e8bdec44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc8ba4b5a57cbb675818c99ec2de0642"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#afc8ba4b5a57cbb675818c99ec2de0642">isVisible</a> () const noexcept</td></tr>
+<tr class="separator:afc8ba4b5a57cbb675818c99ec2de0642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fd9afae1f8aacdec4db4d03189d3803"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a2fd9afae1f8aacdec4db4d03189d3803">getExpectedEndPosition</a> () const noexcept</td></tr>
+<tr class="separator:a2fd9afae1f8aacdec4db4d03189d3803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a538662e46951f6fbb991281933e6ba85"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a538662e46951f6fbb991281933e6ba85">getFilteredVelocity</a> () const noexcept</td></tr>
+<tr class="separator:a538662e46951f6fbb991281933e6ba85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe96820f972a4976bf42f390896be51a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#abe96820f972a4976bf42f390896be51a">Ball</a> ()=default</td></tr>
 <tr class="separator:abe96820f972a4976bf42f390896be51a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c2d10db386c41ed5992a80bea2d0352"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a6c2d10db386c41ed5992a80bea2d0352">Ball</a> (const proto::WorldBall &amp;copy, const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data)</td></tr>
+<tr class="separator:a6c2d10db386c41ed5992a80bea2d0352"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3af3e7727d12f934fe2156af0ba45aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html">Ball</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#af3af3e7727d12f934fe2156af0ba45aa">operator=</a> (<a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html">Ball</a> const &amp;)=default</td></tr>
 <tr class="separator:af3af3e7727d12f934fe2156af0ba45aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacc3b43d97a8783514baff9acd371f03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#aacc3b43d97a8783514baff9acd371f03">Ball</a> (<a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html">Ball</a> const &amp;)=default</td></tr>
@@ -121,23 +123,61 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abeb10c401264459b3f94ec881cc9b1f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#abeb10c401264459b3f94ec881cc9b1f4">~Ball</a> ()=default</td></tr>
 <tr class="separator:abeb10c401264459b3f94ec881cc9b1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a42d9e53bb546c17a6221687cd24bf88d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a42d9e53bb546c17a6221687cd24bf88d">initializeCalculations</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
+<tr class="separator:a42d9e53bb546c17a6221687cd24bf88d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b84215c10e8fd30a62176cc7f00f31b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a3b84215c10e8fd30a62176cc7f00f31b">initBallAtRobotPosition</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
+<tr class="separator:a3b84215c10e8fd30a62176cc7f00f31b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0527b544ad954f9b68dfb7e77deec6f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a0527b544ad954f9b68dfb7e77deec6f1">filterBallVelocity</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
+<tr class="separator:a0527b544ad954f9b68dfb7e77deec6f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1edbfd8ee6958a018343328b6d40fd55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a1edbfd8ee6958a018343328b6d40fd55">updateExpectedBallEndPosition</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
+<tr class="separator:a1edbfd8ee6958a018343328b6d40fd55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ec83d57b89e3a45488407cc7d009209"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a6ec83d57b89e3a45488407cc7d009209">updateBallAtRobotPosition</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *data) noexcept</td></tr>
+<tr class="separator:a6ec83d57b89e3a45488407cc7d009209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
 <tr class="memitem:ab8c5b9d1c7b653c5cf94ebab7893f4d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#ab8c5b9d1c7b653c5cf94ebab7893f4d1">position</a></td></tr>
 <tr class="separator:ab8c5b9d1c7b653c5cf94ebab7893f4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47474ae800a011d2857635b9815eac73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a47474ae800a011d2857635b9815eac73">velocity</a></td></tr>
-<tr class="memdesc:a47474ae800a011d2857635b9815eac73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position of the ball.  <a href="classrtt_1_1world_1_1ball_1_1Ball.html#a47474ae800a011d2857635b9815eac73">More...</a><br /></td></tr>
 <tr class="separator:a47474ae800a011d2857635b9815eac73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac55b1835844f7bd1e15fa555f0d41dd2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#ac55b1835844f7bd1e15fa555f0d41dd2">visible</a> = false</td></tr>
-<tr class="memdesc:ac55b1835844f7bd1e15fa555f0d41dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Velocity of the ball.  <a href="classrtt_1_1world_1_1ball_1_1Ball.html#ac55b1835844f7bd1e15fa555f0d41dd2">More...</a><br /></td></tr>
 <tr class="separator:ac55b1835844f7bd1e15fa555f0d41dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e57bb9d74865a34c776ab325d824890"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a1e57bb9d74865a34c776ab325d824890">expectedEndPosition</a></td></tr>
-<tr class="memdesc:a1e57bb9d74865a34c776ab325d824890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the ball is visible by any camera.  <a href="classrtt_1_1world_1_1ball_1_1Ball.html#a1e57bb9d74865a34c776ab325d824890">More...</a><br /></td></tr>
 <tr class="separator:a1e57bb9d74865a34c776ab325d824890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d4d8396188fc0e4acba128c6ab9a610"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1ball_1_1Ball.html#a0d4d8396188fc0e4acba128c6ab9a610">filteredVelocity</a></td></tr>
+<tr class="separator:a0d4d8396188fc0e4acba128c6ab9a610"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="abe96820f972a4976bf42f390896be51a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe96820f972a4976bf42f390896be51a">&#9670;&nbsp;</a></span>Ball() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">rtt::world::ball::Ball::Ball </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Default ctor for containers </p>
+
+</div>
+</div>
 <a id="a6c2d10db386c41ed5992a80bea2d0352"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c2d10db386c41ed5992a80bea2d0352">&#9670;&nbsp;</a></span>Ball() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c2d10db386c41ed5992a80bea2d0352">&#9670;&nbsp;</a></span>Ball() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,32 +215,6 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="abe96820f972a4976bf42f390896be51a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe96820f972a4976bf42f390896be51a">&#9670;&nbsp;</a></span>Ball() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">rtt::world::ball::Ball::Ball </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Defaulted constructors </p>
 
 </div>
 </div>
@@ -282,6 +296,133 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0527b544ad954f9b68dfb7e77deec6f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0527b544ad954f9b68dfb7e77deec6f1">&#9670;&nbsp;</a></span>filterBallVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::world::ball::Ball::filterBallVelocity </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets filteredVelocity </p>
+
+</div>
+</div>
+<a id="a2fd9afae1f8aacdec4db4d03189d3803"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fd9afae1f8aacdec4db4d03189d3803">&#9670;&nbsp;</a></span>getExpectedEndPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp; rtt::world::ball::Ball::getExpectedEndPosition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a538662e46951f6fbb991281933e6ba85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a538662e46951f6fbb991281933e6ba85">&#9670;&nbsp;</a></span>getFilteredVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp; rtt::world::ball::Ball::getFilteredVelocity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0fca707ad270a8d47fa53154115104e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0fca707ad270a8d47fa53154115104e">&#9670;&nbsp;</a></span>getPos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp; rtt::world::ball::Ball::getPos </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89ed907ceb16e67e2d33d588e8bdec44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89ed907ceb16e67e2d33d588e8bdec44">&#9670;&nbsp;</a></span>getVelocity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp; rtt::world::ball::Ball::getVelocity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3b84215c10e8fd30a62176cc7f00f31b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b84215c10e8fd30a62176cc7f00f31b">&#9670;&nbsp;</a></span>initBallAtRobotPosition()</h2>
 
@@ -301,7 +442,7 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -328,13 +469,36 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Initializes: Filtered velocity Expected end pos Sets position if it's currently unknown Updates position </p>
+
+</div>
+</div>
+<a id="afc8ba4b5a57cbb675818c99ec2de0642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc8ba4b5a57cbb675818c99ec2de0642">&#9670;&nbsp;</a></span>isVisible()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::world::ball::Ball::isVisible </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Expected position of the ball after it stopped moving. </p>
-<p>Initializes: Expected end pos Sets position if it's currently unknown Updates position </p>
 
 </div>
 </div>
@@ -387,6 +551,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Defaulted constructors </p>
 
 </div>
 </div>
@@ -409,7 +574,7 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -436,7 +601,7 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -450,14 +615,44 @@ Public Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::world::ball::Ball::expectedEndPosition</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<p>Expected ball end position (where it lays still) after following its path </p>
 
-<p>Whether the ball is visible by any camera. </p>
+</div>
+</div>
+<a id="a0d4d8396188fc0e4acba128c6ab9a610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d4d8396188fc0e4acba128c6ab9a610">&#9670;&nbsp;</a></span>filteredVelocity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::world::ball::Ball::filteredVelocity</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The velocity but thn adjusted to determine a more realistic end position </p>
 
 </div>
 </div>
@@ -466,12 +661,21 @@ Public Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::world::ball::Ball::position</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<p>The position where this ball currently is </p>
 
 </div>
 </div>
@@ -480,14 +684,21 @@ Public Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::world::ball::Ball::velocity</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Position of the ball. </p>
+<p>The current velocity of the ball </p>
 
 </div>
 </div>
@@ -496,14 +707,21 @@ Public Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool rtt::world::ball::Ball::visible = false</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Velocity of the ball. </p>
+<p>Boolean flag that indicates whether the ball is currently visible by any camera </p>
 
 </div>
 </div>
