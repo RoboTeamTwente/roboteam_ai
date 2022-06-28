@@ -93,7 +93,9 @@ bool WorldDataView::theirRobotHasBall(int id, double maxDist) const noexcept {
     return (*robot)->hasBall();
 }
 
-std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team, double maxDist) {
+std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team) const {
+    if (!getBall()) return std::nullopt;
+
     std::vector<RobotView> robots;
     if (team == us) {
         robots = getUs();
@@ -103,12 +105,15 @@ std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team, double maxD
         robots = getRobotsNonOwning();
     }
 
-    double bestDistance = maxDist;
+    double bestDistance = 9e9;
     RobotView bestRobot = RobotView{nullptr};
     for (auto &robot : robots) {
-        if (0 <= robot->getDistanceToBall() && robot->getDistanceToBall() < bestDistance) {
-            bestRobot = robot;
-            bestDistance = robot->getDistanceToBall();
+        if (robot->hasBall()) {
+            auto distanceToBall = robot->getDistanceToBall();
+            if (distanceToBall < bestDistance){
+                bestDistance = distanceToBall;
+                bestRobot = robot;
+            }
         }
     }
 

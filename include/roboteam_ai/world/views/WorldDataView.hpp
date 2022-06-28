@@ -186,10 +186,9 @@ class WorldDataView {
     /**
      * Gets a view over the robot that currently has the ball
      * @param team Team enum of team to fetch from
-     * @param maxDist Maximum distance the robot is allowed to be from the ball for "having ball"
      * @return A non-owning view of the robot that has the ball
      */
-    [[nodiscard]] std::optional<RobotView> whichRobotHasBall(Team team = both, double maxDist = ai::Constants::MAX_BALL_RANGE());
+    [[nodiscard]] std::optional<RobotView> whichRobotHasBall(Team team = both) const;
 
    private:
     /**
