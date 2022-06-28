@@ -34,7 +34,7 @@ var classrtt_1_1ai_1_1Constants =
     [ "MAX_ANGULAR_VEL_CMD", "classrtt_1_1ai_1_1Constants.html#a4dc0d6fcc7cc2f05c4f2eda853ccae86", null ],
     [ "MAX_ANGULAR_VELOCITY", "classrtt_1_1ai_1_1Constants.html#aa6c8415408d2e5493a86278331a327c6", null ],
     [ "MAX_BALL_BOUNCE_RANGE", "classrtt_1_1ai_1_1Constants.html#a750c60dd3efc108a981d8059ecb1898d", null ],
-    [ "MAX_BALL_RANGE", "classrtt_1_1ai_1_1Constants.html#acc2aad36304e977838ef38b3e622bfdd", null ],
+    [ "MAX_BALL_RANGE", "classrtt_1_1ai_1_1Constants.html#a4b0c502eeaae9838535746541aef568d", null ],
     [ "MAX_CHIP_POWER", "classrtt_1_1ai_1_1Constants.html#a53e462083e34d75ad7f8352f33740467", null ],
     [ "MAX_DEC_LOWER", "classrtt_1_1ai_1_1Constants.html#aeee2868b9d0114f424d68ed201554738", null ],
     [ "MAX_DEC_UPPER", "classrtt_1_1ai_1_1Constants.html#a926316de36cd5dc06146ef9511aed321", null ],

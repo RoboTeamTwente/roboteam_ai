@@ -1,7 +1,5 @@
 var NAVTREEINDEX5 =
 {
-"classrtt_1_1ai_1_1Constants.html#a91f068dfe2c2077d9d161dd43a710153":[9,0,0,0,4,59],
-"classrtt_1_1ai_1_1Constants.html#a926316de36cd5dc06146ef9511aed321":[9,0,0,0,4,37],
 "classrtt_1_1ai_1_1Constants.html#aa32300d29d6eb70ddb0692ba73849671":[9,0,0,0,4,52],
 "classrtt_1_1ai_1_1Constants.html#aa6c8415408d2e5493a86278331a327c6":[9,0,0,0,4,32],
 "classrtt_1_1ai_1_1Constants.html#aabbf3e4cceca4fd8ab154322df405bd8":[9,0,0,0,4,77],
@@ -19,7 +17,6 @@ var NAVTREEINDEX5 =
 "classrtt_1_1ai_1_1Constants.html#ac88f96df066a5c0529565eb6dcdb1934":[9,0,0,0,4,7],
 "classrtt_1_1ai_1_1Constants.html#aca8cc64c86abb6eae91123774c257de6":[9,0,0,0,4,71],
 "classrtt_1_1ai_1_1Constants.html#acafc5c6bf90dce60928105d73aa87f36":[9,0,0,0,4,61],
-"classrtt_1_1ai_1_1Constants.html#acc2aad36304e977838ef38b3e622bfdd":[9,0,0,0,4,34],
 "classrtt_1_1ai_1_1Constants.html#acd0feefbb47e08ce50641d2229954d13":[9,0,0,0,4,74],
 "classrtt_1_1ai_1_1Constants.html#ad0cbce4f29d7c39b39f4f1b291c9aa7c":[9,0,0,0,4,17],
 "classrtt_1_1ai_1_1Constants.html#ad173be49c6a1940deed54780f23df75f":[9,0,0,0,4,99],
@@ -69,8 +66,8 @@ var NAVTREEINDEX5 =
 "classrtt_1_1ai_1_1Dealer.html#a94358830841e86be15709f16a5a71aa5":[9,0,0,0,5,1,1],
 "classrtt_1_1ai_1_1Dealer.html#aa55cf5612995a0d899e7c185e6e46c4e":[10,0,1,0,4,1,2,1],
 "classrtt_1_1ai_1_1Dealer.html#aa55cf5612995a0d899e7c185e6e46c4e":[9,0,0,0,5,3,1],
-"classrtt_1_1ai_1_1Dealer.html#aa5f6e5e7bca9ca5c98b3784d220b8621":[10,0,1,0,4,1,4,1],
 "classrtt_1_1ai_1_1Dealer.html#aa5f6e5e7bca9ca5c98b3784d220b8621":[9,0,0,0,5,2,1],
+"classrtt_1_1ai_1_1Dealer.html#aa5f6e5e7bca9ca5c98b3784d220b8621":[10,0,1,0,4,1,4,1],
 "classrtt_1_1ai_1_1Dealer.html#aad8a4055abc33454fce6cf0966ee3d9e":[9,0,0,0,5,6],
 "classrtt_1_1ai_1_1Dealer.html#abffef721813b1e58bf8754f963c29abb":[10,0,1,0,4,1,2,0],
 "classrtt_1_1ai_1_1Dealer.html#abffef721813b1e58bf8754f963c29abb":[9,0,0,0,5,3,0],
@@ -83,8 +80,8 @@ var NAVTREEINDEX5 =
 "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1FlagScore":[9,0,0,0,5,1],
 "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore":[10,0,1,0,4,1,4],
 "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore":[9,0,0,0,5,2],
-"classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleInfo":[10,0,1,0,4,1,2],
 "classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleInfo":[9,0,0,0,5,3],
+"classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RoleInfo":[10,0,1,0,4,1,2],
 "classrtt_1_1ai_1_1FieldComputations.html":[9,0,0,0,13],
 "classrtt_1_1ai_1_1FieldComputations.html#a1950999b12eb4934e0832ba762293423":[9,0,0,0,13,14],
 "classrtt_1_1ai_1_1FieldComputations.html#a19e1384a58bef8a0ef8b8c9e6566d8ce":[9,0,0,0,13,10],
@@ -249,5 +246,8 @@ var NAVTREEINDEX5 =
 "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html#ac1482e55b2215ec8a6b4783c060a9c7f":[9,0,0,0,0,6,2],
 "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html#ac7b5d559d44b063cd7d2f863bb777f4a":[9,0,0,0,0,6,3],
 "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html#ae35e6b0a4d976aff1034b814c56c5b2c":[9,0,0,0,0,6,6],
-"classrtt_1_1ai_1_1interface_1_1GraphWidget.html":[9,0,0,0,1,5]
+"classrtt_1_1ai_1_1interface_1_1GraphWidget.html":[9,0,0,0,1,5],
+"classrtt_1_1ai_1_1interface_1_1GraphWidget.html#a0ee86759cd0c647ba81ea9dc3cb17d54":[9,0,0,0,1,5,3],
+"classrtt_1_1ai_1_1interface_1_1GraphWidget.html#a280a1a745e90409430518c4489eb05fc":[9,0,0,0,1,5,4],
+"classrtt_1_1ai_1_1interface_1_1GraphWidget.html#a4714b633f6b89488a2a2f006b41c765c":[9,0,0,0,1,5,6]
 };

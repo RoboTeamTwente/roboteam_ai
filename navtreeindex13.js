@@ -1,8 +1,5 @@
 var NAVTREEINDEX13 =
 {
-"classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a62d571b925906855b84dfc185a0b5ee8":[9,0,0,0,3,5,4,9],
-"classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a8625bf35b1b36ec18fd8ff68926ec0d4":[9,0,0,0,3,5,4,10],
-"classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a8ff0319d5018d2f697c38494d0568991":[9,0,0,0,3,5,4,0],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a9553030ee0ed13a6802a70b35df77ac5":[9,0,0,0,3,5,4,11],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#a97aca306adb701181c5726a09cac208c":[9,0,0,0,3,5,4,3],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html#aab9578d86a91f8a16f5c02200ca3b5e8":[9,0,0,0,3,5,4,7],
@@ -249,5 +246,8 @@ var NAVTREEINDEX13 =
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#ac66cf9fe9def08172b053a6abc869ba1":[9,0,0,0,3,6,15,12],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#ac7dba7916b5fc648439cb51181d01358":[9,0,0,0,3,6,15,11],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#ae52a57e1e81be120db01029a395a39d7":[9,0,0,0,3,6,15,0],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#aec605c1104f58be342bcb6bcc1347b53":[9,0,0,0,3,6,15,1]
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#aec605c1104f58be342bcb6bcc1347b53":[9,0,0,0,3,6,15,1],
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#aedddbc26d83a8ba5da1adc0b2881040a":[9,0,0,0,3,6,15,7],
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html#af4a9f63577d36c0cf178aae99fb0fd00":[9,0,0,0,3,6,15,9],
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html":[9,0,0,0,3,6,5]
 };

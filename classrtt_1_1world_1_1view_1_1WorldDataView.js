@@ -20,9 +20,9 @@ var classrtt_1_1world_1_1view_1_1WorldDataView =
     [ "operator->", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ad79d91a85148a2476abbedb003978f94", null ],
     [ "operator=", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ab4686af09a9d62870344d0981f923239", null ],
     [ "operator=", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a6ce21e65563a6d4f75175f2394def34a", null ],
-    [ "ourRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a591bf908bd352b357b077ff2ed3b750a", null ],
-    [ "robotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a458787283c74ebb89ef056e6bc60b044", null ],
-    [ "theirRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a6f5da4a628030d91826412e3548c7a1e", null ],
-    [ "whichRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#af0f9115293f25f8c2ee17cc921e5df61", null ],
+    [ "ourRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a646049fdd64d4dfee0ea187ced931617", null ],
+    [ "robotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a99c014e076e0665dc2986f8ddb91c1d2", null ],
+    [ "theirRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ae943384f3cca7e0ca1e1bdcbc1360260", null ],
+    [ "whichRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a859953f059e33bf9dceb327a8dccd629", null ],
     [ "data", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a83f577f86afedffe2d161038916d578a", null ]
 ];

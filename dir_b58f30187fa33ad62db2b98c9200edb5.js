@@ -1,7 +1,9 @@
 var dir_b58f30187fa33ad62db2b98c9200edb5 =
 [
     [ "views", "dir_e0250be4f0990d13871b3fd35f339834.html", "dir_e0250be4f0990d13871b3fd35f339834" ],
-    [ "Ball.hpp", "Ball_8hpp.html", "Ball_8hpp" ],
+    [ "Ball.hpp", "Ball_8hpp.html", [
+      [ "Ball", "classrtt_1_1world_1_1ball_1_1Ball.html", "classrtt_1_1world_1_1ball_1_1Ball" ]
+    ] ],
     [ "BallPossession.h", "BallPossession_8h.html", "BallPossession_8h" ],
     [ "Field.h", "Field_8h.html", [
       [ "FieldLineSegment", "namespacertt_1_1world.html#structrtt_1_1world_1_1FieldLineSegment", [
