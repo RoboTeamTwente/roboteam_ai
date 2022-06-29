@@ -50,7 +50,7 @@ Vector2 GetBehindBallInDirection::calculateTargetPosition(Vector2 ballPosition, 
 
     // If the line from the robot to the target brings the robot closer to the ball than the avoid distance, adjust the target position to prevent this
     auto robotToTarget = targetPos - robotPosition;
-    if (!Circle(ballPosition, ballAvoidDistance).intersectsCircleWithLineSegment(LineSegment(robotPosition, targetPos)).empty()) {
+    if (!Circle(ballPosition, ballAvoidDistance).intersects(LineSegment(robotPosition, targetPos)).empty()) {
         auto direction = ballToTarget.toAngle().rotateDirection(robotToTarget) ? 1.0 : -1.0;
         auto finalPos = ballPosition + robotToTarget.rotate(M_PI_2).stretchToLength(ballAvoidDistance) * direction;
         return finalPos;
