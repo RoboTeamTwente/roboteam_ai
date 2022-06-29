@@ -18,6 +18,7 @@
  */
 #include "stp/plays/ReflectKick.h"
 #include "stp/plays/TestPlay.h"
+#include "stp/plays/DrivingTest.h"
 #include "stp/plays/contested/GetBallPossession.h"
 #include "stp/plays/contested/GetBallRisky.h"
 #include "stp/plays/defensive/DefendPass.h"
@@ -82,6 +83,7 @@ void STPManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickUsPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::DrivingTest>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());

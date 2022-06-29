@@ -86,7 +86,7 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp
-)
+        src/stp/tactics/passive/GoLeft.cpp include/roboteam_ai/stp/tactics/passive/GoLeft.h src/stp/tactics/passive/GoRight.cpp include/roboteam_ai/stp/tactics/passive/GoRight.h)
 target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
 )
@@ -120,7 +120,7 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/RobotDefender.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp
-)
+        src/stp/roles/passive/TestDriver.cpp include/roboteam_ai/stp/roles/passive/TestDriver.h)
 target_include_directories(roboteam_ai_roles
         PRIVATE include/roboteam_ai
 )
@@ -168,7 +168,7 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
-)
+        src/stp/plays/DrivingTest.cpp include/roboteam_ai/stp/plays/DrivingTest.h)
 target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )

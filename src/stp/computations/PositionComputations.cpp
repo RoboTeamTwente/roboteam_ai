@@ -75,7 +75,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     while (positions.size() < static_cast<size_t>(amountDefenders)) {
         auto circle = Circle(lineBorderIntersect, (base + j++) * (spacingRobots));
         for (const LineSegment &line : defenseAreaBorder) {
-            auto intersects = circle.intersectsCircleWithLineSegment(line);
+            auto intersects = circle.intersects(line);
             for (auto intersect : intersects) {
                 double spaceBetweenDefenseAreas =
                     intersect.x < 0 ? spaceBetweenDefenseArea : -spaceBetweenDefenseArea;  // Because path planning is weird about being right next to a defense area
