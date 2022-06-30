@@ -46,8 +46,9 @@ class Robot {
     bool workingDribbler;
     bool workingBallSensor{};
 
-    bool seesBall{};
+    bool ballSensorSeesBall{}; // This value might be incorrect. Use robotHasBall!
     float ballPos{};
+    bool dribblerSeesBall{}; // This value might be incorrect. Use robotHasBall!
     bool robotHasBall{};
 
    private:
@@ -83,6 +84,8 @@ class Robot {
 
     void setBallSensorSeesBall(bool _seesBall) noexcept;
 
+    void setDribblerSeesBall(bool _seesBall) noexcept;
+
     void setHasBall(bool _hasBall) noexcept;
 
     void setBallPosBallSensor(float _ballPos) noexcept;
@@ -116,7 +119,9 @@ class Robot {
 
     [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
-    [[nodiscard]] bool ballSensorSeesBall() const noexcept;
+    [[nodiscard]] bool getBallSensorSeesBall() const noexcept;
+
+    [[nodiscard]] bool getDribblerSeesBall() const noexcept;
 
     [[nodiscard]] bool hasBall() const noexcept;
 

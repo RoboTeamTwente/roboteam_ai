@@ -35,12 +35,13 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
         auto angleRobotToBall = ((*ball)->position - pos).angle();
         setAngleDiffToBall(angle.shortestAngleDiff(Angle(angleRobotToBall)));
 
-        if (seesBall) setHasBall(true);
+        if (this->ballSensorSeesBall || this->dribblerSeesBall) setHasBall(true);
+
         else if (!(team == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR)){ // For our own robots in the sim, we only use the ballSensor, since its more accurate
             // If the ball is not visible, we should go closer to the ball before thinking we have it, for safety (since we can't actually see if we have the ball or not)
             auto hasBallDist = ball->get()->visible ? ai::Constants::HAS_BALL_DISTANCE() : ai::Constants::HAS_BALL_DISTANCE() * 0.75;
             auto hasBallAccordingToVision = distanceToBall < hasBallDist && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
-            setHasBall(hasBallAccordingToVision || seesBall);
+            setHasBall(hasBallAccordingToVision || ballSensorSeesBall || dribblerSeesBall);
         }
     }
 }
@@ -93,9 +94,13 @@ bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
 void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
-bool Robot::ballSensorSeesBall() const noexcept { return seesBall; }
+bool Robot::getBallSensorSeesBall() const noexcept { return ballSensorSeesBall; }
 
-void Robot::setBallSensorSeesBall(bool _seesBall) noexcept { Robot::seesBall = _seesBall; }
+void Robot::setBallSensorSeesBall(bool _seesBall) noexcept { ballSensorSeesBall = _seesBall; }
+
+bool Robot::getDribblerSeesBall() const noexcept { return dribblerSeesBall; }
+
+void Robot::setDribblerSeesBall(bool _seesBall) noexcept { dribblerSeesBall = _seesBall; }
 
 void Robot::setHasBall(bool _hasBall) noexcept { Robot::robotHasBall = _hasBall; }
 
@@ -126,7 +131,8 @@ void Robot::updateFromFeedback(const proto::RobotProcessedFeedback &feedback) no
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ball_sensor_is_working());
         setBatteryLow(feedback.battery_level() < 22);  // TODO: Define what is considered a 'low' voltage
-        setBallSensorSeesBall(feedback.has_ball());
+        setBallSensorSeesBall(feedback.ball_sensor_sees_ball());
+        setDribblerSeesBall(feedback.dribbler_sees_ball());
         setBallPosBallSensor(feedback.ball_position());
     }
 }
