@@ -48,6 +48,7 @@ class Robot {
 
     bool seesBall{};
     float ballPos{};
+    bool robotHasBall{};
 
    private:
     void updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept;
@@ -82,6 +83,8 @@ class Robot {
 
     void setBallSensorSeesBall(bool _seesBall) noexcept;
 
+    void setHasBall(bool _hasBall) noexcept;
+
     void setBallPosBallSensor(float _ballPos) noexcept;
 
     void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
@@ -114,6 +117,8 @@ class Robot {
     [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
     [[nodiscard]] bool ballSensorSeesBall() const noexcept;
+
+    [[nodiscard]] bool hasBall() const noexcept;
 
     [[nodiscard]] float getBallPosBallSensor() const noexcept;
 

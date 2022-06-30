@@ -28,7 +28,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const& info) noe
     skillStpInfo.setDribblerSpeed(0);
 
     Vector2 targetPos = skillStpInfo.getPositionToMoveTo().value();
-    auto ballPosition = skillStpInfo.getBall()->get()->getPos();
+    auto ballPosition = skillStpInfo.getBall()->get()->position;
 
     std::unique_ptr<Shape> avoidShape;
 
@@ -58,7 +58,7 @@ bool AvoidBall::isEndTactic() noexcept { return true; }
 
 bool AvoidBall::isTacticFailing(const StpInfo& info) noexcept {
     return (info.getRoleName() == "ball_placer" &&
-            (info.getBall()->get()->getPos() - rtt::ai::GameStateManager::getRefereeDesignatedPosition()).length() > control_constants::BALL_PLACEMENT_MARGIN);
+            (info.getBall()->get()->position - rtt::ai::GameStateManager::getRefereeDesignatedPosition()).length() > control_constants::BALL_PLACEMENT_MARGIN);
 }
 
 bool AvoidBall::shouldTacticReset(const StpInfo& info) noexcept { return false; }

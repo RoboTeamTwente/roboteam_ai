@@ -26,7 +26,7 @@ BallMovesSlowGlobalEvaluation::BallMovesSlowGlobalEvaluation() noexcept {
 }
 
 uint8_t BallMovesSlowGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
-    return calculateMetric(world->getWorld()->getBall()->get()->getVelocity().length());
+    return calculateMetric(world->getWorld()->getBall()->get()->velocity.length());
 }
 
 uint8_t BallMovesSlowGlobalEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }

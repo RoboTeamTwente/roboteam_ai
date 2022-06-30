@@ -57,7 +57,7 @@ void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcep
     // TODO-Jaro: When futureSTPInfo is a thing, make posToShootAt the receiver of a pass if that will be the next Play
     stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["ball_getter"].setRoleScore(evaluation::TimeToPositionEvaluation().metricCheck(
-        world->getWorld()->getRobotClosestToBall(world::us), world->getWorld()->getRobotClosestToBall(world::them), world->getWorld()->getBall().value()->getPos()));
+        world->getWorld()->getRobotClosestToBall(world::us), world->getWorld()->getRobotClosestToBall(world::them), world->getWorld()->getBall().value()->position));
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {

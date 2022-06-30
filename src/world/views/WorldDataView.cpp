@@ -75,7 +75,7 @@ std::optional<RobotView> WorldDataView::getRobotClosestToPoint(const Vector2 &po
     return getRobotClosestToPoint(point, robots);
 }
 
-std::optional<RobotView> WorldDataView::getRobotClosestToBall(Team team) const noexcept { return getRobotClosestToPoint((*getBall())->getPos(), team); }
+std::optional<RobotView> WorldDataView::getRobotClosestToBall(Team team) const noexcept { return getRobotClosestToPoint((*getBall())->position, team); }
 
 bool WorldDataView::robotHasBall(uint8_t id, bool ourTeam, double maxDist) const noexcept { return ourTeam ? ourRobotHasBall(id, maxDist) : theirRobotHasBall(id, maxDist); }
 
@@ -83,17 +83,19 @@ bool WorldDataView::ourRobotHasBall(uint8_t id, double maxDist) const noexcept {
     auto robot = getRobotForId(id, true);
     if (!robot) return false;
 
-    return (*robot).hasBall(maxDist);
+    return (*robot)->hasBall();
 }
 
 bool WorldDataView::theirRobotHasBall(int id, double maxDist) const noexcept {
     auto robot = getRobotForId(id, false);
     if (!robot) return false;
 
-    return (*robot).hasBall(maxDist);
+    return (*robot)->hasBall();
 }
 
-std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team, double maxDist) {
+std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team) const {
+    if (!getBall()) return std::nullopt;
+
     std::vector<RobotView> robots;
     if (team == us) {
         robots = getUs();
@@ -103,12 +105,15 @@ std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team, double maxD
         robots = getRobotsNonOwning();
     }
 
-    double bestDistance = maxDist;
+    double bestDistance = 9e9;
     RobotView bestRobot = RobotView{nullptr};
     for (auto &robot : robots) {
-        if (0 <= robot->getDistanceToBall() && robot->getDistanceToBall() < bestDistance) {
-            bestRobot = robot;
-            bestDistance = robot->getDistanceToBall();
+        if (robot->hasBall()) {
+            auto distanceToBall = robot->getDistanceToBall();
+            if (distanceToBall < bestDistance){
+                bestDistance = distanceToBall;
+                bestRobot = robot;
+            }
         }
     }
 

@@ -21,7 +21,7 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     }
 
     auto us = world->getWorld()->getUs();
-    auto ballLocation = world->getWorld()->getBall()->get()->getPos();
+    auto ballLocation = world->getWorld()->getBall()->get()->position;
 
     // Find which robot is keeper (bot closest to goal if there was not a keeper yet), store its id, and erase from us
     passInfo.keeperId = getKeeperId(us, world, field);

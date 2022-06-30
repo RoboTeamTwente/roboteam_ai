@@ -39,7 +39,7 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
 
     // kicker, position right behind the ball
-    stpInfos["kicker_formation"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() - Vector2{0.25, 0.0});
+    stpInfos["kicker_formation"].setPositionToMoveTo(world->getWorld()->getBall()->get()->position - Vector2{0.25, 0.0});
 
     // regular bots
     const std::string formation = "formation_";

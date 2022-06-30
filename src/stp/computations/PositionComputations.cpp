@@ -42,7 +42,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     double spacingRobots = radius * 0.5;
     double spaceBetweenDefenseArea = 2 * radius;
 
-    Vector2 ballPos = FieldComputations::projectPointInField(field, world->getWorld().value().getBall()->get()->getPos());
+    Vector2 ballPos = FieldComputations::projectPointInField(field, world->getWorld().value().getBall()->get()->position);
 
     std::vector<Vector2> positions = {};
 

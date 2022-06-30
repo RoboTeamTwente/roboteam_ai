@@ -36,7 +36,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     }
 
     double targetVelocityLength;
-    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() > control_constants::ROBOT_RADIUS / 2) {
+    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->position).length() > control_constants::ROBOT_RADIUS / 2) {
         RTT_DEBUG("Setting max vel");
         targetVelocityLength = info.getMaxRobotVelocity();
     } else {

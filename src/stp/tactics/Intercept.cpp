@@ -37,15 +37,15 @@ std::optional<StpInfo> Intercept::calculateInfoForSkill(const StpInfo& info) noe
 
 bool Intercept::isTacticFailing(const StpInfo& info) noexcept {
     // If the ball doesn't move, the robot can't intercept
-    return info.getBall()->get()->getVelocity().length() <= stp::control_constants::BALL_STILL_VEL;
+    return info.getBall()->get()->velocity.length() <= stp::control_constants::BALL_STILL_VEL;
 }
 
 bool Intercept::shouldTacticReset(const StpInfo& info) noexcept {
     // If the robot does not have the ball, reset so GoToPos is called to move to the ball again
-    return !info.getRobot()->hasBall(stp::control_constants::ROBOT_RADIUS);
+    return !info.getRobot().value()->hasBall();
 }
 
-double Intercept::calculateAngle(const world::view::RobotView& robot, const world::view::BallView& ball) { return (ball->getPos() - robot->getPos()).angle(); }
+double Intercept::calculateAngle(const world::view::RobotView& robot, const world::view::BallView& ball) { return (ball->position - robot->getPos()).angle(); }
 
 int Intercept::determineDribblerSpeed(const world::view::RobotView& robot) {
     double turnOnDribblerDistance = 1.0;

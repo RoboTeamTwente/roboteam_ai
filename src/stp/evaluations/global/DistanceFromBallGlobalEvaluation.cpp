@@ -28,7 +28,7 @@ DistanceFromBallGlobalEvaluation::DistanceFromBallGlobalEvaluation() noexcept {
 
 uint8_t DistanceFromBallGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
     auto& us = world->getWorld()->getUs();
-    auto ballPos = world->getWorld()->getBall()->get()->getPos();
+    auto ballPos = world->getWorld()->getBall()->get()->position;
     std::vector<double> distances{};
     distances.reserve(control_constants::MAX_ROBOT_COUNT);
 

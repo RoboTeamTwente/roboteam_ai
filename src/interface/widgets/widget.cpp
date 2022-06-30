@@ -268,10 +268,10 @@ void Visualizer::drawFieldHints(const rtt::world::Field &field, QPainter &painte
 
 // draw the ball on the screen
 void Visualizer::drawBall(QPainter &painter, rtt::world::view::BallView ball) {
-    rtt::Vector2 ballPosition = toScreenPosition(ball->getPos());
+    rtt::Vector2 ballPosition = toScreenPosition(ball->position);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
 
-    painter.setBrush(ball->isVisible() ? Constants::BALL_COLOR() : Qt::red);
+    painter.setBrush(ball->visible ? Constants::BALL_COLOR() : Qt::red);
 
     // draw a see-through gradient around the ball to make it more visible
     painter.setPen(Qt::NoPen);  // stroke

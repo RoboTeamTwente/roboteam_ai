@@ -39,7 +39,7 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     // The "kicker" will go to the ball
     if (stpInfos["kicker"].getRobot() && stpInfos["kicker"].getRobot()->get()->getPos().x < 0) {
         Vector2 robotPos = stpInfos["kicker"].getRobot()->get()->getPos();
-        Vector2 ballPos = world->getWorld()->getBall()->get()->getPos();
+        Vector2 ballPos = world->getWorld()->getBall()->get()->position;
         if ((robotPos - ballPos).length() < 0.7) {
             stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, 0.0));
         } else if (robotPos.y > 0) {
