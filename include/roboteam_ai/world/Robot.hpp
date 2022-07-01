@@ -16,6 +16,12 @@
 
 namespace rtt::world::robot {
 
+
+struct hasBallInfo{
+    bool hasBall;
+    int score;
+};
+
 /**
  * robot still changes:
  *  battery
@@ -51,7 +57,7 @@ class Robot {
     bool robotHasBall{};
 
     // map that stores a score that indicates how likely we think it is that each robot has the ball
-    static inline std::unordered_map<int, int> hasBallUpdateMap;
+    static inline std::unordered_map<int, hasBallInfo> hasBallUpdateMap;
 
    private:
     void updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept;

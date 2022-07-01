@@ -28,6 +28,7 @@ class ControlModule {
     static inline std::mutex robotCommandsMutex;
     static inline std::vector<rtt::RobotCommand> robotCommands;
     static inline std::map<unsigned int, AnglePID> simulatorAnglePIDmap;
+    static inline std::map<unsigned int, AnglePID> angularVelPIDMap;
 
     /**
      * Applies constraints to the internal robot command
@@ -60,6 +61,8 @@ class ControlModule {
     static void sendAllCommands();
 
     static void simulator_angular_control(const std::optional<::rtt::world::view::RobotView>& robot, rtt::RobotCommand& robot_command);
+
+    static void setAngularVelocity(const std::optional<::rtt::world::view::RobotView>& robot, rtt::RobotCommand& robot_command);
 };
 }  // namespace rtt::ai::control
 

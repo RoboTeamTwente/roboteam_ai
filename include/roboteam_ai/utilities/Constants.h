@@ -48,7 +48,7 @@ class Constants {
     static double MAX_ANGULAR_VEL_CMD();
     static double MIN_ANGLE();
     static double MAX_ANGLE();
-    static double MAX_ANGULAR_VELOCITY();  // Rad per second
+    static double MAX_ANGULAR_VELOCITY_WITH_BALL();  // Rad per second
     static int MAX_DRIBBLER_CMD();
 
     /// ACCELERATION LIMITERS ///

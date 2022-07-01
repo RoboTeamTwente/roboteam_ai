@@ -33,7 +33,7 @@ WorldData::WorldData(const World *data, proto::World &protoMsg, rtt::Settings co
 
     //TODO: add information from robots which were only seen on feedback but not on vision
     if (settings.isYellow() && protoMsg.yellow_unseen_robots_size() > 0){
-        RTT_WARNING("Received feedback from unseen robots!")
+//        RTT_WARNING("Received feedback from unseen robots!")
     }else if (!settings.isYellow() && protoMsg.blue_unseen_robots_size() > 0){
         RTT_WARNING("Received feedback from unseen robots!")
     }

@@ -12,7 +12,7 @@
 #include "stp/constants/ControlConstants.h"
 #include "stp/skills/Kick.h"
 #include "stp/skills/Rotate.h"
-
+#include "roboteam_utils/Print.h"
 namespace rtt::ai::stp::tactic {
 
 KickAtPos::KickAtPos() {
@@ -23,8 +23,9 @@ KickAtPos::KickAtPos() {
 std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
+    if (!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall() || !info.getRobot()->get()->hasBall()) return std::nullopt;
 
+    if (!info.getRobot()->get()->hasBall()) RTT_WARNING("Robot does not have ball in KickAtPos!");
     // Calculate the angle the robot needs to aim
     double angleToTarget = (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle();
     skillStpInfo.setAngle(angleToTarget);

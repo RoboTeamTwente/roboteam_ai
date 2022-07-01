@@ -42,7 +42,7 @@ bool Constants::FEEDBACK_ENABLED() { return true; }
 
 double Constants::FRONT_LENGTH() { return 0.118; }
 
-double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
+double Constants::MAX_ANGULAR_VELOCITY_WITH_BALL() { return 0.5 * M_PI; }
 
 bool Constants::SHOW_LONGEST_TICK() { return true; }
 
@@ -167,7 +167,7 @@ bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
 double Constants::HAS_BALL_DISTANCE() { return (SETTINGS.getRobotHubMode() == Settings::BASESTATION) ? 0.11 : 0.12; }
 
 // The max angle the ball can have to the robot for the robot to have the ball
-double Constants::HAS_BALL_ANGLE() { return 0.10 * M_PI; }
+double Constants::HAS_BALL_ANGLE() { return 0.15 * M_PI; }
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;

@@ -87,7 +87,7 @@ proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::SSL_GeometryFi
     robot.set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
     robot.mutable_vel()->set_x(randomVel.x);
     robot.mutable_vel()->set_y(randomVel.x);
-    robot.set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY())));
+    robot.set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY_WITH_BALL())));
     return robot;
 }
 
