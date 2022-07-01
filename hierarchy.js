@@ -213,7 +213,6 @@ var hierarchy =
       [ "MockTactic", "classMockTactic.html", null ],
       [ "rtt::ai::stp::TestTactic", "classrtt_1_1ai_1_1stp_1_1TestTactic.html", null ],
       [ "rtt::ai::stp::tactic::AvoidBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html", null ],
-      [ "rtt::ai::stp::tactic::BallStandBack", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BallStandBack.html", null ],
       [ "rtt::ai::stp::tactic::BlockBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockBall.html", null ],
       [ "rtt::ai::stp::tactic::BlockRobot", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html", null ],
       [ "rtt::ai::stp::tactic::ChipAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ChipAtPos.html", null ],

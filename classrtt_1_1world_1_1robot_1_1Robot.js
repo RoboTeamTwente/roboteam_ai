@@ -51,6 +51,7 @@ var classrtt_1_1world_1_1robot_1_1Robot =
     [ "batteryLow", "classrtt_1_1world_1_1robot_1_1Robot.html#aaa618cb99b322262f8fbee9944242a2e", null ],
     [ "distanceToBall", "classrtt_1_1world_1_1robot_1_1Robot.html#a4f2c074023a97acc566e0e9c0989c0cd", null ],
     [ "dribblerState", "classrtt_1_1world_1_1robot_1_1Robot.html#a271398b4919d1e334a4169ab32f8332e", null ],
+    [ "hasBallUpdateMap", "classrtt_1_1world_1_1robot_1_1Robot.html#addac0095fcdb29ea646c350cda2bea66", null ],
     [ "id", "classrtt_1_1world_1_1robot_1_1Robot.html#a97437af3584cf8be229aca8658681e39", null ],
     [ "lastUpdatedWorldNumber", "classrtt_1_1world_1_1robot_1_1Robot.html#a064e88b87b814e5d64750f4e49b526c6", null ],
     [ "pidPreviousVel", "classrtt_1_1world_1_1robot_1_1Robot.html#a8554558fe6feda78de4fccf7f020182b", null ],
