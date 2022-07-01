@@ -66,6 +66,11 @@ void DefendShot::calculateInfoForRoles() noexcept {
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
+    stpInfos["waller_1"].setShouldAvoidDefenseArea(true);
+    stpInfos["waller_2"].setShouldAvoidDefenseArea(true);
+    stpInfos["waller_3"].setShouldAvoidDefenseArea(true);
+    stpInfos["waller_4"].setShouldAvoidDefenseArea(true);
+
     stpInfos["waller_1"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
     stpInfos["waller_2"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
     stpInfos["waller_3"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
@@ -75,6 +80,19 @@ void DefendShot::calculateInfoForWallers() noexcept {
     stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 4, field, world));
     stpInfos["waller_3"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 4, field, world));
     stpInfos["waller_4"].setPositionToMoveTo(PositionComputations::getWallPosition(3, 4, field, world));
+
+    auto positionToGoTo = PositionComputations::getWallPosition(2, 4, field, world);
+
+    for (int j = 1; j <= 4; j++) {
+        if (stpInfos["waller_" + std::to_string(j)].getRobot()) {
+            auto position = stpInfos["waller_" + std::to_string(j)].getRobot()->get()->getPos();
+            if (position.isNotNaN()) {
+                if (position.dist(positionToGoTo) < 6 * control_constants::ROBOT_RADIUS) {
+                    stpInfos["waller_" + std::to_string(j)].setShouldAvoidOurRobots(false);
+                }
+            }
+        }
+    }
 }
 
 void DefendShot::calculateInfoForDefenders() noexcept {
