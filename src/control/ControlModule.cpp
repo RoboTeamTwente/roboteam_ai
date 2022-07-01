@@ -25,6 +25,7 @@ void ControlModule::limitRobotCommand(rtt::RobotCommand& command, std::optional<
     // This was used to limit the velocity, but this is now done in pathtracking itself
     // limitVel(command, robot);
     limitAngularVel(command, robot);
+    if (command.velocity.length() > 0.05 && command.velocity.length() < 0.25) command.velocity = command.velocity.stretchToLength(0.25);
 }
 
 void ControlModule::limitVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {

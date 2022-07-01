@@ -63,6 +63,8 @@ class GetBall : public Tactic {
      * @return whether the tactic is forced success
      */
     bool forceTacticSuccess(const StpInfo &info) noexcept override;
+
+    static int inline hasBallCounter = 0;
 };
 }  // namespace rtt::ai::stp::tactic
 

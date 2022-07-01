@@ -26,6 +26,7 @@ constexpr static float REAL_FRICTION = 0.5;
 
 Ball::Ball(const proto::WorldBall& copy, const World* data) : position{copy.pos().x(), copy.pos().y()}, velocity{copy.vel().x(), copy.vel().y()}, visible{copy.visible()} {
     if (!visible || position == Vector2()){
+        RTT_DEBUG("Ball not visible");
         initBallAtExpectedPosition(data);
         updateBallAtRobotPosition(data);
     }
@@ -38,6 +39,7 @@ void Ball::initBallAtExpectedPosition(const world::World* data) noexcept {
     if (!previousWorld || !previousWorld->getBall()) {
         return;
     }
+    RTT_DEBUG("Ball init'ed at ", previousWorld->getBall().value()->position);
     position = previousWorld->getBall().value()->position;
 }
 

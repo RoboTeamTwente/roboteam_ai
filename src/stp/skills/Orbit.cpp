@@ -5,7 +5,7 @@
 #include "stp/skills/Orbit.h"
 
 #include "stp/constants/ControlConstants.h"
-
+#include "roboteam_utils/Print.h"
 namespace rtt::ai::stp::skill {
 
 Status Orbit::onUpdate(const StpInfo &info) noexcept {
@@ -46,9 +46,10 @@ Status Orbit::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    if (directionVector.toAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+    if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
         counter++;
     } else {
+        RTT_DEBUG("Outside of margin (", info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle), " > ", errorMargin,")");
         counter = 0;
     }
 

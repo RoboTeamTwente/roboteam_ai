@@ -35,6 +35,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
     // Check if the skills are all finished
     if (skills.finished() || forceTacticSuccess(skill_info.value())) {
+        if (skills.finished()) RTT_DEBUG("Tactic finished! ", getName());
         if (!isEndTactic()) {
             currentStatus = Status::Success;
             return Status::Success;

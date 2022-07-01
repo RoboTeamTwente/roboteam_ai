@@ -22,7 +22,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     // Set dribbler speed command
     command.dribblerSpeed = targetDribblerSpeed;
-
+    ;
     // Set angle command
     command.targetAngle = info.getRobot().value()->getAngle();  // TODO: Should there be a check for robot optional?
 

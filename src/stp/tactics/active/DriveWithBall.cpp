@@ -25,8 +25,9 @@ std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info)
 
     if (!skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
 
-    double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->position).angle();
+    double angleToBall = (info.getPositionToMoveTo().value() - info.getRobot()->get()->getPos()).angle();
     skillStpInfo.setAngle(angleToBall);
+    skillStpInfo.setMaxRobotVelocity(0.5);
 
     // When driving with ball, we need to activate the dribbler
     // For now, this means full power, but this might change later

@@ -35,14 +35,22 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
         auto angleRobotToBall = ((*ball)->position - pos).angle();
         setAngleDiffToBall(angle.shortestAngleDiff(Angle(angleRobotToBall)));
 
-        if (seesBall) setHasBall(true);
-        else if (!(team == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR)){ // For our own robots in the sim, we only use the ballSensor, since its more accurate
+        // For our own robots in the sim, we only use the ballSensor, since its more accurate
+        if (!(team == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR)) {
             // If the ball is not visible, we should go closer to the ball before thinking we have it, for safety (since we can't actually see if we have the ball or not)
             auto hasBallDist = ball->get()->visible ? ai::Constants::HAS_BALL_DISTANCE() : ai::Constants::HAS_BALL_DISTANCE() * 0.75;
             auto hasBallAccordingToVision = distanceToBall < hasBallDist && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
-            setHasBall(hasBallAccordingToVision || seesBall);
+            hasBallUpdateMap[id] += (hasBallAccordingToVision ? 1 : -1);
+            if (workingBallSensor) RTT_WARNING("Working ball sensor")
+            if (workingBallSensor) hasBallUpdateMap[id] += (ballSensorSeesBall() ? 1 : -1);
+        } else {
+            hasBallUpdateMap[id] += (ballSensorSeesBall() ? 2 : -2);
         }
+        hasBallUpdateMap[id] = std::clamp(hasBallUpdateMap[id], 0, 12);
+        RTT_DEBUG("Hasballmap value = ", hasBallUpdateMap[id]);
+        setHasBall(hasBallUpdateMap[id] > 8);
     }
+    if (hasBall()) RTT_DEBUG("Robot has ball: dist = ", distanceToBall, " | angle = ", angleDiffToBall);
 }
 
 int Robot::getId() const noexcept { return id; }
@@ -126,7 +134,7 @@ void Robot::updateFromFeedback(const proto::RobotProcessedFeedback &feedback) no
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ball_sensor_is_working());
         setBatteryLow(feedback.battery_level() < 22);  // TODO: Define what is considered a 'low' voltage
-        setBallSensorSeesBall(feedback.has_ball());
+        setBallSensorSeesBall(feedback.ball_sensor_sees_ball());
         setBallPosBallSensor(feedback.ball_position());
     }
 }
