@@ -12,7 +12,7 @@
 namespace rtt::ai::stp::computations {
 Vector2 GoalComputations::calculateGoalTarget(rtt_world::World *world, const rtt_world::Field &field) {
     // Position of the ball from which the goal target is determined
-    auto sourcePoint = world->getWorld().value().getBall().value()->getPos();
+    auto sourcePoint = world->getWorld().value().getBall().value()->position;
 
     // Make a vector with all robotViews to see if one of the robots is in front of the goal
     std::vector<world::view::RobotView> allRobotsVec = world->getWorld().value().getUs();

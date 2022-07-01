@@ -66,10 +66,10 @@ void DefendShot::calculateInfoForRoles() noexcept {
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
-    stpInfos["waller_1"].setAngle((world->getWorld()->getBall()->get()->getPos() - field.getOurGoalCenter()).angle());
-    stpInfos["waller_2"].setAngle((world->getWorld()->getBall()->get()->getPos() - field.getOurGoalCenter()).angle());
-    stpInfos["waller_3"].setAngle((world->getWorld()->getBall()->get()->getPos() - field.getOurGoalCenter()).angle());
-    stpInfos["waller_4"].setAngle((world->getWorld()->getBall()->get()->getPos() - field.getOurGoalCenter()).angle());
+    stpInfos["waller_1"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    stpInfos["waller_2"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    stpInfos["waller_3"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    stpInfos["waller_4"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
 
     stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 4, field, world));
     stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 4, field, world));

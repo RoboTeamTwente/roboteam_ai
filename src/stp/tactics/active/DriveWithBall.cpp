@@ -25,7 +25,7 @@ std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info)
 
     if (!skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
 
-    double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->getPos()).angle();
+    double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->position).angle();
     skillStpInfo.setAngle(angleToBall);
 
     // When driving with ball, we need to activate the dribbler
@@ -38,13 +38,13 @@ std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info)
 
 bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept {
     // Fail if we don't have the ball or there is no movement position
-    return !info.getRobot()->hasBall() || !info.getPositionToMoveTo();
+    return !info.getRobot().value()->hasBall() || !info.getPositionToMoveTo();
 }
 
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     // Should reset if the angle the robot is at is no longer correct
     auto robotAngle = info.getRobot()->get()->getAngle();
-    auto ballToRobotAngle = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
+    auto ballToRobotAngle = (info.getBall()->get()->position - info.getRobot()->get()->getPos()).angle();
     return fabs(robotAngle + Angle(ballToRobotAngle)) <= stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN;
 }
 

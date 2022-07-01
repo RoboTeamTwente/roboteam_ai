@@ -31,9 +31,17 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
     }
 
     if (ball.has_value()) {
-        setDistanceToBall(pos.dist((*ball)->getPos()));
-        auto angleRobotToBall = ((*ball)->getPos() - pos).angle();
+        setDistanceToBall(pos.dist((*ball)->position));
+        auto angleRobotToBall = ((*ball)->position - pos).angle();
         setAngleDiffToBall(angle.shortestAngleDiff(Angle(angleRobotToBall)));
+
+        if (seesBall) setHasBall(true);
+        else if (!(team == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR)){ // For our own robots in the sim, we only use the ballSensor, since its more accurate
+            // If the ball is not visible, we should go closer to the ball before thinking we have it, for safety (since we can't actually see if we have the ball or not)
+            auto hasBallDist = ball->get()->visible ? ai::Constants::HAS_BALL_DISTANCE() : ai::Constants::HAS_BALL_DISTANCE() * 0.75;
+            auto hasBallAccordingToVision = distanceToBall < hasBallDist && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
+            setHasBall(hasBallAccordingToVision || seesBall);
+        }
     }
 }
 
@@ -88,6 +96,10 @@ void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::work
 bool Robot::ballSensorSeesBall() const noexcept { return seesBall; }
 
 void Robot::setBallSensorSeesBall(bool _seesBall) noexcept { Robot::seesBall = _seesBall; }
+
+void Robot::setHasBall(bool _hasBall) noexcept { Robot::robotHasBall = _hasBall; }
+
+bool Robot::hasBall() const noexcept { return robotHasBall; }
 
 float Robot::getBallPosBallSensor() const noexcept { return ballPos; }
 

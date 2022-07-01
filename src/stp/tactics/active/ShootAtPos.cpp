@@ -42,7 +42,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForKick(StpInfo const &info) noe
     skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the kick force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    double distanceBallToTarget = (info.getBall()->get()->position - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     // Set the dribblerSpeed
@@ -61,7 +61,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForChip(StpInfo const &info) noe
     skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the chip force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    double distanceBallToTarget = (info.getBall()->get()->position - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     skillStpInfo.setDribblerSpeed(100);
@@ -77,7 +77,7 @@ bool ShootAtPos::isEndTactic() noexcept {
 bool ShootAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    return !info.getRobot().value()->hasBall() || !info.getPositionToShootAt();
 }
 
 bool ShootAtPos::shouldTacticReset(const StpInfo &info) noexcept {

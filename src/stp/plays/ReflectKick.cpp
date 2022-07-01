@@ -83,8 +83,8 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall().value();
     std::optional<Vector2> intersection;
 
-    if ((ball->getPos() - passPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-        LineSegment ballDirection = LineSegment(ball->getPos(), ball->getPos() + ball->getVelocity());
+    if ((ball->position - passPosition).length() <= 2.0 && ball->velocity.length() > 0.1) {
+        LineSegment ballDirection = LineSegment(ball->position, ball->position + ball->velocity);
         LineSegment betweenPassAndGoal = LineSegment(passPosition, field.getTheirGoalCenter());
         intersection = ballDirection.intersects(betweenPassAndGoal);
     }

@@ -29,7 +29,7 @@ Status BallPlacer::update(StpInfo const& info) noexcept {
         return Status::Failure;
     }
 
-    if (!FieldComputations::pointIsInField(info.getField().value(), info.getBall().value()->getPos()) && robotTactics.current_num() == 0) {
+    if (!FieldComputations::pointIsInField(info.getField().value(), info.getBall().value()->position) && robotTactics.current_num() == 0) {
         forceNextTactic();
     }
 

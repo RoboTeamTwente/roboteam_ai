@@ -40,7 +40,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (!info.getRobot()->hasBall()) {
+    if (!info.getRobot().value()->hasBall()) {
         kickAttempts = 0;
         return Status::Success;
     }
