@@ -85,11 +85,6 @@ void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView>
         rotateRobotCommand(robot_command);
     }
 
-    if (robot_command.useAngularVelocity){
-        RTT_DEBUG("Sending ang vel of ", robot_command.targetAngularVelocity);
-    } else {
-        RTT_DEBUG("Sending angle of ", robot_command.targetAngle, " (Robot angle = ", robot->get()->getAngle(), ")");
-    }
     // Only add commands with a robotID that is not in the vector yet
     // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
     std::lock_guard<std::mutex> guard(robotCommandsMutex);
