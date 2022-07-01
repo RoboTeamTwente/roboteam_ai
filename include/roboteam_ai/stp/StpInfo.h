@@ -93,6 +93,9 @@ struct StpInfo {
     bool getShouldAvoidOutOfField() const { return avoidObjects.shouldAvoidOutOfField; }
     void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) { avoidObjects.shouldAvoidOutOfField = shouldAvoidOutOfField; }
 
+    bool getShouldAvoidOurRobots() const { return avoidObjects.shouldAvoidOurRobots; }
+    void setShouldAvoidOurRobots(bool shouldAvoidOurRobots) { avoidObjects.shouldAvoidOurRobots = shouldAvoidOurRobots; }
+
    private:
     /**
      * Current world pointer
