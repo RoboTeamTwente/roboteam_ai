@@ -7,6 +7,8 @@
 
 #include "stp/Tactic.h"
 
+#include <roboteam_utils/HalfLine.h>
+
 namespace rtt::ai::stp::tactic {
 
 class KeeperBlockBall : public Tactic {
@@ -53,6 +55,29 @@ class KeeperBlockBall : public Tactic {
     const char *getName() override;
 
     /**
+     * Creates a LineSegment on which the keeper should stay while defending.
+     * Start is left of goal, end is right of goal
+     * @return the keepers lineSegment
+     */
+    static LineSegment getKeepersLineSegment(const world::Field&);
+
+    /**
+     * Estimates the trajectory of the ball, either from current velocity or from enemies that might kick it
+     * @param ball to estimate its velocity from
+     * @param enemyRobot an enemy that might manipulate the ball
+     * @return a trajectory the ball might take
+     */
+    static std::optional<HalfLine> estimateBallTrajectory(const world::view::BallView &ball, const std::optional<world::view::RobotView> &enemyRobot);
+
+    /**
+     * Checks if the given trajectory goes towards our goal
+     * @param ballTrajectory the trajectory of the ball
+     * @param field which contains our goal
+     * @return true if the trajectory goes near our goal, false otherwise
+     */
+    static bool isBallHeadingTowardsOurGoal(const HalfLine& ballTrajectory, const world::Field &field);
+
+    /**
      * Calculates the position for the keeper
      * @param ball Ball
      * @param field Field
@@ -60,8 +85,16 @@ class KeeperBlockBall : public Tactic {
      * @return Target position for the keeper and the corresponding PID type
      * PID type is different for intercepting and kicking (coarse and fast or fine and slower control)
      */
-    static std::pair<Vector2, stp::PIDType> calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
-                                                                    const world::view::RobotView &enemyRobot) noexcept;
+    static Vector2 calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
+                                                                    const std::optional<world::view::RobotView> &enemyRobot, const LineSegment& keepersLineSegment) noexcept;
+
+    /**
+     * Calculates the angle the robot should have
+     * @param ball
+     * @param targetKeeperPosition
+     * @return the angle the robot should have
+     */
+    static Angle calculateTargetAngle(const world::view::BallView &ball, const Vector2 &targetKeeperPosition);
 };
 }  // namespace rtt::ai::stp::tactic
 
