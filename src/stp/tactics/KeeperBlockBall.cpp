@@ -16,7 +16,13 @@ namespace rtt::ai::stp::tactic {
 // We do not want the keeper to stand completely inside the goal, but a tiny bit outside.
 const double KEEPER_DISTANCE_TO_GOAL_LINE = Constants::ROBOT_RADIUS() * std::sin(toRadians(45.0));
 // And by standing a tiny bit inside, we cannot move completely to a goal side. This is by how much less that is.
-const double KEEPER_GOAL_DECREASE_AT_ONE_SIDE = Constants::ROBOT_RADIUS() * std::cos(toRadians(45.0));
+const double KEEPER_GOAL_DECREASE_AT_ONE_SIDE = Constants::ROBOT_RADIUS() * std::cos(toRadians(45.0)) + 0.05; // Plus a small margin to prevent keeper from crashing into goal
+// The maximum distance from the goal for when we say the ball is heading towards our goal
+constexpr double MAX_DISTANCE_HEADING_TOWARDS_GOAL = 0.5;
+// For determining where the keeper should stand to stand between the ball and the goal, we draw a line from the ball to a bit behind the goal
+constexpr double PROJECT_BALL_DISTANCE_TO_GOAL = 0.5; // Small means keeper will me more in center, big means keeper will be more to the side of the goal
+// We stop deciding where the keeper should be if the ball is too far behind our own goal
+constexpr double MAX_DISTANCE_BALL_BEHIND_GOAL = 0.3;
 
 KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
@@ -34,15 +40,6 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
     skillStpInfo.setAngle(targetAngle);
-
-//    // Moving over the keepers line can be done as fast as possible
-//    bool movesOnLine = keepersLineSegment.distanceToLine(info.getRobot().value()->getPos()) < 0.2
-//                    && keepersLineSegment.distanceToLine(targetPosition.first) < 0.2;
-//
-//    //skillStpInfo.setMoveQuickly(movesOnLine);
-
-
-//    RTT_INFO("X: ", targetPosition.first.x);
 
     skillStpInfo.setPidType(PIDType::DEFAULT);
     return skillStpInfo;
@@ -99,7 +96,7 @@ bool KeeperBlockBall::isBallHeadingTowardsOurGoal(const HalfLine &ballTrajectory
     // Get the intersection between the ball and the line on which the goal is
     auto intersectionWithGoalLine = ballTrajectory.intersect(Line(goalLineSegment));
     // Ball heads towards goal if the intersection is near our goal
-    return intersectionWithGoalLine.has_value() && goalLineSegment.distanceToLine(intersectionWithGoalLine.value()) < 0.2;
+    return intersectionWithGoalLine.has_value() && goalLineSegment.distanceToLine(intersectionWithGoalLine.value()) < MAX_DISTANCE_HEADING_TOWARDS_GOAL;
 }
 
 Vector2 KeeperBlockBall::calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
@@ -118,10 +115,10 @@ Vector2 KeeperBlockBall::calculateTargetPosition(const world::view::BallView &ba
     }
 
     // Otherwise, the ball probably will not move towards the goal any time soon
-    if (ball->position.x >= field.getOurGoalCenter().x) {
+    if (ball->position.x >= field.getOurGoalCenter().x - MAX_DISTANCE_BALL_BEHIND_GOAL) {
         // This will pick a position somewhat between the ball and the goal,
-        // but only if the ball is in the field
-        auto ballGoalLine = Line(ball->position, field.getOurGoalCenter() - Vector2(0.5, 0));
+        // but only if the ball is not too far behind the goal
+        auto ballGoalLine = Line(ball->position, field.getOurGoalCenter() - Vector2(PROJECT_BALL_DISTANCE_TO_GOAL, 0));
         auto targetPosition = keepersLineSegment.getClosestPointToLine(ballGoalLine);
         if (targetPosition.has_value()) return targetPosition.value();
     }
