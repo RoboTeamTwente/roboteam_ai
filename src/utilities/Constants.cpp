@@ -57,7 +57,7 @@ bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
 
-double Constants::MAX_VEL_CMD() { return 8.191; }
+double Constants::MAX_VEL_CMD() { return 4.0; }
 
 int Constants::MAX_ID_CMD() { return 15; }
 
@@ -164,7 +164,7 @@ bool Constants::STD_USE_REFEREE() { return true; }
 bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
 
 // The max distance the ball can be from the robot for the robot to have the ball
-double Constants::HAS_BALL_DISTANCE() { return (SETTINGS.getRobotHubMode() == Settings::BASESTATION) ? 0.10 : 0.12; }
+double Constants::HAS_BALL_DISTANCE() { return (SETTINGS.getRobotHubMode() == Settings::BASESTATION) ? 0.11 : 0.12; }
 
 // The max angle the ball can have to the robot for the robot to have the ball
 double Constants::HAS_BALL_ANGLE() { return 0.10 * M_PI; }
