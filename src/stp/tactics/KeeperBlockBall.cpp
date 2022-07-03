@@ -14,9 +14,9 @@
 namespace rtt::ai::stp::tactic {
 
 // We do not want the keeper to stand completely inside the goal, but a tiny bit outside.
-const double KEEPER_DISTANCE_TO_GOAL_LINE = Constants::ROBOT_RADIUS() * std::sin(toRadians(45.0));
+const double KEEPER_DISTANCE_TO_GOAL_LINE = Constants::ROBOT_RADIUS() * std::sin(toRadians(80.0));
 // And by standing a tiny bit inside, we cannot move completely to a goal side. This is by how much less that is.
-const double KEEPER_GOAL_DECREASE_AT_ONE_SIDE = Constants::ROBOT_RADIUS() * std::cos(toRadians(45.0)) + 0.05; // Plus a small margin to prevent keeper from crashing into goal
+const double KEEPER_GOAL_DECREASE_AT_ONE_SIDE = Constants::ROBOT_RADIUS() * std::cos(toRadians(80.0)) + 0.01; // Plus a small margin to prevent keeper from crashing into goal
 // The maximum distance from the goal for when we say the ball is heading towards our goal
 constexpr double MAX_DISTANCE_HEADING_TOWARDS_GOAL = 0.5;
 // For determining where the keeper should stand to stand between the ball and the goal, we draw a line from the ball to a bit behind the goal
