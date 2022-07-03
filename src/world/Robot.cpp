@@ -126,7 +126,7 @@ void Robot::updateFromFeedback(const proto::RobotProcessedFeedback &feedback) no
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ball_sensor_is_working());
         setBatteryLow(feedback.battery_level() < 22);  // TODO: Define what is considered a 'low' voltage
-        setBallSensorSeesBall(feedback.has_ball());
+        //setBallSensorSeesBall(feedback.has_ball());
         setBallPosBallSensor(feedback.ball_position());
     }
 }

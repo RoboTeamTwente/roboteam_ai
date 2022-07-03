@@ -23,6 +23,10 @@ class OrbitAngular : public Skill {
      */
     const char* getName() override;
 
+    /**
+     * Current direction the robot is turning in. 1 for clockwise, -1 for counterclockwise
+     */
+    double currentDirection = 1;
 };
 }  // namespace rtt::ai::stp::skill
 
