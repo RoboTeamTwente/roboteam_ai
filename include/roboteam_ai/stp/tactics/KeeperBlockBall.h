@@ -63,7 +63,7 @@ class KeeperBlockBall : public Tactic {
 
     /**
      * Estimates the trajectory of the ball, either from current velocity or from enemies that might kick it
-     * @param ball to estimate its velocity from
+     * @param ball to estimate its trajectory from
      * @param enemyRobot an enemy that might manipulate the ball
      * @return a trajectory the ball might take
      */
@@ -78,20 +78,20 @@ class KeeperBlockBall : public Tactic {
     static bool isBallHeadingTowardsOurGoal(const HalfLine& ballTrajectory, const world::Field &field);
 
     /**
-     * Calculates the position for the keeper
-     * @param ball Ball
-     * @param field Field
+     * Calculates the position for the keeper and the PID type with which that position should be achieved
+     * @param ball is the current ball for which the keeper should defend
+     * @param field is the field on which the keeper should defend
      * @param enemyRobot Enemy robot closest to ball
      * @return Target position for the keeper and the corresponding PID type
      * PID type is different for intercepting and kicking (coarse and fast or fine and slower control)
      */
-    static Vector2 calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
-                                                                    const std::optional<world::view::RobotView> &enemyRobot, const LineSegment& keepersLineSegment) noexcept;
+    static std::pair<Vector2,PIDType> calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
+                                                                    const std::optional<world::view::RobotView> &enemyRobot) noexcept;
 
     /**
      * Calculates the angle the robot should have
-     * @param ball
-     * @param targetKeeperPosition
+     * @param ball the ball for which the keeper should defend
+     * @param targetKeeperPosition the target position the keeper should have
      * @return the angle the robot should have
      */
     static Angle calculateTargetAngle(const world::view::BallView &ball, const Vector2 &targetKeeperPosition);

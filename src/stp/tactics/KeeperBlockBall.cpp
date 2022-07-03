@@ -18,7 +18,7 @@ const double KEEPER_DISTANCE_TO_GOAL_LINE = Constants::ROBOT_RADIUS() * std::sin
 // And by standing a tiny bit inside, we cannot move completely to a goal side. This is by how much less that is.
 const double KEEPER_GOAL_DECREASE_AT_ONE_SIDE = Constants::ROBOT_RADIUS() * std::cos(toRadians(80.0)) + 0.01; // Plus a small margin to prevent keeper from crashing into goal
 // The maximum distance from the goal for when we say the ball is heading towards our goal
-constexpr double MAX_DISTANCE_HEADING_TOWARDS_GOAL = 0.5;
+constexpr double MAX_DISTANCE_HEADING_TOWARDS_GOAL = 2;
 // For determining where the keeper should stand to stand between the ball and the goal, we draw a line from the ball to a bit behind the goal
 constexpr double PROJECT_BALL_DISTANCE_TO_GOAL = 0.5; // Small means keeper will me more in center, big means keeper will be more to the side of the goal
 // We stop deciding where the keeper should be if the ball is too far behind our own goal
@@ -33,21 +33,12 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
 
     skillStpInfo.setShouldAvoidOutOfField(false);
 
-    auto keepersLineSegment = getKeepersLineSegment(info.getField().value());
+    auto targetPosition = calculateTargetPosition(info.getBall().value(), info.getField().value(), info.getEnemyRobot());
+    skillStpInfo.setPositionToMoveTo(targetPosition.first);
+    skillStpInfo.setPidType(targetPosition.second);
 
-    auto targetPosition = calculateTargetPosition(info.getBall().value(), info.getField().value(), info.getEnemyRobot(), keepersLineSegment);
-    auto targetAngle = calculateTargetAngle(info.getBall().value(), targetPosition);
-
-    skillStpInfo.setPositionToMoveTo(targetPosition);
+    auto targetAngle = calculateTargetAngle(info.getBall().value(), targetPosition.first);
     skillStpInfo.setAngle(targetAngle);
-
-    auto ballTrajectory = estimateBallTrajectory(skillStpInfo.getBall().value(), skillStpInfo.getEnemyRobot());
-
-    // If the ball will go towards our goal, try and block it
-    bool ballHeadsTowardsOurGoal = ballTrajectory.has_value() && isBallHeadingTowardsOurGoal(ballTrajectory.value(), info.getField().value());
-    if (ballHeadsTowardsOurGoal) {
-        skillStpInfo.setPidType(PIDType::KEEPER);
-    }
 
     return skillStpInfo;
 }
@@ -106,8 +97,11 @@ bool KeeperBlockBall::isBallHeadingTowardsOurGoal(const HalfLine &ballTrajectory
     return intersectionWithGoalLine.has_value() && goalLineSegment.distanceToLine(intersectionWithGoalLine.value()) < MAX_DISTANCE_HEADING_TOWARDS_GOAL;
 }
 
-Vector2 KeeperBlockBall::calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
-                                                                          const std::optional<world::view::RobotView> &enemyRobot, const LineSegment& keepersLineSegment) noexcept {
+std::pair<Vector2,PIDType> KeeperBlockBall::calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
+                                                                          const std::optional<world::view::RobotView> &enemyRobot) noexcept {
+
+    // Get the line on which the keeper should move to
+    auto keepersLineSegment = getKeepersLineSegment(field);
 
     // Find out what the trajectory of the ball will be
     auto ballTrajectory = estimateBallTrajectory(ball, enemyRobot);
@@ -118,7 +112,7 @@ Vector2 KeeperBlockBall::calculateTargetPosition(const world::view::BallView &ba
         // Get the keeper as close as possible to the trajectory of the ball
         auto targetPosition = keepersLineSegment.getClosestPointToLine(ballTrajectory->toLine());
         if (targetPosition.has_value())
-            return targetPosition.value();
+            return { targetPosition.value(), PIDType::KEEPER };
     }
 
     // Otherwise, the ball probably will not move towards the goal any time soon
@@ -127,11 +121,11 @@ Vector2 KeeperBlockBall::calculateTargetPosition(const world::view::BallView &ba
         // but only if the ball is not too far behind the goal
         auto ballGoalLine = Line(ball->position, field.getOurGoalCenter() - Vector2(PROJECT_BALL_DISTANCE_TO_GOAL, 0));
         auto targetPosition = keepersLineSegment.getClosestPointToLine(ballGoalLine);
-        if (targetPosition.has_value()) return targetPosition.value();
+        if (targetPosition.has_value()) return { targetPosition.value(), PIDType::DEFAULT };
     }
 
     // If that fails too, just go to the center of the goal
-    return { keepersLineSegment.start.x, 0};
+    return { Vector2(keepersLineSegment.start.x, 0), PIDType::DEFAULT };
 }
 
 Angle KeeperBlockBall::calculateTargetAngle(const world::view::BallView &ball, const Vector2 &targetKeeperPosition) {
