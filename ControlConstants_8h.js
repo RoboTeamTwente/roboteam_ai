@@ -8,6 +8,7 @@ var ControlConstants_8h =
     [ "BALL_PLACEMENT_MARGIN", "ControlConstants_8h.html#ab9a25435f59d30d9fbed119582370ff6", null ],
     [ "BALL_RADIUS", "ControlConstants_8h.html#a8fbe72118c5a9251e3a531ce4b7ce257", null ],
     [ "BALL_STILL_VEL", "ControlConstants_8h.html#a5baaa7b811964a3a0afdf32840b9cd42", null ],
+    [ "BALL_STILL_VEL2", "ControlConstants_8h.html#ab5d9ab2c942d0063751c3492c7230a97", null ],
     [ "CENTER_TO_FRONT", "ControlConstants_8h.html#aa47ef791660935a050e3d381aba0d10d", null ],
     [ "DEFENSE_AREA_AVOIDANCE_MARGIN", "ControlConstants_8h.html#a6f520dc4302ed5a08e93b676c8dbf20d", null ],
     [ "DISTANCE_FROM_GOAL_CLOSE", "ControlConstants_8h.html#a04a3cb6fafbe1eb9b78c04122caea777", null ],

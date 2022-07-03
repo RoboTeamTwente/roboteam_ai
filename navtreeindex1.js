@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"DensePathTracking_8cpp.html":[10,0,2,0,0,2,1],
 "DensePathTracking_8h.html":[10,0,1,0,0,0,2,1],
 "DensePathTracking_8h_source.html":[10,0,1,0,0,0,2,1],
 "DistanceFromBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,10],
@@ -139,6 +140,11 @@ var NAVTREEINDEX1 =
 "JoystickState_8h.html":[10,0,1,0,2,2],
 "JoystickState_8h_source.html":[10,0,1,0,2,2],
 "KeeperBlockBall_8cpp.html":[10,0,2,3,6,3],
+"KeeperBlockBall_8cpp.html#a1347bfea32205f058b8f6beaaf2f591a":[10,0,2,3,6,3,0],
+"KeeperBlockBall_8cpp.html#a9e4cffb1bae4ff229b1e0cdfaa1c0bf5":[10,0,2,3,6,3,4],
+"KeeperBlockBall_8cpp.html#aaa155577589617b454d8fee2ea755e51":[10,0,2,3,6,3,1],
+"KeeperBlockBall_8cpp.html#ac175fe0237ffc965210b36f9b58ef4e9":[10,0,2,3,6,3,2],
+"KeeperBlockBall_8cpp.html#ac67952380d471ce18b24284d08028877":[10,0,2,3,6,3,3],
 "KeeperBlockBall_8h.html":[10,0,1,0,3,6,3],
 "KeeperBlockBall_8h_source.html":[10,0,1,0,3,6,3],
 "KeeperKickBall_8cpp.html":[10,0,2,3,3,1,2],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "PenaltyKeeper_8h.html":[10,0,1,0,3,4,3],
 "PenaltyKeeper_8h_source.html":[10,0,1,0,3,4,3],
 "PenaltyThemGameStateEvaluation_8cpp.html":[10,0,2,3,2,0,12],
-"PenaltyThemGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,12],
-"PenaltyThemGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,12],
-"PenaltyThemPrepareGameStateEvaluation_8cpp.html":[10,0,2,3,2,0,13],
-"PenaltyThemPrepareGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,13],
-"PenaltyThemPrepareGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,13],
-"PenaltyThemPrepare_8cpp.html":[10,0,2,3,3,3,13],
-"PenaltyThemPrepare_8h.html":[10,0,1,0,3,3,3,13]
+"PenaltyThemGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,12]
 };

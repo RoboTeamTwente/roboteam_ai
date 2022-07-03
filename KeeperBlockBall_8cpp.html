@@ -85,7 +85,8 @@ $(document).ready(function(){initNavTree('KeeperBlockBall_8cpp.html',''); initRe
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">KeeperBlockBall.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -96,6 +97,10 @@ $(document).ready(function(){initNavTree('KeeperBlockBall_8cpp.html',''); initRe
 <code>#include &quot;<a class="el" href="ControlConstants_8h_source.html">stp/constants/ControlConstants.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="GoToPos_8h_source.html">stp/skills/GoToPos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Rotate_8h_source.html">stp/skills/Rotate.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Constants_8h_source.html">utilities/Constants.h</a>&quot;</code><br />
+<code>#include &lt;roboteam_utils/Mathematics.h&gt;</code><br />
+<code>#include &lt;roboteam_utils/Print.h&gt;</code><br />
+<code>#include &lt;roboteam_utils/HalfLine.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -109,6 +114,19 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacertt_1_1ai_1_1stp_1_1tactic"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1tactic.html">rtt::ai::stp::tactic</a></td></tr>
 <tr class="memdesc:namespacertt_1_1ai_1_1stp_1_1tactic"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotates (with dribbler) the robot if needed to target angle then calculates the power to CHIP the BALL with. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a1347bfea32205f058b8f6beaaf2f591a"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1tactic.html#a1347bfea32205f058b8f6beaaf2f591a">rtt::ai::stp::tactic::KEEPER_DISTANCE_TO_GOAL_LINE</a> = <a class="el" href="classrtt_1_1ai_1_1Constants.html#af98ade4368626149da14fd9c2ed2a3c2">Constants::ROBOT_RADIUS</a>() * std::sin(toRadians(80.0))</td></tr>
+<tr class="separator:a1347bfea32205f058b8f6beaaf2f591a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa155577589617b454d8fee2ea755e51"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1tactic.html#aaa155577589617b454d8fee2ea755e51">rtt::ai::stp::tactic::KEEPER_GOAL_DECREASE_AT_ONE_SIDE</a> = <a class="el" href="classrtt_1_1ai_1_1Constants.html#af98ade4368626149da14fd9c2ed2a3c2">Constants::ROBOT_RADIUS</a>() * std::cos(toRadians(80.0)) + 0.01</td></tr>
+<tr class="separator:aaa155577589617b454d8fee2ea755e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac67952380d471ce18b24284d08028877"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1tactic.html#ac67952380d471ce18b24284d08028877">rtt::ai::stp::tactic::MAX_DISTANCE_HEADING_TOWARDS_GOAL</a> = 2</td></tr>
+<tr class="separator:ac67952380d471ce18b24284d08028877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e4cffb1bae4ff229b1e0cdfaa1c0bf5"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1tactic.html#a9e4cffb1bae4ff229b1e0cdfaa1c0bf5">rtt::ai::stp::tactic::PROJECT_BALL_DISTANCE_TO_GOAL</a> = 0.5</td></tr>
+<tr class="separator:a9e4cffb1bae4ff229b1e0cdfaa1c0bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac175fe0237ffc965210b36f9b58ef4e9"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacertt_1_1ai_1_1stp_1_1tactic.html#ac175fe0237ffc965210b36f9b58ef4e9">rtt::ai::stp::tactic::MAX_DISTANCE_BALL_BEHIND_GOAL</a> = 0.3</td></tr>
+<tr class="separator:ac175fe0237ffc965210b36f9b58ef4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
