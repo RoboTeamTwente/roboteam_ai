@@ -41,7 +41,14 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
     skillStpInfo.setPositionToMoveTo(targetPosition);
     skillStpInfo.setAngle(targetAngle);
 
-    skillStpInfo.setPidType(PIDType::DEFAULT);
+    auto ballTrajectory = estimateBallTrajectory(skillStpInfo.getBall().value(), skillStpInfo.getEnemyRobot());
+
+    // If the ball will go towards our goal, try and block it
+    bool ballHeadsTowardsOurGoal = ballTrajectory.has_value() && isBallHeadingTowardsOurGoal(ballTrajectory.value(), info.getField().value());
+    if (ballHeadsTowardsOurGoal) {
+        skillStpInfo.setPidType(PIDType::KEEPER);
+    }
+
     return skillStpInfo;
 }
 
