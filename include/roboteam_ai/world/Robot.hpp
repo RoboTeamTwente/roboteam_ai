@@ -50,6 +50,9 @@ class Robot {
     float ballPos{};
     bool robotHasBall{};
 
+    // map that stores a score that indicates how likely we think it is that each robot has the ball
+    static inline std::unordered_map<int, int> hasBallUpdateMap;
+
    private:
     void updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept;
 
