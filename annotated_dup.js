@@ -164,7 +164,6 @@ var annotated_dup =
             [ "Intercept", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept" ],
             [ "KeeperBlockBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall" ],
             [ "AvoidBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall" ],
-            [ "BallStandBack", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BallStandBack.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BallStandBack" ],
             [ "BlockBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockBall" ],
             [ "BlockRobot", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot" ],
             [ "Formation", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation" ],
