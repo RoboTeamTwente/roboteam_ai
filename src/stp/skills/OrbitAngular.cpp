@@ -39,7 +39,12 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
 
     // set command ID
     command.id = info.getRobot().value()->getId();
-    command.dribblerSpeed = info.getDribblerSpeed();
+
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
+    double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
+
+    // Set dribbler speed command
+    command.dribblerSpeed = targetDribblerSpeed;
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
