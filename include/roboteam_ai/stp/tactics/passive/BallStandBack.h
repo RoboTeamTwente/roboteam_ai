@@ -17,6 +17,10 @@ class BallStandBack : public Tactic {
     BallStandBack();
 
    private:
+
+    // We want to stand still for a bit to make sure the ball doesnt have backspin
+    int standStillCounter = 0;
+
     /**
      * Calculate the info for skills from the StpInfo struct parameter
      * @param info info is the StpInfo passed by the role

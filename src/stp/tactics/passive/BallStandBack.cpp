@@ -18,16 +18,20 @@ BallStandBack::BallStandBack() {
 std::optional<StpInfo> BallStandBack::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!info.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
+    if (!info.getPositionToMoveTo() || !skillStpInfo.getBall() || !skillStpInfo.getRobot()) return std::nullopt;
 
-    auto moveVector = Vector2(info.getRobot()->get()->getPos() - info.getBall()->get()->getPos());
+    Vector2 targetPos;
+    if (standStillCounter > 60){
+        auto moveVector = info.getRobot()->get()->getPos() - info.getBall()->get()->position;
+        targetPos = info.getBall()->get()->position + moveVector.stretchToLength(control_constants::AVOID_BALL_DISTANCE);
+    } else {
+        standStillCounter++;
+        targetPos = info.getRobot()->get()->getPos();
+    }
 
-    auto positionToMove = moveVector.stretchToLength(control_constants::AVOID_BALL_DISTANCE);
-
-    double angle = (info.getBall()->get()->getPos() - positionToMove).angle();
-
+    double angle = (info.getBall()->get()->position - targetPos).angle();
+    skillStpInfo.setPositionToMoveTo(targetPos);
     skillStpInfo.setAngle(angle);
-    skillStpInfo.setPositionToMoveTo(positionToMove);
 
     // Be 100% sure the dribbler is off during the BallStandBack
     skillStpInfo.setDribblerSpeed(0);
@@ -40,7 +44,11 @@ bool BallStandBack::isTacticFailing(const StpInfo &info) noexcept {
     return !info.getPositionToMoveTo();
 }
 
-bool BallStandBack::shouldTacticReset(const StpInfo &info) noexcept { return false; }
+bool BallStandBack::shouldTacticReset(const StpInfo &info) noexcept {
+    bool shouldReset = (info.getRobot()->get()->getPos() - info.getBall()->get()->position).length() < control_constants::AVOID_BALL_DISTANCE;
+    if (!shouldReset) standStillCounter = 0;
+    return shouldReset;
+}
 
 bool BallStandBack::isEndTactic() noexcept {
     // BallStandBack tactic is an end tactic
