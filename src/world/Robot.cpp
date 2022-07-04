@@ -59,12 +59,12 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
         }
 
         // Make sure the value does not get too large/small
-        hasBallUpdateMap[id].score = std::clamp(hasBallUpdateMap[id].score, 0, 10);
+        hasBallUpdateMap[id].score = std::clamp(hasBallUpdateMap[id].score, 0, 25);
 
         // If we previously had the ball, we do not have the ball if the score gets below 4
         if (hasBallUpdateMap[id].hasBall && hasBallUpdateMap[id].score < 4) hasBallUpdateMap[id].hasBall = false;
         // If we did not have the ball yet, we have the ball if the score gets over 8
-        else if (hasBallUpdateMap[id].score > 6) hasBallUpdateMap[id].hasBall = true;
+        else if (hasBallUpdateMap[id].score > 20) hasBallUpdateMap[id].hasBall = true;
 
         setHasBall(hasBallUpdateMap[id].hasBall);
         RTT_DEBUG("HasBallScore = ", hasBallUpdateMap[id].score, hasBall() ? ". has ball" : ". Does not have ball");

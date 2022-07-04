@@ -4,18 +4,23 @@
 
 #include "stp/tactics/TestTactic.h"
 
-#include "stp/skills/TestSkill.h"
+#include "stp/skills/Kick.h"
+#include "control/ControlUtils.h"
+#include "stp/constants/ControlConstants.h"
 
 namespace rtt::ai::stp {
 
 TestTactic::TestTactic() {
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::TestSkill()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Kick()};
 }
 
 std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
     if (!skillStpInfo.getField()) return std::nullopt;
+    skillStpInfo.setKickChipVelocity(stp::control_constants::MAX_KICK_POWER);
+
+    skillStpInfo.setDribblerSpeed(100);
     return skillStpInfo;
 }
 

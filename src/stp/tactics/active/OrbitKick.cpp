@@ -8,7 +8,7 @@
 #include "stp/constants/ControlConstants.h"
 #include "stp/skills/Kick.h"
 #include "stp/skills/OrbitAngular.h"
-
+#include "roboteam_utils/Print.h"
 namespace rtt::ai::stp::tactic {
 
 OrbitKick::OrbitKick() {
@@ -42,7 +42,8 @@ bool OrbitKick::isEndTactic() noexcept {
 bool OrbitKick::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    return !info.getPositionToShootAt();
+    if (!info.getPositionToShootAt() || !info.getRobot()->get()->hasBall()) RTT_WARNING("OrbitKick Failing!");
+    return !info.getPositionToShootAt() || !info.getRobot()->get()->hasBall();
 }
 
 bool OrbitKick::shouldTacticReset(const StpInfo &info) noexcept {

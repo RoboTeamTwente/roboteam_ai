@@ -5,6 +5,7 @@
 #include "stp/skills/Kick.h"
 
 #include "stp/constants/ControlConstants.h"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::stp::skill {
 
@@ -12,6 +13,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set kick velocity
     float kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
+    //RTT_ERROR("Angle in kick = ", info.getRobot()->get()->getAngle().toVector2());
     // Set kick command
     command.kickType = KickType::KICK;
     command.kickSpeed = kickVelocity;
@@ -31,7 +33,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
         command.waitForBall = false;
         kickAttempts = 0;
     } else {
-        command.waitForBall = true;  // Apparently, waiting for the ball is the default
+        command.waitForBall = false;  // Apparently, waiting for the ball is the default
     }
 
     // set command ID
@@ -41,6 +43,9 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     forwardRobotCommand(info.getCurrentWorld());
 
     if (!info.getRobot().value()->hasBall()) {
+        //RTT_ERROR("Kick succesful! Robot angle = ", info.getRobot()->get()->getAngle().toVector2());
+        //RTT_ERROR("Angle to goal = ", (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).toAngle().toVector2());
+        //RTT_ERROR("Ball vel = ", info.getBall()->get()->velocity);
         kickAttempts = 0;
         return Status::Success;
     }
