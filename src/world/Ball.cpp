@@ -67,11 +67,8 @@ void Ball::updateBallAtRobotPosition(const world::World* data) noexcept {
 
     std::optional<rtt::world::view::RobotView> robotWithBall = world->whichRobotHasBall();
     if (!robotWithBall.has_value()) {
-        RTT_DEBUG("No robot has ball");
         return;
     }
-
-    RTT_DEBUG("Placing ball in front of robot");
     // Place the ball where we would expect it to be given that this robot has the ball
     double distanceInFrontOfRobot = ai::stp::control_constants::CENTER_TO_FRONT + ai::Constants::BALL_RADIUS();
     position = robotWithBall->get()->getPos() + robotWithBall->get()->getAngle().toVector2(distanceInFrontOfRobot);
