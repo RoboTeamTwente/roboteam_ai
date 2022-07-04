@@ -99,7 +99,6 @@ bool KeeperBlockBall::isBallHeadingTowardsOurGoal(const HalfLine &ballTrajectory
 
 std::pair<Vector2,PIDType> KeeperBlockBall::calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
                                                                           const std::optional<world::view::RobotView> &enemyRobot) noexcept {
-
     // Get the line on which the keeper should move to
     auto keepersLineSegment = getKeepersLineSegment(field);
 
