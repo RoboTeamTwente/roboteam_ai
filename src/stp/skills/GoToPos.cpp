@@ -36,8 +36,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     }
 
     double targetVelocityLength;
-    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - info.getBall()->get()->position).length() > control_constants::ROBOT_RADIUS / 2) {
-        RTT_DEBUG("Setting max vel");
+    if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - targetPos).length() > 2 * control_constants::ROBOT_RADIUS) {
         targetVelocityLength = info.getMaxRobotVelocity();
     } else {
         targetVelocityLength = std::clamp(commandCollision.robotCommand.velocity.length(), 0.0, info.getMaxRobotVelocity());
