@@ -20,7 +20,7 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     Vector2 normalVector = directionVector.rotate(M_PI_2);
     Angle targetAngle = (info.getPositionToShootAt().value() - info.getBall()->get()->position).toAngle();
 
-    if(info.getRobot()->get()->getAngularVelocity() < 0.1) {
+    if(fabs(info.getRobot()->get()->getAngularVelocity()) < 0.1) {
         // Get the direction of movement, counterclockwise or clockwise
         currentDirection = Angle(directionVector).rotateDirection(targetAngle) ? 1.0 : -1.0;
     }
