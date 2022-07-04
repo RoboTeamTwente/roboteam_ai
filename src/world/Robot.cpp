@@ -35,26 +35,39 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
         auto angleRobotToBall = ((*ball)->position - pos).angle();
         setAngleDiffToBall(angle.shortestAngleDiff(Angle(angleRobotToBall)));
 
+        if (!ball.value()->visible) RTT_INFO("Ball not visible")
         // For our own robots in the sim, we only use the ballSensor, since its more accurate
         if (!(team == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR)) {
             // If the ball is not visible, we should go closer to the ball before thinking we have it, for safety (since we can't actually see if we have the ball or not)
             auto hasBallDist = ball->get()->visible ? ai::Constants::HAS_BALL_DISTANCE() : ai::Constants::HAS_BALL_DISTANCE() * 0.75;
             auto hasBallAccordingToVision = distanceToBall < hasBallDist && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
 
-            // Update the hasBall map- if vision thinks we have the ball, add 1, otherwise subtract 1
-            hasBallUpdateMap[id] += (hasBallAccordingToVision ? 1 : -1);
+            if (hasBallAccordingToVision && dribblerSeesBall) hasBallUpdateMap[id].score += 2;
+            else if (hasBallAccordingToVision && !dribblerSeesBall) hasBallUpdateMap[id].score += 1;
+            else if (!hasBallAccordingToVision && dribblerSeesBall && distanceToBall < ai::Constants::HAS_BALL_DISTANCE() * 1.5 && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE() * 1.5)
+                hasBallUpdateMap[id].score += 1;
+            else hasBallUpdateMap[id].score -= 2;
+
+            RTT_DEBUG("Dist = ", distanceToBall, ". Angle = ", angleDiffToBall);
+            RTT_DEBUG(dribblerSeesBall ? "Dribbler sees ball" : "Dribbler does not see ball");
             // If we have a ballsensor, also use its information to update the hasBall map
-            if (workingBallSensor) hasBallUpdateMap[id] += (ballSensorSeesBall() ? 1 : -1);
+            if (workingBallSensor) hasBallUpdateMap[id].score += (ballSensorSeesBall ? 1 : -1);
         } else {
             // In the sim, for our team, we only use the ballsensor (since its very accurate)
-            if (workingBallSensor) hasBallUpdateMap[id] += (ballSensorSeesBall() ? 2 : -2);
+            if (workingBallSensor) hasBallUpdateMap[id].score += (ballSensorSeesBall ? 2 : -2);
             else RTT_WARNING("Ball Sensor not working, robot does not know whether it has ball!");
         }
 
         // Make sure the value does not get too large/small
-        hasBallUpdateMap[id] = std::clamp(hasBallUpdateMap[id], 0, 12);
-        setHasBall(hasBallUpdateMap[id] > 8);
+        hasBallUpdateMap[id].score = std::clamp(hasBallUpdateMap[id].score, 0, 10);
 
+        // If we previously had the ball, we do not have the ball if the score gets below 4
+        if (hasBallUpdateMap[id].hasBall && hasBallUpdateMap[id].score < 4) hasBallUpdateMap[id].hasBall = false;
+        // If we did not have the ball yet, we have the ball if the score gets over 8
+        else if (hasBallUpdateMap[id].score > 6) hasBallUpdateMap[id].hasBall = true;
+
+        setHasBall(hasBallUpdateMap[id].hasBall);
+        RTT_DEBUG("HasBallScore = ", hasBallUpdateMap[id].score, hasBall() ? ". has ball" : ". Does not have ball");
         /// TODO: There's some magic numbers here: the max value at which we clamped could be higher/lower, and the cutoff for saying we have the ball could be different
         /// Furthermore, it might be good to have 2 decision boundaries instead of one. I.e., if we have the ball, only change that if it goes < 3. If we do not have the ball, switch when > 8
     }
@@ -108,9 +121,13 @@ bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
 void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
-bool Robot::ballSensorSeesBall() const noexcept { return seesBall; }
+bool Robot::getBallSensorSeesBall() const noexcept { return ballSensorSeesBall; }
 
-void Robot::setBallSensorSeesBall(bool _seesBall) noexcept { Robot::seesBall = _seesBall; }
+void Robot::setBallSensorSeesBall(bool _seesBall) noexcept { ballSensorSeesBall = _seesBall; }
+
+bool Robot::getDribblerSeesBall() const noexcept { return dribblerSeesBall; }
+
+void Robot::setDribblerSeesBall(bool _seesBall) noexcept { dribblerSeesBall = _seesBall; }
 
 void Robot::setHasBall(bool _hasBall) noexcept { Robot::robotHasBall = _hasBall; }
 
@@ -141,7 +158,8 @@ void Robot::updateFromFeedback(const proto::RobotProcessedFeedback &feedback) no
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ball_sensor_is_working());
         setBatteryLow(feedback.battery_level() < 22);  // TODO: Define what is considered a 'low' voltage
-        //setBallSensorSeesBall(feedback.has_ball());
+        setBallSensorSeesBall(feedback.ball_sensor_sees_ball());
+        setDribblerSeesBall(feedback.dribbler_sees_ball());
         setBallPosBallSensor(feedback.ball_position());
     }
 }
