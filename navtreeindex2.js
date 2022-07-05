@@ -1,8 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"PenaltyKeeper_8h_source.html":[10,0,1,0,3,4,3],
-"PenaltyThemGameStateEvaluation_8cpp.html":[10,0,2,3,2,0,12],
-"PenaltyThemGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,12],
 "PenaltyThemGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,12],
 "PenaltyThemPrepareGameStateEvaluation_8cpp.html":[10,0,2,3,2,0,13],
 "PenaltyThemPrepareGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,13],
@@ -249,5 +246,8 @@ var NAVTREEINDEX2 =
 "TimeOutGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,17],
 "TimeOutGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,17],
 "TimeOut_8cpp.html":[10,0,2,3,3,3,16],
-"TimeOut_8h.html":[10,0,1,0,3,3,3,16]
+"TimeOut_8h.html":[10,0,1,0,3,3,3,16],
+"TimeOut_8h_source.html":[10,0,1,0,3,3,3,16],
+"TimeToPositionEvaluation_8cpp.html":[10,0,2,3,2,2,4],
+"TimeToPositionEvaluation_8h.html":[10,0,1,0,3,2,2,4]
 };

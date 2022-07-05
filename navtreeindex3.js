@@ -1,8 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"TimeOut_8h_source.html":[10,0,1,0,3,3,3,16],
-"TimeToPositionEvaluation_8cpp.html":[10,0,2,3,2,2,4],
-"TimeToPositionEvaluation_8h.html":[10,0,1,0,3,2,2,4],
 "TimeToPositionEvaluation_8h_source.html":[10,0,1,0,3,2,2,4],
 "Toggles_8cpp.html":[10,0,2,1,0,2],
 "Toggles_8h.html":[10,0,1,0,1,0,2],
@@ -206,9 +203,9 @@ var NAVTREEINDEX3 =
 "Waller_8cpp.html":[10,0,2,3,4,1,5],
 "Waller_8h.html":[10,0,1,0,3,4,1,5],
 "Waller_8h_source.html":[10,0,1,0,3,4,1,5],
-"Walling_8cpp.html":[10,0,2,3,6,1,6],
-"Walling_8h.html":[10,0,1,0,3,6,1,6],
-"Walling_8h_source.html":[10,0,1,0,3,6,1,6],
+"Walling_8cpp.html":[10,0,2,3,6,1,5],
+"Walling_8h.html":[10,0,1,0,3,6,1,5],
+"Walling_8h_source.html":[10,0,1,0,3,6,1,5],
 "WeHaveBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,17],
 "WeHaveBallGlobalEvaluation_8h.html":[10,0,1,0,3,2,1,17],
 "WeHaveBallGlobalEvaluation_8h_source.html":[10,0,1,0,3,2,1,17],
@@ -249,5 +246,8 @@ var NAVTREEINDEX3 =
 "classMockTactic.html#a82d49e1fc25787bc4eadd8ba7ff42eb2":[9,0,14,1],
 "classMockTactic.html#a8d51114edbe65fb016e8964f1d78d4f2":[9,0,14,4],
 "classMockTactic.html#a91ff3edd9f42993cf83f9a19cc905568":[9,0,14,8],
-"classMockTactic.html#aa064787b0622c4556d355e2644c0c954":[9,0,14,11]
+"classMockTactic.html#aa064787b0622c4556d355e2644c0c954":[9,0,14,11],
+"classMockTactic.html#ab496bf1614c47ef3e466cd235eb84aab":[9,0,14,2],
+"classMockTactic.html#ab7650037eb092459aca7247ea77f2ad4":[9,0,14,5],
+"classMockTactic.html#ac66cf9fe9def08172b053a6abc869ba1":[9,0,14,15]
 };
