@@ -1,5 +1,8 @@
 var NAVTREEINDEX8 =
 {
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a1492ba7d90369319bdb63109b831b3c9":[9,0,0,0,3,1,25,2],
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a2e194fcdd823535bb9fa9d80366131db":[9,0,0,0,3,1,25,0],
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#ade44db60608bdbe328f6d105405b8b91":[9,0,0,0,3,1,25,3],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#af5c04c03c5ed3dda605ddcd148ebfac4":[9,0,0,0,3,1,25,4],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#aff16bdcc97c22a18a1b7b7026657cce0":[9,0,0,0,3,1,25,1],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallNotInOurDefenseAreaAndStillGlobalEvaluation.html":[9,0,0,0,3,1,26],
@@ -246,8 +249,5 @@ var NAVTREEINDEX8 =
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a859e8c8abae48115eab588736926368f":[9,0,0,0,3,3,10,27],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a8726a464fdb9e614c5cca8c7cd183155":[9,0,0,0,3,3,10,15],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a8750ea230c633dcf6a0f09e28e4f47b1":[9,0,0,0,3,3,10,25],
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a977b3063d4d26bee4be08d71c2ab7ccc":[9,0,0,0,3,3,10,4],
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#aa20291b5cee34414dfb81aa0fd33713f":[9,0,0,0,3,3,10,11],
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56":[9,0,0,0,3,3,10,19],
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ab23ad33458ed975661cdc593bdf40968":[9,0,0,0,3,3,10,14]
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a977b3063d4d26bee4be08d71c2ab7ccc":[9,0,0,0,3,3,10,4]
 };
