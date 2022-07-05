@@ -86,7 +86,7 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp
-)
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BallStandBack.cpp)
 target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
 )
