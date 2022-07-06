@@ -12,7 +12,7 @@ var classrtt_1_1ai_1_1FieldComputations =
     [ "getVisiblePartsOfGoal", "classrtt_1_1ai_1_1FieldComputations.html#a23bcc3f33a65330d9652a9f37db416e8", null ],
     [ "getVisiblePartsOfGoal", "classrtt_1_1ai_1_1FieldComputations.html#a19e1384a58bef8a0ef8b8c9e6566d8ce", null ],
     [ "lineIntersectionWithDefenseArea", "classrtt_1_1ai_1_1FieldComputations.html#a4d3634924856a550f4fc8c8286b08e2e", null ],
-    [ "lineIntersectionWithField", "classrtt_1_1ai_1_1FieldComputations.html#af8f150f0fedbc5dabf0d404c78c642e7", null ],
+    [ "lineIntersectionWithField", "classrtt_1_1ai_1_1FieldComputations.html#a2ac3192ff7505c7e829bffb6c0c1cc4c", null ],
     [ "mergeBlockades", "classrtt_1_1ai_1_1FieldComputations.html#a66429c4b8aed2be51b775084a8915676", null ],
     [ "pointIsInDefenseArea", "classrtt_1_1ai_1_1FieldComputations.html#a1950999b12eb4934e0832ba762293423", null ],
     [ "pointIsInField", "classrtt_1_1ai_1_1FieldComputations.html#a427c5e6001e2bb6c573a4f913c7737ef", null ],
