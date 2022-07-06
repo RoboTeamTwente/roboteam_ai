@@ -50,6 +50,17 @@ bool IOManager::init(bool isPrimaryAI) {
 //////////////////////
 void IOManager::handleState(const proto::State& stateMsg) {
     std::unique_lock<std::mutex> lock(stateMutex);  // write lock
+    if (state.last_seen_world().has_ball()){
+        if (!state.last_seen_world().ball().has_pos())
+        {
+            RTT_WARNING("Ball does not have pos!");
+        } else {
+            RTT_DEBUG(state.last_seen_world().ball().pos().x(), " ", state.last_seen_world().ball().pos().y());
+        }
+    } else {
+        RTT_WARNING("World does not have ball!");
+    }
+
     this->state.CopyFrom(stateMsg);
     if (state.has_referee()) {
         // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf

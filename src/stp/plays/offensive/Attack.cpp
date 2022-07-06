@@ -11,6 +11,7 @@
 #include "stp/roles/active/Attacker.h"
 #include "stp/roles/passive/Defender.h"
 #include "stp/roles/passive/Formation.h"
+#include "roboteam_utils/FileLogger.hpp"
 
 namespace rtt::ai::stp::play {
 

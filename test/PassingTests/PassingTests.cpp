@@ -82,3 +82,20 @@ TEST_F(RTT_AI_Tests, keeperPassTest) {
     EXPECT_TRUE(rtt::ai::FieldComputations::pointIsValidPosition(world->getField().value(), passInfo.passLocation));
     EXPECT_GT(PositionScoring::scorePosition(passInfo.passLocation, gen::LineOfSight, world->getField().value(), world).score, 0.0);
 }
+
+TEST(InterceptTest, interceptTest){
+    auto ballPos = rtt::Vector2(4,0);
+    auto ballVel = rtt::Vector2(-5,0);
+    auto roboPos = rtt::Vector2(3.5,1);
+    auto ballTrajectory = rtt::LineSegment(ballPos, ballPos + ballVel.stretchToLength(12));
+    auto interceptPos = ballTrajectory.project(roboPos);
+
+    int i = 0;
+    while (std::pow(ballPos.dist(interceptPos), 2) / 6.5 < roboPos.dist(interceptPos)){
+        if (i > 100) break;
+        interceptPos = interceptPos + (interceptPos - ballPos).stretchToLength(0.2);
+        RTT_DEBUG("Interation ", i++);
+        RTT_DEBUG("Intercept pos = ", interceptPos, ". Ball pos = ", ballPos);
+        RTT_DEBUG("Intercept time = ", roboPos.dist(interceptPos), ". Ball travel time = ", std::pow(ballPos.dist(interceptPos), 2) / 6.5 );
+    }
+}

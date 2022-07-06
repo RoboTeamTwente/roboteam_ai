@@ -67,8 +67,11 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         # /
+<<<<<<< Updated upstream
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBehindBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/Intercept.cpp
+=======
+>>>>>>> Stashed changes
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/TestTactic.cpp
@@ -76,6 +79,11 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/ChipAtPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/DriveWithBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/GetBall.cpp
+<<<<<<< Updated upstream
+=======
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/GetBehindBallInDirection.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/Intercept.cpp
+>>>>>>> Stashed changes
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/KickAtPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/Receive.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/ShootAtPos.cpp
@@ -87,6 +95,7 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp
 )
+
 target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
 )
@@ -106,6 +115,11 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/PenaltyKeeper.cpp
         # active
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Attacker.cpp
+<<<<<<< Updated upstream
+=======
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Harasser.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallInterceptor.cpp
+>>>>>>> Stashed changes
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallPlacer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
@@ -119,7 +133,8 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp
-)
+        )
+
 target_include_directories(roboteam_ai_roles
         PRIVATE include/roboteam_ai
 )
@@ -141,6 +156,7 @@ add_library(roboteam_ai_plays
         # contested/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/InterceptBall.cpp
         # defensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
@@ -245,7 +261,8 @@ add_library(roboteam_ai_computation
         ${PROJECT_SOURCE_DIR}/src/stp/computations/GoalComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PassComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionScoring.cpp
-)
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/TimingComputations.cpp
+        )
 target_include_directories(roboteam_ai_computation
         PRIVATE include/roboteam_ai
 )
@@ -253,8 +270,8 @@ target_link_libraries(roboteam_ai_computation
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
-        PRIVATE NFParam
 )
+
 target_compile_options(roboteam_ai_computation PRIVATE "${COMPILER_FLAGS}")
 
 ###### CONTROL #######
@@ -385,13 +402,14 @@ target_link_libraries(roboteam_ai
         PRIVATE roboteam_ai_control
         PRIVATE roboteam_ai_roles
         PRIVATE Qt5::Charts
+        PRIVATE roboteam_ai_computation
         PRIVATE roboteam_ai_manual
         PRIVATE roboteam_ai_utils
-        PRIVATE roboteam_ai_computation
         PRIVATE roboteam_ai_tactics
         PRIVATE roboteam_ai_evaluation
+        PRIVATE roboteam_ai_computation
         PRIVATE roboteam_ai_skills
-)
+        )
 target_compile_options(roboteam_ai PRIVATE "${COMPILER_FLAGS}")
 
 ###### TESTHELPERS #######
@@ -439,6 +457,7 @@ target_link_libraries(roboteam_ai_tests
         PRIVATE GTest::gmock
         PRIVATE testHelpers
         PRIVATE roboteam_utils
+        PRIVATE roboteam_ai_computation
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
         PRIVATE SDL2
@@ -450,12 +469,12 @@ target_link_libraries(roboteam_ai_tests
         PRIVATE Qt5::Charts
         PRIVATE roboteam_ai_manual
         PRIVATE roboteam_ai_utils
-        PRIVATE roboteam_ai_computation
         PRIVATE roboteam_ai_tactics
         PRIVATE roboteam_ai_evaluation
         PRIVATE roboteam_ai_skills
         PRIVATE roboteam_ai_control
         PRIVATE roboteam_interface_utils_lib
+        PRIVATE roboteam_ai_computation
         )
 
 target_compile_options(roboteam_ai_tests PRIVATE "${COMPILER_FLAGS}")

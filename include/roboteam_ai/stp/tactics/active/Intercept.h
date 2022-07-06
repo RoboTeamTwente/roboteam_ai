@@ -59,13 +59,13 @@ class Intercept : public Tactic {
      */
     double calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball);
 
-    /**
-     * Determine the dribbler speed
-     * Turn dribbler at full speed when ball is close to robot, otherwise do not dribble
-     * @param robot Robot
-     * @return Dribbler speed in %
-     */
-    int determineDribblerSpeed(const world::view::RobotView &robot);
+    bool ballIsAccelerating(double ballVelocity);
+
+    Vector2 calculateInterceptPosition(const StpInfo& info);
+
+    bool forceTacticSuccess(const StpInfo &info) noexcept override;
+
+    double previousBallVelocity = 0;
 };
 }  // namespace rtt::ai::stp::tactic
 

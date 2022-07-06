@@ -20,6 +20,7 @@
 #include "stp/plays/TestPlay.h"
 #include "stp/plays/contested/GetBallPossession.h"
 #include "stp/plays/contested/GetBallRisky.h"
+#include "stp/plays/contested/InterceptBall.h"
 #include "stp/plays/defensive/DefendPass.h"
 #include "stp/plays/defensive/DefendShot.h"
 #include "stp/plays/defensive/KeeperKickBall.h"
@@ -57,13 +58,14 @@ void STPManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::InterceptBall>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KeeperKickBall>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
@@ -145,7 +147,9 @@ void STPManager::runOneLoopCycle() {
         mainWindow->updateProcessedVisionPackets(vision_packets);
 
         auto const &[_, world] = world::World::instance();
-        world->updateFeedback(feedbackMessage);
+
+//        RTT_DEBUG("Ball vel = ", world->getWorld()->getBall()->get()->getVelocity().length());
+//        RTT_DEBUG("Ball vel filtered = ", world->getWorld()->getBall()->get()->getFilteredVelocity().length());
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {

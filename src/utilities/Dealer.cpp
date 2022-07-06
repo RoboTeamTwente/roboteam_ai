@@ -351,10 +351,10 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::WITH_WORKING_DRIBBLER:
             return costForProperty(robot->isWorkingDribbler());
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
-            // get distance to line between ball and goal
-            // TODO this method can be improved by choosing a better line for the interception.
-            LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
-            return lineSegment.distanceToLine(robot->getPos());
+            LineSegment lineSegment = {world.getBall()->get()->getPos(), world.getBall()->get()->getPos() + world.getBall()->get()->getVelocity().stretchToLength(fieldLength)};
+            constexpr double MAX_ANGLE = M_PI / 6.0;
+            auto angleDiff = (lineSegment.end - lineSegment.start).toAngle().shortestAngleDiff(robot->getPos() - lineSegment.start);
+            return std::pow((1 / (MAX_ANGLE)) * (MAX_ANGLE - angleDiff), 2);
         }
         case DealerFlagTitle::KEEPER:
             return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);

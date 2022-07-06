@@ -4,7 +4,7 @@
 
 #include "stp/roles/passive/Harasser.h"
 
-#include "stp/tactics/Intercept.h"
+#include "stp/tactics/active/Intercept.h"
 #include "stp/tactics/passive/BlockRobot.h"
 
 namespace rtt::ai::stp::role {

@@ -6,13 +6,16 @@
 
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "world/World.hpp"
+#include "roboteam_utils/FileLogger.hpp"
+#include "sstream"
 
 namespace rtt::ai::stp::skill {
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
-    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, info.getRoleName())) {
+
+    if (!FieldComputations::pointIsValidPosition(info.getField().value(), targetPos, 0)) {
         RTT_WARNING("Target point is not a valid position for robot id: ", info.getRobot().value()->getId())
         targetPos = control::ControlUtils::projectPointToValidPosition(info.getField().value(), targetPos, info.getRoleName(), control_constants::ROBOT_RADIUS);
     }
@@ -62,6 +65,25 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
+
+//    if (info.getRoleName() == "ballInterceptor" && info.getBall()->get()->getVelocity().length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) {
+//        std::locale::global(std::locale(""));
+//
+//        std::stringstream s;
+//        s << info.getRobot()->get()->getPos().x << ": " << info.getRobot()->get()->getPos().y;
+//        posLogger.writeNewLine(s.str());
+//        posLogger.flush();
+//
+//        std::stringstream v;
+//        v << info.getRobot()->get()->getVel().x << ": " << info.getRobot()->get()->getVel().y;
+//        velLogger.writeNewLine(v.str());
+//        velLogger.flush();
+//
+//        std::stringstream o;
+//        o << targetVelocity.x << ": " << targetVelocity.y;
+//        outputLogger.writeNewLine(o.str());
+//        outputLogger.flush();
+//    }
 
     // Check if successful
     if ((info.getRobot().value()->getPos() - targetPos).length() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN) {
