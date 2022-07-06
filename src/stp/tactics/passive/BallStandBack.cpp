@@ -7,7 +7,7 @@
 #include <stp/constants/ControlConstants.h>
 
 #include "stp/skills/GoToPos.h"
-
+#include "roboteam_utils/Print.h"
 namespace rtt::ai::stp::tactic {
 
 BallStandBack::BallStandBack() {
@@ -23,7 +23,7 @@ std::optional<StpInfo> BallStandBack::calculateInfoForSkill(StpInfo const &info)
     Vector2 targetPos;
     if (standStillCounter > 60){
         auto moveVector = info.getRobot()->get()->getPos() - info.getBall()->get()->position;
-        targetPos = info.getBall()->get()->position + moveVector.stretchToLength(control_constants::AVOID_BALL_DISTANCE);
+        targetPos = info.getBall()->get()->position + moveVector.stretchToLength(control_constants::AVOID_BALL_DISTANCE * 1.10);
     } else {
         standStillCounter++;
         targetPos = info.getRobot()->get()->getPos();
@@ -46,7 +46,10 @@ bool BallStandBack::isTacticFailing(const StpInfo &info) noexcept {
 
 bool BallStandBack::shouldTacticReset(const StpInfo &info) noexcept {
     bool shouldReset = (info.getRobot()->get()->getPos() - info.getBall()->get()->position).length() < control_constants::AVOID_BALL_DISTANCE;
-    if (!shouldReset) standStillCounter = 0;
+    if (!shouldReset) {
+        RTT_ERROR("Ressting counter")
+        standStillCounter = 0;
+    }
     return shouldReset;
 }
 

@@ -43,11 +43,8 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     forwardRobotCommand(info.getCurrentWorld());
 
     if (!info.getRobot().value()->hasBall()) {
-        //RTT_ERROR("Kick succesful! Robot angle = ", info.getRobot()->get()->getAngle().toVector2());
-        //RTT_ERROR("Angle to goal = ", (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).toAngle().toVector2());
-        //RTT_ERROR("Ball vel = ", info.getBall()->get()->velocity);
         kickAttempts = 0;
-        return Status::Success;
+        return Status::Running;
     }
     ++kickAttempts;
     return Status::Running;

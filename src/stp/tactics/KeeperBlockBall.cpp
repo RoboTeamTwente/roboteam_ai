@@ -110,8 +110,12 @@ std::pair<Vector2,PIDType> KeeperBlockBall::calculateTargetPosition(const world:
     if (ballHeadsTowardsOurGoal) {
         // Get the keeper as close as possible to the trajectory of the ball
         auto targetPosition = keepersLineSegment.getClosestPointToLine(ballTrajectory->toLine());
-        if (targetPosition.has_value())
-            return { targetPosition.value(), PIDType::KEEPER };
+        if (targetPosition.has_value()){
+            if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT){
+                return { targetPosition.value(), PIDType::KEEPER };
+            }
+            return { targetPosition.value(), PIDType::DEFAULT};
+        }
     }
 
     // Otherwise, the ball probably will not move towards the goal any time soon

@@ -10,7 +10,7 @@
 namespace rtt::ai::stp::skill {
 
 Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
-    double rpm = 40; // Number of orbits (rotations) per minute
+    double rpm = 20; // Number of orbits (rotations) per minute
     double circumference = (control_constants::ROBOT_RADIUS + stp::control_constants::BALL_RADIUS) * 2*M_PI;
 
     constexpr double ANGLE_RATE_FACTOR = 1.0;
@@ -21,9 +21,12 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     RTT_DEBUG("angVel: ", angVel, " rotVel: ", rotVel);
 
     Vector2 directionVector = info.getRobot()->get()->getAngle().toVector2();
-    Angle targetAngle = (info.getPositionToShootAt().value() - info.getBall()->get()->position).toAngle();
+    Angle targetAngle = (info.getPositionToShootAt().value() - info.getRobot()->get()->getPos()).toAngle();
 
     auto direction = Angle(directionVector).rotateDirection(targetAngle) ? -1.0 : 1.0;
+    targetAngle = targetAngle.getValue()  - angVel / 20.0 * direction;
+    direction = Angle(directionVector).rotateDirection(targetAngle) ? -1.0 : 1.0;
+
     Vector2 normalVector = directionVector.rotate(direction * (M_PI_2 - (1.0/3.0)*M_PI));
 
     // Let robot move in direction normal to the direction of the robot (sideways)
@@ -40,6 +43,11 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     // set command ID
     command.id = info.getRobot().value()->getId();
 
+    // set angle to kick at & turn on kickAtAngle
+    command.targetAngle = targetAngle;
+    command.kickAtAngle = true;
+    command.kickSpeed = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
+
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
@@ -51,10 +59,14 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     // Error margin + taking the current robotvelocity into account to kick a bit earlier
-    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI + rpm/600* M_PI;
-    if (directionVector.toAngle().shortestAngleDiff(targetAngle) < errorMargin) {
-        RTT_ERROR("Orbit finishing! Robot angle = ", directionVector, ". Target Angle = ", targetAngle.toVector2());
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+    if (!info.getRobot()->get()->hasBall() && info.getBall()->get()->velocity.length() > control_constants::BALL_GOT_SHOT_LIMIT){
+        RTT_ERROR("Ball shot in orbit, skill done");
         return Status::Success;
+    }
+    if (directionVector.toAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+        //RTT_ERROR("Orbit finishing! Robot angle = ", directionVector, ". Target Angle = ", targetAngle.toVector2());
+        return  Status::Running;
     } else {
         return Status::Running;
     }

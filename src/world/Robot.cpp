@@ -48,8 +48,6 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
                 hasBallUpdateMap[id].score += 1;
             else hasBallUpdateMap[id].score -= 2;
 
-            RTT_DEBUG("Dist = ", distanceToBall, ". Angle = ", angleDiffToBall);
-            RTT_DEBUG(dribblerSeesBall ? "Dribbler sees ball" : "Dribbler does not see ball");
             // If we have a ballsensor, also use its information to update the hasBall map
             if (workingBallSensor) hasBallUpdateMap[id].score += (ballSensorSeesBall ? 1 : -1);
         } else {
@@ -67,7 +65,10 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
         else if (hasBallUpdateMap[id].score > 20) hasBallUpdateMap[id].hasBall = true;
 
         setHasBall(hasBallUpdateMap[id].hasBall);
-        RTT_DEBUG("HasBallScore = ", hasBallUpdateMap[id].score, hasBall() ? ". has ball" : ". Does not have ball");
+//            RTT_DEBUG("Dist = ", distanceToBall, ". Angle = ", angleDiffToBall);
+//            RTT_DEBUG(dribblerSeesBall ? "Dribbler sees ball" : "Dribbler does not see ball");
+//            RTT_DEBUG("HasBallScore = ", hasBallUpdateMap[id].score, hasBall() ? ". has ball" : ". Does not have ball");
+        if (dribblerSeesBall) RTT_ERROR("DRIBBLER SEES BALL")
         /// TODO: There's some magic numbers here: the max value at which we clamped could be higher/lower, and the cutoff for saying we have the ball could be different
         /// Furthermore, it might be good to have 2 decision boundaries instead of one. I.e., if we have the ball, only change that if it goes < 3. If we do not have the ball, switch when > 8
     }

@@ -16,7 +16,7 @@ namespace rtt::ai::stp::computations {
 PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::world::World* world, const world::Field& field, bool keeperCanPass) {
     PassInfo passInfo;  // Struct used to store the information needed to execute the pass
     if (world->getWorld()->getUs().size() < (keeperCanPass ? 2 : 3)) {
-        RTT_WARNING("Not enough robots to pass!");
+//        RTT_WARNING("Not enough robots to pass!");
         return passInfo;
     }
 
@@ -60,12 +60,14 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     }
 
     if (passInfo.passScore == 0) {
+        RTT_ERROR("No good pass found!");
         // If no good pass is found, pass to the robot furthest in the field
         auto furthestRobotIt = std::max_element(possibleReceiverLocations.begin(), possibleReceiverLocations.end(), [](auto& p1, auto& p2) { return p1.x > p2.x; });
         // We should always be able to find a furthest robot, this check avoids the AI crashing in case something does go wrong due to changes/bugs
         passInfo.passLocation = (furthestRobotIt != possibleReceiverLocations.end()) ? *furthestRobotIt : Vector2();
     }
 
+    RTT_WARNING("Passing to: ", passInfo.passLocation, " from ", ballLocation);
     return passInfo;
 }
 
@@ -78,12 +80,14 @@ Grid PassComputations::getPassGrid(const world::Field& field) {
 
 bool PassComputations::pointIsValidPassLocation(Vector2 point, Vector2 ballLocation, const std::vector<Vector2>& possibleReceiverLocations, Vector2 passerLocation,
                                                 const world::Field& field, const world::World* world) {
-    constexpr double MINIMUM_PASS_DISTANCE = 1.0;  // This can be dribbled instead of passed
+    constexpr double MINIMUM_PASS_DISTANCE = 1.5;  // This can be dribbled instead of passed
     if (point.dist(ballLocation) < MINIMUM_PASS_DISTANCE) return false;
     constexpr double MINIMUM_LINE_OF_SIGHT = 10.0;  // The minimum LoS to be a valid pass, otherwise, the pass will go into an enemy robot
     if (PositionScoring::scorePosition(point, gen::LineOfSight, field, world).score < MINIMUM_LINE_OF_SIGHT) return false;
-    if (!FieldComputations::pointIsValidPosition(field, point)) return false;
-
+    constexpr double DEFENSE_AREA_AVOID_DIST = 0.5;
+    AvoidObjects avoidObjects;
+    avoidObjects.shouldAvoidDefenseArea = true;
+    if (!FieldComputations::pointIsValidPosition(field, point, avoidObjects, 0, DEFENSE_AREA_AVOID_DIST, DEFENSE_AREA_AVOID_DIST)) return false;
     // Pass is valid if the above conditions are met and there is a robot whose travel time is smaller than the balls travel time (i.e. the robot can actually receive the ball)
     auto ballTravelTime = calculateBallTravelTime(ballLocation, passerLocation, point);
     return std::any_of(possibleReceiverLocations.begin(), possibleReceiverLocations.end(),

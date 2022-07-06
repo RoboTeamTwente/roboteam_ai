@@ -75,6 +75,7 @@ void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView>
         simulator_angular_control(robot, robot_command);
     }
 
+    if (command.kickSpeed > 0) RTT_ERROR("Kickspeed = ", command.kickSpeed);
     // Only add commands with a robotID that is not in the vector yet
     // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
     std::lock_guard<std::mutex> guard(robotCommandsMutex);

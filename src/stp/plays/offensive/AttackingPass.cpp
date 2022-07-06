@@ -91,7 +91,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
         auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
-
+        if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
         // Passer now goes to a front grid, where the receiver is not
         if (receiverLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
             stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::BlockingPosition, field, world));
@@ -146,10 +146,8 @@ bool AttackingPass::shouldEndPlay() noexcept {
         // True if receiver has ball
         if (stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
-        // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
-        if (ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-            world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL)
-            return true;
+        if (ballKicked() && world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT)
+                    return true;
     }
     // True if a different pass has a higher score than the current pass (by some margin)
     return !ballKicked() && stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >

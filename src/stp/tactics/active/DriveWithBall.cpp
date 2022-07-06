@@ -46,7 +46,7 @@ bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept {
 
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     // Should reset if the angle the robot is at is no longer correct after doing rotate
-    return skills.current_num() == 1 && info.getRobot()->get()->getAngle().shortestAngleDiff(info.getAngle()) > control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+    return skills.current_num() == 1 && info.getRobot()->get()->getAngle().shortestAngleDiff(info.getAngle()) > Constants::HAS_BALL_ANGLE();
 }
 
 bool DriveWithBall::isEndTactic() noexcept {

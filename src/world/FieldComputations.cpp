@@ -149,11 +149,12 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithField(const rtt_
 
 // True standard which mean field.getBoundaryWidth() is used otherwise margin is used
 Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, double backMargin) {
+
     Vector2 belowGoal =
-        ourDefenseArea ? field.getBottomLeftOurDefenceArea() + Vector2(-backMargin, -margin) : field.getBottomRightTheirDefenceArea() + Vector2(backMargin, -margin);
-    Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea() + Vector2(-backMargin, margin) : field.getTopRightTheirDefenceArea() + Vector2(backMargin, margin);
-    Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
-    Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
+        ourDefenseArea ? field.getBottomLeftOurDefenceArea() : field.getBottomRightTheirDefenceArea();
+    Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea(): field.getTopRightTheirDefenceArea() + Vector2(backMargin, margin);
+    Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() : field.getRightPenaltyLineBottom();
+    Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() : field.getRightPenaltyLineTop();
 
     if (aboveGoal.y < belowGoal.y) {
         std::swap(aboveGoal, belowGoal);
@@ -161,6 +162,12 @@ Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ou
     if (topPenalty.y < bottomPenalty.y) {
         std::swap(topPenalty, bottomPenalty);
     }
+
+    belowGoal =
+        ourDefenseArea ? belowGoal + Vector2(-backMargin, -margin) : belowGoal + Vector2(backMargin, -margin);
+    aboveGoal = ourDefenseArea ? aboveGoal + Vector2(-backMargin, margin) : aboveGoal + Vector2(backMargin, margin);
+    bottomPenalty = ourDefenseArea ? bottomPenalty + Vector2(margin, -margin) : bottomPenalty + Vector2(-margin, -margin);
+    topPenalty = ourDefenseArea ? topPenalty + Vector2(margin, margin) : topPenalty + Vector2(-margin, margin);
 
     std::vector<Vector2> defenseArea = {belowGoal, bottomPenalty, topPenalty, aboveGoal};
     interface::Input::drawDebugData(defenseArea);

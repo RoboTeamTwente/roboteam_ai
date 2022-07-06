@@ -69,7 +69,7 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"kick_off_taker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
     flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -89,9 +89,8 @@ bool KickOffUs::shouldEndPlay() noexcept {
         // True if receiver has ball
         if (stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
-        // True if the kick_off_taker has shot the ball, but it is now stationary (pass was too soft, was reflected, etc.)
-        return ballKicked() && stpInfos["kick_off_taker"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-               world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL;
+        if (ballKicked() && world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT * 0.5)
+            return true;
     }
     return false;
 }

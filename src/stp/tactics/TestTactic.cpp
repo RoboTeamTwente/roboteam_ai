@@ -18,8 +18,15 @@ TestTactic::TestTactic() {
 std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
     if (!skillStpInfo.getField()) return std::nullopt;
-    skillStpInfo.setKickChipVelocity(stp::control_constants::MAX_KICK_POWER);
-
+    static int counter = 0;
+    if (counter < 60){
+        skillStpInfo.setKickChipVelocity(0);
+        counter++;
+    }
+    else {
+        skillStpInfo.setKickChipVelocity(stp::control_constants::MAX_KICK_POWER);
+        counter=0;
+    }
     skillStpInfo.setDribblerSpeed(100);
     return skillStpInfo;
 }
