@@ -123,8 +123,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af56bea5364c6ea0e1aaa1904e2f5fa35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41988a92ee051e0b84c96f693e8ec1fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a41988a92ee051e0b84c96f693e8ec1fb">isWorkingBallSensor</a> () const noexcept</td></tr>
 <tr class="separator:a41988a92ee051e0b84c96f693e8ec1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5efba3199664c53ee030f196bddb67ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a5efba3199664c53ee030f196bddb67ad">ballSensorSeesBall</a> () const noexcept</td></tr>
-<tr class="separator:a5efba3199664c53ee030f196bddb67ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe76685b4d1753124af85ba482ecb9d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#abe76685b4d1753124af85ba482ecb9d2">getBallSensorSeesBall</a> () const noexcept</td></tr>
+<tr class="separator:abe76685b4d1753124af85ba482ecb9d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac672efcf15f0a91cbd0ee07790e0b72f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#ac672efcf15f0a91cbd0ee07790e0b72f">getDribblerSeesBall</a> () const noexcept</td></tr>
+<tr class="separator:ac672efcf15f0a91cbd0ee07790e0b72f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80d42452dff3f5ff849b0f20ba7d7db8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a80d42452dff3f5ff849b0f20ba7d7db8">hasBall</a> () const noexcept</td></tr>
 <tr class="separator:a80d42452dff3f5ff849b0f20ba7d7db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a497806af0a83654c1763600640b02b5a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a497806af0a83654c1763600640b02b5a">getBallPosBallSensor</a> () const noexcept</td></tr>
@@ -182,6 +184,8 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a1c45bfbf85ad94ea92e065b9e54af34b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c72bd2b18c6480e923714bdb99b1e50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a3c72bd2b18c6480e923714bdb99b1e50">setBallSensorSeesBall</a> (bool _seesBall) noexcept</td></tr>
 <tr class="separator:a3c72bd2b18c6480e923714bdb99b1e50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a278fe9dd90db62875433259d949b8280"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a278fe9dd90db62875433259d949b8280">setDribblerSeesBall</a> (bool _seesBall) noexcept</td></tr>
+<tr class="separator:a278fe9dd90db62875433259d949b8280"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a250874006edac551b004fd2cd05e1c2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a250874006edac551b004fd2cd05e1c2b">setHasBall</a> (bool _hasBall) noexcept</td></tr>
 <tr class="separator:a250874006edac551b004fd2cd05e1c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55aca808ac49d146923a9e9159cf7339"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a55aca808ac49d146923a9e9159cf7339">setBallPosBallSensor</a> (float _ballPos) noexcept</td></tr>
@@ -225,10 +229,12 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a9b45a6f4db069db89c7084e1c93a69f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab12607d0697b28b32e67e54b26b04998"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#ab12607d0697b28b32e67e54b26b04998">workingBallSensor</a> {}</td></tr>
 <tr class="separator:ab12607d0697b28b32e67e54b26b04998"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeea537103b883194939567fab192ce46"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#aeea537103b883194939567fab192ce46">seesBall</a> {}</td></tr>
-<tr class="separator:aeea537103b883194939567fab192ce46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b8a9a6ce3020296c7a6909ecc1be34"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a60b8a9a6ce3020296c7a6909ecc1be34">ballSensorSeesBall</a> {}</td></tr>
+<tr class="separator:a60b8a9a6ce3020296c7a6909ecc1be34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f06171d96a142c918a79977b13a988b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a9f06171d96a142c918a79977b13a988b">ballPos</a> {}</td></tr>
 <tr class="separator:a9f06171d96a142c918a79977b13a988b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a828fb5223242dd7b9827a7c8cfafc332"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a828fb5223242dd7b9827a7c8cfafc332">dribblerSeesBall</a> {}</td></tr>
+<tr class="separator:a828fb5223242dd7b9827a7c8cfafc332"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8aeb56889e7c35ddf29ece162d7bd332"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a8aeb56889e7c35ddf29ece162d7bd332">robotHasBall</a> {}</td></tr>
 <tr class="separator:a8aeb56889e7c35ddf29ece162d7bd332"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -236,8 +242,8 @@ Private Attributes</h2></td></tr>
 Static Private Attributes</h2></td></tr>
 <tr class="memitem:ac72b6ccf6b7535bb075702d611c6fde9"><td class="memItemLeft" align="right" valign="top">constexpr static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#ac72b6ccf6b7535bb075702d611c6fde9">timeToChangeOneDribblerLevel</a> = 0.18</td></tr>
 <tr class="separator:ac72b6ccf6b7535bb075702d611c6fde9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addac0095fcdb29ea646c350cda2bea66"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#addac0095fcdb29ea646c350cda2bea66">hasBallUpdateMap</a></td></tr>
-<tr class="separator:addac0095fcdb29ea646c350cda2bea66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6133927bb550dbf16e0d10f286286f5f"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; int, <a class="el" href="namespacertt_1_1world_1_1robot.html#structrtt_1_1world_1_1robot_1_1hasBallInfo">hasBallInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a6133927bb550dbf16e0d10f286286f5f">hasBallUpdateMap</a></td></tr>
+<tr class="separator:a6133927bb550dbf16e0d10f286286f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>robot still changes: battery spinner speed </p>
@@ -349,31 +355,6 @@ Static Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5efba3199664c53ee030f196bddb67ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5efba3199664c53ee030f196bddb67ad">&#9670;&nbsp;</a></span>ballSensorSeesBall()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::world::robot::Robot::ballSensorSeesBall </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a86a0b6cf894b09b81dfe06a29b8b82b4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a86a0b6cf894b09b81dfe06a29b8b82b4">&#9670;&nbsp;</a></span>getAngle()</h2>
 
@@ -474,6 +455,31 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="abe76685b4d1753124af85ba482ecb9d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe76685b4d1753124af85ba482ecb9d2">&#9670;&nbsp;</a></span>getBallSensorSeesBall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::world::robot::Robot::getBallSensorSeesBall </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a72c5b7312e1b5ac9f32ceca6594f659a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72c5b7312e1b5ac9f32ceca6594f659a">&#9670;&nbsp;</a></span>getDistanceToBall()</h2>
 
@@ -485,6 +491,31 @@ Static Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">double rtt::world::robot::Robot::getDistanceToBall </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac672efcf15f0a91cbd0ee07790e0b72f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac672efcf15f0a91cbd0ee07790e0b72f">&#9670;&nbsp;</a></span>getDribblerSeesBall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::world::robot::Robot::getDribblerSeesBall </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1058,6 +1089,32 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a278fe9dd90db62875433259d949b8280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a278fe9dd90db62875433259d949b8280">&#9670;&nbsp;</a></span>setDribblerSeesBall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rtt::world::robot::Robot::setDribblerSeesBall </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_seesBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a68647c2af67e08145f6f1612e00cfcca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a68647c2af67e08145f6f1612e00cfcca">&#9670;&nbsp;</a></span>setDribblerState()</h2>
 
@@ -1485,6 +1542,28 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a60b8a9a6ce3020296c7a6909ecc1be34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b8a9a6ce3020296c7a6909ecc1be34">&#9670;&nbsp;</a></span>ballSensorSeesBall</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::world::robot::Robot::ballSensorSeesBall {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aaa618cb99b322262f8fbee9944242a2e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa618cb99b322262f8fbee9944242a2e">&#9670;&nbsp;</a></span>batteryLow</h2>
 
@@ -1529,6 +1608,28 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a828fb5223242dd7b9827a7c8cfafc332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a828fb5223242dd7b9827a7c8cfafc332">&#9670;&nbsp;</a></span>dribblerSeesBall</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtt::world::robot::Robot::dribblerSeesBall {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a271398b4919d1e334a4169ab32f8332e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a271398b4919d1e334a4169ab32f8332e">&#9670;&nbsp;</a></span>dribblerState</h2>
 
@@ -1551,8 +1652,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="addac0095fcdb29ea646c350cda2bea66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addac0095fcdb29ea646c350cda2bea66">&#9670;&nbsp;</a></span>hasBallUpdateMap</h2>
+<a id="a6133927bb550dbf16e0d10f286286f5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6133927bb550dbf16e0d10f286286f5f">&#9670;&nbsp;</a></span>hasBallUpdateMap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1561,7 +1662,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt;int, int&gt; rtt::world::robot::Robot::hasBallUpdateMap</td>
+          <td class="memname">std::unordered_map&lt;int, <a class="el" href="namespacertt_1_1world_1_1robot.html#structrtt_1_1world_1_1robot_1_1hasBallInfo">hasBallInfo</a>&gt; rtt::world::robot::Robot::hasBallUpdateMap</td>
         </tr>
       </table>
   </td>
@@ -1694,28 +1795,6 @@ Static Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">bool rtt::world::robot::Robot::robotHasBall {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeea537103b883194939567fab192ce46"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeea537103b883194939567fab192ce46">&#9670;&nbsp;</a></span>seesBall</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::world::robot::Robot::seesBall {}</td>
         </tr>
       </table>
   </td>

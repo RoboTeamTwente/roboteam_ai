@@ -74,6 +74,7 @@ var hierarchy =
     [ "rtt::ai::stp::computations::GoalComputations", "classrtt_1_1ai_1_1stp_1_1computations_1_1GoalComputations.html", null ],
     [ "rtt::ai::stp::evaluation::GoalShotEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html", null ],
     [ "rtt::ai::control::GraphNode", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1GraphNode", null ],
+    [ "rtt::world::robot::hasBallInfo", "namespacertt_1_1world_1_1robot.html#structrtt_1_1world_1_1robot_1_1hasBallInfo", null ],
     [ "rtt::ai::interface::Input", "classrtt_1_1ai_1_1interface_1_1Input.html", null ],
     [ "InterfaceController", null, [
       [ "rtt::Interface::InterfaceControllerServer", "classrtt_1_1Interface_1_1InterfaceControllerServer.html", null ]

@@ -100,10 +100,11 @@ var searchData=
   ['drawtacticcolorforrobot_458',['drawTacticColorForRobot',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html#abd0f52d97c416ab9824697ff35241b20',1,'rtt::ai::interface::Visualizer']]],
   ['dribbler_5fangle_5foffset_459',['DRIBBLER_ANGLE_OFFSET',['../classrtt_1_1ai_1_1Constants.html#a04529773adc4a137720d4615fb63d263',1,'rtt::ai::Constants']]],
   ['dribbler_5fvel_460',['dribbler_vel',['../classrtt_1_1input_1_1JoystickHandler.html#a18b289c54f45f35608eb00c2aac44067',1,'rtt::input::JoystickHandler']]],
-  ['dribblerspeed_461',['dribblerSpeed',['../structrtt_1_1ai_1_1stp_1_1StpInfo.html#a2732c17cff9280d3853787a1940bb1d3',1,'rtt::ai::stp::StpInfo']]],
-  ['dribblerstate_462',['dribblerState',['../classrtt_1_1world_1_1robot_1_1Robot.html#a271398b4919d1e334a4169ab32f8332e',1,'rtt::world::robot::Robot']]],
-  ['drivewithball_463',['DriveWithBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html#abe97fc8f338154e02b1f7747bed78287',1,'rtt::ai::stp::tactic::DriveWithBall::DriveWithBall()'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html',1,'rtt::ai::stp::tactic::DriveWithBall']]],
-  ['drivewithball_2ecpp_464',['DriveWithBall.cpp',['../DriveWithBall_8cpp.html',1,'']]],
-  ['drivewithball_2eh_465',['DriveWithBall.h',['../DriveWithBall_8h.html',1,'']]],
-  ['dt_466',['dt',['../classrtt_1_1AnglePID.html#acb743c208b47ff2be1e6ed2e0ef2f206',1,'rtt::AnglePID']]]
+  ['dribblerseesball_461',['dribblerSeesBall',['../classrtt_1_1world_1_1robot_1_1Robot.html#a828fb5223242dd7b9827a7c8cfafc332',1,'rtt::world::robot::Robot']]],
+  ['dribblerspeed_462',['dribblerSpeed',['../structrtt_1_1ai_1_1stp_1_1StpInfo.html#a2732c17cff9280d3853787a1940bb1d3',1,'rtt::ai::stp::StpInfo']]],
+  ['dribblerstate_463',['dribblerState',['../classrtt_1_1world_1_1robot_1_1Robot.html#a271398b4919d1e334a4169ab32f8332e',1,'rtt::world::robot::Robot']]],
+  ['drivewithball_464',['DriveWithBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html#abe97fc8f338154e02b1f7747bed78287',1,'rtt::ai::stp::tactic::DriveWithBall::DriveWithBall()'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html',1,'rtt::ai::stp::tactic::DriveWithBall']]],
+  ['drivewithball_2ecpp_465',['DriveWithBall.cpp',['../DriveWithBall_8cpp.html',1,'']]],
+  ['drivewithball_2eh_466',['DriveWithBall.h',['../DriveWithBall_8h.html',1,'']]],
+  ['dt_467',['dt',['../classrtt_1_1AnglePID.html#acb743c208b47ff2be1e6ed2e0ef2f206',1,'rtt::AnglePID']]]
 ];

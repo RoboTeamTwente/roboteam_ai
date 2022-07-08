@@ -221,6 +221,7 @@ var annotated_dup =
           [ "Ball", "classrtt_1_1world_1_1ball_1_1Ball.html", "classrtt_1_1world_1_1ball_1_1Ball" ]
         ] ],
         [ "robot", "namespacertt_1_1world_1_1robot.html", [
+          [ "hasBallInfo", "namespacertt_1_1world_1_1robot.html#structrtt_1_1world_1_1robot_1_1hasBallInfo", "namespacertt_1_1world_1_1robot_structrtt_1_1world_1_1robot_1_1hasBallInfo_dup" ],
           [ "Robot", "classrtt_1_1world_1_1robot_1_1Robot.html", "classrtt_1_1world_1_1robot_1_1Robot" ]
         ] ],
         [ "view", "namespacertt_1_1world_1_1view.html", [

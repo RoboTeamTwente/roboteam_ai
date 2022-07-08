@@ -26,6 +26,10 @@ var dir_b58f30187fa33ad62db2b98c9200edb5 =
       [ "FieldComputations", "classrtt_1_1ai_1_1FieldComputations.html", "classrtt_1_1ai_1_1FieldComputations" ]
     ] ],
     [ "Robot.hpp", "Robot_8hpp.html", [
+      [ "hasBallInfo", "namespacertt_1_1world_1_1robot.html#structrtt_1_1world_1_1robot_1_1hasBallInfo", [
+        [ "hasBall", "namespacertt_1_1world_1_1robot.html#a5a23ed5a3542151b80106f2054b0f2f0", null ],
+        [ "score", "namespacertt_1_1world_1_1robot.html#a6a176dae355c34efaed193f2ddb19aac", null ]
+      ] ],
       [ "Robot", "classrtt_1_1world_1_1robot_1_1Robot.html", "classrtt_1_1world_1_1robot_1_1Robot" ]
     ] ],
     [ "Team.hpp", "Team_8hpp.html", "Team_8hpp" ],

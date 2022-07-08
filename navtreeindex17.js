@@ -1,5 +1,8 @@
 var NAVTREEINDEX17 =
 {
+"namespacertt.html#a29cdd07cdb75d18d0025d75054db1366":[8,0,1,19],
+"namespacertt.html#a360ef65a1871277001cfcd63e8e11425":[8,0,1,13],
+"namespacertt.html#a3c7f39951eb291b23d6f3a06262f365e":[8,0,1,10],
 "namespacertt.html#a76cf96c69d4ccdcc3de9391a9debf941":[8,0,1,15],
 "namespacertt.html#a8847521dcba2851a25b8194ec1379579":[8,0,1,11],
 "namespacertt.html#a898ae63e0cea1a3bd280fd11e7fae506":[8,0,1,23],
@@ -246,8 +249,5 @@ var NAVTREEINDEX17 =
 "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1StoreInfo":[10,0,1,0,3,1,1,3],
 "namespacertt_1_1ai_1_1stp_1_1play.html":[8,0,1,0,3,4],
 "namespacertt_1_1ai_1_1stp_1_1role.html":[8,0,1,0,3,5],
-"namespacertt_1_1ai_1_1stp_1_1skill.html":[8,0,1,0,3,6],
-"namespacertt_1_1ai_1_1stp_1_1tactic.html":[8,0,1,0,3,7],
-"namespacertt_1_1ai_1_1stp_1_1tactic.html#a1347bfea32205f058b8f6beaaf2f591a":[8,0,1,0,3,7,17],
-"namespacertt_1_1ai_1_1stp_1_1tactic.html#a9e4cffb1bae4ff229b1e0cdfaa1c0bf5":[8,0,1,0,3,7,21]
+"namespacertt_1_1ai_1_1stp_1_1skill.html":[8,0,1,0,3,6]
 };

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['b_63',['b',['../Voronoi_8h.html#adddfc5e4744c2949b3f385431efca9d1',1,'_jcv_edge']]],
-  ['b_64',['B',['../namespacertt_1_1input.html#a87fe326b4e7888b0f048e30d6806fe1c',1,'rtt::input::JoystickState']]],
+  ['b_63',['B',['../namespacertt_1_1input.html#a87fe326b4e7888b0f048e30d6806fe1c',1,'rtt::input::JoystickState']]],
+  ['b_64',['b',['../Voronoi_8h.html#adddfc5e4744c2949b3f385431efca9d1',1,'_jcv_edge']]],
   ['back_65',['back',['../namespacertt_1_1input.html#ac7ae010c7a97075dae2fe108a335e2ca',1,'rtt::input::JoystickState']]],
   ['backleftgrid_66',['backLeftGrid',['../classrtt_1_1world_1_1Field.html#a2686cba7d4b50e624d29b2ffe9c565d3',1,'rtt::world::Field']]],
   ['backmidgrid_67',['backMidGrid',['../classrtt_1_1world_1_1Field.html#a9d5a15c8ea7d74ccc372ca2b10d38b32',1,'rtt::world::Field']]],
@@ -102,7 +102,7 @@ var searchData=
   ['ballreflector_162',['BallReflector',['../classrtt_1_1ai_1_1stp_1_1role_1_1BallReflector.html#a31ac730ffbb6228e527aa1033f3b7b20',1,'rtt::ai::stp::role::BallReflector::BallReflector()'],['../classrtt_1_1ai_1_1stp_1_1role_1_1BallReflector.html',1,'rtt::ai::stp::role::BallReflector']]],
   ['ballreflector_2ecpp_163',['BallReflector.cpp',['../BallReflector_8cpp.html',1,'']]],
   ['ballreflector_2eh_164',['BallReflector.h',['../BallReflector_8h.html',1,'']]],
-  ['ballsensorseesball_165',['ballSensorSeesBall',['../classrtt_1_1world_1_1robot_1_1Robot.html#a5efba3199664c53ee030f196bddb67ad',1,'rtt::world::robot::Robot']]],
+  ['ballsensorseesball_165',['ballSensorSeesBall',['../classrtt_1_1world_1_1robot_1_1Robot.html#a60b8a9a6ce3020296c7a6909ecc1be34',1,'rtt::world::robot::Robot']]],
   ['ballshotorclosetothem_166',['BallShotOrCloseToThem',['../namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a1a1caf0b53bf83178e0753300587ed4c',1,'rtt::ai::stp']]],
   ['ballstandback_167',['BallStandBack',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1BallStandBack.html#a1510d2cbf825d91a17d35edacea7271a',1,'rtt::ai::stp::tactic::BallStandBack::BallStandBack()'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1BallStandBack.html',1,'rtt::ai::stp::tactic::BallStandBack']]],
   ['ballstandback_2ecpp_168',['BallStandBack.cpp',['../BallStandBack_8cpp.html',1,'']]],

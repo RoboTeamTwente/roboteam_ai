@@ -1,5 +1,8 @@
 var NAVTREEINDEX18 =
 {
+"namespacertt_1_1ai_1_1stp_1_1tactic.html":[8,0,1,0,3,7],
+"namespacertt_1_1ai_1_1stp_1_1tactic.html#a1347bfea32205f058b8f6beaaf2f591a":[8,0,1,0,3,7,17],
+"namespacertt_1_1ai_1_1stp_1_1tactic.html#a9e4cffb1bae4ff229b1e0cdfaa1c0bf5":[8,0,1,0,3,7,21],
 "namespacertt_1_1ai_1_1stp_1_1tactic.html#aaa155577589617b454d8fee2ea755e51":[8,0,1,0,3,7,18],
 "namespacertt_1_1ai_1_1stp_1_1tactic.html#ac175fe0237ffc965210b36f9b58ef4e9":[8,0,1,0,3,7,19],
 "namespacertt_1_1ai_1_1stp_1_1tactic.html#ac67952380d471ce18b24284d08028877":[8,0,1,0,3,7,20],
@@ -47,8 +50,11 @@ var NAVTREEINDEX18 =
 "namespacertt_1_1world_1_1ball.html#ab891708bbea2e37d3b4f3967665b32c0":[8,0,1,4,0,4],
 "namespacertt_1_1world_1_1ball.html#adecfc7e019ba06f5f3402703977930b6":[8,0,1,4,0,2],
 "namespacertt_1_1world_1_1robot.html":[8,0,1,4,1],
-"namespacertt_1_1world_1_1robot.html#a75d226ba50394734ba8f580ed2cbd5b2":[8,0,1,4,1,2],
-"namespacertt_1_1world_1_1robot.html#ad3a2aa101c17301df26d294d1cb0b4d3":[8,0,1,4,1,1],
+"namespacertt_1_1world_1_1robot.html#a5a23ed5a3542151b80106f2054b0f2f0":[10,0,1,0,5,5,0,0],
+"namespacertt_1_1world_1_1robot.html#a6a176dae355c34efaed193f2ddb19aac":[10,0,1,0,5,5,0,1],
+"namespacertt_1_1world_1_1robot.html#a75d226ba50394734ba8f580ed2cbd5b2":[8,0,1,4,1,3],
+"namespacertt_1_1world_1_1robot.html#ad3a2aa101c17301df26d294d1cb0b4d3":[8,0,1,4,1,2],
+"namespacertt_1_1world_1_1robot.html#structrtt_1_1world_1_1robot_1_1hasBallInfo":[10,0,1,0,5,5,0],
 "namespacertt_1_1world_1_1view.html":[8,0,1,4,2],
 "namespaces.html":[8,0],
 "namespacetesthelpers.html":[8,0,2],
