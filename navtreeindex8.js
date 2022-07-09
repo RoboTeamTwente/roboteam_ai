@@ -1,11 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html#a25d6f6b4203921963a0244caa05d0e3d":[9,0,0,0,3,1,23,1],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html#aa09463c764e6ff9ffbb9680c953712ea":[9,0,0,0,3,1,23,0],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html":[9,0,0,0,3,1,24],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html#a7c643595c2974ff2659e0fff3a8b63f2":[9,0,0,0,3,1,24,1],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html#ac26f2c6628cf8388ffd0a85608f94989":[9,0,0,0,3,1,24,0],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html":[9,0,0,0,3,1,25],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a1492ba7d90369319bdb63109b831b3c9":[9,0,0,0,3,1,25,2],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#a2e194fcdd823535bb9fa9d80366131db":[9,0,0,0,3,1,25,0],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html#ade44db60608bdbe328f6d105405b8b91":[9,0,0,0,3,1,25,3],
@@ -249,5 +243,11 @@ var NAVTREEINDEX8 =
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a52fc8b6075367b48ae05021829ebcc8f":[9,0,0,0,3,3,10,17],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a5815eb37ead1f5ef8e6b36f575854228":[9,0,0,0,3,3,10,6],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a58560de6d2d6ca91e467deb1071aadbd":[9,0,0,0,3,3,10,10],
-"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a5be299fd1dab79b7f656ca37631d6ef6":[9,0,0,0,3,3,10,9]
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a5be299fd1dab79b7f656ca37631d6ef6":[9,0,0,0,3,3,10,9],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a7439c6149abbc461640c9ecdad2ba8d6":[9,0,0,0,3,3,10,5],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a81d204e55bab023d2937c1420abd04ad":[9,0,0,0,3,3,10,21],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a859e8c8abae48115eab588736926368f":[9,0,0,0,3,3,10,27],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a8726a464fdb9e614c5cca8c7cd183155":[9,0,0,0,3,3,10,15],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a8750ea230c633dcf6a0f09e28e4f47b1":[9,0,0,0,3,3,10,25],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a977b3063d4d26bee4be08d71c2ab7ccc":[9,0,0,0,3,3,10,4]
 };

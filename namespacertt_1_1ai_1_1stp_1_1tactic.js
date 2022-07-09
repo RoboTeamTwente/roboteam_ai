@@ -5,7 +5,6 @@ var namespacertt_1_1ai_1_1stp_1_1tactic =
     [ "GetBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall" ],
     [ "GetBehindBallInDirection", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection" ],
     [ "KickAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos" ],
-    [ "OrbitKick", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick" ],
     [ "Receive", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive" ],
     [ "ShootAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos" ],
     [ "Intercept", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept" ],
