@@ -15,6 +15,9 @@ var dir_6b23b5c5a865e30368fc1f138f517bcd =
     [ "KickAtPos.h", "KickAtPos_8h.html", [
       [ "KickAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos" ]
     ] ],
+    [ "OrbitKick.h", "OrbitKick_8h.html", [
+      [ "OrbitKick", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick" ]
+    ] ],
     [ "Receive.h", "Receive_8h.html", [
       [ "Receive", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive" ]
     ] ],

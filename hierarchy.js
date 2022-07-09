@@ -202,6 +202,7 @@ var hierarchy =
       [ "rtt::ai::stp::skill::GoToPos", "classrtt_1_1ai_1_1stp_1_1skill_1_1GoToPos.html", null ],
       [ "rtt::ai::stp::skill::Kick", "classrtt_1_1ai_1_1stp_1_1skill_1_1Kick.html", null ],
       [ "rtt::ai::stp::skill::Orbit", "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html", null ],
+      [ "rtt::ai::stp::skill::OrbitAngular", "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html", null ],
       [ "rtt::ai::stp::skill::Rotate", "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html", null ],
       [ "rtt::ai::stp::skill::Shoot", "classrtt_1_1ai_1_1stp_1_1skill_1_1Shoot.html", null ],
       [ "rtt::ai::stp::skill::TestSkill", "classrtt_1_1ai_1_1stp_1_1skill_1_1TestSkill.html", null ]
@@ -226,6 +227,7 @@ var hierarchy =
       [ "rtt::ai::stp::tactic::Intercept", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html", null ],
       [ "rtt::ai::stp::tactic::KeeperBlockBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html", null ],
       [ "rtt::ai::stp::tactic::KickAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html", null ],
+      [ "rtt::ai::stp::tactic::OrbitKick", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html", null ],
       [ "rtt::ai::stp::tactic::PositionAndAim", "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html", null ],
       [ "rtt::ai::stp::tactic::Receive", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html", null ],
       [ "rtt::ai::stp::tactic::ShootAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html", null ],

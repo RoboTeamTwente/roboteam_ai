@@ -1,5 +1,11 @@
 var NAVTREEINDEX3 =
 {
+"TheyHaveBallGlobalEvaluation_8h_source.html":[10,0,1,0,3,2,1,16],
+"TimeOutGameStateEvaluation_8cpp.html":[10,0,2,3,2,0,17],
+"TimeOutGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,17],
+"TimeOutGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,17],
+"TimeOut_8cpp.html":[10,0,2,3,3,3,16],
+"TimeOut_8h.html":[10,0,1,0,3,3,3,16],
 "TimeOut_8h_source.html":[10,0,1,0,3,3,3,16],
 "TimeToPositionEvaluation_8cpp.html":[10,0,2,3,2,2,4],
 "TimeToPositionEvaluation_8h.html":[10,0,1,0,3,2,2,4],
@@ -243,11 +249,5 @@ var NAVTREEINDEX3 =
 "classMockTactic.html#a0dd3439d999970125264ce7fccadff49":[9,0,14,16],
 "classMockTactic.html#a2406ddec88191f369b72206849a1d9a4":[9,0,14,6],
 "classMockTactic.html#a242748b42fbc99613b65f6500eb12f8f":[9,0,14,17],
-"classMockTactic.html#a483d158a091f8347c3c25983b22d015f":[9,0,14,3],
-"classMockTactic.html#a49d621f1e9da8062c6fbc67afd09f566":[9,0,14,10],
-"classMockTactic.html#a5b71704c2e3a289abb3075e248577d30":[9,0,14,13],
-"classMockTactic.html#a82d49e1fc25787bc4eadd8ba7ff42eb2":[9,0,14,1],
-"classMockTactic.html#a8d51114edbe65fb016e8964f1d78d4f2":[9,0,14,4],
-"classMockTactic.html#a91ff3edd9f42993cf83f9a19cc905568":[9,0,14,8],
-"classMockTactic.html#aa064787b0622c4556d355e2644c0c954":[9,0,14,11]
+"classMockTactic.html#a483d158a091f8347c3c25983b22d015f":[9,0,14,3]
 };
