@@ -66,22 +66,49 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     LineSegment wallLine;
 
+    // TODO: The wall line used to be as long as the line of the defense area it belonged to.
+    // This meant that later, when we intersect it with a circle to decide the positions of the robots,
+    // there is a possibility that the circle becomes bigger than the linesegment, resulting in an infinite loop.
+    // A quick fix for this is extending the line segments, but in my eyes, it is a beun fix, because there is
+    // still no guarantee it is big enough
     if (ballPos.x < field.getLeftPenaltyLineBottom().x) {
         // case when the projected position is below penalty line
         if (ballPos.y < 0) {
-            wallLine = LineSegment(field.getBottomLeftOurDefenceArea(), field.getLeftPenaltyLineBottom());
+            wallLine = LineSegment(field.getBottomLeftOurDefenceArea(), field.getBottomRightTheirDefenceArea());
             wallLine.move({0, -spaceBetweenDefenseArea});
         } else {
-            wallLine = LineSegment(field.getTopLeftOurDefenceArea(), field.getLeftPenaltyLineTop());
+            wallLine = LineSegment(field.getTopLeftOurDefenceArea(), field.getTopRightTheirDefenceArea());
             wallLine.move({0, spaceBetweenDefenseArea});
         }
         // case when it is above the penalty line no further away than side lines of the defense area
     } else if (ballPos.y < field.getLeftPenaltyLineTop().y && ballPos.y > field.getLeftPenaltyLineBottom().y) {
-        wallLine = LineSegment(field.getLeftPenaltyLineBottom(), field.getLeftPenaltyLineTop());
-        wallLine.move({spaceBetweenDefenseArea, 0});
+        double lineX = field.getLeftPenaltyX() + spaceBetweenDefenseArea;
+        double lineYTop = field.getTopmostY();
+        double lineYBottom = field.getBottommostY();
+        wallLine = LineSegment({lineX, lineYBottom}, {lineX, lineYTop});
     } else {
+        // We put the wall line perpendicular to the ball-goal line
         wallLine = LineSegment(ballPos, field.getOurGoalCenter());
         wallLine.rotate(M_PI / 2, projectedPosition);
+
+        // And resize it to make sure enough robots can fit on it
+        double newLength = 2 * std::max(field.getFieldWidth(), field.getFieldLength());
+        wallLine.resize(newLength);
+
+        // But limit this resizing to the edges of the field (we dont want to place robots outside of the field
+        auto oneHalf = LineSegment(wallLine.center(), wallLine.start);
+        auto intersectionOne = FieldComputations::lineIntersectionWithField(field, oneHalf.start, oneHalf.end, 0.0);
+        if (intersectionOne.has_value()) {
+            // Then limit this side of the wall line until this intersection
+            wallLine.start = intersectionOne.value();
+        }
+
+        auto otherHalf = LineSegment(wallLine.center(), wallLine.end);
+        auto intersectionOther = FieldComputations::lineIntersectionWithField(field, otherHalf.start, otherHalf.end, 0.0);
+        if (intersectionOther.has_value()) {
+            // Then limit this side of the wall line until this intersection
+            wallLine.end = intersectionOther.value();
+        }
     }
 
     int i = 1;
