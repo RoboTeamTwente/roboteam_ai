@@ -62,7 +62,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
         auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
-        stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
+        if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
     }
 }
 
