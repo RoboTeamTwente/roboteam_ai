@@ -149,6 +149,7 @@ var annotated_dup =
             [ "GoToPos", "classrtt_1_1ai_1_1stp_1_1skill_1_1GoToPos.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1GoToPos" ],
             [ "Kick", "classrtt_1_1ai_1_1stp_1_1skill_1_1Kick.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Kick" ],
             [ "Orbit", "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit" ],
+            [ "OrbitAngular", "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular" ],
             [ "Rotate", "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate" ],
             [ "Shoot", "classrtt_1_1ai_1_1stp_1_1skill_1_1Shoot.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Shoot" ],
             [ "TestSkill", "classrtt_1_1ai_1_1stp_1_1skill_1_1TestSkill.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1TestSkill" ]
@@ -159,6 +160,7 @@ var annotated_dup =
             [ "GetBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall" ],
             [ "GetBehindBallInDirection", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection" ],
             [ "KickAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos" ],
+            [ "OrbitKick", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick" ],
             [ "Receive", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive" ],
             [ "ShootAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos" ],
             [ "Intercept", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept" ],

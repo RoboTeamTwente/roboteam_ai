@@ -215,6 +215,12 @@ var NAVTREEINDEX1 =
 "OpennessEvaluation_8cpp.html":[10,0,2,3,2,2,3],
 "OpennessEvaluation_8h.html":[10,0,1,0,3,2,2,3],
 "OpennessEvaluation_8h_source.html":[10,0,1,0,3,2,2,3],
+"OrbitAngular_8cpp.html":[10,0,2,3,5,4],
+"OrbitAngular_8h.html":[10,0,1,0,3,5,4],
+"OrbitAngular_8h_source.html":[10,0,1,0,3,5,4],
+"OrbitKick_8cpp.html":[10,0,2,3,6,0,5],
+"OrbitKick_8h.html":[10,0,1,0,3,6,0,5],
+"OrbitKick_8h_source.html":[10,0,1,0,3,6,0,5],
 "Orbit_8cpp.html":[10,0,2,3,5,3],
 "Orbit_8h.html":[10,0,1,0,3,5,3],
 "Orbit_8h_source.html":[10,0,1,0,3,5,3],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "PathPointNode_8h.html":[10,0,1,0,0,0,4],
 "PathPointNode_8h_source.html":[10,0,1,0,0,0,4],
 "PathTrackingAlgorithm_8cpp.html":[10,0,2,0,0,2,2],
-"PathTrackingAlgorithm_8h.html":[10,0,1,0,0,0,2,2],
-"PathTrackingAlgorithm_8h_source.html":[10,0,1,0,0,0,2,2],
-"Pause_8cpp.html":[10,0,2,4,5],
-"Pause_8h.html":[10,0,1,0,4,6],
-"Pause_8h_source.html":[10,0,1,0,4,6],
-"PenaltyKeeper_8cpp.html":[10,0,2,3,4,3],
-"PenaltyKeeper_8h.html":[10,0,1,0,3,4,3]
+"PathTrackingAlgorithm_8h.html":[10,0,1,0,0,0,2,2]
 };

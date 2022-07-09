@@ -1,5 +1,11 @@
 var NAVTREEINDEX7 =
 {
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#aaa406ce0e9253301dca7d4fc077f6633":[9,0,0,0,1,17,21],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#aac189a42aa335fca0c83c6a78563a0c1":[9,0,0,0,1,17,6],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#aac88c3615d24bf324a8513a47a4df780":[9,0,0,0,1,17,9],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#aad0905c5c62e7173a824b1f3b914bda0":[9,0,0,0,1,17,27],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#ab9922e759babf44b3e7c295aa2bd89a1":[9,0,0,0,1,17,63],
+"classrtt_1_1ai_1_1interface_1_1Visualizer.html#abd0f52d97c416ab9824697ff35241b20":[9,0,0,0,1,17,18],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac4b15a614974a467c6c1ff5f3390c4f2":[9,0,0,0,1,17,19],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac670f3facab3b4c92ca1a9fb6d06cb02":[9,0,0,0,1,17,49],
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#ac6cae5467348479ff6008d7ffb565f18":[9,0,0,0,1,17,53],
@@ -243,11 +249,5 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html#a93b226ce04e5a3cc5089b0cc5f979573":[9,0,0,0,3,1,22,1],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html#aaded531d2b361ce7ada523910a0ebfec":[9,0,0,0,3,1,22,3],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html#af230a4aaad51d4eedc944e0ef626c6aa":[9,0,0,0,3,1,22,2],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html":[9,0,0,0,3,1,23],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html#a25d6f6b4203921963a0244caa05d0e3d":[9,0,0,0,3,1,23,1],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html#aa09463c764e6ff9ffbb9680c953712ea":[9,0,0,0,3,1,23,0],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html":[9,0,0,0,3,1,24],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html#a7c643595c2974ff2659e0fff3a8b63f2":[9,0,0,0,3,1,24,1],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallIsFreeGlobalEvaluation.html#ac26f2c6628cf8388ffd0a85608f94989":[9,0,0,0,3,1,24,0],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallMovesSlowGlobalEvaluation.html":[9,0,0,0,3,1,25]
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallInOurDefenseAreaAndStillGlobalEvaluation.html":[9,0,0,0,3,1,23]
 };
