@@ -117,7 +117,7 @@ bool KeeperKickBall::shouldEndPlay() noexcept {
     if (ballKicked() && world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT) return true;
 
     // If the passer doesn't have the ball yet and there is a better pass available, we should stop the play
-    if (stpInfos["passer"].getRobot() && !stpInfos["paseer"].getRobot().value()->hasBall() &&
+    if (stpInfos["keeper"].getRobot() && !stpInfos["keeper"].getRobot().value()->hasBall() &&
         stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
             1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score)
         return true;
