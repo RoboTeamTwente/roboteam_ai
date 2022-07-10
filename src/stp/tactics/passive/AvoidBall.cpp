@@ -50,7 +50,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const& info) noe
     }
 
     skillStpInfo.setPositionToMoveTo(targetPos);
-
+    skillStpInfo.setShouldAvoidBall(true);
     return skillStpInfo;
 }
 
