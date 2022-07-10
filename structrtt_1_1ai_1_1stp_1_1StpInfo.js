@@ -2,6 +2,7 @@ var structrtt_1_1ai_1_1stp_1_1StpInfo =
 [
     [ "getAngle", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#ac2f7dd5b88faab72f9800b656afa5ac4", null ],
     [ "getBall", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a038cc31112b0e9e659b3c51b34fb1930", null ],
+    [ "getBallAvoidDistance", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a230cbaf0fee2416ccad410c5b02ade52", null ],
     [ "getBlockDistance", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#afb6cbfaa388a150f1979e1a5d844adfa", null ],
     [ "getCurrentWorld", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#abda18f252443c88977257ea2983c129b", null ],
     [ "getDribblerSpeed", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a98d507ed2252761c0cc145db5c204904", null ],
@@ -24,6 +25,7 @@ var structrtt_1_1ai_1_1stp_1_1StpInfo =
     [ "getShouldAvoidOutOfField", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a7f6ff1802922d98cf4b0d5425b401be8", null ],
     [ "setAngle", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#ab6f10263acdebd346d34ee624414ea7a", null ],
     [ "setBall", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a1a81bedd78c2bdb9e89a8bfb968147fb", null ],
+    [ "setBallAvoidDistance", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a61b496091994f9a3431c04f70cd83cb6", null ],
     [ "setBlockDistance", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a2ab5274fddf81c116192db5120ac44f2", null ],
     [ "setCurrentWorld", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a8bb3b9031b3ed4776a37366326f6c866", null ],
     [ "setDribblerSpeed", "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a758ff93e94ac188c8b5d8a287d872282", null ],
