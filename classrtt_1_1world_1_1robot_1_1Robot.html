@@ -154,8 +154,6 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a4eae9a3012c792896a9e59ed3e6f2879"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a4eae9a3012c792896a9e59ed3e6f2879">updateFromFeedback</a> (const proto::RobotProcessedFeedback &amp;feedback) noexcept</td></tr>
 <tr class="separator:a4eae9a3012c792896a9e59ed3e6f2879"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09ab3d98c0353797bbc01083958ab6ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a09ab3d98c0353797bbc01083958ab6ce">updateHasBallMap</a> (std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1BallView.html">view::BallView</a> &gt; &amp;ball)</td></tr>
-<tr class="separator:a09ab3d98c0353797bbc01083958ab6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74baa3a650fe7314eef50bc4390d4be7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a74baa3a650fe7314eef50bc4390d4be7">setId</a> (int <a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a97437af3584cf8be229aca8658681e39">id</a>) noexcept</td></tr>
 <tr class="separator:a74baa3a650fe7314eef50bc4390d4be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a788e596e43fa652dca7c78e09ce74881"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a788e596e43fa652dca7c78e09ce74881">setTeam</a> (<a class="el" href="namespacertt_1_1world.html#a2693830c458f8c00b121957069de6727">Team</a> <a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html#a2846dce04d727d11c518fba31cb3cb8c">team</a>) noexcept</td></tr>
@@ -1452,33 +1450,6 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a09ab3d98c0353797bbc01083958ab6ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09ab3d98c0353797bbc01083958ab6ce">&#9670;&nbsp;</a></span>updateHasBallMap()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rtt::world::robot::Robot::updateHasBallMap </td>
-          <td>(</td>
-          <td class="paramtype">std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1BallView.html">view::BallView</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>ball</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>TODO: There's some magic numbers here: the max value at which we clamped could be higher/lower, and the cutoff for saying we have the ball could be different These values should be tuned further to balance speed and reliability</p>
 
 </div>
 </div>

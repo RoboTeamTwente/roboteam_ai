@@ -245,13 +245,14 @@ var searchData=
   ['stpvisualizerwidget_2ecpp_1914',['STPVisualizerWidget.cpp',['../STPVisualizerWidget_8cpp.html',1,'']]],
   ['stpvisualizerwidget_2eh_1915',['STPVisualizerWidget.h',['../STPVisualizerWidget_8h.html',1,'']]],
   ['stpwidget_1916',['stpWidget',['../classrtt_1_1ai_1_1interface_1_1MainWindow.html#a978b7df7fa75e5ba98a295fe5a8b341b',1,'rtt::ai::interface::MainWindow']]],
-  ['strategymanager_1917',['StrategyManager',['../classrtt_1_1ai_1_1StrategyManager.html',1,'rtt::ai::StrategyManager'],['../classrtt_1_1ai_1_1StrategyManager.html#aaa0a09adb7ef5e6af6548e57a592d19c',1,'rtt::ai::StrategyManager::StrategyManager()']]],
+  ['strategymanager_1917',['StrategyManager',['../classrtt_1_1ai_1_1StrategyManager.html',1,'rtt::ai']]],
   ['strategymanager_1918',['strategymanager',['../classrtt_1_1ai_1_1GameStateManager.html#acee6100d4704ad3654bcac597efcb6e9',1,'rtt::ai::GameStateManager']]],
-  ['strategymanager_2ecpp_1919',['StrategyManager.cpp',['../StrategyManager_8cpp.html',1,'']]],
-  ['strategymanager_2eh_1920',['StrategyManager.h',['../StrategyManager_8h.html',1,'']]],
-  ['strategyname_1921',['strategyName',['../structrtt_1_1ai_1_1GameState.html#abb284fc0415590320f3d3251a5879b82',1,'rtt::ai::GameState']]],
-  ['strokewidth_1922',['strokeWidth',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#a418ae564796a59e45a492a3f76320f0f',1,'rtt::ai::interface::Drawing']]],
-  ['success_1923',['Success',['../namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3a505a83f220c02df2f85c3810cd9ceb38',1,'rtt::ai::stp']]],
-  ['sumscore_1924',['sumScore',['../classrtt_1_1ai_1_1Dealer.html#a3bbf524d6fc7b7f8ac7516bed9219d2d',1,'rtt::ai::Dealer::RobotRoleScore']]],
-  ['sumweights_1925',['sumWeights',['../classrtt_1_1ai_1_1Dealer.html#aa5f6e5e7bca9ca5c98b3784d220b8621',1,'rtt::ai::Dealer::RobotRoleScore']]]
+  ['strategymanager_1919',['StrategyManager',['../classrtt_1_1ai_1_1StrategyManager.html#aaa0a09adb7ef5e6af6548e57a592d19c',1,'rtt::ai::StrategyManager']]],
+  ['strategymanager_2ecpp_1920',['StrategyManager.cpp',['../StrategyManager_8cpp.html',1,'']]],
+  ['strategymanager_2eh_1921',['StrategyManager.h',['../StrategyManager_8h.html',1,'']]],
+  ['strategyname_1922',['strategyName',['../structrtt_1_1ai_1_1GameState.html#abb284fc0415590320f3d3251a5879b82',1,'rtt::ai::GameState']]],
+  ['strokewidth_1923',['strokeWidth',['../structrtt_1_1ai_1_1interface_1_1Drawing.html#a418ae564796a59e45a492a3f76320f0f',1,'rtt::ai::interface::Drawing']]],
+  ['success_1924',['Success',['../namespacertt_1_1ai_1_1stp.html#a3055c554f88c993b2e023c90717631d3a505a83f220c02df2f85c3810cd9ceb38',1,'rtt::ai::stp']]],
+  ['sumscore_1925',['sumScore',['../classrtt_1_1ai_1_1Dealer.html#a3bbf524d6fc7b7f8ac7516bed9219d2d',1,'rtt::ai::Dealer::RobotRoleScore']]],
+  ['sumweights_1926',['sumWeights',['../classrtt_1_1ai_1_1Dealer.html#aa5f6e5e7bca9ca5c98b3784d220b8621',1,'rtt::ai::Dealer::RobotRoleScore']]]
 ];
