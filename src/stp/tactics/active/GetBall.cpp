@@ -30,7 +30,7 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
             FieldComputations::projectPointToValidPosition(info.getField().value(), skillStpInfo.getRobot()->get()->getPos(), info.getObjectsToAvoid()));
     } else {
         // We want to keep going towards the ball slowly if we are already close, to make sure we get it
-        auto getBallDistance = std::max(ballDistance - control_constants::CENTER_TO_FRONT, 0.1);
+        auto getBallDistance = std::max(ballDistance, 0.1);
         Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(getBallDistance);
         newRobotPosition = FieldComputations::projectPointToValidPosition(info.getField().value(), newRobotPosition, info.getObjectsToAvoid());
         skillStpInfo.setPositionToMoveTo(newRobotPosition);
