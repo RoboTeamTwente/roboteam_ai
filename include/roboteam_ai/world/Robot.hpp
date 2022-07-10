@@ -63,6 +63,8 @@ class Robot {
    private:
     void updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept;
 
+    void updateHasBallMap(std::optional<view::BallView>& ball);
+
     void setId(int id) noexcept;
 
     void setTeam(Team team) noexcept;
