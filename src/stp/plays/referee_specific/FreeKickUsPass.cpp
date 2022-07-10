@@ -143,7 +143,7 @@ bool FreeKickUsPass::shouldEndPlay() noexcept {
 
     // True if a different pass has a higher score than the current pass (by some margin)- only if the passer is not already close to the ball (since we don't want to adjust our
     // target when we're in the process of shooting
-    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() > 0.25 &&
+    return !ballKicked() && stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() > 0.25 &&
            stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
                1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score;
 }
