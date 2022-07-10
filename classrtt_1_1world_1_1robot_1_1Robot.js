@@ -46,6 +46,7 @@ var classrtt_1_1world_1_1robot_1_1Robot =
     [ "setWorkingBallSensor", "classrtt_1_1world_1_1robot_1_1Robot.html#a14143ed24a7a4aa7b748fd6414b43c15", null ],
     [ "setWorkingDribbler", "classrtt_1_1world_1_1robot_1_1Robot.html#ab0e1408e2ef76a94d6884b8eb45d917b", null ],
     [ "updateFromFeedback", "classrtt_1_1world_1_1robot_1_1Robot.html#a4eae9a3012c792896a9e59ed3e6f2879", null ],
+    [ "updateHasBallMap", "classrtt_1_1world_1_1robot_1_1Robot.html#a09ab3d98c0353797bbc01083958ab6ce", null ],
     [ "angle", "classrtt_1_1world_1_1robot_1_1Robot.html#ada9d85af8445aba34e2011cb9ba01bf8", null ],
     [ "angleDiffToBall", "classrtt_1_1world_1_1robot_1_1Robot.html#a81f495905fcfae206971b762bc8aef58", null ],
     [ "angularVelocity", "classrtt_1_1world_1_1robot_1_1Robot.html#a92aef306c1c6032751056f20bac14eee", null ],
