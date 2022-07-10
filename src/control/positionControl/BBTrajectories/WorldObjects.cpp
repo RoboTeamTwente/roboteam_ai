@@ -3,6 +3,8 @@
 //
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 
+#include <roboteam_utils/Tube.h>
+
 #include <algorithm>
 #include <utility>
 
@@ -87,28 +89,23 @@ void WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field
 }
 
 void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, std::vector<Vector2> pathPoints, double timeStep) {
-    if (ruleset.minDistanceToBall > 0) {
-        auto startPositionBall = world->getWorld()->getBall()->get()->position;
-        auto VelocityBall = world->getWorld()->getBall()->get()->velocity;
-        std::vector<Vector2> ballTrajectory;
+    auto startPositionBall = world->getWorld()->getBall()->get()->position;
+    auto VelocityBall = world->getWorld()->getBall()->get()->velocity;
+    std::vector<Vector2> ballTrajectory;
 
-        // TODO: improve ball trajectory approximation
-        // Current approximation assumes it continues on the same path with the same velocity, and we check 1 second deep
-        double time = 0;
-        double ballAvoidanceTime = 1;
-        while (pathPoints.size() * timeStep > time && time < ballAvoidanceTime) {
-            ballTrajectory.emplace_back(startPositionBall + VelocityBall * time);
-            time += timeStep;
-        }
+    // TODO: improve ball trajectory approximation
+    // Current approximation assumes it continues on the same path with the same velocity, and we check 1 second deep
+    double time = 0;
+    double ballAvoidanceTime = 1;
+    while (pathPoints.size() * timeStep > time && time < ballAvoidanceTime) {
+        ballTrajectory.emplace_back(startPositionBall + VelocityBall * time);
+        time += timeStep;
+    }
 
-        // Check each timeStep for a collision with the ball, or during ball placement if its too close to the 'ballTube'
-        auto ballTube = LineSegment(startPositionBall, rtt::ai::GameStateManager::getRefereeDesignatedPosition());
-        for (size_t i = 0; i < ballTrajectory.size(); i++) {
-            if (ruleset.minDistanceToBall > (pathPoints[i] - ballTrajectory[i]).length() ||
-                (gameState.getStrategyName() == "ball_placement_them" && ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i]))) {
-                insertCollisionData(collisionDatas, CollisionData{ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision"});
-                return;
-            }
+    for (size_t i = 1; i < ballTrajectory.size(); i++) {
+        if (pathPoints[i].dist(ballTrajectory[i]) < ai::stp::control_constants::ROBOT_RADIUS * 2.0){
+            insertCollisionData(collisionDatas, CollisionData{ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision"});
+            return;
         }
     }
 }
