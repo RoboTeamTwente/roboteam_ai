@@ -3,10 +3,7 @@
 //
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 
-#include <roboteam_utils/Tube.h>
-
 #include <algorithm>
-#include <utility>
 
 #include "world/World.hpp"
 #include "world/WorldData.hpp"
