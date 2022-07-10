@@ -24,50 +24,20 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
         workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
     }
 
-    if (team == Team::us) {
-        if(copy.has_feedbackinfo()){
-            updateFromFeedback(copy.feedbackinfo());
-        }
-    }
-
     if (ball.has_value()) {
         setDistanceToBall(pos.dist((*ball)->position));
         auto angleRobotToBall = ((*ball)->position - pos).angle();
         setAngleDiffToBall(angle.shortestAngleDiff(Angle(angleRobotToBall)));
-
-        // For our own robots in the sim, we only use the ballSensor, since its more accurate
-        if (!(team == Team::us && SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR)) {
-            // If the ball is not visible, we should go closer to the ball before thinking we have it, for safety (since we can't actually see if we have the ball or not)
-            auto hasBallDist = ball->get()->visible ? ai::Constants::HAS_BALL_DISTANCE() : ai::Constants::HAS_BALL_DISTANCE() * 0.75;
-            auto hasBallAccordingToVision = distanceToBall < hasBallDist && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
-
-            // Increase the hasBall score depending on how sure we are that we have the ball
-            if (hasBallAccordingToVision && dribblerSeesBall) hasBallUpdateMap[id].score += 2;
-            else if (hasBallAccordingToVision && !dribblerSeesBall) hasBallUpdateMap[id].score += 1;
-            else if (!hasBallAccordingToVision && dribblerSeesBall && distanceToBall < ai::Constants::HAS_BALL_DISTANCE() * 1.5 && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE() * 1.5)
-                hasBallUpdateMap[id].score += 1;
-            else hasBallUpdateMap[id].score -= 2;
-
-            // TODO when we have working ballsensors: Use the ballsensor as well to determine if we have the ball
-            //if (workingBallSensor) hasBallUpdateMap[id].score += (ballSensorSeesBall ? 1 : -1);
-        } else {
-            // In the sim, for our team, we only use the ballsensor (since its very accurate)
-            hasBallUpdateMap[id].score += (ballSensorSeesBall ? 2 : -2);
-        }
-
-        // Make sure the value does not get too large/small
-        hasBallUpdateMap[id].score = std::clamp(hasBallUpdateMap[id].score, 0, 25);
-
-        // If we previously had the ball, we do not have the ball if the score gets below 4
-        if (hasBallUpdateMap[id].hasBall && hasBallUpdateMap[id].score < 4) hasBallUpdateMap[id].hasBall = false;
-        // If we did not have the ball yet, we have the ball if the score gets over 20
-        else if (hasBallUpdateMap[id].score > 20) hasBallUpdateMap[id].hasBall = true;
-
-        setHasBall(hasBallUpdateMap[id].hasBall);
-
-        /// TODO: There's some magic numbers here: the max value at which we clamped could be higher/lower, and the cutoff for saying we have the ball could be different
-        /// These values should be tuned further to balance speed and reliability
     }
+
+    if (team == Team::us) {
+        if(copy.has_feedbackinfo()){
+            updateFromFeedback(copy.feedbackinfo());
+        }
+        updateHasBallMap(ball);
+    }
+
+
 }
 
 int Robot::getId() const noexcept { return id; }
@@ -159,5 +129,42 @@ void Robot::updateFromFeedback(const proto::RobotProcessedFeedback &feedback) no
         setDribblerSeesBall(feedback.dribbler_sees_ball());
         setBallPosBallSensor(feedback.ball_position());
     }
+}
+
+void Robot::updateHasBallMap(std::optional<view::BallView>& ball) {
+    if (!ball) return;
+
+    // On the field, use data from the dribbler and vision to determine if we have the ball
+    if (SETTINGS.getRobotHubMode() == Settings::RobotHubMode::BASESTATION) {
+        // If the ball is not visible, we should go closer to the ball before thinking we have it, for safety (since we can't actually see if we have the ball or not)
+        auto hasBallDist = ball->get()->visible ? ai::Constants::HAS_BALL_DISTANCE() : ai::Constants::HAS_BALL_DISTANCE() * 0.75;
+        auto hasBallAccordingToVision = distanceToBall < hasBallDist && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
+
+        // Increase the hasBall score depending on how sure we are that we have the ball
+        if (hasBallAccordingToVision && dribblerSeesBall) hasBallUpdateMap[id].score += 2;
+        else if (hasBallAccordingToVision && !dribblerSeesBall) hasBallUpdateMap[id].score += 1;
+        else if (!hasBallAccordingToVision && dribblerSeesBall && distanceToBall < ai::Constants::HAS_BALL_DISTANCE() * 1.5 && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE() * 1.5)
+            hasBallUpdateMap[id].score += 1;
+        else hasBallUpdateMap[id].score -= 2;
+
+        // TODO when we have working ballsensors: Use the ballsensor as well to determine if we have the ball
+        //if (workingBallSensor) hasBallUpdateMap[id].score += (ballSensorSeesBall ? 1 : -1);
+    } else {
+        // In the sim, for our team, we only use the ballsensor (since its very accurate)
+        hasBallUpdateMap[id].score += (ballSensorSeesBall ? 2 : -2);
+    }
+
+    // Make sure the value does not get too large/small
+    hasBallUpdateMap[id].score = std::clamp(hasBallUpdateMap[id].score, 0, 25);
+
+    // If we previously had the ball, we do not have the ball if the score gets below 4
+    if (hasBallUpdateMap[id].hasBall && hasBallUpdateMap[id].score < 4) hasBallUpdateMap[id].hasBall = false;
+    // If we did not have the ball yet, we have the ball if the score gets over 20
+    else if (hasBallUpdateMap[id].score > 20) hasBallUpdateMap[id].hasBall = true;
+
+    setHasBall(hasBallUpdateMap[id].hasBall);
+
+    /// TODO: There's some magic numbers here: the max value at which we clamped could be higher/lower, and the cutoff for saying we have the ball could be different
+    /// These values should be tuned further to balance speed and reliability
 }
 }  // namespace rtt::world::robot
