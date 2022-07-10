@@ -5,6 +5,7 @@
 #include "stp/skills/OrbitAngular.h"
 
 #include "stp/constants/ControlConstants.h"
+#include "utilities/Settings.h"
 
 namespace rtt::ai::stp::skill {
 
@@ -24,9 +25,12 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     Angle targetAngle = (info.getPositionToShootAt().value() - info.getRobot()->get()->getPos()).toAngle();
 
     auto direction = Angle(directionVector).rotateDirection(targetAngle) ? -1.0 : 1.0;
-    // Since there is a small delay between sending kick and the ball being kicked, we want to adjust the targetAngle so that we kick slightly earlier
-    targetAngle = targetAngle.getValue()  - angVel / 20.0 * direction;
-    direction = Angle(directionVector).rotateDirection(targetAngle) ? -1.0 : 1.0;
+
+    if (SETTINGS.getRobotHubMode() == Settings::RobotHubMode::BASESTATION) {
+        // Since there is a small delay between sending kick and the ball being kicked, we want to adjust the targetAngle so that we kick slightly earlier
+        targetAngle = targetAngle.getValue() - angVel / 20.0 * direction;
+        direction = Angle(directionVector).rotateDirection(targetAngle) ? -1.0 : 1.0;
+    }
 
     Vector2 normalVector = directionVector.rotate(direction * (M_PI_2 - (1.0/3.0)*M_PI));
 
@@ -44,11 +48,18 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     // set command ID
     command.id = info.getRobot().value()->getId();
 
-    // set angle to kick at & turn on kickAtAngle
-    command.targetAngle = targetAngle;
-    command.kickAtAngle = true;
-    command.kickSpeed = std::clamp(info.getKickChipVelocity(), control_constants::MIN_KICK_POWER, control_constants::MAX_KICK_POWER);
-
+    if (SETTINGS.getRobotHubMode() == Settings::RobotHubMode::BASESTATION){
+        // set angle to kick at & turn on kickAtAngle
+        command.kickType = KickType::KICK;
+        command.kickSpeed = std::clamp(info.getKickChipVelocity(), control_constants::MIN_KICK_POWER, control_constants::MAX_KICK_POWER);
+        command.targetAngle = targetAngle;
+        command.kickAtAngle = true;
+    } else {
+        if (info.getRobot()->get()->getAngle().shortestAngleDiff(targetAngle) < control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI) {
+            command.kickSpeed = std::clamp(info.getKickChipVelocity(), control_constants::MIN_KICK_POWER, control_constants::MAX_KICK_POWER);
+            command.kickType = KickType::KICK;
+        }
+    }
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
