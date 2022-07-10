@@ -103,11 +103,9 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[10,0,1,0,3,9,1],
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[9,0,0,0,3,13,0],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html":[9,0,0,0,3,9],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe":[9,0,0,0,3,9,4],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab32df84c366c10c971529390bdfe0d5f":[9,0,0,0,3,9,1],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab725d05b0a8f276b14732b65bb52b318":[9,0,0,0,3,9,0],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#abe8970b8c1238aa9b886c7b74711c9a7":[9,0,0,0,3,9,3],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aeb15a3e633899a90ab80e5e008345604":[9,0,0,0,3,9,2],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe":[9,0,0,0,3,9,2],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#abe8970b8c1238aa9b886c7b74711c9a7":[9,0,0,0,3,9,1],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aeb15a3e633899a90ab80e5e008345604":[9,0,0,0,3,9,0],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html":[9,0,0,0,3,10],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a1eb43dc9737f55dcd04ea3a844a36493":[9,0,0,0,3,10,2],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a30871798672da8461926bb63d54b3f00":[9,0,0,0,3,10,5],
@@ -249,5 +247,7 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallClosestToUsGlobalEvaluation.html":[9,0,0,0,3,1,19],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallClosestToUsGlobalEvaluation.html#a32db3576e0509c2749d1fe721023f9c0":[9,0,0,0,3,1,19,0],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallClosestToUsGlobalEvaluation.html#a5556df9b04af80b3e5f2fbdfdfaa6b4b":[9,0,0,0,3,1,19,1],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html":[9,0,0,0,3,1,22]
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html":[9,0,0,0,3,1,22],
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html#a236cd92cc3a7f6a2156cf5a2852fc291":[9,0,0,0,3,1,22,0],
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallGotShotGlobalEvaluation.html#a75f02014a0e0c77652d1908b6eddf6cf":[9,0,0,0,3,1,22,4]
 };

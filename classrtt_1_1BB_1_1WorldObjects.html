@@ -111,9 +111,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aef416746624258413278a867b8575f2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#aef416746624258413278a867b8575f2e">calculateDefenseAreaCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;pathPoints, int robotId, double timeStep)</td></tr>
 <tr class="memdesc:aef416746624258413278a867b8575f2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path and checks points along the path if they are inside the defensearea if the robot is not allowed to be there. Adds these points and the time to collisionDatas and collisionTimes.  <a href="classrtt_1_1BB_1_1WorldObjects.html#aef416746624258413278a867b8575f2e">More...</a><br /></td></tr>
 <tr class="separator:aef416746624258413278a867b8575f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeae1c0580ed9ab9fc7f176a57242e34b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#aeae1c0580ed9ab9fc7f176a57242e34b">calculateBallCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; pathPoints, double timeStep, double dist)</td></tr>
-<tr class="memdesc:aeae1c0580ed9ab9fc7f176a57242e34b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path of a robot and checks points along the path if they are too close to an approximation of the ball trajactory. If the play is "ball_placement_them" also checks for the path being inside the balltube. Adds these points and the time to collisionDatas and collisionTimes.  <a href="classrtt_1_1BB_1_1WorldObjects.html#aeae1c0580ed9ab9fc7f176a57242e34b">More...</a><br /></td></tr>
-<tr class="separator:aeae1c0580ed9ab9fc7f176a57242e34b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a5197400c4fe8423ccf85cce1a4f0b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a8a5197400c4fe8423ccf85cce1a4f0b8">calculateBallCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; pathPoints, double timeStep)</td></tr>
+<tr class="memdesc:a8a5197400c4fe8423ccf85cce1a4f0b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path of a robot and checks points along the path if they are too close to an approximation of the ball trajactory. If the play is "ball_placement_them" also checks for the path being inside the balltube. Adds these points and the time to collisionDatas and collisionTimes.  <a href="classrtt_1_1BB_1_1WorldObjects.html#a8a5197400c4fe8423ccf85cce1a4f0b8">More...</a><br /></td></tr>
+<tr class="separator:a8a5197400c4fe8423ccf85cce1a4f0b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a892faa14b99f1b3b5a7cd6d7867ee16d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a892faa14b99f1b3b5a7cd6d7867ee16d">calculateEnemyRobotCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, <a class="el" href="classrtt_1_1Trajectory2D.html">rtt::Trajectory2D</a> Trajectory, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;pathPoints, double timeStep, size_t timeStepsDone)</td></tr>
 <tr class="memdesc:a892faa14b99f1b3b5a7cd6d7867ee16d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path of a robot and checks points along the path if they are too close to an approximation of the enemy robot paths. Adds these points and the time to collisionDatas and collisionTimes if the difference in velocity between the two robots is more than 1.5 ms/s and we are driving faster.  <a href="classrtt_1_1BB_1_1WorldObjects.html#a892faa14b99f1b3b5a7cd6d7867ee16d">More...</a><br /></td></tr>
 <tr class="separator:a892faa14b99f1b3b5a7cd6d7867ee16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,8 +159,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aeae1c0580ed9ab9fc7f176a57242e34b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeae1c0580ed9ab9fc7f176a57242e34b">&#9670;&nbsp;</a></span>calculateBallCollisions()</h2>
+<a id="a8a5197400c4fe8423ccf85cce1a4f0b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a5197400c4fe8423ccf85cce1a4f0b8">&#9670;&nbsp;</a></span>calculateBallCollisions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,13 +187,7 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeStep</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dist</em>&#160;</td>
+          <td class="paramname"><em>timeStep</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
