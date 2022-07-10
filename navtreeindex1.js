@@ -216,6 +216,10 @@ var NAVTREEINDEX1 =
 "OpennessEvaluation_8h.html":[10,0,1,0,3,2,2,3],
 "OpennessEvaluation_8h_source.html":[10,0,1,0,3,2,2,3],
 "OrbitAngular_8cpp.html":[10,0,2,3,5,4],
+"OrbitAngular_8cpp.html#a6e484c59fc0d79cc2bb7702c8790c210":[10,0,2,3,5,4,1],
+"OrbitAngular_8cpp.html#ab2fc2768b1ee179e61deee5fcbfd0f99":[10,0,2,3,5,4,2],
+"OrbitAngular_8cpp.html#acc24a3425f9459acf0983f5e10811fac":[10,0,2,3,5,4,3],
+"OrbitAngular_8cpp.html#acea3143a70c5f9511523222e8ee767bb":[10,0,2,3,5,4,0],
 "OrbitAngular_8h.html":[10,0,1,0,3,5,4],
 "OrbitAngular_8h_source.html":[10,0,1,0,3,5,4],
 "OrbitKick_8cpp.html":[10,0,2,3,6,0,5],
@@ -245,9 +249,5 @@ var NAVTREEINDEX1 =
 "PathPlanningAlgorithm_8cpp.html":[10,0,2,0,0,1,1],
 "PathPlanningAlgorithm_8h.html":[10,0,1,0,0,0,1,1],
 "PathPlanningAlgorithm_8h_source.html":[10,0,1,0,0,0,1,1],
-"PathPointNode_8cpp.html":[10,0,2,0,0,4],
-"PathPointNode_8h.html":[10,0,1,0,0,0,4],
-"PathPointNode_8h_source.html":[10,0,1,0,0,0,4],
-"PathTrackingAlgorithm_8cpp.html":[10,0,2,0,0,2,2],
-"PathTrackingAlgorithm_8h.html":[10,0,1,0,0,0,2,2]
+"PathPointNode_8cpp.html":[10,0,2,0,0,4]
 };

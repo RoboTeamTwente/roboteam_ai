@@ -1,5 +1,9 @@
 var NAVTREEINDEX13 =
 {
+"classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a284c5c563ccda2dcdbd29b73d1dde9cc":[9,0,0,0,3,5,3,12],
+"classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a390cf790dda0b20bdf7428ee3b853d8a":[9,0,0,0,3,5,3,2],
+"classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a3b5edaebee0b84aa5f01bbbb4575446c":[9,0,0,0,3,5,3,9],
+"classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a62d571b925906855b84dfc185a0b5ee8":[9,0,0,0,3,5,3,10],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a8625bf35b1b36ec18fd8ff68926ec0d4":[9,0,0,0,3,5,3,11],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a8ff0319d5018d2f697c38494d0568991":[9,0,0,0,3,5,3,0],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a97aca306adb701181c5726a09cac208c":[9,0,0,0,3,5,3,3],
@@ -245,9 +249,5 @@ var NAVTREEINDEX13 =
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html#adc6ae8be2f9b45bbe8966f9b05b69a27":[9,0,0,0,3,6,8,12],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html#af4a9f63577d36c0cf178aae99fb0fd00":[9,0,0,0,3,6,8,11],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html":[9,0,0,0,3,6,9],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a01f482edb623170de2bd105fee4cea69":[9,0,0,0,3,6,9,11],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a0dd3439d999970125264ce7fccadff49":[9,0,0,0,3,6,9,18],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a13e8a2e1a5272eb6121703056a347c27":[9,0,0,0,3,6,9,7],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a2406ddec88191f369b72206849a1d9a4":[9,0,0,0,3,6,9,10],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a242748b42fbc99613b65f6500eb12f8f":[9,0,0,0,3,6,9,19]
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html#a01f482edb623170de2bd105fee4cea69":[9,0,0,0,3,6,9,11]
 };

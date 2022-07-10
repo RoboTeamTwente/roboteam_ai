@@ -1,5 +1,9 @@
 var NAVTREEINDEX4 =
 {
+"classMockTactic.html#a0dd3439d999970125264ce7fccadff49":[9,0,14,16],
+"classMockTactic.html#a2406ddec88191f369b72206849a1d9a4":[9,0,14,6],
+"classMockTactic.html#a242748b42fbc99613b65f6500eb12f8f":[9,0,14,17],
+"classMockTactic.html#a483d158a091f8347c3c25983b22d015f":[9,0,14,3],
 "classMockTactic.html#a49d621f1e9da8062c6fbc67afd09f566":[9,0,14,10],
 "classMockTactic.html#a5b71704c2e3a289abb3075e248577d30":[9,0,14,13],
 "classMockTactic.html#a82d49e1fc25787bc4eadd8ba7ff42eb2":[9,0,14,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX4 =
 "classrtt_1_1ai_1_1Constants.html#a5dd3e70869f82d042fe629c86ec5cb18":[9,0,0,0,4,55],
 "classrtt_1_1ai_1_1Constants.html#a62eb895e0cb7ae60e03ef271815eca64":[9,0,0,0,4,20],
 "classrtt_1_1ai_1_1Constants.html#a6701f6203658174e24b9b26556daed1b":[9,0,0,0,4,97],
-"classrtt_1_1ai_1_1Constants.html#a68673839b62305c8822c4d2cf75381e9":[9,0,0,0,4,65],
-"classrtt_1_1ai_1_1Constants.html#a68ba8225740e007b8b21bbd45dc0d9cc":[9,0,0,0,4,89],
-"classrtt_1_1ai_1_1Constants.html#a698e21ff705c18adb7b0950fd1699eed":[9,0,0,0,4,23],
-"classrtt_1_1ai_1_1Constants.html#a6eac2a1a86c7fda40be9c686b4890032":[9,0,0,0,4,19],
-"classrtt_1_1ai_1_1Constants.html#a704593b090eab3cd3fec2270e17542cf":[9,0,0,0,4,53]
+"classrtt_1_1ai_1_1Constants.html#a68673839b62305c8822c4d2cf75381e9":[9,0,0,0,4,65]
 };
