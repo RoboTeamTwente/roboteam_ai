@@ -26,10 +26,9 @@ std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info)
 
     if (!skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
 
-    if (skills.current_num() == 0){
+    if (skills.current_num() == 0) {
         skillStpInfo.setAngle((info.getPositionToShootAt().value() - info.getRobot()->get()->getPos()).angle());
-    }
-    else {
+    } else {
         double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->position).angle();
         skillStpInfo.setAngle(angleToBall);
     }
@@ -46,7 +45,7 @@ bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept {
 
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     // Should reset if the angle the robot is at is no longer correct after doing rotate
-    return skills.current_num() == 1 && info.getRobot()->get()->getAngle().shortestAngleDiff(info.getAngle()) > control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+    return skills.current_num() == 1 && info.getRobot()->get()->getAngle().shortestAngleDiff(info.getAngle()) > Constants::HAS_BALL_ANGLE();
 }
 
 bool DriveWithBall::isEndTactic() noexcept {
