@@ -1,17 +1,17 @@
 var searchData=
 [
-  ['field_2243',['Field',['../classrtt_1_1world_1_1Field.html',1,'rtt::world']]],
-  ['fieldarc_2244',['FieldArc',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldArc',1,'rtt::world']]],
-  ['fieldcomputations_2245',['FieldComputations',['../classrtt_1_1ai_1_1FieldComputations.html',1,'rtt::ai']]],
-  ['fieldhelper_2246',['FieldHelper',['../classtesthelpers_1_1FieldHelper.html',1,'testhelpers']]],
-  ['fieldlinesegment_2247',['FieldLineSegment',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldLineSegment',1,'rtt::world']]],
-  ['flagscore_2248',['FlagScore',['../classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1FlagScore',1,'rtt::ai::Dealer']]],
-  ['formation_2249',['Formation',['../classrtt_1_1ai_1_1stp_1_1role_1_1Formation.html',1,'rtt::ai::stp::role::Formation'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation.html',1,'rtt::ai::stp::tactic::Formation']]],
-  ['freedomofrobotsglobalevaluation_2250',['FreedomOfRobotsGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreedomOfRobotsGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekicktaker_2251',['FreeKickTaker',['../classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker.html',1,'rtt::ai::stp::role']]],
-  ['freekickthem_2252',['FreeKickThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html',1,'rtt::ai::stp::play']]],
-  ['freekickthemgamestateevaluation_2253',['FreeKickThemGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickThemGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekickusatgoal_2254',['FreeKickUsAtGoal',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html',1,'rtt::ai::stp::play']]],
-  ['freekickusgamestateevaluation_2255',['FreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['freekickuspass_2256',['FreeKickUsPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html',1,'rtt::ai::stp::play']]]
+  ['field_2242',['Field',['../classrtt_1_1world_1_1Field.html',1,'rtt::world']]],
+  ['fieldarc_2243',['FieldArc',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldArc',1,'rtt::world']]],
+  ['fieldcomputations_2244',['FieldComputations',['../classrtt_1_1ai_1_1FieldComputations.html',1,'rtt::ai']]],
+  ['fieldhelper_2245',['FieldHelper',['../classtesthelpers_1_1FieldHelper.html',1,'testhelpers']]],
+  ['fieldlinesegment_2246',['FieldLineSegment',['../namespacertt_1_1world.html#structrtt_1_1world_1_1FieldLineSegment',1,'rtt::world']]],
+  ['flagscore_2247',['FlagScore',['../classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1FlagScore',1,'rtt::ai::Dealer']]],
+  ['formation_2248',['Formation',['../classrtt_1_1ai_1_1stp_1_1role_1_1Formation.html',1,'rtt::ai::stp::role::Formation'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation.html',1,'rtt::ai::stp::tactic::Formation']]],
+  ['freedomofrobotsglobalevaluation_2249',['FreedomOfRobotsGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreedomOfRobotsGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['freekicktaker_2250',['FreeKickTaker',['../classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker.html',1,'rtt::ai::stp::role']]],
+  ['freekickthem_2251',['FreeKickThem',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html',1,'rtt::ai::stp::play']]],
+  ['freekickthemgamestateevaluation_2252',['FreeKickThemGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickThemGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['freekickusatgoal_2253',['FreeKickUsAtGoal',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html',1,'rtt::ai::stp::play']]],
+  ['freekickusgamestateevaluation_2254',['FreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1FreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['freekickuspass_2255',['FreeKickUsPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html',1,'rtt::ai::stp::play']]]
 ];
