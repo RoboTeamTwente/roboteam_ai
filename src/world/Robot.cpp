@@ -131,6 +131,13 @@ void Robot::updateFromFeedback(const proto::RobotProcessedFeedback &feedback) no
 void Robot::updateHasBallMap(std::optional<view::BallView> &ball) {
     if (!ball) return;
 
+    // When doing free kicks, we have to immediately kick the ball, hence, we only check for 1 tick
+    if (ai::GameStateManager::getCurrentGameState().getStrategyName() == "free_kick_us" || ai::GameStateManager::getCurrentGameState().getStrategyName() == "kickoff_us") {
+        auto hasBallAccordingToVision = distanceToBall < ai::Constants::HAS_BALL_DISTANCE() && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
+        if (hasBallAccordingToVision || dribblerSeesBall) setHasBall(true);
+        return;
+    }
+
     // On the field, use data from the dribbler and vision to determine if we have the ball
     if (SETTINGS.getRobotHubMode() == Settings::RobotHubMode::BASESTATION) {
         // If the ball is not visible, we should go closer to the ball before thinking we have it, for safety (since we can't actually see if we have the ball or not)
