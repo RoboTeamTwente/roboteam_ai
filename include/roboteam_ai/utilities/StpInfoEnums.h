@@ -38,6 +38,7 @@ struct AvoidObjects {
     bool shouldAvoidBall = false;
     bool shouldAvoidDefenseArea = true;
     bool shouldAvoidOutOfField = true;
+    double avoidBallDist = 0;
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_STPINFOENUMS_H
