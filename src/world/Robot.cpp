@@ -34,6 +34,9 @@ Robot::Robot(const proto::WorldRobot &copy, rtt::world::Team team, std::optional
             updateFromFeedback(copy.feedbackinfo());
         }
         updateHasBallMap(ball);
+    } else {
+        auto hasBallAccordingToVision = distanceToBall < ai::Constants::HAS_BALL_DISTANCE() && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
+        setHasBall(hasBallAccordingToVision);
     }
 }
 
