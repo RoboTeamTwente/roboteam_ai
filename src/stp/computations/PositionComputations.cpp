@@ -5,6 +5,7 @@
 #include "stp/computations/PositionComputations.h"
 
 #include <roboteam_utils/Grid.h>
+#include <roboteam_utils/Tube.h>
 
 #include "stp/computations/ComputationManager.h"
 #include "stp/computations/PositionScoring.h"
@@ -149,6 +150,54 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     }
 
     return positions;
+}
+Vector2 PositionComputations::calculateAvoidBallPosition(Vector2 targetPosition, Vector2 ballPosition, const world::Field &field) {
+    auto currentGameState = GameStateManager::getCurrentGameState().getStrategyName();
+
+    std::unique_ptr<Shape> avoidShape;
+
+    // During ball placement, we need to avoid the area between the ball and the target position by a certain margin
+    if (currentGameState == "ball_placement_us" || currentGameState == "ball_placement_them") {
+        avoidShape = std::make_unique<Tube>(Tube(ballPosition, GameStateManager::getRefereeDesignatedPosition(), control_constants::AVOID_BALL_DISTANCE));
+    } else {
+        // During stop gamestate, we need to avoid the area directly around the ball.
+        avoidShape = std::make_unique<Circle>(Circle(ballPosition, control_constants::AVOID_BALL_DISTANCE));
+    }
+
+    if (avoidShape->contains(targetPosition)) {
+        auto projectedPos = avoidShape->project(targetPosition);
+        if (FieldComputations::pointIsValidPosition(field, projectedPos))
+            targetPosition = projectedPos;
+        else {
+            targetPosition = calculatePositionOutsideOfShape(ballPosition, field, avoidShape);
+        }
+    }
+    return targetPosition;
+}
+
+Vector2 PositionComputations::calculatePositionOutsideOfShape(Vector2 ballPos, const rtt::world::Field &field, const std::unique_ptr<Shape> &avoidShape) {
+    Vector2 newTarget = ballPos;  // The new position to go to
+    bool pointFound = false;
+    for (int distanceSteps = 0; distanceSteps < 5; ++distanceSteps) {
+        // Use a larger grid each iteration in case no valid point is found
+        auto distance = 3 * control_constants::AVOID_BALL_DISTANCE + distanceSteps * control_constants::AVOID_BALL_DISTANCE / 2.0;
+        auto possiblePoints = Grid(ballPos.x - distance / 2.0, ballPos.y - distance / 2.0, distance, distance, 3, 3).getPoints();
+        double dist = 1e3;
+        for (auto &pointVector : possiblePoints) {
+            for (auto &point : pointVector) {
+                if (FieldComputations::pointIsValidPosition(field, point) && !avoidShape->contains(point)) {
+                    if (ballPos.dist(point) < dist) {
+                        dist = ballPos.dist(point);
+                        newTarget = point;
+                        pointFound = true;
+                    }
+                }
+            }
+        }
+        if (pointFound) break;  // As soon as a valid point is found, don't look at more points further away
+    }
+    if (newTarget == ballPos) RTT_WARNING("Could not find good position to avoid ball");
+    return newTarget;
 }
 
 }  // namespace rtt::ai::stp

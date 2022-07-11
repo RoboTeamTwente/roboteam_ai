@@ -212,7 +212,7 @@ void GameStateManager::updateInterfaceGameState(const char* name) {
     } else if (strcmp(name, "Halt") == 0) {
         interface::Output::setInterfaceGameState(GameState("halt", "halt"));
     } else if (strcmp(name, "Free Kick Them") == 0) {
-        interface::Output::setInterfaceGameState(GameState("free_kick_them", "default"));
+        interface::Output::setInterfaceGameState(GameState("free_kick_them", "stop"));
     } else if (strcmp(name, "Free Kick Us At Goal") == 0) {
         interface::Output::setInterfaceGameState(GameState("free_kick_us", "default"));
     } else if (strcmp(name, "Ball Placement Them") == 0) {
