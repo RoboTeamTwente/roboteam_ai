@@ -34,7 +34,7 @@ Attack::Attack() : Play() {
                                                                                        std::make_unique<role::Formation>(("midfielder_right")),
                                                                                        std::make_unique<role::Formation>(("attacking_midfielder")),
                                                                                        std::make_unique<role::BallDefender>(("defender_left")),
-                                                                                       std::make_unique<role::BallDefender>(("defender_mid")),
+                                                                                       std::make_unique<role::Formation>(("defender_mid")),
                                                                                        std::make_unique<role::BallDefender>(("defender_right"))};
 }
 
@@ -85,8 +85,8 @@ void Attack::calculateInfoForDefenders() noexcept {
     stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
 
-    stpInfos["defender_mid"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_mid"].setBlockDistance(BlockDistance::CLOSE);
+    stpInfos["defender_mid"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world));
+    stpInfos["defender_mid"].setAngle((world->getWorld()->getBall().value()->position - stpInfos["defender_mid"].getPositionToMoveTo().value()).toAngle());
 
     stpInfos["defender_right"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_right"].setBlockDistance(BlockDistance::HALFWAY);
