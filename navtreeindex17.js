@@ -1,6 +1,5 @@
 var NAVTREEINDEX17 =
 {
-"md_docs_Robot.html#autotoc_md54":[4,0],
 "md_docs_Robot.html#autotoc_md55":[4,1],
 "md_docs_Robot.html#autotoc_md56":[4,2],
 "md_docs_Robot.html#autotoc_md57":[4,3],
@@ -92,7 +91,6 @@ var NAVTREEINDEX17 =
 "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a2b4671aba77bf173ab74c6d65817a114":[8,0,1,0,17,5],
 "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a3b371a4c0494163839361432478cc11b":[8,0,1,0,17,3],
 "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a3b716737d3658eb261862decc379cf29":[8,0,1,0,17,2],
-"namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a55ce2fe53a7b2039f6acfcac2eed55e9":[8,0,1,0,17,10],
 "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a9d6d6e074c36a06bc5e2b1aa9c2776b8":[8,0,1,0,17,0],
 "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67aac0e2e4aa6cbbee20fe1379efba0836c":[8,0,1,0,17,4],
 "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67abc15041bb7ad24c5d5ce6c55a9d50f8e":[8,0,1,0,17,1],
@@ -144,7 +142,8 @@ var NAVTREEINDEX17 =
 "namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87aba26a4b44a837bf97b972628509912b4a5":[8,0,1,0,3,29,2],
 "namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87aba730950ad798a77ad508aa9e2564d013f":[8,0,1,0,3,29,1],
 "namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87aba7a95bf926a0333f57705aeac07a362a2":[8,0,1,0,3,29,0],
-"namespacertt_1_1ai_1_1stp.html#a46fdc772a97d5bb81ebd1691f64178e1":[10,0,1,0,4,10,0,1],
+"namespacertt_1_1ai_1_1stp.html#a46fdc772a97d5bb81ebd1691f64178e1":[10,0,1,0,4,10,0,2],
+"namespacertt_1_1ai_1_1stp.html#a6577b099f78be27629402214f0ba3c35":[10,0,1,0,4,10,0,0],
 "namespacertt_1_1ai_1_1stp.html#a6dc616622d328046b30e5a7cfaf90e81":[10,0,1,0,3,0,2,0,4],
 "namespacertt_1_1ai_1_1stp.html#a7b80a24ac1e245c8be94366c3a8f5f34":[10,0,1,0,3,0,2,0,1],
 "namespacertt_1_1ai_1_1stp.html#a83fa6a77ed959db605992275d14eb0fc":[8,0,1,0,3,24],
@@ -192,7 +191,7 @@ var NAVTREEINDEX17 =
 "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2af5ef925cf3c281225810c9118fd382e0":[8,0,1,0,3,26,2],
 "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2afca55423bb8eb46fe0fee5ca4372c3ae":[8,0,1,0,3,26,21],
 "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2afd33f2e0c22effb59e2feba180201955":[8,0,1,0,3,26,37],
-"namespacertt_1_1ai_1_1stp.html#aa1d71b577deca9bd07b1bbb8be856d62":[10,0,1,0,4,10,0,2],
+"namespacertt_1_1ai_1_1stp.html#aa1d71b577deca9bd07b1bbb8be856d62":[10,0,1,0,4,10,0,3],
 "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3":[8,0,1,0,3,25],
 "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3a0a9fb394fbdec0184b132e8c11ddcd0e":[8,0,1,0,3,25,0],
 "namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3a31234537adb52d5df18dc9596010708b":[8,0,1,0,3,25,4],
@@ -206,7 +205,7 @@ var NAVTREEINDEX17 =
 "namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eba488ad7528a915081b9aec9abe393afcd":[8,0,1,0,3,28,2],
 "namespacertt_1_1ai_1_1stp.html#ac154a8e7620c1e24b70f641afcf2c5eba5b39c8b553c821e7cddc6da64b5bd2ee":[8,0,1,0,3,28,0],
 "namespacertt_1_1ai_1_1stp.html#ad6353f8cb54ee64ac61ee32f6a1e4ae9":[10,0,1,0,3,0,2,0,3],
-"namespacertt_1_1ai_1_1stp.html#ade390346237ed980f3b50fa3cb0a0b14":[10,0,1,0,4,10,0,0],
+"namespacertt_1_1ai_1_1stp.html#ade390346237ed980f3b50fa3cb0a0b14":[10,0,1,0,4,10,0,1],
 "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects":[10,0,1,0,4,10,0],
 "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo":[10,0,1,0,3,0,2,0],
 "namespacertt_1_1ai_1_1stp_1_1computations.html":[8,0,1,0,3,0],
@@ -249,5 +248,6 @@ var NAVTREEINDEX17 =
 "namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab901068e85cad865ba809d79bb9b6c9b":[8,0,1,0,3,1,21],
 "namespacertt_1_1ai_1_1stp_1_1control__constants.html#ab9a25435f59d30d9fbed119582370ff6":[8,0,1,0,3,1,5],
 "namespacertt_1_1ai_1_1stp_1_1control__constants.html#abd94b835220f65a1d26e2e5834cacef3":[8,0,1,0,3,1,19],
-"namespacertt_1_1ai_1_1stp_1_1control__constants.html#acd30b6326a0e8f8a387db14972abac0d":[8,0,1,0,3,1,40]
+"namespacertt_1_1ai_1_1stp_1_1control__constants.html#acd30b6326a0e8f8a387db14972abac0d":[8,0,1,0,3,1,40],
+"namespacertt_1_1ai_1_1stp_1_1control__constants.html#ace5948146011dcdb71513f56f9b66688":[8,0,1,0,3,1,33]
 };
