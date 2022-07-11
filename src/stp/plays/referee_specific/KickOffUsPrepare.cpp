@@ -73,11 +73,13 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
+    Dealer::DealerFlag kickerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag kickerPreference(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerPriority, kickerPreference}}});
     flagMap.insert({"defender_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"defender_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"defender_right", {DealerFlagPriority::LOW_PRIORITY, {}}});

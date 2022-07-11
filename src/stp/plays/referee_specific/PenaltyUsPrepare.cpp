@@ -71,10 +71,13 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
 
 Dealer::FlagMap PenaltyUsPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag kickerFormationFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"kicker_formation", {DealerFlagPriority::REQUIRED, {kickerFormationFlag}}});
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag kickerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag kickerPreference(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"kicker_formation", {DealerFlagPriority::REQUIRED, {kickerPriority, kickerPreference}}});
     flagMap.insert({"formation_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"formation_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
