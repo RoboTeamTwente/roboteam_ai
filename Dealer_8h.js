@@ -32,7 +32,8 @@ var Dealer_8h =
       [ "NOT_IMPORTANT", "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a133dc98cd132e86d4117b396c8b4eee9", null ],
       [ "READY_TO_INTERCEPT_GOAL_SHOT", "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67abfc3039b758d22d1b5f75a7451d6d44b", null ],
       [ "KEEPER", "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a0ed045ed8cb14e824a1e372dd5398682", null ],
-      [ "CLOSEST_TO_BALL", "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67ad703e95162a94e739a09ef2040db5d9d", null ]
+      [ "CLOSEST_TO_BALL", "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67ad703e95162a94e739a09ef2040db5d9d", null ],
+      [ "CAN_DETECT_BALL", "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a55ce2fe53a7b2039f6acfcac2eed55e9", null ]
     ] ],
     [ "PriorityOrder", "Dealer_8h.html#a7d554a3f16aad4c232be90471be5952a", null ]
 ];
