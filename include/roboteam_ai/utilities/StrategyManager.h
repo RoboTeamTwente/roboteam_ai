@@ -38,8 +38,8 @@ class StrategyManager {
         RefGameState(RefCommand::GOAL_US, "kickoff_them_prepare", "default"), RefGameState(RefCommand::GOAL_THEM, "kickoff_us_prepare", "default"),
         RefGameState(RefCommand::BALL_PLACEMENT_US, "ball_placement_us", "ballplacement_us"),
         RefGameState(RefCommand::BALL_PLACEMENT_THEM, "ball_placement_them", "ballplacement_them"), RefGameState(RefCommand::DIRECT_FREE_US, "free_kick_us", "default"),
-        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them", "default"), RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_us", "default"),
-        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them", "default"),
+        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them", "stop"), RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_us", "default"),
+        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them", "stop"),
 
         // prepare commands
         // These have a follow up command
