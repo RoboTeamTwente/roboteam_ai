@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"TestTactic_8h_source.html":[10,0,1,0,3,6,5],
 "TheyDoNotHaveBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,15],
 "TheyDoNotHaveBallGlobalEvaluation_8h.html":[10,0,1,0,3,2,1,15],
 "TheyDoNotHaveBallGlobalEvaluation_8h_source.html":[10,0,1,0,3,2,1,15],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "World_8cpp.html":[10,0,2,5,5],
 "World_8hpp.html":[10,0,1,0,5,7],
 "World_8hpp_source.html":[10,0,1,0,5,7],
-"annotated.html":[9,0],
-"classMockTactic.html":[9,0,14]
+"annotated.html":[9,0]
 };
