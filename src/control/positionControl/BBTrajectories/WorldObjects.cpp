@@ -105,7 +105,6 @@ void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::
     }
 
     for (size_t i = 1; i < ballTrajectory.size(); i++) {
-        if (dist == 0) dist = ai::stp::control_constants::ROBOT_RADIUS * 2.0;
         if (pathPoints[i].dist(ballTrajectory[i]) < dist){
             insertCollisionData(collisionDatas, CollisionData{ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision"});
             return;
