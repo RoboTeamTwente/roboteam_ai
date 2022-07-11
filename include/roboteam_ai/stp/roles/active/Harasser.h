@@ -1,22 +1,22 @@
 //
-// Created by jordi on 26-03-20.
+// Created by tijmen on 24-04-22.
 //
 
-#ifndef RTT_DEFENDER_H
-#define RTT_DEFENDER_H
+#ifndef RTT_HARASSER_H
+#define RTT_HARASSER_H
 
 #include "stp/Role.hpp"
 
 namespace rtt::ai::stp::role {
 
-class Defender : public Role {
+class Harasser : public Role {
    public:
     /**
      * Ctor that sets the name of the role and creates a state machine of tactics
      * @param name name of the role
      */
-    Defender(std::string name);
+    Harasser(std::string name);
 };
 }  // namespace rtt::ai::stp::role
 
-#endif  // RTT_DEFENDER_H
+#endif  // RTT_HARASSER_H

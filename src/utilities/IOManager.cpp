@@ -107,7 +107,7 @@ void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands)
     if (state.has_last_seen_world()) {
         const auto world = getState().last_seen_world();
         const auto robots = rtt::SETTINGS.isYellow() ? world.yellow() : world.blue();
-        for (auto &robotCommand : robotCommands) {
+        for (auto& robotCommand : robotCommands) {
             for (const auto robot : robots) {
                 if (robot.id() == robotCommand.id) {
                     robotCommand.cameraAngleOfRobot = robot.angle();
@@ -119,7 +119,7 @@ void IOManager::addCameraAngleToRobotCommands(rtt::RobotCommands& robotCommands)
 }
 
 void IOManager::publishAllRobotCommands(rtt::RobotCommands& robotCommands) {
-    if (!pause->getPause()) {
+    if (!pause->getPause() && !robotCommands.empty()) {
         this->addCameraAngleToRobotCommands(robotCommands);
 
         this->publishRobotCommands(robotCommands, rtt::SETTINGS.isYellow());
@@ -130,9 +130,9 @@ bool IOManager::publishRobotCommands(const rtt::RobotCommands& aiCommand, bool f
     bool sentCommands = false;
 
     if (forTeamYellow && this->robotCommandsYellowPublisher != nullptr) {
-        sentCommands = this->robotCommandsYellowPublisher->publish(aiCommand);
+        sentCommands = this->robotCommandsYellowPublisher->publish(aiCommand) > 0;
     } else if (!forTeamYellow && this->robotCommandsBluePublisher != nullptr) {
-        sentCommands = this->robotCommandsBluePublisher->publish(aiCommand);
+        sentCommands = this->robotCommandsBluePublisher->publish(aiCommand) > 0;
     }
 
     if (!sentCommands) {
@@ -183,7 +183,7 @@ bool IOManager::obtainTeamColorChannel(bool toYellowChannel) {
 
 bool IOManager::sendSimulationConfiguration(const proto::SimulationConfiguration& configuration) {
     if (this->simulationConfigurationPublisher != nullptr) {
-        return this->simulationConfigurationPublisher->publish(configuration);
+        return this->simulationConfigurationPublisher->publish(configuration) > 0;
     }
     return false;
 }

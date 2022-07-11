@@ -9,6 +9,7 @@
 #include "stp/tactics/active/KickAtPos.h"
 
 #include "control/ControlUtils.h"
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/Kick.h"
 #include "stp/skills/Rotate.h"
 
@@ -29,7 +30,7 @@ std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noe
     skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the kick force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
+    double distanceBallToTarget = (info.getBall()->get()->position - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     skillStpInfo.setDribblerSpeed(100);
@@ -45,7 +46,7 @@ bool KickAtPos::isEndTactic() noexcept {
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    return !info.getRobot().value()->hasBall() || !info.getPositionToShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {

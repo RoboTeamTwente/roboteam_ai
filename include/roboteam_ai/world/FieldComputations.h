@@ -9,6 +9,8 @@
 
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
+#include "stp/constants/ControlConstants.h"
+#include "utilities/StpInfoEnums.h"
 #include "views/WorldDataView.hpp"
 #include "world/Field.h"
 
@@ -30,20 +32,10 @@ namespace rtt_world = rtt::world;
 class FieldComputations {
    private:
     static constexpr double NEGLIGIBLE_LENGTH = 0.000001;  // If a line length is below or equal to this threshold then is it neglected during determining the blockades.
+    static constexpr double PROJECTION_MARGIN =
+        0.02;  // Some extra padding that is added when projecting positions, to make sure that the projected position is not exactly on lines/intersections
 
    public:
-    /**
-     * Determines whether a given point is in our/their defence area
-     * @param field The field class which is used to determine the position of the defence areas.
-     * @param point The point for which it is checked whether it is in our/their defence area.
-     * @param isOurDefenceArea True if our defence area is used, false if the opponents defence area is used.
-     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
-     * that it will be expanded, a negative value means that it will be shrunk.
-     * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
-     * @return True if the point is in the defence area, false otherwise.
-     */
-    static bool pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin);
-
     /**
      * Determines whether a given point is in either defense area
      * @param field The field class which is used to determine the position of the defense areas.
@@ -81,32 +73,89 @@ class FieldComputations {
      * Check whether a given point is in the field.
      * @param field The field class which is used to determine the boundaries of the field.
      * @param point The point for which it is checked whether it is in the field or not.
-     * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
-     * expanded, a negative value means that the field area will be shrinked.
+     * @param margin The outwards margin in which the rectangular field area will get expanded/shrunk in all directions. A positive value means that the field area will be
+     * expanded, a negative value means that the field area will be shrunk.
      * @return True if the point is in the field, false otherwise.
      */
     static bool pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
 
     /**
-     * Check whether a given point is a valid position (inside field, outside defense area's)
+     * Check whether a given point is a valid position given which parts of the field should be avoided (note that shouldAvoidBall is not taken into consideration)
      * @param field The field class which is used to determine the boundaries of the field.
      * @param point The point for which it is checked whether it is valid or not
-     * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
-     * expanded, a negative value means that the field area will be shrinked.
-     * @return True if the point is in the field and outside both defense area's
+     * @param avoidObjects Struct indicating which areas of the field should be avoided. Defaults to avoid entering the defense area and leaving the field
+     * @return True if the point is not within any area that has to be avoided according to avoidObjects (note that shouldAvoidBall is not taken into consideration)
      */
-    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
+    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0.0,
+                                     double ourDefenseAreaMargin = 0.0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
 
     /**
-     * Check whether a given point is a valid position for a certain id.
-     * @param field The field class which is used to determine the boundaries of the field.
-     * @param point The point for which it is checked whether it is valid or not
-     * @param roleName the name of the role associated with this robot
-     * @param margin The outwards margin in which the rectangular field area will get expanded/shrinked in all directions. A positive value means that the field area will be
-     * expanded, a negative value means that the field area will be shrinked.
-     * @return True if the point is a valid target position for this robot id (inside of field and outside of defense area, unless robot is keeper or ball placer)
+     * Project given position to within the field with a certain margin
+     * @param field The field class used to determine where the field lines are
+     * @param point The position to be projected to within the field
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the field lines
+     * @return The position closest to the given point that is inside the field with the given margin
+     * If the given point is already inside the field, the same point is returned
      */
-    static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, std::string roleName, double margin = 0.0);
+    static Vector2 projectPointInField(const rtt::world::Field &field, Vector2 point, double margin = 0);
+
+    /**
+     * Project given position to outside the defense areas with a certain margin
+     * @param field The field class used to determine where the defense area is
+     * @param point The position to be projected to outside of the defense area
+     * @param margin The margin that should be used when calculating the new position. The position will have a minimum of this distance to the defense area
+     * @return The position closest to the given point that is outside of either defense area with the given margin and within the field.
+     * Note that the returned position will always be within the field, even if this is not the closest position that is out of the defense area.
+     * If the given point is already out of the defense area, this same point is returned.
+     */
+    static Vector2 projectPointOutOfDefenseArea(const rtt::world::Field &field, Vector2 point, double ourDefenseAreaMargin = 0.0,
+                                                double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+
+    /**
+     * Project given position to a valid position given which parts of the field should be avoided (note that shouldAvoidBall is not taken into consideration)
+     * @param field The field class which is used to determine the boundaries of the field.
+     * @param point The point to be projected to a valid position
+     * @param avoidObjects Struct indicating which areas of the field should be avoided. Defaults to avoid entering the defense area and leaving the field
+     * @param fieldMargin The outwards margin in which the field area will get expanded/shrunk in all directions. A positive value means that the field area will be
+     * expanded, a negative value means that the field area will be shrunk.
+     * @param ourDefenseAreaMargin The outwards margin in which our defense area will get expanded/shrunk (except behind the goal). A positive value means that the defense area
+     * will be expanded, a negative value means that the defense area will be shrunk.
+     * @param theirDefenseAreaMargin The outwards margin in which their defense area will get expanded/shrunk
+     * @return The position closest to the given point that fulfills the criteria set in avoidObjects (except ball avoidance)
+     */
+    static Vector2 projectPointToValidPosition(const rtt::world::Field &field, Vector2 point, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0.0,
+                                               double ourDefenseAreaMargin = 0.0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
+
+    /**
+     * Projects the given point into the field on a line between two given points.
+     * @param field The field class which is used to determine the boundaries of the field.
+     * @param point The point to be projected into the field
+     * @param p1 First point on the line
+     * @param p2 Second point on the line
+     * @param fieldMargin The outwards margin in which the field area will get expanded/shrunk in all directions. A positive value means that the field area will be
+     * expanded, a negative value means that the field area will be shrunk.
+     * @return The position in the field closest to p1 on the line between p1 and p2.
+     * If no such position can be found, return the closest position in the field from the given point (but not on the given line).
+     */
+    static Vector2 projectPointIntoFieldOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, double fieldMargin = 0.0);
+
+    /**
+     * Projects the given point to a valid position, as defined by avoidObjects, on a line between two given points.
+     * @param field The field class which is used to determine the boundaries of the field.
+     * @param point The point to be projected to a valid position
+     * @param p1 First point on the line
+     * @param p2 Second point on the line
+     * @param avoidObjects Struct indicating which areas of the field should be avoided. Defaults to avoid entering the defense area and leaving the field
+     * @param fieldMargin The outwards margin in which the field area will get expanded/shrunk in all directions. A positive value means that the field area will be
+     * expanded, a negative value means that the field area will be shrunk.
+     * @param ourDefenseAreaMargin The outwards margin in which our defense area will get expanded/shrunk (except behind the goal). A positive value means that the defense area
+     * will be expanded, a negative value means that the defense area will be shrunk.
+     * @param theirDefenseAreaMargin The outwards margin in which their defense area will get expanded/shrunk
+     * @return The closest valid position to the given point on the line between p1 and p2.
+     * If no such position can be found, return the closest valid position to the given point (but not on the given line).
+     */
+    static Vector2 projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects = {}, double fieldMargin = 0,
+                                                     double ourDefenseAreaMargin = 0, double theirDefenseAreaMargin = stp::control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN);
 
     /**
      * Get the percentage of goal visible from a given point, i.e. how much of the goal can be reached by directly shooting a ball over the ground from a given point without
@@ -178,21 +227,23 @@ class FieldComputations {
      * @param lineEnd The location of the end of the LineSegment.
      * @param margin The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
      * be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked).
+     * @param ignoreGoalLine If true, do not count intersections with the goal line (the line of the defense area that overlaps with the left line of the field).
      * @return The closest intersection point to the start of the LineSegment. In case of no intersection point return a null pointer.
      */
-    static std::shared_ptr<Vector2> lineIntersectionWithDefenceArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd, double margin);
+    static std::shared_ptr<Vector2> lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd, double margin,
+                                                                    bool ignoreGoalLine = false);
 
     /**
      * Determine the intersection between a LineSegment and the field lines and return the intersection point closest to the start of the line (if the LineSegment
-     * does not intersect then return a null pointer).
+     * does not intersect then return a null_opt).
      * @param field The field used to determine where the defence area is located.
      * @param lineStart The location of the start of the LineSegment.
      * @param lineEnd The location of the end of the LineSegment.
      * @param margin The outwards margin in which the field area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
      * be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked).
-     * @return The closest intersection point to the start of the LineSegment. In case of no intersection point return a null pointer.
+     * @return The closest intersection point to the start of the LineSegment. In case of no intersection point return a null optional.
      */
-    static std::shared_ptr<Vector2> lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin);
+    static std::optional<Vector2> lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin);
 
     /**
      * Compute the total angle a given point makes with the goal, i.e. you create a triangle using this point and both upperside and lowerside of the goal and compute the angle
@@ -235,14 +286,6 @@ class FieldComputations {
      * @return The area (Polygon) that represents the entire field area.
      */
     static Polygon getFieldEdge(const rtt_world::Field &field, double margin = 0.0);
-
-    /**
-     * Returns a point that is inside the field, clips the given point to the boarders of the field (RIGHT: x=6.2 becomes x=6)
-     * @param field
-     * @param point that needs to be inside field
-     * @return point inside field
-     */
-    static Vector2 placePointInField(const rtt_world::Field &field, const Vector2 &point);
 
    private:
     /**

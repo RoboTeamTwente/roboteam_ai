@@ -8,14 +8,20 @@
 #include <roboteam_interface_utils/InterfaceController.h>
 #include <utilities/IOManager.h>
 
+#include <utils/Channels.hpp>
+
 namespace rtt::Interface {
-    class InterfaceControllerServer: public InterfaceController<16970, 1, 0, proto::ModuleState, proto::UiValues> {
-        bool hasPriorityData() const noexcept override;
+class InterfaceControllerServer : public InterfaceController<proto::ModuleState, proto::UiValues> {
+    InterfaceControllerServer()
+        : InterfaceController<proto::ModuleState, proto::UiValues>(rtt::net::utils::ChannelType::AI_TO_INTERFACE_CHANNEL, rtt::net::utils::ChannelType::INTERFACE_TO_AI_CHANNEL, 1,
+                                                                   0) {}
 
-        void handleData(const proto::UiValues &state) override;
+    bool hasPriorityData() const noexcept override;
 
-        proto::ModuleState getDataForRemote(bool expired) const noexcept override;
-    };
-}
+    void handleData(const proto::UiValues &state) override;
+
+    proto::ModuleState getDataForRemote(bool expired) const noexcept override;
+};
+}  // namespace rtt::Interface
 
 #endif  // RTT_INTERFACECONTROLLERSERVER_H

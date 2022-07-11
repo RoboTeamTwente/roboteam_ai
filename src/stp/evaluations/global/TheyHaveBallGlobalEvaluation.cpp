@@ -13,6 +13,6 @@ uint8_t TheyHaveBallGlobalEvaluation::metricCheck(const world::World* world, con
     if (them.empty()) {
         return stp::control_constants::FUZZY_FALSE;
     }
-    return std::any_of(them.begin(), them.end(), [](auto& robot) { return robot.hasBall(); }) ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
+    return std::any_of(them.begin(), them.end(), [](auto& robot) { return robot->hasBall(); }) ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
 }
 }  // namespace rtt::ai::stp::evaluation

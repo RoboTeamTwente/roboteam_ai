@@ -1,7 +1,3 @@
-//
-// Created by timovdk on 5/1/20.
-//
-
 #include "stp/plays/referee_specific/PenaltyUsPrepare.h"
 
 #include "stp/roles/passive/Formation.h"
@@ -31,35 +27,57 @@ uint8_t PenaltyUsPrepare::score(const rtt::world::Field& field) noexcept {
 }
 
 void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
-    const double xPosition = -4 * control_constants::ROBOT_RADIUS;
-    const double distanceToCenterLine = field.getFieldWidth() / 2 - 2 * control_constants::ROBOT_RADIUS;
-    const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine : -distanceToCenterLine;
-
-    // Keeper
+    // We need at least a keeper, and a kicker positioned behind the ball
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
+    stpInfos["kicker_formation"].setPositionToMoveTo(world->getWorld()->getBall()->get()->position - Vector2{0.25, 0.0});
 
-    // kicker, position right behind the ball
-    stpInfos["kicker_formation"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() - Vector2{0.25, 0.0});
+    // During our penalty, all our robots should be behind the ball to not interfere.
+    // Create a grid pattern of robots on our side of the field
 
-    // regular bots
-    const std::string formation = "formation_";
-    /// 1st row of 5 robots
-    for (int i = 1; i <= 5; i++) {
-        stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2((i + 10) * xPosition, yPosition));
+    // First, figure out at what interval the robots will stand on a horizontal line
+    double horizontalRange = std::fabs(field.getLeftmostX());
+    double horizontalHalfStep = horizontalRange / (5.0 * 2.0); // 5 robots for stepSize, divided by 2 for half stepSize
+
+    // Then, figure out vertical stepSize
+    double verticalRange = field.getBottomLeftOurDefenceArea().y - field.getBottommostY();
+    double verticalHalfStep = verticalRange / (2.0 * 2.0); // 2 rows, divided by 2 for half stepSize
+
+    double startX = -horizontalHalfStep;
+    double bottomY = field.getBottommostY() + verticalHalfStep;
+    double topY = bottomY + 2 * verticalHalfStep;
+
+    const std::string formationPrefix = "formation_";
+
+    /// Bottom row of 5 robots
+    for (int i = 0; i < 5; i++) {
+        auto formationName = formationPrefix + std::to_string(i);
+        auto position = Vector2(startX - i * 2 * horizontalHalfStep, bottomY);
+        stpInfos[formationName].setPositionToMoveTo(position);
+
+        auto angleToGoal = (field.getTheirGoalCenter() - position).toAngle();
+        stpInfos[formationName].setAngle(angleToGoal);
     }
 
-    /// 2nd row of 4 robots
-    for (int i = 6; i <= 9; i++) {
-        stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2((i + 5) * xPosition, yPosition + (2 * control_constants::ROBOT_RADIUS)));
+    /// Top row of 5 robots
+    for (int i = 5; i < 9; i++) {
+        auto formationName = formationPrefix + std::to_string(i);
+        auto position = Vector2(startX - (i - 5) * 2 * horizontalHalfStep, topY);
+        stpInfos[formationName].setPositionToMoveTo(position);
+
+        auto angleToGoal = (field.getTheirGoalCenter() - position).toAngle();
+        stpInfos[formationName].setAngle(angleToGoal);
     }
 }
 
 Dealer::FlagMap PenaltyUsPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag kickerFormationFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"kicker_formation", {DealerFlagPriority::REQUIRED, {kickerFormationFlag}}});
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag kickerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag kickerPreference(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"kicker_formation", {DealerFlagPriority::REQUIRED, {kickerPriority, kickerPreference}}});
     flagMap.insert({"formation_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"formation_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});

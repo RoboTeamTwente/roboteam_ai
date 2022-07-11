@@ -2,12 +2,13 @@
 // Created by mrlukasbos on 8-2-19.
 //
 
-#include "utilities/Constants.h"
-
 #include <assert.h>
 #include <roboteam_utils/Print.h>
 
-#include <iostream>
+#include "utilities/Settings.h"
+#include "utilities/Constants.h"
+
+// TODO: Clean this up and remove unneeded variables
 
 namespace rtt::ai {
 
@@ -56,7 +57,7 @@ bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
 
-double Constants::MAX_VEL_CMD() { return 8.191; }
+double Constants::MAX_VEL_CMD() { return 4.0; }
 
 int Constants::MAX_ID_CMD() { return 15; }
 
@@ -106,11 +107,7 @@ double Constants::OUT_OF_FIELD_MARGIN() { return 0.03; }
 
 double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
 
-double Constants::MAX_BALL_RANGE() { return 0.04; }
-
 double Constants::MAX_KICK_RANGE() { return 0.05; }
-
-double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
 double Constants::MAX_INTERCEPT_TIME() { return 3.0; }
 
@@ -166,6 +163,12 @@ bool Constants::STD_USE_REFEREE() { return true; }
 
 bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
 
+// The max distance the ball can be from the robot for the robot to have the ball
+double Constants::HAS_BALL_DISTANCE() { return (SETTINGS.getRobotHubMode() == Settings::BASESTATION) ? 0.11 : 0.12; }
+
+// The max angle the ball can have to the robot for the robot to have the ball
+double Constants::HAS_BALL_ANGLE() { return 0.10 * M_PI; }
+
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;
     workingDribblerRobots[0] = true;
@@ -188,6 +191,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     return workingDribblerRobots;
 }
 
+// TODO: Make robot send this information instead of us hardcoding these values
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
     workingBallSensorRobots[0] = false;
@@ -209,9 +213,36 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
 
     return workingBallSensorRobots;
 }
+
+// With the dribbler encoder, we can detect if the robot has the ball
+std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER_ENCODER() {
+    static std::map<int, bool> workingDribblerEncoderRobots;
+    workingDribblerEncoderRobots[0] = true;
+    workingDribblerEncoderRobots[1] = true;
+    workingDribblerEncoderRobots[2] = true;
+    workingDribblerEncoderRobots[3] = true;
+    workingDribblerEncoderRobots[4] = true;
+    workingDribblerEncoderRobots[5] = true;
+    workingDribblerEncoderRobots[6] = true;
+    workingDribblerEncoderRobots[7] = true;
+    workingDribblerEncoderRobots[8] = true;
+    workingDribblerEncoderRobots[9] = true;
+    workingDribblerEncoderRobots[10] = true;
+    workingDribblerEncoderRobots[11] = true;
+    workingDribblerEncoderRobots[12] = true;
+    workingDribblerEncoderRobots[13] = true;
+    workingDribblerEncoderRobots[14] = true;
+    workingDribblerEncoderRobots[15] = true;
+
+    return workingDribblerEncoderRobots;
+}
+
 bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) { return ROBOTS_WITH_WORKING_BALL_SENSOR()[id]; }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER()[id]; }
+
+bool Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER_ENCODER()[id]; }
+
 QColor Constants::FIELD_COLOR() { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); }
 
 QColor Constants::FIELD_LINE_COLOR() { return Qt::white; }

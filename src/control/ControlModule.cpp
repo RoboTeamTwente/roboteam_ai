@@ -22,34 +22,20 @@ void ControlModule::rotateRobotCommand(rtt::RobotCommand& command) {
 }
 
 void ControlModule::limitRobotCommand(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
-    // This was used to limit the velocity, but this is now done in pathtracking itself
-    // limitVel(command, robot);
+    limitVel(command, robot);
     limitAngularVel(command, robot);
 }
 
 void ControlModule::limitVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
-    Vector2 limitedVelocity = command.velocity;
-
-    limitedVelocity = control::ControlUtils::velocityLimiter(limitedVelocity);
-
-    // TODO: Is this check really necessary? There is no stuff like division used...
-    if (std::isnan(limitedVelocity.x) || std::isnan(limitedVelocity.y)) {
-        RTT_ERROR("A certain Skill has produced a NaN error. \nRobot: " + std::to_string(robot.value()->getId()))
-    }
-
-    // Limit robot velocity when the robot has the ball
-    if (robot->hasBall() && limitedVelocity.length() > stp::control_constants::MAX_VEL_WHEN_HAS_BALL) {
-        // Clamp velocity
-        limitedVelocity = control::ControlUtils::velocityLimiter(limitedVelocity, stp::control_constants::MAX_VEL_WHEN_HAS_BALL, 0.0, false);
-    }
-
-    command.velocity = limitedVelocity;
+    // The robot can currently not reach very low speeds- if we want it to move a non-trivial amount, we need to send a higher velocity than the path-planning outputs
+    if (command.velocity.length() > 0.05 && command.velocity.length() < 0.25) command.velocity = command.velocity.stretchToLength(0.25);
+    command.velocity = command.velocity.stretchToLength(std::clamp(command.velocity.length(), 0.0, Constants::MAX_VEL_CMD()));
 }
 
 void ControlModule::limitAngularVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
     // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
     // Might want to limit on the robot itself
-    if (robot->hasBall() && !command.useAngularVelocity) {
+    if (robot.value()->hasBall() && !command.useAngularVelocity) {
         auto targetAngle = command.targetAngle;
         // TODO: Why use optional robotView if we never check for the case where it does not contain one?
         auto robotAngle = robot.value()->getAngle();
@@ -85,7 +71,7 @@ void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView>
     if (robot) limitRobotCommand(robot_command, robot);
 
     // if we are in simulation; adjust w() to be angular velocity)
-    if (SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR) {
+    if (SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR && !robot_command.useAngularVelocity) {
         simulator_angular_control(robot, robot_command);
     }
 

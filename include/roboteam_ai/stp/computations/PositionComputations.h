@@ -58,28 +58,16 @@ class PositionComputations {
     static Vector2 getWallPosition(int index, int amountDefenders, const world::Field &field, world::World *world);
 
     /**
-     * Projects a position outside of the defense area onto the line between two given points
+     * Calculates a position, near the target position, that is not too close to the ball
+     * @param targetPosition The initial target position
+     * @param ballPosition The position of the ball
      * @param field The current field
-     * @param position The position to be projected outside the defense area
-     * @param p1 First point on the line
-     * @param p2 Second point on the line
-     * @param margin The distance that the position should have from the defense area
-     * @return A position outside of the defense area on the given line. If there are two intersections with the defense area,
-     * the returned point will be at the intersection closest to p1
+     * @return A position that is not within the min allowed distance to the ball
      */
-    static Vector2 ProjectPositionOutsideDefenseAreaOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin);
+    static Vector2 calculateAvoidBallPosition(Vector2 targetPosition, Vector2 ballPosition, const world::Field &field);
 
-    /**
-     * Projects a position into the field on a line between two given points
-     * @param field The current field
-     * @param position The position to be projected outside the defense area
-     * @param p1 First point on the line
-     * @param p2 Second point on the line
-     * @param margin The distance that the position should have from the defense area
-     * @return A position outside of the defense area on the given line. If there are two intersections with the defense area,
-     * the returned point will be at the intersection closest to p1
-     */
-    static Vector2 ProjectPositionIntoFieldOnLine(const world::Field &field, Vector2 position, Vector2 p1, Vector2 p2, double margin);
+   private:
+    static Vector2 calculatePositionOutsideOfShape(Vector2 ballPos, const world::Field &field, const std::unique_ptr<Shape> &avoidShape);
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_POSITIONCOMPUTATIONS_H

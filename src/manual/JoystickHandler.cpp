@@ -77,14 +77,24 @@ void JoystickHandler::changeRobotID() {
 }
 
 void JoystickHandler::doKick() {
+    static int counter = 0;
     if (joystickState.A) {
         command.kickType = KickType::KICK;
         command.kickSpeed = 3.5;
-        joystickState.A = false;
+        counter++;
+        // Loop 5 times to be sure that the robot actually kicks
+        if (counter >= 5) {
+            joystickState.A = false;
+            counter = 0;
+        }
     } else if (joystickState.B) {
         command.kickType = KickType::KICK;
         command.kickSpeed = 5;
-        joystickState.B = false;
+        counter++;
+        if (counter >= 5) {
+            joystickState.B = false;
+            counter = 0;
+        }
     } else {
         command.kickSpeed = 0.0;
     }
@@ -117,9 +127,7 @@ void JoystickHandler::updateOrientation() {
     command.useAngularVelocity = false;
     float dAngle = -joystickState.stickRight.x / 32768.0;
     robotAngle += dAngle * 0.05;
-    while (M_PI < robotAngle) robotAngle -= 2 * M_PI;
-    while (robotAngle < -M_PI) robotAngle += 2 * M_PI;
-    command.targetAngle = robotAngle;
+    command.targetAngle = Angle(robotAngle);
 }
 
 void JoystickHandler::updateVelocity() {

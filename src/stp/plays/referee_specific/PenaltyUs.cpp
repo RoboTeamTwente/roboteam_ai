@@ -35,11 +35,13 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;  // DONT TOUCH.
 
     /// Flags that have a factor and a weight linked to it, can be given to a role
-    Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag kickerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag kickerPreference(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
     /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerPriority, kickerPreference}}});
     flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -64,9 +66,6 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
 
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-
-    // TODO: the shoot position might need to change
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0, -2});
 
     // TODO: the shoot position might need to change
     stpInfos["kicker"].setPositionToShootAt(field.getTheirGoalCenter() + Vector2{1.0, 0.5});

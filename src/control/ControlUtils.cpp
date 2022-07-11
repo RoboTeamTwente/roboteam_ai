@@ -80,42 +80,6 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 }
 
-Vector2 ControlUtils::projectPositionToWithinField(const rtt::world::Field &field, Vector2 position, double margin) {
-    double hFieldLength = field.getFieldLength() / 2;
-    position.x = std::min(position.x, hFieldLength - margin);
-    position.x = std::max(position.x, -hFieldLength + margin);
-
-    double hFieldWidth = field.getFieldWidth() / 2;
-    position.y = std::min(position.y, hFieldWidth - margin);
-    position.y = std::max(position.y, -hFieldWidth + margin);
-
-    return position;
-}
-
-Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const rtt::world::Field &field, Vector2 position, double margin) {
-    if (FieldComputations::pointIsInOurDefenseArea(field, position, margin)) {
-        position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
-        return position;
-    }
-    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin)) {
-        position.x = std::min(position.x, field.getRightPenaltyX() - margin);
-        return position;
-    }
-    return position;
-}
-
-Vector2 ControlUtils::projectPointToValidPosition(const rtt::world::Field &field, Vector2 position, const std::string roleName, double margin) {
-    if (!FieldComputations::pointIsInField(field, position)) {
-        position = projectPositionToWithinField(field, position, margin);
-    }
-    bool isKeeper = roleName == "keeper";
-    if (FieldComputations::pointIsInTheirDefenseArea(field, position, margin, margin) ||
-        (!isKeeper && FieldComputations::pointIsInOurDefenseArea(field, position, margin, margin))) {
-        position = projectPositionToOutsideDefenseArea(field, position, margin);
-    }
-    return position;
-}
-
 /// Calculates the chip force
 double ControlUtils::determineChipForce(const double distance, stp::ShotType shotType) noexcept {
     // TODO: Needs further tuning
@@ -148,7 +112,7 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
 
     double kickForce;
     if (shotType == stp::ShotType::PASS) {
-        kickForce = SETTINGS.getRobotHubMode() == Settings::RobotHubMode::BASESTATION ? 1 : 1.5;
+        kickForce = 1.5;
     } else if (shotType == stp::ShotType::TARGET) {
         kickForce = 0.5;
     } else {

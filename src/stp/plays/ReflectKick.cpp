@@ -11,7 +11,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/BallReflector.h"
 #include "stp/roles/active/Passer.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -34,9 +34,9 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_3"))};
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_3"))};
 }
 
 uint8_t ReflectKick::score(const rtt::world::Field &field) noexcept {
@@ -83,8 +83,8 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall().value();
     std::optional<Vector2> intersection;
 
-    if ((ball->getPos() - passPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-        LineSegment ballDirection = LineSegment(ball->getPos(), ball->getPos() + ball->getVelocity());
+    if ((ball->position - passPosition).length() <= 2.0 && ball->velocity.length() > 0.1) {
+        LineSegment ballDirection = LineSegment(ball->position, ball->position + ball->velocity);
         LineSegment betweenPassAndGoal = LineSegment(passPosition, field.getTheirGoalCenter());
         intersection = ballDirection.intersects(betweenPassAndGoal);
     }
@@ -138,7 +138,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Keeper
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToShootAt(Vector2());
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0));
 }
 
 const char *ReflectKick::getName() { return "Reflect Kick"; }

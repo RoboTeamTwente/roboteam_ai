@@ -6,7 +6,7 @@
 #define RTT_ROBOT_VIEW_HPP
 
 #include <roboteam_utils/Vector2.h>
-#include <stp/constants/ControlConstants.h>
+#include <utilities/Constants.h>
 
 #include <world/Robot.hpp>
 
@@ -20,8 +20,6 @@ namespace rtt::world::view {
  */
 class RobotView {
     robot::Robot const *robotPtr;
-
-    [[nodiscard]] bool hasBallAccordingToVision(double maxDist, double maxAngle) const noexcept;
 
    public:
     /**
@@ -77,15 +75,6 @@ class RobotView {
     RobotView(RobotView &&) = default;
 
     ~RobotView() = default;
-
-    /**
-     * Check whether the current robot has the ball
-     * @param distanceErrorMargin distance error margin for ball possession
-     * @param angleErrorMargin angle error margin for ball possession
-     * @return true if ballSensorSeesBall (both sim or irl) or when ball is within dist/angle margin (only irl)
-     */
-    [[nodiscard]] bool hasBall(double distanceErrorMargin = ai::stp::control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN,
-                               double angleErrorMargin = ai::stp::control_constants::HAS_BALL_ANGLE_ERROR_MARGIN) const noexcept;
 
     /**
      * Gets the kicker for the Robot that this view is viewing

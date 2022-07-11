@@ -8,7 +8,7 @@
 #include "stp/evaluations/position/TimeToPositionEvaluation.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/BallGetter.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 #include "stp/roles/passive/Waller.h"
 
@@ -27,9 +27,9 @@ GetBallPossession::GetBallPossession() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_0")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
@@ -57,15 +57,13 @@ void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcep
     // TODO-Jaro: When futureSTPInfo is a thing, make posToShootAt the receiver of a pass if that will be the next Play
     stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["ball_getter"].setRoleScore(evaluation::TimeToPositionEvaluation().metricCheck(
-        world->getWorld()->getRobotClosestToBall(world::us), world->getWorld()->getRobotClosestToBall(world::them), world->getWorld()->getBall().value()->getPos()));
+        world->getWorld()->getRobotClosestToBall(world::us), world->getWorld()->getRobotClosestToBall(world::them), world->getWorld()->getBall().value()->position));
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     calculateInfoForScoredRoles(world);
 
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    // If keeper has ball, shoot at one of our robots thats closest to our goal
-    stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
@@ -94,12 +92,12 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    Dealer::DealerFlag ballGetterFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag canDetectBallFlag(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {ballGetterFlag}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {canDetectBallFlag, closeToBallFlag}}});
     flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});

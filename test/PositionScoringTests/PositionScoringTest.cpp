@@ -76,13 +76,13 @@ void saveRobotLocations(world::World* world, world::Team team, const std::string
 void saveBallLocation(world::World* world, const std::string& fileName) {
     std::ofstream f;
     f.open(fileName);
-    f << world->getWorld()->getBall()->get()->getPos().x << ", " << world->getWorld()->getBall()->get()->getPos().y << "\n";
+    f << world->getWorld()->getBall()->get()->position.x << ", " << world->getWorld()->getBall()->get()->position.y << "\n";
     f.close();
 }
 }  // namespace rtt
 
 int main(int argc, char* argv[]) {
-    //rtt::ai::Constants::init();
+    // rtt::ai::Constants::init();
     auto world = rtt::generateWorld();
 
     /// Set the profile to be used when scoring positions

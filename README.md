@@ -1,14 +1,11 @@
 # RoboTeam AI
 This repository holds the logic for decision making and high-level robot control for RoboTeam Twente. For more information, be sure to check out our wiki!
 
-## Build status
+➡️ [Documentation](https://roboteamtwente.github.io/roboteam_ai/index.html)
 
-###### Master    
-[![Build Status](https://travis-ci.com/RoboTeamTwente/roboteam_ai.svg?branch=master)](https://travis-ci.com/RoboTeamTwente/roboteam_ai)
-
-###### Development    
-[![Build Status](https://travis-ci.com/RoboTeamTwente/roboteam_ai.svg?branch=development)](https://travis-ci.com/RoboTeamTwente/roboteam_ai)
-
-[![CodeFactor](https://www.codefactor.io/repository/github/roboteamtwente/roboteam_ai/badge)](https://www.codefactor.io/repository/github/roboteamtwente/roboteam_ai)
+➡️ [Installation guide](https://github.com/RoboTeamTwente/roboteam_suite#installation)
 
 ---
+
+###### Development
+[![CodeFactor](https://www.codefactor.io/repository/github/roboteamtwente/roboteam_ai/badge)](https://www.codefactor.io/repository/github/roboteamtwente/roboteam_ai)

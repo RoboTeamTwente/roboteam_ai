@@ -68,6 +68,9 @@ class Constants {
     static double CENTRE_TO_FRONT();
     static double CLOSE_TO_BORDER_DISTANCE();
 
+    static double HAS_BALL_DISTANCE();
+    static double HAS_BALL_ANGLE();
+
     /// REF STATES ///
     static constexpr double MAX_VEL() { return 1.5; };
     static constexpr double MAX_STOP_STATE_VEL() { return 1.5; };
@@ -85,7 +88,6 @@ class Constants {
     static double OUT_OF_FIELD_MARGIN();
     static double MAX_BALL_BOUNCE_RANGE();
     static double MAX_BALL_RANGE();  // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double HAS_BALL_ANGLE();
     static double MAX_KICK_RANGE();
     static double MAX_PASS_DISTANCE();
     static bool REFLECT_KICK();
@@ -128,9 +130,11 @@ class Constants {
 
     static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER();
     static std::map<int, bool> ROBOTS_WITH_WORKING_BALL_SENSOR();
+    static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER_ENCODER();
 
     static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
     static bool ROBOT_HAS_WORKING_BALL_SENSOR(int id);
+    static bool ROBOT_HAS_WORKING_DRIBBLER_ENCODER(int id); // Needed to detect if we have the ball
 
     static QColor FIELD_COLOR();
     static QColor FIELD_LINE_COLOR();

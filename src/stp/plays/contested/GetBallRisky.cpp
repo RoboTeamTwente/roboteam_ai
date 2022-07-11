@@ -7,7 +7,7 @@
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/BallGetter.h"
 #include "stp/roles/active/PassReceiver.h"
-#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/BallDefender.h"
 
 namespace rtt::ai::stp::play {
 
@@ -29,12 +29,12 @@ GetBallRisky::GetBallRisky() : Play() {
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_0")),
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_1")),
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_2"))};
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_0")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("defender_2")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("midfielder_0")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("midfielder_1")),
+                                                                                 std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2"))};
 }
 
 uint8_t GetBallRisky::score(const rtt::world::Field &field) noexcept { return 120; }

@@ -33,7 +33,8 @@ enum class DealerFlagTitle {
     NOT_IMPORTANT,
     READY_TO_INTERCEPT_GOAL_SHOT,
     KEEPER,
-    CLOSEST_TO_BALL
+    CLOSEST_TO_BALL,
+    CAN_DETECT_BALL // Has a ballSensor and/or dribblerEncoder
 };
 
 /// Generalization for Priority of a role

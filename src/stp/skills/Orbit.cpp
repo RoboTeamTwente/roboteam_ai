@@ -4,12 +4,14 @@
 
 #include "stp/skills/Orbit.h"
 
+#include "stp/constants/ControlConstants.h"
+
 namespace rtt::ai::stp::skill {
 
 Status Orbit::onUpdate(const StpInfo &info) noexcept {
-    Vector2 directionVector = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos());
+    Vector2 directionVector = (info.getBall()->get()->position - info.getRobot()->get()->getPos());
     double normalAngle = directionVector.rotate(M_PI).rotate(M_PI_2).angle();
-    Angle targetAngle = (info.getPositionToShootAt().value() - info.getBall()->get()->getPos()).toAngle();
+    Angle targetAngle = (info.getPositionToShootAt().value() - info.getBall()->get()->position).toAngle();
 
     double margin = control_constants::ROBOT_RADIUS + 1.5 * stp::control_constants::BALL_RADIUS;
     double adjustDistance = (info.getRobot()->get()->getDistanceToBall() - margin);
@@ -32,7 +34,7 @@ Status Orbit::onUpdate(const StpInfo &info) noexcept {
     if (maxVel < 0.65) maxVel = 0.65;
     if (targetVelocity.length() > maxVel) targetVelocity = targetVelocity.stretchToLength(maxVel);
 
-    command.velocity = targetVelocity;
+    command.velocity = targetVelocity * 0.5;
 
     command.targetAngle = targetAngle;
 

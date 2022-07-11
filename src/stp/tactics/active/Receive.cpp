@@ -7,6 +7,7 @@
 
 #include "stp/tactics/active/Receive.h"
 
+#include "stp/constants/ControlConstants.h"
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"
 
@@ -47,7 +48,7 @@ bool Receive::isEndTactic() noexcept {
     return true;
 }
 
-double Receive::calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball) { return (ball->getPos() - robot->getPos()).angle(); }
+double Receive::calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball) { return (ball->position - robot->getPos()).angle(); }
 
 const char *Receive::getName() { return "Receive"; }
 

@@ -15,6 +15,6 @@ uint8_t BallIsFreeGlobalEvaluation::metricCheck(const world::World* world, const
     if (robots.empty()) {
         return stp::control_constants::FUZZY_TRUE;
     }
-    return std::any_of(robots.begin(), robots.end(), [](auto& robot) { return robot.hasBall(); }) ? stp::control_constants::FUZZY_FALSE : stp::control_constants::FUZZY_TRUE;
+    return std::any_of(robots.begin(), robots.end(), [](auto& robot) { return robot->hasBall(); }) ? stp::control_constants::FUZZY_FALSE : stp::control_constants::FUZZY_TRUE;
 }
 }  // namespace rtt::ai::stp::evaluation

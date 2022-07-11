@@ -29,7 +29,7 @@ BallCloseToUsGlobalEvaluation::BallCloseToUsGlobalEvaluation() noexcept {
 
 uint8_t BallCloseToUsGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
     auto& us = world->getWorld()->getUs();
-    auto ballPos = world->getWorld()->getBall()->get()->getPos();
+    auto ballPos = world->getWorld()->getBall()->get()->position;
     std::vector<double> distances{};
 
     if (us.empty()) {

@@ -5,11 +5,13 @@
 #ifndef RTT_STPINFOENUMS_H
 #define RTT_STPINFOENUMS_H
 
+#include "stp/constants/ControlConstants.h"
+
 namespace rtt::ai::stp {
 /**
  * The distance the robot should block at
  */
-enum class BlockDistance { CLOSE, HALFWAY, FAR };
+enum class BlockDistance { ROBOTRADIUS, CLOSE, PARTWAY, HALFWAY, FAR };
 
 /**
  * Whether this robot should kick or chip in the shoot skill
@@ -38,6 +40,7 @@ struct AvoidObjects {
     bool shouldAvoidBall = false;
     bool shouldAvoidDefenseArea = true;
     bool shouldAvoidOutOfField = true;
+    double avoidBallDist = 2.0 * stp::control_constants::ROBOT_RADIUS;
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_STPINFOENUMS_H

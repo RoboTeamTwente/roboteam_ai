@@ -50,11 +50,6 @@ class FreeKickThem : public Play {
     void calculateInfoForKeeper() noexcept;
 
     /**
-     * Calculates info the the blockers, which block off enemy robots
-     */
-    void calculateInfoForBlockers() noexcept;
-
-    /**
      * Calculates info for the defenders, which defend the goal
      */
     void calculateInfoForDefenders() noexcept;
@@ -63,6 +58,11 @@ class FreeKickThem : public Play {
      * Calculates info for the offenders
      */
     void calculateInfoForOffenders() noexcept;
+
+    /**
+     *  Calculates info for the harassers
+     */
+    void calculateInfoForHarassers() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 

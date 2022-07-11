@@ -244,6 +244,7 @@ void Dealer::distributeFixedIds(std::vector<v::RobotView> &robots, FlagMap &flag
         }
 
         if (!robot_found) RTT_ERROR("Could not find robot with required id ", required_id, " for role ", role->first, ". This forced assignment will be ignored.");
+        role++;
     }
 }
 
@@ -351,7 +352,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::WITH_WORKING_DRIBBLER:
             return costForProperty(robot->isWorkingDribbler());
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
-            LineSegment lineSegment = {world.getBall()->get()->getPos(), world.getBall()->get()->getPos() + world.getBall()->get()->getVelocity().stretchToLength(fieldLength)};
+            LineSegment lineSegment = {world.getBall()->get()->position, world.getBall()->get()->position + world.getBall()->get()->velocity.stretchToLength(fieldLength)};
             constexpr double MAX_ANGLE = M_PI / 6.0;
             auto angleDiff = (lineSegment.end - lineSegment.start).toAngle().shortestAngleDiff(robot->getPos() - lineSegment.start);
             return std::pow((1 / (MAX_ANGLE)) * (MAX_ANGLE - angleDiff), 2);
@@ -362,9 +363,17 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return costForProperty(robot->getId() == world.getRobotClosestToBall(rtt::world::us)->get()->getId());
         case DealerFlagTitle::NOT_IMPORTANT:
             return 0;
+        case DealerFlagTitle::CAN_DETECT_BALL: {
+            bool hasWorkingBallSensor = Constants::ROBOT_HAS_WORKING_BALL_SENSOR(robot->getId());
+            bool hasDribblerEncoder = Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(robot->getId());
+            return costForProperty(hasWorkingBallSensor || hasDribblerEncoder);
+        }
+
+        default: {
+            RTT_WARNING("Unhandled dealerflag!")
+            return 0;
+        }
     }
-    RTT_WARNING("Unhandled dealerflag!")
-    return 0;
 }
 
 void Dealer::setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output) {

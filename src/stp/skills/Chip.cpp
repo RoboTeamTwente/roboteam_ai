@@ -4,6 +4,8 @@
 
 #include "stp/skills/Chip.h"
 
+#include "stp/constants/ControlConstants.h"
+
 namespace rtt::ai::stp::skill {
 
 Status Chip::onUpdate(const StpInfo &info) noexcept {
@@ -38,7 +40,7 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
+    if (info.getBall()->get()->velocity.length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
         chipAttempts = 0;
         return Status::Success;
     }
