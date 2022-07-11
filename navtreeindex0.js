@@ -244,10 +244,10 @@ var NAVTREEINDEX0 =
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67abc15041bb7ad24c5d5ce6c55a9d50f8e":[10,0,1,0,4,1,6,1],
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67abfc3039b758d22d1b5f75a7451d6d44b":[10,0,1,0,4,1,6,7],
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67ad703e95162a94e739a09ef2040db5d9d":[10,0,1,0,4,1,6,9],
+"Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67af7d59f4e29c18dc164f77922c6c0145b":[10,0,1,0,4,1,6,11],
 "Dealer_8h_source.html":[10,0,1,0,4,1],
 "DefendPass_8cpp.html":[10,0,2,3,3,1,0],
 "DefendPass_8h.html":[10,0,1,0,3,3,1,0],
 "DefendPass_8h_source.html":[10,0,1,0,3,3,1,0],
-"DefendShot_8cpp.html":[10,0,2,3,3,1,1],
-"DefendShot_8h.html":[10,0,1,0,3,3,1,1]
+"DefendShot_8cpp.html":[10,0,2,3,3,1,1]
 };
