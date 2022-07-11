@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['dealer_2248',['Dealer',['../classrtt_1_1ai_1_1Dealer.html',1,'rtt::ai']]],
-  ['dealerflag_2249',['DealerFlag',['../structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html',1,'rtt::ai::Dealer']]],
-  ['defendpass_2250',['DefendPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html',1,'rtt::ai::stp::play']]],
-  ['defendshot_2251',['DefendShot',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html',1,'rtt::ai::stp::play']]],
-  ['defensivestopformation_2252',['DefensiveStopFormation',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html',1,'rtt::ai::stp::play']]],
-  ['densepathtracking_2253',['DensePathTracking',['../classrtt_1_1ai_1_1control_1_1DensePathTracking.html',1,'rtt::ai::control']]],
-  ['distancefromballglobalevaluation_2254',['DistanceFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1DistanceFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
-  ['drawing_2255',['Drawing',['../structrtt_1_1ai_1_1interface_1_1Drawing.html',1,'rtt::ai::interface']]],
-  ['drivewithball_2256',['DriveWithBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html',1,'rtt::ai::stp::tactic']]]
+  ['dealer_2257',['Dealer',['../classrtt_1_1ai_1_1Dealer.html',1,'rtt::ai']]],
+  ['dealerflag_2258',['DealerFlag',['../structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html',1,'rtt::ai::Dealer']]],
+  ['defendpass_2259',['DefendPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html',1,'rtt::ai::stp::play']]],
+  ['defendshot_2260',['DefendShot',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html',1,'rtt::ai::stp::play']]],
+  ['defensivestopformation_2261',['DefensiveStopFormation',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html',1,'rtt::ai::stp::play']]],
+  ['densepathtracking_2262',['DensePathTracking',['../classrtt_1_1ai_1_1control_1_1DensePathTracking.html',1,'rtt::ai::control']]],
+  ['distancefromballglobalevaluation_2263',['DistanceFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1DistanceFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['drawing_2264',['Drawing',['../structrtt_1_1ai_1_1interface_1_1Drawing.html',1,'rtt::ai::interface']]],
+  ['drivewithball_2265',['DriveWithBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html',1,'rtt::ai::stp::tactic']]]
 ];

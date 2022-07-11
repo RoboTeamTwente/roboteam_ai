@@ -106,11 +106,10 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[10,0,1,0,3,9,1],
 "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html#structrtt_1_1ai_1_1stp_1_1PlayEvaluator_1_1PlayScoring":[9,0,0,0,3,13,0],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html":[9,0,0,0,3,9],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe":[9,0,0,0,3,9,5],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab02389c2e7f4d881acdf4dd11e04effe":[9,0,0,0,3,9,4],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab32df84c366c10c971529390bdfe0d5f":[9,0,0,0,3,9,1],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html#ab725d05b0a8f276b14732b65bb52b318":[9,0,0,0,3,9,0],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#abe8970b8c1238aa9b886c7b74711c9a7":[9,0,0,0,3,9,4],
-"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#acc950c394f1575479a78cb14a753258e":[9,0,0,0,3,9,3],
+"classrtt_1_1ai_1_1stp_1_1PositionComputations.html#abe8970b8c1238aa9b886c7b74711c9a7":[9,0,0,0,3,9,3],
 "classrtt_1_1ai_1_1stp_1_1PositionComputations.html#aeb15a3e633899a90ab80e5e008345604":[9,0,0,0,3,9,2],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html":[9,0,0,0,3,10],
 "classrtt_1_1ai_1_1stp_1_1PositionScoring.html#a1eb43dc9737f55dcd04ea3a844a36493":[9,0,0,0,3,10,2],
@@ -249,5 +248,6 @@ var NAVTREEINDEX7 =
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToUsGlobalEvaluation.html#a755ac5c77306354a2f460dfe6b7514a7":[9,0,0,0,3,1,21,1],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToUsGlobalEvaluation.html#aad51bcb21b03ce3fd0416f705af962e2":[9,0,0,0,3,1,21,0],
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToUsGlobalEvaluation.html#acebab6cec0b55465f9ec493c5a986f1c":[9,0,0,0,3,1,21,2],
-"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToUsGlobalEvaluation.html#acffc6a87dffe52901d222217bbf4c371":[9,0,0,0,3,1,21,3]
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToUsGlobalEvaluation.html#acffc6a87dffe52901d222217bbf4c371":[9,0,0,0,3,1,21,3],
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallClosestToUsGlobalEvaluation.html":[9,0,0,0,3,1,19]
 };
