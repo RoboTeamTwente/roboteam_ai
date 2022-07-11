@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"PathPlanningAlgorithm_8h_source.html":[10,0,1,0,0,0,1,1],
 "PathPointNode_8cpp.html":[10,0,2,0,0,4],
 "PathPointNode_8h.html":[10,0,1,0,0,0,4],
 "PathPointNode_8h_source.html":[10,0,1,0,0,0,4],
@@ -249,5 +248,6 @@ var NAVTREEINDEX2 =
 "TestSkill_8h.html":[10,0,1,0,3,5,7],
 "TestSkill_8h_source.html":[10,0,1,0,3,5,7],
 "TestTactic_8cpp.html":[10,0,2,3,6,5],
-"TestTactic_8h.html":[10,0,1,0,3,6,5]
+"TestTactic_8h.html":[10,0,1,0,3,6,5],
+"TestTactic_8h_source.html":[10,0,1,0,3,6,5]
 };

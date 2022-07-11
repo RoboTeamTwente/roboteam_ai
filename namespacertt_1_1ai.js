@@ -34,8 +34,7 @@ var namespacertt_1_1ai =
       [ "READY_TO_INTERCEPT_GOAL_SHOT", "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67abfc3039b758d22d1b5f75a7451d6d44b", null ],
       [ "KEEPER", "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a0ed045ed8cb14e824a1e372dd5398682", null ],
       [ "CLOSEST_TO_BALL", "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67ad703e95162a94e739a09ef2040db5d9d", null ],
-      [ "CAN_DETECT_BALL", "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a55ce2fe53a7b2039f6acfcac2eed55e9", null ],
-      [ "CAN_KICK_BALL", "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67af7d59f4e29c18dc164f77922c6c0145b", null ]
+      [ "CAN_DETECT_BALL", "namespacertt_1_1ai.html#af94a343fb77dcbf6d2e2d24393ab4c67a55ce2fe53a7b2039f6acfcac2eed55e9", null ]
     ] ],
     [ "TEST", "namespacertt_1_1ai.html#aa2a4c7c293225bf00bd8ad219beb9c8b", null ],
     [ "ballPossession", "namespacertt_1_1ai.html#a9457b19246a0fad5b0fa54eee2dd7afa", null ],

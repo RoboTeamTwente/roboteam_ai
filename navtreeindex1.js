@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"DefendShot_8h.html":[10,0,1,0,3,3,1,1],
 "DefendShot_8h_source.html":[10,0,1,0,3,3,1,1],
 "DefensiveStopFormation_8cpp.html":[10,0,2,3,3,3,3],
 "DefensiveStopFormation_8h.html":[10,0,1,0,3,3,3,3],
@@ -249,5 +248,6 @@ var NAVTREEINDEX1 =
 "PassingTests_8cpp.html#ad5bf1d57fa975a41f417ca6f10edb32f":[10,0,3,3,0,0],
 "PassingTests_8cpp.html#ae1559e0b63e341e74c010fcc422cf55d":[10,0,3,3,0,1],
 "PathPlanningAlgorithm_8cpp.html":[10,0,2,0,0,1,1],
-"PathPlanningAlgorithm_8h.html":[10,0,1,0,0,0,1,1]
+"PathPlanningAlgorithm_8h.html":[10,0,1,0,0,0,1,1],
+"PathPlanningAlgorithm_8h_source.html":[10,0,1,0,0,0,1,1]
 };
