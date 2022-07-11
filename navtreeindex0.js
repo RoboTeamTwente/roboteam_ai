@@ -238,6 +238,7 @@ var NAVTREEINDEX0 =
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a2b4671aba77bf173ab74c6d65817a114":[10,0,1,0,4,1,6,5],
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a3b371a4c0494163839361432478cc11b":[10,0,1,0,4,1,6,3],
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a3b716737d3658eb261862decc379cf29":[10,0,1,0,4,1,6,2],
+"Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a55ce2fe53a7b2039f6acfcac2eed55e9":[10,0,1,0,4,1,6,10],
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67a9d6d6e074c36a06bc5e2b1aa9c2776b8":[10,0,1,0,4,1,6,0],
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67aac0e2e4aa6cbbee20fe1379efba0836c":[10,0,1,0,4,1,6,4],
 "Dealer_8h.html#af94a343fb77dcbf6d2e2d24393ab4c67abc15041bb7ad24c5d5ce6c55a9d50f8e":[10,0,1,0,4,1,6,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "DefendPass_8h.html":[10,0,1,0,3,3,1,0],
 "DefendPass_8h_source.html":[10,0,1,0,3,3,1,0],
 "DefendShot_8cpp.html":[10,0,2,3,3,1,1],
-"DefendShot_8h.html":[10,0,1,0,3,3,1,1],
-"DefendShot_8h_source.html":[10,0,1,0,3,3,1,1]
+"DefendShot_8h.html":[10,0,1,0,3,3,1,1]
 };

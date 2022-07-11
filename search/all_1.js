@@ -53,7 +53,6 @@ var searchData=
   ['avoidball_60',['AvoidBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html#ad06d6499248ab06d3824042d1736594d',1,'rtt::ai::stp::tactic::AvoidBall::AvoidBall()'],['../classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html',1,'rtt::ai::stp::tactic::AvoidBall']]],
   ['avoidball_2ecpp_61',['AvoidBall.cpp',['../AvoidBall_8cpp.html',1,'']]],
   ['avoidball_2eh_62',['AvoidBall.h',['../AvoidBall_8h.html',1,'']]],
-  ['avoidballdist_63',['avoidBallDist',['../namespacertt_1_1ai_1_1stp.html#a6577b099f78be27629402214f0ba3c35',1,'rtt::ai::stp::AvoidObjects']]],
-  ['avoidobjects_64',['avoidObjects',['../structrtt_1_1ai_1_1stp_1_1StpInfo.html#a410c71825d572f4fc63f0df9ba8f7b35',1,'rtt::ai::stp::StpInfo']]],
-  ['avoidobjects_65',['AvoidObjects',['../namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects',1,'rtt::ai::stp']]]
+  ['avoidobjects_63',['avoidObjects',['../structrtt_1_1ai_1_1stp_1_1StpInfo.html#a410c71825d572f4fc63f0df9ba8f7b35',1,'rtt::ai::stp::StpInfo']]],
+  ['avoidobjects_64',['AvoidObjects',['../namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects',1,'rtt::ai::stp']]]
 ];

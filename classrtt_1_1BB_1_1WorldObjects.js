@@ -1,7 +1,7 @@
 var classrtt_1_1BB_1_1WorldObjects =
 [
     [ "WorldObjects", "classrtt_1_1BB_1_1WorldObjects.html#a9464deea328dab65431edab4e16d0737", null ],
-    [ "calculateBallCollisions", "classrtt_1_1BB_1_1WorldObjects.html#aeae1c0580ed9ab9fc7f176a57242e34b", null ],
+    [ "calculateBallCollisions", "classrtt_1_1BB_1_1WorldObjects.html#a8a5197400c4fe8423ccf85cce1a4f0b8", null ],
     [ "calculateDefenseAreaCollisions", "classrtt_1_1BB_1_1WorldObjects.html#aef416746624258413278a867b8575f2e", null ],
     [ "calculateEnemyRobotCollisions", "classrtt_1_1BB_1_1WorldObjects.html#a892faa14b99f1b3b5a7cd6d7867ee16d", null ],
     [ "calculateFieldCollisions", "classrtt_1_1BB_1_1WorldObjects.html#ac31a685e3e1cbd603e1d860d49a2be6b", null ],
