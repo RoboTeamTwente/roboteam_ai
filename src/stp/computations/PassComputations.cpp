@@ -35,6 +35,9 @@ PassInfo PassComputations::calculatePass(gen::ScoreProfile profile, const rtt::w
     if (passerIt != us.end()) {
         passerLocation = passerIt->get()->getPos();
         us.erase(passerIt);
+    } else {
+        // If we could not find a passer, we return an empty passInfo
+        return {};
     }
 
     // This is a vector with the locations of all robots that could act as a receiver (ie all robots except the keeper and the passer)
