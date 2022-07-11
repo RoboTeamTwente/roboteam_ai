@@ -53,10 +53,12 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
         command.kickSpeed = std::clamp(info.getKickChipVelocity(), control_constants::MIN_KICK_POWER, control_constants::MAX_KICK_POWER);
         command.targetAngle = targetAngle;
         command.kickAtAngle = true;
+
     } else if (info.getRobot()->get()->getAngle().shortestAngleDiff(targetAngle) < control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI) {
         command.kickSpeed = std::clamp(info.getKickChipVelocity(), control_constants::MIN_KICK_POWER, control_constants::MAX_KICK_POWER);
         command.kickType = KickType::KICK;
     }
+    
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     double targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
