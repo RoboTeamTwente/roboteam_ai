@@ -363,9 +363,17 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return costForProperty(robot->getId() == world.getRobotClosestToBall(rtt::world::us)->get()->getId());
         case DealerFlagTitle::NOT_IMPORTANT:
             return 0;
+        case DealerFlagTitle::CAN_DETECT_BALL: {
+            bool hasWorkingBallSensor = Constants::ROBOT_HAS_WORKING_BALL_SENSOR(robot->getId());
+            bool hasDribblerEncoder = Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(robot->getId());
+            return costForProperty(hasWorkingBallSensor || hasDribblerEncoder);
+        }
+
+        default: {
+            RTT_WARNING("Unhandled dealerflag!")
+            return 0;
+        }
     }
-    RTT_WARNING("Unhandled dealerflag!")
-    return 0;
 }
 
 void Dealer::setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output) {

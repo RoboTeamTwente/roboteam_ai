@@ -191,6 +191,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     return workingDribblerRobots;
 }
 
+// TODO: Make robot send this information instead of us hardcoding these values
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
     workingBallSensorRobots[0] = false;
@@ -212,9 +213,36 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
 
     return workingBallSensorRobots;
 }
+
+// With the dribbler encoder, we can detect if the robot has the ball
+std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER_ENCODER() {
+    static std::map<int, bool> workingDribblerEncoderRobots;
+    workingDribblerEncoderRobots[0] = true;
+    workingDribblerEncoderRobots[1] = true;
+    workingDribblerEncoderRobots[2] = true;
+    workingDribblerEncoderRobots[3] = true;
+    workingDribblerEncoderRobots[4] = true;
+    workingDribblerEncoderRobots[5] = true;
+    workingDribblerEncoderRobots[6] = true;
+    workingDribblerEncoderRobots[7] = true;
+    workingDribblerEncoderRobots[8] = true;
+    workingDribblerEncoderRobots[9] = true;
+    workingDribblerEncoderRobots[10] = true;
+    workingDribblerEncoderRobots[11] = true;
+    workingDribblerEncoderRobots[12] = true;
+    workingDribblerEncoderRobots[13] = true;
+    workingDribblerEncoderRobots[14] = true;
+    workingDribblerEncoderRobots[15] = true;
+
+    return workingDribblerEncoderRobots;
+}
+
 bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) { return ROBOTS_WITH_WORKING_BALL_SENSOR()[id]; }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER()[id]; }
+
+bool Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER_ENCODER()[id]; }
+
 QColor Constants::FIELD_COLOR() { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); }
 
 QColor Constants::FIELD_LINE_COLOR() { return Qt::white; }
