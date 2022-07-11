@@ -41,10 +41,12 @@ uint8_t FreeKickUsAtGoal::score(const rtt::world::Field& field) noexcept {
 Dealer::FlagMap FreeKickUsAtGoal::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag freeKickTakerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+
+    Dealer::DealerFlag freeKickTakerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag freeKickTakerPreference(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"free_kick_taker", {DealerFlagPriority::REQUIRED, {freeKickTakerFlag}}});
+    flagMap.insert({"free_kick_taker", {DealerFlagPriority::REQUIRED, {freeKickTakerPriority, freeKickTakerPreference}}});
     flagMap.insert({"attacker_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"attacker_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});

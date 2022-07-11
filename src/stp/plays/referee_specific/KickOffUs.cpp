@@ -62,16 +62,21 @@ void KickOffUs::calculateInfoForRoles() noexcept {
         auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
+        if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
     }
 }
 
 Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"kick_off_taker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag kickerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag kickerPreference(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag receiverFlag(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::HIGH_PRIORITY);
+
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"kick_off_taker", {DealerFlagPriority::REQUIRED, {kickerPriority, kickerPreference}}});
+    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
     flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -85,14 +90,11 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
 }
 
 bool KickOffUs::shouldEndPlay() noexcept {
-    if (stpInfos["receiver"].getRobot() && stpInfos["kick_off_taker"].getRobot()) {
-        // True if receiver has ball
-        if (stpInfos["receiver"].getRobot().value()->hasBall()) return true;
+    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
-        // True if the kick_off_taker has shot the ball, but it is now stationary (pass was too soft, was reflected, etc.)
-        return ballKicked() && stpInfos["kick_off_taker"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-               world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL;
-    }
+    if (ballKicked() && world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT * 0.5)
+        return true;
+
     return false;
 }
 

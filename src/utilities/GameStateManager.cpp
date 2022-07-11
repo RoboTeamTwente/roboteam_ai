@@ -212,15 +212,17 @@ void GameStateManager::updateInterfaceGameState(const char* name) {
     } else if (strcmp(name, "Halt") == 0) {
         interface::Output::setInterfaceGameState(GameState("halt", "halt"));
     } else if (strcmp(name, "Free Kick Them") == 0) {
-        interface::Output::setInterfaceGameState(GameState("free_kick_them", "default"));
+        interface::Output::setInterfaceGameState(GameState("free_kick_them", "stop"));
     } else if (strcmp(name, "Free Kick Us At Goal") == 0) {
+        interface::Output::setInterfaceGameState(GameState("free_kick_us", "default"));
+    } else if (strcmp(name, "Free Kick Us Pass") == 0) {
         interface::Output::setInterfaceGameState(GameState("free_kick_us", "default"));
     } else if (strcmp(name, "Ball Placement Them") == 0) {
         interface::Output::setInterfaceGameState(GameState("ball_placement_them", "ballplacement_them"));
     } else if (strcmp(name, "Kick Off Them Prepare") == 0) {
-        interface::Output::setInterfaceGameState(GameState("kick_off_them_prepare", "kickoff"));
+        interface::Output::setInterfaceGameState(GameState("kickoff_them_prepare", "kickoff"));
     } else if (strcmp(name, "Kick Off Us Prepare") == 0) {
-        interface::Output::setInterfaceGameState(GameState("kick_off_us_prepare", "kickoff"));
+        interface::Output::setInterfaceGameState(GameState("kickoff_us_prepare", "kickoff"));
     } else if (strcmp(name, "Kick Off Them") == 0) {
         interface::Output::setInterfaceGameState(GameState("kickoff_them", "default"));
     } else if (strcmp(name, "Kick Off Us") == 0) {

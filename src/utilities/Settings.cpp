@@ -50,12 +50,8 @@ bool Settings::setYellow(bool yellow) {
 
 bool Settings::isLeft() const { return left; }
 
-void Settings::setLeft(bool left) {
-    if (this->isPrimaryAI()) {
-        Settings::left = left;
-    } else {
-        RTT_INFO("This secondary AI can not alter settings")
-    }
+void Settings::setLeft(bool _left) {
+    if (this->isPrimaryAI()) this->left = _left;
 }
 
 Settings::RobotHubMode Settings::getRobotHubMode() const { return this->robotHubMode; }

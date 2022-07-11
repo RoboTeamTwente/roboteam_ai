@@ -50,6 +50,7 @@ add_library(roboteam_ai_skills
         ${PROJECT_SOURCE_DIR}/src/stp/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Orbit.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/OrbitAngular.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/TestSkill.cpp
 )
 target_include_directories(roboteam_ai_skills
@@ -77,6 +78,7 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/GetBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/GetBehindBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/KickAtPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/OrbitKick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/Receive.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/ShootAtPos.cpp
         # passive/
@@ -86,7 +88,7 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp
-)
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BallStandBack.cpp)
 target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
 )

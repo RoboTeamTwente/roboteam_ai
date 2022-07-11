@@ -56,6 +56,18 @@ class PositionComputations {
      * @return Vector2 position of that index in the wall
      */
     static Vector2 getWallPosition(int index, int amountDefenders, const world::Field &field, world::World *world);
+
+    /**
+     * Calculates a position, near the target position, that is not too close to the ball
+     * @param targetPosition The initial target position
+     * @param ballPosition The position of the ball
+     * @param field The current field
+     * @return A position that is not within the min allowed distance to the ball
+     */
+    static Vector2 calculateAvoidBallPosition(Vector2 targetPosition, Vector2 ballPosition, const world::Field &field);
+
+   private:
+    static Vector2 calculatePositionOutsideOfShape(Vector2 ballPos, const world::Field &field, const std::unique_ptr<Shape> &avoidShape);
 };
 }  // namespace rtt::ai::stp
 #endif  // RTT_POSITIONCOMPUTATIONS_H
