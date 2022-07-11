@@ -47,7 +47,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag canDetectBallFlag(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
     flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {canDetectBallFlag, closeToBallFlag}}});
