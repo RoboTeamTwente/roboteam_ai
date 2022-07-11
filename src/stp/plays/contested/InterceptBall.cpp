@@ -37,7 +37,7 @@ InterceptBall::InterceptBall() : Play() {
 }
 
 uint8_t InterceptBall::score(const rtt::world::Field& field) noexcept {
-    return world->getWorld()->getBall()->get()->getVelocity().length() > control_constants::BALL_STILL_VEL ? 255 : 0;
+    return world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_STILL_VEL ? 255 : 0;
 }
 
 Dealer::FlagMap InterceptBall::decideRoleFlags() const noexcept {
@@ -89,10 +89,10 @@ void InterceptBall::calculateInfoForMidfielders() noexcept {
 
 void InterceptBall::calculateInfoForAttackers() noexcept {
     // Set the attackers to go to the part of the field where the ball is NOT (in y-direction), since that is where the interceptor(s) will go
-    if (world->getWorld()->getBall().value()->getPos().y > field.getFrontLeftGrid().getOffSetY()) {  // Ball is in left of field
+    if (world->getWorld()->getBall().value()->position.y > field.getFrontLeftGrid().getOffSetY()) {  // Ball is in left of field
         stpInfos["attacker_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
         stpInfos["attacker_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));
-    } else if (world->getWorld()->getBall().value()->getPos().y < field.getFrontMidGrid().getOffSetY()) {  // Ball is in right of field
+    } else if (world->getWorld()->getBall().value()->position.y < field.getFrontMidGrid().getOffSetY()) {  // Ball is in right of field
         stpInfos["attacker_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
         stpInfos["attacker_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
     } else {  // Ball is in middle of field
@@ -102,7 +102,7 @@ void InterceptBall::calculateInfoForAttackers() noexcept {
 }
 
 bool InterceptBall::shouldEndPlay() noexcept {
-    return world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL;
+    return world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL;
 }
 
 const char* InterceptBall::getName() { return "InterceptBall"; }
