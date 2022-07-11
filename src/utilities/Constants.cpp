@@ -237,11 +237,35 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER_ENCODER() {
     return workingDribblerEncoderRobots;
 }
 
+std::map<int, bool> Constants::ROBOTS_WITH_KICKER() {
+    static std::map<int, bool> kickerRobots;
+    kickerRobots[0] = true;
+    kickerRobots[1] = true;
+    kickerRobots[2] = true;
+    kickerRobots[3] = true;
+    kickerRobots[4] = true;
+    kickerRobots[5] = true;
+    kickerRobots[6] = true;
+    kickerRobots[7] = true;
+    kickerRobots[8] = true;
+    kickerRobots[9] = true;
+    kickerRobots[10] = true;
+    kickerRobots[11] = true;
+    kickerRobots[12] = true;
+    kickerRobots[13] = true;
+    kickerRobots[14] = true;
+    kickerRobots[15] = true;
+
+    return kickerRobots;
+}
+
 bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) { return ROBOTS_WITH_WORKING_BALL_SENSOR()[id]; }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER()[id]; }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER_ENCODER()[id]; }
+
+bool Constants::ROBOT_HAS_KICKER(int id) { return ROBOTS_WITH_KICKER()[id]; }
 
 QColor Constants::FIELD_COLOR() { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); }
 
