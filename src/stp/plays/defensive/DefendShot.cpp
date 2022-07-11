@@ -75,6 +75,12 @@ void DefendShot::calculateInfoForWallers() noexcept {
     stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 4, field, world));
     stpInfos["waller_3"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 4, field, world));
     stpInfos["waller_4"].setPositionToMoveTo(PositionComputations::getWallPosition(3, 4, field, world));
+
+    stpInfos["waller_1"].setShouldAvoidOurRobots(false);
+    stpInfos["waller_2"].setShouldAvoidOurRobots(false);
+    stpInfos["waller_3"].setShouldAvoidOurRobots(false);
+    stpInfos["waller_4"].setShouldAvoidOurRobots(false);
+
 }
 
 void DefendShot::calculateInfoForDefenders() noexcept {
