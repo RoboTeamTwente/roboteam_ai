@@ -33,7 +33,7 @@ DefendShot::DefendShot() : Play() {
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_4")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_5")),
-                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_6"))};
+                                                                                       std::make_unique<role::Formation>("ball_blocker")};
 }
 
 uint8_t DefendShot::score(const rtt::world::Field& field) noexcept { return 255; }
@@ -46,15 +46,16 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_3", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_4", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_3", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_4", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_5", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
+    flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_3", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_4", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {notImportant}}});
 
     return flagMap;
 }
@@ -63,6 +64,7 @@ void DefendShot::calculateInfoForRoles() noexcept {
     calculateInfoForWallers();
     calculateInfoForDefenders();
     calculateInfoForKeeper();
+    calculateInfoForBlocker();
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
@@ -95,7 +97,7 @@ void DefendShot::calculateInfoForDefenders() noexcept {
         enemyMap.insert({score, enemy->getPos()});
     }
 
-    for (int i = 1; i <= 6; i++) {
+    for (int i = 1; i <= 5; i++) {
         if (!enemyMap.empty()) {
             stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
             stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::ROBOTRADIUS);
@@ -106,7 +108,7 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 }
 
-void DefendShot::calculateInfoForHarassers() noexcept {}
+void DefendShot::calculateInfoForBlocker() noexcept { stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world)); }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
