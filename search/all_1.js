@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['a_10',['A',['../namespacertt_1_1input.html#afeb616abc4dfa33c703609ace87e63c2',1,'rtt::input::JoystickState']]],
-  ['a_11',['a',['../Voronoi_8h.html#a95c7f3ef5bd2f08ebe04d2ab5998e6fe',1,'_jcv_edge']]],
+  ['a_10',['a',['../Voronoi_8h.html#a95c7f3ef5bd2f08ebe04d2ab5998e6fe',1,'_jcv_edge']]],
+  ['a_11',['A',['../namespacertt_1_1input.html#afeb616abc4dfa33c703609ace87e63c2',1,'rtt::input::JoystickState']]],
   ['a1_12',['a1',['../namespacertt_1_1world.html#acef6112e5f81a542c942ecb1b40b4426',1,'rtt::world::FieldArc']]],
   ['a2_13',['a2',['../namespacertt_1_1world.html#aae52832fc6ecd3f2aa4a926dfcc2b016',1,'rtt::world::FieldArc']]],
   ['acc_14',['acc',['../namespacertt_1_1BB.html#a6aabce44b354c80154cab362a61a0fa0',1,'rtt::BB::BBTrajectoryPart::acc()'],['../structrtt_1_1BB_1_1BBPosVelAcc.html#acbd8a7152cc7d4f6436b695a3ffdf89d',1,'rtt::BB::BBPosVelAcc::acc()']]],
