@@ -68,15 +68,19 @@ void DefendShot::calculateInfoForRoles() noexcept {
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
-    stpInfos["waller_1"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
-    stpInfos["waller_2"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
-    stpInfos["waller_3"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
-    stpInfos["waller_4"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    for (int i = 1; i <= 4; ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto positionToMoveTo = PositionComputations::getWallPosition(i - 1, 4, field, world);
+        stpInfos["waller_" + std::to_string(i)].setPositionToMoveTo(positionToMoveTo);
+        stpInfos["waller_" + std::to_string(i)].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
 
-    stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 4, field, world));
-    stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 4, field, world));
-    stpInfos["waller_3"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 4, field, world));
-    stpInfos["waller_4"].setPositionToMoveTo(PositionComputations::getWallPosition(3, 4, field, world));
+        // If the waller is close to its target, ignore collisions
+        constexpr double IGNORE_COLLISIONS_DISTANCE = 1.0;
+        if (stpInfos["waller_" + std::to_string(i)].getRobot()) {
+            if ((stpInfos["waller_" + std::to_string(i)].getRobot()->get()->getPos() - positionToMoveTo).length() < IGNORE_COLLISIONS_DISTANCE)
+                stpInfos["waller_" + std::to_string(i)].setShouldAvoidOurRobots(false);
+        }
+    }
 }
 
 void DefendShot::calculateInfoForDefenders() noexcept {
