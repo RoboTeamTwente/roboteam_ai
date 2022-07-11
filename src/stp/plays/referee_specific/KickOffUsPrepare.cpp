@@ -86,7 +86,7 @@ Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"midfielder_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"attacker_left", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"attacker_left", {DealerFlagPriority::HIGH_PRIORITY, {kickerPriority}}});
     flagMap.insert({"attacker_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"attacker_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
 
