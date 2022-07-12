@@ -25,10 +25,6 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
     auto currentRefCommand = getRefCommandFromProto(refMsg.command());
     nextRefCommand = getRefCommandFromProto(refMsg.next_command());
 
-    if (nextRefCommand == RefCommand::DIRECT_FREE_THEM){
-        RTT_ERROR("DIRECT THEM IS NEXT CMD")
-    }
-
     auto stage = refMsg.stage();
     auto world = data->getWorld();
     if (world.has_value()) {
