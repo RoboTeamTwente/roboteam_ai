@@ -128,7 +128,14 @@ void Attack::calculateInfoForAttackers() noexcept {
 }
 
 bool Attack::shouldEndPlay() noexcept {
-    return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "striker" && role->finished(); });
+    if  (std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "striker" && role->finished(); }))
+        return true;
+
+    // TODO: probably should do this via an invariant (BALL_IS_NOT_MOVING_FAST or something similar)
+    if (world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT)
+        return true;
+
+    return false;
 }
 
 const char* Attack::getName() { return "Attack"; }

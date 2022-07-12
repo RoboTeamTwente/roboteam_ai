@@ -155,6 +155,8 @@ bool AttackingPass::shouldEndPlay() noexcept {
             1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score)
         return true;
 
+    // TODO: probably should do this via an invariant (BALL_IS_NOT_MOVING_FAST or something similar)
+    if (!ballKicked() && world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT)
     return false;
 }
 
