@@ -65,9 +65,9 @@ class DefendShot : public Play {
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the Harassers
+     * Calculates info for the ballBlocker
      */
-    void calculateInfoForHarassers() noexcept;
+    void calculateInfoForBlocker() noexcept;
 
     /**
      * Calculates info for the keeper

@@ -362,6 +362,10 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         }
         case DealerFlagTitle::KEEPER:
             return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);
+        case DealerFlagTitle::CAN_KICK_BALL: {
+            bool hasWorkingKicker = Constants::ROBOT_HAS_KICKER(robot->getId());
+            return costForProperty(hasWorkingKicker);
+        }
         case DealerFlagTitle::CLOSEST_TO_BALL:
             return costForProperty(robot->getId() == world.getRobotClosestToBall(rtt::world::us)->get()->getId());
         case DealerFlagTitle::NOT_IMPORTANT:

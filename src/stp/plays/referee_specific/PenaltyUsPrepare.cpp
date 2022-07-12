@@ -73,11 +73,12 @@ Dealer::FlagMap PenaltyUsPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag kickerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag kickerPreference(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag kickerFirstPriority(DealerFlagTitle::CAN_KICK_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag kickerSecondPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag kickerThirdPriority(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::MEDIUM_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"kicker_formation", {DealerFlagPriority::REQUIRED, {kickerPriority, kickerPreference}}});
+    flagMap.insert({"kicker_formation", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});
     flagMap.insert({"formation_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"formation_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});

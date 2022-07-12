@@ -5,7 +5,6 @@
 
 #include "stp/roles/passive/BallDefender.h"
 
-#include "stp/tactics/active/Intercept.h"
 #include "stp/tactics/passive/BlockBall.h"
 
 namespace rtt::ai::stp::role {

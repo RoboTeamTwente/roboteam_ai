@@ -33,7 +33,7 @@ DefendShot::DefendShot() : Play() {
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_4")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_5")),
-                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_6"))};
+                                                                                       std::make_unique<role::Formation>("ball_blocker")};
 }
 
 uint8_t DefendShot::score(const rtt::world::Field& field) noexcept { return 255; }
@@ -46,15 +46,16 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_3", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_4", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_3", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_4", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_5", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
+    flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_3", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_4", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {notImportant}}});
 
     return flagMap;
 }
@@ -63,18 +64,23 @@ void DefendShot::calculateInfoForRoles() noexcept {
     calculateInfoForWallers();
     calculateInfoForDefenders();
     calculateInfoForKeeper();
+    calculateInfoForBlocker();
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
-    stpInfos["waller_1"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
-    stpInfos["waller_2"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
-    stpInfos["waller_3"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
-    stpInfos["waller_4"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    for (int i = 1; i <= 4; ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto positionToMoveTo = PositionComputations::getWallPosition(i - 1, 4, field, world);
+        stpInfos["waller_" + std::to_string(i)].setPositionToMoveTo(positionToMoveTo);
+        stpInfos["waller_" + std::to_string(i)].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
 
-    stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 4, field, world));
-    stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 4, field, world));
-    stpInfos["waller_3"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 4, field, world));
-    stpInfos["waller_4"].setPositionToMoveTo(PositionComputations::getWallPosition(3, 4, field, world));
+        // If the waller is close to its target, ignore collisions
+        constexpr double IGNORE_COLLISIONS_DISTANCE = 1.0;
+        if (stpInfos["waller_" + std::to_string(i)].getRobot()) {
+            if ((stpInfos["waller_" + std::to_string(i)].getRobot()->get()->getPos() - positionToMoveTo).length() < IGNORE_COLLISIONS_DISTANCE)
+                stpInfos["waller_" + std::to_string(i)].setShouldAvoidOurRobots(false);
+        }
+    }
 }
 
 void DefendShot::calculateInfoForDefenders() noexcept {
@@ -91,10 +97,10 @@ void DefendShot::calculateInfoForDefenders() noexcept {
         enemyMap.insert({score, enemy->getPos()});
     }
 
-    for (int i = 1; i <= 6; i++) {
+    for (int i = 1; i <= 5; i++) {
         if (!enemyMap.empty()) {
             stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
-            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(i % 2 == 0 ? BlockDistance::FAR : BlockDistance::PARTWAY);
+            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::ROBOTRADIUS);
             enemyMap.erase(enemyMap.begin());
         } else {
             break;
@@ -102,11 +108,12 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 }
 
-void DefendShot::calculateInfoForHarassers() noexcept {}
+void DefendShot::calculateInfoForBlocker() noexcept { stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world)); }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
+    stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 }
 
 bool DefendShot::shouldEndPlay() noexcept {
