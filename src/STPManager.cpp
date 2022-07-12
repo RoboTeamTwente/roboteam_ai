@@ -67,7 +67,7 @@ void STPManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KeeperKickBall>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());

@@ -23,6 +23,8 @@
 #include <stp/evaluations/game_states/PenaltyUsPrepareGameStateEvaluation.h>
 #include <stp/evaluations/game_states/StopGameStateEvaluation.h>
 #include <stp/evaluations/game_states/TimeOutGameStateEvaluation.h>
+#include <stp/evaluations/game_states/WeHaveFreeKickAfterEvaluation.h>
+#include <stp/evaluations/game_states/TheyHaveFreeKickAfterEvaluation.h>
 #include <stp/evaluations/global/BallCloseToThemGlobalEvaluation.h>
 #include <stp/evaluations/global/BallCloseToUsGlobalEvaluation.h>
 #include <stp/evaluations/global/BallClosestToUsGlobalEvaluation.h>
@@ -126,6 +128,10 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation, cons
             return evaluation::TheyDoNotHaveBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::WeHaveMajority:
             return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::TheyHaveFreeKickNext:
+            return evaluation::TheyHaveFreeKickAfterEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::WeHaveFreeKickNext:
+            return evaluation::WeHaveFreeKickAfterEvaluation().metricCheck(world, &field);
         default:
             RTT_WARNING("Unhandled ScoreEvaluation!");
             return 0;

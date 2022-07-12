@@ -11,6 +11,7 @@
 
 #include "RefGameState.h"
 #include "StrategyManager.h"
+#include "Constants.h"
 
 namespace rtt::ai {
 
@@ -24,11 +25,14 @@ class GameStateManager {
     static void forceNewGameState(RefCommand cmd, std::optional<rtt::world::view::BallView> ball);
     static Vector2 getRefereeDesignatedPosition();
     static void updateInterfaceGameState(const char* name);
+    static RefCommand getNextRefCommand();
 
    private:
+    static RefCommand getRefCommandFromProto(proto::SSL_Referee_Command refCommand);
     static proto::SSL_Referee refMsg;
     static StrategyManager strategymanager;
     static std::mutex refMsgLock;
+    static inline RefCommand nextRefCommand = RefCommand::HALT;
 };
 
 }  // namespace rtt::ai

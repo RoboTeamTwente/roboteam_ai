@@ -8,8 +8,10 @@
 namespace rtt::ai {
 
 proto::SSL_Referee GameStateManager::refMsg;
+
 StrategyManager GameStateManager::strategymanager;
 std::mutex GameStateManager::refMsgLock;
+
 
 proto::SSL_Referee GameStateManager::getRefereeData() {
     std::lock_guard<std::mutex> lock(refMsgLock);
@@ -19,10 +21,25 @@ proto::SSL_Referee GameStateManager::getRefereeData() {
 void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world::World* data) {
     std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
+
+    auto currentRefCommand = getRefCommandFromProto(refMsg.command());
+    nextRefCommand = getRefCommandFromProto(refMsg.next_command());
+
+    if (nextRefCommand == RefCommand::DIRECT_FREE_THEM){
+        RTT_ERROR("DIRECT THEM IS NEXT CMD")
+    }
+
+    auto stage = refMsg.stage();
+    auto world = data->getWorld();
+    if (world.has_value()) {
+        strategymanager.setCurrentRefGameState(currentRefCommand, stage, world->getBall());
+    }
+}
+
+RefCommand GameStateManager::getRefCommandFromProto(proto::SSL_Referee_Command refCommand){
     RefCommand cmd;
-    // COLOR DEPENDENT STATES
     if (SETTINGS.isYellow()) {
-        switch (refMsg.command()) {
+        switch (refCommand) {
             case proto::SSL_Referee_Command_HALT:
                 cmd = RefCommand::HALT;
                 break;
@@ -84,7 +101,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
             }
         }
     } else {
-        switch (refMsg.command()) {
+        switch (refCommand) {
             case proto::SSL_Referee_Command_HALT:
                 cmd = RefCommand::HALT;
                 break;
@@ -146,12 +163,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
             }
         }
     }
-
-    auto stage = refMsg.stage();
-    auto world = data->getWorld();
-    if (world.has_value()) {
-        strategymanager.setCurrentRefGameState(cmd, stage, world->getBall());
-    }
+    return cmd;
 }
 
 // Initialize static variables
@@ -174,6 +186,10 @@ GameState GameStateManager::getCurrentGameState() {
     }
     return newGameState;
 }
+
+RefCommand GameStateManager::getNextRefCommand(){
+    return nextRefCommand;
+};
 
 void GameStateManager::forceNewGameState(RefCommand cmd, std::optional<rtt_world::view::BallView> ball) {
     RTT_INFO("Forcing new refstate!")

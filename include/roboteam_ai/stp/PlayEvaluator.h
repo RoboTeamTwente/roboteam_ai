@@ -49,7 +49,9 @@ enum class GlobalEvaluation {
     WeHaveBall,
     TheyHaveBall,
     TheyDoNotHaveBall,
-    WeHaveMajority
+    WeHaveMajority,
+    TheyHaveFreeKickNext,
+    WeHaveFreeKickNext
 };
 
 class PlayEvaluator {

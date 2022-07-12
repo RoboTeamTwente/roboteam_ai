@@ -36,12 +36,33 @@ class DefensiveStopFormation : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World*) noexcept override{};
+    void calculateInfoForScoredRoles(world::World* world) noexcept override{};
 
     /**
      * Gets the play name
      */
     const char* getName() override;
+
+   protected:
+    /**
+     * Calculates info for the wallers
+     */
+    void calculateInfoForWallers() noexcept;
+
+    /**
+     * Calculates info for the defenders
+     */
+    void calculateInfoForDefenders() noexcept;
+
+    /**
+     * Calculates info for the ballBlocker
+     */
+    void calculateInfoForBlocker() noexcept;
+
+    /**
+     * Calculates info for the keeper
+     */
+    void calculateInfoForKeeper() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 

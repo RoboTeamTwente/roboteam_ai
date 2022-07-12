@@ -230,7 +230,9 @@ add_library(roboteam_ai_evaluation
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/GoalShotEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/TimeToPositionEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/BlockingEvaluation.cpp
-)
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/TheyHaveFreeKickAfterEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/WeHaveFreeKickAfterEvaluation.cpp)
+
 target_include_directories(roboteam_ai_evaluation
         PRIVATE include/roboteam_ai
 )

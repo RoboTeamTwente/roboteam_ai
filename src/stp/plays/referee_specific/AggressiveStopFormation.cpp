@@ -12,7 +12,7 @@ AggressiveStopFormation::AggressiveStopFormation() : Play() {
     /// Evaluations that have to be true to be considered when changing plays.
     startPlayEvaluation.clear();  // DONT TOUCH.
     startPlayEvaluation.emplace_back(eval::StopGameState);
-    startPlayEvaluation.emplace_back(eval::BallOnTheirSide);
+    startPlayEvaluation.emplace_back(eval::WeHaveFreeKickNext);
 
     /// Evaluations that have to be true to allow the play to continue, otherwise the play will change. Plays can also end using the shouldEndPlay().
     keepPlayEvaluation.clear();  // DONT TOUCH.
