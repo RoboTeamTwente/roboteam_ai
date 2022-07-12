@@ -94,7 +94,7 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     for (int i = 1; i <= 6; i++) {
         if (!enemyMap.empty()) {
             stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
-            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::ROBOTRADIUS);
+            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(i % 2 == 0 ? BlockDistance::FAR : BlockDistance::PARTWAY);
             enemyMap.erase(enemyMap.begin());
         } else {
             break;
@@ -107,7 +107,11 @@ void DefendShot::calculateInfoForHarassers() noexcept {}
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
+}
+
+bool DefendShot::shouldEndPlay() noexcept {
+    // End play when ball has been shot, as we should switch to interceptBall
+    return world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT;
 }
 
 const char* DefendShot::getName() { return "Defend Shot"; }

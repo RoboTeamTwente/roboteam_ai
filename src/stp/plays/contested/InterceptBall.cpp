@@ -4,7 +4,6 @@
 #include "stp/plays/contested/InterceptBall.h"
 #include "stp/computations/PositionScoring.h"
 #include "stp/roles/Keeper.h"
-#include "stp/roles/active/Attacker.h"
 #include "stp/roles/passive/BallDefender.h"
 #include "stp/roles/passive/Formation.h"
 #include "stp/roles/active/BallInterceptor.h"
@@ -23,88 +22,98 @@ InterceptBall::InterceptBall() : Play() {
     keepPlayEvaluation.emplace_back(eval::BallIsFree);
     keepPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(("keeper")),
-                                                                                       std::make_unique<role::BallInterceptor>(("interceptor_primary")),
-                                                                                       std::make_unique<role::BallInterceptor>(("interceptor_secondary")),
-                                                                                       std::make_unique<role::Formation>(("attacker_1")),
-                                                                                       std::make_unique<role::Formation>(("attacker_2")),
-                                                                                       std::make_unique<role::Formation>(("midfielder_left")),
-                                                                                       std::make_unique<role::Formation>(("midfielder_mid")),
-                                                                                       std::make_unique<role::Formation>(("midfielder_right")),
-                                                                                       std::make_unique<role::BallDefender>(("defender_left")),
-                                                                                       std::make_unique<role::BallDefender>(("defender_mid")),
-                                                                                       std::make_unique<role::BallDefender>(("defender_right"))};
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("waller_1")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("waller_2")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("waller_3")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("waller_4")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_1")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_4")),
+                                                                                       std::make_unique<role::BallInterceptor>(role::BallInterceptor("interceptor_1")),
+                                                                                       std::make_unique<role::BallInterceptor>(role::BallInterceptor("interceptor_2"))};
 }
 
 uint8_t InterceptBall::score(const rtt::world::Field& field) noexcept {
-    return world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_STILL_VEL ? 255 : 0;
+    return world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT ? 255 : 0;
 }
 
 Dealer::FlagMap InterceptBall::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+
     Dealer::DealerFlag interceptorFlag(DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT, DealerFlagPriority::HIGH_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"interceptor_primary", {DealerFlagPriority::REQUIRED, {interceptorFlag}}});
-    flagMap.insert({"interceptor_secondary", {DealerFlagPriority::REQUIRED, {interceptorFlag}}});
-    flagMap.insert({"attacker_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"attacker_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_mid", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"midfielder_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"defender_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"defender_mid", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"defender_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY}});
+    flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY}});
+    flagMap.insert({"waller_3", {DealerFlagPriority::MEDIUM_PRIORITY}});
+    flagMap.insert({"waller_4", {DealerFlagPriority::MEDIUM_PRIORITY}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"interceptor_1", {DealerFlagPriority::HIGH_PRIORITY, {interceptorFlag}}});
+    flagMap.insert({"interceptor_2", {DealerFlagPriority::HIGH_PRIORITY, {interceptorFlag}}});
 
     return flagMap;
 }
 
 void InterceptBall::calculateInfoForRoles() noexcept {
-    calculateInfoForAttackers();
-    calculateInfoForMidfielders();
+    calculateInfoForWallers();
     calculateInfoForDefenders();
+    calculateInfoForKeeper();
+}
 
-    // Keeper
+void InterceptBall::calculateInfoForWallers() noexcept {
+    stpInfos["waller_1"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    stpInfos["waller_2"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    stpInfos["waller_3"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+    stpInfos["waller_4"].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+
+    stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 4, field, world));
+    stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 4, field, world));
+    stpInfos["waller_3"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 4, field, world));
+    stpInfos["waller_4"].setPositionToMoveTo(PositionComputations::getWallPosition(3, 4, field, world));
+}
+
+void InterceptBall::calculateInfoForDefenders() noexcept {
+    auto enemyRobots = world->getWorld()->getThem();
+
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
+
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); });
+
+    std::map<double, Vector2> enemyMap;
+
+    for (auto enemy : enemyRobots) {
+        double score = FieldComputations::getDistanceToGoal(field, true, enemy->getPos());
+        enemyMap.insert({score, enemy->getPos()});
+    }
+
+    for (int i = 1; i <= 4; i++) {
+        if (!enemyMap.empty()) {
+            stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
+            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::ROBOTRADIUS);
+            enemyMap.erase(enemyMap.begin());
+        } else {
+            break;
+        }
+    }
+}
+
+void InterceptBall::calculateInfoForInterceptors() noexcept {
+
+}
+
+void InterceptBall::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 }
 
-void InterceptBall::calculateInfoForDefenders() noexcept {
-    stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
-
-    stpInfos["defender_mid"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_mid"].setBlockDistance(BlockDistance::CLOSE);
-
-    stpInfos["defender_right"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_right"].setBlockDistance(BlockDistance::HALFWAY);
-}
-
-void InterceptBall::calculateInfoForMidfielders() noexcept {
-    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
-    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::BlockingPosition, field, world));
-    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
-}
-
-void InterceptBall::calculateInfoForAttackers() noexcept {
-    // Set the attackers to go to the part of the field where the ball is NOT (in y-direction), since that is where the interceptor(s) will go
-    if (world->getWorld()->getBall().value()->position.y > field.getFrontLeftGrid().getOffSetY()) {  // Ball is in left of field
-        stpInfos["attacker_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
-        stpInfos["attacker_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));
-    } else if (world->getWorld()->getBall().value()->position.y < field.getFrontMidGrid().getOffSetY()) {  // Ball is in right of field
-        stpInfos["attacker_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
-        stpInfos["attacker_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontMidGrid(), gen::OffensivePosition, field, world));
-    } else {  // Ball is in middle of field
-        stpInfos["attacker_1"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontLeftGrid(), gen::OffensivePosition, field, world));
-        stpInfos["attacker_2"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getFrontRightGrid(), gen::OffensivePosition, field, world));
-    }
-}
-
 bool InterceptBall::shouldEndPlay() noexcept {
-    return world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL;
+    return world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT * 0.9;
 }
 
 const char* InterceptBall::getName() { return "InterceptBall"; }
-
 }  // namespace rtt::ai::stp::play

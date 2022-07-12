@@ -352,6 +352,9 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::WITH_WORKING_DRIBBLER:
             return costForProperty(robot->isWorkingDribbler());
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
+            if (world.getBall()->get()->velocity.length() < stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT)
+                return costForDistance(robot->getPos().dist(world.getBall()->get()->expectedEndPosition), fieldWidth, fieldLength);
+
             LineSegment lineSegment = {world.getBall()->get()->position, world.getBall()->get()->position + world.getBall()->get()->velocity.stretchToLength(fieldLength)};
             constexpr double MAX_ANGLE = M_PI / 6.0;
             auto angleDiff = (lineSegment.end - lineSegment.start).toAngle().shortestAngleDiff(robot->getPos() - lineSegment.start);

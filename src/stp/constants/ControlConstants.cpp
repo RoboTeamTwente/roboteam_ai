@@ -8,7 +8,7 @@
 
 namespace rtt::ai::stp::control_constants {
 /// Kick and chip constants
-constexpr double MAX_KICK_POWER = 6.5;
+constexpr double MAX_KICK_POWER = 5.0;
 constexpr double MIN_KICK_POWER = 3.0;
 constexpr double MAX_POWER_KICK_DISTANCE = 8;
 constexpr double MAX_POWER_CHIP_DISTANCE = 9;

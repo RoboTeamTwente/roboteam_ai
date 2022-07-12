@@ -34,24 +34,30 @@ class InterceptBall : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Calculate info for the roles that need to be calculated for scoring
+     */
+    void calculateInfoForScoredRoles(world::World* world) noexcept override{};
+
+   protected:
+    /**
+     * Calculates info for the wallers
+     */
+    void calculateInfoForWallers() noexcept;
+
+    /**
      * Calculates info for the defenders
      */
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the midfielders
+     * Calculates info for the Harassers
      */
-    void calculateInfoForMidfielders() noexcept;
+    void calculateInfoForInterceptors() noexcept;
 
     /**
-     * Calculates info for the InterceptBallers
+     * Calculates info for the keeper
      */
-    void calculateInfoForAttackers() noexcept;
-
-    /**
-     * Calculate info for the roles that need to be calculated for scoring
-     */
-    void calculateInfoForScoredRoles(world::World*) noexcept override{};
+    void calculateInfoForKeeper() noexcept;
 
     /**
      * Check if play should end. True when InterceptBaller role is finished.

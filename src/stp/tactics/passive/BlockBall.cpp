@@ -14,8 +14,10 @@ BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status,
 std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !(skillStpInfo.getEnemyRobot() || skillStpInfo.getPositionToDefend()))
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !info.getRobot() || !(skillStpInfo.getEnemyRobot() || skillStpInfo.getPositionToDefend())){
+        RTT_DEBUG("Not calculating blockBall");
         return std::nullopt;
+    }
 
     auto defendPos = info.getEnemyRobot() ? info.getEnemyRobot().value()->getPos() : info.getPositionToDefend().value();
     auto targetPosition = calculateTargetPosition(info.getBall().value(), defendPos, info.getBlockDistance());
