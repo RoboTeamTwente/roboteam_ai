@@ -61,16 +61,20 @@ void BallPlacementThem::calculateInfoForRoles() noexcept {
 }
 
 void BallPlacementThem::calculateInfoForWallers() noexcept {
-    for (int i = 1; i <= 10; ++i) {
+
+    constexpr auto wallerNames = std::array{"waller_1", "waller_2", "waller_3", "waller_4", "waller_5", "waller_6", "waller_7", "waller_8", "waller_9", "waller_10"};
+    auto activeWallerNames = std::vector<std::string>{};
+    for (auto name : wallerNames) {
+        if (stpInfos[name].getRobot().has_value()) activeWallerNames.emplace_back(name);
+    }
+    for (int i = 0; i < activeWallerNames.size(); ++i) {
         // For each waller, stand in the right wall position and look at the ball
-        if (i % 2 == 0) {
-            stpInfos["waller_" + std::to_string(i)].setPositionToMoveTo(
-                Vector2(field.getLeftPenaltyLineBottom().x + 2 * control_constants::ROBOT_RADIUS, 1.7 * i * control_constants::ROBOT_RADIUS));
-        } else {
-            stpInfos["waller_" + std::to_string(i)].setPositionToMoveTo(
-                Vector2(field.getLeftPenaltyLineBottom().x + 2 * control_constants::ROBOT_RADIUS, -1.7 * i * control_constants::ROBOT_RADIUS));
-        }
-        stpInfos["waller_" + std::to_string(i)].setAngle((Vector2{0, 0} - field.getOurGoalCenter()).angle());
+        const auto side = i % 2 == 0 ? 1 : -1;
+        auto& wallerStpInfo = stpInfos[activeWallerNames[i]];
+
+        wallerStpInfo.setPositionToMoveTo(
+            Vector2(FieldComputations::getDefenseArea(field, true, 0, 0)[2].x + 2 * control_constants::ROBOT_RADIUS, side * 1.7 * (i+1) * control_constants::ROBOT_RADIUS));
+        wallerStpInfo.setAngle((Vector2{0, 0} - field.getOurGoalCenter()).angle());
     }
 }
 
