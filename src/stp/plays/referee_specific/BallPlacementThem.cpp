@@ -16,7 +16,7 @@ BallPlacementThem::BallPlacementThem() : Play() {
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(eval::BallPlacementThemGameState);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("waller_1")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("waller_2")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("waller_3")),
@@ -80,8 +80,6 @@ void BallPlacementThem::calculateInfoForWallers() noexcept {
 
 void BallPlacementThem::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 }
 
 const char* BallPlacementThem::getName() { return "Ball Placement Them"; }
