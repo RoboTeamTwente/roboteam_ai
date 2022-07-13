@@ -5,9 +5,6 @@
 #include "stp/plays/defensive/DefendShot.h"
 
 #include <stp/roles/passive/Formation.h>
-
-#include <ranges>
-
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Harasser.h"
 #include "stp/roles/passive/BallDefender.h"
