@@ -1,11 +1,8 @@
 var classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem =
 [
     [ "BallPlacementThem", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a3810640cae06c46862b58487c086c62b", null ],
-    [ "calculateInfoForDefenders", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a0a1e08abf506013e7255868d5c52273e", null ],
-    [ "calculateInfoForKeeper", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a1f8b17c38e151ee7613cbd1f01c547c9", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a1a7728baca152be0955937a1c4ecf322", null ],
     [ "calculateInfoForScoredRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ac4bb4809544b2a8440be703459bb5c22", null ],
-    [ "calculateInfoForWallers", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ac8d51a62f614a3c20be543d0075486ed", null ],
     [ "decideRoleFlags", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ab268b99ef196efd790c42706bd220071", null ],
     [ "distributeRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a977b3063d4d26bee4be08d71c2ab7ccc", null ],
     [ "getLastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a7439c6149abbc461640c9ecdad2ba8d6", null ],

@@ -3,6 +3,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot =
     [ "DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a75fbe1c4d12aab4bc90ba40f7943b9e4", null ],
     [ "calculateInfoForBlocker", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a27d7042b60a14b41580c6d2baf6f7514", null ],
     [ "calculateInfoForDefenders", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a839ea12d5f2c53aa556fd63a82f1dbf7", null ],
+    [ "calculateInfoForHarasser", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a35355c03997edfb4f96c89030dcf5abe", null ],
     [ "calculateInfoForKeeper", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#aa78f25bef5f0c55b81515a17d1d55560", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#aa4f72c0cc4fce12be8dfbc56d6074cac", null ],
     [ "calculateInfoForScoredRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a2669649f6767e82cb44662a7184737ec", null ],
