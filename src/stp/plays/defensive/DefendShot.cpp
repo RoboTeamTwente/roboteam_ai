@@ -108,7 +108,10 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 }
 
-void DefendShot::calculateInfoForBlocker() noexcept { stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world)); }
+void DefendShot::calculateInfoForBlocker() noexcept {
+    stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world));
+    if (stpInfos["ball_blocker"].getRobot()) stpInfos["ball_blocker"].setAngle((world->getWorld()->getBall()->get()->position - stpInfos["ball_blocker"].getRobot()->get()->getPos()).toAngle());
+}
 
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
