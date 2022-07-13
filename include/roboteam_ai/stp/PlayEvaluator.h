@@ -29,6 +29,7 @@ enum class GlobalEvaluation {
     PenaltyUsGameState,
     PenaltyUsPrepareGameState,
     StopGameState,
+    PreHalfGameState,
     /// Global Evaluations
     BallCloseToThem,
     BallCloseToUs,
