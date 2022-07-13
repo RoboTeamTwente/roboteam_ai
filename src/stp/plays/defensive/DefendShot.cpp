@@ -6,6 +6,8 @@
 
 #include <stp/roles/passive/Formation.h>
 
+#include <ranges>
+
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Harasser.h"
 #include "stp/roles/passive/BallDefender.h"
@@ -68,17 +70,24 @@ void DefendShot::calculateInfoForRoles() noexcept {
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
-    for (int i = 1; i <= 4; ++i) {
+    constexpr auto wallerNames = std::array{"waller_1", "waller_2", "waller_3", "waller_4"};
+    auto activeWallerNames = std::vector<std::string>{};
+    for (auto name : wallerNames) {
+        if (stpInfos[name].getRobot().has_value()) activeWallerNames.emplace_back(name);
+    }
+
+    for (int i = 0; i < activeWallerNames.size(); ++i) {
         // For each waller, stand in the right wall position and look at the ball
-        auto positionToMoveTo = PositionComputations::getWallPosition(i - 1, 4, field, world);
-        stpInfos["waller_" + std::to_string(i)].setPositionToMoveTo(positionToMoveTo);
-        stpInfos["waller_" + std::to_string(i)].setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+        auto positionToMoveTo = PositionComputations::getWallPosition(i, activeWallerNames.size(), field, world);
+        auto& wallerStpInfo = stpInfos[activeWallerNames[i]];
+
+        wallerStpInfo.setPositionToMoveTo(positionToMoveTo);
+        wallerStpInfo.setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
 
         // If the waller is close to its target, ignore collisions
         constexpr double IGNORE_COLLISIONS_DISTANCE = 1.0;
-        if (stpInfos["waller_" + std::to_string(i)].getRobot()) {
-            if ((stpInfos["waller_" + std::to_string(i)].getRobot()->get()->getPos() - positionToMoveTo).length() < IGNORE_COLLISIONS_DISTANCE)
-                stpInfos["waller_" + std::to_string(i)].setShouldAvoidOurRobots(false);
+        if ((wallerStpInfo.getRobot()->get()->getPos() - positionToMoveTo).length() < IGNORE_COLLISIONS_DISTANCE) {
+            wallerStpInfo.setShouldAvoidOurRobots(false);
         }
     }
 }
