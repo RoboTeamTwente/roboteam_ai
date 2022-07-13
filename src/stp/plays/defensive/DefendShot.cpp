@@ -5,9 +5,6 @@
 #include "stp/plays/defensive/DefendShot.h"
 
 #include <stp/roles/passive/Formation.h>
-
-#include <ranges>
-
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Harasser.h"
 #include "stp/roles/passive/BallDefender.h"
@@ -34,7 +31,7 @@ DefendShot::DefendShot() : Play() {
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_4")),
-                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_5")),
+                                                                                       std::make_unique<role::Harasser>(role::Harasser("harasser")),
                                                                                        std::make_unique<role::Formation>("ball_blocker")};
 }
 
@@ -43,7 +40,7 @@ uint8_t DefendShot::score(const rtt::world::Field& field) noexcept { return 255;
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    Dealer::DealerFlag closestToBallFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
@@ -56,7 +53,7 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
     flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {notImportant}}});
 
     return flagMap;
@@ -67,6 +64,7 @@ void DefendShot::calculateInfoForRoles() noexcept {
     calculateInfoForDefenders();
     calculateInfoForKeeper();
     calculateInfoForBlocker();
+    calculateInfoForHarasser();
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
@@ -120,6 +118,11 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 void DefendShot::calculateInfoForBlocker() noexcept {
     stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world));
     if (stpInfos["ball_blocker"].getRobot()) stpInfos["ball_blocker"].setAngle((world->getWorld()->getBall()->get()->position - stpInfos["ball_blocker"].getRobot()->get()->getPos()).toAngle());
+}
+
+void DefendShot::calculateInfoForHarasser() noexcept {
+    if (stpInfos["harasser"].getRobot() && (stpInfos["harasser"].getRobot()->get()->getPos() - world->getWorld()->getBall()->get()->position).length() < 1.0)
+        stpInfos["harasser"].setMaxRobotVelocity(0.75);
 }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
