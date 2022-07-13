@@ -203,7 +203,13 @@ Vector2 PositionComputations::calculatePositionOutsideOfShape(Vector2 ballPos, c
 Vector2 PositionComputations::getBallBlockPosition(const world::Field &field, const world::World *world) {
     if (!world->getWorld()->getBall()) return {field.getLeftPenaltyPoint()};  // If there is no ball, return a default value
 
-    auto distFromDefenceArea = control_constants::DEFENSE_AREA_AVOIDANCE_MARGIN * 3;
+    constexpr double distFromDefenceArea = 0.6;
+
+    // If the ball is within this distFromDefence area, go to the ball
+    if (FieldComputations::getDefenseArea(field, true, distFromDefenceArea, 0).contains(world->getWorld()->getBall()->get()->position)){
+        return world->getWorld()->getBall()->get()->position;
+    }
+
     // If the ball is moving towards our defense area, stand its trajectory
     auto ball = world->getWorld()->getBall()->get();
     if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) {

@@ -75,7 +75,6 @@ void FreeKickUsAtGoal::calculateInfoForRoles() noexcept {
     stpInfos["free_kick_taker"].setPositionToShootAt(goalTarget);
     stpInfos["free_kick_taker"].setKickOrChip(KickOrChip::KICK);
     stpInfos["free_kick_taker"].setShotType(ShotType::MAX);
-    stpInfos["free_kick_taker"].setPositionToMoveTo(Vector2());
 }
 
 void FreeKickUsAtGoal::calculateInfoForDefenders() noexcept {
