@@ -211,6 +211,7 @@ add_library(roboteam_ai_evaluation
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/BallPlacementUsGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/BallPlacementThemGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/HaltGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/PreHalfGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsOrNormalGameStateEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffThemGameStateEvaluation.cpp
