@@ -2,6 +2,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1Attack =
 [
     [ "Attack", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#ae97b7333b51d0a0d07f4f56561baa652", null ],
     [ "calculateInfoForAttackers", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#ac31dde1a488c065bbde80e49e4319ef6", null ],
+    [ "calculateInfoForBlocker", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#af8fab1c6a79e6c62bb0bdea609cc0ada", null ],
     [ "calculateInfoForDefenders", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#a727b25db22e291fc07fda823cc469f90", null ],
     [ "calculateInfoForMidfielders", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#aae1ea8ecf869a67e12f40f0a83954043", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html#addf737d170c5e01d48694435670d7b12", null ],

@@ -3,6 +3,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass =
     [ "AttackingPass", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a9926b38bf3af64fb7e657fcaa5be29d9", null ],
     [ "ballKicked", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a79c96620d8b394a6682729b43e06f63f", null ],
     [ "calculateInfoForAttackers", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#ab09a7a9b90d0e03a0049f44713875fd8", null ],
+    [ "calculateInfoForBlocker", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a446f556f10ad348bbcdfaa1fd3b47af7", null ],
     [ "calculateInfoForDefenders", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a686cde5d11b28bbfc45a7a227b12d278", null ],
     [ "calculateInfoForMidfielders", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a4965810c41d04f8aea4b9341b7208ae7", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#ae10d1449ebe904bb0274e352727d1226", null ],

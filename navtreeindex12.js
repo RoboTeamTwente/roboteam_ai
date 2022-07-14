@@ -1,5 +1,7 @@
 var NAVTREEINDEX12 =
 {
+"classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#ad7b71d56f8b8d8d62b7ec945847a2bec":[9,0,0,0,3,3,26,12],
+"classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#ae0c6ce7335a11d00664df9351a446551":[9,0,0,0,3,3,26,22],
 "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#ae63525881610390f3a9e5a490377b32e":[9,0,0,0,3,3,26,16],
 "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#af1339b74ee9253265589fe58ed899e39":[9,0,0,0,3,3,26,13],
 "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html#afc11af371f15a5f48870f58264f8f069":[9,0,0,0,3,3,26,6],
@@ -247,7 +249,5 @@ var NAVTREEINDEX12 =
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html#a5bcb1194a71b4699e4108d134d679db5":[9,0,0,0,3,5,0,4],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html#a62d571b925906855b84dfc185a0b5ee8":[9,0,0,0,3,5,0,10],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html#a8625bf35b1b36ec18fd8ff68926ec0d4":[9,0,0,0,3,5,0,11],
-"classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html#a8ff0319d5018d2f697c38494d0568991":[9,0,0,0,3,5,0,0],
-"classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html#a97aca306adb701181c5726a09cac208c":[9,0,0,0,3,5,0,3],
-"classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html#aab9578d86a91f8a16f5c02200ca3b5e8":[9,0,0,0,3,5,0,7]
+"classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html#a8ff0319d5018d2f697c38494d0568991":[9,0,0,0,3,5,0,0]
 };
