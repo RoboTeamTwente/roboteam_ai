@@ -32,12 +32,12 @@ AttackingPass::AttackingPass() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Passer>(role::Passer("passer")),
                                                                                        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("pass_defender_1")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("pass_defender_2")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("defender_left")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("defender_mid")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("defender_right")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_left")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_right")),
                                                                                        std::make_unique<role::Formation>(role::Formation("attacker_left")),
                                                                                        std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
@@ -59,9 +59,9 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"defender_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"defender_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"midfielder_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"attacker_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"attacker_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
@@ -102,6 +102,35 @@ void AttackingPass::calculateInfoForRoles() noexcept {
             auto targetGrid = stpInfos["passer"].getRobot()->get()->getPos().y < 0 ? field.getMiddleRightGrid() : field.getMiddleLeftGrid();
             stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid, gen::BlockingPosition, field, world));
         }
+    }
+
+    auto enemyRobots = world->getWorld()->getThem();
+
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
+
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); });
+
+    std::map<double, Vector2> enemyMap;
+
+    for (auto enemy : enemyRobots) {
+        double score = FieldComputations::getDistanceToGoal(field, true, enemy->getPos());
+        if (enemy->hasBall()) continue;
+        enemyMap.insert({score, enemy->getPos()});
+    }
+
+    constexpr auto midfielderNames = std::array{"pass_defender_1", "pass_defender_2"};
+    auto activeMidfielderNames = std::vector<std::string>{};
+    for (auto name : midfielderNames) {
+        if (stpInfos[name].getRobot().has_value()) activeMidfielderNames.emplace_back(name);
+    }
+
+    for (int i = 0; i < activeMidfielderNames.size(); ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto& midfielderStpInfo = stpInfos[activeMidfielderNames[i]];
+        if (enemyMap.empty()) break;
+        midfielderStpInfo.setPositionToDefend(enemyMap.begin()->second);
+        midfielderStpInfo.setBlockDistance(BlockDistance::ROBOTRADIUS);
+        enemyMap.erase(enemyMap.begin());
     }
 }
 

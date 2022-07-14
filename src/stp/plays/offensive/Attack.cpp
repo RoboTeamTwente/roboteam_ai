@@ -29,11 +29,11 @@ Attack::Attack() : Play() {
                                                                                        std::make_unique<role::Attacker>(("striker")),
                                                                                        std::make_unique<role::Formation>(("waller_1")),
                                                                                        std::make_unique<role::Formation>(("waller_2")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("pass_defender_1")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("pass_defender_2")),
                                                                                        std::make_unique<role::Formation>(("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(("attacker_1")),
                                                                                        std::make_unique<role::Formation>(("attacker_2")),
-                                                                                       std::make_unique<role::Formation>(("midfielder_left")),
-                                                                                       std::make_unique<role::Formation>(("midfielder_right")),
                                                                                        std::make_unique<role::Formation>(("attacking_midfielder")),
                                                                                        std::make_unique<role::BallDefender>(("defender_right"))};
 }
@@ -55,8 +55,8 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});                                                         //
     flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});  //
     flagMap.insert({"attacker_2", {DealerFlagPriority::LOW_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});
-    flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"attacking_midfielder", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
@@ -83,6 +83,36 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["striker"].setPositionToShootAt(goalTarget);
     stpInfos["striker"].setKickOrChip(KickOrChip::KICK);
     stpInfos["striker"].setShotType(ShotType::MAX);
+
+
+    auto enemyRobots = world->getWorld()->getThem();
+
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
+
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); });
+
+    std::map<double, Vector2> enemyMap;
+
+    for (auto enemy : enemyRobots) {
+        double score = FieldComputations::getDistanceToGoal(field, true, enemy->getPos());
+        if (enemy->hasBall()) continue;
+        enemyMap.insert({score, enemy->getPos()});
+    }
+
+    constexpr auto midfielderNames = std::array{"pass_defender_1", "pass_defender_2"};
+    auto activeMidfielderNames = std::vector<std::string>{};
+    for (auto name : midfielderNames) {
+        if (stpInfos[name].getRobot().has_value()) activeMidfielderNames.emplace_back(name);
+    }
+
+    for (int i = 0; i < activeMidfielderNames.size(); ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto& midfielderStpInfo = stpInfos[activeMidfielderNames[i]];
+        if (enemyMap.empty()) break;
+        midfielderStpInfo.setPositionToDefend(enemyMap.begin()->second);
+        midfielderStpInfo.setBlockDistance(BlockDistance::ROBOTRADIUS);
+        enemyMap.erase(enemyMap.begin());
+    }
 }
 
 void Attack::calculateInfoForDefenders() noexcept {
