@@ -72,6 +72,7 @@ void Attack::calculateInfoForRoles() noexcept {
     calculateInfoForAttackers();
     calculateInfoForDefenders();
     calculateInfoForBlocker();
+    calculateInfoForMidfielders()
 
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
@@ -147,9 +148,6 @@ void Attack::calculateInfoForDefenders() noexcept {
 }
 
 void Attack::calculateInfoForMidfielders() noexcept {
-    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
-    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::BlockingPosition, field, world));
-    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
 
     // If the ball (and therefore striker) are in the front of the field, let the attacking midfielder go to the midfield
     // If the striker is not in the front field already, let the attacking midfielder go to the free section in the front field
