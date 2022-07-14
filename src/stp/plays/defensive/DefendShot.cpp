@@ -48,7 +48,7 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
@@ -58,7 +58,7 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_6", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {notImportant}}});
+    flagMap.insert({"ball_blocker", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
 
     return flagMap;
 }
@@ -143,10 +143,12 @@ void DefendShot::calculateInfoForHarasser() noexcept {
     auto robotToBallAngle = (ballPos - stpInfos["harasser"].getRobot()->get()->getPos()).toAngle();
     auto ballToEnemyAngle = (enemyClosestToBall->get()->getPos() - ballPos).toAngle();
     auto angleDiff = robotToBallAngle.shortestAngleDiff(ballToEnemyAngle);
+    RTT_DEBUG(angleDiff);
     if (angleDiff > M_PI / 3.0) {  // If the enemy is between us and the ball, dont go to the ball directly but further away, to avoid crashing
         auto enemyPos = enemyClosestToBall->get()->getPos();
-        auto targetPos = FieldComputations::projectPointToValidPositionOnLine(field, enemyPos + (ballPos - enemyPos).stretchToLength(0.50), enemyPos, ballPos, AvoidObjects{}, 0.0,
+        auto targetPos = FieldComputations::projectPointToValidPositionOnLine(field, enemyPos + (ballPos - enemyPos).stretchToLength(0.50), enemyPos, enemyPos + (ballPos - enemyPos).stretchToLength(10) , AvoidObjects{}, 0.0,
                                                                               control_constants::ROBOT_RADIUS * 2, 0.0);
+        RTT_DEBUG(targetPos);
         stpInfos["harasser"].setPositionToMoveTo(targetPos);
         stpInfos["harasser"].setAngle((enemyPos - ballPos).angle());
     } else {
@@ -164,7 +166,7 @@ void DefendShot::calculateInfoForKeeper() noexcept {
 const char* DefendShot::getName() { return "Defend Shot"; }
 
 // If we have the ball we should end doing defendShot
-bool DefendShot::shouldEndPlay() noexcept { 
+bool DefendShot::shouldEndPlay() noexcept {
     auto robotWithBall = world->getWorld()->whichRobotHasBall(world::both);
     return robotWithBall && robotWithBall->get()->getTeam() == rtt::world::Team::us;
 }
