@@ -64,15 +64,21 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
 }
 
 void DefendShot::calculateInfoForRoles() noexcept {
-    calculateInfoForWallers();
+    // Expand the defense area by ball_blocker defense threshold
+    const auto isBallToClose =
+        world->getWorld()->getBall().has_value() && FieldComputations::getDefenseArea(field, true, 0.61, 0).contains(world->getWorld()->getBall()->get()->position);
+
+    if (!isBallToClose) calculateInfoForBlocker();
+    calculateInfoForWallers(isBallToClose);
     calculateInfoForDefenders();
     calculateInfoForKeeper();
-    calculateInfoForBlocker();
     calculateInfoForHarasser();
 }
 
-void DefendShot::calculateInfoForWallers() noexcept {
-    constexpr auto wallerNames = std::array{"waller_1", "waller_2"};
+void DefendShot::calculateInfoForWallers(bool shouldIncludeBallBlocker) noexcept {
+    auto wallerNames = std::vector{"waller_1", "waller_2"};
+    if (shouldIncludeBallBlocker) wallerNames.push_back("ball_blocker");
+
     auto activeWallerNames = std::vector<std::string>{};
     for (auto name : wallerNames) {
         if (stpInfos[name].getRobot().has_value()) activeWallerNames.emplace_back(name);
