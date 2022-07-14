@@ -37,6 +37,7 @@ class BallPlacementThem : public Play {
     void calculateInfoForKeeper() noexcept;
     void calculateInfoForDefenders() noexcept;
     void calculateInfoForWallers() noexcept;
+    void calculateInfoForHarasser() noexcept;
 
     /**
      * Gets the play name

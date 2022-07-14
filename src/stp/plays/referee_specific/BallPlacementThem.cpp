@@ -4,6 +4,8 @@
 
 #include "stp/plays/referee_specific/BallPlacementThem.h"
 
+#include <stp/roles/passive/Formation.h>
+
 #include "stp/roles/Keeper.h"
 #include "stp/roles/passive/BallAvoider.h"
 
@@ -26,7 +28,7 @@ BallPlacementThem::BallPlacementThem() : Play() {
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("waller_7")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("waller_8")),
                                                                                  std::make_unique<role::BallAvoider>(role::BallAvoider("waller_9")),
-                                                                                 std::make_unique<role::BallAvoider>(role::BallAvoider("waller_10"))};
+                                                                                 std::make_unique<role::Formation>(role::Formation("harasser"))};
 }
 
 uint8_t BallPlacementThem::score(const rtt::world::Field& field) noexcept {
@@ -38,7 +40,8 @@ uint8_t BallPlacementThem::score(const rtt::world::Field& field) noexcept {
 Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag closestToBallFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
     flagMap.insert({"waller_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -50,7 +53,7 @@ Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
     flagMap.insert({"waller_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"waller_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"waller_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"waller_10", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closestToBallFlag}}});
 
     return flagMap;
 }
@@ -58,11 +61,21 @@ Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
 void BallPlacementThem::calculateInfoForRoles() noexcept {
     calculateInfoForWallers();
     calculateInfoForKeeper();
+    calculateInfoForHarasser();
+}
+void BallPlacementThem::calculateInfoForHarasser() noexcept {
+    auto ballPos = world->getWorld()->getBall()->get()->position;
+    auto enemyPos = world->getWorld()->getRobotClosestToBall(world::Team::them)->get()->getPos();
+    auto targetPos = ballPos + (ballPos - enemyPos).stretchToLength(0.6);
+    double angle = Vector2(enemyPos-ballPos).toAngle();
+
+    stpInfos["harasser"].setAngle(angle);
+    stpInfos["harasser"].setPositionToMoveTo(targetPos);
 }
 
 void BallPlacementThem::calculateInfoForWallers() noexcept {
 
-    constexpr auto wallerNames = std::array{"waller_1", "waller_2", "waller_3", "waller_4", "waller_5", "waller_6", "waller_7", "waller_8", "waller_9", "waller_10"};
+    constexpr auto wallerNames = std::array{"waller_1", "waller_2", "waller_3", "waller_4", "waller_5", "waller_6", "waller_7", "waller_8", "waller_9"};
     auto activeWallerNames = std::vector<std::string>{};
     for (auto name : wallerNames) {
         if (stpInfos[name].getRobot().has_value()) activeWallerNames.emplace_back(name);
