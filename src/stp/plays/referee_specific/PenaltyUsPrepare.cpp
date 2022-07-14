@@ -35,14 +35,14 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
     // Create a grid pattern of robots on our side of the field
 
     // First, figure out at what interval the robots will stand on a horizontal line
-    double horizontalRange = std::fabs(field.getLeftmostX()) - 3;
+    double horizontalRange = std::fabs(field.getLeftmostX()) - 4;
     double horizontalHalfStep = horizontalRange / (5.0 * 2.0); // 5 robots for stepSize, divided by 2 for half stepSize
 
     // Then, figure out vertical stepSize
     double verticalRange = field.getBottomLeftOurDefenceArea().y - field.getBottommostY();
     double verticalHalfStep = verticalRange / (2.0 * 2.0); // 2 rows, divided by 2 for half stepSize
 
-    double startX = -horizontalHalfStep - 3;
+    double startX = -horizontalHalfStep - 4;
     double bottomY = field.getBottommostY() + verticalHalfStep;
     double topY = bottomY + 2 * verticalHalfStep;
 
