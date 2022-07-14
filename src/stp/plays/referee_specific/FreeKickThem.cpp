@@ -31,8 +31,8 @@ FreeKickThem::FreeKickThem() : Play() {
         std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2")),
         std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
         std::make_unique<role::Formation>(role::Formation("harasser")),
+        std::make_unique<role::BallDefender>(role::BallDefender("defender_helper_3")),
         std::make_unique<role::Formation>(role::Formation("offender_1")),
-        std::make_unique<role::Formation>(role::Formation("offender_2")),
     };
 }
 
@@ -50,11 +50,11 @@ Dealer::FlagMap FreeKickThem::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"defender_helper_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"defender_helper_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"defender_helper_3", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_3", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
     flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {closeToTheirGoalFlag}}});
-    flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {closeToTheirGoalFlag}}});
 
     return flagMap;  // DONT TOUCH.
 }
@@ -92,10 +92,13 @@ void FreeKickThem::calculateInfoForDefenders() noexcept {
     erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToOurGoalTwo && enemyRobot->getId() == enemyClosestToOurGoalTwo.value()->getId(); });
 
     stpInfos["defender_helper_1"].setPositionToDefend(enemyClosestToOurGoalOne->get()->getPos());
-    stpInfos["defender_helper_1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_helper_1"].setBlockDistance(BlockDistance::ROBOTRADIUS);
 
     stpInfos["defender_helper_2"].setPositionToDefend(enemyClosestToOurGoalTwo->get()->getPos());
-    stpInfos["defender_helper_2"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_helper_2"].setBlockDistance(BlockDistance::ROBOTRADIUS);
+
+    stpInfos["defender_helper_3"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_helper_3"].setBlockDistance(BlockDistance::HALFWAY);
 
     std::map<double, Vector2> enemyMap;
 
@@ -110,7 +113,7 @@ void FreeKickThem::calculateInfoForDefenders() noexcept {
             break;
         }
         stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
-        stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::ROBOTRADIUS);
         enemyMap.erase(prev(enemyMap.end()));
     }
 }
@@ -125,17 +128,10 @@ void FreeKickThem::calculateInfoForKeeper() noexcept {
 void FreeKickThem::calculateInfoForHarassers() noexcept {
     auto ballPos = world->getWorld()->getBall()->get()->position;
     auto enemyPos = world->getWorld()->getRobotClosestToBall(world::Team::them)->get()->getPos();
-    auto goalPos = field.getOurGoalCenter();
+    auto targetPos = ballPos + (ballPos - enemyPos).stretchToLength(0.6);
+    double angle = Vector2(enemyPos-ballPos).toAngle();
 
-    auto targetPos = (ballPos + goalPos)
-                         .stretchToLength((ballPos - enemyPos).length()  // Position us in equal distance from the ball and enemy robot
-                         );
-
-    targetPos = FieldComputations::projectPointToValidPositionOnLine(field, targetPos, ballPos, goalPos);
-    if (targetPos.dist(ballPos) <= 0.6) {
-        // If we're within 60cm of the ball, move the target pos to be 60cm away
-        targetPos += (ballPos - targetPos).stretchToLength(0.6 - targetPos.dist(ballPos));
-    }
+    stpInfos["harasser"].setAngle(angle);
     stpInfos["harasser"].setPositionToMoveTo(targetPos);
 }
 
