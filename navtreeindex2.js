@@ -16,6 +16,7 @@ var NAVTREEINDEX2 =
 "PenaltyThemPrepareGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,13],
 "PenaltyThemPrepareGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,13],
 "PenaltyThemPrepare_8cpp.html":[10,0,2,3,3,3,13],
+"PenaltyThemPrepare_8cpp.html#a073cfb0dcce27c69a198183f4eccad10":[10,0,2,3,3,3,13,0],
 "PenaltyThemPrepare_8h.html":[10,0,1,0,3,3,3,13],
 "PenaltyThemPrepare_8h_source.html":[10,0,1,0,3,3,3,13],
 "PenaltyThem_8cpp.html":[10,0,2,3,3,3,12],
@@ -28,6 +29,7 @@ var NAVTREEINDEX2 =
 "PenaltyUsPrepareGameStateEvaluation_8h.html":[10,0,1,0,3,2,0,15],
 "PenaltyUsPrepareGameStateEvaluation_8h_source.html":[10,0,1,0,3,2,0,15],
 "PenaltyUsPrepare_8cpp.html":[10,0,2,3,3,3,15],
+"PenaltyUsPrepare_8cpp.html#ac50631db44841dd08ab8857eb1955735":[10,0,2,3,3,3,15,0],
 "PenaltyUsPrepare_8h.html":[10,0,1,0,3,3,3,15],
 "PenaltyUsPrepare_8h_source.html":[10,0,1,0,3,3,3,15],
 "PenaltyUs_8cpp.html":[10,0,2,3,3,3,14],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "TestTactic_8cpp.html":[10,0,2,3,6,5],
 "TestTactic_8h.html":[10,0,1,0,3,6,5],
 "TestTactic_8h_source.html":[10,0,1,0,3,6,5],
-"TheyDoNotHaveBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,15],
-"TheyDoNotHaveBallGlobalEvaluation_8h.html":[10,0,1,0,3,2,1,15],
-"TheyDoNotHaveBallGlobalEvaluation_8h_source.html":[10,0,1,0,3,2,1,15]
+"TheyDoNotHaveBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,15]
 };

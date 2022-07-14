@@ -13,8 +13,8 @@ var dir_998e6ca1b10b91a116eefe76426bb257 =
     [ "KickOffUs.cpp", "KickOffUs_8cpp.html", null ],
     [ "KickOffUsPrepare.cpp", "KickOffUsPrepare_8cpp.html", null ],
     [ "PenaltyThem.cpp", "PenaltyThem_8cpp.html", null ],
-    [ "PenaltyThemPrepare.cpp", "PenaltyThemPrepare_8cpp.html", null ],
+    [ "PenaltyThemPrepare.cpp", "PenaltyThemPrepare_8cpp.html", "PenaltyThemPrepare_8cpp" ],
     [ "PenaltyUs.cpp", "PenaltyUs_8cpp.html", null ],
-    [ "PenaltyUsPrepare.cpp", "PenaltyUsPrepare_8cpp.html", null ],
+    [ "PenaltyUsPrepare.cpp", "PenaltyUsPrepare_8cpp.html", "PenaltyUsPrepare_8cpp" ],
     [ "TimeOut.cpp", "TimeOut_8cpp.html", null ]
 ];
