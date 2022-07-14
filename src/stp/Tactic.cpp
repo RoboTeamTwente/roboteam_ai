@@ -24,7 +24,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
         (void)status;  // return of update is never used, but it is marked [[no-discard]] in the state machine. This cast suppresses that warning.
     } else {
-        RTT_ERROR("Not all data was present, bad update!")
+        RTT_ERROR(getName(), "Not all data was present, bad update!")
         return Status::Failure;
     }
 
