@@ -39,7 +39,8 @@ Vector2 Intercept::calculateInterceptPosition(const StpInfo& info) {
     auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(info.getField()->getFieldLength()));
 
     auto distToBallTrajectory = ballTrajectory.distanceToLine(robot->getPos());
-    if (distToBallTrajectory < 0.10)  return ballTrajectory.project(robot->getPos()); // If we're already standing on the line, stay there
+    if (distToBallTrajectory < 0.10)
+        return FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), ballTrajectory.start, ballTrajectory.start, ballTrajectory.end);
 
     if (ballIsAccelerating(ball->velocity.length())){
         return FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), ball->expectedEndPosition, ballTrajectory.start, ballTrajectory.end);
@@ -53,7 +54,7 @@ Vector2 Intercept::calculateInterceptPosition(const StpInfo& info) {
 }
 
 bool Intercept::ballIsAccelerating(double ballVelocity) {
-    bool isAccelerating = ballVelocity > previousBallVelocity;
+    bool isAccelerating = ballVelocity > previousBallVelocity * 1.2; // Due to filtering, the ball velocity will "slowly" go up, this checks if this is the case
     previousBallVelocity = ballVelocity;
     return isAccelerating;
 }
