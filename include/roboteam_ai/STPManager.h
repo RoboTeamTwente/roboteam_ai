@@ -28,7 +28,7 @@ class STPManager {
      * Function that decides whether to change plays given a world and field.
      * @param _world the current world state
      */
-    void decidePlay(world::World* _world);
+    void decidePlay(world::World* _world, const proto::SSL_Referee_Stage& stage);
 
    public:
     void start();

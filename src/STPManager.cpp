@@ -158,7 +158,7 @@ void STPManager::runOneLoopCycle() {
             world->updateField(fieldMessage);
             world->updatePositionControl();
 
-            decidePlay(world);
+            decidePlay(world, state.referee().stage());
 
         } else {
             if (robotsInitialized) {
@@ -177,7 +177,30 @@ void STPManager::runOneLoopCycle() {
     rtt::ai::control::ControlModule::sendAllCommands();
 }
 
-void STPManager::decidePlay(world::World *_world) {
+void STPManager::decidePlay(world::World *_world, const proto::SSL_Referee_Stage& stage) {
+    // TODO: This is beunfix. Implement this properly into STP
+    // This tries to already make the robots go into some sort of formation before the game starts
+    if (stage == proto::SSL_Referee_Stage::SSL_Referee_Stage_NORMAL_FIRST_HALF_PRE
+        || stage == proto::SSL_Referee_Stage::SSL_Referee_Stage_NORMAL_SECOND_HALF_PRE
+        || stage == proto::SSL_Referee_Stage::SSL_Referee_Stage_EXTRA_FIRST_HALF_PRE
+        || stage == proto::SSL_Referee_Stage::SSL_Referee_Stage_EXTRA_SECOND_HALF_PRE) {
+        RTT_DEBUG("Overriding picking play, as ths is PRE-HALF time")
+        for (const auto& play : plays) {
+            if (play != nullptr && std::string(play->getName()) == "Kick Off Them Prepare") {
+                RTT_DEBUG("Overriding picking play with 'Kick off them prepare'")
+                ai::stp::gen::PlayInfos previousPlayInfo{};
+                if (currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+                currentPlay = ai::stp::PlayDecider::decideBestPlay(_world, plays);
+                currentPlay->updateField(_world->getField().value());
+                currentPlay->initialize(previousPlayInfo);
+                currentPlay->update();
+                mainWindow->updatePlay(currentPlay);
+                return;
+            }
+        }
+        RTT_DEBUG("Failed to override play")
+    }
+
     ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 
