@@ -5,6 +5,7 @@
 #include "stp/plays/defensive/DefendShot.h"
 
 #include <stp/roles/passive/Formation.h>
+
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Harasser.h"
 #include "stp/roles/passive/BallDefender.h"
@@ -117,12 +118,13 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
 void DefendShot::calculateInfoForBlocker() noexcept {
     stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world));
-    if (stpInfos["ball_blocker"].getRobot()) stpInfos["ball_blocker"].setAngle((world->getWorld()->getBall()->get()->position - stpInfos["ball_blocker"].getRobot()->get()->getPos()).toAngle());
+    if (stpInfos["ball_blocker"].getRobot())
+        stpInfos["ball_blocker"].setAngle((world->getWorld()->getBall()->get()->position - stpInfos["ball_blocker"].getRobot()->get()->getPos()).toAngle());
 }
 
 void DefendShot::calculateInfoForHarasser() noexcept {
-    if (stpInfos["harasser"].getRobot() && (stpInfos["harasser"].getRobot()->get()->getPos() - world->getWorld()->getBall()->get()->position).length() < 1.0)
-        stpInfos["harasser"].setMaxRobotVelocity(0.75);
+    stpInfos["harasser"].setPositionToShootAt(world->getWorld()->getRobotClosestToBall(world::them)->get()->getPos());
+
 }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
