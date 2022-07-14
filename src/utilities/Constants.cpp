@@ -2,11 +2,12 @@
 // Created by mrlukasbos on 8-2-19.
 //
 
+#include "utilities/Constants.h"
+
 #include <assert.h>
 #include <roboteam_utils/Print.h>
 
 #include "utilities/Settings.h"
-#include "utilities/Constants.h"
 
 // TODO: Clean this up and remove unneeded variables
 
@@ -264,28 +265,27 @@ std::map<int, bool> Constants::ROBOTS_WITH_KICKER() {
     return kickerRobots;
 }
 
-std::map<int, int> Constants::ROBOTS_MAXIMUM_KICK_TIME() {
-    static std::map<int, int> maximumKickTimes;
-    maximumKickTimes[0] = 25;
-    maximumKickTimes[1] = 31; // Tested: 6.1
-    maximumKickTimes[2] = 25; // Tested
-    maximumKickTimes[3] = 25;
-    maximumKickTimes[4] = 25;
-    maximumKickTimes[5] = 25; // Tested
-    maximumKickTimes[6] = 25;
-    maximumKickTimes[7] = 20; // Tested: 5.5
-    maximumKickTimes[8] = 40; // Tested: 5 is actualy 60
-    maximumKickTimes[9] = 25; // Tested: idk
-    maximumKickTimes[10] = 25;
-    maximumKickTimes[11] = 25;
-    maximumKickTimes[12] = 25;
-    maximumKickTimes[13] = 40; // Tested: 4.8 is actually 60
-    maximumKickTimes[14] = 25;
-    maximumKickTimes[15] = 25;
+std::map<int, float> Constants::ROBOTS_MAXIMUM_KICK_TIME() {
+    static std::map<int, float> maximumKickTimes;
+    maximumKickTimes[0] = 25.0;
+    maximumKickTimes[1] = 31.0;  // Tested: 6.1
+    maximumKickTimes[2] = 25.0;  // Tested
+    maximumKickTimes[3] = 25.0;
+    maximumKickTimes[4] = 25.0;
+    maximumKickTimes[5] = 25.0;  // Tested
+    maximumKickTimes[6] = 25.0;
+    maximumKickTimes[7] = 20.0;  // Tested: 5.5
+    maximumKickTimes[8] = 40.0;  // Tested: 5 is actualy 60
+    maximumKickTimes[9] = 25.0;  // Tested: idk
+    maximumKickTimes[10] = 25.0;
+    maximumKickTimes[11] = 25.0;
+    maximumKickTimes[12] = 25.0;
+    maximumKickTimes[13] = 40.0;  // Tested: 4.8 is actually 60
+    maximumKickTimes[14] = 25.0;
+    maximumKickTimes[15] = 25.0;
 
     return maximumKickTimes;
 }
-
 
 bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) { return ROBOTS_WITH_WORKING_BALL_SENSOR()[id]; }
 
@@ -328,7 +328,7 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"halt", 0.0, 0.0, 0.0, -1, true},
             {"stop", 1.3, 0.0, 0.8, -1, false},
             {"ballplacement_them", 1.3, 6.5, 0.8, -1, true},
-            {"ballplacement_us", 0.75 /*2.5*/, 6.5, 0.0, -1, true},
+            {"ballplacement_us", 1.5 /*2.5*/, 6.5, 0.0, -1, true},
             {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
 }
 
