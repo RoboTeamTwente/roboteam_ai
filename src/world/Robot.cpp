@@ -137,7 +137,7 @@ void Robot::updateHasBallMap(std::optional<view::BallView> &ball) {
     // When doing free kicks, we have to immediately kick the ball, hence, we only check for 1 tick
     // TODO: this is a bit of a hacky way to avoid double touch fouls. Figuring out a better way to do this would be nice
     if (ai::GameStateManager::getCurrentGameState().getStrategyName() == "free_kick_us" || ai::GameStateManager::getCurrentGameState().getStrategyName() == "kickoff_us") {
-        auto hasBallAccordingToVision = distanceToBall < ai::Constants::HAS_BALL_DISTANCE() && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
+        auto hasBallAccordingToVision = distanceToBall < ai::Constants::HAS_BALL_DISTANCE() * 0.9 && angleDiffToBall < ai::Constants::HAS_BALL_ANGLE();
         if (hasBallAccordingToVision || dribblerSeesBall) setHasBall(true);
         return;
     }
