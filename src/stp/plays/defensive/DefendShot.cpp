@@ -132,8 +132,26 @@ void DefendShot::calculateInfoForBlocker() noexcept {
 }
 
 void DefendShot::calculateInfoForHarasser() noexcept {
-    stpInfos["harasser"].setPositionToShootAt(world->getWorld()->getRobotClosestToBall(world::them)->get()->getPos());
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
 
+    if (!stpInfos["harasser"].getRobot() || !enemyClosestToBall){
+        stpInfos["harasser"].setPositionToMoveTo(world->getWorld()->getBall()->get()->position);
+        return;
+    }
+
+    auto ballPos = world->getWorld()->getBall()->get()->position;
+    auto robotToBallAngle = (ballPos - stpInfos["harasser"].getRobot()->get()->getPos()).toAngle();
+    auto ballToEnemyAngle = (enemyClosestToBall->get()->getPos() - ballPos).toAngle();
+    auto angleDiff = robotToBallAngle.shortestAngleDiff(ballToEnemyAngle);
+    if (angleDiff > M_PI / 3.0) { // If the enemy is between us and the ball, dont go to the ball directly but further away, to avoid crashing
+        auto enemyPos = enemyClosestToBall->get()->getPos();
+        auto targetPos = FieldComputations::projectPointToValidPositionOnLine(field, enemyPos + (ballPos - enemyPos).stretchToLength(0.50), enemyPos, ballPos, AvoidObjects{}, 0.0, control_constants::ROBOT_RADIUS * 2, 0.0);
+        stpInfos["harasser"].setPositionToMoveTo(targetPos);
+        stpInfos["harasser"].setAngle((enemyPos - ballPos).angle());
+    } else {
+        auto harasser = std::find_if(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "harasser"; });
+        if (harasser != roles.end() && !harasser->get()->finished() && strcmp(harasser->get()->getCurrentTactic()->getName(), "Formation") == 0) harasser->get()->forceNextTactic();
+    }
 }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
