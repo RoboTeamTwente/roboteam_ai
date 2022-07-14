@@ -14,7 +14,6 @@ namespace rtt::ai::stp::play {
 DefendShot::DefendShot() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(eval::NormalPlayGameState);
-    startPlayEvaluation.emplace_back(eval::TheyHaveBall);
     startPlayEvaluation.emplace_back(GlobalEvaluation::BallNotInOurDefenseAreaAndStill);
 
     keepPlayEvaluation.clear();
@@ -35,7 +34,11 @@ DefendShot::DefendShot() : Play() {
                                                                                        std::make_unique<role::Formation>("ball_blocker")};
 }
 
-uint8_t DefendShot::score(const rtt::world::Field& field) noexcept { return 255; }
+uint8_t DefendShot::score(const rtt::world::Field& field) noexcept {
+    if (world->getWorld()->whichRobotHasBall(world::them) != std::nullopt) return 255;
+    if (world->getWorld()->whichRobotHasBall(world::us) != std::nullopt) return 0;
+    return (world->getWorld()->getBall()->get()->position.x < 0 ? 255 : 0);
+}
 
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
