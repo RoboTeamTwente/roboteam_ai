@@ -5,6 +5,7 @@
 #include "stp/plays/defensive/DefendShot.h"
 
 #include <stp/roles/passive/Formation.h>
+
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Harasser.h"
 #include "stp/roles/passive/BallDefender.h"
@@ -25,12 +26,12 @@ DefendShot::DefendShot() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Formation>(role::Formation("waller_1")),
                                                                                        std::make_unique<role::Formation>(role::Formation("waller_2")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("waller_3")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("waller_4")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_1")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_2")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_3")),
                                                                                        std::make_unique<role::BallDefender>(role::BallDefender("midfielder_4")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_5")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("midfielder_6")),
                                                                                        std::make_unique<role::Harasser>(role::Harasser("harasser")),
                                                                                        std::make_unique<role::Formation>("ball_blocker")};
 }
@@ -47,12 +48,12 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
     flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_3", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"waller_4", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_6", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
     flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {notImportant}}});
 
@@ -68,7 +69,7 @@ void DefendShot::calculateInfoForRoles() noexcept {
 }
 
 void DefendShot::calculateInfoForWallers() noexcept {
-    constexpr auto wallerNames = std::array{"waller_1", "waller_2", "waller_3", "waller_4"};
+    constexpr auto wallerNames = std::array{"waller_1", "waller_2"};
     auto activeWallerNames = std::vector<std::string>{};
     for (auto name : wallerNames) {
         if (stpInfos[name].getRobot().has_value()) activeWallerNames.emplace_back(name);
@@ -101,28 +102,35 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     for (auto enemy : enemyRobots) {
         double score = FieldComputations::getDistanceToGoal(field, true, enemy->getPos());
+        if (enemy->hasBall()) continue;
         enemyMap.insert({score, enemy->getPos()});
     }
 
-    for (int i = 1; i <= 5; i++) {
-        if (!enemyMap.empty()) {
-            stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.begin()->second);
-            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::ROBOTRADIUS);
+    constexpr auto midfielderNames = std::array{"midfielder_1", "midfielder_2", "midfielder_3", "midfielder_4", "midfielder_5", "midfielder_6"};
+    auto activeMidfielderNames = std::vector<std::string>{};
+    for (auto name : midfielderNames) {
+        if (stpInfos[name].getRobot().has_value()) activeMidfielderNames.emplace_back(name);
+    }
+
+    for (int i = 0; i < activeMidfielderNames.size(); ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto& midfielderStpInfo = stpInfos[activeMidfielderNames[i]];
+        if (enemyMap.empty()) break;
+            midfielderStpInfo.setPositionToDefend(enemyMap.begin()->second);
+            midfielderStpInfo.setBlockDistance(BlockDistance::ROBOTRADIUS);
             enemyMap.erase(enemyMap.begin());
-        } else {
-            break;
-        }
     }
 }
 
 void DefendShot::calculateInfoForBlocker() noexcept {
     stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world));
-    if (stpInfos["ball_blocker"].getRobot()) stpInfos["ball_blocker"].setAngle((world->getWorld()->getBall()->get()->position - stpInfos["ball_blocker"].getRobot()->get()->getPos()).toAngle());
+    if (stpInfos["ball_blocker"].getRobot())
+        stpInfos["ball_blocker"].setAngle((world->getWorld()->getBall()->get()->position - stpInfos["ball_blocker"].getRobot()->get()->getPos()).toAngle());
 }
 
 void DefendShot::calculateInfoForHarasser() noexcept {
-    if (stpInfos["harasser"].getRobot() && (stpInfos["harasser"].getRobot()->get()->getPos() - world->getWorld()->getBall()->get()->position).length() < 1.0)
-        stpInfos["harasser"].setMaxRobotVelocity(0.75);
+    stpInfos["harasser"].setPositionToShootAt(world->getWorld()->getRobotClosestToBall(world::them)->get()->getPos());
+
 }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
