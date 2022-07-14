@@ -1,8 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"TestTactic_8h.html":[10,0,1,0,3,6,5],
-"TestTactic_8h_source.html":[10,0,1,0,3,6,5],
-"TheyDoNotHaveBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,15],
 "TheyDoNotHaveBallGlobalEvaluation_8h.html":[10,0,1,0,3,2,1,15],
 "TheyDoNotHaveBallGlobalEvaluation_8h_source.html":[10,0,1,0,3,2,1,15],
 "TheyHaveBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,16],
@@ -249,5 +246,8 @@ var NAVTREEINDEX3 =
 "WorldResetTests_8cpp.html#abcbd27c1e6f09507adb722d93ecb022d":[10,0,3,8,7,0],
 "World_8cpp.html":[10,0,2,5,5],
 "World_8hpp.html":[10,0,1,0,5,7],
-"World_8hpp_source.html":[10,0,1,0,5,7]
+"World_8hpp_source.html":[10,0,1,0,5,7],
+"annotated.html":[9,0],
+"classMockTactic.html":[9,0,14],
+"classMockTactic.html#a017146fe91303cedde7a38f919dbdd51":[9,0,14,9]
 };

@@ -133,7 +133,6 @@ var annotated_dup =
             [ "BallReflector", "classrtt_1_1ai_1_1stp_1_1role_1_1BallReflector.html", "classrtt_1_1ai_1_1stp_1_1role_1_1BallReflector" ],
             [ "FreeKickTaker", "classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker.html", "classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker" ],
             [ "Harasser", "classrtt_1_1ai_1_1stp_1_1role_1_1Harasser.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Harasser" ],
-            [ "KeeperPasser", "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html", "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser" ],
             [ "Passer", "classrtt_1_1ai_1_1stp_1_1role_1_1Passer.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Passer" ],
             [ "PassReceiver", "classrtt_1_1ai_1_1stp_1_1role_1_1PassReceiver.html", "classrtt_1_1ai_1_1stp_1_1role_1_1PassReceiver" ],
             [ "Keeper", "classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Keeper" ],
