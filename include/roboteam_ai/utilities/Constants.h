@@ -77,6 +77,8 @@ class Constants {
     static constexpr double MAX_VEL_BALLPLACEMENT() { return 3.0; };
     static int DEFAULT_KEEPER_ID();
 
+    static double PENALTY_DISTANCE_BEHIND_BALL();
+
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER();
     static double MAX_KICK_POWER();           // TODO: TUNE MAX KICK POWER
