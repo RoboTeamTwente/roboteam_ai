@@ -52,7 +52,7 @@ class DefendShot : public Play {
     /**
      * Calculates info for the wallers
      */
-    void calculateInfoForWallers() noexcept;
+    void calculateInfoForWallers(bool shouldIncludeBallBlocker) noexcept;
 
     /**
      * Calculates info for the defenders
