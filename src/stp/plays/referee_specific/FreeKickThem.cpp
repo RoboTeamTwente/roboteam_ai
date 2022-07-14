@@ -106,13 +106,13 @@ void FreeKickThem::calculateInfoForDefenders() noexcept {
     }
 
     for (int i = 1; i <= 3; i++) {
-        if (!enemyMap.empty()) {
-            stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
-            stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
-            enemyMap.erase(prev(enemyMap.end()));
-        } else {
+        if (enemyMap.empty()) {
             break;
         }
+
+        stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
+        stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
+        enemyMap.erase(prev(enemyMap.end()));
     }
 }
 
