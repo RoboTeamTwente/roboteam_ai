@@ -38,7 +38,7 @@ DefendShot::DefendShot() : Play() {
 uint8_t DefendShot::score(const rtt::world::Field& field) noexcept {
     if (world->getWorld()->whichRobotHasBall(world::them) != std::nullopt) return 255;
     if (world->getWorld()->whichRobotHasBall(world::us) != std::nullopt) return 0;
-    return (world->getWorld()->getBall()->get()->position.x < 0 ? 255 : 0);
+    return 0;
 }
 
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
