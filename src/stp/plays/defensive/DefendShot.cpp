@@ -133,7 +133,8 @@ void DefendShot::calculateInfoForBlocker() noexcept {
 
 void DefendShot::calculateInfoForHarasser() noexcept {
     stpInfos["harasser"].setPositionToShootAt(world->getWorld()->getRobotClosestToBall(world::them)->get()->getPos());
-
+    stpInfos["harasser"].setPositionToMoveTo((world->getWorld()->getBall()->get()->position - world->getWorld()->getRobotClosestToBall(world::them)->get()->getPos()).stretchToLength(0.2));
+    if (stpInfos["harasser"].getRobot()) stpInfos["harasser"].setAngle((world->getWorld()->getBall()->get()->position  - stpInfos["harasser"].getRobot()->get()->getPos()).toAngle());
 }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
