@@ -134,7 +134,7 @@ void DefendShot::calculateInfoForBlocker() noexcept {
 void DefendShot::calculateInfoForHarasser() noexcept {
     auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
 
-    if (!stpInfos["harasser"].getRobot() || !enemyClosestToBall){
+    if (!stpInfos["harasser"].getRobot() || !enemyClosestToBall) {
         stpInfos["harasser"].setPositionToMoveTo(world->getWorld()->getBall()->get()->position);
         return;
     }
@@ -143,9 +143,10 @@ void DefendShot::calculateInfoForHarasser() noexcept {
     auto robotToBallAngle = (ballPos - stpInfos["harasser"].getRobot()->get()->getPos()).toAngle();
     auto ballToEnemyAngle = (enemyClosestToBall->get()->getPos() - ballPos).toAngle();
     auto angleDiff = robotToBallAngle.shortestAngleDiff(ballToEnemyAngle);
-    if (angleDiff > M_PI / 3.0) { // If the enemy is between us and the ball, dont go to the ball directly but further away, to avoid crashing
+    if (angleDiff > M_PI / 3.0) {  // If the enemy is between us and the ball, dont go to the ball directly but further away, to avoid crashing
         auto enemyPos = enemyClosestToBall->get()->getPos();
-        auto targetPos = FieldComputations::projectPointToValidPositionOnLine(field, enemyPos + (ballPos - enemyPos).stretchToLength(0.50), enemyPos, ballPos, AvoidObjects{}, 0.0, control_constants::ROBOT_RADIUS * 2, 0.0);
+        auto targetPos = FieldComputations::projectPointToValidPositionOnLine(field, enemyPos + (ballPos - enemyPos).stretchToLength(0.50), enemyPos, ballPos, AvoidObjects{}, 0.0,
+                                                                              control_constants::ROBOT_RADIUS * 2, 0.0);
         stpInfos["harasser"].setPositionToMoveTo(targetPos);
         stpInfos["harasser"].setAngle((enemyPos - ballPos).angle());
     } else {
@@ -161,5 +162,11 @@ void DefendShot::calculateInfoForKeeper() noexcept {
 }
 
 const char* DefendShot::getName() { return "Defend Shot"; }
+
+// If we have the ball we should end doing defendShot
+bool DefendShot::shouldEndPlay() noexcept { 
+    auto robotWithBall = world->getWorld()->whichRobotHasBall(world::both);
+    return robotWithBall && robotWithBall->get()->getTeam() == rtt::world::Team::us;
+}
 
 }  // namespace rtt::ai::stp::play
