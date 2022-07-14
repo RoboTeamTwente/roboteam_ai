@@ -1,5 +1,8 @@
 var NAVTREEINDEX4 =
 {
+"annotated.html":[9,0],
+"classMockTactic.html":[9,0,14],
+"classMockTactic.html#a017146fe91303cedde7a38f919dbdd51":[9,0,14,9],
 "classMockTactic.html#a0dd3439d999970125264ce7fccadff49":[9,0,14,16],
 "classMockTactic.html#a2406ddec88191f369b72206849a1d9a4":[9,0,14,6],
 "classMockTactic.html#a242748b42fbc99613b65f6500eb12f8f":[9,0,14,17],
@@ -246,8 +249,5 @@ var NAVTREEINDEX4 =
 "classrtt_1_1ai_1_1Constants.html#a552c1e343bec24fb5db046a234c4a40f":[9,0,0,0,4,64],
 "classrtt_1_1ai_1_1Constants.html#a577c31727302485df16b5182cae250cf":[9,0,0,0,4,77],
 "classrtt_1_1ai_1_1Constants.html#a58313db54e74f83dca98f4bf46cfef88":[9,0,0,0,4,107],
-"classrtt_1_1ai_1_1Constants.html#a588134b99830c3193cfbff96db37398e":[9,0,0,0,4,51],
-"classrtt_1_1ai_1_1Constants.html#a5941a65f7ea6df4c658712c17c6b8c8c":[9,0,0,0,4,25],
-"classrtt_1_1ai_1_1Constants.html#a5b5e954e679060a9b812a0f41f64755d":[9,0,0,0,4,43],
-"classrtt_1_1ai_1_1Constants.html#a5dd3e70869f82d042fe629c86ec5cb18":[9,0,0,0,4,55]
+"classrtt_1_1ai_1_1Constants.html#a588134b99830c3193cfbff96db37398e":[9,0,0,0,4,51]
 };

@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"PathPointNode_8cpp.html":[10,0,2,0,0,4],
+"PathPointNode_8h.html":[10,0,1,0,0,0,4],
+"PathPointNode_8h_source.html":[10,0,1,0,0,0,4],
 "PathTrackingAlgorithm_8cpp.html":[10,0,2,0,0,2,2],
 "PathTrackingAlgorithm_8h.html":[10,0,1,0,0,0,2,2],
 "PathTrackingAlgorithm_8h_source.html":[10,0,1,0,0,0,2,2],
@@ -246,8 +249,5 @@ var NAVTREEINDEX2 =
 "TestSkill_8cpp.html":[10,0,2,3,5,7],
 "TestSkill_8h.html":[10,0,1,0,3,5,7],
 "TestSkill_8h_source.html":[10,0,1,0,3,5,7],
-"TestTactic_8cpp.html":[10,0,2,3,6,5],
-"TestTactic_8h.html":[10,0,1,0,3,6,5],
-"TestTactic_8h_source.html":[10,0,1,0,3,6,5],
-"TheyDoNotHaveBallGlobalEvaluation_8cpp.html":[10,0,2,3,2,1,15]
+"TestTactic_8cpp.html":[10,0,2,3,6,5]
 };
