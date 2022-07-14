@@ -34,14 +34,14 @@ void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     // Create a grid pattern of robots on their side of the field
 
     // First, figure out at what interval the robots will stand on a horizontal line
-    double horizontalRange = field.getRightmostX();
+    double horizontalRange = field.getRightmostX() - 2;
     double horizontalHalfStep = horizontalRange / (5.0 * 2.0); // 5 robots for stepSize, divided by 2 for half stepSize
 
     // Then, figure out vertical stepSize
     double verticalRange = field.getBottomRightTheirDefenceArea().y - field.getBottommostY();
     double verticalHalfStep = verticalRange / (2.0 * 2.0); // 2 rows, divided by 2 for half stepSize
 
-    double startX = horizontalHalfStep;
+    double startX = horizontalHalfStep + 2;
     double bottomY = field.getBottommostY() + verticalHalfStep;
     double topY = bottomY + 2 * verticalHalfStep;
 
