@@ -130,7 +130,7 @@ void WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world,
             Vector2 theirPos = theirRobot->getPos() + theirVel * currentTime;
             Vector2 posDif = Trajectory.getPosition(currentTime) - theirPos;
             // TODO: fine tune avoidance distance
-            if (posDif.length() < 3 * ai::Constants::ROBOT_RADIUS_MAX()) {
+            if (posDif.length() < 2 * ai::Constants::ROBOT_RADIUS_MAX()) {
                 // Vector2 velDif = ourVel - theirVel;
                 // double projectLength = velDif.dot(posDif) / posDif.length();
                 // TODO: fine tune allowed speed difference
@@ -151,12 +151,12 @@ void WorldObjects::calculateOurRobotCollisions(const rtt::world::World *world, s
         for (auto &robot : ourRobots) {
             if (robotId != robot->getId()) {
                 if (computedPaths.find(robot->getId()) != computedPaths.end() && computedPaths.at(robot->getId()).size() > i) {
-                    if ((pathPoints[i] - computedPaths.at(robot->getId())[i]).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/) {
+                    if ((pathPoints[i] - computedPaths.at(robot->getId())[i]).length() < ai::Constants::ROBOT_RADIUS() * 1.75 /*1.5*/) {
                         insertCollisionData(collisionDatas, CollisionData{computedPaths.at(robot->getId())[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
                         return;
                     }
                 } else {
-                    if ((pathPoints[i] - robot->getPos()).length() < ai::Constants::ROBOT_RADIUS() * 3 /*1.5*/) {
+                    if ((pathPoints[i] - robot->getPos()).length() < ai::Constants::ROBOT_RADIUS() * 1.75/*1.5*/) {
                         insertCollisionData(collisionDatas, CollisionData{robot->getPos(), pathPoints[i], i * timeStep, "OurRobotCollision"});
                         return;
                     }

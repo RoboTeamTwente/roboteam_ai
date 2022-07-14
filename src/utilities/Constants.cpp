@@ -257,8 +257,8 @@ std::map<int, bool> Constants::ROBOTS_WITH_KICKER() {
     kickerRobots[9] = true;
     kickerRobots[10] = true;
     kickerRobots[11] = true;
-    kickerRobots[12] = true;
-    kickerRobots[13] = true;
+    kickerRobots[12] = false;
+    kickerRobots[13] = false;
     kickerRobots[14] = true;
     kickerRobots[15] = true;
 
