@@ -8,7 +8,7 @@ var classrtt_1_1ai_1_1control_1_1PositionControl =
     [ "scoreIntermediatePoints", "classrtt_1_1ai_1_1control_1_1PositionControl.html#a9d50398e7b85759b70ffb60f1eb495a5", null ],
     [ "setRobotPositions", "classrtt_1_1ai_1_1control_1_1PositionControl.html#aebe89d070c772826f309714387686315", null ],
     [ "shouldRecalculatePath", "classrtt_1_1ai_1_1control_1_1PositionControl.html#a544d739feb3aea71d107b801e2a4054d", null ],
-    [ "shouldRecalculateTrajectory", "classrtt_1_1ai_1_1control_1_1PositionControl.html#aeb3ca08b415e81fb40aba3f44b48d257", null ],
+    [ "shouldRecalculateTrajectory", "classrtt_1_1ai_1_1control_1_1PositionControl.html#a292ce1b38dc90f02072764ae85b4ce2e", null ],
     [ "collisionDetector", "classrtt_1_1ai_1_1control_1_1PositionControl.html#ae29ec26006b41330c2d0de07dacd9adf", null ],
     [ "computedPaths", "classrtt_1_1ai_1_1control_1_1PositionControl.html#aa9066927016e6dcb348d694da2d9bbab", null ],
     [ "computedPathsPosVel", "classrtt_1_1ai_1_1control_1_1PositionControl.html#a321a38a458ea4da0ea07c5fcec2c3571", null ],
