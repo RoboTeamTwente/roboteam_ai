@@ -46,9 +46,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     double targetVelocityLength;
     if (info.getPidType() == stp::PIDType::KEEPER && (info.getRobot()->get()->getPos() - targetPos).length() > 2.0 * control_constants::ROBOT_RADIUS) {
-        targetVelocityLength = info.getMaxRobotVelocity();
+        targetVelocityLength = info.getMaxRobotVelocity() / 2.0;
     } else if (info.getPidType() == stp::PIDType::INTERCEPT && (info.getRobot()->get()->getPos() - targetPos).length() > 2.0 * control_constants::ROBOT_RADIUS) {
-        targetVelocityLength = info.getMaxRobotVelocity();
+        targetVelocityLength = info.getMaxRobotVelocity() / 2.0;
     } else {
         targetVelocityLength = std::clamp(commandCollision.robotCommand.velocity.length(), 0.0, info.getMaxRobotVelocity());
     }

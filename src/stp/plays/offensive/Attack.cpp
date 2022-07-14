@@ -27,14 +27,14 @@ Attack::Attack() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(("keeper")),
                                                                                        std::make_unique<role::Attacker>(("striker")),
+                                                                                       std::make_unique<role::Formation>(("waller_1")),
+                                                                                       std::make_unique<role::Formation>(("waller_2")),
+                                                                                       std::make_unique<role::Formation>(("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(("attacker_1")),
                                                                                        std::make_unique<role::Formation>(("attacker_2")),
                                                                                        std::make_unique<role::Formation>(("midfielder_left")),
-                                                                                       std::make_unique<role::Formation>(("midfielder_mid")),
                                                                                        std::make_unique<role::Formation>(("midfielder_right")),
                                                                                        std::make_unique<role::Formation>(("attacking_midfielder")),
-                                                                                       std::make_unique<role::BallDefender>(("defender_left")),
-                                                                                       std::make_unique<role::Formation>(("defender_mid")),
                                                                                        std::make_unique<role::BallDefender>(("defender_right"))};
 }
 
@@ -49,18 +49,21 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::DealerFlag kickerFirstPriority(DealerFlagTitle::CAN_KICK_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag kickerSecondPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag kickerThirdPriority(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::MEDIUM_PRIORITY);
+    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});
-    flagMap.insert({"attacker_1", {DealerFlagPriority::HIGH_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});
-    flagMap.insert({"attacker_2", {DealerFlagPriority::HIGH_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});
+
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});                                                         //
+    flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});  //
+    flagMap.insert({"attacker_2", {DealerFlagPriority::LOW_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});
     flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"attacking_midfielder", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"defender_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"defender_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"attacking_midfielder", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"midfielder_mid", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"attacker_1", {DealerFlagPriority::MEDIUM_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});             //
+
 
     return flagMap;
 }
@@ -83,14 +86,28 @@ void Attack::calculateInfoForRoles() noexcept {
 }
 
 void Attack::calculateInfoForDefenders() noexcept {
+    constexpr auto wallerNames = std::array{"waller_1", "waller_2"};
+    auto activeWallerNames = std::vector<std::string>{};
+    for (auto name : wallerNames) {
+        if (stpInfos[name].getRobot().has_value()) activeWallerNames.emplace_back(name);
+    }
+
+    for (int i = 0; i < activeWallerNames.size(); ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto positionToMoveTo = PositionComputations::getWallPosition(i, activeWallerNames.size(), field, world);
+        auto& wallerStpInfo = stpInfos[activeWallerNames[i]];
+
+        wallerStpInfo.setPositionToMoveTo(positionToMoveTo);
+        wallerStpInfo.setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+
+        // If the waller is close to its target, ignore collisions
+        constexpr double IGNORE_COLLISIONS_DISTANCE = 1.0;
+        if ((wallerStpInfo.getRobot()->get()->getPos() - positionToMoveTo).length() < IGNORE_COLLISIONS_DISTANCE) {
+            wallerStpInfo.setShouldAvoidOurRobots(false);
+        }
+    }
     stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
-
-    stpInfos["defender_mid"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world));
-    stpInfos["defender_mid"].setAngle((world->getWorld()->getBall().value()->position - stpInfos["defender_mid"].getPositionToMoveTo().value()).toAngle());
-
-    stpInfos["defender_right"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_right"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
 void Attack::calculateInfoForMidfielders() noexcept {

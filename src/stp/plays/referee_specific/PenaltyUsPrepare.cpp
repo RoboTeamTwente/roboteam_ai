@@ -4,6 +4,9 @@
 
 namespace rtt::ai::stp::play {
 
+// The x position on which we take the penalty
+constexpr double PENALTY_MARK_US_X = -2.0;
+
 PenaltyUsPrepare::PenaltyUsPrepare() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(eval::PenaltyUsPrepareGameState);
@@ -34,15 +37,21 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
     // During our penalty, all our robots should be behind the ball to not interfere.
     // Create a grid pattern of robots on our side of the field
 
-    // First, figure out at what interval the robots will stand on a horizontal line
-    double horizontalRange = std::fabs(field.getLeftmostX());
+    // Determine where behind our robots have to stand
+    auto ballPosition = world->getWorld()->getBall();
+    // If there is no ball, use the default division A penalty mark position
+    double ballX = ballPosition.has_value() ? ballPosition.value()->position.x : PENALTY_MARK_US_X;
+    double limitX = std::min(ballX, PENALTY_MARK_US_X) - Constants::PENALTY_DISTANCE_BEHIND_BALL();
+
+    // Then, figure out at what interval the robots will stand on a horizontal line
+    double horizontalRange = std::fabs(field.getLeftmostX() - limitX);
     double horizontalHalfStep = horizontalRange / (5.0 * 2.0); // 5 robots for stepSize, divided by 2 for half stepSize
 
-    // Then, figure out vertical stepSize
-    double verticalRange = field.getBottomLeftOurDefenceArea().y - field.getBottommostY();
+    // Lastly, figure out vertical stepSize
+    double verticalRange = std::fabs(field.getBottomLeftOurDefenceArea().y - field.getBottommostY());
     double verticalHalfStep = verticalRange / (2.0 * 2.0); // 2 rows, divided by 2 for half stepSize
 
-    double startX = -horizontalHalfStep;
+    double startX = field.getLeftmostX() + horizontalHalfStep;
     double bottomY = field.getBottommostY() + verticalHalfStep;
     double topY = bottomY + 2 * verticalHalfStep;
 
@@ -51,7 +60,7 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
     /// Bottom row of 5 robots
     for (int i = 0; i < 5; i++) {
         auto formationName = formationPrefix + std::to_string(i);
-        auto position = Vector2(startX - i * 2 * horizontalHalfStep, bottomY);
+        auto position = Vector2(startX + i * 2 * horizontalHalfStep, bottomY);
         stpInfos[formationName].setPositionToMoveTo(position);
 
         auto angleToGoal = (field.getTheirGoalCenter() - position).toAngle();
@@ -61,7 +70,7 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
     /// Top row of 5 robots
     for (int i = 5; i < 9; i++) {
         auto formationName = formationPrefix + std::to_string(i);
-        auto position = Vector2(startX - (i - 5) * 2 * horizontalHalfStep, topY);
+        auto position = Vector2(startX + (i - 5) * 2 * horizontalHalfStep, topY);
         stpInfos[formationName].setPositionToMoveTo(position);
 
         auto angleToGoal = (field.getTheirGoalCenter() - position).toAngle();

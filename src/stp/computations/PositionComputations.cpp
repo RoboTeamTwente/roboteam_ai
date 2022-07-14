@@ -41,7 +41,7 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
 
     double radius = control_constants::ROBOT_RADIUS;
     double spacingRobots = radius * 0.5;
-    double spaceBetweenDefenseArea = 6 * radius;
+    double spaceBetweenDefenseArea = 2 * radius;
 
     Vector2 ballPos = FieldComputations::projectPointInField(field, world->getWorld().value().getBall()->get()->position);
 
@@ -75,10 +75,14 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     if (ballPos.x < field.getLeftPenaltyLineBottom().x) {
         // case when the projected position is below penalty line
         if (ballPos.y < 0) {
-            wallLine = LineSegment(field.getBottomLeftOurDefenceArea(), field.getBottomRightTheirDefenceArea());
+            wallLine = LineSegment(Vector2{FieldComputations::getDefenseArea(field, true, 0, 0)[0].x, FieldComputations::getDefenseArea(field, true, 0, 0)[0].y},
+                                   Vector2{FieldComputations::getDefenseArea(field, false, 0, 0)[0].x, FieldComputations::getDefenseArea(field, false, 0, 0)[0].y});
+//            wallLine = LineSegment(field.getBottomLeftOurDefenceArea(), field.getBottomRightTheirDefenceArea());
             wallLine.move({0, -spaceBetweenDefenseArea});
         } else {
-            wallLine = LineSegment(field.getTopLeftOurDefenceArea(), field.getTopRightTheirDefenceArea());
+            wallLine = LineSegment(Vector2{FieldComputations::getDefenseArea(field, true, 0, 0)[3].x, FieldComputations::getDefenseArea(field, true, 0, 0)[3].y},
+                                   Vector2{FieldComputations::getDefenseArea(field, false, 0, 0)[3].x, FieldComputations::getDefenseArea(field, false, 0, 0)[3].y});
+//            wallLine = LineSegment(field.getTopLeftOurDefenceArea(), field.getTopRightTheirDefenceArea());
             wallLine.move({0, spaceBetweenDefenseArea});
         }
         // case when it is above the penalty line no further away than side lines of the defense area
