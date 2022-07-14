@@ -26,5 +26,7 @@ var namespacertt_1_1ai_1_1stp_1_1play =
     [ "PenaltyUs", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs" ],
     [ "PenaltyUsPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare" ],
     [ "TimeOut", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut" ],
-    [ "ReflectKick", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick" ]
+    [ "ReflectKick", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick" ],
+    [ "PENALTY_MARK_THEM_X", "namespacertt_1_1ai_1_1stp_1_1play.html#a073cfb0dcce27c69a198183f4eccad10", null ],
+    [ "PENALTY_MARK_US_X", "namespacertt_1_1ai_1_1stp_1_1play.html#ac50631db44841dd08ab8857eb1955735", null ]
 ];

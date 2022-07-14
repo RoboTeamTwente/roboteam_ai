@@ -20,7 +20,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot =
     [ "refreshData", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#ad7b71d56f8b8d8d62b7ec945847a2bec", null ],
     [ "score", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a014d9cbddec3283794592c5c40abcd8c", null ],
     [ "setWorld", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#ab23ad33458ed975661cdc593bdf40968", null ],
-    [ "shouldEndPlay", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#af0cb111981992bdf48c51fcca26e8408", null ],
+    [ "shouldEndPlay", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a8726a464fdb9e614c5cca8c7cd183155", null ],
     [ "storePlayInfo", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#ae63525881610390f3a9e5a490377b32e", null ],
     [ "update", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a52fc8b6075367b48ae05021829ebcc8f", null ],
     [ "updateField", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a08d160cb230d9755757973cba99702bc", null ],

@@ -1,5 +1,8 @@
 var NAVTREEINDEX18 =
 {
+"namespacertt_1_1ai_1_1stp_1_1control__constants.html#a8fbe72118c5a9251e3a531ce4b7ce257":[8,0,1,0,3,1,6],
+"namespacertt_1_1ai_1_1stp_1_1control__constants.html#a92fc415d7e591863a124877293f42487":[8,0,1,0,3,1,12],
+"namespacertt_1_1ai_1_1stp_1_1control__constants.html#aa33bd27a3c2147126ce1d70554a02e55":[8,0,1,0,3,1,17],
 "namespacertt_1_1ai_1_1stp_1_1control__constants.html#aa47ef791660935a050e3d381aba0d10d":[8,0,1,0,3,1,9],
 "namespacertt_1_1ai_1_1stp_1_1control__constants.html#aa8b98c67e91a1bbd0830a58216211d13":[8,0,1,0,3,1,2],
 "namespacertt_1_1ai_1_1stp_1_1control__constants.html#aacd087121e51233fb24c4dcb4c00161a":[8,0,1,0,3,1,36],
@@ -52,6 +55,8 @@ var NAVTREEINDEX18 =
 "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1ScoredPosition":[10,0,1,0,3,1,1,2],
 "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1StoreInfo":[10,0,1,0,3,1,1,3],
 "namespacertt_1_1ai_1_1stp_1_1play.html":[8,0,1,0,3,4],
+"namespacertt_1_1ai_1_1stp_1_1play.html#a073cfb0dcce27c69a198183f4eccad10":[8,0,1,0,3,4,27],
+"namespacertt_1_1ai_1_1stp_1_1play.html#ac50631db44841dd08ab8857eb1955735":[8,0,1,0,3,4,28],
 "namespacertt_1_1ai_1_1stp_1_1role.html":[8,0,1,0,3,5],
 "namespacertt_1_1ai_1_1stp_1_1skill.html":[8,0,1,0,3,6],
 "namespacertt_1_1ai_1_1stp_1_1tactic.html":[8,0,1,0,3,7],
@@ -244,10 +249,5 @@ var NAVTREEINDEX18 =
 "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a62104fddf70ef8a1b70beebc636876b2":[9,0,0,0,3,18,57],
 "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a6e54ed71e6d140c0c59e8d033c2f1d56":[9,0,0,0,3,18,62],
 "structrtt_1_1ai_1_1stp_1_1StpInfo.html#a6ffbcef8e087c97cfac948ded5a32274":[9,0,0,0,3,18,53],
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a7080301b1f4e9650f0599e87ef71fde6":[9,0,0,0,3,18,48],
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a727fe280b49d1fb0d5dd42aa1657c098":[9,0,0,0,3,18,16],
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a73f93b5f9bca46d6a6290ebc7dde2c77":[9,0,0,0,3,18,40],
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a758ff93e94ac188c8b5d8a287d872282":[9,0,0,0,3,18,29],
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a79ba3f581e2b53fa4ee8bd269e5fcdc3":[9,0,0,0,3,18,59],
-"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a7f6ff1802922d98cf4b0d5425b401be8":[9,0,0,0,3,18,23]
+"structrtt_1_1ai_1_1stp_1_1StpInfo.html#a7080301b1f4e9650f0599e87ef71fde6":[9,0,0,0,3,18,48]
 };

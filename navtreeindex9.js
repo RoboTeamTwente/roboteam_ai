@@ -1,5 +1,8 @@
 var NAVTREEINDEX9 =
 {
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a0329d2814e2651902bb05f23659e0084":[9,0,0,0,3,3,10,27],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a08a78e2b6bb5fb4f75d0c9dc572d25fa":[9,0,0,0,3,3,10,31],
+"classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a08d160cb230d9755757973cba99702bc":[9,0,0,0,3,3,10,21],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a0a1e08abf506013e7255868d5c52273e":[9,0,0,0,3,3,10,1],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a0c13cbd482099fa139f3a5f08d964efe":[9,0,0,0,3,3,10,32],
 "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a17fc7a716064d918aa29c072832c2ef8":[9,0,0,0,3,3,10,23],
@@ -118,6 +121,7 @@ var NAVTREEINDEX9 =
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a81d204e55bab023d2937c1420abd04ad":[9,0,0,0,3,3,3,26],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a839ea12d5f2c53aa556fd63a82f1dbf7":[9,0,0,0,3,3,3,2],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a859e8c8abae48115eab588736926368f":[9,0,0,0,3,3,3,32],
+"classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a8726a464fdb9e614c5cca8c7cd183155":[9,0,0,0,3,3,3,20],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a8750ea230c633dcf6a0f09e28e4f47b1":[9,0,0,0,3,3,3,30],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a977b3063d4d26bee4be08d71c2ab7ccc":[9,0,0,0,3,3,3,9],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a9daf26b3ca20f7917cac2613247df202":[9,0,0,0,3,3,3,7],
@@ -130,7 +134,6 @@ var NAVTREEINDEX9 =
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#ad7b71d56f8b8d8d62b7ec945847a2bec":[9,0,0,0,3,3,3,17],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#ae0c6ce7335a11d00664df9351a446551":[9,0,0,0,3,3,3,27],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#ae63525881610390f3a9e5a490377b32e":[9,0,0,0,3,3,3,21],
-"classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#af0cb111981992bdf48c51fcca26e8408":[9,0,0,0,3,3,3,20],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#afc2268677ee563a2f0a7efa4acff465e":[9,0,0,0,3,3,3,28],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html":[9,0,0,0,3,3,12],
 "classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html#a0329d2814e2651902bb05f23659e0084":[9,0,0,0,3,3,12,24],
@@ -246,8 +249,5 @@ var NAVTREEINDEX9 =
 "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a500519890f025d508b9fa129f1b737ac":[9,0,0,0,3,3,15,1],
 "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a52fc8b6075367b48ae05021829ebcc8f":[9,0,0,0,3,3,15,21],
 "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a58560de6d2d6ca91e467deb1071aadbd":[9,0,0,0,3,3,15,14],
-"classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a5be299fd1dab79b7f656ca37631d6ef6":[9,0,0,0,3,3,15,13],
-"classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a6377fe9ad829b2fdc3981fc06392c9d0":[9,0,0,0,3,3,15,0],
-"classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a7439c6149abbc461640c9ecdad2ba8d6":[9,0,0,0,3,3,15,9],
-"classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a81d204e55bab023d2937c1420abd04ad":[9,0,0,0,3,3,15,25]
+"classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a5be299fd1dab79b7f656ca37631d6ef6":[9,0,0,0,3,3,15,13]
 };
