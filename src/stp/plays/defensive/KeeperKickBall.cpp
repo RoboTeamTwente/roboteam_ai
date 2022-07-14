@@ -8,7 +8,7 @@
 #include "stp/computations/PositionScoring.h"
 #include "stp/constants/ControlConstants.h"
 #include "stp/roles/active/PassReceiver.h"
-#include "stp/roles/active/Passer.h"
+#include "stp/roles/active/KeeperPasser.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -22,7 +22,7 @@ KeeperKickBall::KeeperKickBall() : Play() {
     keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Passer>(("keeper")),
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::KeeperPasser>(("keeper")),
                                                                                        std::make_unique<role::PassReceiver>(("receiver")),
                                                                                        std::make_unique<role::Formation>(("defender_left")),
                                                                                        std::make_unique<role::Formation>(("defender_mid")),
@@ -77,10 +77,6 @@ void KeeperKickBall::calculateInfoForRoles() noexcept {
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
         if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
-
-        // Keeper goes back to his goal
-        // TODO: go back to KeeperBlockBall tactic
-        stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(0.2, 0));
     }
 }
 
@@ -105,7 +101,7 @@ void KeeperKickBall::calculateInfoForAttackers() noexcept {
 bool KeeperKickBall::ballKicked() {
     // TODO: create better way of checking when ball has been kicked
     return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {
-        return role != nullptr && role->getName() == "keeper" && strcmp(role->getCurrentTactic()->getName(), "Formation") == 0;
+        return role != nullptr && role->getName() == "keeper" && strcmp(role->getCurrentTactic()->getName(), "Keeper Block Ball") == 0;
     });
 }
 
