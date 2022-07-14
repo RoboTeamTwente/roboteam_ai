@@ -65,7 +65,8 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
 
 void DefendShot::calculateInfoForRoles() noexcept {
     // Expand the defense area by ball_blocker defense threshold
-    const auto isBallToClose = FieldComputations::getDefenseArea(field, true, 0.61, 0).contains(world->getWorld()->getBall()->get()->position);
+    const auto isBallToClose =
+        world->getWorld()->getBall().has_value() && FieldComputations::getDefenseArea(field, true, 0.61, 0).contains(world->getWorld()->getBall()->get()->position);
 
     if (!isBallToClose) calculateInfoForBlocker();
     calculateInfoForWallers(isBallToClose);
