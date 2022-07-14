@@ -186,6 +186,7 @@ var hierarchy =
       [ "rtt::ai::stp::role::Keeper", "classrtt_1_1ai_1_1stp_1_1role_1_1Keeper.html", [
         [ "rtt::ai::stp::role::PenaltyKeeper", "classrtt_1_1ai_1_1stp_1_1role_1_1PenaltyKeeper.html", null ]
       ] ],
+      [ "rtt::ai::stp::role::KeeperPasser", "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html", null ],
       [ "rtt::ai::stp::role::PassReceiver", "classrtt_1_1ai_1_1stp_1_1role_1_1PassReceiver.html", null ],
       [ "rtt::ai::stp::role::Passer", "classrtt_1_1ai_1_1stp_1_1role_1_1Passer.html", null ],
       [ "rtt::ai::stp::role::RobotDefender", "classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender.html", null ],
