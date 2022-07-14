@@ -62,6 +62,8 @@ class Attack : public Play {
      * Gets the play name
      */
     const char* getName() override;
+
+    void calculateInfoForBlocker() noexcept;
 };
 
 }  // namespace rtt::ai::stp::play

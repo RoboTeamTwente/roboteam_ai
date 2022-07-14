@@ -44,11 +44,12 @@ uint8_t DefendShot::score(const rtt::world::Field& field) noexcept {
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
     flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
@@ -58,7 +59,7 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_6", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"ball_blocker", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {notImportant}}});
 
     return flagMap;
 }
@@ -125,9 +126,9 @@ void DefendShot::calculateInfoForDefenders() noexcept {
         // For each waller, stand in the right wall position and look at the ball
         auto& midfielderStpInfo = stpInfos[activeMidfielderNames[i]];
         if (enemyMap.empty()) break;
-            midfielderStpInfo.setPositionToDefend(enemyMap.begin()->second);
-            midfielderStpInfo.setBlockDistance(BlockDistance::ROBOTRADIUS);
-            enemyMap.erase(enemyMap.begin());
+        midfielderStpInfo.setPositionToDefend(enemyMap.begin()->second);
+        midfielderStpInfo.setBlockDistance(BlockDistance::ROBOTRADIUS);
+        enemyMap.erase(enemyMap.begin());
     }
 }
 
@@ -152,7 +153,8 @@ void DefendShot::calculateInfoForHarasser() noexcept {
     RTT_DEBUG(angleDiff);
     if (angleDiff > M_PI / 3.0) {  // If the enemy is between us and the ball, dont go to the ball directly but further away, to avoid crashing
         auto enemyPos = enemyClosestToBall->get()->getPos();
-        auto targetPos = FieldComputations::projectPointToValidPositionOnLine(field, enemyPos + (ballPos - enemyPos).stretchToLength(0.50), enemyPos, enemyPos + (ballPos - enemyPos).stretchToLength(10) , AvoidObjects{}, 0.0,
+        auto targetPos = FieldComputations::projectPointToValidPositionOnLine(field, enemyPos + (ballPos - enemyPos).stretchToLength(0.50), enemyPos,
+                                                                              enemyPos + (ballPos - enemyPos).stretchToLength(10), AvoidObjects{}, 0.0,
                                                                               control_constants::ROBOT_RADIUS * 2, 0.0);
         RTT_DEBUG(targetPos);
         stpInfos["harasser"].setPositionToMoveTo(targetPos);
