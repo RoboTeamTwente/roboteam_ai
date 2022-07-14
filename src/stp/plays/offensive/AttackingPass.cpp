@@ -54,10 +54,9 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
 
-
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}, passInfo.keeperId}});
     flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {}, passInfo.passerId}});
-    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}, passInfo.receiverId}});
+    flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {}, passInfo.receiverId}});
     flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"pass_defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
@@ -137,7 +136,6 @@ void AttackingPass::calculateInfoForRoles() noexcept {
 }
 
 void AttackingPass::calculateInfoForDefenders() noexcept {
-
     constexpr auto wallerNames = std::array{"waller_1", "waller_2"};
     auto activeWallerNames = std::vector<std::string>{};
     for (auto name : wallerNames) {
@@ -158,7 +156,6 @@ void AttackingPass::calculateInfoForDefenders() noexcept {
             wallerStpInfo.setShouldAvoidOurRobots(false);
         }
     }
-
 }
 
 void AttackingPass::calculateInfoForBlocker() noexcept {
