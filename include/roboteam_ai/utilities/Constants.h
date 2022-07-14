@@ -132,11 +132,13 @@ class Constants {
     static std::map<int, bool> ROBOTS_WITH_WORKING_BALL_SENSOR();
     static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER_ENCODER();
     static std::map<int, bool> ROBOTS_WITH_KICKER();
+    static std::map<int, int>  ROBOTS_MAXIMUM_KICK_TIME();
 
     static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
     static bool ROBOT_HAS_WORKING_BALL_SENSOR(int id);
     static bool ROBOT_HAS_WORKING_DRIBBLER_ENCODER(int id); // Needed to detect if we have the ball
     static bool ROBOT_HAS_KICKER(int id);
+    static int ROBOT_MAXIMUM_KICK_TIME(int id);
 
     static QColor FIELD_COLOR();
     static QColor FIELD_LINE_COLOR();
