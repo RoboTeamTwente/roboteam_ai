@@ -44,11 +44,6 @@ class DefendShot : public Play {
     void calculateInfoForScoredRoles(world::World* world) noexcept override{};
 
     /**
-     * Check if play should end. True if the ball has been shot
-     */
-    bool shouldEndPlay() noexcept override;
-
-    /**
      * Gets the play name
      */
     const char* getName() override;

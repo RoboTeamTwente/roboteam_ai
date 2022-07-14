@@ -40,24 +40,15 @@ class InterceptBall : public Play {
 
    protected:
     /**
-     * Calculates info for the wallers
-     */
-    void calculateInfoForWallers() noexcept;
-
-    /**
      * Calculates info for the defenders
      */
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the Harassers
-     */
-    void calculateInfoForInterceptors() noexcept;
-
-    /**
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;
+
 
     /**
      * Check if play should end. True when InterceptBaller role is finished.

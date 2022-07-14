@@ -171,16 +171,13 @@ void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setKickOrChip(KickOrChip::KICK);
 }
 
-bool DefendShot::shouldEndPlay() noexcept {
-    // End play when ball has been shot, as we should switch to interceptBall
-    return world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT;
-}
-
 const char* DefendShot::getName() { return "Defend Shot"; }
 
 // If we have the ball we should end doing defendShot
 bool DefendShot::shouldEndPlay() noexcept {
     auto robotWithBall = world->getWorld()->whichRobotHasBall(world::both);
+    if (world->getWorld()->getBall()->get()->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) return true;
+
     return robotWithBall && robotWithBall->get()->getTeam() == rtt::world::Team::us;
 }
 
