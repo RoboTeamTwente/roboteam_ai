@@ -7,7 +7,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot =
     [ "calculateInfoForKeeper", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#aa78f25bef5f0c55b81515a17d1d55560", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#aa4f72c0cc4fce12be8dfbc56d6074cac", null ],
     [ "calculateInfoForScoredRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a2669649f6767e82cb44662a7184737ec", null ],
-    [ "calculateInfoForWallers", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a9daf26b3ca20f7917cac2613247df202", null ],
+    [ "calculateInfoForWallers", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a3c6b8a613e6363f2d28b8e7b4a691802", null ],
     [ "decideRoleFlags", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a75fa97a5f7426cec8c308538d1455e0e", null ],
     [ "distributeRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a977b3063d4d26bee4be08d71c2ab7ccc", null ],
     [ "getLastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a7439c6149abbc461640c9ecdad2ba8d6", null ],

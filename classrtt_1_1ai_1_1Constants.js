@@ -57,7 +57,6 @@ var classrtt_1_1ai_1_1Constants =
     [ "MIN_VEL", "classrtt_1_1ai_1_1Constants.html#a8435df37da3be03df3c6e1c0140cc3a4", null ],
     [ "OUT_OF_FIELD_MARGIN", "classrtt_1_1ai_1_1Constants.html#a5dd3e70869f82d042fe629c86ec5cb18", null ],
     [ "OVERWRITE_GRSIM", "classrtt_1_1ai_1_1Constants.html#a84ce0b6504cba42ae9a68cbc9ba9307f", null ],
-    [ "PENALTY_DISTANCE_BEHIND_BALL", "classrtt_1_1ai_1_1Constants.html#ac5e0c60866fa6ed2e17136568036625d", null ],
     [ "REFLECT_KICK", "classrtt_1_1ai_1_1Constants.html#a3de556210f943edfe3e5edc52061324b", null ],
     [ "ROBOT_COLOR_BLUE", "classrtt_1_1ai_1_1Constants.html#a50a3b56143dde15a3b4f354ee8ab518f", null ],
     [ "ROBOT_COLOR_YELLOW", "classrtt_1_1ai_1_1Constants.html#a91f068dfe2c2077d9d161dd43a710153", null ],
