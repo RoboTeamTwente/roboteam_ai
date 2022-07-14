@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 
     rtt::SETTINGS.setLeft(rtt::SETTINGS.isPrimaryAI());
 
-    rtt::SETTINGS.setRobotHubMode(rtt::Settings::RobotHubMode::SIMULATOR);
+    rtt::SETTINGS.setRobotHubMode(rtt::Settings::RobotHubMode::BASESTATION);
     rtt::SETTINGS.setVisionIp("127.0.0.1");
     rtt::SETTINGS.setVisionPort(10006);
     rtt::SETTINGS.setRefereeIp("224.5.23.1");
