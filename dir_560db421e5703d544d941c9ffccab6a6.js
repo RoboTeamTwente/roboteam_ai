@@ -48,6 +48,9 @@ var dir_560db421e5703d544d941c9ffccab6a6 =
     [ "PenaltyUsPrepareGameStateEvaluation.h", "PenaltyUsPrepareGameStateEvaluation_8h.html", [
       [ "PenaltyUsPrepareGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsPrepareGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsPrepareGameStateEvaluation" ]
     ] ],
+    [ "PreHalfGameStateEvaluation.h", "PreHalfGameStateEvaluation_8h.html", [
+      [ "PreHalfGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PreHalfGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PreHalfGameStateEvaluation" ]
+    ] ],
     [ "StopGameStateEvaluation.h", "StopGameStateEvaluation_8h.html", [
       [ "StopGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1StopGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1StopGameStateEvaluation" ]
     ] ],

@@ -17,6 +17,7 @@ var namespacertt_1_1ai_1_1stp_1_1evaluation =
     [ "PenaltyThemPrepareGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyThemPrepareGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyThemPrepareGameStateEvaluation" ],
     [ "PenaltyUsGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsGameStateEvaluation" ],
     [ "PenaltyUsPrepareGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsPrepareGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PenaltyUsPrepareGameStateEvaluation" ],
+    [ "PreHalfGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PreHalfGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1PreHalfGameStateEvaluation" ],
     [ "StopGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1StopGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1StopGameStateEvaluation" ],
     [ "TimeOutGameStateEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeOutGameStateEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeOutGameStateEvaluation" ],
     [ "BallClosestToUsGlobalEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallClosestToUsGlobalEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallClosestToUsGlobalEvaluation" ],
