@@ -59,7 +59,7 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"midfielder_6", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"harasser", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
-    flagMap.insert({"ball_blocker", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {notImportant}}});
 
     return flagMap;
 }
