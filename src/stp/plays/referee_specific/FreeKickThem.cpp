@@ -109,7 +109,6 @@ void FreeKickThem::calculateInfoForDefenders() noexcept {
         if (enemyMap.empty()) {
             break;
         }
-
         stpInfos["midfielder_" + std::to_string(i)].setPositionToDefend(enemyMap.rbegin()->second);
         stpInfos["midfielder_" + std::to_string(i)].setBlockDistance(BlockDistance::HALFWAY);
         enemyMap.erase(prev(enemyMap.end()));
@@ -125,9 +124,13 @@ void FreeKickThem::calculateInfoForKeeper() noexcept {
 
 void FreeKickThem::calculateInfoForHarassers() noexcept {
     auto ballPos = world->getWorld()->getBall()->get()->position;
+    auto enemyPos = world->getWorld()->getRobotClosestToBall(world::Team::them)->get()->getPos();
     auto goalPos = field.getOurGoalCenter();
 
-    auto targetPos = (ballPos + goalPos) / 2;
+    auto targetPos = (ballPos + goalPos)
+                         .stretchToLength((ballPos - enemyPos).length()  // Position us in equal distance from the ball and enemy robot
+                         );
+
     targetPos = FieldComputations::projectPointToValidPositionOnLine(field, targetPos, ballPos, goalPos);
     if (targetPos.dist(ballPos) <= 0.6) {
         // If we're within 60cm of the ball, move the target pos to be 60cm away
