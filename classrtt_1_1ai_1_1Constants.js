@@ -70,7 +70,7 @@ var classrtt_1_1ai_1_1Constants =
     [ "ROBOT_MAXIMUM_KICK_TIME", "classrtt_1_1ai_1_1Constants.html#aaac384b88fd1c6216d8bb72b04032eea", null ],
     [ "ROBOT_RADIUS", "classrtt_1_1ai_1_1Constants.html#af98ade4368626149da14fd9c2ed2a3c2", null ],
     [ "ROBOT_RADIUS_MAX", "classrtt_1_1ai_1_1Constants.html#a68673839b62305c8822c4d2cf75381e9", null ],
-    [ "ROBOTS_MAXIMUM_KICK_TIME", "classrtt_1_1ai_1_1Constants.html#a22bbb9fcc2539c232abfa732be34b99a", null ],
+    [ "ROBOTS_MAXIMUM_KICK_TIME", "classrtt_1_1ai_1_1Constants.html#aaa77b44d5504e918ab806848eb97310f", null ],
     [ "ROBOTS_WITH_KICKER", "classrtt_1_1ai_1_1Constants.html#a14c70193f22efb06be19353f44a0ff68", null ],
     [ "ROBOTS_WITH_WORKING_BALL_SENSOR", "classrtt_1_1ai_1_1Constants.html#a1b4ed4ac2523cce7e3fb5bbae4018a6a", null ],
     [ "ROBOTS_WITH_WORKING_DRIBBLER", "classrtt_1_1ai_1_1Constants.html#ad930168807904873bbfab165457b95d7", null ],

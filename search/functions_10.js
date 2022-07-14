@@ -27,7 +27,7 @@ var searchData=
   ['robothasball_3524',['robotHasBall',['../classrtt_1_1world_1_1view_1_1WorldDataView.html#a99c014e076e0665dc2986f8ddb91c1d2',1,'rtt::world::view::WorldDataView']]],
   ['robothubmodetostring_3525',['robotHubModeToString',['../classrtt_1_1Settings.html#a8f76b11643dc74c6d4e37bbac1a5b8fb',1,'rtt::Settings']]],
   ['robotisselected_3526',['robotIsSelected',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html#aad0905c5c62e7173a824b1f3b914bda0',1,'rtt::ai::interface::Visualizer::robotIsSelected(rtt::world::view::RobotView robot)'],['../classrtt_1_1ai_1_1interface_1_1Visualizer.html#a696166ab1a57fac3dde70c8f0a65d3e7',1,'rtt::ai::interface::Visualizer::robotIsSelected(int id)']]],
-  ['robots_5fmaximum_5fkick_5ftime_3527',['ROBOTS_MAXIMUM_KICK_TIME',['../classrtt_1_1ai_1_1Constants.html#a22bbb9fcc2539c232abfa732be34b99a',1,'rtt::ai::Constants']]],
+  ['robots_5fmaximum_5fkick_5ftime_3527',['ROBOTS_MAXIMUM_KICK_TIME',['../classrtt_1_1ai_1_1Constants.html#aaa77b44d5504e918ab806848eb97310f',1,'rtt::ai::Constants']]],
   ['robots_5fwith_5fkicker_3528',['ROBOTS_WITH_KICKER',['../classrtt_1_1ai_1_1Constants.html#a14c70193f22efb06be19353f44a0ff68',1,'rtt::ai::Constants']]],
   ['robots_5fwith_5fworking_5fball_5fsensor_3529',['ROBOTS_WITH_WORKING_BALL_SENSOR',['../classrtt_1_1ai_1_1Constants.html#a1b4ed4ac2523cce7e3fb5bbae4018a6a',1,'rtt::ai::Constants']]],
   ['robots_5fwith_5fworking_5fdribbler_3530',['ROBOTS_WITH_WORKING_DRIBBLER',['../classrtt_1_1ai_1_1Constants.html#ad930168807904873bbfab165457b95d7',1,'rtt::ai::Constants']]],

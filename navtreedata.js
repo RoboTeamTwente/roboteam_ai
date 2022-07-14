@@ -165,7 +165,7 @@ var NAVTREEINDEX =
 "PathTrackingAlgorithm_8cpp.html",
 "TheyDoNotHaveBallGlobalEvaluation_8h.html",
 "classMockTactic.html#a0dd3439d999970125264ce7fccadff49",
-"classrtt_1_1ai_1_1Constants.html#a5dd3e70869f82d042fe629c86ec5cb18",
+"classrtt_1_1ai_1_1Constants.html#a62eb895e0cb7ae60e03ef271815eca64",
 "classrtt_1_1ai_1_1control_1_1PositionControl.html#ac6c21f863f6ccb19984e9c5b8a78c6e1",
 "classrtt_1_1ai_1_1interface_1_1Visualizer.html#a8657018d07a85b184b7596e704b49806",
 "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BallCloseToUsGlobalEvaluation.html#a755ac5c77306354a2f460dfe6b7514a7",

@@ -111,7 +111,7 @@ var searchData=
   ['robotradius_1630',['ROBOTRADIUS',['../namespacertt_1_1ai_1_1stp.html#ab40410d00349ef6102ce3d0fd36a58d3a0a9fb394fbdec0184b132e8c11ddcd0e',1,'rtt::ai::stp']]],
   ['robotrolescore_1631',['RobotRoleScore',['../classrtt_1_1ai_1_1Dealer.html#structrtt_1_1ai_1_1Dealer_1_1RobotRoleScore',1,'rtt::ai::Dealer']]],
   ['robots_1632',['robots',['../classrtt_1_1world_1_1WorldData.html#a242e51640dae44ba4816488d46a9059d',1,'rtt::world::WorldData']]],
-  ['robots_5fmaximum_5fkick_5ftime_1633',['ROBOTS_MAXIMUM_KICK_TIME',['../classrtt_1_1ai_1_1Constants.html#a22bbb9fcc2539c232abfa732be34b99a',1,'rtt::ai::Constants']]],
+  ['robots_5fmaximum_5fkick_5ftime_1633',['ROBOTS_MAXIMUM_KICK_TIME',['../classrtt_1_1ai_1_1Constants.html#aaa77b44d5504e918ab806848eb97310f',1,'rtt::ai::Constants']]],
   ['robots_5fwith_5fkicker_1634',['ROBOTS_WITH_KICKER',['../classrtt_1_1ai_1_1Constants.html#a14c70193f22efb06be19353f44a0ff68',1,'rtt::ai::Constants']]],
   ['robots_5fwith_5fworking_5fball_5fsensor_1635',['ROBOTS_WITH_WORKING_BALL_SENSOR',['../classrtt_1_1ai_1_1Constants.html#a1b4ed4ac2523cce7e3fb5bbae4018a6a',1,'rtt::ai::Constants']]],
   ['robots_5fwith_5fworking_5fdribbler_1636',['ROBOTS_WITH_WORKING_DRIBBLER',['../classrtt_1_1ai_1_1Constants.html#ad930168807904873bbfab165457b95d7',1,'rtt::ai::Constants']]],
