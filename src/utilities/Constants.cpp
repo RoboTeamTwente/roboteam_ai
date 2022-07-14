@@ -35,6 +35,11 @@ void Constants::OVERWRITE_GRSIM(bool grsim) {
     robotOutputTargetGrSim = grsim;
 }
 
+double Constants::PENALTY_DISTANCE_BEHIND_BALL() {
+    // The minimum is 1 meter, but do 1.5 to be sure
+    return 1.5;
+}
+
 /// Set to a valid Id to make that robot keeper. Otherwise, keeper will be first distributed based on cost.
 int Constants::DEFAULT_KEEPER_ID() { return -1; }
 
