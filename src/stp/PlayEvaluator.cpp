@@ -42,7 +42,6 @@
 #include <stp/evaluations/global/TheyHaveBallGlobalEvaluation.h>
 #include <stp/evaluations/global/WeHaveBallGlobalEvaluation.h>
 #include <stp/evaluations/global/WeHaveMajorityGlobalEvaluation.h>
-#include <stp/evaluations/game_states/PreHalfGameStateEvaluation.h>
 
 namespace rtt::ai::stp {
 
@@ -125,8 +124,6 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation, cons
             return evaluation::TheyHaveBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::TheyDoNotHaveBall:
             return evaluation::TheyDoNotHaveBallGlobalEvaluation().metricCheck(world, &field);
-        case GlobalEvaluation::PreHalfGameState:
-            return evaluation::PreHalfGameStateEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::WeHaveMajority:
             return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::PreHalfGameState:
