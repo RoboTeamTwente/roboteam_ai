@@ -211,6 +211,12 @@ class Play {
      * This is used to check if we need to re-deal (if a robot disappears for example)
      */
     size_t previousRobotNum{};
+
+    /**
+     * The previous keeperId
+     * This is used to check if we need to re-deal (if keeper id was changed from UI or GameController)
+     */
+    int previousKeeperId = -1;
 };
 }  // namespace rtt::ai::stp
 

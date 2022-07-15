@@ -74,6 +74,8 @@ class AttackingPass : public Play {
      * Struct containing info about the pass. Calculated once for each time this play is run
      */
     PassInfo passInfo;
+
+    void calculateInfoForBlocker () noexcept;
 };
 }  // namespace rtt::ai::stp::play
 
