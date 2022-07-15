@@ -59,8 +59,8 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {}, passInfo.receiverId}});
     flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-    flagMap.insert({"pass_defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"pass_defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"pass_defender_3", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"ball_blocker", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"attacker_left", {DealerFlagPriority::LOW_PRIORITY, {}}});

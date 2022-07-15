@@ -56,13 +56,13 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     flagMap.insert({"striker", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});  //
     flagMap.insert({"attacker_2", {DealerFlagPriority::LOW_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});
     flagMap.insert({"pass_defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"pass_defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"pass_defender_3", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_3", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"attacking_midfielder", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
     flagMap.insert({"ball_blocker", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"attacker_1", {DealerFlagPriority::MEDIUM_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});             //
+    flagMap.insert({"attacker_1", {DealerFlagPriority::LOW_PRIORITY, {kickerFirstPriority, kickerSecondPriority}}});             //
 
 
     return flagMap;
