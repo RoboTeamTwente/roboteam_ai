@@ -1,12 +1,13 @@
 var classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem =
 [
     [ "FreeKickThem", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a4b0528f7e9ad5c2afcda132157db3d62", null ],
+    [ "calculateInfoForBlocker", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#aeea6ccfe1e44116c5aa1d51eacd9917b", null ],
     [ "calculateInfoForDefenders", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a2c2344156226719fbd4c22b0425260b7", null ],
-    [ "calculateInfoForHarassers", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a5346e13d09b394e789541ba3298e77f2", null ],
+    [ "calculateInfoForHarasser", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a5e60554ebf436b262324fb88aa3e6681", null ],
     [ "calculateInfoForKeeper", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#afcb65a4182ba353d614507f4816c72c4", null ],
-    [ "calculateInfoForOffenders", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a5b8b04002aabeb3f30ff3cb6e8a0e056", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a6418f13a332106ead16b4b82cbac6a0a", null ],
     [ "calculateInfoForScoredRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a990d804f6ce461afba9d0bdb16234894", null ],
+    [ "calculateInfoForWallers", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#ae69d60748af61daa3de5531da184e162", null ],
     [ "decideRoleFlags", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#af0b49d33a7d073d05681a715063a01aa", null ],
     [ "distributeRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a977b3063d4d26bee4be08d71c2ab7ccc", null ],
     [ "getLastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#a7439c6149abbc461640c9ecdad2ba8d6", null ],
