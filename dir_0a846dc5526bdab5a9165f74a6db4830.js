@@ -16,7 +16,6 @@ var dir_0a846dc5526bdab5a9165f74a6db4830 =
     [ "PenaltyThemPrepareGameStateEvaluation.cpp", "PenaltyThemPrepareGameStateEvaluation_8cpp.html", null ],
     [ "PenaltyUsGameStateEvaluation.cpp", "PenaltyUsGameStateEvaluation_8cpp.html", null ],
     [ "PenaltyUsPrepareGameStateEvaluation.cpp", "PenaltyUsPrepareGameStateEvaluation_8cpp.html", null ],
-    [ "PreHalfGameStateEvaluation.cpp", "PreHalfGameStateEvaluation_8cpp.html", null ],
     [ "StopGameStateEvaluation.cpp", "StopGameStateEvaluation_8cpp.html", null ],
     [ "TimeOutGameStateEvaluation.cpp", "TimeOutGameStateEvaluation_8cpp.html", null ]
 ];

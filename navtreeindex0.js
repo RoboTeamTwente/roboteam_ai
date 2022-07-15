@@ -131,7 +131,7 @@ var NAVTREEINDEX0 =
 "Constants_8cpp.html":[10,0,2,4,0],
 "Constants_8h.html":[10,0,1,0,4,0],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5":[10,0,1,0,4,0,2],
-"Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a0db45d2a4141101bdfe48e3314cfbca3":[10,0,1,0,4,0,2,27],
+"Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a0db45d2a4141101bdfe48e3314cfbca3":[10,0,1,0,4,0,2,26],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a10684e2f808b973f63f052a73ed9fbc8":[10,0,1,0,4,0,2,22],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a34c4eae181fc0ccdff9a99b78334eb53":[10,0,1,0,4,0,2,10],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a39ccdc256c297b083c1c27e0b8966e1d":[10,0,1,0,4,0,2,14],
@@ -155,7 +155,6 @@ var NAVTREEINDEX0 =
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5abd5c8f61e87bba645fcee84cb72408d0":[10,0,1,0,4,0,2,24],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5abf2d798abfe8267da4f101692b6cfecd":[10,0,1,0,4,0,2,0],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ac0714ce4a9e5ab35c97fdd18065f81a5":[10,0,1,0,4,0,2,25],
-"Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ac60d706414e773e40e5ed75f08fdd174":[10,0,1,0,4,0,2,26],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ac766c96004938ec5169924b49991db80":[10,0,1,0,4,0,2,18],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ae2f4e36957bfefd9000cb5bb950c4dda":[10,0,1,0,4,0,2,3],
 "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5aebeaa9ab22742007979d572d20598029":[10,0,1,0,4,0,2,20],
@@ -249,5 +248,6 @@ var NAVTREEINDEX0 =
 "Dealer_8h_source.html":[10,0,1,0,4,1],
 "DefendPass_8cpp.html":[10,0,2,3,3,1,0],
 "DefendPass_8h.html":[10,0,1,0,3,3,1,0],
-"DefendPass_8h_source.html":[10,0,1,0,3,3,1,0]
+"DefendPass_8h_source.html":[10,0,1,0,3,3,1,0],
+"DefendShot_8cpp.html":[10,0,2,3,3,1,1]
 };
