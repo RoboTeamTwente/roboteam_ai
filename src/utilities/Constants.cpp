@@ -268,7 +268,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_KICKER() {
 std::map<int, float> Constants::ROBOTS_MAXIMUM_KICK_TIME() {
     static std::map<int, float> maximumKickTimes;
     maximumKickTimes[0] = 25.0;
-    maximumKickTimes[1] = 31.0;  // Tested: 6.1
+    maximumKickTimes[1] = 35.0;  // Tested: 6.1
     maximumKickTimes[2] = 25.0;  // Tested
     maximumKickTimes[3] = 25.0;
     maximumKickTimes[4] = 25.0;
