@@ -1,7 +1,7 @@
 var classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem =
 [
     [ "BallPlacementThem", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a3810640cae06c46862b58487c086c62b", null ],
-    [ "calculateInfoForDefenders", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a0a1e08abf506013e7255868d5c52273e", null ],
+    [ "calculateInfoForHarasser", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a42f59c2fa0d340e0a82add351b53a61a", null ],
     [ "calculateInfoForKeeper", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a1f8b17c38e151ee7613cbd1f01c547c9", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a1a7728baca152be0955937a1c4ecf322", null ],
     [ "calculateInfoForScoredRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ac4bb4809544b2a8440be703459bb5c22", null ],
@@ -25,7 +25,6 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem =
     [ "field", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56", null ],
     [ "keepPlayEvaluation", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a17fc7a716064d918aa29c072832c2ef8", null ],
     [ "lastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a81d204e55bab023d2937c1420abd04ad", null ],
-    [ "previousKeeperId", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a7164f241b13b1aa59b6e6b5c30a3094b", null ],
     [ "previousPlayInfos", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ae0c6ce7335a11d00664df9351a446551", null ],
     [ "previousRobotNum", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#afc2268677ee563a2f0a7efa4acff465e", null ],
     [ "roles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a0329d2814e2651902bb05f23659e0084", null ],

@@ -29,7 +29,6 @@ var Constants_8h =
       [ "PREPARE_SHOOTOUT_THEM", "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a66494dcf8b34d95827497d38a0cb6f52", null ],
       [ "DO_SHOOTOUT", "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5abd5c8f61e87bba645fcee84cb72408d0", null ],
       [ "DEFEND_SHOOTOUT", "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ac0714ce4a9e5ab35c97fdd18065f81a5", null ],
-      [ "PRE_HALF", "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5ac60d706414e773e40e5ed75f08fdd174", null ],
       [ "UNDEFINED", "Constants_8h.html#a83e242d5478dff7460995b612ed14ef5a0db45d2a4141101bdfe48e3314cfbca3", null ]
     ] ]
 ];

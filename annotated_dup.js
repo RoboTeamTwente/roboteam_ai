@@ -111,7 +111,6 @@ var annotated_dup =
             [ "BallPlacementThem", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem" ],
             [ "BallPlacementUs", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementUs.html", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementUs" ],
             [ "DefensiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation" ],
-            [ "FormationPreHalf", "classrtt_1_1ai_1_1stp_1_1play_1_1FormationPreHalf.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FormationPreHalf" ],
             [ "FreeKickThem", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem" ],
             [ "FreeKickUsAtGoal", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal" ],
             [ "FreeKickUsPass", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass" ],

@@ -119,7 +119,6 @@ var hierarchy =
       [ "rtt::ai::stp::play::DefendPass", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html", null ],
       [ "rtt::ai::stp::play::DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html", null ],
       [ "rtt::ai::stp::play::DefensiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html", null ],
-      [ "rtt::ai::stp::play::FormationPreHalf", "classrtt_1_1ai_1_1stp_1_1play_1_1FormationPreHalf.html", null ],
       [ "rtt::ai::stp::play::FreeKickThem", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html", null ],
       [ "rtt::ai::stp::play::FreeKickUsAtGoal", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html", null ],
       [ "rtt::ai::stp::play::FreeKickUsPass", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html", null ],
