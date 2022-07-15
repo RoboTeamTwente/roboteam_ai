@@ -7,7 +7,7 @@
 #include "stp/computations/PositionComputations.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/PenaltyKeeper.h"
-#include "stp/roles/active/Attacker.h"
+#include "stp/roles/active/PenaltyTaker.h"
 #include "stp/roles/passive/Halt.h"
 
 namespace rtt::ai::stp::play {
@@ -24,7 +24,7 @@ PenaltyUs::PenaltyUs() : Play() {
 
     /// Role creation, the names should be unique. The names are used in the stpInfos-map.
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Attacker>(role::Attacker("kicker")), std::make_unique<role::Halt>(role::Halt("halt_0")),
+        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::PenaltyTaker>("penalty_taker"), std::make_unique<role::Halt>(role::Halt("halt_0")),
         std::make_unique<role::Halt>(role::Halt("halt_1")),     std::make_unique<role::Halt>(role::Halt("halt_2")),         std::make_unique<role::Halt>(role::Halt("halt_3")),
         std::make_unique<role::Halt>(role::Halt("halt_4")),     std::make_unique<role::Halt>(role::Halt("halt_5")),         std::make_unique<role::Halt>(role::Halt("halt_6")),
         std::make_unique<role::Halt>(role::Halt("halt_7")),     std::make_unique<role::Halt>(role::Halt("halt_8")),
@@ -43,7 +43,7 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
 
     /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});
+    flagMap.insert({"penalty_taker", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});
     flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -64,14 +64,27 @@ uint8_t PenaltyUs::score(const rtt::world::Field& field) noexcept {
 }
 
 void PenaltyUs::calculateInfoForRoles() noexcept {
-    /// Function where are roles get their information, make sure not to compute roles twice.
-
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    // TODO: the shoot position might need to change
-    stpInfos["kicker"].setPositionToShootAt(field.getTheirGoalCenter() + Vector2{1.0, 0.5});
-    stpInfos["kicker"].setShotType(ShotType::PASS);
+    auto penaltyTakerIt = std::find_if(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "penalty_taker"; });
+    if (penaltyTakerIt != roles.end() && (strcmp(penaltyTakerIt->get()->getCurrentTactic()->getName(), "Formation") == 0)){
+        penaltyTakerIt->get()->goToFirstTactic();
+    }
+
+    auto ballPos = world->getWorld()->getBall()->get()->position;
+    if (stpInfos["penalty_taker"].getRobot()){
+        auto robotPos = stpInfos["penalty_taker"].getRobot()->get()->getPos();
+        auto enemyKeeper = world->getWorld()->getRobotClosestToPoint(field.getTheirGoalCenter(), world::Team::them);
+        if (ballPos.x < 3 && enemyKeeper && enemyKeeper->get()->getDistanceToBall() > 2.5){
+            stpInfos["penalty_taker"].setPositionToShootAt(robotPos + (field.getTheirGoalCenter() - robotPos).stretchToLength(1.0));
+            stpInfos["penalty_taker"].setShotType(ShotType::TARGET);
+        }
+        else {
+            stpInfos["penalty_taker"].setPositionToShootAt(field.getTheirGoalCenter());
+            stpInfos["penalty_taker"].setShotType(ShotType::MAX);
+        }
+    }
 }
 
 }  // namespace rtt::ai::stp::play
