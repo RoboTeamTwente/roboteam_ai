@@ -49,7 +49,8 @@ class PositionControl {
      * @param targetPosition the desired position that the robot has to reachsho
      * @return Boolean that is 1 if the path needs to be recalculated
      */
-    bool shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition, ai::stp::AvoidObjects);
+    bool shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition, const Vector2 &currentPosition,
+                                     ai::stp::AvoidObjects);
 
    public:
     /**

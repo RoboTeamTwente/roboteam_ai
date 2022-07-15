@@ -149,8 +149,8 @@ std::optional<Vector2> FieldComputations::lineIntersectionWithField(const rtt_wo
 
 // True standard which mean field.getBoundaryWidth() is used otherwise margin is used
 Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, double backMargin) {
-    Vector2 belowGoal =ourDefenseArea ? field.getBottomLeftOurDefenceArea() : field.getBottomRightTheirDefenceArea();
-    Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea(): field.getTopRightTheirDefenceArea();
+    Vector2 belowGoal = ourDefenseArea ? field.getBottomLeftOurDefenceArea() : field.getBottomRightTheirDefenceArea();
+    Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea() : field.getTopRightTheirDefenceArea();
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() : field.getRightPenaltyLineBottom();
     Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() : field.getRightPenaltyLineTop();
 
@@ -161,8 +161,23 @@ Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ou
         std::swap(topPenalty, bottomPenalty);
     }
 
-    belowGoal =
-        ourDefenseArea ? belowGoal + Vector2(-backMargin, -margin) : belowGoal + Vector2(backMargin, -margin);
+    if (ourDefenseArea) {
+        if (aboveGoal.x > topPenalty.x) {
+            std::swap(aboveGoal, topPenalty);
+        }
+        if (belowGoal.x > bottomPenalty.x) {
+            std::swap(belowGoal, bottomPenalty);
+        }
+    } else {
+        if (aboveGoal.x < topPenalty.x) {
+            std::swap(aboveGoal, topPenalty);
+        }
+        if (belowGoal.x < bottomPenalty.x) {
+            std::swap(belowGoal, bottomPenalty);
+        }
+    }
+
+    belowGoal = ourDefenseArea ? belowGoal + Vector2(-backMargin, -margin) : belowGoal + Vector2(backMargin, -margin);
     aboveGoal = ourDefenseArea ? aboveGoal + Vector2(-backMargin, margin) : aboveGoal + Vector2(backMargin, margin);
     bottomPenalty = ourDefenseArea ? bottomPenalty + Vector2(margin, -margin) : bottomPenalty + Vector2(-margin, -margin);
     topPenalty = ourDefenseArea ? topPenalty + Vector2(margin, margin) : topPenalty + Vector2(-margin, margin);

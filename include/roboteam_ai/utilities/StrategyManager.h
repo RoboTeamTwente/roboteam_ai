@@ -34,7 +34,7 @@ class StrategyManager {
 
         RefGameState(RefCommand::NORMAL_START, "normal_play", "default"), RefGameState(RefCommand::FORCED_START, "normal_play", "default"),
         RefGameState(RefCommand::HALT, "halt", "halt"), RefGameState(RefCommand::STOP, "ball_placement_them", "ballplacement_them"),
-        RefGameState(RefCommand::TIMEOUT_US, "time_out", "stop"), RefGameState(RefCommand::TIMEOUT_THEM, "halt", "halt"),
+        RefGameState(RefCommand::TIMEOUT_US, "halt", "halt"), RefGameState(RefCommand::TIMEOUT_THEM, "halt", "halt"),
         RefGameState(RefCommand::GOAL_US, "kickoff_them_prepare", "default"), RefGameState(RefCommand::GOAL_THEM, "kickoff_us_prepare", "default"),
         RefGameState(RefCommand::BALL_PLACEMENT_US, "ball_placement_us", "ballplacement_us"),
         RefGameState(RefCommand::BALL_PLACEMENT_THEM, "ball_placement_them", "ballplacement_them"), RefGameState(RefCommand::DIRECT_FREE_US, "free_kick_us", "default"),

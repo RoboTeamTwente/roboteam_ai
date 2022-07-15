@@ -42,11 +42,12 @@ Dealer::FlagMap FreeKickUsAtGoal::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
 
-    Dealer::DealerFlag freeKickTakerPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag freeKickTakerPreference(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag freeKickTakerFirstPriority(DealerFlagTitle::CAN_KICK_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag freeKickTakerSecondPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag freeKickTakerThirdPriority(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::MEDIUM_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
-    flagMap.insert({"free_kick_taker", {DealerFlagPriority::REQUIRED, {freeKickTakerPriority, freeKickTakerPreference}}});
+    flagMap.insert({"free_kick_taker", {DealerFlagPriority::REQUIRED, {freeKickTakerFirstPriority, freeKickTakerSecondPriority, freeKickTakerThirdPriority}}});
     flagMap.insert({"attacker_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"attacker_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"midfielder_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -74,7 +75,6 @@ void FreeKickUsAtGoal::calculateInfoForRoles() noexcept {
     stpInfos["free_kick_taker"].setPositionToShootAt(goalTarget);
     stpInfos["free_kick_taker"].setKickOrChip(KickOrChip::KICK);
     stpInfos["free_kick_taker"].setShotType(ShotType::MAX);
-    stpInfos["free_kick_taker"].setPositionToMoveTo(Vector2());
 }
 
 void FreeKickUsAtGoal::calculateInfoForDefenders() noexcept {

@@ -48,11 +48,16 @@ class DefendShot : public Play {
      */
     const char* getName() override;
 
+    /**
+     * Check if play should end
+     */
+    bool shouldEndPlay() noexcept override;
+
    protected:
     /**
      * Calculates info for the wallers
      */
-    void calculateInfoForWallers() noexcept;
+    void calculateInfoForWallers(bool shouldIncludeBallBlocker) noexcept;
 
     /**
      * Calculates info for the defenders
@@ -60,9 +65,14 @@ class DefendShot : public Play {
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the Harassers
+     * Calculates info for the ballBlocker
      */
-    void calculateInfoForHarassers() noexcept;
+    void calculateInfoForBlocker() noexcept;
+
+    /**
+     * Calculates info for the harasser
+     */
+    void calculateInfoForHarasser() noexcept;
 
     /**
      * Calculates info for the keeper

@@ -46,7 +46,7 @@ rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::
     std::optional<BB::CollisionData> firstCollision;
     rtt::BB::CommandCollision commandCollision;
 
-    if (shouldRecalculateTrajectory(world, field, robotId, targetPosition, avoidObjects)) {
+    if (shouldRecalculateTrajectory(world, field, robotId, targetPosition, currentPosition, avoidObjects)) {
         computedTrajectories[robotId] = Trajectory2D(currentPosition, currentVelocity, targetPosition, maxRobotVelocity, ai::Constants::MAX_ACC_UPPER());
 
         // Check path to original target for collisions
@@ -212,13 +212,20 @@ std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Ve
 }
 
 bool PositionControl::shouldRecalculateTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 targetPosition,
-                                                  ai::stp::AvoidObjects avoidObjects) {
+                                                  const Vector2 &currentPosition, ai::stp::AvoidObjects avoidObjects) {
     if (!computedTrajectories.contains(robotId) ||
         (computedPaths.contains(robotId) && !computedPaths[robotId].empty() &&
          (targetPosition - computedPaths[robotId][computedPaths[robotId].size() - 1]).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN) ||
         worldObjects.getFirstCollision(world, field, computedTrajectories[robotId], computedPaths, robotId, avoidObjects).has_value()) {
         return true;
     }
+
+    // FIXME: Bankonk hotfix. Mere the new BBT from PR.
+    // If next point on path is too far away from the robot
+    if ((computedPaths[robotId][0] - currentPosition).length() > 0.5) {
+        return true;
+    }
+
     return false;
 }
 

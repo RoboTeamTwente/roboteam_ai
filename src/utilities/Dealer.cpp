@@ -368,7 +368,10 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             bool hasDribblerEncoder = Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(robot->getId());
             return costForProperty(hasWorkingBallSensor || hasDribblerEncoder);
         }
-
+        case DealerFlagTitle::CAN_KICK_BALL: {
+            bool hasWorkingKicker = Constants::ROBOT_HAS_KICKER(robot->getId());
+            return costForProperty(hasWorkingKicker);
+        }
         default: {
             RTT_WARNING("Unhandled dealerflag!")
             return 0;

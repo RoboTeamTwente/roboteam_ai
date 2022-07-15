@@ -2,11 +2,12 @@
 // Created by mrlukasbos on 8-2-19.
 //
 
+#include "utilities/Constants.h"
+
 #include <assert.h>
 #include <roboteam_utils/Print.h>
 
 #include "utilities/Settings.h"
-#include "utilities/Constants.h"
 
 // TODO: Clean this up and remove unneeded variables
 
@@ -33,6 +34,11 @@ bool Constants::GRSIM() {
 void Constants::OVERWRITE_GRSIM(bool grsim) {
     RTT_WARNING("Do not overwrite GRSIM() if you do not know what you are doing!")
     robotOutputTargetGrSim = grsim;
+}
+
+double Constants::PENALTY_DISTANCE_BEHIND_BALL() {
+    // The minimum is 1 meter, but do 1.5 to be sure
+    return 1.5;
 }
 
 /// Set to a valid Id to make that robot keeper. Otherwise, keeper will be first distributed based on cost.
@@ -237,11 +243,59 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER_ENCODER() {
     return workingDribblerEncoderRobots;
 }
 
+std::map<int, bool> Constants::ROBOTS_WITH_KICKER() {
+    static std::map<int, bool> kickerRobots;
+    kickerRobots[0] = true;
+    kickerRobots[1] = true;
+    kickerRobots[2] = true;
+    kickerRobots[3] = true;
+    kickerRobots[4] = true;
+    kickerRobots[5] = true;
+    kickerRobots[6] = true;
+    kickerRobots[7] = true;
+    kickerRobots[8] = true;
+    kickerRobots[9] = true;
+    kickerRobots[10] = true;
+    kickerRobots[11] = true;
+    kickerRobots[12] = true;
+    kickerRobots[13] = true;
+    kickerRobots[14] = true;
+    kickerRobots[15] = true;
+
+    return kickerRobots;
+}
+
+std::map<int, float> Constants::ROBOTS_MAXIMUM_KICK_TIME() {
+    static std::map<int, float> maximumKickTimes;
+    maximumKickTimes[0] = 25.0;
+    maximumKickTimes[1] = 31.0;  // Tested: 6.1
+    maximumKickTimes[2] = 25.0;  // Tested
+    maximumKickTimes[3] = 25.0;
+    maximumKickTimes[4] = 25.0;
+    maximumKickTimes[5] = 25.0;  // Tested
+    maximumKickTimes[6] = 25.0;
+    maximumKickTimes[7] = 20.0;  // Tested: 5.5
+    maximumKickTimes[8] = 40.0;  // Tested: 5 is actualy 60
+    maximumKickTimes[9] = 25.0;  // Tested: idk
+    maximumKickTimes[10] = 25.0;
+    maximumKickTimes[11] = 25.0;
+    maximumKickTimes[12] = 25.0;
+    maximumKickTimes[13] = 40.0;  // Tested: 4.8 is actually 60
+    maximumKickTimes[14] = 25.0;
+    maximumKickTimes[15] = 25.0;
+
+    return maximumKickTimes;
+}
+
 bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) { return ROBOTS_WITH_WORKING_BALL_SENSOR()[id]; }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER()[id]; }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER_ENCODER()[id]; }
+
+bool Constants::ROBOT_HAS_KICKER(int id) { return ROBOTS_WITH_KICKER()[id]; }
+
+int Constants::ROBOT_MAXIMUM_KICK_TIME(int id) { return ROBOTS_MAXIMUM_KICK_TIME()[id]; }
 
 QColor Constants::FIELD_COLOR() { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); }
 
@@ -270,11 +324,11 @@ pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(2.5, 0.0, 0) :
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6, 0, 1) : pidVals(6, 0, 1); }
 
 std::vector<RuleSet> Constants::ruleSets() {
-    return {{"default", 1.5, 6.5, 0.0, ROBOT_RADIUS(), true},
+    return {{"default", 2, 6.5, 0.0, ROBOT_RADIUS(), true},
             {"halt", 0.0, 0.0, 0.0, -1, true},
-            {"stop", 1.5, 0.0, 0.8, -1, false},
-            {"ballplacement_them", 1.5, 6.5, 0.8, -1, true},
-            {"ballplacement_us", 0.75 /*2.5*/, 6.5, 0.0, -1, true},
+            {"stop", 1.3, 0.0, 0.8, -1, false},
+            {"ballplacement_them", 1.3, 6.5, 0.8, -1, true},
+            {"ballplacement_us", 1.5 /*2.5*/, 6.5, 0.0, -1, true},
             {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
 }
 

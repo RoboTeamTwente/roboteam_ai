@@ -40,6 +40,7 @@ struct AvoidObjects {
     bool shouldAvoidBall = false;
     bool shouldAvoidDefenseArea = true;
     bool shouldAvoidOutOfField = true;
+    bool shouldAvoidOurRobots = true;
     double avoidBallDist = 2.0 * stp::control_constants::ROBOT_RADIUS;
 };
 }  // namespace rtt::ai::stp

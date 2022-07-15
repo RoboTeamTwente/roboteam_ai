@@ -75,10 +75,14 @@ std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::wor
     if (ballPos.x < field.getLeftPenaltyLineBottom().x) {
         // case when the projected position is below penalty line
         if (ballPos.y < 0) {
-            wallLine = LineSegment(field.getBottomLeftOurDefenceArea(), field.getBottomRightTheirDefenceArea());
+            wallLine = LineSegment(Vector2{FieldComputations::getDefenseArea(field, true, 0, 0)[0].x, FieldComputations::getDefenseArea(field, true, 0, 0)[0].y},
+                                   Vector2{FieldComputations::getDefenseArea(field, false, 0, 0)[0].x, FieldComputations::getDefenseArea(field, false, 0, 0)[0].y});
+//            wallLine = LineSegment(field.getBottomLeftOurDefenceArea(), field.getBottomRightTheirDefenceArea());
             wallLine.move({0, -spaceBetweenDefenseArea});
         } else {
-            wallLine = LineSegment(field.getTopLeftOurDefenceArea(), field.getTopRightTheirDefenceArea());
+            wallLine = LineSegment(Vector2{FieldComputations::getDefenseArea(field, true, 0, 0)[3].x, FieldComputations::getDefenseArea(field, true, 0, 0)[3].y},
+                                   Vector2{FieldComputations::getDefenseArea(field, false, 0, 0)[3].x, FieldComputations::getDefenseArea(field, false, 0, 0)[3].y});
+//            wallLine = LineSegment(field.getTopLeftOurDefenceArea(), field.getTopRightTheirDefenceArea());
             wallLine.move({0, spaceBetweenDefenseArea});
         }
         // case when it is above the penalty line no further away than side lines of the defense area
@@ -198,6 +202,46 @@ Vector2 PositionComputations::calculatePositionOutsideOfShape(Vector2 ballPos, c
     }
     if (newTarget == ballPos) RTT_WARNING("Could not find good position to avoid ball");
     return newTarget;
+}
+
+Vector2 PositionComputations::getBallBlockPosition(const world::Field &field, const world::World *world) {
+    if (!world->getWorld()->getBall()) return {field.getLeftPenaltyPoint()};  // If there is no ball, return a default value
+
+    constexpr double distFromDefenceArea = 0.6;
+
+    // If the ball is within this distFromDefence area, go to the ball
+    if (FieldComputations::getDefenseArea(field, true, distFromDefenceArea, 0).contains(world->getWorld()->getBall()->get()->position)){
+        return world->getWorld()->getBall()->get()->position;
+    }
+    // If the ball is moving towards our defense area, stand its trajectory
+    auto ball = world->getWorld()->getBall()->get();
+    if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) {
+        auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
+        auto interceptionPoint =
+            FieldComputations::lineIntersectionWithDefenseArea(field, true, ballTrajectory.start, ballTrajectory.end, distFromDefenceArea, true);
+        if (interceptionPoint) return *interceptionPoint;
+    }
+
+    // If there is an enemy close to the ball and it is looking towards our goal, stand on the line that the enemy is looking in
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(rtt::world::Team::them);
+    if (enemyClosestToBall && enemyClosestToBall->get()->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
+        auto start = enemyClosestToBall->get()->getPos();
+        auto robotAngle = enemyClosestToBall->get()->getAngle();
+        auto end = start + robotAngle.toVector2().stretchToLength(field.getFieldLength());
+        auto intersection = LineSegment(field.getOurBottomGoalSide() - Vector2(0, 0.20), field.getOurTopGoalSide() + Vector2(0, 0.20)).intersects({start, end});
+        if (intersection) {
+            return FieldComputations::projectPointToValidPositionOnLine(field, intersection.value(), start, end, AvoidObjects(), 0.0,
+                                                                        distFromDefenceArea, distFromDefenceArea);
+        }
+    }
+
+    // If there is no enemy about to shoot and the ball is not moving towards the goal, simply stand in between the ball and our goal center
+    auto ballToGoalIntersection =
+        FieldComputations::lineIntersectionWithDefenseArea(field, true, ball->position, field.getOurGoalCenter(), distFromDefenceArea, true);
+    if (ballToGoalIntersection) return *ballToGoalIntersection;
+
+    // If there is no ball to goal intersection (this essentially means the ball is in our defense area), project that the ball position to a valid point
+    return {FieldComputations::projectPointToValidPosition(field, ball->position, AvoidObjects{}, 0.0, distFromDefenceArea, distFromDefenceArea)};
 }
 
 }  // namespace rtt::ai::stp
