@@ -213,9 +213,9 @@ Vector2 PositionComputations::getBallBlockPosition(const world::Field &field, co
     if (FieldComputations::getDefenseArea(field, true, distFromDefenceArea, 0).contains(world->getWorld()->getBall()->get()->position)){
         return world->getWorld()->getBall()->get()->position;
     }
-    // If the ball is moving towards our defense area, stand its trajectory
+    // If the ball is moving towards our defense area, stand on its trajectory
     auto ball = world->getWorld()->getBall()->get();
-    if (ball->velocity.length() > control_constants::BALL_STILL_VEL) {
+    if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) {
         auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto interceptionPoint =
             FieldComputations::lineIntersectionWithDefenseArea(field, true, ballTrajectory.start, ballTrajectory.end, distFromDefenceArea, true);
