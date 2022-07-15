@@ -126,6 +126,8 @@ uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation, cons
             return evaluation::TheyDoNotHaveBallGlobalEvaluation().metricCheck(world, &field);
         case GlobalEvaluation::WeHaveMajority:
             return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(world, &field);
+        case GlobalEvaluation::PreHalfGameState:
+            return GameStateManager::getCurrentGameState().getStrategyName() == "formation_pre_half" ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
         default:
             RTT_WARNING("Unhandled ScoreEvaluation!");
             return 0;

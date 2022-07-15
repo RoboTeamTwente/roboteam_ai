@@ -201,6 +201,9 @@ enum class RefCommand {
     DO_SHOOTOUT = 24,
     DEFEND_SHOOTOUT = 25,
 
+    //Pre half refstate
+    PRE_HALF = 26,
+
     UNDEFINED = -1
 };
 

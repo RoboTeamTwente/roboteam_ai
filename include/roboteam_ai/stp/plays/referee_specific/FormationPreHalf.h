@@ -1,16 +1,20 @@
-#ifndef RTT_BALLPLACEMENTTHEM_H
-#define RTT_BALLPLACEMENTTHEM_H
+//
+// Created by jordi on 30-04-20.
+//
+
+#ifndef RTT_FORMATIONPREHALF_H
+#define RTT_FORMATIONPREHALF_H
 
 #include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
-class BallPlacementThem : public Play {
+class FormationPreHalf : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    BallPlacementThem();
+    FormationPreHalf();
 
     /**
      * Calculates the score of this play to determine which play is best in this situation
@@ -34,18 +38,11 @@ class BallPlacementThem : public Play {
      */
     void calculateInfoForScoredRoles(world::World*) noexcept override{};
 
-    void calculateInfoForKeeper() noexcept;
-
-    void calculateInfoForHarasser() noexcept;
-
-    void calculateInfoForWallers() noexcept;
-
     /**
      * Gets the play name
      */
     const char* getName() override;
-
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_BALLPLACEMENTTHEM_H
+#endif  // RTT_FORMATIONPREHALF_H

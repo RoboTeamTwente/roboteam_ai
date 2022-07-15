@@ -207,14 +207,14 @@ Vector2 PositionComputations::calculatePositionOutsideOfShape(Vector2 ballPos, c
 Vector2 PositionComputations::getBallBlockPosition(const world::Field &field, const world::World *world) {
     if (!world->getWorld()->getBall()) return {field.getLeftPenaltyPoint()};  // If there is no ball, return a default value
 
-    constexpr double distFromDefenceArea = 0.6;
+    constexpr double distFromDefenceArea = 1.0;
 
     // If the ball is within this distFromDefence area, go to the ball
     if (FieldComputations::getDefenseArea(field, true, distFromDefenceArea, 0).contains(world->getWorld()->getBall()->get()->position)){
         return world->getWorld()->getBall()->get()->position;
     }
 
-    // If the ball is moving towards our defense area, stand its trajectory
+    // If the ball is moving towards our defense area, stand on its trajectory
     auto ball = world->getWorld()->getBall()->get();
     if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) {
         auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
@@ -229,9 +229,10 @@ Vector2 PositionComputations::getBallBlockPosition(const world::Field &field, co
         auto start = enemyClosestToBall->get()->getPos();
         auto robotAngle = enemyClosestToBall->get()->getAngle();
         auto end = start + robotAngle.toVector2().stretchToLength(field.getFieldLength());
-        auto intersection = LineSegment(field.getOurBottomGoalSide() - Vector2(0, 0.20), field.getOurTopGoalSide() + Vector2(0, 0.20)).intersects({start, end});
-        if (intersection) {
-            return FieldComputations::projectPointToValidPositionOnLine(field, intersection.value(), start, end, AvoidObjects(), 0.0,
+        //auto intersection = LineSegment(field.getOurBottomGoalSide() - Vector2(0, 0.20), field.getOurTopGoalSide() + Vector2(0, 0.20)).intersects({start, end});
+        auto intersection = FieldComputations::lineIntersectionWithDefenseArea(field, true, start, end, distFromDefenceArea, true);
+        if (intersection != nullptr) {
+            return FieldComputations::projectPointToValidPositionOnLine(field, *intersection, start, end, AvoidObjects(), 0.0,
                                                                         distFromDefenceArea, distFromDefenceArea);
         }
     }
