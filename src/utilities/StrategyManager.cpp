@@ -9,6 +9,8 @@ namespace rtt::ai {
 
 // process ref commands
 void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage, std::optional<world::view::BallView> ballOpt) {
+    //    RTT_DEBUG("Command stage: ", stage);
+
     // if the stage is shootout, we interpret penalty commands as shootOut penalty commands
     if (stage == proto::SSL_Referee_Stage_PENALTY_SHOOTOUT) {
         if (command == RefCommand::PREPARE_PENALTY_US) {
@@ -16,10 +18,11 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
         } else if (command == RefCommand::PREPARE_PENALTY_THEM) {
             command = RefCommand::PREPARE_SHOOTOUT_THEM;
         }
-    }else if(stage == proto::SSL_Referee_Stage_NORMAL_FIRST_HALF_PRE
-             || stage == proto::SSL_Referee_Stage_NORMAL_SECOND_HALF_PRE
-             || stage == proto::SSL_Referee_Stage_EXTRA_FIRST_HALF_PRE
-             || stage == proto::SSL_Referee_Stage_EXTRA_SECOND_HALF_PRE   ){
+    }
+
+    // If game is in pre start stage and the game is in stop state
+    if (command == RefCommand::STOP && (stage == proto::SSL_Referee_Stage_NORMAL_FIRST_HALF_PRE || stage == proto::SSL_Referee_Stage_NORMAL_SECOND_HALF_PRE ||
+                                        stage == proto::SSL_Referee_Stage_EXTRA_FIRST_HALF_PRE || stage == proto::SSL_Referee_Stage_EXTRA_SECOND_HALF_PRE)) {
         command = RefCommand::PRE_HALF;
     }
 
