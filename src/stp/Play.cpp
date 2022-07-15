@@ -43,6 +43,7 @@ void Play::update() noexcept {
         //        RTT_INFO("Reassigning bots")
         reassignRobots();
         previousRobotNum = currentRobotNum;
+        previousKeeperId = currentKeeperId;
     }
 
     // Refresh the RobotViews, BallViews and fields
