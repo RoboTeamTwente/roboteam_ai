@@ -27,6 +27,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass =
     [ "keepPlayEvaluation", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a17fc7a716064d918aa29c072832c2ef8", null ],
     [ "lastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a81d204e55bab023d2937c1420abd04ad", null ],
     [ "passInfo", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a447b46dba282ae0e1452f52744b382e1", null ],
+    [ "previousKeeperId", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a7164f241b13b1aa59b6e6b5c30a3094b", null ],
     [ "previousPlayInfos", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#ae0c6ce7335a11d00664df9351a446551", null ],
     [ "previousRobotNum", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#afc2268677ee563a2f0a7efa4acff465e", null ],
     [ "roles", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsPass.html#a0329d2814e2651902bb05f23659e0084", null ],
