@@ -72,7 +72,7 @@ void Attack::calculateInfoForRoles() noexcept {
     calculateInfoForAttackers();
     calculateInfoForDefenders();
     calculateInfoForBlocker();
-    calculateInfoForMidfielders()
+    calculateInfoForMidfielders();
 
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
