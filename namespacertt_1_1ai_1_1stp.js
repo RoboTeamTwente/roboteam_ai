@@ -93,6 +93,7 @@ var namespacertt_1_1ai_1_1stp =
       [ "PenaltyUsGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a56c8f055459577051738d1f33b55cbcc", null ],
       [ "PenaltyUsPrepareGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a76a5a44992d1a994ce5a918098042b91", null ],
       [ "StopGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a34b187ec4398cc49370ff40f4bd5931e", null ],
+      [ "PreHalfGameState", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a698caeb6b4058c2a72299a4714ea4f85", null ],
       [ "BallCloseToThem", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2acd8caf0460e547b781ced6f8f4e63b0e", null ],
       [ "BallCloseToUs", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ad5306fa7938c37c34288cf7b62a2a2e3", null ],
       [ "BallClosestToUs", "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ae986a8686e48610eac00ec3ce6c64eb3", null ],

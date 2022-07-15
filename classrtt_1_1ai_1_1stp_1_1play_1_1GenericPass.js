@@ -29,6 +29,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass =
     [ "lastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a81d204e55bab023d2937c1420abd04ad", null ],
     [ "passerShot", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a9488ef95882f676041cf055a013f8ce8", null ],
     [ "passingPosition", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a1bedbbfd15bdaba064e8e6ef0234e633", null ],
+    [ "previousKeeperId", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#a7164f241b13b1aa59b6e6b5c30a3094b", null ],
     [ "previousPlayInfos", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#ae0c6ce7335a11d00664df9351a446551", null ],
     [ "previousRobotNum", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#afc2268677ee563a2f0a7efa4acff465e", null ],
     [ "receiverPositionLeft", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html#ac53395287adab03879c5fa0986c15f79", null ],

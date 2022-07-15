@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['b_64',['b',['../Voronoi_8h.html#adddfc5e4744c2949b3f385431efca9d1',1,'_jcv_edge']]],
-  ['b_65',['B',['../namespacertt_1_1input.html#a87fe326b4e7888b0f048e30d6806fe1c',1,'rtt::input::JoystickState']]],
+  ['b_64',['B',['../namespacertt_1_1input.html#a87fe326b4e7888b0f048e30d6806fe1c',1,'rtt::input::JoystickState']]],
+  ['b_65',['b',['../Voronoi_8h.html#adddfc5e4744c2949b3f385431efca9d1',1,'_jcv_edge']]],
   ['back_66',['back',['../namespacertt_1_1input.html#ac7ae010c7a97075dae2fe108a335e2ca',1,'rtt::input::JoystickState']]],
   ['backleftgrid_67',['backLeftGrid',['../classrtt_1_1world_1_1Field.html#a2686cba7d4b50e624d29b2ffe9c565d3',1,'rtt::world::Field']]],
   ['backmidgrid_68',['backMidGrid',['../classrtt_1_1world_1_1Field.html#a9d5a15c8ea7d74ccc372ca2b10d38b32',1,'rtt::world::Field']]],

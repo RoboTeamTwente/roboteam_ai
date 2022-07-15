@@ -25,6 +25,7 @@ var classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal =
     [ "field", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56", null ],
     [ "keepPlayEvaluation", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html#a17fc7a716064d918aa29c072832c2ef8", null ],
     [ "lastScore", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html#a81d204e55bab023d2937c1420abd04ad", null ],
+    [ "previousKeeperId", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html#a7164f241b13b1aa59b6e6b5c30a3094b", null ],
     [ "previousPlayInfos", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html#ae0c6ce7335a11d00664df9351a446551", null ],
     [ "previousRobotNum", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html#afc2268677ee563a2f0a7efa4acff465e", null ],
     [ "roles", "classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickUsAtGoal.html#a0329d2814e2651902bb05f23659e0084", null ],
