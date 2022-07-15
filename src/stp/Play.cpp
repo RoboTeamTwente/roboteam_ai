@@ -22,6 +22,7 @@ void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
+    previousKeeperId = GameStateManager::getCurrentGameState().keeperId;
 }
 
 void Play::setWorld(world::World *world) noexcept { this->world = world; }
@@ -33,11 +34,12 @@ void Play::update() noexcept {
     roleStatuses.clear();
     //    RTT_INFO("Play executing: ", getName())
 
-    // Check if the amount of robots changed
+    // Check if the amount of robots changed or keeper id changed
     // If so, we will re deal the roles
     auto currentRobotNum{world->getWorld()->getRobotsNonOwning().size()};
+    auto currentKeeperId = GameStateManager::getCurrentGameState().keeperId;
 
-    if (currentRobotNum != previousRobotNum) {
+    if (currentRobotNum != previousRobotNum || currentKeeperId != previousKeeperId) {
         //        RTT_INFO("Reassigning bots")
         reassignRobots();
         previousRobotNum = currentRobotNum;
