@@ -9,8 +9,6 @@ namespace rtt::ai {
 
 // process ref commands
 void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage, std::optional<world::view::BallView> ballOpt) {
-    //    RTT_DEBUG("Command stage: ", stage);
-
     // if the stage is shootout, we interpret penalty commands as shootOut penalty commands
     if (stage == proto::SSL_Referee_Stage_PENALTY_SHOOTOUT) {
         if (command == RefCommand::PREPARE_PENALTY_US) {

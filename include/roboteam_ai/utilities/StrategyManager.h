@@ -57,7 +57,7 @@ class StrategyManager {
 
         RefGameState(RefCommand::PREPARE_SHOOTOUT_US, "penalty_us_prepare", "default", false, RefCommand::DO_PENALTY),
         RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM, "penalty_them_prepare", "default", false, RefCommand::DEFEND_SHOOTOUT),
-        RefGameState(RefCommand::PRE_HALF, "formation_pre_half", "default", false, RefCommand::PRE_HALF),
+        RefGameState(RefCommand::PRE_HALF, "formation_pre_half", "default", false),
 
         // follow up commands
         // these are custom commands, called when 'normal play' is called after a prepare_ command
