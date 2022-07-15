@@ -28,7 +28,7 @@ void ControlModule::limitRobotCommand(rtt::RobotCommand& command, std::optional<
 
 void ControlModule::limitVel(rtt::RobotCommand& command, std::optional<rtt::world::view::RobotView> robot) {
     // The robot can currently not reach very low speeds- if we want it to move a non-trivial amount, we need to send a higher velocity than the path-planning outputs
-    if (command.velocity.length() > 0.05 && command.velocity.length() < 0.25) command.velocity = command.velocity.stretchToLength(0.25);
+    if (command.velocity.length() > 0.03 && command.velocity.length() < 0.25) command.velocity = command.velocity.stretchToLength(0.25);
     command.velocity = command.velocity.stretchToLength(std::clamp(command.velocity.length(), 0.0, Constants::MAX_VEL_CMD()));
 }
 
