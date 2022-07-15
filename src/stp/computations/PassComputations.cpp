@@ -88,6 +88,7 @@ Grid PassComputations::getPassGrid(const world::Field& field) {
 
 bool PassComputations::pointIsValidPassLocation(Vector2 point, Vector2 ballLocation, const std::vector<Vector2>& possibleReceiverLocations, Vector2 passerLocation,
                                                 const world::Field& field, const world::World* world) {
+    if (point.x < 0) return false;
     constexpr double MINIMUM_PASS_DISTANCE = 2.0;  // This can be dribbled instead of passed
     if (point.dist(ballLocation) < MINIMUM_PASS_DISTANCE) return false;
     constexpr double MINIMUM_LINE_OF_SIGHT = 10.0;  // The minimum LoS to be a valid pass, otherwise, the pass will go into an enemy robot
