@@ -1,7 +1,7 @@
 var classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem =
 [
     [ "BallPlacementThem", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a3810640cae06c46862b58487c086c62b", null ],
-    [ "calculateInfoForHarasser", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a42f59c2fa0d340e0a82add351b53a61a", null ],
+    [ "calculateInfoForDefenders", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a0a1e08abf506013e7255868d5c52273e", null ],
     [ "calculateInfoForKeeper", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a1f8b17c38e151ee7613cbd1f01c547c9", null ],
     [ "calculateInfoForRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#a1a7728baca152be0955937a1c4ecf322", null ],
     [ "calculateInfoForScoredRoles", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html#ac4bb4809544b2a8440be703459bb5c22", null ],
