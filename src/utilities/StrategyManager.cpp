@@ -16,6 +16,11 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
         } else if (command == RefCommand::PREPARE_PENALTY_THEM) {
             command = RefCommand::PREPARE_SHOOTOUT_THEM;
         }
+    }else if(stage == proto::SSL_Referee_Stage_NORMAL_FIRST_HALF_PRE
+             || stage == proto::SSL_Referee_Stage_NORMAL_SECOND_HALF_PRE
+             || stage == proto::SSL_Referee_Stage_EXTRA_FIRST_HALF_PRE
+             || stage == proto::SSL_Referee_Stage_EXTRA_SECOND_HALF_PRE   ){
+        command = RefCommand::PRE_HALF;
     }
 
     // If the ball has been kicked during kickoff or a free kick, continue with NORMAL_START
