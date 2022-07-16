@@ -54,6 +54,8 @@ void Role::forceNextTactic() noexcept { robotTactics.skip_n(1); }
 
 void Role::goToFirstTactic() noexcept { robotTactics.skip_to(0); }
 
+void Role::skipToTactic(int n) { robotTactics.skip_to(n); }
+
 std::optional<world::view::RobotView> const& Role::getCurrentRobot() const { return currentRobot; }
 
 Tactic* Role::getCurrentTactic() { return robotTactics.get_current(); }

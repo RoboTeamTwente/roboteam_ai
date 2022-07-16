@@ -59,9 +59,14 @@ class Role {
     void forceNextTactic() noexcept;
 
     /**
-     * Forces the Role to skip to the next tactic in the state machine
+     * Forces the Role to skip to the first tactic in the state machine
      */
     void goToFirstTactic() noexcept;
+
+    /**
+     * Forces the Role to skip to the given tactic in the state machine
+     */
+    void skipToTactic(int n);
 
     /**
      * Resets the tactics, skills and robot of this role so re-dealing of robots works as expected

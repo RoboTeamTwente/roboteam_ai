@@ -11,7 +11,6 @@
 #include "stp/roles/passive/Halt.h"
 
 namespace rtt::ai::stp::play {
-const char* PenaltyUs::getName() { return "Penalty Us"; }
 
 PenaltyUs::PenaltyUs() : Play() {
     /// Evaluations that have to be true to be considered when changing plays.
@@ -68,23 +67,36 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     auto penaltyTakerIt = std::find_if(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "penalty_taker"; });
-    if (penaltyTakerIt != roles.end() && (strcmp(penaltyTakerIt->get()->getCurrentTactic()->getName(), "Formation") == 0)){
-        penaltyTakerIt->get()->goToFirstTactic();
-    }
+
+    // We just keep repeating the role until the penalty is over
+    if (penaltyTakerIt->get()->finished()) penaltyTakerIt->get()->goToFirstTactic();
 
     auto ballPos = world->getWorld()->getBall()->get()->position;
     if (stpInfos["penalty_taker"].getRobot()){
         auto robotPos = stpInfos["penalty_taker"].getRobot()->get()->getPos();
         auto enemyKeeper = world->getWorld()->getRobotClosestToPoint(field.getTheirGoalCenter(), world::Team::them);
-        if (ballPos.x < 3 && enemyKeeper && enemyKeeper->get()->getDistanceToBall() > 2.5){
+        // If we're more than 4m away from the goal (and the keeper also isn't closer), we want to slowly kick the ball forward
+        if (ballPos.x < (field.getTheirGoalCenter().x - 4.0) && enemyKeeper && enemyKeeper->get()->getDistanceToBall() > 4.0){
             stpInfos["penalty_taker"].setPositionToShootAt(robotPos + (field.getTheirGoalCenter() - robotPos).stretchToLength(1.0));
             stpInfos["penalty_taker"].setShotType(ShotType::TARGET);
+            if (penaltyTakerIt != roles.end() && (strcmp(penaltyTakerIt->get()->getCurrentTactic()->getName(), "Formation") == 0)){
+                penaltyTakerIt->get()->goToFirstTactic();
+            }
         }
+        // Else, we want to shoot at their goal
         else {
             stpInfos["penalty_taker"].setPositionToShootAt(field.getTheirGoalCenter());
             stpInfos["penalty_taker"].setShotType(ShotType::MAX);
+            if (penaltyTakerIt != roles.end()){
+                // if we're  not yet in getBall or orbit kick, skip to that
+                if (strcmp(penaltyTakerIt->get()->getCurrentTactic()->getName(), "Get Ball") && strcmp(penaltyTakerIt->get()->getCurrentTactic()->getName(), "Orbit Kick")){
+                    penaltyTakerIt->get()->skipToTactic(3);
+                }
+            }
         }
     }
 }
+
+const char* PenaltyUs::getName() { return "Penalty Us"; }
 
 }  // namespace rtt::ai::stp::play

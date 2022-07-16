@@ -107,6 +107,7 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/PenaltyKeeper.cpp
         # active
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PenaltyTaker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Attacker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
@@ -116,7 +117,6 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/KeeperPasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PassReceiver.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PenaltyTaker.cpp
         # passive
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/BallAvoider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/BallDefender.cpp

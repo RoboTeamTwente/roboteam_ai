@@ -11,6 +11,7 @@ namespace rtt::ai::stp::control_constants {
 // Kick and Chip constants
 extern const double MAX_KICK_POWER;
 extern const double MIN_KICK_POWER;
+extern const double MIN_KICK_POWER_PASSING;
 extern const double MAX_CHIP_POWER;
 extern const double MIN_CHIP_POWER;
 extern const double MAX_POWER_KICK_DISTANCE;
