@@ -5,7 +5,9 @@
 #include "stp/skills/OrbitAngular.h"
 
 #include "stp/constants/ControlConstants.h"
-
+#include "roboteam_utils/LineSegment.h"
+#include "world/FieldComputations.h"
+#include "world/World.hpp"
 namespace rtt::ai::stp::skill {
 
 Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
@@ -43,6 +45,18 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
 
     // set command ID
     command.id = info.getRobot().value()->getId();
+
+    if (info.getRoleName() == "striker"){
+        auto robotOpt = info.getRobot();
+        if (robotOpt){
+            auto robot = robotOpt.value();
+            auto robotViewLine = LineSegment(robot->getPos(), robot->getPos() + (info.getBall()->get()->position - robot->getPos()).stretchToLength(10));
+            auto goalIntersect = robotViewLine.intersects({info.getField()->getTheirTopGoalSide(), info.getField()->getTheirBottomGoalSide()});
+            if (goalIntersect && FieldComputations::getPercentageOfGoalVisibleFromPoint(info.getField().value(), false, robot->getPos(), info.getCurrentWorld()->getWorld().value()) > 0.20){
+                targetAngle = robot->getAngle();
+            }
+        }
+    }
 
     // set angle to kick at & turn on kickAtAngle
     command.targetAngle = targetAngle;
