@@ -123,6 +123,8 @@ void FreeKickUsAtGoal::calculateInfoForAttackers() noexcept {
 }
 
 bool FreeKickUsAtGoal::shouldEndPlay() noexcept {
+    if (world->getWorld()->getBall()->get()->position.dist(GameStateManager::getRefereeDesignatedPosition()) > 0.20) return true;
+
     return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {
         return role != nullptr && role->getName() == "free_kick_taker" && strcmp(role->getCurrentTactic()->getName(), "Formation") == 0;
     });
