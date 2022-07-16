@@ -96,6 +96,9 @@ struct StpInfo {
     bool getShouldAvoidOurRobots() const { return avoidObjects.shouldAvoidOurRobots; }
     void setShouldAvoidOurRobots(bool shouldAvoidOurRobots) { avoidObjects.shouldAvoidOurRobots = shouldAvoidOurRobots; }
 
+    bool getShouldAvoidTheirRobots() const { return avoidObjects.shouldAvoidTheirRobots; }
+    void setShouldAvoidTheirRobots(bool shouldAvoidTheirRobots) { avoidObjects.shouldAvoidTheirRobots = shouldAvoidTheirRobots; }
+    
     double getBallAvoidDistance() const { return avoidObjects.avoidBallDist; }
     void setBallAvoidDistance(double avoidBallDist) { avoidObjects.avoidBallDist = avoidBallDist; }
 

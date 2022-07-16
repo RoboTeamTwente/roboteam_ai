@@ -265,22 +265,23 @@ std::map<int, bool> Constants::ROBOTS_WITH_KICKER() {
     return kickerRobots;
 }
 
+// Maximum Kick-time from 1 - 40ms
 std::map<int, float> Constants::ROBOTS_MAXIMUM_KICK_TIME() {
     static std::map<int, float> maximumKickTimes;
     maximumKickTimes[0] = 25.0;
-    maximumKickTimes[1] = 35.0;  // Tested: 6.1
-    maximumKickTimes[2] = 25.0;  // Tested
+    maximumKickTimes[1] = 37.0;  // Tested: 37 = 6.0 (control tuned to 40)
+    maximumKickTimes[2] = 35.0;  // Tested: 35 = 6.2 (control tuned to 40)
     maximumKickTimes[3] = 25.0;
     maximumKickTimes[4] = 25.0;
-    maximumKickTimes[5] = 25.0;  // Tested
+    maximumKickTimes[5] = 27.0;  // Tested: 27 = 6.0 (control tuned to 40)
     maximumKickTimes[6] = 25.0;
-    maximumKickTimes[7] = 20.0;  // Tested: 5.5
-    maximumKickTimes[8] = 40.0;  // Tested: 5 is actualy 60
-    maximumKickTimes[9] = 25.0;  // Tested: idk
+    maximumKickTimes[7] = 25.0;
+    maximumKickTimes[8] = 40.0;
+    maximumKickTimes[9] = 25.0;  // Tested: 25 = 6.2 (control tuned to 40)
     maximumKickTimes[10] = 25.0;
     maximumKickTimes[11] = 25.0;
-    maximumKickTimes[12] = 25.0;
-    maximumKickTimes[13] = 40.0;  // Tested: 4.8 is actually 60
+    maximumKickTimes[12] = 70.0;  // Tested: 40 = 4.0 (control tuned to 60)
+    maximumKickTimes[13] = 60.0;  // Tested: 40 = 4.6 (control tuned to 60)
     maximumKickTimes[14] = 25.0;
     maximumKickTimes[15] = 25.0;
 
