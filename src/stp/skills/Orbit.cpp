@@ -45,7 +45,7 @@ Status Orbit::onUpdate(const StpInfo &info) noexcept {
     forwardRobotCommand(info.getCurrentWorld());
 
     // Check if successful
-    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * 1.5*M_PI; // increased to *1.5 for the match against ER-Force
     if (directionVector.toAngle().shortestAngleDiff(targetAngle) < errorMargin) {
         counter++;
     } else {

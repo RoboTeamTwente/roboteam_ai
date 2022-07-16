@@ -42,7 +42,7 @@ std::optional<StpInfo> GetBehindBallInDirection::calculateInfoForSkill(StpInfo c
 }
 
 Vector2 GetBehindBallInDirection::calculateTargetPosition(Vector2 ballPosition, Vector2 robotPosition, Vector2 positionToShootAt) {
-    auto ballAvoidDistance = 4 * control_constants::ROBOT_RADIUS;
+    auto ballAvoidDistance = 2.5 * control_constants::ROBOT_RADIUS; // Decreased from 4 to 2.5 to for match against ER-Force
     auto ballToTarget = positionToShootAt - ballPosition;
 
     // The inital target position is behind the ball in the direction to shoot at, at a distance of ballAvoidDistance
