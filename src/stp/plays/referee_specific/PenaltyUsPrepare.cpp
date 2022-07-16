@@ -33,6 +33,7 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
     // We need at least a keeper, and a kicker positioned behind the ball
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
     stpInfos["kicker_formation"].setPositionToMoveTo(world->getWorld()->getBall()->get()->position - Vector2{0.25, 0.0});
+    stpInfos["kicker_formation"].setShouldAvoidBall(true);
 
     // During our penalty, all our robots should be behind the ball to not interfere.
     // Create a grid pattern of robots on our side of the field

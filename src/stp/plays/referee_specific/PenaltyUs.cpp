@@ -76,8 +76,8 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
         auto robotPos = stpInfos["penalty_taker"].getRobot()->get()->getPos();
         auto enemyKeeper = world->getWorld()->getRobotClosestToPoint(field.getTheirGoalCenter(), world::Team::them);
         // If we're more than 4m away from the goal (and the keeper also isn't closer), we want to slowly kick the ball forward
-        if (ballPos.x < (field.getTheirGoalCenter().x - 4.0) && enemyKeeper && enemyKeeper->get()->getDistanceToBall() > 4.0){
-            stpInfos["penalty_taker"].setPositionToShootAt(robotPos + (field.getTheirGoalCenter() - robotPos).stretchToLength(1.0));
+        if (ballPos.x < (field.getTheirGoalCenter().x - 6.0) && enemyKeeper && enemyKeeper->get()->getDistanceToBall() > 6.0){
+            stpInfos["penalty_taker"].setPositionToShootAt(robotPos + (field.getTheirGoalCenter() - robotPos).stretchToLength(3.0));
             stpInfos["penalty_taker"].setShotType(ShotType::TARGET);
             if (penaltyTakerIt != roles.end() && (strcmp(penaltyTakerIt->get()->getCurrentTactic()->getName(), "Formation") == 0)){
                 penaltyTakerIt->get()->goToFirstTactic();
@@ -85,7 +85,7 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
         }
         // Else, we want to shoot at their goal
         else {
-            stpInfos["penalty_taker"].setPositionToShootAt(field.getTheirGoalCenter());
+            stpInfos["penalty_taker"].setPositionToShootAt(field.getTheirGoalCenter() - Vector2(0.0, 0.20));
             stpInfos["penalty_taker"].setShotType(ShotType::MAX);
             if (penaltyTakerIt != roles.end()){
                 // if we're  not yet in getBall or orbit kick, skip to that
