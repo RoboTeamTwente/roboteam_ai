@@ -16,10 +16,11 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
         } else if (command == RefCommand::PREPARE_PENALTY_THEM) {
             command = RefCommand::PREPARE_SHOOTOUT_THEM;
         }
-    }else if(stage == proto::SSL_Referee_Stage_NORMAL_FIRST_HALF_PRE
-             || stage == proto::SSL_Referee_Stage_NORMAL_SECOND_HALF_PRE
-             || stage == proto::SSL_Referee_Stage_EXTRA_FIRST_HALF_PRE
-             || stage == proto::SSL_Referee_Stage_EXTRA_SECOND_HALF_PRE   ){
+    }
+
+    // If game is in pre start stage and the game is in stop state
+    if (command == RefCommand::STOP && (stage == proto::SSL_Referee_Stage_NORMAL_FIRST_HALF_PRE || stage == proto::SSL_Referee_Stage_NORMAL_SECOND_HALF_PRE ||
+                                        stage == proto::SSL_Referee_Stage_EXTRA_FIRST_HALF_PRE || stage == proto::SSL_Referee_Stage_EXTRA_SECOND_HALF_PRE)) {
         command = RefCommand::PRE_HALF;
     }
 
