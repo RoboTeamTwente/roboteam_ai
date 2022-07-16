@@ -160,6 +160,7 @@ void DefendShot::calculateInfoForHarasser() noexcept {
         stpInfos["harasser"].setPositionToMoveTo(targetPos);
         stpInfos["harasser"].setAngle((enemyPos - ballPos).angle());
     } else {
+        stpInfos["harasser"].setShouldAvoidTheirRobots(false); // Allow the harasser to get close to the enemy robot by not caring about collisions with enemy robots
         auto harasser = std::find_if(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) { return role != nullptr && role->getName() == "harasser"; });
         if (harasser != roles.end() && !harasser->get()->finished() && strcmp(harasser->get()->getCurrentTactic()->getName(), "Formation") == 0) harasser->get()->forceNextTactic();
     }
