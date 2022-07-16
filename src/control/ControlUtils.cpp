@@ -114,7 +114,7 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
     if (shotType == stp::ShotType::PASS) {
         kickForce = 1.5;
     } else if (shotType == stp::ShotType::TARGET) {
-        kickForce = 0.5;
+        kickForce = 0.60;
     } else {
         RTT_WARNING("No shotType set! Setting kickForce to 0")
         kickForce = 0;
@@ -122,8 +122,9 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
     // Calculate the velocity based on this function with the previously set limitingFactor
     auto velocity = distance * kickForce;
 
+    auto maxKickPower = shotType == stp::ShotType::PASS ? stp::control_constants::MIN_KICK_POWER_PASSING : stp::control_constants::MIN_KICK_POWER;
     // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
-    return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
+    return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, maxKickPower);
 }
 
 }  // namespace rtt::ai::control
