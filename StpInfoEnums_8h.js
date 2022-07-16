@@ -5,7 +5,8 @@ var StpInfoEnums_8h =
       [ "shouldAvoidBall", "namespacertt_1_1ai_1_1stp.html#ade390346237ed980f3b50fa3cb0a0b14", null ],
       [ "shouldAvoidDefenseArea", "namespacertt_1_1ai_1_1stp.html#a46fdc772a97d5bb81ebd1691f64178e1", null ],
       [ "shouldAvoidOurRobots", "namespacertt_1_1ai_1_1stp.html#a0f52cc1075f298d6afdc1feeb2fde5b5", null ],
-      [ "shouldAvoidOutOfField", "namespacertt_1_1ai_1_1stp.html#aa1d71b577deca9bd07b1bbb8be856d62", null ]
+      [ "shouldAvoidOutOfField", "namespacertt_1_1ai_1_1stp.html#aa1d71b577deca9bd07b1bbb8be856d62", null ],
+      [ "shouldAvoidTheirRobots", "namespacertt_1_1ai_1_1stp.html#a273d29c57e9e598eeda54c59d1074cf8", null ]
     ] ],
     [ "BlockDistance", "StpInfoEnums_8h.html#ab40410d00349ef6102ce3d0fd36a58d3", [
       [ "ROBOTRADIUS", "StpInfoEnums_8h.html#ab40410d00349ef6102ce3d0fd36a58d3a0a9fb394fbdec0184b132e8c11ddcd0e", null ],

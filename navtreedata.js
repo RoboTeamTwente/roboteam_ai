@@ -178,8 +178,8 @@ var NAVTREEINDEX =
 "classrtt_1_1input_1_1JoystickManager.html#aa4b5d51dacf84aea09e65ba0430932cb",
 "classrtt_1_1world_1_1robot_1_1Robot.html#a4f2c074023a97acc566e0e9c0989c0cd",
 "functions_vars_c.html",
-"namespacertt_1_1ai_1_1stp.html#a92b74fb1a0273f1087bf331bc4983960",
-"structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html"
+"namespacertt_1_1ai_1_1stp.html#a8c7cbfa3bebf24efb4773782dbd9cea3",
+"structrtt_1_1BB_1_1BBPosVelAcc.html#acbd8a7152cc7d4f6436b695a3ffdf89d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
