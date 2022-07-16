@@ -49,7 +49,9 @@ std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::W
     }
 
     // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
-    calculateEnemyRobotCollisions(world, Trajectory, collisionDatas, pathPoints, timeStep, timeStepsDone);
+    if (avoidObjects.shouldAvoidTheirRobots) {
+        calculateEnemyRobotCollisions(world, Trajectory, collisionDatas, pathPoints, timeStep, timeStepsDone);
+    }
 
     // For each path already calculated, check if this path collides with those paths
     if (avoidObjects.shouldAvoidOurRobots) {

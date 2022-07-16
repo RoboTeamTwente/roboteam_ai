@@ -27,9 +27,8 @@ FormationPreHalf::FormationPreHalf() : Play() {
 }
 
 uint8_t FormationPreHalf::score(const rtt::world::Field& field) noexcept {
-    // If it's pre-half we always want to execute this play.
-    // Invariants make sure this is the case.
-    return 255;
+    scoring = {{PlayEvaluator::getGlobalEvaluation(eval::PreHalfGameState, world), 1.0}};
+    return (lastScore = PlayEvaluator::calculateScore(scoring)).value();  // DONT TOUCH.
 }
 
 void FormationPreHalf::calculateInfoForRoles() noexcept {
