@@ -76,7 +76,7 @@ var searchData=
   ['timetopositionevaluation_2eh_2036',['TimeToPositionEvaluation.h',['../TimeToPositionEvaluation_8h.html',1,'']]],
   ['title_2037',['title',['../classrtt_1_1ai_1_1interface_1_1Toggle.html#a0c6b989516a75af7a050e135f3f8ccd6',1,'rtt::ai::interface::Toggle::title()'],['../structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html#a16e607c86f0a605e25561caf3ecb7099',1,'rtt::ai::Dealer::DealerFlag::title()'],['../structrtt_1_1ai_1_1RuleSet.html#a46dac09a0bc004fa0d3e5e7e473f3f59',1,'rtt::ai::RuleSet::title()']]],
   ['tofieldposition_2038',['toFieldPosition',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html#aa78d31b98e5b254bbc46923c702832e0',1,'rtt::ai::interface::Visualizer']]],
-  ['toggle_2039',['Toggle',['../classrtt_1_1ai_1_1interface_1_1Toggle.html',1,'rtt::ai::interface::Toggle'],['../classrtt_1_1ai_1_1interface_1_1Toggle.html#ad2a422d449d921ff4de32aec78473e24',1,'rtt::ai::interface::Toggle::Toggle(Visual vis, RobotShowType rst, QString t)'],['../classrtt_1_1ai_1_1interface_1_1Toggle.html#a7304b69e6378fb65dc3de57aefd4580e',1,'rtt::ai::interface::Toggle::Toggle(Visual vis, GeneralShowType gst, QString t)'],['../classrtt_1_1ai_1_1interface_1_1Toggle.html#ab2faef9ada7a2c40dc875c47c2e77711',1,'rtt::ai::interface::Toggle::Toggle()=default']]],
+  ['toggle_2039',['Toggle',['../classrtt_1_1ai_1_1interface_1_1Toggle.html',1,'rtt::ai::interface::Toggle'],['../classrtt_1_1ai_1_1interface_1_1Toggle.html#ab2faef9ada7a2c40dc875c47c2e77711',1,'rtt::ai::interface::Toggle::Toggle()=default'],['../classrtt_1_1ai_1_1interface_1_1Toggle.html#ad2a422d449d921ff4de32aec78473e24',1,'rtt::ai::interface::Toggle::Toggle(Visual vis, RobotShowType rst, QString t)'],['../classrtt_1_1ai_1_1interface_1_1Toggle.html#a7304b69e6378fb65dc3de57aefd4580e',1,'rtt::ai::interface::Toggle::Toggle(Visual vis, GeneralShowType gst, QString t)']]],
   ['togglecolorbtn_2040',['toggleColorBtn',['../classrtt_1_1ai_1_1interface_1_1MainControlsWidget.html#a859ccf21eb81094cd62f30ae265c05fd',1,'rtt::ai::interface::MainControlsWidget']]],
   ['toggledribbler_2041',['toggleDribbler',['../classrtt_1_1input_1_1JoystickHandler.html#a936f930b55b1518e705dea9a06768aee',1,'rtt::input::JoystickHandler']]],
   ['toggleourcolorparam_2042',['toggleOurColorParam',['../classrtt_1_1ai_1_1interface_1_1MainControlsWidget.html#a83e2b8f57d330383870e9a13c49ba6ca',1,'rtt::ai::interface::MainControlsWidget']]],
@@ -99,7 +99,7 @@ var searchData=
   ['toprightpenaltystretch_2059',['topRightPenaltyStretch',['../classrtt_1_1world_1_1Field.html#a11e6f79956044b8920c7028b7e1f0fa8',1,'rtt::world::Field']]],
   ['toprighttheirdefencearea_2060',['topRightTheirDefenceArea',['../classrtt_1_1world_1_1Field.html#a23c8a42ec2522bfa01b41b2c104d1629',1,'rtt::world::Field']]],
   ['toscreenposition_2061',['toScreenPosition',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html#a203bc19c7e3ebfa38443846639a45505',1,'rtt::ai::interface::Visualizer']]],
-  ['trackpath_2062',['trackPath',['../classrtt_1_1ai_1_1control_1_1PidTracking.html#aba9aecbcb1721b835e65e011dfb6a35e',1,'rtt::ai::control::PidTracking::trackPath()'],['../classrtt_1_1ai_1_1control_1_1PathTrackingAlgorithm.html#a0a2ef5a54b7fdb3604d84dde1c429ce0',1,'rtt::ai::control::PathTrackingAlgorithm::trackPath()'],['../classrtt_1_1ai_1_1control_1_1DensePathTracking.html#a7ebabecbaf141783fa1ed80d408ac6ba',1,'rtt::ai::control::DensePathTracking::trackPath()']]],
+  ['trackpath_2062',['trackPath',['../classrtt_1_1ai_1_1control_1_1DensePathTracking.html#a7ebabecbaf141783fa1ed80d408ac6ba',1,'rtt::ai::control::DensePathTracking::trackPath()'],['../classrtt_1_1ai_1_1control_1_1PathTrackingAlgorithm.html#a0a2ef5a54b7fdb3604d84dde1c429ce0',1,'rtt::ai::control::PathTrackingAlgorithm::trackPath()'],['../classrtt_1_1ai_1_1control_1_1PidTracking.html#aba9aecbcb1721b835e65e011dfb6a35e',1,'rtt::ai::control::PidTracking::trackPath()']]],
   ['trackpathdefaultangle_2063',['trackPathDefaultAngle',['../classrtt_1_1ai_1_1control_1_1PathTrackingAlgorithm.html#ab116ff0f4b17e84ec0c34b13b8168091',1,'rtt::ai::control::PathTrackingAlgorithm']]],
   ['trackpathforwardangle_2064',['trackPathForwardAngle',['../classrtt_1_1ai_1_1control_1_1BBTPathTracking.html#a9489158f186972175a5e925ceb6cc563',1,'rtt::ai::control::BBTPathTracking']]],
   ['trajectory1d_2065',['Trajectory1D',['../classrtt_1_1Trajectory1D.html',1,'rtt']]],
@@ -110,8 +110,9 @@ var searchData=
   ['trajectory2d_2eh_2070',['Trajectory2D.h',['../Trajectory2D_8h.html',1,'']]],
   ['trapezoidalprofile_2071',['trapezoidalProfile',['../classrtt_1_1BB_1_1BBTrajectory1D.html#a1ba9366f7f3b0598af0a3084904234e2',1,'rtt::BB::BBTrajectory1D']]],
   ['triangularprofile_2072',['triangularProfile',['../classrtt_1_1BB_1_1BBTrajectory1D.html#ae0a23dfd3c949008d8d488cf0800fd3d',1,'rtt::BB::BBTrajectory1D']]],
-  ['triggerleft_2073',['triggerLeft',['../namespacertt_1_1input.html#a2de2b79c638e153282a982d55f6d66df',1,'rtt::input::JoystickState']]],
-  ['triggerright_2074',['triggerRight',['../namespacertt_1_1input.html#afc086bdbe6f0c066fc0ff80f3f1d313b',1,'rtt::input::JoystickState']]],
-  ['tunedribbler_2075',['tuneDribbler',['../classrtt_1_1input_1_1JoystickHandler.html#a84c280213719940ba6aa21cd080d6482',1,'rtt::input::JoystickHandler']]],
-  ['turn_5fon_5fdribbler_5fdistance_2076',['TURN_ON_DRIBBLER_DISTANCE',['../namespacertt_1_1ai_1_1stp_1_1control__constants.html#acd30b6326a0e8f8a387db14972abac0d',1,'rtt::ai::stp::control_constants']]]
+  ['trigger_5fupdate_2073',['trigger_update',['../classrtt_1_1Interface_1_1InterfaceControllerServer.html#a0e2f925911c8c6db48b4848afae04b4c',1,'rtt::Interface::InterfaceControllerServer']]],
+  ['triggerleft_2074',['triggerLeft',['../namespacertt_1_1input.html#a2de2b79c638e153282a982d55f6d66df',1,'rtt::input::JoystickState']]],
+  ['triggerright_2075',['triggerRight',['../namespacertt_1_1input.html#afc086bdbe6f0c066fc0ff80f3f1d313b',1,'rtt::input::JoystickState']]],
+  ['tunedribbler_2076',['tuneDribbler',['../classrtt_1_1input_1_1JoystickHandler.html#a84c280213719940ba6aa21cd080d6482',1,'rtt::input::JoystickHandler']]],
+  ['turn_5fon_5fdribbler_5fdistance_2077',['TURN_ON_DRIBBLER_DISTANCE',['../namespacertt_1_1ai_1_1stp_1_1control__constants.html#acd30b6326a0e8f8a387db14972abac0d',1,'rtt::ai::stp::control_constants']]]
 ];
