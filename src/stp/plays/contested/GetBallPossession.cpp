@@ -57,7 +57,7 @@ void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcep
     // TODO-Jaro: When futureSTPInfo is a thing, make posToShootAt the receiver of a pass if that will be the next Play
     stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["ball_getter"].setRoleScore(evaluation::TimeToPositionEvaluation().metricCheck(
-        world->getWorld()->getRobotClosestToBall(world::us), world->getWorld()->getRobotClosestToBall(world::them), world->getWorld()->getBall().value()->getPos()));
+        world->getWorld()->getRobotClosestToBall(world::us), world->getWorld()->getRobotClosestToBall(world::them), world->getWorld()->getBall().value()->position));
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
@@ -92,12 +92,12 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    Dealer::DealerFlag ballGetterFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag canDetectBallFlag(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {ballGetterFlag}}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {canDetectBallFlag, closeToBallFlag}}});
     flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});

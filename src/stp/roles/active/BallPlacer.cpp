@@ -11,57 +11,14 @@
 #include "stp/tactics/active/GetBall.h"
 #include "stp/tactics/active/GetBehindBallInDirection.h"
 #include "stp/tactics/passive/AvoidBall.h"
+#include "stp/tactics/passive/BallStandBack.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::role {
 
 BallPlacer::BallPlacer(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBehindBallInDirection(), tactic::GetBall(), tactic::DriveWithBall(), tactic::AvoidBall()};
-}
-
-Status BallPlacer::update(StpInfo const& info) noexcept {
-    // Failure if the required data is not present
-    if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("Required information missing in the tactic info for ", roleName)
-        return Status::Failure;
-    }
-
-    if (!FieldComputations::pointIsInField(info.getField().value(), info.getBall().value()->getPos()) && robotTactics.current_num() == 0) {
-        forceNextTactic();
-    }
-
-    currentRobot = info.getRobot();
-    // Update the current tactic with the new tacticInfo
-    auto status = robotTactics.update(info);
-
-    // Success if the tactic returned success and if all tactics are done
-    if (status == Status::Success && robotTactics.finished()) {
-        RTT_INFO("ROLE SUCCESSFUL for ", info.getRobot()->get()->getId())
-        return Status::Success;
-    }
-
-    // Reset the tactic state machine if a tactic failed and the state machine is not yet finished
-    if (status == Status::Failure && !robotTactics.finished()) {
-        RTT_INFO("State Machine reset for current role for ID = ", info.getRobot()->get()->getId())
-        // Reset all the Skills state machines
-        for (auto& tactic : robotTactics) {
-            tactic->reset();
-        }
-        // Reset Tactics state machine
-        robotTactics.reset();
-    }
-
-    // Success if waiting and tactics are finished
-    // Waiting if waiting but not finished
-    if (status == Status::Waiting) {
-        if (robotTactics.finished()) {
-            return Status::Success;
-        }
-        return Status::Waiting;
-    }
-
-    // Return running by default
-    return Status::Running;
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall(), tactic::DriveWithBall(), tactic::BallStandBack(),
+                                                                       tactic::AvoidBall()};
 }
 }  // namespace rtt::ai::stp::role

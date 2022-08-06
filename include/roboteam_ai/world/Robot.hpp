@@ -16,6 +16,12 @@
 
 namespace rtt::world::robot {
 
+
+struct hasBallInfo{
+    bool hasBall;
+    int score;
+};
+
 /**
  * robot still changes:
  *  battery
@@ -46,11 +52,18 @@ class Robot {
     bool workingDribbler;
     bool workingBallSensor{};
 
-    bool seesBall{};
+    bool ballSensorSeesBall{}; // This value might be incorrect. Use robotHasBall!
     float ballPos{};
+    bool dribblerSeesBall{}; // This value might be incorrect. Use robotHasBall!
+    bool robotHasBall{};
+
+    // map that stores a score that indicates how likely we think it is that each robot has the ball
+    static inline std::unordered_map<int, hasBallInfo> hasBallUpdateMap;
 
    private:
     void updateFromFeedback(const proto::RobotProcessedFeedback &feedback) noexcept;
+
+    void updateHasBallMap(std::optional<view::BallView>& ball);
 
     void setId(int id) noexcept;
 
@@ -81,6 +94,10 @@ class Robot {
     void setAngleDiffToBall(double _angleDiffToBall) noexcept;
 
     void setBallSensorSeesBall(bool _seesBall) noexcept;
+
+    void setDribblerSeesBall(bool _seesBall) noexcept;
+
+    void setHasBall(bool _hasBall) noexcept;
 
     void setBallPosBallSensor(float _ballPos) noexcept;
 
@@ -113,7 +130,11 @@ class Robot {
 
     [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
-    [[nodiscard]] bool ballSensorSeesBall() const noexcept;
+    [[nodiscard]] bool getBallSensorSeesBall() const noexcept;
+
+    [[nodiscard]] bool getDribblerSeesBall() const noexcept;
+
+    [[nodiscard]] bool hasBall() const noexcept;
 
     [[nodiscard]] float getBallPosBallSensor() const noexcept;
 

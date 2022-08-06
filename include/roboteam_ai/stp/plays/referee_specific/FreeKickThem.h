@@ -43,26 +43,31 @@ class FreeKickThem : public Play {
      */
     const char *getName() override;
 
-   private:
+   protected:
     /**
-     * Calculates info for the keeper
+     * Calculates info for the wallers
      */
-    void calculateInfoForKeeper() noexcept;
+    void calculateInfoForWallers() noexcept;
 
     /**
-     * Calculates info for the defenders, which defend the goal
+     * Calculates info for the defenders
      */
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the offenders
+     * Calculates info for the ballBlocker
      */
-    void calculateInfoForOffenders() noexcept;
+    void calculateInfoForBlocker() noexcept;
 
     /**
-     *  Calculates info for the harassers
+     * Calculates info for the harasser
      */
-    void calculateInfoForHarassers() noexcept;
+    void calculateInfoForHarasser() noexcept;
+
+    /**
+     * Calculates info for the keeper
+     */
+    void calculateInfoForKeeper() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 

@@ -227,21 +227,23 @@ class FieldComputations {
      * @param lineEnd The location of the end of the LineSegment.
      * @param margin The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
      * be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked).
+     * @param ignoreGoalLine If true, do not count intersections with the goal line (the line of the defense area that overlaps with the left line of the field).
      * @return The closest intersection point to the start of the LineSegment. In case of no intersection point return a null pointer.
      */
-    static std::shared_ptr<Vector2> lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd, double margin);
+    static std::shared_ptr<Vector2> lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd, double margin,
+                                                                    bool ignoreGoalLine = false);
 
     /**
      * Determine the intersection between a LineSegment and the field lines and return the intersection point closest to the start of the line (if the LineSegment
-     * does not intersect then return a null pointer).
+     * does not intersect then return a null_opt).
      * @param field The field used to determine where the defence area is located.
      * @param lineStart The location of the start of the LineSegment.
      * @param lineEnd The location of the end of the LineSegment.
      * @param margin The outwards margin in which the field area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
      * be expanded, a negative value means that it will be shrinked (if unset then it will be neither expanded/shrinked).
-     * @return The closest intersection point to the start of the LineSegment. In case of no intersection point return a null pointer.
+     * @return The closest intersection point to the start of the LineSegment. In case of no intersection point return a null optional.
      */
-    static std::shared_ptr<Vector2> lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin);
+    static std::optional<Vector2> lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin);
 
     /**
      * Compute the total angle a given point makes with the goal, i.e. you create a triangle using this point and both upperside and lowerside of the goal and compute the angle

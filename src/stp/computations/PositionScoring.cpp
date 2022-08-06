@@ -53,7 +53,7 @@ double PositionScoring::determineOpenScore(Vector2 &point, const rtt::world::Fie
 }
 
 double PositionScoring::determineLineOfSightScore(Vector2 &point, const rtt::world::World *world, gen::PositionScores &scores) {
-    Vector2 ballPos = world->getWorld().value()->getBall()->get()->getPos();
+    Vector2 ballPos = world->getWorld().value()->getBall()->get()->position;
     double pointDistance = ballPos.dist(point);
     std::vector<double> enemyDistancesToBall;
     std::vector<double> enemyAnglesToBallvsPoint;
@@ -77,7 +77,7 @@ double PositionScoring::determineGoalShotScore(Vector2 &point, const rtt::world:
 }
 
 double PositionScoring::determineBlockingScore(Vector2 &point, const rtt::world::World *world, gen::PositionScores &scores) {
-    Vector2 ballPos = world->getWorld().value()->getBall()->get()->getPos();
+    Vector2 ballPos = world->getWorld().value()->getBall()->get()->position;
     double pointDistance = ballPos.dist(point);
     std::vector<double> enemyDistancesToBall;
     std::vector<double> enemyAnglesToBallvsPoint;

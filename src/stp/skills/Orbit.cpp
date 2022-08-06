@@ -9,9 +9,9 @@
 namespace rtt::ai::stp::skill {
 
 Status Orbit::onUpdate(const StpInfo &info) noexcept {
-    Vector2 directionVector = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos());
+    Vector2 directionVector = (info.getBall()->get()->position - info.getRobot()->get()->getPos());
     double normalAngle = directionVector.rotate(M_PI).rotate(M_PI_2).angle();
-    Angle targetAngle = (info.getPositionToShootAt().value() - info.getBall()->get()->getPos()).toAngle();
+    Angle targetAngle = (info.getPositionToShootAt().value() - info.getBall()->get()->position).toAngle();
 
     double margin = control_constants::ROBOT_RADIUS + 1.5 * stp::control_constants::BALL_RADIUS;
     double adjustDistance = (info.getRobot()->get()->getDistanceToBall() - margin);

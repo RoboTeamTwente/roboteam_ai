@@ -34,10 +34,17 @@ class BallPlacementThem : public Play {
      */
     void calculateInfoForScoredRoles(world::World*) noexcept override{};
 
+    void calculateInfoForKeeper() noexcept;
+
+    void calculateInfoForHarasser() noexcept;
+
+    void calculateInfoForWallers() noexcept;
+
     /**
      * Gets the play name
      */
     const char* getName() override;
+
 };
 }  // namespace rtt::ai::stp::play
 

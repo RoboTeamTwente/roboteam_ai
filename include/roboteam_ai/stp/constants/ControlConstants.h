@@ -30,6 +30,7 @@ inline constexpr uint8_t MAX_ROBOT_COUNT = 11;
 
 // Ball constants
 extern const double BALL_STILL_VEL;
+extern const double BALL_STILL_VEL2; // BALL_STILL_VELL but squared.
 extern const double BALL_GOT_SHOT_LIMIT;
 extern const double BALL_IS_MOVING_SLOW_LIMIT;
 extern const double BALL_IS_CLOSE;

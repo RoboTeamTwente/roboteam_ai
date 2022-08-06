@@ -32,7 +32,7 @@ Play* PlayDecider::decideBestPlay(const rtt::world::World* world, const std::vec
     // If there are no valid plays, default to defend pass
     if (playsWithScores.empty()) {
         RTT_WARNING("No valid plays found!");
-        return getPlayForName("Defend Pass", plays);
+        return getPlayForName("Defend Shot", plays);
     }
 
     return std::max_element(playsWithScores.begin(), playsWithScores.end(), [](auto& lhs, auto& rhs) { return lhs.second < rhs.second; })->first;

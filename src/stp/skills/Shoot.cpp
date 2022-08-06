@@ -52,7 +52,7 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (!info.getRobot()->hasBall()) {
+    if (!info.getRobot().value()->hasBall()) {
         shootAttempts = 0;
         return Status::Success;
     }
@@ -91,7 +91,7 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
     // publish the generated command
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (!info.getRobot()->hasBall()) {
+    if (!info.getRobot().value()->hasBall()) {
         shootAttempts = 0;
         return Status::Success;
     }

@@ -21,11 +21,11 @@ std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noe
     auto targetPosition = calculateTargetPosition(info.getBall().value(), defendPos, info.getBlockDistance());
 
     // Make sure this position is valid
-    targetPosition = FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->getPos());
+    targetPosition = FieldComputations::projectPointToValidPositionOnLine(info.getField().value(), targetPosition, defendPos, info.getBall()->get()->position);
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
 
-    auto targetAngle = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
+    auto targetAngle = (info.getBall()->get()->position - info.getRobot()->get()->getPos()).angle();
     skillStpInfo.setAngle(targetAngle);
 
     return skillStpInfo;
@@ -40,7 +40,7 @@ bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept { return false; 
 const char *BlockBall::getName() { return "Block Ball"; }
 
 Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Vector2 defendPos, BlockDistance blockDistance) noexcept {
-    auto targetToBall = ball->getPos() - defendPos;
+    auto targetToBall = ball->position - defendPos;
 
     double distance;
     switch (blockDistance) {

@@ -3,6 +3,7 @@
 //
 
 #include "control/AnglePID.h"
+#include <algorithm>
 
 double rtt::AnglePID::getOutput(rtt::Angle target_angle, rtt::Angle current_angle) {
     // Calculate error; note that crossing the 'border' between two angles

@@ -27,13 +27,13 @@ serves the purpose of representing the ball. Things like position and velocity a
 
 `updateBallAtRobotPosition` -> Updates `expectedEndPosition` and draws to the interface.
 
-`getPos` -> Returns `position`
+`getPosBall` -> Returns `position`
 
-`getVelocity` -> Returns `velocity`
+`getVelocityBall` -> Returns `velocity`
 
-`isVisible` -> Returns `visible`
+`isVisibleBall` -> Returns `visible`
 
-`getExpectedEndPosition` -> Returns `expectedEndPosition` 
+`getExpectedEndPositionBall` -> Returns `expectedEndPosition` 
 
 `getFilteredVelocity` -> Returns `filteredVelocity`
 

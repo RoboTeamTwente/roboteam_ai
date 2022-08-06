@@ -8,7 +8,7 @@
 #include "stp/computations/PositionScoring.h"
 #include "stp/constants/ControlConstants.h"
 #include "stp/roles/active/PassReceiver.h"
-#include "stp/roles/active/Passer.h"
+#include "stp/roles/active/KeeperPasser.h"
 #include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -22,7 +22,7 @@ KeeperKickBall::KeeperKickBall() : Play() {
     keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
     keepPlayEvaluation.emplace_back(eval::TheyDoNotHaveBall);
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Passer>(("keeper")),
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::KeeperPasser>(("keeper")),
                                                                                        std::make_unique<role::PassReceiver>(("receiver")),
                                                                                        std::make_unique<role::Formation>(("defender_left")),
                                                                                        std::make_unique<role::Formation>(("defender_mid")),
@@ -73,13 +73,10 @@ void KeeperKickBall::calculateInfoForRoles() noexcept {
     } else {
         auto ball = world->getWorld()->getBall().value();
         // Receiver goes to the passLocation projected on the trajectory of the ball
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
+        auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
-
-        // Keeper goes back to his goal
-        // TODO: go back to KeeperBlockBall tactic
-        stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2(0.2, 0));
+        if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
     }
 }
 
@@ -104,23 +101,24 @@ void KeeperKickBall::calculateInfoForAttackers() noexcept {
 bool KeeperKickBall::ballKicked() {
     // TODO: create better way of checking when ball has been kicked
     return std::any_of(roles.begin(), roles.end(), [](const std::unique_ptr<Role>& role) {
-        return role != nullptr && role->getName() == "keeper" && strcmp(role->getCurrentTactic()->getName(), "Formation") == 0;
+        return role != nullptr && role->getName() == "keeper" && strcmp(role->getCurrentTactic()->getName(), "Keeper Block Ball") == 0;
     });
 }
 
 bool KeeperKickBall::shouldEndPlay() noexcept {
-    if (stpInfos["receiver"].getRobot() && stpInfos["keeper"].getRobot()) {
-        // True if receiver has ball
-        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+    // If the receiver has the ball, the play finished successfully
+    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
-        // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
-        if (ballKicked() && stpInfos["keeper"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-            world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL)
-            return true;
-    }
-    // True if a different pass has a higher score than the current pass (by some margin)
-    return !ballKicked() && stp::computations::PassComputations::calculatePass(gen::SafePass, world, field).passScore >
-                                1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::SafePass, field, world).score;
+    // If the ball is moving too slow after we have kicked it, we should stop the play to get the ball
+    if (ballKicked() && world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT) return true;
+
+    // If the passer doesn't have the ball yet and there is a better pass available, we should stop the play
+    if (!ballKicked() && stpInfos["keeper"].getRobot() && !stpInfos["keeper"].getRobot().value()->hasBall() &&
+        stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
+            1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score)
+        return true;
+
+    return false;
 }
 const char* KeeperKickBall::getName() { return "Keeper Kick Ball"; }
 

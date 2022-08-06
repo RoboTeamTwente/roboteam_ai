@@ -5,6 +5,7 @@
 #include "stp/evaluations/position/LineOfSightEvaluation.h"
 
 #include <cmath>
+#include <algorithm>
 
 #include "stp/constants/ControlConstants.h"
 namespace rtt::ai::stp::evaluation {

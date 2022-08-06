@@ -34,12 +34,12 @@ class StrategyManager {
 
         RefGameState(RefCommand::NORMAL_START, "normal_play", "default"), RefGameState(RefCommand::FORCED_START, "normal_play", "default"),
         RefGameState(RefCommand::HALT, "halt", "halt"), RefGameState(RefCommand::STOP, "ball_placement_them", "ballplacement_them"),
-        RefGameState(RefCommand::TIMEOUT_US, "time_out", "stop"), RefGameState(RefCommand::TIMEOUT_THEM, "halt", "halt"),
+        RefGameState(RefCommand::TIMEOUT_US, "halt", "halt"), RefGameState(RefCommand::TIMEOUT_THEM, "halt", "halt"),
         RefGameState(RefCommand::GOAL_US, "kickoff_them_prepare", "default"), RefGameState(RefCommand::GOAL_THEM, "kickoff_us_prepare", "default"),
         RefGameState(RefCommand::BALL_PLACEMENT_US, "ball_placement_us", "ballplacement_us"),
         RefGameState(RefCommand::BALL_PLACEMENT_THEM, "ball_placement_them", "ballplacement_them"), RefGameState(RefCommand::DIRECT_FREE_US, "free_kick_us", "default"),
-        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them", "default"), RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_us", "default"),
-        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them", "default"),
+        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them", "stop"), RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_us", "default"),
+        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them", "stop"),
 
         // prepare commands
         // These have a follow up command
@@ -57,6 +57,7 @@ class StrategyManager {
 
         RefGameState(RefCommand::PREPARE_SHOOTOUT_US, "penalty_us_prepare", "default", false, RefCommand::DO_PENALTY),
         RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM, "penalty_them_prepare", "default", false, RefCommand::DEFEND_SHOOTOUT),
+        RefGameState(RefCommand::PRE_HALF, "formation_pre_half", "default", false),
 
         // follow up commands
         // these are custom commands, called when 'normal play' is called after a prepare_ command

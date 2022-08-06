@@ -106,9 +106,20 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
 }
 
 std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
-                                                                            double margin) {
+                                                                            double margin, bool ignoreGoalLine) {
     auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
-    auto intersections = defenseArea.intersections({lineStart, lineEnd});
+
+    std::vector<Vector2> intersections;
+    if (!ignoreGoalLine) {
+        intersections = defenseArea.intersections({lineStart, lineEnd});
+    } else {
+        auto defenseAreaVertices = defenseArea.vertices;
+        // Loop over the all lines of the defense area except the goal line and check for intersections
+        for (size_t i = 0; i < defenseAreaVertices.size() - 1; i++) {
+            auto intersection = LineSegment(defenseAreaVertices[i], defenseAreaVertices[i + 1]).intersects({lineStart, lineEnd});
+            if (intersection) intersections.push_back(intersection.value());
+        }
+    }
 
     if (intersections.size() == 1) {
         return std::make_shared<Vector2>(intersections.at(0));
@@ -121,28 +132,27 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenseArea(cons
     }
 }
 
-std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin) {
+std::optional<Vector2> FieldComputations::lineIntersectionWithField(const rtt_world::Field &field, const Vector2 &lineStart, const Vector2 &lineEnd, double margin) {
     auto fieldEdges = getFieldEdge(field, margin);
     auto intersections = fieldEdges.intersections({lineStart, lineEnd});
 
     if (intersections.size() == 1) {
-        return std::make_shared<Vector2>(intersections.at(0));
+        return intersections.at(0);
     } else if (intersections.size() == 2) {
         double distanceFirstIntersection = lineStart.dist(intersections.at(0));
         double distanceSecondIntersection = lineStart.dist(intersections.at(1));
-        return std::make_shared<Vector2>(distanceFirstIntersection < distanceSecondIntersection ? intersections.at(0) : intersections.at(1));
+        return distanceFirstIntersection < distanceSecondIntersection ? intersections.at(0) : intersections.at(1);
     } else {
-        return nullptr;
+        return std::nullopt;
     }
 }
 
 // True standard which mean field.getBoundaryWidth() is used otherwise margin is used
 Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, double backMargin) {
-    Vector2 belowGoal =
-        ourDefenseArea ? field.getBottomLeftOurDefenceArea() + Vector2(-backMargin, -margin) : field.getBottomRightTheirDefenceArea() + Vector2(backMargin, -margin);
-    Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea() + Vector2(-backMargin, margin) : field.getTopRightTheirDefenceArea() + Vector2(backMargin, margin);
-    Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
-    Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
+    Vector2 belowGoal = ourDefenseArea ? field.getBottomLeftOurDefenceArea() : field.getBottomRightTheirDefenceArea();
+    Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea() : field.getTopRightTheirDefenceArea();
+    Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() : field.getRightPenaltyLineBottom();
+    Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() : field.getRightPenaltyLineTop();
 
     if (aboveGoal.y < belowGoal.y) {
         std::swap(aboveGoal, belowGoal);
@@ -151,9 +161,30 @@ Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ou
         std::swap(topPenalty, bottomPenalty);
     }
 
+    if (ourDefenseArea) {
+        if (aboveGoal.x > topPenalty.x) {
+            std::swap(aboveGoal, topPenalty);
+        }
+        if (belowGoal.x > bottomPenalty.x) {
+            std::swap(belowGoal, bottomPenalty);
+        }
+    } else {
+        if (aboveGoal.x < topPenalty.x) {
+            std::swap(aboveGoal, topPenalty);
+        }
+        if (belowGoal.x < bottomPenalty.x) {
+            std::swap(belowGoal, bottomPenalty);
+        }
+    }
+
+    belowGoal = ourDefenseArea ? belowGoal + Vector2(-backMargin, -margin) : belowGoal + Vector2(backMargin, -margin);
+    aboveGoal = ourDefenseArea ? aboveGoal + Vector2(-backMargin, margin) : aboveGoal + Vector2(backMargin, margin);
+    bottomPenalty = ourDefenseArea ? bottomPenalty + Vector2(margin, -margin) : bottomPenalty + Vector2(-margin, -margin);
+    topPenalty = ourDefenseArea ? topPenalty + Vector2(margin, margin) : topPenalty + Vector2(-margin, margin);
+
     std::vector<Vector2> defenseArea = {belowGoal, bottomPenalty, topPenalty, aboveGoal};
     interface::Input::drawDebugData(defenseArea);
-    return Polygon(defenseArea);
+    return {defenseArea};
 }
 
 Polygon FieldComputations::getGoalArea(const rtt_world::Field &field, bool ourGoal, double margin, bool hasBackMargin) {
@@ -287,7 +318,8 @@ Vector2 FieldComputations::projectPointIntoFieldOnLine(const world::Field &field
 
 Vector2 FieldComputations::projectPointToValidPositionOnLine(const world::Field &field, Vector2 point, Vector2 p1, Vector2 p2, stp::AvoidObjects avoidObjects, double fieldMargin,
                                                              double ourDefenseAreaMargin, double theirDefenseAreaMargin) {
-    auto pointProjectedInField = projectPointIntoFieldOnLine(field, point, p1, p2, fieldMargin);
+    // Subtract PROJECTION_MARGIN to avoid the situation where the point is between the left field line and our goal line (-6.0 < x < -5.9)
+    auto pointProjectedInField = projectPointIntoFieldOnLine(field, point, p1, p2, fieldMargin - PROJECTION_MARGIN);
 
     bool ourGoal;   // Which goal's defense area the projected point is in
     double margin;  // The margin to be used for the defense area- set to ourDefenseMargin or theirDefenseAreaMargin depending on where the projected pos is

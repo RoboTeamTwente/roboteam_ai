@@ -10,7 +10,7 @@ namespace rtt::ai::stp::skill {
 
 Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set kick velocity
-    float kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
+    float kickVelocity = std::clamp(info.getKickChipVelocity(), control_constants::MIN_KICK_POWER, control_constants::MAX_KICK_POWER);
 
     // Set kick command
     command.kickType = KickType::KICK;
@@ -26,13 +26,17 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Set angle command
     command.targetAngle = info.getRobot().value()->getAngle();  // TODO: Should there be a check for robot optional?
 
-    // Set chip_kick_forced if we can chip but did not chip for MAX_CHIP_ATTEMPTS amount of ticks
-    if (kickAttempts > control_constants::MAX_KICK_ATTEMPTS) {
-        command.waitForBall = false;
-        kickAttempts = 0;
-    } else {
-        command.waitForBall = true;  // Apparently, waiting for the ball is the default
-    }
+    // TODO: test and use this code again once the ballsensor works
+//    // Set chip_kick_forced if we can chip but did not chip for MAX_CHIP_ATTEMPTS amount of ticks
+//    if (kickAttempts > control_constants::MAX_KICK_ATTEMPTS) {
+//        command.waitForBall = false;
+//        kickAttempts = 0;
+//    } else {
+//        command.waitForBall = true;  // Apparently, waiting for the ball is the default
+//        ++kickAttempts;
+//    }
+
+    command.waitForBall = false;
 
     // set command ID
     command.id = info.getRobot().value()->getId();
@@ -40,11 +44,10 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // forward the generated command to the ControlModule, for checking and limiting
     forwardRobotCommand(info.getCurrentWorld());
 
-    if (!info.getRobot()->hasBall()) {
+    if (!info.getRobot().value()->hasBall()) {
         kickAttempts = 0;
         return Status::Success;
     }
-    ++kickAttempts;
     return Status::Running;
 }
 

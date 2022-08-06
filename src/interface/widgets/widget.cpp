@@ -21,30 +21,32 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-    std::optional<rtt::world::view::WorldDataView> world;
-    std::optional<rtt::world::Field> field;
-    auto const &[_, worldPtr] = rtt::world::World::instance();
-    world = worldPtr->getWorld();
-    field = worldPtr->getField();
 
-    if (!world.has_value() || !world.value()->weHaveRobots()) {
-        painter.drawText(24, 24, "Waiting for incoming world state");
-        return;
-    }
+    {
+        // worldPtr is scoped in order to release the lock soon as possible
+        auto const &[_, worldPtr] = rtt::world::World::instance();
+        auto const &world = worldPtr->getWorld();
+        auto const &field = worldPtr->getField();
 
-    if (field.has_value()) {
-        calculateFieldSizeFactor(field.value());
-        drawBackground(painter);
-        drawFieldHints(field.value(), painter);
-        drawFieldLines(field.value(), painter);
-    }
+        if (!world.has_value()) {
+            painter.drawText(24, 24, "Waiting for incoming world state");
+            return;
+        }
 
-    auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
-    painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
+        if (field.has_value()) {
+            calculateFieldSizeFactor(field.value());
+            drawBackground(painter);
+            drawFieldHints(field.value(), painter);
+            drawFieldLines(field.value(), painter);
+        }
 
-    if (showWorld) {
-        drawRobots(painter, world.value());
-        if (world->getBall().has_value()) drawBall(painter, world->getBall().value());
+        auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
+        painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
+
+        if (showWorld) {
+            drawRobots(painter, world.value());
+            if (world->getBall().has_value()) drawBall(painter, world->getBall().value());
+        }
     }
 
     // draw the drawings from the input
@@ -266,10 +268,10 @@ void Visualizer::drawFieldHints(const rtt::world::Field &field, QPainter &painte
 
 // draw the ball on the screen
 void Visualizer::drawBall(QPainter &painter, rtt::world::view::BallView ball) {
-    rtt::Vector2 ballPosition = toScreenPosition(ball->getPos());
+    rtt::Vector2 ballPosition = toScreenPosition(ball->position);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
 
-    painter.setBrush(ball->isVisible() ? Constants::BALL_COLOR() : Qt::red);
+    painter.setBrush(ball->visible ? Constants::BALL_COLOR() : Qt::red);
 
     // draw a see-through gradient around the ball to make it more visible
     painter.setPen(Qt::NoPen);  // stroke
