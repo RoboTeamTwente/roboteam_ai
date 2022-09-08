@@ -15,5 +15,6 @@ var searchData=
   ['has_5fball_5fangle_3304',['HAS_BALL_ANGLE',['../classrtt_1_1ai_1_1Constants.html#a62eb895e0cb7ae60e03ef271815eca64',1,'rtt::ai::Constants']]],
   ['has_5fball_5fdistance_3305',['HAS_BALL_DISTANCE',['../classrtt_1_1ai_1_1Constants.html#a13d969c321fbb1165df2a63d7626665c',1,'rtt::ai::Constants']]],
   ['hasball_3306',['hasBall',['../classrtt_1_1world_1_1robot_1_1Robot.html#a80d42452dff3f5ff849b0f20ba7d7db8',1,'rtt::world::robot::Robot']]],
-  ['hasfollowupcommand_3307',['hasFollowUpCommand',['../structrtt_1_1ai_1_1RefGameState.html#ac826243573eba96d270835057d933e40',1,'rtt::ai::RefGameState']]]
+  ['hasfollowupcommand_3307',['hasFollowUpCommand',['../structrtt_1_1ai_1_1RefGameState.html#ac826243573eba96d270835057d933e40',1,'rtt::ai::RefGameState']]],
+  ['hasprioritydata_3308',['hasPriorityData',['../classrtt_1_1Interface_1_1InterfaceControllerServer.html#aa68fae1f654f3301754d2f1193234fa4',1,'rtt::Interface::InterfaceControllerServer']]]
 ];

@@ -1,7 +1,5 @@
 var NAVTREEINDEX12 =
 {
-"classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#aa20291b5cee34414dfb81aa0fd33713f":[9,0,0,0,3,3,25,11],
-"classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56":[9,0,0,0,3,3,25,19],
 "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#ab23ad33458ed975661cdc593bdf40968":[9,0,0,0,3,3,25,14],
 "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#ab5f09cfa9cd1ddb2a6990cb3c1b4d691":[9,0,0,0,3,3,25,7],
 "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#ad7b71d56f8b8d8d62b7ec945847a2bec":[9,0,0,0,3,3,25,12],
@@ -249,5 +247,7 @@ var NAVTREEINDEX12 =
 "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html#ab63b95181398ce9f0791e95f4b2feff7":[9,0,0,0,3,4,6,0],
 "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html#ae37bbc212bbf3af61007918004e13678":[9,0,0,0,3,4,6,7],
 "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html#ae9c573acec4e3999f6b1695c386c06a7":[9,0,0,0,3,4,6,1],
-"classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html#af9a9c436e9711e707dfb0f43b5601d91":[9,0,0,0,3,4,6,9]
+"classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html#af9a9c436e9711e707dfb0f43b5601d91":[9,0,0,0,3,4,6,9],
+"classrtt_1_1ai_1_1stp_1_1role_1_1PassReceiver.html":[9,0,0,0,3,4,8],
+"classrtt_1_1ai_1_1stp_1_1role_1_1PassReceiver.html#a0575952e375783fee4350fcb97be888c":[9,0,0,0,3,4,8,10]
 };
