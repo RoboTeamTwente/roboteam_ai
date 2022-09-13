@@ -163,7 +163,6 @@ class World {
      * Everything EXCEPT positioncontrol and settings is reset.
      */
     void reset() noexcept {
-        updateMap.clear();
         history.clear();
         currentIndex = 0;
         currentWorld.reset();
