@@ -25,13 +25,13 @@ TEST(BallAndView, test_getters) {
 
     EXPECT_EQ(data.velocity, Vector2(10.0, 3.0));
     EXPECT_EQ(data.position, Vector2(10.0, 3.0));  // yeye memory leak doesn't rlly matter
-    EXPECT_EQ(data.visible(), true);
+    EXPECT_EQ(data.visible, true);
     EXPECT_EQ(0, 0);
 
     view::BallView _view{&data};
     EXPECT_EQ(data.velocity, _view->velocity);
     EXPECT_EQ(data.position, _view->position);
-    EXPECT_EQ(data.visible(), _view->visible());
+    EXPECT_EQ(data.visible, _view->visible);
 
     EXPECT_EQ((bool)_view, true);
     EXPECT_EQ(_view.get(), &data);

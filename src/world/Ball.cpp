@@ -56,9 +56,9 @@ void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
     expectedEndPosition = ball->position + ball->velocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
     // Visualize the Expected Ball End Position
-    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {expectedEndPosition}, ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);
-    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {position, expectedEndPosition}, ai::Constants::BALL_COLOR(), -1,
-                                   ai::interface::Drawing::LINES_CONNECTED);
+    //ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {expectedEndPosition}, ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);
+    //ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {position, expectedEndPosition}, ai::Constants::BALL_COLOR(), -1,
+    //                               ai::interface::Drawing::LINES_CONNECTED);
 }
 
 void Ball::updateBallAtRobotPosition(const world::World* data) noexcept {

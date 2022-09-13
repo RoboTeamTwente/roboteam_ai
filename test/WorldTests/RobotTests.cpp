@@ -28,7 +28,7 @@ TEST(RobotAndView, test_getters) {
     robotData.set_allocated_vel(getVec(3, 0));
     robotData.set_w(5.0);
 
-    Robot data{feedback, robotData, us};
+    Robot data{robotData, us};
 
     ASSERT_EQ(data.getId(), 1);
     ASSERT_EQ(data.getAngle(), Angle(5.0));
@@ -36,8 +36,9 @@ TEST(RobotAndView, test_getters) {
     ASSERT_EQ(data.getVel(), Vector2(3, 0));
     ASSERT_EQ(data.getAngularVelocity(), 5.0);
 
-    ASSERT_EQ(data.isWorkingBallSensor(), true);
-    ASSERT_EQ(data.isBatteryLow(), true);
+    //TODO: set this to true once we have working sensors
+    ASSERT_EQ(data.isWorkingBallSensor(), false);
+    ASSERT_EQ(data.isBatteryLow(), false);
 
     ASSERT_EQ(view::RobotView{&data}.get(), &data);
 }
