@@ -4,7 +4,7 @@
 #include <stp/plays/referee_specific/TimeOut.h>
 #include <utilities/normalize.h>
 
-#include <Tracy.hpp>
+#include "tracy/Tracy.hpp"
 
 #include <chrono>
 
@@ -176,7 +176,7 @@ void STPManager::runOneLoopCycle() {
 }
 
 void STPManager::decidePlay(world::World *_world) {
-    ZoneScopedN("Decide Play")
+    ZoneScopedN("Decide Play");
     ai::stp::PlayEvaluator::clearGlobalScores();  // reset all evaluations
     ai::stp::ComputationManager::clearStoredComputations();
 

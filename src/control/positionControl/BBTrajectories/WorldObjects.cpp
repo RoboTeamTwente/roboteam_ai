@@ -3,7 +3,7 @@
 //
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 
-#include <Tracy.hpp>
+#include "tracy/Tracy.hpp"
 #include <algorithm>
 
 #include "world/World.hpp"

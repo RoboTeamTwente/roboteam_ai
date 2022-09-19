@@ -5,7 +5,7 @@
 #include "stp/Tactic.h"
 
 #include <roboteam_utils/Print.h>
-#include <Tracy.hpp>
+#include "tracy/Tracy.hpp"
 
 namespace rtt::ai::stp {
 

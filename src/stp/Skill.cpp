@@ -6,7 +6,7 @@
 
 #include "control/ControlModule.h"
 #include "world/World.hpp"
-#include <Tracy.hpp>
+#include "tracy/Tracy.hpp"
 
 namespace rtt::ai::stp {
 

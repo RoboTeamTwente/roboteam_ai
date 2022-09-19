@@ -6,7 +6,7 @@
 
 #include "control/ControlUtils.h"
 #include "interface/widgets/MainControlsWidget.h"
-#include <Tracy.hpp>
+#include "tracy/Tracy.hpp"
 
 namespace rtt::ai::stp {
 

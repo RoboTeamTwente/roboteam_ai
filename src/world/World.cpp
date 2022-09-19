@@ -3,7 +3,7 @@
 //
 
 #include "world/World.hpp"
-#include <Tracy.hpp>
+#include "tracy/Tracy.hpp"
 
 namespace rtt::world {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
