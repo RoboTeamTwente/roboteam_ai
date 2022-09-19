@@ -8,8 +8,8 @@
 
 namespace rtt::ai::stp::control_constants {
 /// Kick and chip constants
-constexpr double MAX_KICK_POWER = 6;
-constexpr double MIN_KICK_POWER = 2;
+constexpr double MAX_KICK_POWER = 6.5;
+constexpr double MIN_KICK_POWER = 3.0;
 constexpr double MAX_POWER_KICK_DISTANCE = 8;
 constexpr double MAX_POWER_CHIP_DISTANCE = 9;
 constexpr double MAX_CHIP_POWER = 6.5;
@@ -28,6 +28,7 @@ constexpr double TURN_ON_DRIBBLER_DISTANCE = 5 * ROBOT_RADIUS;
 
 /// Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
+constexpr double BALL_STILL_VEL2 = BALL_STILL_VEL * BALL_STILL_VEL;
 constexpr double BALL_GOT_SHOT_LIMIT = 1.3;
 constexpr double BALL_IS_MOVING_SLOW_LIMIT = 0.5;
 constexpr double BALL_IS_CLOSE = 0.5;
@@ -48,7 +49,7 @@ constexpr double MAX_VEL_WHEN_HAS_BALL = 3.0;
 // Distance margin for 'goToPos'. If the robot is within this margin, goToPos is successful
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.08;
 // Angle margin for 'goToPos'. If the robot is within this margin, goToPos is successful
-constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.009;
+constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.009 * 6.0;
 // Maximum inaccuracy during ballplacement
 constexpr double BALL_PLACEMENT_MARGIN = 0.15;
 
@@ -63,7 +64,7 @@ constexpr double DISTANCE_TO_ROBOT_CLOSE = ROBOT_RADIUS;
 constexpr double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS;
 constexpr double ROBOT_CLOSE_TO_POINT = 0.2;
 constexpr double DISTANCE_TO_ROBOT_NEAR = 2.2 * ROBOT_RADIUS;
-constexpr double DEFENSE_AREA_AVOIDANCE_MARGIN = 0.4;
+constexpr double DEFENSE_AREA_AVOIDANCE_MARGIN = 0.1;
 
 /// Keeper constants
 constexpr double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;

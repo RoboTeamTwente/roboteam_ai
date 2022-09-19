@@ -244,6 +244,7 @@ void Dealer::distributeFixedIds(std::vector<v::RobotView> &robots, FlagMap &flag
         }
 
         if (!robot_found) RTT_ERROR("Could not find robot with required id ", required_id, " for role ", role->first, ". This forced assignment will be ignored.");
+        role++;
     }
 }
 
@@ -353,7 +354,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
             // get distance to line between ball and goal
             // TODO this method can be improved by choosing a better line for the interception.
-            LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
+            LineSegment lineSegment = {world.getBall()->get()->position, field->getOurGoalCenter()};
             return lineSegment.distanceToLine(robot->getPos());
         }
         case DealerFlagTitle::KEEPER:
@@ -362,9 +363,20 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return costForProperty(robot->getId() == world.getRobotClosestToBall(rtt::world::us)->get()->getId());
         case DealerFlagTitle::NOT_IMPORTANT:
             return 0;
+        case DealerFlagTitle::CAN_DETECT_BALL: {
+            bool hasWorkingBallSensor = Constants::ROBOT_HAS_WORKING_BALL_SENSOR(robot->getId());
+            bool hasDribblerEncoder = Constants::ROBOT_HAS_WORKING_DRIBBLER_ENCODER(robot->getId());
+            return costForProperty(hasWorkingBallSensor || hasDribblerEncoder);
+        }
+        case DealerFlagTitle::CAN_KICK_BALL: {
+            bool hasWorkingKicker = Constants::ROBOT_HAS_KICKER(robot->getId());
+            return costForProperty(hasWorkingKicker);
+        }
+        default: {
+            RTT_WARNING("Unhandled dealerflag!")
+            return 0;
+        }
     }
-    RTT_WARNING("Unhandled dealerflag!")
-    return 0;
 }
 
 void Dealer::setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output) {

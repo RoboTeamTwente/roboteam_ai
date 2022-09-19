@@ -21,19 +21,18 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
     if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     Vector2 robotPosition = skillStpInfo.getRobot().value()->getPos();
-    Vector2 ballPosition = skillStpInfo.getBall().value()->getPos();
+    Vector2 ballPosition = skillStpInfo.getBall().value()->position;
     double ballDistance = (ballPosition - robotPosition).length();
 
-    if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > Constants::HAS_BALL_ANGLE() * M_PI && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
+    if (skillStpInfo.getRobot()->get()->getAngleDiffToBall() > Constants::HAS_BALL_ANGLE() && ballDistance < control_constants::AVOID_BALL_DISTANCE) {
         // don't move too close to the ball until the angle to the ball is (roughly) correct
         skillStpInfo.setPositionToMoveTo(
             FieldComputations::projectPointToValidPosition(info.getField().value(), skillStpInfo.getRobot()->get()->getPos(), info.getObjectsToAvoid()));
     } else {
-        // the robot will go to the position of the ball
-        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - control_constants::CENTER_TO_FRONT + 0.035);
-
+        // We want to keep going towards the ball slowly if we are already close, to make sure we get it
+        auto getBallDistance = std::max(ballDistance, 0.1);
+        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(getBallDistance);
         newRobotPosition = FieldComputations::projectPointToValidPosition(info.getField().value(), newRobotPosition, info.getObjectsToAvoid());
-
         skillStpInfo.setPositionToMoveTo(newRobotPosition);
     }
 
@@ -48,16 +47,14 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
 bool GetBall::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool GetBall::shouldTacticReset(const StpInfo &info) noexcept {
-    return (info.getRobot()->get()->getAngleDiffToBall() < Constants::HAS_BALL_ANGLE() * M_PI) && (skills.current_num() == 1);
-}
+bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return (!info.getRobot()->get()->hasBall() && skills.current_num() == 1); }
 
 bool GetBall::isEndTactic() noexcept {
     // This is not an end tactic
     return false;
 }
 
-bool GetBall::forceTacticSuccess(const StpInfo &info) noexcept { return info.getRobot()->hasBall(); }
+bool GetBall::forceTacticSuccess(const StpInfo &info) noexcept { return info.getRobot().value()->hasBall(); }
 
 const char *GetBall::getName() { return "Get Ball"; }
 

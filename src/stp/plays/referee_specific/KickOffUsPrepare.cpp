@@ -39,7 +39,7 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     // The "kicker" will go to the ball
     if (stpInfos["kicker"].getRobot() && stpInfos["kicker"].getRobot()->get()->getPos().x < 0) {
         Vector2 robotPos = stpInfos["kicker"].getRobot()->get()->getPos();
-        Vector2 ballPos = world->getWorld()->getBall()->get()->getPos();
+        Vector2 ballPos = world->getWorld()->getBall()->get()->position;
         if ((robotPos - ballPos).length() < 0.7) {
             stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, 0.0));
         } else if (robotPos.y > 0) {
@@ -66,25 +66,28 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_right"].setPositionToMoveTo(Vector2(-length / 5, -width / 3));
 
     // Attackers
-    stpInfos["attacker_left"].setPositionToMoveTo(Vector2(-length / 12, width / 4));
+    stpInfos["attacker_left"].setPositionToMoveTo(Vector2(-1, 1));
     stpInfos["attacker_mid"].setPositionToMoveTo(Vector2(-length / 8, 0));
     stpInfos["attacker_right"].setPositionToMoveTo(Vector2(-length / 12, -width / 4));
 }
 
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
 
-    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
+    Dealer::DealerFlag kickerFirstPriority(DealerFlagTitle::CAN_KICK_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag kickerSecondPriority(DealerFlagTitle::CAN_DETECT_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag kickerThirdPriority(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::MEDIUM_PRIORITY);
+
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {keeperFlag}}});
+    flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFirstPriority, kickerSecondPriority, kickerThirdPriority}}});
     flagMap.insert({"defender_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"defender_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"defender_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_left", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"midfielder_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"midfielder_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"midfielder_right", {DealerFlagPriority::HIGH_PRIORITY, {}}});
-    flagMap.insert({"attacker_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"midfielder_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"attacker_left", {DealerFlagPriority::HIGH_PRIORITY, {kickerFirstPriority}}});
     flagMap.insert({"attacker_mid", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"attacker_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
 

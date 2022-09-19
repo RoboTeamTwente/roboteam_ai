@@ -40,6 +40,14 @@ class DriveWithBall : public Tactic {
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     /**
+     * Checks if this tactic should be forced success
+     * It is forced success whenever we are at the right location
+     * @param info
+     * @return whether the tactic is forced success
+     */
+    bool forceTacticSuccess(const StpInfo &info) noexcept override;
+
+    /**
      * Is this tactic an end tactic?
      * @return This will always return false, since it is NOT an endTactic
      */

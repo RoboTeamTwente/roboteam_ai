@@ -23,6 +23,7 @@ void Play::initialize(gen::PlayInfos &_previousPlayInfos) noexcept {
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
+    previousKeeperId = GameStateManager::getCurrentGameState().keeperId;
 }
 
 void Play::setWorld(world::World *world) noexcept { this->world = world; }
@@ -35,14 +36,16 @@ void Play::update() noexcept {
     roleStatuses.clear();
     //    RTT_INFO("Play executing: ", getName())
 
-    // Check if the amount of robots changed
+    // Check if the amount of robots changed or keeper id changed
     // If so, we will re deal the roles
     auto currentRobotNum{world->getWorld()->getRobotsNonOwning().size()};
+    auto currentKeeperId = GameStateManager::getCurrentGameState().keeperId;
 
-    if (currentRobotNum != previousRobotNum) {
+    if (currentRobotNum != previousRobotNum || currentKeeperId != previousKeeperId) {
         //        RTT_INFO("Reassigning bots")
         reassignRobots();
         previousRobotNum = currentRobotNum;
+        previousKeeperId = currentKeeperId;
     }
 
     // Refresh the RobotViews, BallViews and fields
@@ -89,7 +92,8 @@ void Play::refreshData() noexcept {
             // Get a new RobotView from world using the old robot id
             stpInfo->second.setRobot(world->getWorld()->getRobotForId(stpInfo->second.getRobot()->get()->getId()));
 
-            stpInfo->second.setMaxRobotVelocity(control::ControlUtils::getMaxVelocity(stpInfo->second.getRobot()->hasBall()));
+            // Set max velocity depending on the gamestate rules and whether we have the ball
+            if (stpInfo->second.getRobot()) stpInfo->second.setMaxRobotVelocity(control::ControlUtils::getMaxVelocity(stpInfo->second.getRobot().value()->hasBall()));
 
             // The keeper does not need to avoid our defense area
             if (stpInfo->second.getRoleName() == "keeper") stpInfo->second.setShouldAvoidDefenseArea(false);

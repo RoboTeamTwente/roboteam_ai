@@ -36,7 +36,7 @@ TEST_F(RTT_AI_Tests, idTests) {
     auto us = world->getWorld()->getUs();
     auto keeperId = world->getWorld()->getRobotClosestToPoint(world->getField()->getOurGoalCenter(), us).value()->getId();
     erase_if(us, [keeperId](auto bot) { return bot->getId() == keeperId; });
-    auto passerId = world->getWorld()->getRobotClosestToPoint(world->getWorld()->getBall()->get()->getPos(), us).value()->getId();
+    auto passerId = world->getWorld()->getRobotClosestToPoint(world->getWorld()->getBall()->get()->position, us).value()->getId();
     EXPECT_EQ(passInfo.passerId, passerId);
     EXPECT_TRUE(passInfo.keeperId == keeperId);
 }
@@ -67,7 +67,7 @@ TEST_F(RTT_AI_Tests, keeperPassTest) {
     world->updateWorld(protoWorld);
     world->updateField(field);
 
-    ASSERT_TRUE(world->getWorld()->getBall()->get()->getPos() == world->getField()->getOurGoalCenter());
+    ASSERT_TRUE(world->getWorld()->getBall()->get()->position == world->getField()->getOurGoalCenter());
 
     PassInfo passInfo;
     do {

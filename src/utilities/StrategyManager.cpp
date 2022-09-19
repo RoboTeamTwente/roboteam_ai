@@ -18,11 +18,17 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
         }
     }
 
+    // If game is in pre start stage and the game is in stop state
+    if (command == RefCommand::STOP && (stage == proto::SSL_Referee_Stage_NORMAL_FIRST_HALF_PRE || stage == proto::SSL_Referee_Stage_NORMAL_SECOND_HALF_PRE ||
+                                        stage == proto::SSL_Referee_Stage_EXTRA_FIRST_HALF_PRE || stage == proto::SSL_Referee_Stage_EXTRA_SECOND_HALF_PRE)) {
+        command = RefCommand::PRE_HALF;
+    }
+
     // If the ball has been kicked during kickoff or a free kick, continue with NORMAL_START
     if ((currentRefGameState.commandId == RefCommand::DIRECT_FREE_THEM || currentRefGameState.commandId == RefCommand::DIRECT_FREE_US ||
          currentRefGameState.commandId == RefCommand::DO_KICKOFF || currentRefGameState.commandId == RefCommand::DEFEND_KICKOFF ||
          currentRefGameState.commandId == RefCommand::INDIRECT_FREE_US || currentRefGameState.commandId == RefCommand::INDIRECT_FREE_THEM) &&
-        ballOpt.has_value() && (ballOpt.value()->getFilteredVelocity().length() > stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT)) {
+        ballOpt.has_value() && (ballOpt.value()->velocity.length() > stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT)) {
         RefGameState newState = getRefGameStateForRefCommand(RefCommand::NORMAL_START);
         currentRefGameState = newState;
         currentRefCmd = command;

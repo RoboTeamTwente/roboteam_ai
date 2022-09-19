@@ -108,7 +108,7 @@ class WorldObjects {
      * @param pathPoints, std::vector with path points
      * @param timeStep in seconds
      */
-    void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, std::vector<Vector2> pathPoints, double timeStep);
+    void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, std::vector<Vector2> pathPoints, double timeStep, double dist);
 
     /**
      * @brief Takes a calculated path of a robot and checks points along the path if they are too close to an

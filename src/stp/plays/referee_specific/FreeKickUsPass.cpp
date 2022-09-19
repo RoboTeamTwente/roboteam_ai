@@ -80,9 +80,10 @@ void FreeKickUsPass::calculateInfoForRoles() noexcept {
     } else {
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ball = world->getWorld()->getBall()->get();
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
+        auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
+        if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
 
         // free_kick_taker now goes to a front grid, where the receiver is not
         if (receiverLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
@@ -134,18 +135,17 @@ bool FreeKickUsPass::ballKicked() {
 }
 
 bool FreeKickUsPass::shouldEndPlay() noexcept {
-    if (stpInfos["receiver"].getRobot() && stpInfos["free_kick_taker"].getRobot()) {
-        // True if receiver has ball
-        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+    // True if receiver has ball
+    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
-        // True if the free_kick_taker has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
-        if (ballKicked() && stpInfos["free_kick_taker"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-            world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL)
-            return true;
-    }
-    // True if a different pass has a higher score than the current pass (by some margin)
-    return !ballKicked() && stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
-                                1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score;
+    // True if the free_kick_taker has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
+    if (ballKicked() && world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_STILL_VEL) return true;
+
+    // True if a different pass has a higher score than the current pass (by some margin)- only if the passer is not already close to the ball (since we don't want to adjust our
+    // target when we're in the process of shooting
+    return !ballKicked() && stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() > 0.25 &&
+           stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
+               1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score;
 }
 
 const char* FreeKickUsPass::getName() { return "Free Kick Us Pass"; }

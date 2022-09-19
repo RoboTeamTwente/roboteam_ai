@@ -32,12 +32,12 @@ AttackingPass::AttackingPass() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Passer>(role::Passer("passer")),
                                                                                        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_left")),
-                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_mid")),
-                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("defender_right")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_left")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_mid")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_right")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("pass_defender_1")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("pass_defender_2")),
+                                                                                       std::make_unique<role::BallDefender>(role::BallDefender("pass_defender_3")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("waller_1")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("waller_2")),
+                                                                                       std::make_unique<role::Formation>(role::Formation("ball_blocker")),
                                                                                        std::make_unique<role::Formation>(role::Formation("attacker_left")),
                                                                                        std::make_unique<role::Formation>(role::Formation("attacker_right"))};
 }
@@ -52,26 +52,27 @@ uint8_t AttackingPass::score(const rtt::world::Field& field) noexcept {
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
+    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}, passInfo.keeperId}});
     flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {}, passInfo.passerId}});
-    flagMap.insert({"receiver", {DealerFlagPriority::HIGH_PRIORITY, {}, passInfo.receiverId}});
-    flagMap.insert({"defender_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"defender_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"defender_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"midfielder_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"midfielder_mid", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"midfielder_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"attacker_left", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"attacker_right", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {}, passInfo.receiverId}});
+    flagMap.insert({"waller_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"waller_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"pass_defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"pass_defender_3", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"ball_blocker", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"attacker_left", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"attacker_right", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }
 
 void AttackingPass::calculateInfoForRoles() noexcept {
     calculateInfoForDefenders();
-    calculateInfoForMidfielders();
     calculateInfoForAttackers();
+    calculateInfoForBlocker();
 
     /// Keeper
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
@@ -88,9 +89,10 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     } else {
         // Receiver goes to the passLocation projected on the trajectory of the ball
         auto ball = world->getWorld()->getBall()->get();
-        auto ballTrajectory = LineSegment(ball->getPos(), ball->getPos() + ball->getFilteredVelocity().stretchToLength(field.getFieldLength()));
+        auto ballTrajectory = LineSegment(ball->position, ball->position + ball->velocity.stretchToLength(field.getFieldLength()));
         auto receiverLocation = FieldComputations::projectPointToValidPositionOnLine(field, passInfo.passLocation, ballTrajectory.start, ballTrajectory.end);
         stpInfos["receiver"].setPositionToMoveTo(receiverLocation);
+        if (ball->velocity.length() > control_constants::BALL_IS_MOVING_SLOW_LIMIT) stpInfos["receiver"].setPidType(PIDType::INTERCEPT);
 
         // Passer now goes to a front grid, where the receiver is not
         if (receiverLocation.y > field.getFrontLeftGrid().getOffSetY()) {  // Receiver is going to left of the field
@@ -102,23 +104,64 @@ void AttackingPass::calculateInfoForRoles() noexcept {
             stpInfos["passer"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, targetGrid, gen::BlockingPosition, field, world));
         }
     }
+
+    auto enemyRobots = world->getWorld()->getThem();
+
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
+
+    erase_if(enemyRobots, [&](const auto enemyRobot) -> bool { return enemyClosestToBall && enemyRobot->getId() == enemyClosestToBall.value()->getId(); });
+
+    std::map<double, Vector2> enemyMap;
+
+    for (auto enemy : enemyRobots) {
+        double score = FieldComputations::getDistanceToGoal(field, true, enemy->getPos());
+        if (enemy->hasBall()) continue;
+        enemyMap.insert({score, enemy->getPos()});
+    }
+
+    constexpr auto midfielderNames = std::array{"pass_defender_1", "pass_defender_2", "pass_defender_3"};
+    auto activeMidfielderNames = std::vector<std::string>{};
+    for (auto name : midfielderNames) {
+        if (stpInfos[name].getRobot().has_value()) activeMidfielderNames.emplace_back(name);
+    }
+
+    for (int i = 0; i < activeMidfielderNames.size(); ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto& midfielderStpInfo = stpInfos[activeMidfielderNames[i]];
+        if (enemyMap.empty()) break;
+        midfielderStpInfo.setPositionToDefend(enemyMap.begin()->second);
+        midfielderStpInfo.setBlockDistance(BlockDistance::ROBOTRADIUS);
+        enemyMap.erase(enemyMap.begin());
+    }
 }
 
 void AttackingPass::calculateInfoForDefenders() noexcept {
-    stpInfos["defender_left"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_left"].setBlockDistance(BlockDistance::HALFWAY);
+    constexpr auto wallerNames = std::array{"waller_1", "waller_2"};
+    auto activeWallerNames = std::vector<std::string>{};
+    for (auto name : wallerNames) {
+        if (stpInfos[name].getRobot().has_value()) activeWallerNames.emplace_back(name);
+    }
 
-    stpInfos["defender_mid"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_mid"].setBlockDistance(BlockDistance::HALFWAY);
+    for (int i = 0; i < activeWallerNames.size(); ++i) {
+        // For each waller, stand in the right wall position and look at the ball
+        auto positionToMoveTo = PositionComputations::getWallPosition(i, activeWallerNames.size(), field, world);
+        auto& wallerStpInfo = stpInfos[activeWallerNames[i]];
 
-    stpInfos["defender_right"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_right"].setBlockDistance(BlockDistance::CLOSE);
+        wallerStpInfo.setPositionToMoveTo(positionToMoveTo);
+        wallerStpInfo.setAngle((world->getWorld()->getBall()->get()->position - field.getOurGoalCenter()).angle());
+
+        // If the waller is close to its target, ignore collisions
+        constexpr double IGNORE_COLLISIONS_DISTANCE = 1.0;
+        if ((wallerStpInfo.getRobot()->get()->getPos() - positionToMoveTo).length() < IGNORE_COLLISIONS_DISTANCE) {
+            wallerStpInfo.setShouldAvoidOurRobots(false);
+        }
+    }
 }
 
-void AttackingPass::calculateInfoForMidfielders() noexcept {
-    stpInfos["midfielder_left"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleLeftGrid(), gen::OffensivePosition, field, world));
-    stpInfos["midfielder_mid"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleMidGrid(), gen::OffensivePosition, field, world));
-    stpInfos["midfielder_right"].setPositionToMoveTo(PositionComputations::getPosition(std::nullopt, field.getMiddleRightGrid(), gen::OffensivePosition, field, world));
+void AttackingPass::calculateInfoForBlocker() noexcept {
+    stpInfos["ball_blocker"].setPositionToMoveTo(PositionComputations::getBallBlockPosition(field, world));
+    if (stpInfos["ball_blocker"].getRobot())
+        stpInfos["ball_blocker"].setAngle((world->getWorld()->getBall()->get()->position - stpInfos["ball_blocker"].getRobot()->get()->getPos()).toAngle());
 }
 
 void AttackingPass::calculateInfoForAttackers() noexcept {
@@ -142,18 +185,19 @@ bool AttackingPass::ballKicked() {
 }
 
 bool AttackingPass::shouldEndPlay() noexcept {
-    if (stpInfos["receiver"].getRobot() && stpInfos["passer"].getRobot()) {
-        // True if receiver has ball
-        if (stpInfos["receiver"].getRobot()->hasBall()) return true;
+    // If the receiver has the ball, the play finished successfully
+    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot().value()->hasBall()) return true;
 
-        // True if the passer has shot the ball, but it is now almost stationary (pass was too soft, was reflected, etc.)
-        if (ballKicked() && stpInfos["passer"].getRobot()->get()->getDistanceToBall() >= Constants::HAS_BALL_DISTANCE() * 1.5 &&
-            world->getWorld()->getBall()->get()->getVelocity().length() < control_constants::BALL_STILL_VEL)
-            return true;
-    }
-    // True if a different pass has a higher score than the current pass (by some margin)
-    return !ballKicked() && stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
-                                1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score;
+    // If the ball is moving too slow after we have kicked it, we should stop the play to get the ball
+    if (ballKicked() && world->getWorld()->getBall()->get()->velocity.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT) return true;
+
+    // If the passer doesn't have the ball yet and there is a better pass available, we should stop the play
+    if (!ballKicked() && stpInfos["passer"].getRobot() && !stpInfos["passer"].getRobot().value()->hasBall() &&
+        stp::computations::PassComputations::calculatePass(gen::AttackingPass, world, field).passScore >
+            1.05 * stp::PositionScoring::scorePosition(passInfo.passLocation, gen::AttackingPass, field, world).score)
+        return true;
+
+    return false;
 }
 
 const char* AttackingPass::getName() { return "AttackingPass"; }

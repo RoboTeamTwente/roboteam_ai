@@ -1,6 +1,4 @@
-//
 // Created by Lukas Bos on 30/08/2019.
-//
 
 #include "world/Field.h"
 

@@ -127,9 +127,7 @@ void JoystickHandler::updateOrientation() {
     command.useAngularVelocity = false;
     float dAngle = -joystickState.stickRight.x / 32768.0;
     robotAngle += dAngle * 0.05;
-    while (M_PI < robotAngle) robotAngle -= 2 * M_PI;
-    while (robotAngle < -M_PI) robotAngle += 2 * M_PI;
-    command.targetAngle = robotAngle;
+    command.targetAngle = Angle(robotAngle);
 }
 
 void JoystickHandler::updateVelocity() {

@@ -23,15 +23,15 @@ TEST(BallAndView, test_getters) {
     auto const &[_, world] = rtt::world::World::instance();
     Ball data{protoData, world};
 
-    EXPECT_EQ(data.getVelocity(), Vector2(10.0, 3.0));
-    EXPECT_EQ(data.getPos(), Vector2(10.0, 3.0));  // yeye memory leak doesn't rlly matter
-    EXPECT_EQ(data.isVisible(), true);
+    EXPECT_EQ(data.velocity, Vector2(10.0, 3.0));
+    EXPECT_EQ(data.position, Vector2(10.0, 3.0));  // yeye memory leak doesn't rlly matter
+    EXPECT_EQ(data.visible, true);
     EXPECT_EQ(0, 0);
 
     view::BallView _view{&data};
-    EXPECT_EQ(data.getVelocity(), _view->getVelocity());
-    EXPECT_EQ(data.getPos(), _view->getPos());
-    EXPECT_EQ(data.isVisible(), _view->isVisible());
+    EXPECT_EQ(data.velocity, _view->velocity);
+    EXPECT_EQ(data.position, _view->position);
+    EXPECT_EQ(data.visible, _view->visible);
 
     EXPECT_EQ((bool)_view, true);
     EXPECT_EQ(_view.get(), &data);
