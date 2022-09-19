@@ -55,7 +55,7 @@ TEST(TacticTests, nonEndTacticFinishedSuccessful) {
     proto::WorldRobot robot_proto;
     robot_proto.set_id(1);
     std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
-    auto robot = rtt::world::robot::Robot(updateMap, robot_proto);
+    auto robot = rtt::world::robot::Robot(robot_proto);
     info.setRobot(rtt::world::view::RobotView(&robot));
 
     EXPECT_CALL(tactic, isEndTacticMock()).WillOnce(testing::Return(false));
@@ -72,7 +72,7 @@ TEST(TacticTests, endTacticWaiting) {
     proto::WorldRobot robot_proto;
     robot_proto.set_id(1);
     std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
-    auto robot = rtt::world::robot::Robot(updateMap, robot_proto);
+    auto robot = rtt::world::robot::Robot(robot_proto);
     info.setRobot(rtt::world::view::RobotView(&robot));
 
     EXPECT_CALL(tactic, isEndTacticMock()).WillOnce(testing::Return(true));
@@ -90,7 +90,7 @@ TEST(TacticTests, endTacticFailingCondition) {
     proto::WorldRobot robot_proto;
     robot_proto.set_id(1);
     std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
-    auto robot = rtt::world::robot::Robot(updateMap, robot_proto);
+    auto robot = rtt::world::robot::Robot(robot_proto);
     info.setRobot(rtt::world::view::RobotView(&robot));
 
     EXPECT_CALL(tactic, isTacticFailingMock(testing::_)).WillOnce(testing::Return(true));
@@ -108,7 +108,7 @@ TEST(TacticTests, isTacticRunningSuccessful) {
     proto::WorldRobot robot_proto;
     robot_proto.set_id(1);
     std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
-    auto robot = rtt::world::robot::Robot(updateMap, robot_proto);
+    auto robot = rtt::world::robot::Robot(robot_proto);
     info.setRobot(rtt::world::view::RobotView(&robot));
 
     EXPECT_CALL(tactic, isTacticFailingMock(testing::_)).WillOnce(testing::Return(false));

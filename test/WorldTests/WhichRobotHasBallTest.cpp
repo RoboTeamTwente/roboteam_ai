@@ -54,15 +54,15 @@ TEST(worldTest, WhichRobotHasBallTest) {
     assert(world->getBall().has_value());
 
     /** Test 1.1 : us */
-    std::optional<rtt::world::view::RobotView> robot = world->whichRobotHasBall(rtt::world::Team::us, 1.0);
+    std::optional<rtt::world::view::RobotView> robot = world->whichRobotHasBall(rtt::world::Team::us);
     EXPECT_EQ((*robot)->getId(), 1);
     /** Test 1.2 : them */
-    robot = world->whichRobotHasBall(rtt::world::Team::them, 1.0);
+    robot = world->whichRobotHasBall(rtt::world::Team::them);
     EXPECT_EQ((*robot)->getId(), 3);
     /** Test 1.3 : both */
-    robot = world->whichRobotHasBall(rtt::world::Team::both, 1.0);
+    robot = world->whichRobotHasBall(rtt::world::Team::both);
     EXPECT_EQ((*robot)->getId(), 3);
     /** Test 1.4 : both, all out of range */
-    robot = world->whichRobotHasBall(rtt::world::Team::both, 0.001);
+    robot = world->whichRobotHasBall(rtt::world::Team::both);
     EXPECT_FALSE(robot.has_value());
 }

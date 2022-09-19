@@ -63,8 +63,8 @@ void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView>
 
     if (robot && robot->get()) {
         Angle target = command.targetAngle;
-        interface::Input::drawData(interface::Visual::PATHFINDING, {robot->get()->getPos(), robot->get()->getPos() + Vector2(target)}, Qt::red, robot->get()->getId(),
-                                   interface::Drawing::LINES_CONNECTED);
+        //interface::Input::drawData(interface::Visual::PATHFINDING, {robot->get()->getPos(), robot->get()->getPos() + Vector2(target)}, Qt::red, robot->get()->getId(),
+        //                           interface::Drawing::LINES_CONNECTED);
     }
     // If we are not left, commands should be rotated (because we play as right)
     if (!SETTINGS.isLeft()) {
