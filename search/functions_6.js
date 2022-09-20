@@ -55,7 +55,7 @@ var searchData=
   ['getcurrentskill_3106',['getCurrentSkill',['../classrtt_1_1ai_1_1stp_1_1Tactic.html#a483d158a091f8347c3c25983b22d015f',1,'rtt::ai::stp::Tactic']]],
   ['getcurrenttactic_3107',['getCurrentTactic',['../classrtt_1_1ai_1_1stp_1_1Role.html#a692cb6f9ade70bebc8f56e5175036c9a',1,'rtt::ai::stp::Role']]],
   ['getcurrentworld_3108',['getCurrentWorld',['../structrtt_1_1ai_1_1stp_1_1StpInfo.html#abda18f252443c88977257ea2983c129b',1,'rtt::ai::stp::StpInfo']]],
-  ['getdataforremote_3109',['getDataForRemote',['../classrtt_1_1Interface_1_1InterfaceControllerServer.html#a1a09975cccf3f3e2b0a3cd70cd79a5c4',1,'rtt::Interface::InterfaceControllerServer']]],
+  ['getdataforremote_3109',['getDataForRemote',['../classrtt_1_1Interface_1_1InterfaceControllerServer.html#a1866c6200460313d4bdb736adadce4d3',1,'rtt::Interface::InterfaceControllerServer']]],
   ['getdefaultflagscores_3110',['getDefaultFlagScores',['../classrtt_1_1ai_1_1Dealer.html#accad1a84e4899ec6a0d78b3607db4d64',1,'rtt::ai::Dealer']]],
   ['getdefensearea_3111',['getDefenseArea',['../classrtt_1_1ai_1_1FieldComputations.html#af97e5e6ad68324c7c86eb4f059eaea2a',1,'rtt::ai::FieldComputations']]],
   ['getdefenseareacollision_3112',['getDefenseAreaCollision',['../classrtt_1_1ai_1_1control_1_1CollisionDetector.html#a062aef57fc6e5a26264b1afb1f5ab0b5',1,'rtt::ai::control::CollisionDetector']]],

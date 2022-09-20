@@ -1,5 +1,7 @@
 var NAVTREEINDEX14 =
 {
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html#a01328342628815ac1a1eb3bd5c648112":[9,0,0,0,3,6,1,10],
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html#a0dd3439d999970125264ce7fccadff49":[9,0,0,0,3,6,1,13],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html#a12a56866f0d664af5fd27895d52e9f99":[9,0,0,0,3,6,1,7],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html#a2406ddec88191f369b72206849a1d9a4":[9,0,0,0,3,6,1,6],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html#a242748b42fbc99613b65f6500eb12f8f":[9,0,0,0,3,6,1,14],
@@ -247,7 +249,5 @@ var NAVTREEINDEX14 =
 "classrtt_1_1input_1_1JoystickManager.html#a46a79a70e0aeea8d7391b7d9738d036b":[9,0,0,2,1,6],
 "classrtt_1_1input_1_1JoystickManager.html#a4ecfaddf56892da3999dc14d9b26cba8":[9,0,0,2,1,3],
 "classrtt_1_1input_1_1JoystickManager.html#a51a11c6ddb9abfd9b571c25b185c9923":[9,0,0,2,1,14],
-"classrtt_1_1input_1_1JoystickManager.html#a7a098bd28711834be4247ee2db61a019":[9,0,0,2,1,8],
-"classrtt_1_1input_1_1JoystickManager.html#a865f18e2ca54d5dafc1a64b409f116b1":[9,0,0,2,1,16],
-"classrtt_1_1input_1_1JoystickManager.html#a8b2ec0980cf0b08aed44ed9610fdf1e7":[9,0,0,2,1,5]
+"classrtt_1_1input_1_1JoystickManager.html#a7a098bd28711834be4247ee2db61a019":[9,0,0,2,1,8]
 };
