@@ -1,3 +1,5 @@
+#include "roboteam_ai.h"
+
 #include <roboteam_utils/Print.h>
 
 #include "STPManager.h"
@@ -5,7 +7,6 @@
 #include "world/World.hpp"
 
 namespace ui = rtt::ai::interface;
-
 ui::MainWindow* window;
 
 void runStp() {

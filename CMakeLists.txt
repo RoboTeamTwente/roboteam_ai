@@ -142,6 +142,7 @@ add_library(roboteam_ai_plays
         # /
         ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/ControlSelectedRobot.cpp
         # contested/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
