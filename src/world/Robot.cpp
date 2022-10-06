@@ -172,7 +172,9 @@ void Robot::updateHasBallMap(std::optional<view::BallView> &ball) {
     // If we previously had the ball, we do not have the ball if the score gets below 4
     if (hasBallUpdateMap[id].hasBall && hasBallUpdateMap[id].score < 4) hasBallUpdateMap[id].hasBall = false;
     // If we did not have the ball yet, we have the ball if the score gets over 20
-    else if (hasBallUpdateMap[id].score > 20)
+
+    // Temporary fix increasing sensitivity to hasBall scoring during testing. Needs to be extracted and fine tuned.
+    else if (hasBallUpdateMap[id].score > 0)
         hasBallUpdateMap[id].hasBall = true;
 
     setHasBall(hasBallUpdateMap[id].hasBall);
