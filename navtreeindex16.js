@@ -1,5 +1,6 @@
 var NAVTREEINDEX16 =
 {
+"classrtt_1_1world_1_1robot_1_1Robot.html#a41988a92ee051e0b84c96f693e8ec1fb":[9,0,0,4,1,1,21],
 "classrtt_1_1world_1_1robot_1_1Robot.html#a497806af0a83654c1763600640b02b5a":[9,0,0,4,1,1,6],
 "classrtt_1_1world_1_1robot_1_1Robot.html#a4eae9a3012c792896a9e59ed3e6f2879":[9,0,0,4,1,1,45],
 "classrtt_1_1world_1_1robot_1_1Robot.html#a4f2c074023a97acc566e0e9c0989c0cd":[9,0,0,4,1,1,53],
@@ -248,6 +249,5 @@ var NAVTREEINDEX16 =
 "functions_type.html":[9,3,3],
 "functions_u.html":[9,3,0,20],
 "functions_v.html":[9,3,0,21],
-"functions_vars.html":[9,3,2,0],
 "functions_vars.html":[9,3,2]
 };

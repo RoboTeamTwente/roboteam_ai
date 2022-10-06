@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6b4617276cfe62f74480e908a3678627":[9,0,0,0,3,0,1,8],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a765487b3e9f0edddb9d7ef528bb59665":[9,0,0,0,3,0,1,1],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#aa54e3d817f4c0b62207b29cf39c58302":[9,0,0,0,3,0,1,3],
 "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#ac585248e2a5d032b0a634b7872935cd4":[9,0,0,0,3,0,1,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a69c151bdcb58496794b8ef9fa46a2286":[9,0,0,0,3,3,6,20],
 "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a7164f241b13b1aa59b6e6b5c30a3094b":[9,0,0,0,3,3,6,28],
 "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a7439c6149abbc461640c9ecdad2ba8d6":[9,0,0,0,3,3,6,10],
-"classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a79c96620d8b394a6682729b43e06f63f":[9,0,0,0,3,3,6,1],
-"classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a811a29f3adf24138908bbea183e2430b":[9,0,0,0,3,3,6,27]
+"classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a79c96620d8b394a6682729b43e06f63f":[9,0,0,0,3,3,6,1]
 };

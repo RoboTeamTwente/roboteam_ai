@@ -234,7 +234,8 @@ var NAVTREEINDEX3 =
 "WeHaveMajorityGlobalEvaluation_8h.html":[10,0,1,0,3,2,1,18],
 "WeHaveMajorityGlobalEvaluation_8h_source.html":[10,0,1,0,3,2,1,18],
 "WhichRobotHasBallTest_8cpp.html":[10,0,3,8,6],
-"WhichRobotHasBallTest_8cpp.html#af65626be15bac794c9d6d1a7e530fce0":[10,0,3,8,6,0],
+"WhichRobotHasBallTest_8cpp.html#a8fb04d1a2e533695852ae7755fd008ef":[10,0,3,8,6,0],
+"WhichRobotHasBallTest_8cpp.html#af65626be15bac794c9d6d1a7e530fce0":[10,0,3,8,6,1],
 "WorldDataView_8cpp.html":[10,0,2,5,0,2],
 "WorldDataView_8hpp.html":[10,0,1,0,5,0,2],
 "WorldDataView_8hpp_source.html":[10,0,1,0,5,0,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "WorldObjects_8h.html":[10,0,1,0,0,0,0,4],
 "WorldObjects_8h_source.html":[10,0,1,0,0,0,0,4],
 "WorldResetTests_8cpp.html":[10,0,3,8,7],
-"WorldResetTests_8cpp.html#a832b5b6ea1810635609d4f2303908a47":[10,0,3,8,7,1],
-"WorldResetTests_8cpp.html#a96324beaed025bb7e69a113e9e50ac22":[10,0,3,8,7,2]
+"WorldResetTests_8cpp.html#a832b5b6ea1810635609d4f2303908a47":[10,0,3,8,7,1]
 };
