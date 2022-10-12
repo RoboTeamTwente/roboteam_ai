@@ -185,8 +185,7 @@ void JoystickHandler::handleJoystickButton(SDL_Event &event) {
         case 3:
             joystickState.Y = button_State;
             break;
-        case 4:
-            joystickState.bumperLeft = button_State;
+        case 4:;
             break;
         case 5:
             joystickState.bumperRight = button_State;
@@ -200,11 +199,9 @@ void JoystickHandler::handleJoystickButton(SDL_Event &event) {
         case 8:
             joystickState.XBOX = button_State;
             break;
-        case 9:
-            joystickState.stickLeftBtn = button_State;
+        case 9:;
             break;
-        case 10:
-            joystickState.stickRightBtn = button_State;
+        case 10:;
             break;
         default:
             break;
@@ -219,9 +216,7 @@ void JoystickHandler::handleJoystickHat(SDL_Event &event) {
 
     uint32_t value = event.jhat.value;
 
-    joystickState.dpadUp = (value & 1) > 0;
     joystickState.dpadRight = (value & 2) > 0;
-    joystickState.dpadDown = (value & 4) > 0;
     joystickState.dpadLeft = (value & 8) > 0;
 }
 
