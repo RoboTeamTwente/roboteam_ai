@@ -61,7 +61,6 @@ class MainWindow : public QMainWindow {
    public slots:
     void updateRobotsWidget();
     void setPlayForRobot(std::string const &str, uint8_t id);
-    void setTacticForRobot(std::string const &str, uint8_t id);
     void setKeeperRole(stp::Role *role, stp::Status state);
 
    private:

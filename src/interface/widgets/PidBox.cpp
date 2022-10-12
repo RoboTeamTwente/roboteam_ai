@@ -30,8 +30,6 @@ PidBox::PidBox(const QString &title, QWidget *parent) : QGroupBox(title, parent)
     this->setLayout(spinBoxLayout);
 }
 
-const pidVals &PidBox::getPid() const { return pid; }
-
 // update the checkbox values
 void PidBox::setPid(const pidVals &pid) {
     select_p->setValue(std::get<0>(pid));

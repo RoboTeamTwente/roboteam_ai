@@ -47,10 +47,6 @@ class Input {
 
     static void clearDrawings();
     static const std::vector<Drawing> getDrawings();
-    static void drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0,
-                         double height = 4.0, double strokeWidth = 2.0);
-    static void drawDebugData(std::vector<Vector2> points, QColor color = Qt::yellow, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0,
-                              double height = 4.0, double strokeWidth = 4.0);
     static int getFps();
     static void setFps(int fps);
 
