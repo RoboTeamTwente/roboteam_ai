@@ -49,8 +49,6 @@ std::optional<Vector2> CollisionDetector::getRobotCollisionBetweenPoints(const V
     return std::nullopt;
 }
 
-std::vector<Vector2> CollisionDetector::getRobotPositions() { return robotPositions; }
-
 void CollisionDetector::setField(const rtt::world::Field& field_) { this->field = &field_; }
 
 void CollisionDetector::setRobotPositions(std::vector<Vector2>& robotPositions_) { this->robotPositions = robotPositions_; }

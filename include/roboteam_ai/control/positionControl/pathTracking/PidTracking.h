@@ -25,9 +25,6 @@ class PidTracking : public PathTrackingAlgorithm {
     // PID controllers for each robot
     std::unordered_map<int, std::pair<PID, PID>> pidMapping = {};
 
-    // updates the PID parameters from the UI
-    void updatePidValuesFromInterface(bool isKeeper);
-
    public:
     /**
      * Generates an output velocity and angle according to the implemented algorithm.

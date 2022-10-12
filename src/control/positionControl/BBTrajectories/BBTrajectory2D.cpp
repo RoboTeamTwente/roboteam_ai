@@ -9,10 +9,6 @@
 #include "utilities/Constants.h"
 namespace rtt::BB {
 
-BBTrajectory2D::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc, double alpha) {
-    generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc, alpha);
-}
-
 BBTrajectory2D::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos, double maxVel, double maxAcc) {
     generateSyncedTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
 }
@@ -50,15 +46,6 @@ Vector2 BBTrajectory2D::getVelocity(double t) const { return Vector2(x.getVeloci
 
 Vector2 BBTrajectory2D::getAcceleration(double t) const { return Vector2(x.getAcceleration(t), y.getAcceleration(t)); }
 
-std::vector<Vector2> BBTrajectory2D::getStraightLines(unsigned int N) const {
-    std::vector<Vector2> points;
-    double timeStep = fmax(x.getTotalTime(), y.getTotalTime()) / N;
-    for (unsigned int i = 0; i <= N; ++i) {
-        points.push_back(getPosition(timeStep * i));
-    }
-    return points;
-}
-
 std::vector<Vector2> BBTrajectory2D::getPathApproach(double timeStep) const {
     std::vector<Vector2> points;
     auto totalTime = getTotalTime();
@@ -83,20 +70,6 @@ std::vector<Vector2> BBTrajectory2D::getVelocityVector(double timeStep) const {
         velocities.push_back(getVelocity(time));
     }
     return velocities;
-}
-
-std::vector<std::pair<Vector2, Vector2>> BBTrajectory2D::getPosVelVector(double timeStep) {
-    auto posVector = getPathApproach(timeStep);
-    auto velVector = getVelocityVector(timeStep);
-
-    std::vector<std::pair<Vector2, Vector2>> posVelVector;
-
-    posVelVector.reserve(posVector.size());
-    for (size_t i = 0; i < posVector.size(); i++) {
-        posVelVector.emplace_back(std::make_pair(posVector[i], velVector[i]));
-    }
-
-    return posVelVector;
 }
 
 std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> BBTrajectory2D::getParts() { return std::make_pair(x.getParts(), y.getParts()); }

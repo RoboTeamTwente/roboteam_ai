@@ -23,14 +23,6 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
     return {velocity, angle};
 }
 
-void PidTracking::updatePidValuesFromInterface(bool isKeeper) {
-    auto newPid = isKeeper ? interface::Output::getKeeperPid() : interface::Output::getNumTreePid();
-    for (auto pid : pidMapping) {
-        pidMapping[pid.first].first.setPID(newPid);
-        pidMapping[pid.first].second.setPID(newPid);
-    }
-}
-
 void PidTracking::updatePIDValues(stp::PIDType pidType, int robotID) {
     std::tuple<double, double, double> newPID;
 

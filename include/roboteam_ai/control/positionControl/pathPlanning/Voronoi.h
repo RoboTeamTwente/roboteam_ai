@@ -69,14 +69,6 @@ typedef int (*jcv_clip_edge_fn)(const jcv_clipper* clipper, jcv_edge* e);
  */
 typedef void (*jcv_clip_fillgap_fn)(const jcv_clipper* clipper, jcv_context_internal* allocator, jcv_site* s);
 
-/**
- * Uses malloc
- * If a clipper is not supplied, a default box clipper will be used
- * If rect is null, an automatic bounding box is calculated, with an extra padding of 10 units
- * All points will be culled against the bounding rect, and all edges will be clipped against it.
- */
-extern void jcv_diagram_generate(int num_points, const jcv_point* points, const jcv_rect* rect, const jcv_clipper* clipper, jcv_diagram* diagram);
-
 typedef void* (*FJCVAllocFn)(void* userctx, size_t size);
 typedef void (*FJCVFreeFn)(void* userctx, void* p);
 
@@ -86,14 +78,6 @@ extern void jcv_diagram_generate_useralloc(int num_points, const jcv_point* poin
 
 // Uses free (or the registered custom free function)
 extern void jcv_diagram_free(jcv_diagram* diagram);
-
-// Returns an array of sites, where each index is the same as the original input point array.
-extern const jcv_site* jcv_diagram_get_sites(const jcv_diagram* diagram);
-
-// Returns a linked list of all the voronoi edges
-// excluding the ones that lie on the borders of the bounding box.
-// For a full list of edges, you need to iterate over the sites, and their graph edges.
-extern const jcv_edge* jcv_diagram_get_edges(const jcv_diagram* diagram);
 
 // Iterates over a list of edges, skipping invalid edges (where p0==p1)
 extern const jcv_edge* jcv_diagram_get_next_edge(const jcv_edge* edge);
@@ -113,7 +97,6 @@ struct _jcv_point {
 struct _jcv_graphedge {
     struct _jcv_graphedge* next;
     struct _jcv_edge* edge;
-    struct _jcv_site* neighbor;
     jcv_point pos[2];
     jcv_real angle;
 };
@@ -151,8 +134,6 @@ struct _jcv_clipper {
 struct _jcv_diagram {
     jcv_context_internal* internal;
     jcv_edge* edges;
-    jcv_site* sites;
-    int numsites;
     jcv_point min;
     jcv_point max;
 };
@@ -220,8 +201,6 @@ typedef struct _jcv_memoryblock {
     char* memory;
 } jcv_memoryblock;
 
-typedef int (*FJCVPriorityQueuePrint)(const void* node, int pos);
-
 typedef struct _jcv_priorityqueue {
     // Implements a binary heap
     int maxnumitems;
@@ -241,10 +220,8 @@ struct _jcv_context_internal {
     jcv_site* bottomsite;
     int numsites;
     int currentsite;
-    int _padding;
 
     jcv_memoryblock* memblocks;
-    jcv_edge* edgepool;
     jcv_halfedge* halfedgepool;
     void** eventmem;
     jcv_clipper clipper;
@@ -273,14 +250,6 @@ void inline jcv_diagram_free(jcv_diagram* d) {
     }
 
     freefn(memctx, internal->mem);
-}
-
-const inline jcv_site* jcv_diagram_get_sites(const jcv_diagram* diagram) { return diagram->internal->sites; }
-
-const inline jcv_edge* jcv_diagram_get_edges(const jcv_diagram* diagram) {
-    jcv_edge e;
-    e.next = diagram->internal->edges;
-    return jcv_diagram_get_next_edge(&e);
 }
 
 const inline jcv_edge* jcv_diagram_get_next_edge(const jcv_edge* edge) {
@@ -798,7 +767,6 @@ static void jcv_finishline(jcv_context_internal* internal, jcv_edge* e) {
 
         ge->edge = e;
         ge->next = 0;
-        ge->neighbor = e->sites[1 - i];
         ge->pos[flip] = e->pos[i];
         ge->pos[1 - flip] = e->pos[1 - i];
         ge->angle = jcv_calc_sort_metric(e->sites[i], ge);
@@ -823,7 +791,6 @@ static void jcv_endpos(jcv_context_internal* internal, jcv_edge* e, const jcv_po
 }
 
 static inline void jcv_create_corner_edge(jcv_context_internal* internal, const jcv_site* site, jcv_graphedge* current, jcv_graphedge* gap) {
-    gap->neighbor = 0;
     gap->pos[0] = current->pos[1];
 
     if (current->pos[1].x < internal->rect.max.x && current->pos[1].y == internal->rect.min.y) {
@@ -863,7 +830,6 @@ void inline jcv_boxshape_fillgaps(const jcv_clipper* clipper, jcv_context_intern
         assert(allocator->numsites == 1);
 
         jcv_graphedge* gap = jcv_alloc_graphedge(allocator);
-        gap->neighbor = 0;
         gap->pos[0] = clipper->min;
         gap->pos[1].x = clipper->max.x;
         gap->pos[1].y = clipper->min.y;
@@ -893,7 +859,6 @@ void inline jcv_boxshape_fillgaps(const jcv_clipper* clipper, jcv_context_intern
             // Border gap
             if (current->pos[1].x == next->pos[0].x || current->pos[1].y == next->pos[0].y) {
                 jcv_graphedge* gap = jcv_alloc_graphedge(allocator);
-                gap->neighbor = 0;
                 gap->pos[0] = current->pos[1];
                 gap->pos[1] = next->pos[0];
                 gap->angle = jcv_calc_sort_metric(site, gap);
@@ -997,12 +962,7 @@ static inline jcv_real jcv_min(jcv_real a, jcv_real b) { return a < b ? a : b; }
 
 static inline jcv_real jcv_max(jcv_real a, jcv_real b) { return a > b ? a : b; }
 
-void inline jcv_diagram_generate(int num_points, const jcv_point* points, const jcv_rect* rect, const jcv_clipper* clipper, jcv_diagram* d) {
-    jcv_diagram_generate_useralloc(num_points, points, rect, clipper, 0, jcv_alloc_fn, jcv_free_fn, d);
-}
-
 typedef union _jcv_cast_align_struct {
-    char* charp;
     void** voidpp;
 } jcv_cast_align_struct;
 
@@ -1132,7 +1092,6 @@ void inline jcv_diagram_generate_useralloc(int num_points, const jcv_point* poin
     mem += sizeof(jcv_priorityqueue);
 
     jcv_cast_align_struct tmp;
-    tmp.charp = mem;
     internal->eventmem = tmp.voidpp;
 
     jcv_pq_create(internal->eventqueue, max_num_events, internal->eventmem);
@@ -1175,7 +1134,6 @@ void inline jcv_diagram_generate_useralloc(int num_points, const jcv_point* poin
     d->min = internal->rect.min;
     d->max = internal->rect.max;
     d->internal = internal;
-    d->numsites = num_points;
 
     internal->numsites = num_points;
     internal->currentsite = 0;

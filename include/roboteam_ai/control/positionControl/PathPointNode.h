@@ -33,8 +33,6 @@ class PathPointNode {
     [[nodiscard]] const Vector2 &getPosition() const;
 
     [[nodiscard]] PathPointNode *getParent() const;
-
-    void setParent(PathPointNode &parent);
 };
 }  // namespace rtt::ai::control
 
