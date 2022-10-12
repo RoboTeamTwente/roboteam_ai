@@ -153,6 +153,7 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Pass.cpp
         # referee_specific/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp
@@ -172,7 +173,7 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/FormationPreHalf.cpp
-)
+        src/stp/plays/offensive/Pass.cpp)
 target_include_directories(roboteam_ai_plays
         PRIVATE include/roboteam_ai
 )
@@ -312,7 +313,7 @@ set(INTERFACE_HEADERS
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/GraphWidget.h
-)
+        )
 
 ###### INTERFACE #######
 add_library(roboteam_ai_interface

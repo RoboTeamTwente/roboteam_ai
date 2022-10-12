@@ -70,6 +70,7 @@ constexpr ScoreProfile LineOfSight = {0, 1, 0, 0};
 constexpr ScoreProfile Open = {1, 0, 0, 0};
 constexpr ScoreProfile GoalShot = {0, 0, 1, 0};
 constexpr ScoreProfile Blocking = {0, 0, 0, 1};
+constexpr ScoreProfile Pass = {1, 1, 0, 0};
 
 /**
  * Generalized Keys for passing information form the old play to the new.
