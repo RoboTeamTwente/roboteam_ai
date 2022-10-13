@@ -41,7 +41,6 @@ enum class GlobalEvaluation {
     BallOnTheirSide,
     BallInOurDefenseAreaAndStill,
     BallNotInOurDefenseAreaAndStill,
-    BallShotOrCloseToThem,
     DistanceFromBall,
     FreedomOfRobots,
     GoalVisionFromBall,

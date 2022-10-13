@@ -8,10 +8,4 @@
 #include "stp/tactics/PositionAndAim.h"
 #include "stp/tactics/active/KickAtPos.h"
 
-namespace rtt::ai::stp::role {
-
-BallReflector::BallReflector(std::string name) : Role(std::move(name)) {
-    // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::PositionAndAim(), tactic::KickAtPos()};
-}
-}  // namespace rtt::ai::stp::role
+namespace rtt::ai::stp::role {}  // namespace rtt::ai::stp::role

@@ -62,23 +62,21 @@ struct ScoredPosition {
  */
 constexpr ScoreProfile SafePosition = {1, 1, 0, 0.5};
 constexpr ScoreProfile OffensivePosition = {1, 0.5, 0.5, 0};
-constexpr ScoreProfile GoalShootPosition = {0, 0.5, 1, 0};
 constexpr ScoreProfile BlockingPosition = {0, 0.5, 0, 1};
 constexpr ScoreProfile AttackingPass = {0.5, 1, 1, 0};
 constexpr ScoreProfile SafePass = {1, 1, 0.5, 0};
 constexpr ScoreProfile LineOfSight = {0, 1, 0, 0};
 constexpr ScoreProfile Open = {1, 0, 0, 0};
 constexpr ScoreProfile GoalShot = {0, 0, 1, 0};
-constexpr ScoreProfile Blocking = {0, 0, 0, 1};
 
 /**
  * Generalized Keys for passing information form the old play to the new.
  * Usage in the storePlayInfo where KeyInfo is the key for the elements in the map.
  */
 enum class KeyInfo {
-    isPasser = 0,  // Robot that passes the ball last play
-    isReceiver,    // Robot that should receive the ball (as passer shot to there)
-    isShooter,     // Robot that Shot the ball last play
+    // Robot that passes the ball last play
+    // Robot that should receive the ball (as passer shot to there)
+    // Robot that Shot the ball last play
     hasBall        // Robot that had the ball last play
 };
 

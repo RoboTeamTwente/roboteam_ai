@@ -62,7 +62,6 @@ struct StpInfo {
     ShotType getShotType() const { return shotType; }
     void setShotType(ShotType shotType) { this->shotType = shotType; }
 
-    const std::optional<KickOrChip>& getKickOrChip() const { return kickOrChip; }
     void setKickOrChip(const std::optional<KickOrChip>& kickOrChip) { StpInfo::kickOrChip = kickOrChip; }
 
     world::World* getCurrentWorld() const { return currentWorld; }
@@ -72,7 +71,6 @@ struct StpInfo {
     const std::optional<PIDType>& getPidType() const { return PidType; }
     void setPidType(const std::optional<PIDType>& pidType) { PidType = pidType; }
 
-    const std::optional<uint8_t>& getRoleScore() const { return roleScore; }
     void setRoleScore(const std::optional<uint8_t>& RoleScore) { roleScore = RoleScore; }
 
     double getMaxRobotVelocity() const { return maxRobotVelocity; }
@@ -82,25 +80,16 @@ struct StpInfo {
     void setRoleName(std::string name) { roleName = name; }
 
     AvoidObjects getObjectsToAvoid() const { return avoidObjects; }
-    void setObjectsToAvoid(AvoidObjects objectsToAvoid) { avoidObjects = objectsToAvoid; }
 
-    bool getShouldAvoidDefenseArea() const { return avoidObjects.shouldAvoidDefenseArea; }
     void setShouldAvoidDefenseArea(bool shouldAvoidDefenseArea) { avoidObjects.shouldAvoidDefenseArea = shouldAvoidDefenseArea; }
 
-    bool getShouldAvoidBall() const { return avoidObjects.shouldAvoidBall; }
     void setShouldAvoidBall(bool shouldAvoidBall) { avoidObjects.shouldAvoidBall = shouldAvoidBall; }
 
-    bool getShouldAvoidOutOfField() const { return avoidObjects.shouldAvoidOutOfField; }
     void setShouldAvoidOutOfField(bool shouldAvoidOutOfField) { avoidObjects.shouldAvoidOutOfField = shouldAvoidOutOfField; }
 
-    bool getShouldAvoidOurRobots() const { return avoidObjects.shouldAvoidOurRobots; }
     void setShouldAvoidOurRobots(bool shouldAvoidOurRobots) { avoidObjects.shouldAvoidOurRobots = shouldAvoidOurRobots; }
 
-    bool getShouldAvoidTheirRobots() const { return avoidObjects.shouldAvoidTheirRobots; }
     void setShouldAvoidTheirRobots(bool shouldAvoidTheirRobots) { avoidObjects.shouldAvoidTheirRobots = shouldAvoidTheirRobots; }
-    
-    double getBallAvoidDistance() const { return avoidObjects.avoidBallDist; }
-    void setBallAvoidDistance(double avoidBallDist) { avoidObjects.avoidBallDist = avoidBallDist; }
 
    private:
     /**

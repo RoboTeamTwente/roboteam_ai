@@ -40,11 +40,6 @@ class AttackingPass : public Play {
     void calculateInfoForDefenders() noexcept;
 
     /**
-     * Calculates info for the midfielders
-     */
-    void calculateInfoForMidfielders() noexcept;
-
-    /**
      * Calculates info for the attackers
      */
     void calculateInfoForAttackers() noexcept;

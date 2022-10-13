@@ -45,7 +45,6 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     forwardRobotCommand(info.getCurrentWorld());
 
     if (!info.getRobot().value()->hasBall()) {
-        kickAttempts = 0;
         return Status::Success;
     }
     return Status::Running;
