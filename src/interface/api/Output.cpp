@@ -95,7 +95,7 @@ void Output::setRuleSetName(std::string name) { Output::interfaceGameState.ruleS
 
 void Output::setKeeperId(int id) { Output::interfaceGameState.keeperId = id; }
 
-void Output::setBallPlacerId(int id) { Output::interfaceGameState.ballPlacerId = id; }
+void Output::setBallPlacerId(int id) {}
 
 const GameState &Output::getInterfaceGameState() { return Output::interfaceGameState; }
 

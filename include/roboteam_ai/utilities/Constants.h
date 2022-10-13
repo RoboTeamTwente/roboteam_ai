@@ -17,13 +17,11 @@ class Constants {
    public:
     static void init();
     static bool GRSIM();
-    static void OVERWRITE_GRSIM(bool grsim);
     static bool FEEDBACK_ENABLED();
 
     static constexpr size_t ROBOT_COUNT() { return 11; };
 
-    /// TICK RATE ///
-    static constexpr int GAME_ANALYSIS_TICK_RATE() { return 5; };
+    ;
     static constexpr int STP_TICK_RATE() { return 60; };
     static constexpr int SETTINGS_BROADCAST_RATE() { return 1; }
 
@@ -37,22 +35,15 @@ class Constants {
     static bool SHOW_NUMTREE_DEBUG_INFO();
     static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
 
-    static bool SHOW_BALL_HANDLE_DEBUG_INFO();
-    static bool SHOW_FULL_BALL_HANDLE_DEBUG_INFO();
-
     static std::vector<RuleSet> ruleSets();
 
     /// ROBOT COMMANDS ///
     static double MAX_VEL_CMD();
-    static int MAX_ID_CMD();
-    static double MAX_ANGULAR_VEL_CMD();
     static double MIN_ANGLE();
     static double MAX_ANGLE();
     static double MAX_ANGULAR_VELOCITY();  // Rad per second
-    static int MAX_DRIBBLER_CMD();
 
-    /// ACCELERATION LIMITERS ///
-    static double MIN_VEL();        // Minimum velocity to make the robot move
+    // Minimum velocity to make the robot move
     static double MAX_ACC_UPPER();  // Maximum acceleration for moving in the forward direction
     static double MAX_ACC_LOWER();  // Maximum acceleration for moving in the sideways direction
     static double MAX_DEC_UPPER();  // Maximum deceleration for moving in the forward direction
@@ -63,60 +54,38 @@ class Constants {
     static constexpr double ROBOT_RADIUS_MAX() { return 0.091; };
     static constexpr double BALL_RADIUS() { return 0.0215; };
 
-    static double FRONT_LENGTH();
-    static double DRIBBLER_ANGLE_OFFSET();  // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
-    static double CENTRE_TO_FRONT();
-    static double CLOSE_TO_BORDER_DISTANCE();
+    // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
 
     static double HAS_BALL_DISTANCE();
     static double HAS_BALL_ANGLE();
 
     /// REF STATES ///
     static constexpr double MAX_VEL() { return 1.5; };
-    static constexpr double MAX_STOP_STATE_VEL() { return 1.5; };
-    static constexpr double MAX_VEL_BALLPLACEMENT() { return 3.0; };
+    ;
+    ;
     static int DEFAULT_KEEPER_ID();
 
     static double PENALTY_DISTANCE_BEHIND_BALL();
 
-    /// GENERAL SKILLS ///
-    static double DEFAULT_KICK_POWER();
-    static double MAX_KICK_POWER();           // TODO: TUNE MAX KICK POWER
-    static double MIN_KICK_POWER();           // TODO: TUNE MIN KICK POWER
-    static double MAX_POWER_KICK_DISTANCE();  // TODO: TUNE MAX KICK DISTANCE
-    static double MAX_CHIP_POWER();           // TODO: TUNE MAX CHIP POWER
-    static double MIN_CHIP_POWER();           // TODO: TUNE MIN CHIP POWER
-    static double MAX_POWER_CHIP_DISTANCE();  // TODO: TUNE MAX CHIP DISTANCE
-    static double OUT_OF_FIELD_MARGIN();
-    static double MAX_BALL_BOUNCE_RANGE();
-    static double MAX_BALL_RANGE();  // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double MAX_KICK_RANGE();
-    static double MAX_PASS_DISTANCE();
-    static bool REFLECT_KICK();
+    // TODO: TUNE MAX KICK POWER
+    // TODO: TUNE MIN KICK POWER
+    // TODO: TUNE MAX CHIP POWER
+    // TODO: TUNE MIN CHIP POWER
+    // TODO: TUNE MAX CHIP DISTANCE
+    // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
 
-    static double MAX_INTERCEPT_TIME();  // Seconds. Intercept terminates  after this time.
-    static double MAX_RECEIVE_TIME();
-    static double BALL_STILL_VEL();  // If the ball has velocity lower than this in defense area, keeper starts getting it
-    static double GOTOPOS_ERROR_MARGIN();
-    static double GOTOPOS_ANGLE_ERROR_MARGIN();
-    static double DEFAULT_BALLCOLLISION_RADIUS();
+    // Seconds. Intercept terminates  after this time.
+    // If the ball has velocity lower than this in defense area, keeper starts getting it
 
-    /// KEEPER ///
-    static double KEEPER_POST_MARGIN();          // m
-    static double KEEPER_CENTREGOAL_MARGIN();    // m
-    static double KEEPER_PENALTY_LINE_MARGIN();  // m
+    // m
+    // m
+    // m
 
     /// INTERFACE ///
     static int ROBOT_DRAWING_SIZE();
     static int BALL_DRAWING_SIZE();
     static int TACTIC_COLOR_DRAWING_SIZE();
     static int WINDOW_FIELD_MARGIN();
-
-    static int KEEPER_HELP_DRAW_SIZE();
-    static int INTERCEPT_DRAW_VECTOR_SIZE();
-
-    static double BP_MOVE_BACK_DIST();
-    static double BP_MOVE_TOWARDS_DIST();
 
     /// SETTINGS ///
     static bool STD_SHOW_ROLES();

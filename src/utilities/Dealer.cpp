@@ -22,50 +22,6 @@
 
 namespace rtt::ai {
 
-void Dealer::printCostMatrix(const std::vector<std::vector<double>> &cost_matrix, const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
-                             const FlagMap &role_to_flags, const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot) {
-    /* Find longest rolename */
-    int rolename_width = 9;
-    for (const std::string &role_name : role_names) rolename_width = std::max(rolename_width, int(role_name.size()));
-    rolename_width++;
-    int priority_width = 16;
-
-    int precision = 2;
-    int column_width = 5 + precision;
-
-    // Store the current std::cout settings, such as std::precision, std::left/right, std::fixed, etc
-    // https://stackoverflow.com/questions/2273330/restore-the-state-of-stdcout-after-manipulating-it
-    std::ios_base::fmtflags cout_flags(std::cout.flags());
-
-    // Print header and robot ids
-    std::cout << std::endl;
-    std::cout << "↓" << std::setw(priority_width - 1) << "PRIORITY";
-    std::cout << "↓" << std::setw(rolename_width - 4) << "ROLE"
-              << "ID→";
-    std::cout << std::right;
-    for (int i_col : col_to_robot) std::cout << std::setw(column_width) << robots[i_col]->getId();
-    std::cout << std::endl;
-
-    // Set floating point printing precision
-    std::cout << std::fixed << std::showpoint << std::setprecision(precision);
-
-    // For each row in the cost matrix
-    for (std::size_t row = 0; row < cost_matrix.size(); row++) {
-        // Print priority and role name
-        std::cout << std::left;
-        std::cout << std::setw(priority_width) << priorityToString(role_to_flags.at(role_names[row_to_role[row]]).priority);
-        std::cout << std::setw(rolename_width) << role_names[row_to_role[row]];
-        // Print scores
-        const std::vector<double> &cost_per_robot = cost_matrix[row];
-        std::cout << std::right;
-        for (double i_robot : cost_per_robot) std::cout << std::setw(column_width) << i_robot;
-        std::cout << std::endl;
-    }
-
-    // Reset std::cout to the original settings
-    std::cout.flags(cout_flags);
-}
-
 Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), field(field) {}
 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority) : title(title), priority(priority) {}
@@ -395,22 +351,5 @@ double Dealer::costForDistance(double distance, double fieldWidth, double fieldH
 }
 
 double Dealer::costForProperty(bool property) { return property ? 0.0 : 1.0; }
-
-std::string Dealer::priorityToString(DealerFlagPriority priority) {
-    switch (priority) {
-        case DealerFlagPriority::LOW_PRIORITY:
-            return "LOW_PRIORITY";
-        case DealerFlagPriority::MEDIUM_PRIORITY:
-            return "MEDIUM_PRIORITY";
-        case DealerFlagPriority::HIGH_PRIORITY:
-            return "HIGH_PRIORITY";
-        case DealerFlagPriority::REQUIRED:
-            return "REQUIRED";
-        case DealerFlagPriority::KEEPER:
-            return "KEEPER";
-        default:
-            return "UNKNOWN PRIORITY";
-    }
-}
 
 }  // namespace rtt::ai
