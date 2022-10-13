@@ -31,10 +31,22 @@ class Visualizer : public QWidget {
     bool robotIsSelected(rtt::world::view::RobotView robot);
     bool robotIsSelected(int id);
     void setPlayForRobot(std::string const &view, uint8_t i);
+    void setTacticForRobot(std::string const &view, uint8_t i);
     void updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets);
 
    public slots:
+    void setShowRoles(bool showRoles);
+    void setShowTactics(bool showTactics);
+    void setShowTacticColors(bool showTacticColors);
+    void setShowAngles(bool showAngles);
+    void setShowVelocities(bool showVelocities);
+    void setShowRobotInvalids(bool showPath);
+    void setShowBallPlacementMarker(bool showMarker);
+    void setShowDebugValueInTerminal(bool showDebug);
     void toggleSelectedRobot(rtt::world::view::RobotView robot);
+    void setToggleFieldDirection(bool inversed);
+    void setShowWorldDetections(bool showDetections);
+    void setShowWorld(bool showWorld);
 
    protected:
     void paintEvent(QPaintEvent *event) override;
@@ -96,12 +108,14 @@ class Visualizer : public QWidget {
     bool showVelocities = Constants::STD_SHOW_VELOCITIES();
     bool showRobotInvalids = Constants::STD_SHOW_ROBOT_INVALIDS();
     bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
+    bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
     bool fieldInversed = false;
     bool showWorld = true;
     bool showWorldDetections = false;
     std::mutex worldDetectionsMutex;
 
     std::mutex rolesUpdate;
+    std::mutex tacticsUpdate;
 };
 
 }  // namespace rtt::ai::interface

@@ -184,6 +184,7 @@ void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualize
 
 void MainWindow::setKeeperRole(stp::Role *keeperRole, stp::Status state) { keeperStpWidget->updateKeeperContents(keeperRole, state); }
 
+void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
 void MainWindow::updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets) { visualizer->updateProcessedVisionPackets(packets); }
 
 }  // namespace rtt::ai::interface

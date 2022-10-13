@@ -13,6 +13,27 @@ std::mutex Input::fpsMutex;
 
 int Input::FPS;
 
+/*
+ * Draw data to the screen
+ */
+void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
+    if (method == Drawing::DrawingMethod::ARROWS) {
+        if (points.size() % 2 == 1) {
+            points.erase(points.end());
+        }
+    }
+    std::lock_guard<std::mutex> lock(drawingMutex);
+    drawings.emplace_back(visual, std::move(points), std::move(color), robotId, method, width, height, strokeWidth);
+}
+
+/*
+ * Useful for debugging:  quickly draw a vector of points.
+ */
+void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
+    std::lock_guard<std::mutex> lock(drawingMutex);
+    drawings.emplace_back(Visual::DEBUG, std::move(points), std::move(color), robotId, method, width, height, strokeWidth);
+}
+
 const std::vector<Drawing> Input::getDrawings() {
     std::lock_guard<std::mutex> lock(drawingMutex);
     return drawings;

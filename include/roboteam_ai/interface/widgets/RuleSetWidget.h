@@ -16,6 +16,7 @@ class RuleSetWidget : public QWidget {
    private:
     QVBoxLayout *vLayout;
     void updateLabels();
+    QWidget *contentsWidget;
 
    public:
     explicit RuleSetWidget(QWidget *parent = nullptr);

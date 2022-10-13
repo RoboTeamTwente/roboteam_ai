@@ -29,9 +29,20 @@ SettingsWidget::SettingsWidget(QWidget *parent) {
     vLayout->addSpacerItem(spacer);
 }
 
+void SettingsWidget::changeTeamColor(bool isYellow) { SETTINGS.setYellow(isYellow); }
+
+void SettingsWidget::changeTeamSide(bool isLeft) { SETTINGS.setLeft(isLeft); }
+
+void SettingsWidget::changeRobotHubMode(Settings::RobotHubMode mode) { SETTINGS.setRobotHubMode(mode); }
+
 void SettingsWidget::changeGrSimIp(QString ip) {
     RTT_INFO("Setting GrSim IP address")
     SETTINGS.setRobothubSendIp(ip.toStdString());
+}
+
+void SettingsWidget::changeGrSimPort(int port) {
+    RTT_INFO("Setting GrSim port")
+    SETTINGS.setRobothubSendPort(port);
 }
 
 }  // namespace rtt::ai::interface

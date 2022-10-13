@@ -493,7 +493,19 @@ std::string Visualizer::getTacticNameForRobot(rtt::world::view::RobotView robot)
 
 std::string Visualizer::getRoleNameForRobot(rtt::world::view::RobotView robot) { return this->rolesForRobots[robot->getId()]; }
 
+void Visualizer::setShowRoles(bool showRoles) { this->showRoles = showRoles; }
+
+void Visualizer::setShowTactics(bool showTactics) { Visualizer::showTactics = showTactics; }
+
+void Visualizer::setShowTacticColors(bool showTacticColors) { Visualizer::showTacticColors = showTacticColors; }
+
 const std::unordered_map<int, rtt::world::view::RobotView> &Visualizer::getSelectedRobots() const { return selectedRobots; }
+
+void Visualizer::setShowAngles(bool showAngles) { Visualizer::showAngles = showAngles; }
+
+void Visualizer::setShowVelocities(bool showVelocities) { Visualizer::showVelocities = showVelocities; }
+
+void Visualizer::setShowRobotInvalids(bool show) { Visualizer::showRobotInvalids = show; }
 
 void Visualizer::toggleSelectedRobot(rtt::world::view::RobotView robot) {
     bool robotSelected = (selectedRobots.find(robot->getId()) != selectedRobots.end());
@@ -526,6 +538,15 @@ void Visualizer::drawBallPlacementTarget(QPainter &painter) {
         painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5, ballPlacementTarget.y + 5);
     }
 }
+
+void Visualizer::setShowBallPlacementMarker(bool showMarker) { Visualizer::showBallPlacementMarker = showMarker; }
+
+void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
+    Visualizer::showDebugValueInTerminal = showDebug;
+    Output::setShowDebugValues(showDebug);
+}
+
+void Visualizer::setToggleFieldDirection(bool inversed) { Visualizer::fieldInversed = inversed; }
 
 void Visualizer::drawPlusses(QPainter &painter, std::vector<Vector2> points, double width, double height) {
     for (auto const &point : points) {
@@ -612,6 +633,11 @@ void Visualizer::setPlayForRobot(std::string const &view, uint8_t i) {
     rolesForRobots.insert({i, view});
 }
 
+void Visualizer::setTacticForRobot(std::string const &view, uint8_t i) {
+    std::lock_guard mtx{tacticsUpdate};
+    tacticsForRobots.insert({i, view});
+}
+void Visualizer::setShowWorldDetections(bool showDetections) { showWorldDetections = showDetections; }
 void Visualizer::updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets) {
     std::lock_guard mtx{worldDetectionsMutex};
     raw_detection_packets = packets;
@@ -685,5 +711,6 @@ void Visualizer::drawDetectionRobot(QPainter &painter, bool robotIsBlue, const p
     painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::number(robot.robot_id()));
     painter.setFont(QFont("ubuntu", 11));  // 22 is a number which you have to change
 }
+void Visualizer::setShowWorld(bool setShowWorld) { showWorld = setShowWorld; }
 
 }  // namespace rtt::ai::interface

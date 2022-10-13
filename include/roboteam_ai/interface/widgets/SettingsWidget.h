@@ -26,7 +26,11 @@ class SettingsWidget : public QWidget {
     explicit SettingsWidget(QWidget *parent = nullptr);
 
    public slots:
+    void changeTeamColor(bool isYellow);
+    void changeTeamSide(bool isLeft);
+    void changeRobotHubMode(Settings::RobotHubMode mode);
     void changeGrSimIp(QString ip);
+    void changeGrSimPort(int port);
 };
 
 }  // namespace rtt::ai::interface
