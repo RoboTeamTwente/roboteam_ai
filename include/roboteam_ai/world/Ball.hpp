@@ -20,7 +20,7 @@ public:
     Vector2 position; /// Position of the ball
     Vector2 velocity; /// Velocity of the ball
     bool visible = false; /// Whether the ball is visible by any camera
-    Vector2 expectedEndPosition; /// Expected position of the ball after it stopped moving
+    /// Expected position of the ball after it stopped moving
 
     /**
      * Initializes ball at the previously seen position, if the current ball is not visible

@@ -35,20 +35,13 @@ class Robot {
     Vector2 pos;
     Vector2 vel;
     Angle angle;
-    Vector2 pidPreviousVel;
 
     double distanceToBall;
     double angleDiffToBall;
-    unsigned long lastUpdatedWorldNumber = 0;
 
     double angularVelocity;
     bool batteryLow{false};
 
-    unsigned char dribblerState = 0;
-    unsigned char previousDribblerState = 0;
-
-    double timeDribblerChanged = 0;
-    constexpr static double timeToChangeOneDribblerLevel = 0.18;
     bool workingDribbler;
     bool workingBallSensor{};
 
@@ -65,27 +58,9 @@ class Robot {
 
     void updateHasBallMap(std::optional<view::BallView>& ball);
 
-    void setId(int id) noexcept;
-
-    void setTeam(Team team) noexcept;
-
-    void setPos(const Vector2 &pos) noexcept;
-
-    void setVel(const Vector2 &vel) noexcept;
-
     void setAngle(const Angle &angle) noexcept;
 
-    void setAngularVelocity(double angularVelocity) noexcept;
-
     void setBatteryLow(bool batteryLow) noexcept;
-
-    void setDribblerState(unsigned char dribblerState) noexcept;
-
-    void setPreviousDribblerState(unsigned char previousDribblerState) noexcept;
-
-    void setTimeDribblerChanged(double timeDribblerChanged) noexcept;
-
-    void setWorkingDribbler(bool workingDribbler) noexcept;
 
     void setWorkingBallSensor(bool workingBallSensor) noexcept;
 
@@ -100,10 +75,6 @@ class Robot {
     void setHasBall(bool _hasBall) noexcept;
 
     void setBallPosBallSensor(float _ballPos) noexcept;
-
-    void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
-
-    void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
 
    public:
     [[nodiscard]] int getId() const noexcept;
@@ -120,31 +91,15 @@ class Robot {
 
     [[nodiscard]] bool isBatteryLow() const noexcept;
 
-    [[nodiscard]] unsigned char getDribblerState() const noexcept;
-
-    [[nodiscard]] unsigned char getPreviousDribblerState() const noexcept;
-
-    [[nodiscard]] double getTimeDribblerChanged() const noexcept;
-
     [[nodiscard]] bool isWorkingDribbler() const noexcept;
 
     [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
-    [[nodiscard]] bool getBallSensorSeesBall() const noexcept;
-
-    [[nodiscard]] bool getDribblerSeesBall() const noexcept;
-
     [[nodiscard]] bool hasBall() const noexcept;
-
-    [[nodiscard]] float getBallPosBallSensor() const noexcept;
-
-    [[nodiscard]] const Vector2 &getPidPreviousVel() const noexcept;
 
     [[nodiscard]] double getDistanceToBall() const noexcept;
 
     [[nodiscard]] double getAngleDiffToBall() const noexcept;
-
-    [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 
    public:
     explicit Robot(const proto::WorldRobot &copy, Team team = both,

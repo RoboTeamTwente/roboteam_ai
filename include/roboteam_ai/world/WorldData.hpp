@@ -117,24 +117,10 @@ class WorldData {
     [[nodiscard]] std::vector<view::RobotView> const &getThem() const noexcept;
 
     /**
-     * Gets a constant reference to the owning container of robots
-     * @return this->robots
-     *
-     * Modifying either: the container, the contained values -> introduces in dataraces and undefined behavior
-     */
-    [[nodiscard]] std::vector<rtt::world::robot::Robot> const &getRobots() const noexcept;
-
-    /**
      * Gets a Some or None non-owning variant of a Ball, aka a BallView
      * @return ball ? Some(BallView) : None
      */
     [[nodiscard]] std::optional<view::BallView> getBall() const noexcept;
-
-    /**
-     * Check whether we have robots in the field
-     * @return !getWorldData()->getUs().empty();
-     */
-    [[nodiscard]] bool weHaveRobots() const noexcept;
 
     /**
      * Gets the internal vector of robotviews

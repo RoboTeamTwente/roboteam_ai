@@ -34,7 +34,7 @@ void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
             newLine.begin = mm_to_m({line.p1().x(), line.p1().y()});
 
             newLine.end = mm_to_m({line.p2().x(), line.p2().y()});
-            newLine.thickness = mm_to_m(line.thickness());
+            mm_to_m(line.thickness());
             *(RELATED_FIELD_LINE[newLine.name]) = newLine;
             this->allFieldLines.push_back(newLine);
         }
@@ -50,7 +50,7 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
             newArc.a1 = mm_to_m(arc.a1());
             newArc.a2 = mm_to_m(arc.a2());
             newArc.radius = mm_to_m(arc.radius());
-            newArc.thickness = mm_to_m(arc.thickness());
+            mm_to_m(arc.thickness());
             *(RELATED_FIELD_ARC[newArc.name]) = newArc;
         }
     }
@@ -137,8 +137,6 @@ double Field::getGoalDepth() const { return getFieldValue(goalDepth); }
 
 double Field::getBoundaryWidth() const { return getFieldValue(boundaryWidth); }
 
-double Field::getCenterY() const { return getFieldValue(centerY); }
-
 double Field::getLeftmostX() const { return getFieldValue(leftmostX); }
 
 double Field::getRightmostX() const { return getFieldValue(rightmostX); }
@@ -151,33 +149,13 @@ double Field::getLeftPenaltyX() const { return getFieldValue(leftPenaltyX); }
 
 double Field::getRightPenaltyX() const { return getFieldValue(rightPenaltyX); }
 
-double Field::getPenaltyTopY() const { return getFieldValue(penaltyTopY); }
-
-double Field::getPenaltyBottomY() const { return getFieldValue(penaltyBottomY); }
-
-const FieldLineSegment &Field::getTopLine() const { return getFieldLine(topLine); }
-
-const FieldLineSegment &Field::getBottomLine() const { return getFieldLine(bottomLine); }
-
 const FieldLineSegment &Field::getLeftLine() const { return getFieldLine(leftLine); }
 
 const FieldLineSegment &Field::getRightLine() const { return getFieldLine(rightLine); }
 
-const FieldLineSegment &Field::getHalfLine() const { return getFieldLine(halfLine); }
-
-const FieldLineSegment &Field::getCenterLine() const { return getFieldLine(centerLine); }
-
 const FieldLineSegment &Field::getLeftPenaltyLine() const { return getFieldLine(leftPenaltyLine); }
 
 const FieldLineSegment &Field::getRightPenaltyLine() const { return getFieldLine(rightPenaltyLine); }
-
-const FieldLineSegment &Field::getTopLeftPenaltyStretch() const { return getFieldLine(topLeftPenaltyStretch); }
-
-const FieldLineSegment &Field::getBottomLeftPenaltyStretch() const { return getFieldLine(bottomLeftPenaltyStretch); }
-
-const FieldLineSegment &Field::getTopRightPenaltyStretch() const { return getFieldLine(topRightPenaltyStretch); }
-
-const FieldLineSegment &Field::getBottomRightPenaltyStretch() const { return getFieldLine(bottomRightPenaltyStretch); }
 
 const Vector2 &Field::getOurGoalCenter() const { return getFieldVector(ourGoalCenter); }
 
@@ -310,19 +288,19 @@ Field Field::createTestField() {
     double goalWidth = 1.2000000476837158;
     double goalDepth = 0.20000000298023224;
     double boundaryWidth = 0.30000001192092896;
-    FieldLineSegment topLine = {{-5.9950000000000001, 4.4950000000000001}, {5.9950000000000001, 4.4950000000000001}, "top_line", 0.00999999978};
-    FieldLineSegment bottomLine = {{-5.9950000000000001, -4.4950000000000001}, {5.9950000000000001, -4.4950000000000001}, "bottom_line", 0.00999999978};
-    FieldLineSegment leftLine = {{-5.9900000000000002, -4.4950000000000001}, {-5.9900000000000002, 4.4950000000000001}, "left_line", 0.00999999978};
-    FieldLineSegment rightLine = {{5.9900000000000002, -4.4950000000000001}, {5.9900000000000002, 4.4950000000000001}, "right_line", 0.00999999978};
-    FieldLineSegment halfLine = {{0, -4.4950000000000001}, {0, 4.4950000000000001}, "half_line", 0.00999999978};
-    FieldLineSegment centerLine = {{-5.9900000000000002, 0}, {5.9900000000000002, 0}, "center_line", 0.00999999978};
-    FieldLineSegment leftPenaltyLine = {{-4.7949999999999999, -1.2}, {-4.7949999999999999, 1.2}, "left_penalty_line", 0.00999999978};
-    FieldLineSegment rightPenaltyLine = {{4.7949999999999999, -1.2}, {4.7949999999999999, 1.2}, "right_penalty_line", 0.00999999978};
-    FieldLineSegment topLeftPenaltyStretch = {{-5.9900000000000002, 1.2}, {-4.79, 1.2}, "top_left_penalty_stretch", 0.00999999978};
-    FieldLineSegment bottomLeftPenaltyStretch = {{-5.9900000000000002, -1.2}, {-4.79, -1.2}, "bottom_left_penalty_stretch", 0.00999999978};
-    FieldLineSegment topRightPenaltyStretch = {{5.9900000000000002, 1.2}, {4.79, 1.2}, "top_right_penalty_stretch", 0.00999999978};
-    FieldLineSegment bottomRightPenaltyStretch = {{5.9900000000000002, -1.2}, {4.79, -1.2}, "bottom_right_penalty_stretch", 0.00999999978};
-    FieldArc centerCircle = {{0, 0}, 0.495000005, 0, 0.00628318544, "center_circle", 0.00999999978};
+    FieldLineSegment topLine = {{-5.9950000000000001, 4.4950000000000001}, {5.9950000000000001, 4.4950000000000001}, "top_line"};
+    FieldLineSegment bottomLine = {{-5.9950000000000001, -4.4950000000000001}, {5.9950000000000001, -4.4950000000000001}, "bottom_line"};
+    FieldLineSegment leftLine = {{-5.9900000000000002, -4.4950000000000001}, {-5.9900000000000002, 4.4950000000000001}, "left_line"};
+    FieldLineSegment rightLine = {{5.9900000000000002, -4.4950000000000001}, {5.9900000000000002, 4.4950000000000001}, "right_line"};
+    FieldLineSegment halfLine = {{0, -4.4950000000000001}, {0, 4.4950000000000001}, "half_line"};
+    FieldLineSegment centerLine = {{-5.9900000000000002, 0}, {5.9900000000000002, 0}, "center_line"};
+    FieldLineSegment leftPenaltyLine = {{-4.7949999999999999, -1.2}, {-4.7949999999999999, 1.2}, "left_penalty_line"};
+    FieldLineSegment rightPenaltyLine = {{4.7949999999999999, -1.2}, {4.7949999999999999, 1.2}, "right_penalty_line"};
+    FieldLineSegment topLeftPenaltyStretch = {{-5.9900000000000002, 1.2}, {-4.79, 1.2}, "top_left_penalty_stretch"};
+    FieldLineSegment bottomLeftPenaltyStretch = {{-5.9900000000000002, -1.2}, {-4.79, -1.2}, "bottom_left_penalty_stretch"};
+    FieldLineSegment topRightPenaltyStretch = {{5.9900000000000002, 1.2}, {4.79, 1.2}, "top_right_penalty_stretch"};
+    FieldLineSegment bottomRightPenaltyStretch = {{5.9900000000000002, -1.2}, {4.79, -1.2}, "bottom_right_penalty_stretch"};
+    FieldArc centerCircle = {{0, 0}, 0.495000005, 0, 0.00628318544, "center_circle"};
     return Field(fieldWidth, fieldLength, goalWidth, goalDepth, boundaryWidth, topLine, bottomLine, leftLine, rightLine, halfLine, centerLine, leftPenaltyLine, rightPenaltyLine,
                  topLeftPenaltyStretch, bottomLeftPenaltyStretch, topRightPenaltyStretch, bottomRightPenaltyStretch, centerCircle);
 }

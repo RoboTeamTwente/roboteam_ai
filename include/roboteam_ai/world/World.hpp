@@ -137,13 +137,6 @@ class World {
     [[nodiscard]] std::optional<view::WorldDataView> getHistoryWorld(size_t ticksAgo) const noexcept;
 
     /**
-     * Gets the difference in time between the last tick and the current tick
-     * @return this->getWorldData()->getTime() - this->getHistoryWorld(1)->getTime();
-     * Time format is in whatever protobuf provides
-     */
-    [[nodiscard]] uint64_t getTimeDifference() const noexcept;
-
-    /**
      * Gets the history size
      * @return size_t The amount of elements in the history
      */

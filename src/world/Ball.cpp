@@ -53,7 +53,7 @@ void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
     double ballVelSquared = ball->velocity.length2();
     const double frictionCoefficient = SETTINGS.getRobotHubMode() == Settings::RobotHubMode::SIMULATOR ? SIMULATION_FRICTION : REAL_FRICTION;
 
-    expectedEndPosition = ball->position + ball->velocity.stretchToLength(ballVelSquared / frictionCoefficient);
+    ball->position + ball->velocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
     // Visualize the Expected Ball End Position
     //ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {expectedEndPosition}, ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);

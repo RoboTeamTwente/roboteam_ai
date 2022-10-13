@@ -75,12 +75,6 @@ class RobotView {
     RobotView(RobotView &&) = default;
 
     ~RobotView() = default;
-
-    /**
-     * Gets the kicker for the Robot that this view is viewing
-     * @return A vector2 representation of the kicker
-     */
-    [[nodiscard]] Vector2 getKicker() const noexcept;
 };
 
 }  // namespace rtt::world::view

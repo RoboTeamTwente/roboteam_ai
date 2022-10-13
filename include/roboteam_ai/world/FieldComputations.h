@@ -37,17 +37,6 @@ class FieldComputations {
 
    public:
     /**
-     * Determines whether a given point is in either defense area
-     * @param field The field class which is used to determine the position of the defense areas.
-     * @param point The point for which it is checked whether it is in our/their defense area.
-     * @param margin The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means
-     * that it will be expanded, a negative value means that it will be shrunk.
-     * @param backMargin The margin that the goal line will be expanded in the x-direction (+ value -> expand to outside of the field, - value -> shrink to inside the field)
-     * @return True if the point is in either defence area (after adding margins), false otherwise
-     */
-    static bool pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0, double backMargin = 0.0);
-
-    /**
      * Determines whether a given point is our defense area
      * @param field The field class which is used to determine the position of the defense areas.
      * @param point The point for which it is checked whether it is in our/their defense area.
@@ -173,17 +162,6 @@ class FieldComputations {
                                                       bool ourTeam = false);
 
     /**
-     * Compute all visible places on the goal, i.e. which places of the goal can be reached by directly shooting a ball over the ground from a given point without hitting any
-     * robot from the OPPONENTS team.
-     * @param field The field class used to determine where the goals are.
-     * @param ourGoal True if we want to compute this for our goal, false if we want to compute it for the opponents goal.
-     * @param point The point from which it is checked what parts of the goal are visible.
-     * @param world Data about the world used to determine the locations of all robots.
-     * @return All LineSegments on the goal which represents all the visible goal points.
-     */
-    static std::vector<LineSegment> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt_world::view::WorldDataView &world);
-
-    /**
      * Look at the overloaded function getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world::view::WorldDataView &world) for the corresponding
      * documentation.
      *
@@ -209,14 +187,6 @@ class FieldComputations {
      * @return The Euclidean distance to the closest point on the goal from the given point.
      */
     static double getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point);
-
-    /**
-     * Get the penalty point corresponding to a given goal.
-     * @param field The field used to determine where the penalty points are.
-     * @param ourGoal True if we want to get the penalty point corresponding to our goal, false if we want to get the penalty point corresponding to the opponents goal.
-     * @return The position of the penalty point.
-     */
-    static Vector2 getPenaltyPoint(const rtt_world::Field &field, bool ourGoal);
 
     /**
      * Determine the intersection between a LineSegment and the boundary of the defence area and return the intersection point closest to the start of the line (if the LineSegment
