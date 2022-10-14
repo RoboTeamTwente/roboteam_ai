@@ -6,8 +6,6 @@
 
 namespace rtt::ai {
 
-using util = control::ControlUtils;
-
 bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
     auto defenseArea = FieldComputations::getDefenseArea(field, true, margin, backMargin);
     return defenseArea.contains(point);
@@ -331,4 +329,4 @@ Vector2 FieldComputations::projectPointToValidPositionOnLine(const world::Field 
     // Return the intersection closest to the given point
     return *std::min_element(intersections.begin(), intersections.end(), [&point](auto lhs, auto rhs) { return point.dist(lhs) < point.dist(rhs); });
 }
-}  // namespace rtt::ai
+};  // namespace rtt::ai

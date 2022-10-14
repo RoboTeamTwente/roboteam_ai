@@ -46,19 +46,7 @@ Vector2 BBTrajectory2D::getVelocity(double t) const { return Vector2(x.getVeloci
 
 Vector2 BBTrajectory2D::getAcceleration(double t) const { return Vector2(x.getAcceleration(t), y.getAcceleration(t)); }
 
-std::vector<Vector2> BBTrajectory2D::getPathApproach(double timeStep) const {
-    std::vector<Vector2> points;
-    auto totalTime = getTotalTime();
-    double time = 0;
-
-    while (time < totalTime) {
-        time += timeStep;
-        points.push_back(getPosition(time));
-    }
-    return points;
-}
-
-double BBTrajectory2D::getTotalTime() const { return std::max(x.getTotalTime(), y.getTotalTime()); }
+[[maybe_unused]] double BBTrajectory2D::getTotalTime() const { return std::max(x.getTotalTime(), y.getTotalTime()); }
 
 std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> BBTrajectory2D::getParts() { return std::make_pair(x.getParts(), y.getParts()); }
 }  // namespace rtt::BB

@@ -42,25 +42,15 @@ class ParamImplementation : public Param {
     virtual ~ParamImplementation();
 
     float yForX(double x) override;
-    void yValuesForXRange(float *y_values, size_t y_values_count, double start_x, double end_x) override;
 
     std::string name() override;
-    float smoothedYForXRange(double start_x, double end_x, size_t samples = 5) override;
-    float cumulativeYForXRange(double start_x, double end_x, double precision = 0.1) override;
 
     // WAAParam
     float defaultY() const override;
     float maxY() const override;
     float minY() const override;
-    void setY(float y) override;
     void setYAtX(float y, double x) override;
     void linearRampToYAtX(float end_y, double end_x) override;
-    void setTargetYAtX(float target_y, double start_x, float x_constant) override;
-    void exponentialRampToYAtX(float y, double end_x) override;
-    void setYCurveAtX(std::vector<float> y_values, double start_x, double duration) override;
-
-    // Custom
-    void addCustomEvent(double start_x, double end_x, Anchor anchor, NF_AUDIO_PARAM_FUNCTION function) override;
 
    private:
     const float _default_value;

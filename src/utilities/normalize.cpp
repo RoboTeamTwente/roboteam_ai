@@ -2,8 +2,6 @@
 
 namespace roboteam_utils {
 
-float mm_to_m(float scalar) { return scalar / 1000.f; }
-
 // rotate a ball
 void rotate(proto::WorldBall *ball) {
     assert(ball && "Invalid pointer for ball");

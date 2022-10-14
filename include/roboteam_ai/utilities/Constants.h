@@ -25,16 +25,6 @@ class Constants {
     static constexpr int STP_TICK_RATE() { return 60; };
     static constexpr int SETTINGS_BROADCAST_RATE() { return 1; }
 
-    /// LOGGING ///
-    static bool SHOW_LONGEST_TICK();
-    static bool SHOW_TICK_TIME_TAKEN();
-
-    static bool SHOW_COACH_TIME_TAKEN();
-
-    static bool SHOW_NUMTREE_TIME_TAKEN();
-    static bool SHOW_NUMTREE_DEBUG_INFO();
-    static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
-
     static std::vector<RuleSet> ruleSets();
 
     /// ROBOT COMMANDS ///
@@ -95,7 +85,6 @@ class Constants {
     static bool STD_SHOW_ANGLES();
     static bool STD_SHOW_ROBOT_INVALIDS();
     static bool STD_SHOW_BALL_PLACEMENT_MARKER();
-    static bool STD_SHOW_DEBUG_VALUES();
     static bool STD_USE_REFEREE();
     static bool STD_TIMEOUT_TO_TOP();
 

@@ -48,7 +48,6 @@ class MainControlsWidget : public QWidget {
     void toggleOurSideParam();
     void toggleRobotHubModeParam();
     void sendPauseSignal();
-    void updatePause();
     void setUseReferee(bool useRef);
     void setIgnoreInvariants(bool ignore);
     void updateContents();

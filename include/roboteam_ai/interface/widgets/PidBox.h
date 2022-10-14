@@ -26,7 +26,6 @@ class PidBox : public QGroupBox {
     void updatePID();
 
    public:
-    const pidVals &getPid() const;
     void setPid(const pidVals &pid);
     explicit PidBox(const QString &title, QWidget *parent = nullptr);
 

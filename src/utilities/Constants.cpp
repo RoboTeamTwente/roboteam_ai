@@ -43,17 +43,6 @@ bool Constants::FEEDBACK_ENABLED() { return true; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
 
-bool Constants::SHOW_LONGEST_TICK() { return true; }
-
-bool Constants::SHOW_TICK_TIME_TAKEN() { return true; }
-
-bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
-
-bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
-
-bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
-bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
-
 double Constants::MAX_VEL_CMD() { return 4.0; }
 
 double Constants::MIN_ANGLE() { return -M_PI; }
@@ -91,8 +80,6 @@ bool Constants::STD_SHOW_ANGLES() { return true; }
 bool Constants::STD_SHOW_ROBOT_INVALIDS() { return true; }
 
 bool Constants::STD_SHOW_BALL_PLACEMENT_MARKER() { return true; }
-
-bool Constants::STD_SHOW_DEBUG_VALUES() { return true; }
 
 bool Constants::STD_USE_REFEREE() { return true; }
 

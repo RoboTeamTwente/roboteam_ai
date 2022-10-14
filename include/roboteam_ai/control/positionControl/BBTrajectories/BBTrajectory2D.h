@@ -70,16 +70,9 @@ class BBTrajectory2D {
     [[nodiscard]] Vector2 getAcceleration(double t) const;
 
     /**
-     * @brief Approaches the BangBangTrajectory by dividing the path in points which are separated by timeStep seconds
-     * @param timeStep time between pathpoints
-     * @return
-     */
-    [[nodiscard]] std::vector<Vector2> getPathApproach(double timeStep) const;
-
-    /**
      * @brief Gets tEnd of the current part
      */
-    [[nodiscard]] double getTotalTime() const;
+    [[maybe_unused]] [[nodiscard]] double getTotalTime() const;
 
     /**
      * @brief Returns all the trajectory parts in both dimensions to use in the general trajectory class

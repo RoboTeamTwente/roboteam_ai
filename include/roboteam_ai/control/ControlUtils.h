@@ -36,14 +36,6 @@ class ControlUtils {
     static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference = 0.3);
 
     /**
-     * Determines the chip force based on the distance and the type of chip
-     * @param distance distance to the target
-     * @param shotType type of the chip
-     * @return a chip speed between min and max chip speed
-     */
-    static double determineChipForce(const double distance, stp::ShotType shotType) noexcept;
-
-    /**
      * Determines the kick force based on the distance and the type of kick
      * @param distance distance to the target
      * @param shotType type of the kick
