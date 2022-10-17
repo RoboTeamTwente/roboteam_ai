@@ -66,8 +66,6 @@ class CollisionDetector {
      */
     std::optional<Vector2> getCollisionBetweenPoints(const Vector2& point, const Vector2& nextPoint);
 
-    std::vector<Vector2> getRobotPositions();
-
     void setField(const rtt::world::Field& field);
 
     void setRobotPositions(std::vector<Vector2>& robotPositions);

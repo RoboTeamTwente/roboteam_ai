@@ -97,8 +97,6 @@ void World::updatePositionControl() {
     positionControl.setRobotPositions(robotPositions);
 }
 
-uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
-
 ai::control::PositionControl *World::getRobotPositionController() noexcept { return &positionControl; }
 
 size_t World::getHistorySize() const noexcept { return history.size(); }

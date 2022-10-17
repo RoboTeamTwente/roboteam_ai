@@ -43,8 +43,6 @@ std::vector<view::RobotView> const &WorldData::getUs() const noexcept { return u
 
 std::vector<view::RobotView> const &WorldData::getThem() const noexcept { return them; }
 
-std::vector<rtt::world::robot::Robot> const &WorldData::getRobots() const noexcept { return robots; }
-
 std::optional<view::BallView> WorldData::getBall() const noexcept {
     if (ball.has_value()) {
         return std::optional<view::BallView>(&ball.value());
@@ -52,8 +50,6 @@ std::optional<view::BallView> WorldData::getBall() const noexcept {
         return std::nullopt;
     }
 }
-
-bool WorldData::weHaveRobots() const noexcept { return !getUs().empty(); }
 
 uint64_t WorldData::getTime() const noexcept { return time; }
 

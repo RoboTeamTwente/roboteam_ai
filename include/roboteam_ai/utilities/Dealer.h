@@ -173,34 +173,6 @@ class Dealer {
      * @param output The role division to be distributed
      */
     void setGameStateRoleIds(std::unordered_map<std::string, v::RobotView> output);
-
-    /**
-     * Prints the cost matrix in the following format:
-     *
-     * ↓PRIORITY       ↓ROLE    ID→      1      2      4      6      7     10
-     * LOW_PRIORITY    defender_2     0.34   0.39   0.40   0.42   0.46   0.39
-     * LOW_PRIORITY    defender_3     0.34   0.30   0.40   0.46   0.42   0.52
-     * MEDIUM_PRIORITY mid_field_1    0.24   0.20   0.30   0.36   0.32   0.43
-     * MEDIUM_PRIORITY mid_field_2    0.24   0.29   0.30   0.32   0.36   0.30
-     * LOW_PRIORITY    offender_1     0.15   0.22   0.16   0.15   0.23   0.11
-     * LOW_PRIORITY    offender_2     0.15   0.08   0.16   0.23   0.15   0.32
-     *
-     * @param cost_matrix The cost matrix
-     * @param role_names All role names when distribute() was called
-     * @param robots All robots when distribute() was called
-     * @param role_to_flags Flags and priority of each role
-     * @param row_to_role Mapping from cost matrix row to role
-     * @param col_to_robot Mapping from cost matrix column to robot
-     */
-    void printCostMatrix(const std::vector<std::vector<double>> &cost_matrix, const std::vector<std::string> &role_names, const std::vector<v::RobotView> &robots,
-                         const FlagMap &role_to_flags, const std::vector<int> &row_to_role, const std::vector<int> &col_to_robot);
-
-    /**
-     * Converts the DealerFlagPriority enum to a string
-     * @param priority The priority to cnvert to a string
-     * @return The string
-     */
-    std::string priorityToString(DealerFlagPriority priority);
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

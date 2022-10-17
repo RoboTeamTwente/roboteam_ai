@@ -41,10 +41,10 @@ class Trajectory1D {
     [[nodiscard]] double getTotalTime() const;
 
     std::vector<BB::BBTrajectoryPart> parts;
-    double initialPos;  // m
+    // m
     double finalPos;    // m
-    double initialVel;  // m/s
-    double maxAcc;      // m/s^2
+    // m/s
+    // m/s^2
     double maxVel;      // m/s
 };
 

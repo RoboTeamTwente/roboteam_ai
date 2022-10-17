@@ -105,14 +105,6 @@ class PassComputations {
      * @return approximated time for ball to reach target position
      */
     static double calculateBallTravelTime(Vector2 ballLocation, Vector2 passerLocation, Vector2 targetPosition);
-
-    /**
-     * Checks if there are given bots within the given tube
-     * @param passLine Tube area within to check
-     * @param robots Vector of RobotViews which needs to be checked
-     * @return True if any of the given robots are inside the given Tube
-     */
-    static bool pathHasAnyRobots(Line passLine, std::vector<Vector2> robotPositions);
 };
 }  // namespace rtt::ai::stp::computations
 #endif  // RTT_PASSCOMPUTATIONS_H

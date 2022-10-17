@@ -22,16 +22,11 @@
 /**
  * Plays are included here
  */
-#include "stp/plays/ReflectKick.h"
-#include "stp/plays/TestPlay.h"
-#include "stp/plays/contested/GetBallPossession.h"
-#include "stp/plays/contested/GetBallRisky.h"
 #include "stp/plays/defensive/DefendPass.h"
 #include "stp/plays/defensive/DefendShot.h"
 #include "stp/plays/defensive/KeeperKickBall.h"
 #include "stp/plays/offensive/Attack.h"
 #include "stp/plays/offensive/AttackingPass.h"
-#include "stp/plays/offensive/GenericPass.h"
 #include "stp/plays/referee_specific/AggressiveStopFormation.h"
 #include "stp/plays/referee_specific/BallPlacementThem.h"
 #include "stp/plays/referee_specific/BallPlacementUs.h"

@@ -15,12 +15,8 @@ Trajectory2D::Trajectory2D(const Vector2 &initialPos, const Vector2 &initialVel,
     BB::BBTrajectory2D BBTNoCollision = BB::BBTrajectory2D(initialPos, initialVel, finalPos, maxVel, maxAcc);
     std::pair<std::vector<BB::BBTrajectoryPart>, std::vector<BB::BBTrajectoryPart>> parts = BBTNoCollision.getParts();
     x.parts = parts.first;
-    x.initialPos = initialPos.x;
-    x.initialVel = initialVel.x;
     x.finalPos = finalPos.x;
     y.parts = parts.second;
-    y.initialPos = initialPos.y;
-    y.initialVel = initialVel.y;
     y.finalPos = finalPos.y;
 }
 

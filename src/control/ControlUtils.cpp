@@ -80,32 +80,6 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 }
 
-/// Calculates the chip force
-double ControlUtils::determineChipForce(const double distance, stp::ShotType shotType) noexcept {
-    // TODO: Needs further tuning
-    constexpr double TARGET_FACTOR{0.5};
-    constexpr double PASS_FACTOR{0.745};
-
-    if (shotType == stp::ShotType::MAX) return stp::control_constants::MAX_CHIP_POWER;
-
-    double limitingFactor{};
-    // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
-    if (shotType == stp::ShotType::PASS) {
-        limitingFactor = PASS_FACTOR;
-    } else if (shotType == stp::ShotType::TARGET) {
-        limitingFactor = TARGET_FACTOR;
-    } else {
-        RTT_ERROR("No valid ballSpeedType, kick velocity set to 0")
-        return 0;
-    }
-
-    // Calculate the velocity based on this function with the previously set limitingFactor
-    auto velocity = distance * limitingFactor;
-
-    // Make sure velocity is always between MIN_CHIP_POWER and MAX_CHIP_POWER
-    return std::clamp(velocity, stp::control_constants::MIN_CHIP_POWER, stp::control_constants::MAX_CHIP_POWER);
-}
-
 /// Calculate the kick force
 double ControlUtils::determineKickForce(const double distance, stp::ShotType shotType) noexcept {
     if (shotType == stp::ShotType::MAX) return stp::control_constants::MAX_KICK_POWER;

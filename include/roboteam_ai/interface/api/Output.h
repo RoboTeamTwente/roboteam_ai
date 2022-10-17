@@ -25,11 +25,9 @@ class Output {
 
     static std::mutex markerMutex;
     static std::mutex refMutex;
-    static std::mutex showDebugMutex;
 
     static rtt::Vector2 markerPosition;
     static bool useRefereeCommands;
-    static bool showDebugValuesInTerminal;
     static bool timeOutAtTop;
 
     static GameState interfaceGameState;
@@ -41,20 +39,11 @@ class Output {
     static const GameState &getInterfaceGameState();
 
     static bool isTimeOutAtTop();
-    static void setShowDebugValues(bool showDebug);
-    static bool getShowDebugValues();
-    static bool showDebugLongestTick();
-    static bool showDebugTickTimeTaken();
-    static bool showDebugNumTreeTimeTaken();
-    static bool showDebugNumTreeInfo();
-    static bool showCoachTimeTaken();
-    static bool showFullDebugNumTreeInfo();
 
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
     static const rtt::Vector2 &getInterfaceMarkerPosition();
     static void setMarkerPosition(const rtt::Vector2 &ballPlacementTarget);
-    static void setTimeOutTop(bool top);
 
     static const pidVals &getNumTreePid();
     static void setNumTreePid(const pidVals &numTreePid);

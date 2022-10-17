@@ -6,8 +6,6 @@
 
 namespace rtt::ai {
 
-using util = control::ControlUtils;
-
 bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
     auto defenseArea = FieldComputations::getDefenseArea(field, true, margin, backMargin);
     return defenseArea.contains(point);
@@ -16,10 +14,6 @@ bool FieldComputations::pointIsInOurDefenseArea(const rtt_world::Field &field, c
 bool FieldComputations::pointIsInTheirDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
     auto defenseArea = FieldComputations::getDefenseArea(field, false, margin, backMargin);
     return defenseArea.contains(point);
-}
-
-bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, double margin, double backMargin) {
-    return pointIsInOurDefenseArea(field, point, margin, backMargin) || pointIsInTheirDefenseArea(field, point, margin, backMargin);
 }
 
 bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin) {
@@ -51,10 +45,6 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::F
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
-}
-
-std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView &world) {
-    return getVisiblePartsOfGoal(field, ourGoal, point, world.getUs());
 }
 
 std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
@@ -96,14 +86,6 @@ LineSegment FieldComputations::getGoalSides(const rtt_world::Field &field, bool 
 }
 
 double FieldComputations::getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) { return getGoalSides(field, ourGoal).distanceToLine(point); }
-
-Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool ourGoal) {
-    if (ourGoal) {
-        return field.getLeftPenaltyPoint();
-    } else {
-        return field.getRightPenaltyPoint();
-    }
-}
 
 std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenseArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
                                                                             double margin, bool ignoreGoalLine) {
@@ -347,4 +329,4 @@ Vector2 FieldComputations::projectPointToValidPositionOnLine(const world::Field 
     // Return the intersection closest to the given point
     return *std::min_element(intersections.begin(), intersections.end(), [&point](auto lhs, auto rhs) { return point.dist(lhs) < point.dist(rhs); });
 }
-}  // namespace rtt::ai
+};  // namespace rtt::ai

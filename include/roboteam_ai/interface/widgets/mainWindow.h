@@ -50,7 +50,6 @@ class MainWindow : public QMainWindow {
     // this function is useful everywhere
     static void configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
 
-    static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
     void updatePlay(stp::Play *play);
     void updateProcessedVisionPackets(const std::vector<proto::SSL_WrapperPacket> &packets);
@@ -61,7 +60,6 @@ class MainWindow : public QMainWindow {
    public slots:
     void updateRobotsWidget();
     void setPlayForRobot(std::string const &str, uint8_t id);
-    void setTacticForRobot(std::string const &str, uint8_t id);
     void setKeeperRole(stp::Role *role, stp::Status state);
 
    private:

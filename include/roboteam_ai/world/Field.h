@@ -15,7 +15,6 @@ struct FieldLineSegment {
     Vector2 begin;
     Vector2 end;
     std::string name;
-    float thickness;
 };
 
 struct FieldArc {
@@ -24,7 +23,6 @@ struct FieldArc {
     float a1;  // The start angle, which is also called angle 1.
     float a2;  // The end angle, which is also called angle 2.
     std::string name;
-    float thickness;
 };
 
 /**
@@ -328,27 +326,16 @@ class Field {
     double getGoalWidth() const;
     double getGoalDepth() const;
     double getBoundaryWidth() const;
-    double getCenterY() const;
     double getLeftmostX() const;
     double getRightmostX() const;
     double getBottommostY() const;
     double getTopmostY() const;
     double getLeftPenaltyX() const;
     double getRightPenaltyX() const;
-    double getPenaltyTopY() const;
-    double getPenaltyBottomY() const;
-    const FieldLineSegment &getTopLine() const;
-    const FieldLineSegment &getBottomLine() const;
     const FieldLineSegment &getLeftLine() const;
     const FieldLineSegment &getRightLine() const;
-    const FieldLineSegment &getHalfLine() const;
-    const FieldLineSegment &getCenterLine() const;
     const FieldLineSegment &getLeftPenaltyLine() const;
     const FieldLineSegment &getRightPenaltyLine() const;
-    const FieldLineSegment &getTopLeftPenaltyStretch() const;
-    const FieldLineSegment &getBottomLeftPenaltyStretch() const;
-    const FieldLineSegment &getTopRightPenaltyStretch() const;
-    const FieldLineSegment &getBottomRightPenaltyStretch() const;
     const Vector2 &getOurGoalCenter() const;
     const Vector2 &getTheirGoalCenter() const;
     const Vector2 &getLeftPenaltyPoint() const;

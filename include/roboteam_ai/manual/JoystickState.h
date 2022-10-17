@@ -16,7 +16,6 @@ class JoystickState {
     rtt::Vector2 stickRight = {0.0, 0.0};
     int triggerLeft = 0;
     int triggerRight = 0;
-    bool bumperLeft = false;
     bool bumperRight = false;
     bool A = false;
     bool B = false;
@@ -25,12 +24,8 @@ class JoystickState {
     bool start = false;
     bool back = false;
     bool XBOX = false;
-    bool stickLeftBtn = false;
-    bool stickRightBtn = false;
     bool dpadLeft = false;
     bool dpadRight = false;
-    bool dpadUp = false;
-    bool dpadDown = false;
 };
 
 }  // namespace input

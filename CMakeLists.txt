@@ -45,10 +45,8 @@ target_compile_options(roboteam_ai_manual PRIVATE "${COMPILER_FLAGS}")
 add_library(roboteam_ai_skills
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Kick.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/skills/Chip.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/GoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Orbit.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/OrbitAngular.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/TestSkill.cpp
@@ -68,26 +66,21 @@ add_library(roboteam_ai_tactics
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         # /
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Intercept.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/TestTactic.cpp
         # active/
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/ChipAtPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/DriveWithBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/GetBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/GetBehindBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/KickAtPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/OrbitKick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/Receive.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/ShootAtPos.cpp
         # passive/
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BlockRobot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BallStandBack.cpp)
 target_include_directories(roboteam_ai_tactics
         PRIVATE include/roboteam_ai
@@ -109,9 +102,7 @@ add_library(roboteam_ai_roles
         # active
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Attacker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Harasser.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallPlacer.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/FreeKickTaker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/KeeperPasser.cpp
@@ -122,7 +113,6 @@ add_library(roboteam_ai_roles
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/RobotDefender.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp
 )
 target_include_directories(roboteam_ai_roles
         PRIVATE include/roboteam_ai
@@ -139,12 +129,6 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayEvaluator.cpp
-        # /
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
-        # contested/
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
         # defensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
@@ -152,7 +136,6 @@ add_library(roboteam_ai_plays
         # offensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
         # referee_specific/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp
@@ -170,7 +153,6 @@ add_library(roboteam_ai_plays
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyThemPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/FormationPreHalf.cpp
 )
 target_include_directories(roboteam_ai_plays
@@ -230,7 +212,6 @@ add_library(roboteam_ai_evaluation
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/OpennessEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/LineOfSightEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/GoalShotEvaluation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/TimeToPositionEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/BlockingEvaluation.cpp
 )
 target_include_directories(roboteam_ai_evaluation
@@ -269,7 +250,6 @@ add_library(roboteam_ai_control
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/DensePathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BBTPathTracking.cpp

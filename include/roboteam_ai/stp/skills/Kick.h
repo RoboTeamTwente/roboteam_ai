@@ -22,12 +22,6 @@ class Kick : public Skill {
      * @return The name of this skill
      */
     const char* getName() override;
-
-   private:
-    /**
-     * Keeps track of how many ticks we tried to kick
-     */
-    int kickAttempts = 0;
 };
 }  // namespace rtt::ai::stp::skill
 

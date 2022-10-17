@@ -13,5 +13,4 @@ const Vector2 &PathPointNode::getPosition() const { return position; }
 
 PathPointNode *PathPointNode::getParent() const { return parent; }
 
-void PathPointNode::setParent(PathPointNode &parent) { this->parent = &parent; }
 }  // namespace rtt::ai::control

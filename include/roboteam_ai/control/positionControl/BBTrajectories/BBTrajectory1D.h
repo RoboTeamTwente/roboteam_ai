@@ -23,11 +23,10 @@ struct BBTrajectoryPart {
  * @brief small struct to keep Position, Velocity and Acceleration in at once.
  */
 struct BBPosVelAcc {
-    explicit BBPosVelAcc(double pos, double vel, double acc) : pos{pos}, vel{vel}, acc{acc} {};
+    explicit BBPosVelAcc(double pos, double vel, double acc) : pos{pos}, vel{vel} {};
 
     double pos;
     double vel;
-    double acc;
 };
 
 /**
@@ -72,12 +71,6 @@ class BBTrajectory1D {
      * @return Total time of the trajectory to end point
      */
     [[nodiscard]] double getTotalTime() const;
-
-    /**
-     * @brief Gets the end time of the current time
-     * @return End time of current part
-     */
-    [[nodiscard]] double getTimeCurrentPart1D() const;
 
     /**
      * @brief Computes the position where we would end up if we use maximum deceleration
@@ -159,10 +152,10 @@ class BBTrajectory1D {
 
     std::array<BBTrajectoryPart, 3> parts;
     unsigned short int numParts = 0;
-    double initialPos;  // m
+    // m
     double finalPos;    // m
-    double initialVel;  // m/s
-    double maxAcc;      // m/s^2
+    // m/s
+    // m/s^2
     double maxVel;      // m/s
 };
 }  // namespace rtt::BB

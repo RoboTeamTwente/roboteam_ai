@@ -28,15 +28,13 @@
 namespace nativeformat {
 namespace param {
 
-typedef std::function<float(double time)> NF_AUDIO_PARAM_FUNCTION;
-
 /* The ParamEvent Anchor determines whether a ParamEvent is
  * tied to the start time and value, end time and value, or
  * the full Range. This determines how the start and end
  * values and times will change (or remain fixed) when other
  * ParaEvents are added.
  */
-enum class Anchor { NONE = 0x0, START = 0x1, END = 0x2, ALL = 0x3 };
+enum class Anchor { NONE = 0x0, START = 0x1, END = 0x2 };
 inline Anchor operator&(Anchor a, Anchor b) {
     using T = std::underlying_type<Anchor>::type;
     return static_cast<Anchor>(static_cast<T>(a) & static_cast<T>(b));
@@ -54,18 +52,8 @@ struct ParamEvent {
 
     virtual float valueAtTime(double time) = 0;
     virtual float endValue();
-    virtual float cumulativeValue(double start_time, double end_time, double precision = .1);
 
     static constexpr double INVALID_TIME = -1.0;
-};
-
-struct CustomParamEvent : public ParamEvent {
-    NF_AUDIO_PARAM_FUNCTION function;
-
-    CustomParamEvent(double start_time, double end_time, Anchor anchor, NF_AUDIO_PARAM_FUNCTION function);
-
-    virtual ~CustomParamEvent();
-    float valueAtTime(double time) override;
 };
 
 }  // namespace param

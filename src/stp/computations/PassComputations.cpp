@@ -164,8 +164,4 @@ uint8_t PassComputations::scorePass(PassInfo passInfo, const world::World* world
     return std::clamp(static_cast<int>(goalShotScore * (lineOfSightScore / 255.0) * (openScore / 255.0) * passPenaltyFactor), 0, 255);
 }
 
-bool PassComputations::pathHasAnyRobots(Line passLine, std::vector<Vector2> robotLocations) {
-    Tube passTube = Tube(passLine.v1, passLine.v2, control_constants::ROBOT_RADIUS);
-    return std::any_of(robotLocations.begin(), robotLocations.end(), [&](const auto& location) { return passTube.contains(location); });
-}
 }  // namespace rtt::ai::stp::computations

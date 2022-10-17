@@ -65,11 +65,8 @@ void BBTrajectory1D::trapezoidalProfile(double startPos, double startVel, double
 
 void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double endPos, double maximumVel, double maximumAcc) {
     // Store call so we can review it later:
-    initialPos = startPos;
-    initialVel = startVel;
     finalPos = endPos;
     maxVel = maximumVel;
-    maxAcc = maximumAcc;
 
     double brakePos = fullBrakePos(startPos, startVel, maximumAcc);
     if (brakePos <= endPos) {
@@ -92,7 +89,7 @@ void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double
 }
 
 BBTrajectory1D::BBTrajectory1D(double startPos, double startVel, double endPos, double maximumVel, double maximumAcc)
-    : initialPos{startPos}, finalPos{endPos}, initialVel{startVel}, maxAcc{maximumAcc}, maxVel{maximumVel} {
+    : maxVel{maximumVel} {
     generateTrajectory(startPos, startVel, endPos, maximumVel, maximumAcc);
 }
 
@@ -118,8 +115,6 @@ BBPosVelAcc BBTrajectory1D::getValues(double t) const {
 }
 
 double BBTrajectory1D::getTotalTime() const { return parts[numParts - 1].tEnd; }
-
-double BBTrajectory1D::getTimeCurrentPart1D() const { return parts[0].tEnd; }
 
 double BBTrajectory1D::getAcceleration(double t) const {
     double trajTime = fmax(0, t);

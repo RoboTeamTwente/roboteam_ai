@@ -19,8 +19,6 @@ class GameStateManager {
     static void setRefereeData(proto::SSL_Referee refMsg, const rtt::world::World* data);
     static proto::SSL_Referee getRefereeData();
     static GameState getCurrentGameState();
-    static bool canEnterDefenseArea(int robotId);
-    static bool canMoveOutsideField(int robotId);
     static void forceNewGameState(RefCommand cmd, std::optional<rtt::world::view::BallView> ball);
     static Vector2 getRefereeDesignatedPosition();
     static void updateInterfaceGameState(const char* name);

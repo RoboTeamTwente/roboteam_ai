@@ -34,21 +34,11 @@ class Param {
     virtual float defaultY() const = 0;
     virtual float maxY() const = 0;
     virtual float minY() const = 0;
-    virtual void setY(float y) = 0;
     virtual void setYAtX(float y, double x) = 0;
     virtual void linearRampToYAtX(float end_y, double end_x) = 0;
-    virtual void setTargetYAtX(float target_y, double start_x, float x_constant) = 0;
-    virtual void exponentialRampToYAtX(float y, double end_x) = 0;
-    virtual void setYCurveAtX(std::vector<float> y_values, double start_x, double duration) = 0;
 
-    // other methods
-    virtual void addCustomEvent(double start_x, double end_x, Anchor anchor, NF_AUDIO_PARAM_FUNCTION function) = 0;
     virtual float yForX(double x) = 0;
-    virtual void yValuesForXRange(float *y_values, size_t y_values_count, double start_x, double end_x) = 0;
     virtual std::string name() = 0;
-
-    virtual float smoothedYForXRange(double start_x, double end_x, size_t samples = 5) = 0;
-    virtual float cumulativeYForXRange(double start_x, double end_x, double precision = 0.1) = 0;
 
     virtual ~Param() = default;
 };
