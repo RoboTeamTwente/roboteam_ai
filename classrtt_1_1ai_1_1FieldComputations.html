@@ -98,8 +98,6 @@ $(document).ready(function(){initNavTree('classrtt_1_1ai_1_1FieldComputations.ht
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a1950999b12eb4934e0832ba762293423"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a1950999b12eb4934e0832ba762293423">pointIsInDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, double margin=0.0, double backMargin=0.0)</td></tr>
-<tr class="separator:a1950999b12eb4934e0832ba762293423"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67766771120a89afc4cfd116c3293032"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a67766771120a89afc4cfd116c3293032">pointIsInOurDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, double margin=0.0, double backMargin=0.0)</td></tr>
 <tr class="separator:a67766771120a89afc4cfd116c3293032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4bb9939cab3d5a62d39a74c51d0c586"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#ac4bb9939cab3d5a62d39a74c51d0c586">pointIsInTheirDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, double margin=0.0, double backMargin=0.0)</td></tr>
@@ -120,16 +118,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:aa302abf519973cbf2f2da7915110b451"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b785ca82076f8e7801608dc15095a5c"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a7b785ca82076f8e7801608dc15095a5c">getPercentageOfGoalVisibleFromPoint</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, <a class="el" href="classrtt_1_1world_1_1view_1_1WorldDataView.html">rtt::world::view::WorldDataView</a> world, int id=-1, bool ourTeam=false)</td></tr>
 <tr class="separator:a7b785ca82076f8e7801608dc15095a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19e1384a58bef8a0ef8b8c9e6566d8ce"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; LineSegment &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a19e1384a58bef8a0ef8b8c9e6566d8ce">getVisiblePartsOfGoal</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, rtt_world::view::WorldDataView &amp;world)</td></tr>
-<tr class="separator:a19e1384a58bef8a0ef8b8c9e6566d8ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23bcc3f33a65330d9652a9f37db416e8"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; LineSegment &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a23bcc3f33a65330d9652a9f37db416e8">getVisiblePartsOfGoal</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, const std::vector&lt; rtt_world::view::RobotView &gt; &amp;robots)</td></tr>
-<tr class="separator:a23bcc3f33a65330d9652a9f37db416e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a390a4010c9377cc7ca9f68d13bdd21"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; LineSegment &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a8a390a4010c9377cc7ca9f68d13bdd21">getVisiblePartsOfGoal</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, const std::vector&lt; rtt_world::view::RobotView &gt; &amp;robots)</td></tr>
+<tr class="separator:a8a390a4010c9377cc7ca9f68d13bdd21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf756b209dbc2ebd6b3be51882fb15ea"><td class="memItemLeft" align="right" valign="top">static LineSegment&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#adf756b209dbc2ebd6b3be51882fb15ea">getGoalSides</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal)</td></tr>
 <tr class="separator:adf756b209dbc2ebd6b3be51882fb15ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c80c4e9609f98967c20db1f70a172e6"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a3c80c4e9609f98967c20db1f70a172e6">getDistanceToGoal</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point)</td></tr>
 <tr class="separator:a3c80c4e9609f98967c20db1f70a172e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab124c62848060939c82a1f8f136dffe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#aab124c62848060939c82a1f8f136dffe">getPenaltyPoint</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal)</td></tr>
-<tr class="separator:aab124c62848060939c82a1f8f136dffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d3634924856a550f4fc8c8286b08e2e"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#a4d3634924856a550f4fc8c8286b08e2e">lineIntersectionWithDefenseArea</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, bool ourGoal, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineStart, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineEnd, double margin, bool ignoreGoalLine=false)</td></tr>
 <tr class="separator:a4d3634924856a550f4fc8c8286b08e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8f150f0fedbc5dabf0d404c78c642e7"><td class="memItemLeft" align="right" valign="top">static std::optional&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1FieldComputations.html#af8f150f0fedbc5dabf0d404c78c642e7">lineIntersectionWithField</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;field, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineStart, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;lineEnd, double margin)</td></tr>
@@ -491,50 +485,6 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aab124c62848060939c82a1f8f136dffe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab124c62848060939c82a1f8f136dffe">&#9670;&nbsp;</a></span>getPenaltyPoint()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> rtt::ai::FieldComputations::getPenaltyPoint </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>ourGoal</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Get the penalty point corresponding to a given goal. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>The field used to determine where the penalty points are. </td></tr>
-    <tr><td class="paramname">ourGoal</td><td>True if we want to get the penalty point corresponding to our goal, false if we want to get the penalty point corresponding to the opponents goal. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The position of the penalty point. </dd></dl>
-
-</div>
-</div>
 <a id="a7b785ca82076f8e7801608dc15095a5c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b785ca82076f8e7801608dc15095a5c">&#9670;&nbsp;</a></span>getPercentageOfGoalVisibleFromPoint()</h2>
 
@@ -658,8 +608,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a23bcc3f33a65330d9652a9f37db416e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23bcc3f33a65330d9652a9f37db416e8">&#9670;&nbsp;</a></span>getVisiblePartsOfGoal() <span class="overload">[1/2]</span></h2>
+<a id="a8a390a4010c9377cc7ca9f68d13bdd21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a390a4010c9377cc7ca9f68d13bdd21">&#9670;&nbsp;</a></span>getVisiblePartsOfGoal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -668,7 +618,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::vector&lt;LineSegment&gt; rtt::ai::FieldComputations::getVisiblePartsOfGoal </td>
+          <td class="memname">std::vector&lt; LineSegment &gt; rtt::ai::FieldComputations::getVisiblePartsOfGoal </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
           <td class="paramname"><em>field</em>, </td>
@@ -710,64 +660,6 @@ Static Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a19e1384a58bef8a0ef8b8c9e6566d8ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19e1384a58bef8a0ef8b8c9e6566d8ce">&#9670;&nbsp;</a></span>getVisiblePartsOfGoal() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static std::vector&lt;LineSegment&gt; rtt::ai::FieldComputations::getVisiblePartsOfGoal </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>ourGoal</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>point</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">rtt_world::view::WorldDataView &amp;&#160;</td>
-          <td class="paramname"><em>world</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Compute all visible places on the goal, i.e. which places of the goal can be reached by directly shooting a ball over the ground from a given point without hitting any robot from the OPPONENTS team. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>The field class used to determine where the goals are. </td></tr>
-    <tr><td class="paramname">ourGoal</td><td>True if we want to compute this for our goal, false if we want to compute it for the opponents goal. </td></tr>
-    <tr><td class="paramname">point</td><td>The point from which it is checked what parts of the goal are visible. </td></tr>
-    <tr><td class="paramname">world</td><td>Data about the world used to determine the locations of all robots. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>All LineSegments on the goal which represents all the visible goal points. </dd></dl>
 
 </div>
 </div>
@@ -931,64 +823,6 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-overlapping blockade line segments that cover all blocked goal sides. </dd></dl>
-
-</div>
-</div>
-<a id="a1950999b12eb4934e0832ba762293423"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1950999b12eb4934e0832ba762293423">&#9670;&nbsp;</a></span>pointIsInDefenseArea()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::ai::FieldComputations::pointIsInDefenseArea </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt_world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>point</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>margin</em> = <code>0.0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>backMargin</em> = <code>0.0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Determines whether a given point is in either defense area </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">field</td><td>The field class which is used to determine the position of the defense areas. </td></tr>
-    <tr><td class="paramname">point</td><td>The point for which it is checked whether it is in our/their defense area. </td></tr>
-    <tr><td class="paramname">margin</td><td>The outwards margin in which the defence area will be expanded/shrunk in all directions (except for the goal line in the x-direction). A positive value means that it will be expanded, a negative value means that it will be shrunk. </td></tr>
-    <tr><td class="paramname">backMargin</td><td>The margin that the goal line will be expanded in the x-direction (+ value -&gt; expand to outside of the field, - value -&gt; shrink to inside the field) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the point is in either defence area (after adding margins), false otherwise </dd></dl>
 
 </div>
 </div>

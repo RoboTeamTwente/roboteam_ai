@@ -7,7 +7,6 @@ var classrtt_1_1BB_1_1WorldObjects =
     [ "calculateFieldCollisions", "classrtt_1_1BB_1_1WorldObjects.html#ac31a685e3e1cbd603e1d860d49a2be6b", null ],
     [ "calculateOurRobotCollisions", "classrtt_1_1BB_1_1WorldObjects.html#a4ae6694ed0965b91d22d5336d291beb4", null ],
     [ "getFirstCollision", "classrtt_1_1BB_1_1WorldObjects.html#ae9d7cbda2fd58e9aafbb6763219e1ad4", null ],
-    [ "getFirstCollisionDiscretized", "classrtt_1_1BB_1_1WorldObjects.html#a81ba0f930ddebc4545446756b475e7cf", null ],
     [ "insertCollisionData", "classrtt_1_1BB_1_1WorldObjects.html#a3fa9177b94de829a8a7cce0b5d7ff4f3", null ],
     [ "gameState", "classrtt_1_1BB_1_1WorldObjects.html#a166ea79d07b3379374c3c9a3f0df89fd", null ],
     [ "gameStateManager", "classrtt_1_1BB_1_1WorldObjects.html#a1bae573dc843db2d2dc90d2717807ac8", null ],

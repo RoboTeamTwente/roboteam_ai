@@ -8,8 +8,6 @@ var annotated_dup =
           [ "CollisionDetector", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html", "classrtt_1_1ai_1_1control_1_1CollisionDetector" ],
           [ "NumTreesPlanning", "classrtt_1_1ai_1_1control_1_1NumTreesPlanning.html", "classrtt_1_1ai_1_1control_1_1NumTreesPlanning" ],
           [ "PathPlanningAlgorithm", "classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm.html", "classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm" ],
-          [ "GraphNode", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1GraphNode", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1GraphNode_dup" ],
-          [ "VoronoiPathPlanning", "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html", "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning" ],
           [ "PathPointNode", "classrtt_1_1ai_1_1control_1_1PathPointNode.html", "classrtt_1_1ai_1_1control_1_1PathPointNode" ],
           [ "BBTPathTracking", "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html", "classrtt_1_1ai_1_1control_1_1BBTPathTracking" ],
           [ "DensePathTracking", "classrtt_1_1ai_1_1control_1_1DensePathTracking.html", "classrtt_1_1ai_1_1control_1_1DensePathTracking" ],
@@ -88,8 +86,7 @@ var annotated_dup =
             [ "BlockingEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation" ],
             [ "GoalShotEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation" ],
             [ "LineOfSightEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1LineOfSightEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1LineOfSightEvaluation" ],
-            [ "OpennessEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation" ],
-            [ "TimeToPositionEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeToPositionEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeToPositionEvaluation" ]
+            [ "OpennessEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation" ]
           ] ],
           [ "gen", "namespacertt_1_1ai_1_1stp_1_1gen.html", [
             [ "PositionScores", "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1PositionScores", "namespacertt_1_1ai_1_1stp_1_1gen_structrtt_1_1ai_1_1stp_1_1gen_1_1PositionScores_dup" ],
@@ -98,14 +95,11 @@ var annotated_dup =
             [ "StoreInfo", "namespacertt_1_1ai_1_1stp_1_1gen.html#structrtt_1_1ai_1_1stp_1_1gen_1_1StoreInfo", "namespacertt_1_1ai_1_1stp_1_1gen_structrtt_1_1ai_1_1stp_1_1gen_1_1StoreInfo_dup" ]
           ] ],
           [ "play", "namespacertt_1_1ai_1_1stp_1_1play.html", [
-            [ "GetBallPossession", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession" ],
-            [ "GetBallRisky", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky" ],
             [ "DefendPass", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass" ],
             [ "DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot" ],
             [ "KeeperKickBall", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall" ],
             [ "Attack", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack" ],
             [ "AttackingPass", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass" ],
-            [ "GenericPass", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass" ],
             [ "PlayTemplate", "classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate" ],
             [ "AggressiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html", "classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation" ],
             [ "BallPlacementThem", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem" ],
@@ -123,15 +117,11 @@ var annotated_dup =
             [ "PenaltyThem", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThem.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThem" ],
             [ "PenaltyThemPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThemPrepare.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThemPrepare" ],
             [ "PenaltyUs", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs" ],
-            [ "PenaltyUsPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare" ],
-            [ "TimeOut", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut" ],
-            [ "ReflectKick", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick" ]
+            [ "PenaltyUsPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare" ]
           ] ],
           [ "role", "namespacertt_1_1ai_1_1stp_1_1role.html", [
             [ "Attacker", "classrtt_1_1ai_1_1stp_1_1role_1_1Attacker.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Attacker" ],
-            [ "BallGetter", "classrtt_1_1ai_1_1stp_1_1role_1_1BallGetter.html", "classrtt_1_1ai_1_1stp_1_1role_1_1BallGetter" ],
             [ "BallPlacer", "classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer.html", "classrtt_1_1ai_1_1stp_1_1role_1_1BallPlacer" ],
-            [ "BallReflector", "classrtt_1_1ai_1_1stp_1_1role_1_1BallReflector.html", "classrtt_1_1ai_1_1stp_1_1role_1_1BallReflector" ],
             [ "FreeKickTaker", "classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker.html", "classrtt_1_1ai_1_1stp_1_1role_1_1FreeKickTaker" ],
             [ "Harasser", "classrtt_1_1ai_1_1stp_1_1role_1_1Harasser.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Harasser" ],
             [ "KeeperPasser", "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html", "classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser" ],
@@ -143,38 +133,30 @@ var annotated_dup =
             [ "Formation", "classrtt_1_1ai_1_1stp_1_1role_1_1Formation.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Formation" ],
             [ "Halt", "classrtt_1_1ai_1_1stp_1_1role_1_1Halt.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Halt" ],
             [ "RobotDefender", "classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender.html", "classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender" ],
-            [ "Waller", "classrtt_1_1ai_1_1stp_1_1role_1_1Waller.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Waller" ],
             [ "PenaltyKeeper", "classrtt_1_1ai_1_1stp_1_1role_1_1PenaltyKeeper.html", "classrtt_1_1ai_1_1stp_1_1role_1_1PenaltyKeeper" ]
           ] ],
           [ "skill", "namespacertt_1_1ai_1_1stp_1_1skill.html", [
-            [ "Chip", "classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Chip" ],
             [ "GoToPos", "classrtt_1_1ai_1_1stp_1_1skill_1_1GoToPos.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1GoToPos" ],
             [ "Kick", "classrtt_1_1ai_1_1stp_1_1skill_1_1Kick.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Kick" ],
             [ "Orbit", "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit" ],
             [ "OrbitAngular", "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular" ],
             [ "Rotate", "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Rotate" ],
-            [ "Shoot", "classrtt_1_1ai_1_1stp_1_1skill_1_1Shoot.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1Shoot" ],
             [ "TestSkill", "classrtt_1_1ai_1_1stp_1_1skill_1_1TestSkill.html", "classrtt_1_1ai_1_1stp_1_1skill_1_1TestSkill" ]
           ] ],
           [ "tactic", "namespacertt_1_1ai_1_1stp_1_1tactic.html", [
-            [ "ChipAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ChipAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ChipAtPos" ],
             [ "DriveWithBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall" ],
             [ "GetBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall" ],
             [ "GetBehindBallInDirection", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBehindBallInDirection" ],
             [ "KickAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KickAtPos" ],
             [ "OrbitKick", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick" ],
             [ "Receive", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive" ],
-            [ "ShootAtPos", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos" ],
-            [ "Intercept", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept" ],
             [ "KeeperBlockBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall" ],
             [ "AvoidBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1AvoidBall" ],
             [ "BallStandBack", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BallStandBack.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BallStandBack" ],
             [ "BlockBall", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockBall.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockBall" ],
             [ "BlockRobot", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1BlockRobot" ],
             [ "Formation", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation" ],
-            [ "Halt", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Halt.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Halt" ],
-            [ "Walling", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling" ],
-            [ "PositionAndAim", "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim" ]
+            [ "Halt", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Halt.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Halt" ]
           ] ],
           [ "ComputationManager", "classrtt_1_1ai_1_1stp_1_1ComputationManager.html", "classrtt_1_1ai_1_1stp_1_1ComputationManager" ],
           [ "PassInfo", "namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1PassInfo", "namespacertt_1_1ai_1_1stp_structrtt_1_1ai_1_1stp_1_1PassInfo_dup" ],
@@ -183,7 +165,6 @@ var annotated_dup =
           [ "Play", "classrtt_1_1ai_1_1stp_1_1Play.html", "classrtt_1_1ai_1_1stp_1_1Play" ],
           [ "PlayDecider", "classrtt_1_1ai_1_1stp_1_1PlayDecider.html", "classrtt_1_1ai_1_1stp_1_1PlayDecider" ],
           [ "PlayEvaluator", "classrtt_1_1ai_1_1stp_1_1PlayEvaluator.html", "classrtt_1_1ai_1_1stp_1_1PlayEvaluator" ],
-          [ "TestPlay", "classrtt_1_1ai_1_1stp_1_1TestPlay.html", "classrtt_1_1ai_1_1stp_1_1TestPlay" ],
           [ "Role", "classrtt_1_1ai_1_1stp_1_1Role.html", "classrtt_1_1ai_1_1stp_1_1Role" ],
           [ "TestRole", "classrtt_1_1ai_1_1stp_1_1TestRole.html", "classrtt_1_1ai_1_1stp_1_1TestRole" ],
           [ "Skill", "classrtt_1_1ai_1_1stp_1_1Skill.html", "classrtt_1_1ai_1_1stp_1_1Skill" ],
@@ -249,18 +230,6 @@ var annotated_dup =
       [ "FieldHelper", "classtesthelpers_1_1FieldHelper.html", "classtesthelpers_1_1FieldHelper" ],
       [ "WorldHelper", "classtesthelpers_1_1WorldHelper.html", "classtesthelpers_1_1WorldHelper" ]
     ] ],
-    [ "jcv_cast_align_struct", "Voronoi_8h.html#unionjcv__cast__align__struct", "Voronoi_8h_unionjcv__cast__align__struct" ],
-    [ "jcv_clipper", "Voronoi_8h.html#struct__jcv__clipper", "Voronoi_8h_struct__jcv__clipper" ],
-    [ "jcv_context_internal", "Voronoi_8h.html#struct__jcv__context__internal", "Voronoi_8h_struct__jcv__context__internal" ],
-    [ "jcv_diagram", "Voronoi_8h.html#struct__jcv__diagram", "Voronoi_8h_struct__jcv__diagram" ],
-    [ "jcv_edge", "Voronoi_8h.html#struct__jcv__edge", "Voronoi_8h_struct__jcv__edge" ],
-    [ "jcv_graphedge", "Voronoi_8h.html#struct__jcv__graphedge", "Voronoi_8h_struct__jcv__graphedge" ],
-    [ "jcv_halfedge", "Voronoi_8h.html#structjcv__halfedge", "Voronoi_8h_structjcv__halfedge" ],
-    [ "jcv_memoryblock", "Voronoi_8h.html#structjcv__memoryblock", "Voronoi_8h_structjcv__memoryblock" ],
-    [ "jcv_point", "Voronoi_8h.html#struct__jcv__point", "Voronoi_8h_struct__jcv__point" ],
-    [ "jcv_priorityqueue", "Voronoi_8h.html#structjcv__priorityqueue", "Voronoi_8h_structjcv__priorityqueue" ],
-    [ "jcv_rect", "Voronoi_8h.html#struct__jcv__rect", "Voronoi_8h_struct__jcv__rect" ],
-    [ "jcv_site", "Voronoi_8h.html#struct__jcv__site", "Voronoi_8h_struct__jcv__site" ],
     [ "MockTactic", "classMockTactic.html", "classMockTactic" ],
     [ "RTT_AI_Tests", "classRTT__AI__Tests.html", "classRTT__AI__Tests" ],
     [ "TestSkill", "classTestSkill.html", "classTestSkill" ]

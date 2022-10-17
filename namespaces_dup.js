@@ -1,7 +1,6 @@
 var namespaces_dup =
 [
     [ "roboteam_utils", "namespaceroboteam__utils.html", [
-      [ "mm_to_m", "namespaceroboteam__utils.html#a379a4d9467f5ce5c50ccdfdf9641071a", null ],
       [ "rotate", "namespaceroboteam__utils.html#aa09e3d2031464816b0791edb97a74655", null ],
       [ "rotate", "namespaceroboteam__utils.html#ab16e1f5fe9cc4e3872921bd2fd3fac10", null ],
       [ "rotate", "namespaceroboteam__utils.html#ae486ea1ab02997e32561099649262d7a", null ],

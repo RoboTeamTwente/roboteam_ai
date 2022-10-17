@@ -35,7 +35,6 @@ var PlayEvaluator_8h =
       [ "BallOnTheirSide", "PlayEvaluator_8h.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a52e638a2d35b495523933ae29854444b", null ],
       [ "BallInOurDefenseAreaAndStill", "PlayEvaluator_8h.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a310169b790806221862dfaac167191b8", null ],
       [ "BallNotInOurDefenseAreaAndStill", "PlayEvaluator_8h.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a5fb2385fbd0166e0c9d58c7921526f34", null ],
-      [ "BallShotOrCloseToThem", "PlayEvaluator_8h.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a1a1caf0b53bf83178e0753300587ed4c", null ],
       [ "DistanceFromBall", "PlayEvaluator_8h.html#a9b1a79ba58c1300d9f6f0e073f9d7db2ad51ff90a12d29afbe00c85d2af387945", null ],
       [ "FreedomOfRobots", "PlayEvaluator_8h.html#a9b1a79ba58c1300d9f6f0e073f9d7db2abe8f556061f5ee5c3439ebd5e9707216", null ],
       [ "GoalVisionFromBall", "PlayEvaluator_8h.html#a9b1a79ba58c1300d9f6f0e073f9d7db2a6fba6016b854c0c8ab1899f15bf9a6de", null ],

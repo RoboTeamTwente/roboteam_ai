@@ -8,7 +8,6 @@ var classrtt_1_1BB_1_1BBTrajectory1D =
     [ "getAcceleration", "classrtt_1_1BB_1_1BBTrajectory1D.html#ae27fbb9778792333e48980525e08e7cf", null ],
     [ "getParts", "classrtt_1_1BB_1_1BBTrajectory1D.html#a352197ae1db0b8b32db86008044d728c", null ],
     [ "getPosition", "classrtt_1_1BB_1_1BBTrajectory1D.html#af073c5d73169926ee80522793cae0c88", null ],
-    [ "getTimeCurrentPart1D", "classrtt_1_1BB_1_1BBTrajectory1D.html#a8eaa897fa509fc920b920657b1457cc3", null ],
     [ "getTotalTime", "classrtt_1_1BB_1_1BBTrajectory1D.html#a0603d33e5925737ade7e96b8c84ff25b", null ],
     [ "getValues", "classrtt_1_1BB_1_1BBTrajectory1D.html#a06e8ec8f94b4b391931b41b0b06cb123", null ],
     [ "getVelocity", "classrtt_1_1BB_1_1BBTrajectory1D.html#a218a6e4955fa15e521514826bbb5df3a", null ],
@@ -17,9 +16,6 @@ var classrtt_1_1BB_1_1BBTrajectory1D =
     [ "triangularProfile", "classrtt_1_1BB_1_1BBTrajectory1D.html#ae0a23dfd3c949008d8d488cf0800fd3d", null ],
     [ "updatePart", "classrtt_1_1BB_1_1BBTrajectory1D.html#a6e81961776ee7bb99c759da6344e02ed", null ],
     [ "finalPos", "classrtt_1_1BB_1_1BBTrajectory1D.html#a6f2f0338ed2bca4cdcfd984d85d81716", null ],
-    [ "initialPos", "classrtt_1_1BB_1_1BBTrajectory1D.html#abfe9badcff0eef5b062535c3bd8e093a", null ],
-    [ "initialVel", "classrtt_1_1BB_1_1BBTrajectory1D.html#a3acc2db5f05147cc0bf4954325ca509c", null ],
-    [ "maxAcc", "classrtt_1_1BB_1_1BBTrajectory1D.html#a75a635db21bd0de3fac32d17aec75d2d", null ],
     [ "maxVel", "classrtt_1_1BB_1_1BBTrajectory1D.html#abf0d066cf359054865fbd07b10862905", null ],
     [ "numParts", "classrtt_1_1BB_1_1BBTrajectory1D.html#aaa3945cdf962a0d28aa368d8dd646b34", null ],
     [ "parts", "classrtt_1_1BB_1_1BBTrajectory1D.html#a1952241c8302ca3670706202f2a05e4e", null ]

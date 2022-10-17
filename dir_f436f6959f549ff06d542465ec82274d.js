@@ -50,8 +50,5 @@ var dir_f436f6959f549ff06d542465ec82274d =
     ] ],
     [ "PenaltyUsPrepare.h", "PenaltyUsPrepare_8h.html", [
       [ "PenaltyUsPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare" ]
-    ] ],
-    [ "TimeOut.h", "TimeOut_8h.html", [
-      [ "TimeOut", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut" ]
     ] ]
 ];

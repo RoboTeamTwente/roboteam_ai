@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['maincontrolswidget_2341',['MainControlsWidget',['../classrtt_1_1ai_1_1interface_1_1MainControlsWidget.html',1,'rtt::ai::interface']]],
-  ['mainwindow_2342',['MainWindow',['../classrtt_1_1ai_1_1interface_1_1MainWindow.html',1,'rtt::ai::interface']]],
-  ['manualcontrolwidget_2343',['ManualControlWidget',['../classrtt_1_1ai_1_1interface_1_1ManualControlWidget.html',1,'rtt::ai::interface']]],
-  ['mocktactic_2344',['MockTactic',['../classMockTactic.html',1,'']]]
+  ['nogoalvisionfromballglobalevaluation_1942',['NoGoalVisionFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1NoGoalVisionFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['normalorfreekickusgamestateevaluation_1943',['NormalOrFreeKickUsGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1NormalOrFreeKickUsGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['normalplaygamestateevaluation_1944',['NormalPlayGameStateEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1NormalPlayGameStateEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['numtreesplanning_1945',['NumTreesPlanning',['../classrtt_1_1ai_1_1control_1_1NumTreesPlanning.html',1,'rtt::ai::control']]]
 ];

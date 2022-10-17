@@ -5,7 +5,6 @@ var structrtt_1_1ai_1_1RefGameState =
     [ "getRuleSet", "structrtt_1_1ai_1_1RefGameState.html#a78322939ad4a90d9184fa9deee7d5607", null ],
     [ "getStrategyName", "structrtt_1_1ai_1_1RefGameState.html#a659a0bd20fb301add0b094902d123069", null ],
     [ "hasFollowUpCommand", "structrtt_1_1ai_1_1RefGameState.html#ac826243573eba96d270835057d933e40", null ],
-    [ "ballPlacerId", "structrtt_1_1ai_1_1RefGameState.html#ab07e0d90692a838f4a474614785776d0", null ],
     [ "commandId", "structrtt_1_1ai_1_1RefGameState.html#ae8d388941cca4a6780b1a4d88de533aa", null ],
     [ "followUpCommandId", "structrtt_1_1ai_1_1RefGameState.html#a134b0ed0630b2fba3fe874e08d487844", null ],
     [ "isfollowUpCommand", "structrtt_1_1ai_1_1RefGameState.html#a4f5c8f0665ed69c4a1b67fd30d307b59", null ],

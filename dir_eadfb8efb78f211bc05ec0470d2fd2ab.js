@@ -11,8 +11,5 @@ var dir_eadfb8efb78f211bc05ec0470d2fd2ab =
     ] ],
     [ "OpennessEvaluation.h", "OpennessEvaluation_8h.html", [
       [ "OpennessEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation" ]
-    ] ],
-    [ "TimeToPositionEvaluation.h", "TimeToPositionEvaluation_8h.html", [
-      [ "TimeToPositionEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeToPositionEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeToPositionEvaluation" ]
     ] ]
 ];

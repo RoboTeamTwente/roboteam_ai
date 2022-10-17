@@ -15,7 +15,6 @@ var namespacertt_1_1ai =
     [ "BallPossession", "classrtt_1_1ai_1_1BallPossession.html", "classrtt_1_1ai_1_1BallPossession" ],
     [ "FieldComputations", "classrtt_1_1ai_1_1FieldComputations.html", "classrtt_1_1ai_1_1FieldComputations" ],
     [ "pidVals", "namespacertt_1_1ai.html#acc65523a472ce38a6f294d661c234725", null ],
-    [ "util", "namespacertt_1_1ai.html#a3425a916c75e6652c1ec69cf1a46e2c8", null ],
     [ "DealerFlagPriority", "namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617", [
       [ "LOW_PRIORITY", "namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617a22fdb5e22079d83faa87d80ea2165e0e", null ],
       [ "MEDIUM_PRIORITY", "namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617a307477ed458f1be90c98bc864d361f88", null ],

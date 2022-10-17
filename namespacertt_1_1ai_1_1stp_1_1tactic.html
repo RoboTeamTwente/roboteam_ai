@@ -92,13 +92,11 @@ $(document).ready(function(){initNavTree('namespacertt_1_1ai_1_1stp_1_1tactic.ht
 </div><!--header-->
 <div class="contents">
 
-<p>Rotates (with dribbler) the robot if needed to target angle then calculates the power to CHIP the BALL with.  
+<p>ACTIVE.  
 <a href="namespacertt_1_1ai_1_1stp_1_1tactic.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1ChipAtPos.html">ChipAtPos</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html">DriveWithBall</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1GetBall.html">GetBall</a></td></tr>
@@ -110,10 +108,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html">OrbitKick</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1Receive.html">Receive</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1ShootAtPos.html">ShootAtPos</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1Intercept.html">Intercept</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1KeeperBlockBall.html">KeeperBlockBall</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,10 +122,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1Formation.html">Formation</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1Halt.html">Halt</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html">Walling</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1tactic_1_1PositionAndAim.html">PositionAndAim</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -148,20 +138,16 @@ Variables</h2></td></tr>
 <tr class="separator:ac175fe0237ffc965210b36f9b58ef4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Rotates (with dribbler) the robot if needed to target angle then calculates the power to CHIP the BALL with. </p>
-<p>TODO-Max remove, made from other blocks (getBallInDirection?)</p>
+<div class="textblock"><p>ACTIVE. </p>
 <p>ROTATES robot to face forwards.</p>
 <p>PASSIVE.</p>
 <p>Places our robot between the ball and a given target position (either enemy robot or position to defend)</p>
 <p>Draws a circle around the ball, Robot will stay out of the circle (getting pushed back). Angle is forced on 0 degrees.</p>
-<p>TODO-Max the position should be determined within the tactic to Specify the tactic.</p>
-<p>Rotates (with dribbler) the robot if needed to target angle then calculates the power to SHOOT the BALL with.</p>
 <p>TODO-Max compare to getBall.</p>
 <p>Rotates (with dribbler) the robot if needed to target angle then calculates the power to KICK the BALL with.</p>
 <p>Moves the robot to the BALL in a straight line and ROTATES the robot towards to ball.</p>
-<p>ACTIVE.</p>
-<p>ACTIVE</p>
 <p>Rotates the target position and drives towards it TODO-Max Add functionallity of backwards dribbling TODO-Max Dynamic dribblerspeed</p>
+<p>ACTIVE</p>
 <p>PASSIVE</p>
 <p>Places a robot between a given TARGET and a given ENEMY at a distance from the the ENEMY PASSIVE</p>
 <p>Goes to a give POSITION and ROTATEs to face forwards TODO-Max Make angle an optional info </p>

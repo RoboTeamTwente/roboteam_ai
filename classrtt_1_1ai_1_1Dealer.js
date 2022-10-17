@@ -29,8 +29,6 @@ var classrtt_1_1ai_1_1Dealer =
     [ "getRobotScoreForRole", "classrtt_1_1ai_1_1Dealer.html#a48f8a83a81876b4ce07afeaa65cb2e3b", null ],
     [ "getScoreMatrix", "classrtt_1_1ai_1_1Dealer.html#ac12d70a58bd77b035de627742eca229e", null ],
     [ "getWeightForPriority", "classrtt_1_1ai_1_1Dealer.html#a762b4d101aad1fb00a37c33990dc6fe9", null ],
-    [ "printCostMatrix", "classrtt_1_1ai_1_1Dealer.html#a7f28242ecd1b99fc8cbf237e90d5ca0f", null ],
-    [ "priorityToString", "classrtt_1_1ai_1_1Dealer.html#a4beea62b7ff73f3ec26be5fe8bcf967f", null ],
     [ "setGameStateRoleIds", "classrtt_1_1ai_1_1Dealer.html#a18c5060ec7b4d6baa7f4b19b71579ea8", null ],
     [ "field", "classrtt_1_1ai_1_1Dealer.html#af4e9f47b8b0d33109511ad73298f71cb", null ],
     [ "world", "classrtt_1_1ai_1_1Dealer.html#a10b762714097d7afe3ad688f418538fd", null ]

@@ -6,7 +6,6 @@ var classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations =
     [ "getKeeperId", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#aa54e3d817f4c0b62207b29cf39c58302", null ],
     [ "getPasserId", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6a66f6eadf80387d1a2fb17ecef2827c", null ],
     [ "getPassGrid", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#ac585248e2a5d032b0a634b7872935cd4", null ],
-    [ "pathHasAnyRobots", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a0626a2255f37ab5815ae87164eb6bbb8", null ],
     [ "pointIsValidPassLocation", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a3d9d2ef21a8668a9bd471d378ee71106", null ],
     [ "scorePass", "classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6b4617276cfe62f74480e908a3678627", null ]
 ];

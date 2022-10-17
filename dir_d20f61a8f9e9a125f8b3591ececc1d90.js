@@ -17,8 +17,5 @@ var dir_d20f61a8f9e9a125f8b3591ececc1d90 =
     ] ],
     [ "Halt.h", "tactics_2passive_2Halt_8h.html", [
       [ "Halt", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Halt.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Halt" ]
-    ] ],
-    [ "Walling.h", "Walling_8h.html", [
-      [ "Walling", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling.html", "classrtt_1_1ai_1_1stp_1_1tactic_1_1Walling" ]
     ] ]
 ];

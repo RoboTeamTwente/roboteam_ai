@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['chip_2263',['Chip',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Chip.html',1,'rtt::ai::stp::skill']]],
-  ['chipatpos_2264',['ChipAtPos',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1ChipAtPos.html',1,'rtt::ai::stp::tactic']]],
-  ['collisiondata_2265',['CollisionData',['../namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData',1,'rtt::BB']]],
-  ['collisiondetector_2266',['CollisionDetector',['../classrtt_1_1ai_1_1control_1_1CollisionDetector.html',1,'rtt::ai::control']]],
-  ['commandcollision_2267',['CommandCollision',['../namespacertt_1_1BB.html#structrtt_1_1BB_1_1CommandCollision',1,'rtt::BB']]],
-  ['computationmanager_2268',['ComputationManager',['../classrtt_1_1ai_1_1stp_1_1ComputationManager.html',1,'rtt::ai::stp']]],
-  ['constants_2269',['Constants',['../classrtt_1_1ai_1_1Constants.html',1,'rtt::ai']]],
-  ['controlmodule_2270',['ControlModule',['../classrtt_1_1ai_1_1control_1_1ControlModule.html',1,'rtt::ai::control']]],
-  ['controlutils_2271',['ControlUtils',['../classrtt_1_1ai_1_1control_1_1ControlUtils.html',1,'rtt::ai::control']]]
+  ['dealer_1878',['Dealer',['../classrtt_1_1ai_1_1Dealer.html',1,'rtt::ai']]],
+  ['dealerflag_1879',['DealerFlag',['../structrtt_1_1ai_1_1Dealer_1_1DealerFlag.html',1,'rtt::ai::Dealer']]],
+  ['defendpass_1880',['DefendPass',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html',1,'rtt::ai::stp::play']]],
+  ['defendshot_1881',['DefendShot',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html',1,'rtt::ai::stp::play']]],
+  ['defensivestopformation_1882',['DefensiveStopFormation',['../classrtt_1_1ai_1_1stp_1_1play_1_1DefensiveStopFormation.html',1,'rtt::ai::stp::play']]],
+  ['densepathtracking_1883',['DensePathTracking',['../classrtt_1_1ai_1_1control_1_1DensePathTracking.html',1,'rtt::ai::control']]],
+  ['distancefromballglobalevaluation_1884',['DistanceFromBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1DistanceFromBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['drawing_1885',['Drawing',['../structrtt_1_1ai_1_1interface_1_1Drawing.html',1,'rtt::ai::interface']]],
+  ['drivewithball_1886',['DriveWithBall',['../classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html',1,'rtt::ai::stp::tactic']]]
 ];

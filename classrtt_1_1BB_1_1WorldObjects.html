@@ -102,9 +102,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae9d7cbda2fd58e9aafbb6763219e1ad4"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#ae9d7cbda2fd58e9aafbb6763219e1ad4">getFirstCollision</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field, const <a class="el" href="classrtt_1_1Trajectory2D.html">rtt::Trajectory2D</a> &amp;Trajectory, const std::unordered_map&lt; int, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;computedPaths, int robotId, <a class="el" href="namespacertt_1_1ai_1_1stp.html#structrtt_1_1ai_1_1stp_1_1AvoidObjects">ai::stp::AvoidObjects</a> avoidObjects)</td></tr>
 <tr class="memdesc:ae9d7cbda2fd58e9aafbb6763219e1ad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the position of the first collision and the obstacle position on a BangBangTrajectory.  <a href="classrtt_1_1BB_1_1WorldObjects.html#ae9d7cbda2fd58e9aafbb6763219e1ad4">More...</a><br /></td></tr>
 <tr class="separator:ae9d7cbda2fd58e9aafbb6763219e1ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81ba0f930ddebc4545446756b475e7cf"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#a81ba0f930ddebc4545446756b475e7cf">getFirstCollisionDiscretized</a> (const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *world, const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field, const std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;discretizedTrajectoryPosVel, const std::unordered_map&lt; int, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;computedPaths, int robotId, double timeStep)</td></tr>
-<tr class="memdesc:a81ba0f930ddebc4545446756b475e7cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the position of the first collision and the obstacle position on a BangBangTrajectory.  <a href="classrtt_1_1BB_1_1WorldObjects.html#a81ba0f930ddebc4545446756b475e7cf">More...</a><br /></td></tr>
-<tr class="separator:a81ba0f930ddebc4545446756b475e7cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac31a685e3e1cbd603e1d860d49a2be6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1WorldObjects.html#ac31a685e3e1cbd603e1d860d49a2be6b">calculateFieldCollisions</a> (const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;field, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a> &gt; &amp;collisionDatas, const std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &amp;pathPoints, int robotId, double timeStep)</td></tr>
 <tr class="memdesc:ac31a685e3e1cbd603e1d860d49a2be6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a calculated path of a robot and checks points along the path if they are outside the fieldlines if not allowed there. Adds these points and the time to collisionDatas and collisionTimes.  <a href="classrtt_1_1BB_1_1WorldObjects.html#ac31a685e3e1cbd603e1d860d49a2be6b">More...</a><br /></td></tr>
 <tr class="separator:ac31a685e3e1cbd603e1d860d49a2be6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -528,72 +525,6 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">computedPaths</td><td>the paths of our robots </td></tr>
     <tr><td class="paramname">robotId</td><td></td></tr>
     <tr><td class="paramname">avoidObjects</td><td>a struct with if it should avoid certain objects </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>optional with <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">rtt::BB::CollisionData</a> </dd></dl>
-
-</div>
-</div>
-<a id="a81ba0f930ddebc4545446756b475e7cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81ba0f930ddebc4545446756b475e7cf">&#9670;&nbsp;</a></span>getFirstCollisionDiscretized()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1CollisionData">CollisionData</a>&gt; rtt::BB::WorldObjects::getFirstCollisionDiscretized </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1World.html">rtt::world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1world_1_1Field.html">rtt::world::Field</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>discretizedTrajectoryPosVel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::unordered_map&lt; int, std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>computedPaths</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeStep</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Calculates the position of the first collision and the obstacle position on a BangBangTrajectory. </p>
-<p>Takes a discretized trajectory of a robot and checks the path in certain intervals for collisions </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">world</td><td>the world object used for information about the robots </td></tr>
-    <tr><td class="paramname">field</td><td>used for checking collisions with the field </td></tr>
-    <tr><td class="paramname">BBTrajectory</td><td>the discretized trajectory to check for collisions </td></tr>
-    <tr><td class="paramname">computedPaths</td><td>the paths of our robots </td></tr>
-    <tr><td class="paramname">robotId</td><td></td></tr>
-    <tr><td class="paramname">timeStep</td><td></td></tr>
   </table>
   </dd>
 </dl>

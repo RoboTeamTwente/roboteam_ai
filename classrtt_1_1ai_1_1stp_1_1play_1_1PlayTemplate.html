@@ -118,15 +118,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0adf08e2bc5ab3bd6be9c0d257b1816c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0adf08e2bc5ab3bd6be9c0d257b1816c">calculateInfoForRoles</a> () noexcept override</td></tr>
 <tr class="separator:a0adf08e2bc5ab3bd6be9c0d257b1816c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a459004752c7f2e3abdf37124904c6cc0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a459004752c7f2e3abdf37124904c6cc0">calculateInfoForScoredRoles</a> (<a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *) noexcept override</td></tr>
-<tr class="memdesc:a459004752c7f2e3abdf37124904c6cc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">OPTIONAL -&gt; place to calculateInfoForRoles. Make sure not to compute twice.  <a href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a459004752c7f2e3abdf37124904c6cc0">More...</a><br /></td></tr>
 <tr class="separator:a459004752c7f2e3abdf37124904c6cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a320e3db556958ee4868534e9ea7f0178"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a320e3db556958ee4868534e9ea7f0178">getName</a> () override</td></tr>
-<tr class="separator:a320e3db556958ee4868534e9ea7f0178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a755772b7b7f239da2e33cecd522dfa66"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a755772b7b7f239da2e33cecd522dfa66">getName</a> () override</td></tr>
+<tr class="separator:a755772b7b7f239da2e33cecd522dfa66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a316363b34c7c5f84fdcd7e3ade2f2ba8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a316363b34c7c5f84fdcd7e3ade2f2ba8">storePlayInfo</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#afc45c97a42c443e6884bd95502426d0d">gen::PlayInfos</a> &amp;info) noexcept override</td></tr>
-<tr class="memdesc:a316363b34c7c5f84fdcd7e3ade2f2ba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">OPTIONAL -&gt; place to save information for next play.  <a href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a316363b34c7c5f84fdcd7e3ade2f2ba8">More...</a><br /></td></tr>
 <tr class="separator:a316363b34c7c5f84fdcd7e3ade2f2ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d763e50ca74385381add422b4568227"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0d763e50ca74385381add422b4568227">shouldEndPlay</a> () noexcept override</td></tr>
-<tr class="memdesc:a0d763e50ca74385381add422b4568227"><td class="mdescLeft">&#160;</td><td class="mdescRight">OPTIONAL -&gt; place to compute extra evaluations to end a play.  <a href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0d763e50ca74385381add422b4568227">More...</a><br /></td></tr>
 <tr class="separator:a0d763e50ca74385381add422b4568227"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a193d5fef143c93145b2e1e8f2b2a04f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a193d5fef143c93145b2e1e8f2b2a04f2">initialize</a> (<a class="el" href="namespacertt_1_1ai_1_1stp_1_1gen.html#afc45c97a42c443e6884bd95502426d0d">gen::PlayInfos</a> &amp;previousPlayInfo) noexcept</td></tr>
 <tr class="separator:a193d5fef143c93145b2e1e8f2b2a04f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,9 +200,6 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Constructor that initializes roles with roles that are necessary for this play </p>
-<p>Evaluations that have to be true to be considered when changing plays.</p>
-<p>Evaluations that have to be true to allow the play to continue, otherwise the play will change. Plays can also end using the <a class="el" href="classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html#a0d763e50ca74385381add422b4568227" title="OPTIONAL -&gt; place to compute extra evaluations to end a play.">shouldEndPlay()</a>.</p>
-<p><a class="el" href="classrtt_1_1ai_1_1stp_1_1Role.html">Role</a> creation, the names should be unique. The names are used in the stpInfos-map.</p>
 
 </div>
 </div>
@@ -233,7 +227,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Calculates info for the roles </p>
-<p>Function where are roles get their information, make sure not to compute roles twice.</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a1bff3910044942d4910c9551a7fc3ce1">rtt::ai::stp::Play</a>.</p>
 
@@ -252,7 +245,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">void rtt::ai::stp::play::PlayTemplate::calculateInfoForScoredRoles </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classrtt_1_1world_1_1World.html">world::World</a> *&#160;</td>
-          <td class="paramname"><em>world</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -262,8 +255,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>OPTIONAL -&gt; place to calculateInfoForRoles. Make sure not to compute twice. </p>
 <p>Calculate info for the roles that need to be calculated for scoring </p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#acfb10161677ed02c90d148e63c0ff876">rtt::ai::stp::Play</a>.</p>
@@ -293,8 +284,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Assigns robots to roles of this play </p>
-<p>Flags that have a factor and a weight linked to it, can be given to a role</p>
-<p>Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a85061f4ffd6e1cf9b1b1ac99ae6db082">rtt::ai::stp::Play</a>.</p>
 
@@ -352,8 +341,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a320e3db556958ee4868534e9ea7f0178"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a320e3db556958ee4868534e9ea7f0178">&#9670;&nbsp;</a></span>getName()</h2>
+<a id="a755772b7b7f239da2e33cecd522dfa66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a755772b7b7f239da2e33cecd522dfa66">&#9670;&nbsp;</a></span>getName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,7 +351,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const char * rtt::ai::stp::play::PlayTemplate::getName </td>
+          <td class="memname">const char* rtt::ai::stp::play::PlayTemplate::getName </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -567,8 +556,6 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The score of this play (0-255) </dd></dl>
-<p>DISABLE IF NOT USED</p>
-<p>List of all factors that combined results in an evaluation how good the play is.</p>
 
 <p>Implements <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a9913528363209ccbe66e20b7427b1ea8">rtt::ai::stp::Play</a>.</p>
 
@@ -628,8 +615,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>OPTIONAL -&gt; place to compute extra evaluations to end a play. </p>
 <p>Optional function to force end a play </p><dl class="section return"><dt>Returns</dt><dd>is play should end </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classrtt_1_1ai_1_1stp_1_1Play.html#a8726a464fdb9e614c5cca8c7cd183155">rtt::ai::stp::Play</a>.</p>
@@ -659,8 +644,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>OPTIONAL -&gt; place to save information for next play. </p>
 <p>Optional function to save information for the next play </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">info</td><td>Map-Struct to save info in </td></tr>
@@ -1007,9 +990,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/roboteam_ai/stp/plays/<a class="el" href="PlayTemplate_8h_source.html">PlayTemplate.h</a></li>
-<li>src/stp/plays/<a class="el" href="PlayTemplate_8cpp.html">PlayTemplate.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

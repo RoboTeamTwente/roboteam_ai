@@ -41,6 +41,5 @@ var namespacertt_1_1ai_1_1stp_1_1evaluation =
     [ "BlockingEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1BlockingEvaluation" ],
     [ "GoalShotEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1GoalShotEvaluation" ],
     [ "LineOfSightEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1LineOfSightEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1LineOfSightEvaluation" ],
-    [ "OpennessEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation" ],
-    [ "TimeToPositionEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeToPositionEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1TimeToPositionEvaluation" ]
+    [ "OpennessEvaluation", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html", "classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation" ]
 ];

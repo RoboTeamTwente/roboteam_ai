@@ -1,13 +1,10 @@
 var namespacertt_1_1ai_1_1stp_1_1play =
 [
-    [ "GetBallPossession", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallPossession" ],
-    [ "GetBallRisky", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GetBallRisky" ],
     [ "DefendPass", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendPass" ],
     [ "DefendShot", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html", "classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot" ],
     [ "KeeperKickBall", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html", "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall" ],
     [ "Attack", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack.html", "classrtt_1_1ai_1_1stp_1_1play_1_1Attack" ],
     [ "AttackingPass", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass" ],
-    [ "GenericPass", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass.html", "classrtt_1_1ai_1_1stp_1_1play_1_1GenericPass" ],
     [ "PlayTemplate", "classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PlayTemplate" ],
     [ "AggressiveStopFormation", "classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation.html", "classrtt_1_1ai_1_1stp_1_1play_1_1AggressiveStopFormation" ],
     [ "BallPlacementThem", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem.html", "classrtt_1_1ai_1_1stp_1_1play_1_1BallPlacementThem" ],
@@ -26,8 +23,6 @@ var namespacertt_1_1ai_1_1stp_1_1play =
     [ "PenaltyThemPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThemPrepare.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyThemPrepare" ],
     [ "PenaltyUs", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUs" ],
     [ "PenaltyUsPrepare", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html", "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare" ],
-    [ "TimeOut", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut.html", "classrtt_1_1ai_1_1stp_1_1play_1_1TimeOut" ],
-    [ "ReflectKick", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick.html", "classrtt_1_1ai_1_1stp_1_1play_1_1ReflectKick" ],
     [ "PENALTY_MARK_THEM_X", "namespacertt_1_1ai_1_1stp_1_1play.html#a073cfb0dcce27c69a198183f4eccad10", null ],
     [ "PENALTY_MARK_US_X", "namespacertt_1_1ai_1_1stp_1_1play.html#ac50631db44841dd08ab8857eb1955735", null ]
 ];

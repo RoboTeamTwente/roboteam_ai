@@ -14,8 +14,5 @@ var dir_ea0dbea2cfcacdb37d4d2e6c81cd9262 =
     ] ],
     [ "RobotDefender.h", "RobotDefender_8h.html", [
       [ "RobotDefender", "classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender.html", "classrtt_1_1ai_1_1stp_1_1role_1_1RobotDefender" ]
-    ] ],
-    [ "Waller.h", "Waller_8h.html", [
-      [ "Waller", "classrtt_1_1ai_1_1stp_1_1role_1_1Waller.html", "classrtt_1_1ai_1_1stp_1_1role_1_1Waller" ]
     ] ]
 ];

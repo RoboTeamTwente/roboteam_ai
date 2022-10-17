@@ -2,7 +2,6 @@ var classrtt_1_1ai_1_1interface_1_1MainWindow =
 [
     [ "MainWindow", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a6d1ef5dd9e58b7d489849b1b85ec5cb0", null ],
     [ "clearLayout", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#abfbf4f8c67ca3c2fa9287e5134098972", null ],
-    [ "configureCheckableMenuItem", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#abc68692ebe7ad39b99d0c0e3c66c50dd", null ],
     [ "configureCheckBox", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a0ab5703b4fddb35b138d89fe321cee31", null ],
     [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a8ce70c7037c27e0225c590cd26babcaa", null ],
     [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#acf2c750347cdc7c47e7d1444deca0138", null ],
@@ -10,7 +9,6 @@ var classrtt_1_1ai_1_1interface_1_1MainWindow =
     [ "FRIEND_TEST", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#ab3fa259dce98754473c8e61bbe830f4d", null ],
     [ "setKeeperRole", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a98bf5b2bb5b505edf5ae9dc7642e4d08", null ],
     [ "setPlayForRobot", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a2742f0846df3daa3f57f233edbfae3e1", null ],
-    [ "setTacticForRobot", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a3b727eabc6b17836e16da5bce185e46e", null ],
     [ "updatePlay", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#adee4d712c3781adfda646b1473941a8d", null ],
     [ "updateProcessedVisionPackets", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a75807740cf854c1687a90fcfa5d9025f", null ],
     [ "updateRobotsWidget", "classrtt_1_1ai_1_1interface_1_1MainWindow.html#a55093482bb9b7345518e95227d3af4c5", null ],

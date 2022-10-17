@@ -1,7 +1,5 @@
 var classrtt_1_1ai_1_1GameStateManager =
 [
-    [ "canEnterDefenseArea", "classrtt_1_1ai_1_1GameStateManager.html#a944e10bc3cc33901150f6716de26ebbc", null ],
-    [ "canMoveOutsideField", "classrtt_1_1ai_1_1GameStateManager.html#a95da09d429a5e6e2533cbd4c83d71e82", null ],
     [ "forceNewGameState", "classrtt_1_1ai_1_1GameStateManager.html#aa37f1dbea08a127c3965d2f39d3ac475", null ],
     [ "getCurrentGameState", "classrtt_1_1ai_1_1GameStateManager.html#adc403506e6cf24a6c8c60b0545099f6a", null ],
     [ "getRefereeData", "classrtt_1_1ai_1_1GameStateManager.html#a5748de7bec33e3e323632e2b46f483d5", null ],

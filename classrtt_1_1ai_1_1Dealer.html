@@ -153,10 +153,6 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a03a176cf1ad988aa9439cf26f78f99f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18c5060ec7b4d6baa7f4b19b71579ea8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#a18c5060ec7b4d6baa7f4b19b71579ea8">setGameStateRoleIds</a> (std::unordered_map&lt; std::string, <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">v::RobotView</a> &gt; output)</td></tr>
 <tr class="separator:a18c5060ec7b4d6baa7f4b19b71579ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f28242ecd1b99fc8cbf237e90d5ca0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#a7f28242ecd1b99fc8cbf237e90d5ca0f">printCostMatrix</a> (const std::vector&lt; std::vector&lt; double &gt;&gt; &amp;cost_matrix, const std::vector&lt; std::string &gt; &amp;role_names, const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">v::RobotView</a> &gt; &amp;robots, const <a class="el" href="classrtt_1_1ai_1_1Dealer.html#a239709eb792970c058e595f1340b397d">FlagMap</a> &amp;role_to_flags, const std::vector&lt; int &gt; &amp;row_to_role, const std::vector&lt; int &gt; &amp;col_to_robot)</td></tr>
-<tr class="separator:a7f28242ecd1b99fc8cbf237e90d5ca0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4beea62b7ff73f3ec26be5fe8bcf967f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1Dealer.html#a4beea62b7ff73f3ec26be5fe8bcf967f">priorityToString</a> (<a class="el" href="namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617">DealerFlagPriority</a> priority)</td></tr>
-<tr class="separator:a4beea62b7ff73f3ec26be5fe8bcf967f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -850,112 +846,6 @@ priority</td>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>priority weight </dd></dl>
-
-</div>
-</div>
-<a id="a7f28242ecd1b99fc8cbf237e90d5ca0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f28242ecd1b99fc8cbf237e90d5ca0f">&#9670;&nbsp;</a></span>printCostMatrix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rtt::ai::Dealer::printCostMatrix </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; std::vector&lt; double &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>cost_matrix</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>role_names</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">v::RobotView</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>robots</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classrtt_1_1ai_1_1Dealer.html#a239709eb792970c058e595f1340b397d">FlagMap</a> &amp;&#160;</td>
-          <td class="paramname"><em>role_to_flags</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>row_to_role</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>col_to_robot</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Prints the cost matrix in the following format:</p>
-<p>↓PRIORITY ↓ROLE ID→ 1 2 4 6 7 10 LOW_PRIORITY defender_2 0.34 0.39 0.40 0.42 0.46 0.39 LOW_PRIORITY defender_3 0.34 0.30 0.40 0.46 0.42 0.52 MEDIUM_PRIORITY mid_field_1 0.24 0.20 0.30 0.36 0.32 0.43 MEDIUM_PRIORITY mid_field_2 0.24 0.29 0.30 0.32 0.36 0.30 LOW_PRIORITY offender_1 0.15 0.22 0.16 0.15 0.23 0.11 LOW_PRIORITY offender_2 0.15 0.08 0.16 0.23 0.15 0.32</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cost_matrix</td><td>The cost matrix </td></tr>
-    <tr><td class="paramname">role_names</td><td>All role names when <a class="el" href="classrtt_1_1ai_1_1Dealer.html#a444db4b2230cdcee01993e4146716777">distribute()</a> was called </td></tr>
-    <tr><td class="paramname">robots</td><td>All robots when <a class="el" href="classrtt_1_1ai_1_1Dealer.html#a444db4b2230cdcee01993e4146716777">distribute()</a> was called </td></tr>
-    <tr><td class="paramname">role_to_flags</td><td>Flags and priority of each role </td></tr>
-    <tr><td class="paramname">row_to_role</td><td>Mapping from cost matrix row to role </td></tr>
-    <tr><td class="paramname">col_to_robot</td><td>Mapping from cost matrix column to robot </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a4beea62b7ff73f3ec26be5fe8bcf967f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4beea62b7ff73f3ec26be5fe8bcf967f">&#9670;&nbsp;</a></span>priorityToString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string rtt::ai::Dealer::priorityToString </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacertt_1_1ai.html#a749f4888e489115d32ef0cf1417cd617">DealerFlagPriority</a>&#160;</td>
-          <td class="paramname"><em>priority</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Converts the DealerFlagPriority enum to a string </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">priority</td><td>The priority to cnvert to a string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The string </dd></dl>
 
 </div>
 </div>

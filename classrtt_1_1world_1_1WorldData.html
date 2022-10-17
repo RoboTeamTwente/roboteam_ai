@@ -115,12 +115,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a491e793f82f16ad9f609a55601c3c5ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e8ca4590f251411cc489cf5f3e2ce83"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">view::RobotView</a> &gt; const  &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1WorldData.html#a8e8ca4590f251411cc489cf5f3e2ce83">getThem</a> () const noexcept</td></tr>
 <tr class="separator:a8e8ca4590f251411cc489cf5f3e2ce83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ff33eb2d929985beaf17e758449c82b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html">rtt::world::robot::Robot</a> &gt; const  &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1WorldData.html#a9ff33eb2d929985beaf17e758449c82b">getRobots</a> () const noexcept</td></tr>
-<tr class="separator:a9ff33eb2d929985beaf17e758449c82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b489fc2254c9ded951f37f740081be0"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1BallView.html">view::BallView</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1WorldData.html#a3b489fc2254c9ded951f37f740081be0">getBall</a> () const noexcept</td></tr>
 <tr class="separator:a3b489fc2254c9ded951f37f740081be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab40dc3402f4a0a6253466967ea0dab25"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1WorldData.html#ab40dc3402f4a0a6253466967ea0dab25">weHaveRobots</a> () const noexcept</td></tr>
-<tr class="separator:ab40dc3402f4a0a6253466967ea0dab25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae001f33964e99ee79d239c0bb7287d83"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1RobotView.html">view::RobotView</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1WorldData.html#ae001f33964e99ee79d239c0bb7287d83">getRobotsNonOwning</a> () const noexcept</td></tr>
 <tr class="separator:ae001f33964e99ee79d239c0bb7287d83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52a401755b6d57e7ef10cbb36b3b847c"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1WorldData.html#a52a401755b6d57e7ef10cbb36b3b847c">getTime</a> () const noexcept</td></tr>
@@ -316,33 +312,6 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a9ff33eb2d929985beaf17e758449c82b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ff33eb2d929985beaf17e758449c82b">&#9670;&nbsp;</a></span>getRobots()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="classrtt_1_1world_1_1robot_1_1Robot.html">rtt::world::robot::Robot</a> &gt; const  &amp; rtt::world::WorldData::getRobots </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Gets a constant reference to the owning container of robots </p><dl class="section return"><dt>Returns</dt><dd>this-&gt;robots</dd></dl>
-<p>Modifying either: the container, the contained values -&gt; introduces in dataraces and undefined behavior </p>
-
-</div>
-</div>
 <a id="ae001f33964e99ee79d239c0bb7287d83"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae001f33964e99ee79d239c0bb7287d83">&#9670;&nbsp;</a></span>getRobotsNonOwning()</h2>
 
@@ -524,32 +493,6 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Does exactly what it says, it sets the internal vectors for the views </p>
-
-</div>
-</div>
-<a id="ab40dc3402f4a0a6253466967ea0dab25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab40dc3402f4a0a6253466967ea0dab25">&#9670;&nbsp;</a></span>weHaveRobots()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool rtt::world::WorldData::weHaveRobots </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Check whether we have robots in the field </p><dl class="section return"><dt>Returns</dt><dd>!getWorldData()-&gt;<a class="el" href="classrtt_1_1world_1_1WorldData.html#a491e793f82f16ad9f609a55601c3c5ad">getUs()</a>.empty(); </dd></dl>
 
 </div>
 </div>

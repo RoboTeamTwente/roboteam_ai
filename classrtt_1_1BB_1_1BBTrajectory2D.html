@@ -107,9 +107,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1a8237102635e8d639f0d72e6eefcf75"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a1a8237102635e8d639f0d72e6eefcf75">BBTrajectory2D</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialPos, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialVel, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;finalPos, double maxVel, double maxAcc)</td></tr>
 <tr class="memdesc:a1a8237102635e8d639f0d72e6eefcf75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a roughly time-optimal bang-bang trajectory. This means that the velocity at the final point will be 0. Any points on the trajectory will always satisfy the maxVel and maxAcc constraints.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a1a8237102635e8d639f0d72e6eefcf75">More...</a><br /></td></tr>
 <tr class="separator:a1a8237102635e8d639f0d72e6eefcf75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1895bd9f5e23c2edd375c2cee8f2f441"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a1895bd9f5e23c2edd375c2cee8f2f441">BBTrajectory2D</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialPos, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialVel, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;finalPos, double maxVel, double maxAcc, double alpha)</td></tr>
-<tr class="memdesc:a1895bd9f5e23c2edd375c2cee8f2f441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a bang bang trajectory with a given alpha value. This is NOT time optimal and may give very 'unphysical' paths for high or low alpha value. Don't use this constructor unless you know what you are doing.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a1895bd9f5e23c2edd375c2cee8f2f441">More...</a><br /></td></tr>
-<tr class="separator:a1895bd9f5e23c2edd375c2cee8f2f441"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98cb3b6c749009b9ca98648057461df8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a98cb3b6c749009b9ca98648057461df8">generateSyncedTrajectory</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialPos, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;initialVel, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;finalPos, double maxVel, double maxAcc)</td></tr>
 <tr class="memdesc:a98cb3b6c749009b9ca98648057461df8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a time-optimal bang-bang trajectory. Uses binary search to search over some trajectories to find one where both the x and y dimension take roughly the same amount of time.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a98cb3b6c749009b9ca98648057461df8">More...</a><br /></td></tr>
 <tr class="separator:a98cb3b6c749009b9ca98648057461df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,21 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad485d50284d7e9cbd1af75a98e2c5b68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#ad485d50284d7e9cbd1af75a98e2c5b68">getAcceleration</a> (double t) const</td></tr>
 <tr class="memdesc:ad485d50284d7e9cbd1af75a98e2c5b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the acceleration in the trajectory at time t.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#ad485d50284d7e9cbd1af75a98e2c5b68">More...</a><br /></td></tr>
 <tr class="separator:ad485d50284d7e9cbd1af75a98e2c5b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9b46e3887ddfabdaa8345452ff1aeb5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#ad9b46e3887ddfabdaa8345452ff1aeb5">getStraightLines</a> (unsigned int N) const</td></tr>
-<tr class="memdesc:ad9b46e3887ddfabdaa8345452ff1aeb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function computes a straight line approximation that goes through all the points. This can be useful for e.g. visualization.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#ad9b46e3887ddfabdaa8345452ff1aeb5">More...</a><br /></td></tr>
-<tr class="separator:ad9b46e3887ddfabdaa8345452ff1aeb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c6f793afa8cfd849ec84cd24f61251a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a5c6f793afa8cfd849ec84cd24f61251a">getPathApproach</a> (double timeStep) const</td></tr>
-<tr class="memdesc:a5c6f793afa8cfd849ec84cd24f61251a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Approaches the BangBangTrajectory by dividing the path in points which are separated by timeStep seconds.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a5c6f793afa8cfd849ec84cd24f61251a">More...</a><br /></td></tr>
-<tr class="separator:a5c6f793afa8cfd849ec84cd24f61251a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87fd396c2b9a65d7a485016d2d5b9d27"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a87fd396c2b9a65d7a485016d2d5b9d27">getTotalTime</a> () const</td></tr>
 <tr class="memdesc:a87fd396c2b9a65d7a485016d2d5b9d27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets tEnd of the current part.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a87fd396c2b9a65d7a485016d2d5b9d27">More...</a><br /></td></tr>
 <tr class="separator:a87fd396c2b9a65d7a485016d2d5b9d27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeecedbd34ea921ac9d22ff58f75ba4f7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#aeecedbd34ea921ac9d22ff58f75ba4f7">getVelocityVector</a> (double timeStep) const</td></tr>
-<tr class="memdesc:aeecedbd34ea921ac9d22ff58f75ba4f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector with all the velocities (Vector2) at specified timeSteps.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#aeecedbd34ea921ac9d22ff58f75ba4f7">More...</a><br /></td></tr>
-<tr class="separator:aeecedbd34ea921ac9d22ff58f75ba4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af859a12b44e7e19224cf0e92e4371ffb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#af859a12b44e7e19224cf0e92e4371ffb">getPosVelVector</a> (double timeStep)</td></tr>
-<tr class="memdesc:af859a12b44e7e19224cf0e92e4371ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms the BBTrajectory into a posVelVector at specified timeSteps.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#af859a12b44e7e19224cf0e92e4371ffb">More...</a><br /></td></tr>
-<tr class="separator:af859a12b44e7e19224cf0e92e4371ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a139f60524316e305145a18e4e80c61a8"><td class="memItemLeft" align="right" valign="top">std::pair&lt; std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart">BB::BBTrajectoryPart</a> &gt;, std::vector&lt; <a class="el" href="namespacertt_1_1BB.html#structrtt_1_1BB_1_1BBTrajectoryPart">BB::BBTrajectoryPart</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1BB_1_1BBTrajectory2D.html#a139f60524316e305145a18e4e80c61a8">getParts</a> ()</td></tr>
 <tr class="memdesc:a139f60524316e305145a18e4e80c61a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all the trajectory parts in both dimensions to use in the general trajectory class.  <a href="classrtt_1_1BB_1_1BBTrajectory2D.html#a139f60524316e305145a18e4e80c61a8">More...</a><br /></td></tr>
 <tr class="separator:a139f60524316e305145a18e4e80c61a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,7 +144,7 @@ Private Attributes</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>Rolf </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5539658718dbe79a12d62c3e62c4f0f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5539658718dbe79a12d62c3e62c4f0f9">&#9670;&nbsp;</a></span>BBTrajectory2D() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5539658718dbe79a12d62c3e62c4f0f9">&#9670;&nbsp;</a></span>BBTrajectory2D() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +171,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a1a8237102635e8d639f0d72e6eefcf75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a8237102635e8d639f0d72e6eefcf75">&#9670;&nbsp;</a></span>BBTrajectory2D() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a8237102635e8d639f0d72e6eefcf75">&#9670;&nbsp;</a></span>BBTrajectory2D() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -237,71 +222,6 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">finalPos</td><td>The final position to arrive at. </td></tr>
     <tr><td class="paramname">maxVel</td><td>The maximum allowed velocity for this path. </td></tr>
     <tr><td class="paramname">maxAcc</td><td>The maximum allowed acceleration allowed for the robot on this path </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a1895bd9f5e23c2edd375c2cee8f2f441"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1895bd9f5e23c2edd375c2cee8f2f441">&#9670;&nbsp;</a></span>BBTrajectory2D() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">rtt::BB::BBTrajectory2D::BBTrajectory2D </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>initialPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>initialVel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;&#160;</td>
-          <td class="paramname"><em>finalPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>maxVel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>maxAcc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>alpha</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Computes a bang bang trajectory with a given alpha value. This is NOT time optimal and may give very 'unphysical' paths for high or low alpha value. Don't use this constructor unless you know what you are doing. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">initialPos</td><td>The initial position to start the trajectory from </td></tr>
-    <tr><td class="paramname">initialVel</td><td>The initial velocity to start the trajectory from </td></tr>
-    <tr><td class="paramname">finalPos</td><td>The final position to arrive at. </td></tr>
-    <tr><td class="paramname">maxVel</td><td>The maximum allowed velocity for this path. </td></tr>
-    <tr><td class="paramname">maxAcc</td><td>The maximum allowed acceleration allowed for the robot on this path </td></tr>
-    <tr><td class="paramname">alpha</td><td>The chosen angle, should be between 0 and M_PI_2. Angle 0 gives all of the control to the x dimension whilst at M_PI all of the velocity/acceleration is given to y dimension. </td></tr>
   </table>
   </dd>
 </dl>
@@ -486,33 +406,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5c6f793afa8cfd849ec84cd24f61251a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c6f793afa8cfd849ec84cd24f61251a">&#9670;&nbsp;</a></span>getPathApproach()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::BB::BBTrajectory2D::getPathApproach </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeStep</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Approaches the BangBangTrajectory by dividing the path in points which are separated by timeStep seconds. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">timeStep</td><td>time between pathpoints </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
 <a id="a0c938101b52f486e1a7c1f69a2f9a745"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c938101b52f486e1a7c1f69a2f9a745">&#9670;&nbsp;</a></span>getPosition()</h2>
 
@@ -537,47 +430,6 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Position at time t </dd></dl>
-
-</div>
-</div>
-<a id="af859a12b44e7e19224cf0e92e4371ffb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af859a12b44e7e19224cf0e92e4371ffb">&#9670;&nbsp;</a></span>getPosVelVector()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; std::pair&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a>, <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; &gt; rtt::BB::BBTrajectory2D::getPosVelVector </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeStep</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Transforms the BBTrajectory into a posVelVector at specified timeSteps. </p>
-
-</div>
-</div>
-<a id="ad9b46e3887ddfabdaa8345452ff1aeb5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9b46e3887ddfabdaa8345452ff1aeb5">&#9670;&nbsp;</a></span>getStraightLines()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::BB::BBTrajectory2D::getStraightLines </td>
-          <td>(</td>
-          <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>N</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This function computes a straight line approximation that goes through all the points. This can be useful for e.g. visualization. </p>
-<dl class="section return"><dt>Returns</dt><dd>a vector with N positions spaced equally in time. </dd></dl>
 
 </div>
 </div>
@@ -624,26 +476,6 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Velocity at time t </dd></dl>
-
-</div>
-</div>
-<a id="aeecedbd34ea921ac9d22ff58f75ba4f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeecedbd34ea921ac9d22ff58f75ba4f7">&#9670;&nbsp;</a></span>getVelocityVector()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &gt; rtt::BB::BBTrajectory2D::getVelocityVector </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeStep</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns a vector with all the velocities (Vector2) at specified timeSteps. </p>
 
 </div>
 </div>

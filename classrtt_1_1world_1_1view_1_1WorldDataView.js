@@ -7,11 +7,8 @@ var classrtt_1_1world_1_1view_1_1WorldDataView =
     [ "getBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a8203c9bd78f2187df944d8fc197b43fb", null ],
     [ "getRobotClosestToBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ab2350d86ad487c1abab6d2a7fb10db05", null ],
     [ "getRobotClosestToPoint", "classrtt_1_1world_1_1view_1_1WorldDataView.html#aec86dcb7dfc05ca18d5576b6dec73c72", null ],
-    [ "getRobotClosestToPoint", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a6d9277d2501e30d3c349c9700b359f35", null ],
     [ "getRobotClosestToPoint", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ade24b9a2c4b91f87d16565645a7957f7", null ],
     [ "getRobotForId", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a35c78e7a84b1dfd4ea232de19ab4052a", null ],
-    [ "getRobots", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a0ef60d8003553caebd44804f4d7f11b6", null ],
-    [ "getRobotsForIds", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a3df3e2966a5b91cf6000b36f4e59ea19", null ],
     [ "getRobotsNonOwning", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a4dc2f7aa73992d493796f09a648bc457", null ],
     [ "getThem", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a1474a12c981a19a457646129cff1104a", null ],
     [ "getUs", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a8a6d3a7b870644785d81f147994e6feb", null ],
@@ -20,9 +17,6 @@ var classrtt_1_1world_1_1view_1_1WorldDataView =
     [ "operator->", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ad79d91a85148a2476abbedb003978f94", null ],
     [ "operator=", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ab4686af09a9d62870344d0981f923239", null ],
     [ "operator=", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a6ce21e65563a6d4f75175f2394def34a", null ],
-    [ "ourRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a646049fdd64d4dfee0ea187ced931617", null ],
-    [ "robotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a99c014e076e0665dc2986f8ddb91c1d2", null ],
-    [ "theirRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#ae943384f3cca7e0ca1e1bdcbc1360260", null ],
     [ "whichRobotHasBall", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a859953f059e33bf9dceb327a8dccd629", null ],
     [ "data", "classrtt_1_1world_1_1view_1_1WorldDataView.html#a83f577f86afedffe2d161038916d578a", null ]
 ];

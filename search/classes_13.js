@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['visualizationsettingswidget_2427',['VisualizationSettingsWidget',['../classrtt_1_1ai_1_1interface_1_1VisualizationSettingsWidget.html',1,'rtt::ai::interface']]],
-  ['visualizer_2428',['Visualizer',['../classrtt_1_1ai_1_1interface_1_1Visualizer.html',1,'rtt::ai::interface']]],
-  ['voronoipathplanning_2429',['VoronoiPathPlanning',['../classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html',1,'rtt::ai::control']]]
+  ['wehaveballglobalevaluation_2019',['WeHaveBallGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveBallGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['wehavemajorityglobalevaluation_2020',['WeHaveMajorityGlobalEvaluation',['../classrtt_1_1ai_1_1stp_1_1evaluation_1_1WeHaveMajorityGlobalEvaluation.html',1,'rtt::ai::stp::evaluation']]],
+  ['world_2021',['World',['../classrtt_1_1world_1_1World.html',1,'rtt::world']]],
+  ['worlddata_2022',['WorldData',['../classrtt_1_1world_1_1WorldData.html',1,'rtt::world']]],
+  ['worlddataview_2023',['WorldDataView',['../classrtt_1_1world_1_1view_1_1WorldDataView.html',1,'rtt::world::view']]],
+  ['worldhelper_2024',['WorldHelper',['../classtesthelpers_1_1WorldHelper.html',1,'testhelpers']]],
+  ['worldobjects_2025',['WorldObjects',['../classrtt_1_1BB_1_1WorldObjects.html',1,'rtt::BB']]]
 ];

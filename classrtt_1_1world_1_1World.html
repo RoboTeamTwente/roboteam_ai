@@ -130,8 +130,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adf9650147a181b2db3b37cc6e4f092e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a985f126be0f2907af1c94594bdd3a6c1"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classrtt_1_1world_1_1view_1_1WorldDataView.html">view::WorldDataView</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1World.html#a985f126be0f2907af1c94594bdd3a6c1">getHistoryWorld</a> (size_t ticksAgo) const noexcept</td></tr>
 <tr class="separator:a985f126be0f2907af1c94594bdd3a6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5917443d92fd1d467918bc696ff8a8c7"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1World.html#a5917443d92fd1d467918bc696ff8a8c7">getTimeDifference</a> () const noexcept</td></tr>
-<tr class="separator:a5917443d92fd1d467918bc696ff8a8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4eede1970e8d64b3db0857361d0813ca"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1World.html#a4eede1970e8d64b3db0857361d0813ca">getHistorySize</a> () const noexcept</td></tr>
 <tr class="separator:a4eede1970e8d64b3db0857361d0813ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1637106c9587aa7ab01123bfd02724d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrtt_1_1ai_1_1control_1_1PositionControl.html">ai::control::PositionControl</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1world_1_1World.html#ad1637106c9587aa7ab01123bfd02724d">getRobotPositionController</a> () noexcept</td></tr>
@@ -420,32 +418,6 @@ mtx</td>
 </table>
 </div><div class="memdoc">
 <p>Get a pointer to the general position control, which can be used by all robots. If the object does not exist, it is created </p><dl class="section return"><dt>Returns</dt><dd>position control object. See its documentation for more info </dd></dl>
-
-</div>
-</div>
-<a id="a5917443d92fd1d467918bc696ff8a8c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5917443d92fd1d467918bc696ff8a8c7">&#9670;&nbsp;</a></span>getTimeDifference()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint64_t rtt::world::World::getTimeDifference </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Gets the difference in time between the last tick and the current tick </p><dl class="section return"><dt>Returns</dt><dd>this-&gt;getWorldData()-&gt;getTime() - this-&gt;getHistoryWorld(1)-&gt;getTime(); Time format is in whatever protobuf provides </dd></dl>
 
 </div>
 </div>

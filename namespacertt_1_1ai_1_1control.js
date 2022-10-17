@@ -5,8 +5,6 @@ var namespacertt_1_1ai_1_1control =
     [ "CollisionDetector", "classrtt_1_1ai_1_1control_1_1CollisionDetector.html", "classrtt_1_1ai_1_1control_1_1CollisionDetector" ],
     [ "NumTreesPlanning", "classrtt_1_1ai_1_1control_1_1NumTreesPlanning.html", "classrtt_1_1ai_1_1control_1_1NumTreesPlanning" ],
     [ "PathPlanningAlgorithm", "classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm.html", "classrtt_1_1ai_1_1control_1_1PathPlanningAlgorithm" ],
-    [ "GraphNode", "namespacertt_1_1ai_1_1control.html#structrtt_1_1ai_1_1control_1_1GraphNode", "namespacertt_1_1ai_1_1control_structrtt_1_1ai_1_1control_1_1GraphNode_dup" ],
-    [ "VoronoiPathPlanning", "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning.html", "classrtt_1_1ai_1_1control_1_1VoronoiPathPlanning" ],
     [ "PathPointNode", "classrtt_1_1ai_1_1control_1_1PathPointNode.html", "classrtt_1_1ai_1_1control_1_1PathPointNode" ],
     [ "BBTPathTracking", "classrtt_1_1ai_1_1control_1_1BBTPathTracking.html", "classrtt_1_1ai_1_1control_1_1BBTPathTracking" ],
     [ "DensePathTracking", "classrtt_1_1ai_1_1control_1_1DensePathTracking.html", "classrtt_1_1ai_1_1control_1_1DensePathTracking" ],

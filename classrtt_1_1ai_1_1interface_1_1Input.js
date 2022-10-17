@@ -3,8 +3,6 @@ var classrtt_1_1ai_1_1interface_1_1Input =
     [ "Input", "classrtt_1_1ai_1_1interface_1_1Input.html#ac5469d7d1e4ec4d909b44a423d5afac5", null ],
     [ "~Input", "classrtt_1_1ai_1_1interface_1_1Input.html#a1df42b8fabc4e194e606e251e4ffd077", null ],
     [ "clearDrawings", "classrtt_1_1ai_1_1interface_1_1Input.html#aa04c116afe64c41f055d249652202867", null ],
-    [ "drawData", "classrtt_1_1ai_1_1interface_1_1Input.html#a536be38b9a0ceb22def407599353187b", null ],
-    [ "drawDebugData", "classrtt_1_1ai_1_1interface_1_1Input.html#a514a5d0c60e4eed2821975c3a2dd635f", null ],
     [ "getDrawings", "classrtt_1_1ai_1_1interface_1_1Input.html#ae497b1c2daba9e67cbaaef55caa37b3e", null ],
     [ "getFps", "classrtt_1_1ai_1_1interface_1_1Input.html#ad258c0db0e27b4d4ed5b4445b51e81ba", null ],
     [ "setFps", "classrtt_1_1ai_1_1interface_1_1Input.html#a4ba370255ba0058e6408baa015ff571c", null ],

@@ -1,7 +1,6 @@
 var classrtt_1_1ai_1_1interface_1_1PidBox =
 [
     [ "PidBox", "classrtt_1_1ai_1_1interface_1_1PidBox.html#a256a82e7db0a46b59244e999e4bd52cb", null ],
-    [ "getPid", "classrtt_1_1ai_1_1interface_1_1PidBox.html#a77e31e5d311f0566d3c0b576ac22f6bb", null ],
     [ "pidChanged", "classrtt_1_1ai_1_1interface_1_1PidBox.html#a322b3b46c35c81404a188b118eede489", null ],
     [ "setPid", "classrtt_1_1ai_1_1interface_1_1PidBox.html#af21a0d196087da2d26e6e77ab5bce04e", null ],
     [ "updatePID", "classrtt_1_1ai_1_1interface_1_1PidBox.html#afdfa3e74a536de1de3d13979ce828173", null ],

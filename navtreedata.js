@@ -161,25 +161,22 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AggressiveStopFormation_8cpp.html",
-"DefendShot_8cpp.html",
-"PassingTests_8cpp.html#ae1559e0b63e341e74c010fcc422cf55d",
-"TestRole_8h_source.html",
-"WorldResetTests_8cpp.html#a96324beaed025bb7e69a113e9e50ac22",
-"classrtt_1_1ai_1_1Constants.html#a4dc0d6fcc7cc2f05c4f2eda853ccae86",
-"classrtt_1_1ai_1_1control_1_1PositionControl.html#a4d30ccdff8213c7421527d5307fd160b",
-"classrtt_1_1ai_1_1interface_1_1Visualizer.html#a615e5c272eb165b0f074517256f7a39b",
-"classrtt_1_1ai_1_1stp_1_1computations_1_1PassComputations.html#a6b4617276cfe62f74480e908a3678627",
-"classrtt_1_1ai_1_1stp_1_1play_1_1AttackingPass.html#a811a29f3adf24138908bbea183e2430b",
-"classrtt_1_1ai_1_1stp_1_1play_1_1FreeKickThem.html#ad7b71d56f8b8d8d62b7ec945847a2bec",
-"classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#adf40ab90d6253afdd83c24480c9ff182",
-"classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#aa085ab5ef5dad00be9b7aceb216f4837",
-"classrtt_1_1ai_1_1stp_1_1role_1_1KeeperPasser.html#af9a9c436e9711e707dfb0f43b5601d91",
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1DriveWithBall.html",
-"classrtt_1_1input_1_1JoystickManager.html#a7a098bd28711834be4247ee2db61a019",
-"classrtt_1_1world_1_1robot_1_1Robot.html#a41988a92ee051e0b84c96f693e8ec1fb",
-"functions_vars.html",
-"namespacertt_1_1ai_1_1stp.html#a8a168b78725926f5901d2f6370784113",
-"structrtt_1_1BB_1_1BBPosVelAcc.html#a37027447d777ff1f7cc29d953f56d749"
+"DriveWithBall_8cpp.html",
+"PenaltyUsGameStateEvaluation_8h.html",
+"Trajectory2D_8h_source.html",
+"classrtt_1_1ai_1_1Constants.html#a3c221f938716ed974921ce620b04296f",
+"classrtt_1_1ai_1_1interface_1_1MainControlsWidget.html#a2a58d706554896154a7470445aaf1a96",
+"classrtt_1_1ai_1_1stp_1_1Play.html#aab8c4eb6721bd6a0f62cc1eedf7dcc56",
+"classrtt_1_1ai_1_1stp_1_1evaluation_1_1OpennessEvaluation.html#ace05ccd67d79a52389c0e48556568213",
+"classrtt_1_1ai_1_1stp_1_1play_1_1DefendShot.html#a35355c03997edfb4f96c89030dcf5abe",
+"classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a75285f5ba087c4fec511022d614f1d0a",
+"classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#a4598ba530d29d7f4f53bcec0c9845100",
+"classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a0f136c2ac131c1b44b65cb9eeba823fe",
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ac7dba7916b5fc648439cb51181d01358",
+"classrtt_1_1world_1_1WorldData.html#ae001f33964e99ee79d239c0bb7287d83",
+"functions_v.html",
+"namespacertt_1_1ai_1_1stp.html#a8c7cbfa3bebf24efb4773782dbd9cea3",
+"structrtt_1_1ai_1_1RefGameState.html#a46115cbc7e68884ae55da415be8c4095"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

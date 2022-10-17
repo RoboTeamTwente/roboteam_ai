@@ -106,9 +106,6 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a8846e14bbf9eba6f72c76ae4c11e9d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a409196842b57352c0d22e5d388c8f90f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a409196842b57352c0d22e5d388c8f90f">objectVelocityAimedToPoint</a> (const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;objectPosition, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;velocity, const <a class="el" href="ControlUtils_8h.html#acfb8903fac5809ad6180aee41b325f82">Vector2</a> &amp;point, double maxDifference=0.3)</td></tr>
 <tr class="separator:a409196842b57352c0d22e5d388c8f90f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a33af6aff51eb2132f1b7fcb1c92b1583">determineChipForce</a> (const double distance, <a class="el" href="namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87ab">stp::ShotType</a> shotType) noexcept</td></tr>
-<tr class="memdesc:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the chip force.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#a33af6aff51eb2132f1b7fcb1c92b1583">More...</a><br /></td></tr>
-<tr class="separator:a33af6aff51eb2132f1b7fcb1c92b1583"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4c9f77efa7e4d281119074b2a278501"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#ad4c9f77efa7e4d281119074b2a278501">determineKickForce</a> (const double distance, <a class="el" href="namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87ab">stp::ShotType</a> shotType) noexcept</td></tr>
 <tr class="memdesc:ad4c9f77efa7e4d281119074b2a278501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the kick force.  <a href="classrtt_1_1ai_1_1control_1_1ControlUtils.html#ad4c9f77efa7e4d281119074b2a278501">More...</a><br /></td></tr>
 <tr class="separator:ad4c9f77efa7e4d281119074b2a278501"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,52 +221,6 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Calculate the force of a given vector + a certain type. the basic formula is: force = weight/distance^2 * unit vector </p>
-
-</div>
-</div>
-<a id="a33af6aff51eb2132f1b7fcb1c92b1583"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33af6aff51eb2132f1b7fcb1c92b1583">&#9670;&nbsp;</a></span>determineChipForce()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double rtt::ai::control::ControlUtils::determineChipForce </td>
-          <td>(</td>
-          <td class="paramtype">const double&#160;</td>
-          <td class="paramname"><em>distance</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacertt_1_1ai_1_1stp.html#a40e85934b4fd4ca9ddfa2553886a87ab">stp::ShotType</a>&#160;</td>
-          <td class="paramname"><em>shotType</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Calculates the chip force. </p>
-<p>Determines the chip force based on the distance and the type of chip </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">distance</td><td>distance to the target </td></tr>
-    <tr><td class="paramname">shotType</td><td>type of the chip </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a chip speed between min and max chip speed </dd></dl>
 
 </div>
 </div>

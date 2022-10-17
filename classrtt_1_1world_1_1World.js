@@ -11,7 +11,6 @@ var classrtt_1_1world_1_1World =
     [ "getHistorySize", "classrtt_1_1world_1_1World.html#a4eede1970e8d64b3db0857361d0813ca", null ],
     [ "getHistoryWorld", "classrtt_1_1world_1_1World.html#a985f126be0f2907af1c94594bdd3a6c1", null ],
     [ "getRobotPositionController", "classrtt_1_1world_1_1World.html#ad1637106c9587aa7ab01123bfd02724d", null ],
-    [ "getTimeDifference", "classrtt_1_1world_1_1World.html#a5917443d92fd1d467918bc696ff8a8c7", null ],
     [ "getWorld", "classrtt_1_1world_1_1World.html#ad4c662ed15785b242ff49780706a6ca9", null ],
     [ "instance", "classrtt_1_1world_1_1World.html#a67eccfd0e7e13fc4ce20a5dd5df55c31", null ],
     [ "operator=", "classrtt_1_1world_1_1World.html#a96baed371423474a119eb6fd55b5ae59", null ],
