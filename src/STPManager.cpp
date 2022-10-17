@@ -27,6 +27,7 @@
 #include "stp/plays/offensive/Attack.h"
 #include "stp/plays/offensive/AttackingPass.h"
 #include "stp/plays/offensive/GenericPass.h"
+#include "stp/plays/offensive/Pass.h"
 #include "stp/plays/referee_specific/AggressiveStopFormation.h"
 #include "stp/plays/referee_specific/BallPlacementThem.h"
 #include "stp/plays/referee_specific/BallPlacementUs.h"
@@ -87,6 +88,7 @@ void STPManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     // plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
 
     // Set the pointer to world for all plays
     {

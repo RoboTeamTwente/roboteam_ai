@@ -17,7 +17,7 @@ namespace rtt::ai::stp::play{
         /**
          * Return true if passer is done with kicking the ball
          */
-         bool ballKcked();
+         bool ballKicked();
 
         /**
         * Struct containing info about the pass. Calculated once for each time this play is run

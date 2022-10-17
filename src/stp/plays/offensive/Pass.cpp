@@ -19,6 +19,7 @@ namespace rtt::ai::stp::play{
         startPlayEvaluation.clear();
         startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
         startPlayEvaluation.emplace_back(GlobalEvaluation::TheyDoNotHaveBall);
+        startPlayEvaluation.emplace_back(GlobalEvaluation::KickOffUsOrNormalGameState);
 
         keepPlayEvaluation.clear();
         keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
@@ -35,8 +36,8 @@ namespace rtt::ai::stp::play{
                 std::make_unique<role::Formation>(role::Formation("halt_5")),
                 std::make_unique<role::Formation>(role::Formation("halt_6")),
                 std::make_unique<role::Formation>(role::Formation("halt_7")),
-                std::make_unique<role::Formation>(role::Formation("halt_8")),
-        }
+                std::make_unique<role::Formation>(role::Formation("halt_8"))
+        };
     }
 
 
@@ -74,16 +75,41 @@ namespace rtt::ai::stp::play{
         stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-        /// Passer and Receiver
+//        if(!ballKicked()){
+//
+//            stpInfos["passer"].setAngle(world->getWorld()->get()->getBall()->get()->velocity.angle());
+//            stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->position);
+//            stpInfos["passer"].setPositionToShootAt(passInfo.passLocation);
+//            stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
+//            stpInfos["passer"].setShotType(ShotType::PASS);
+//
+//            stpInfos["receiver"].setPositionToMoveTo(passInfo.passLocation);
+//        }
+//        else{
+//            stpInfos["passer"].setPositionToShootAt(stpInfos["receiver"].getRobot()->get()->getPos());
+//            stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
+//            stpInfos["passer"].setShotType(ShotType::PASS);
+//
+//            stpInfos["receiver"].setPositionToMoveTo(passInfo.passLocation);
+//            stpInfos["receiver"].setAngle(M_PI - stpInfos["passer"].getAngle());
+//
+//        }
+
+        /// Passer
         stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->position);
+        stpInfos["receiver"].setPositionToMoveTo(passInfo.passLocation);
+        stpInfos["passer"].setPositionToShootAt(passInfo.passLocation);
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
         stpInfos["passer"].setShotType(ShotType::PASS);
-
-
-
+        stpInfos["passer"].setAngle(world->getWorld()->get()->getBall()->get()->velocity.angle());
+        stpInfos["receiver"].setAngle(M_PI + stpInfos["passer"].getAngle());
+//        /// Receiver
+//        stpInfos["receiver"].setPositionToMoveTo(passInfo.passLocation);
+//        stpInfos["receiver"].setAngle(M_PI + stpInfos["passer"].getAngle());
 
 
     }
+
 
     void Pass::calculateInfoForDefenders() noexcept {
 
@@ -101,11 +127,22 @@ namespace rtt::ai::stp::play{
 
     }
 
-    bool Pass::ballKcked() {
+    bool Pass::ballKicked() {
+        if(world->getWorld()->ourRobotHasBall(passInfo.passerId, control_constants::BALL_IS_CLOSE)){
+            return false;
+        }
+        return true;
+
 
     }
 
     bool Pass::shouldEndPlay() noexcept {
+
+        if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot().value()->hasBall()) {
+            return true;
+        }
+
+        return false;
 
     }
 
