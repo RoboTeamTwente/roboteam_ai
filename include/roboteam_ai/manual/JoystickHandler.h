@@ -9,8 +9,8 @@
 #include <roboteam_utils/RobotCommands.hpp>
 
 #include "JoystickState.h"
-#include "SDL.h"
-#include "SDL_joystick.h"
+#include <SDL.h>
+#include <SDL_joystick.h>
 
 namespace rtt::input {
 

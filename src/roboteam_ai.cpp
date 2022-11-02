@@ -3,6 +3,8 @@
 #include "STPManager.h"
 #include "utilities/IOManager.h"
 #include "world/World.hpp"
+#include <QApplication>
+#include <QStyleFactory>
 
 namespace ui = rtt::ai::interface;
 

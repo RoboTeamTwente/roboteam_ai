@@ -2,8 +2,9 @@
 // Created by john on 4/30/20.
 //
 
-#include "interface/widgets/PlaysWidget.hpp"
+#include <QScrollBar>
 
+#include "interface/widgets/PlaysWidget.hpp"
 #include "STPManager.h"
 
 namespace rtt::ai::interface {

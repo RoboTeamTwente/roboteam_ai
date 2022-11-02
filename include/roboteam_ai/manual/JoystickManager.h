@@ -12,8 +12,6 @@
 #include <mutex>
 
 #include "JoystickHandler.h"
-#include "SDL.h"
-#include "SDL_joystick.h"
 #include "control/ControlModule.h"
 
 namespace rtt::input {

@@ -6,6 +6,8 @@
 #include "interface/widgets/PidsWidget.h"
 #include "interface/widgets/VisualizationSettingsWidget.h"
 
+#include <QSplitter>
+
 namespace rtt::ai::interface {
 
 MainWindow::MainWindow(QWidget *parent, STPManager *manager) : QMainWindow(parent) {

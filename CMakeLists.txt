@@ -19,6 +19,7 @@ target_link_libraries(roboteam_ai_utils
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
+        PUBLIC GTest::gtest
 )
 target_include_directories(roboteam_ai_utils
         PRIVATE include/roboteam_ai
@@ -36,8 +37,9 @@ target_include_directories(roboteam_ai_manual
 target_link_libraries(roboteam_ai_manual
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
-        PRIVATE SDL2
+        PUBLIC SDL2::SDL2
         PRIVATE Qt5::Widgets
+        PUBLIC roboteam_ai_world
 )
 target_compile_options(roboteam_ai_manual PRIVATE "${COMPILER_FLAGS}")
 
@@ -58,6 +60,7 @@ target_link_libraries(roboteam_ai_skills
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
+        PUBLIC roboteam_ai_world
 )
 target_compile_options(roboteam_ai_skills PRIVATE "${COMPILER_FLAGS}")
 
@@ -89,6 +92,7 @@ target_link_libraries(roboteam_ai_tactics
         PRIVATE roboteam_utils
         PRIVATE roboteam_networking
         PRIVATE Qt5::Widgets
+        PUBLIC roboteam_ai_world
 )
 target_compile_options(roboteam_ai_tactics PRIVATE "${COMPILER_FLAGS}")
 
@@ -120,6 +124,7 @@ target_include_directories(roboteam_ai_roles
 target_link_libraries(roboteam_ai_roles
         PRIVATE roboteam_utils
         PRIVATE roboteam_networking
+        PUBLIC roboteam_ai_world
         PRIVATE Qt5::Widgets
 )
 target_compile_options(roboteam_ai_roles PRIVATE "${COMPILER_FLAGS}")
@@ -160,10 +165,13 @@ target_include_directories(roboteam_ai_plays
 )
 target_link_libraries(roboteam_ai_plays
         PUBLIC roboteam_interface_utils_lib
+        PUBLIC roboteam_ai_interface
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
+        PUBLIC roboteam_ai_manual
+        PUBLIC roboteam_ai_world
         PRIVATE Qt5::Widgets
-        PRIVATE SDL2
+        PRIVATE SDL2::SDL2
         PRIVATE NFParam
 )
 target_compile_options(roboteam_ai_plays PRIVATE "${COMPILER_FLAGS}")
@@ -220,6 +228,7 @@ target_include_directories(roboteam_ai_evaluation
 target_link_libraries(roboteam_ai_evaluation
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
+        PUBLIC roboteam_ai_world
         PRIVATE Qt5::Widgets
         PRIVATE NFParam
 )
@@ -239,6 +248,7 @@ target_link_libraries(roboteam_ai_computation
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
+        PUBLIC roboteam_ai_world
         PRIVATE NFParam
 )
 target_compile_options(roboteam_ai_computation PRIVATE "${COMPILER_FLAGS}")
@@ -272,6 +282,7 @@ target_include_directories(roboteam_ai_control
 target_link_libraries(roboteam_ai_control
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
+        PUBLIC roboteam_ai_world
         PRIVATE Qt5::Widgets
 )
 target_compile_options(roboteam_ai_control PRIVATE "${COMPILER_FLAGS}")
@@ -320,11 +331,15 @@ target_include_directories(roboteam_ai_interface
         PRIVATE include/roboteam_ai
 )
 target_link_libraries(roboteam_ai_interface
-        PRIVATE Qt5::Widgets
+        PUBLIC Qt5::Widgets
+        PUBLIC Qt5::Charts
+        PUBLIC Qt5::Core
+        PRIVATE roboteam_ai_manual
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
-        PRIVATE SDL2
+        PRIVATE SDL2::SDL2
         PRIVATE roboteam_interface_utils_lib
+        PRIVATE GTest::gtest
 )
 target_compile_options(roboteam_ai_interface PRIVATE "${COMPILER_FLAGS}")
 
@@ -347,6 +362,7 @@ target_link_libraries(roboteam_ai_world
         PRIVATE roboteam_networking
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
+        PUBLIC GTest::gtest
 )
 target_compile_options(roboteam_ai_world PRIVATE "${COMPILER_FLAGS}")
 
@@ -362,14 +378,13 @@ target_link_libraries(roboteam_ai
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
-        PRIVATE SDL2
+        PRIVATE SDL2::SDL2
         # Watch out! The order of these libraries apparently matters!
         PRIVATE roboteam_ai_interface
         PRIVATE roboteam_ai_plays
         PRIVATE roboteam_ai_world
         PRIVATE roboteam_ai_control
         PRIVATE roboteam_ai_roles
-        PRIVATE Qt5::Charts
         PRIVATE roboteam_ai_manual
         PRIVATE roboteam_ai_utils
         PRIVATE roboteam_ai_computation
@@ -426,13 +441,12 @@ target_link_libraries(roboteam_ai_tests
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
-        PRIVATE SDL2
+        PRIVATE SDL2::SDL2
         # Watch out! The order of these libraries apparently matters!
         PRIVATE roboteam_ai_interface
         PRIVATE roboteam_ai_plays
         PRIVATE roboteam_ai_world
         PRIVATE roboteam_ai_roles
-        PRIVATE Qt5::Charts
         PRIVATE roboteam_ai_manual
         PRIVATE roboteam_ai_utils
         PRIVATE roboteam_ai_computation
@@ -445,7 +459,7 @@ target_link_libraries(roboteam_ai_tests
 
 target_compile_options(roboteam_ai_tests PRIVATE "${COMPILER_FLAGS}")
 
-gtest_discover_tests(roboteam_ai_tests)
+# gtest_discover_tests(roboteam_ai_tests)
 
 ###### POSITIONSCORINGTEST #######
 add_executable(positionScoringTest
@@ -460,11 +474,10 @@ target_include_directories(positionScoringTest
 target_link_libraries(positionScoringTest
         PRIVATE Qt5::Widgets
         PRIVATE roboteam_networking
-        PRIVATE SDL2
+        PRIVATE SDL2::SDL2
         PRIVATE roboteam_ai_plays
         PRIVATE roboteam_utils
         PRIVATE roboteam_ai_roles
-        PRIVATE Qt5::Charts
         PRIVATE roboteam_ai_manual
         PRIVATE roboteam_ai_utils
         PRIVATE roboteam_ai_computation

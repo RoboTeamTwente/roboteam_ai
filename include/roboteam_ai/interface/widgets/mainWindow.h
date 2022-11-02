@@ -12,6 +12,7 @@
 #include <QRadioButton>
 #include <QTreeWidget>
 #include <QtGui>
+#include <QMenuBar>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <iostream>

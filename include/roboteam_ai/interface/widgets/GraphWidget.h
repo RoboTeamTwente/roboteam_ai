@@ -1,10 +1,12 @@
 //
 // Created by mrlukasbos on 22-9-19.
 //
-#include <QtCharts/QtCharts>
 
 #ifndef RTT_GRAPHWIDGET_H
 #define RTT_GRAPHWIDGET_H
+
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
 
 namespace rtt::ai::interface {
 
@@ -15,8 +17,8 @@ class GraphWidget : public QWidget {
     float fpsGraphYMax = 0;
     float fpsGraphXMin = 0;
     float fpsGraphXMax = 0;
-    QChartView *fpsView;
-    QLineSeries *fpsSeries;
+    QtCharts::QChartView *fpsView;
+    QtCharts::QLineSeries *fpsSeries;
 
    public:
     explicit GraphWidget(QWidget *parent = nullptr);

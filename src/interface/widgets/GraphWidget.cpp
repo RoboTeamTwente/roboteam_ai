@@ -4,6 +4,11 @@
 
 #include "interface/widgets/GraphWidget.h"
 
+#include <QChartView>
+#include <QVBoxLayout>
+#include <QChart>
+#include <QSplineSeries>
+
 #include "interface/api/Input.h"
 
 namespace rtt::ai::interface {
@@ -11,9 +16,9 @@ namespace rtt::ai::interface {
 GraphWidget::GraphWidget(QWidget *parent) {
     auto verticalLayout = new QVBoxLayout(this);
 
-    fpsView = new QChartView();
+    fpsView = new QtCharts::QChartView();
 
-    fpsSeries = new QSplineSeries();
+    fpsSeries = new QtCharts::QSplineSeries();
     fpsSeries->setUseOpenGL();
     fpsSeries->setColor(Qt::blue);
     fpsSeries->setName("FPS");
@@ -21,12 +26,12 @@ GraphWidget::GraphWidget(QWidget *parent) {
     fpsView->chart()->addSeries(fpsSeries);
     fpsView->chart()->createDefaultAxes();
     fpsView->chart()->setMinimumHeight(300);
-    fpsView->chart()->setTheme(QChart::ChartThemeDark);
+    fpsView->chart()->setTheme(QtCharts::QChart::ChartThemeDark);
     fpsView->chart()->setBackgroundBrush(QColor(53, 53, 53));
     fpsView->chart()->axes(Qt::Horizontal).back()->setMinorGridLineColor(Qt::gray);
     fpsView->chart()->axes(Qt::Vertical).back()->setGridLineVisible(true);
 
-    connect(dynamic_cast<const QSplineSeries *>(fpsSeries), &QSplineSeries::pointAdded, [=, this](int index) {
+    connect(dynamic_cast<const QtCharts::QSplineSeries *>(fpsSeries), &QtCharts::QSplineSeries::pointAdded, [=, this](int index) {
         qreal y = fpsSeries->at(index).y();
         qreal x = fpsSeries->at(index).x();
 
