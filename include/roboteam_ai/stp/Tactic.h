@@ -12,6 +12,7 @@
 #include "stp/StpInfo.h"
 
 namespace rtt::ai::stp {
+
 class Skill;
 
 class Tactic {

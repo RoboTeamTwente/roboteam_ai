@@ -1,6 +1,6 @@
 //
 // Created by jordi on 06-03-20.
-//
+// skill for rotating
 
 #ifndef RTT_ROTATE_H
 #define RTT_ROTATE_H

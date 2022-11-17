@@ -1,6 +1,7 @@
 //
 // Created by jordi on 09-03-20.
 //
+//Skill for chipping
 
 #ifndef RTT_CHIP_H
 #define RTT_CHIP_H

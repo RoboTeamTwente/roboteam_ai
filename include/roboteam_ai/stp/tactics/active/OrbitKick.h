@@ -52,6 +52,6 @@ class OrbitKick : public Tactic {
      */
     const char *getName() override;
 };
-}  // namespace rtt::ai::stp::tactic
+}  // namespace rtt::ai::stp::tactic/
 
 #endif  // RTT_ORBITKICK_H

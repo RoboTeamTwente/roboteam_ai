@@ -1,6 +1,6 @@
 //
 // Created by jordi on 09-03-20.
-//
+// used in ChipAtPos tactic
 
 #include "stp/skills/Chip.h"
 
