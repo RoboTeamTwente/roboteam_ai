@@ -22,6 +22,11 @@ class OrbitAngular : public Skill {
      * @return The name of this skill
      */
     const char* getName() override;
+
+    /**
+     * Counter for how many ticks the robot is within the error margin
+     */
+    int counter = 0;
 };
 }  // namespace rtt::ai::stp::skill
 
