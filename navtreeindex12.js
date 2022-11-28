@@ -1,5 +1,6 @@
 var NAVTREEINDEX12 =
 {
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ac66cf9fe9def08172b053a6abc869ba1":[9,0,0,0,3,6,4,12],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ac7dba7916b5fc648439cb51181d01358":[9,0,0,0,3,6,4,11],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#af4a9f63577d36c0cf178aae99fb0fd00":[9,0,0,0,3,6,4,9],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#af773c74e22de969c6e044f88f1ff7cc4":[9,0,0,0,3,6,4,8],
@@ -231,8 +232,8 @@ var NAVTREEINDEX12 =
 "classrtt_1_1world_1_1World.html#adf9650147a181b2db3b37cc6e4f092e3":[9,0,0,4,6,4],
 "classrtt_1_1world_1_1World.html#aef21ad06dd8c0993f12ef3f696d0c22b":[9,0,0,4,6,28],
 "classrtt_1_1world_1_1World.html#af64f484d43512bff1fae5ae1fad707e8":[9,0,0,4,6,12],
-"classrtt_1_1world_1_1World.html#structrtt_1_1world_1_1World_1_1AcquireInfo":[10,0,1,0,5,7,1],
 "classrtt_1_1world_1_1World.html#structrtt_1_1world_1_1World_1_1AcquireInfo":[9,0,0,4,6,0],
+"classrtt_1_1world_1_1World.html#structrtt_1_1world_1_1World_1_1AcquireInfo":[10,0,1,0,5,7,1],
 "classrtt_1_1world_1_1WorldData.html":[9,0,0,4,7],
 "classrtt_1_1world_1_1WorldData.html#a0298f44793558e328c882602fa5d3bfb":[9,0,0,4,7,11],
 "classrtt_1_1world_1_1WorldData.html#a23004b6389dde87425b9825ec52d135a":[9,0,0,4,7,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX12 =
 "classrtt_1_1world_1_1WorldData.html#a8e8ca4590f251411cc489cf5f3e2ce83":[9,0,0,4,7,6],
 "classrtt_1_1world_1_1WorldData.html#a9aa66bbdd33aa6a0ba30a63ac1861888":[9,0,0,4,7,1],
 "classrtt_1_1world_1_1WorldData.html#aa9e5e067f16fde0193c77f2e509ee0b2":[9,0,0,4,7,16],
-"classrtt_1_1world_1_1WorldData.html#acbdf94728bf3742338859822ef67a7b4":[9,0,0,4,7,13],
-"classrtt_1_1world_1_1WorldData.html#accd954c93e207d9af0f35e8ca4172ad6":[9,0,0,4,7,15]
+"classrtt_1_1world_1_1WorldData.html#acbdf94728bf3742338859822ef67a7b4":[9,0,0,4,7,13]
 };

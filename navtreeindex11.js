@@ -16,9 +16,10 @@ var NAVTREEINDEX11 =
 "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html":[9,0,0,0,3,5,3],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a0f136c2ac131c1b44b65cb9eeba823fe":[9,0,0,0,3,5,3,6],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a390cf790dda0b20bdf7428ee3b853d8a":[9,0,0,0,3,5,3,2],
-"classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a62d571b925906855b84dfc185a0b5ee8":[9,0,0,0,3,5,3,9],
+"classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a62d571b925906855b84dfc185a0b5ee8":[9,0,0,0,3,5,3,10],
+"classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a6c6152e21a08243fc140ee63cd49ec8f":[9,0,0,0,3,5,3,9],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a780e4278236cf608077ba4f77deb6b1a":[9,0,0,0,3,5,3,1],
-"classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a8625bf35b1b36ec18fd8ff68926ec0d4":[9,0,0,0,3,5,3,10],
+"classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a8625bf35b1b36ec18fd8ff68926ec0d4":[9,0,0,0,3,5,3,11],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a8ff0319d5018d2f697c38494d0568991":[9,0,0,0,3,5,3,0],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a97aca306adb701181c5726a09cac208c":[9,0,0,0,3,5,3,3],
 "classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#aab9578d86a91f8a16f5c02200ca3b5e8":[9,0,0,0,3,5,3,7],
@@ -248,6 +249,5 @@ var NAVTREEINDEX11 =
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ab496bf1614c47ef3e466cd235eb84aab":[9,0,0,0,3,6,4,2],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ab7650037eb092459aca7247ea77f2ad4":[9,0,0,0,3,6,4,5],
 "classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ab9652946b0ab747c1e17ce073a5d907d":[9,0,0,0,3,6,4,10],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#abbf6e76d81e85ea48f9b4a4d528eea64":[9,0,0,0,3,6,4,1],
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ac66cf9fe9def08172b053a6abc869ba1":[9,0,0,0,3,6,4,12]
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#abbf6e76d81e85ea48f9b4a4d528eea64":[9,0,0,0,3,6,4,1]
 };

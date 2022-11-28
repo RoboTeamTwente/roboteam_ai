@@ -1,5 +1,6 @@
 var NAVTREEINDEX15 =
 {
+"namespacertt_1_1ai_1_1stp.html#a8a168b78725926f5901d2f6370784113aed8e8497a6a4c2315790d3d56b7c5065":[8,0,1,0,3,26,1],
 "namespacertt_1_1ai_1_1stp.html#a8c7cbfa3bebf24efb4773782dbd9cea3":[10,0,1,0,3,0,2,0,0],
 "namespacertt_1_1ai_1_1stp.html#a92b74fb1a0273f1087bf331bc4983960":[10,0,1,0,3,0,2,0,2],
 "namespacertt_1_1ai_1_1stp.html#a9b1a79ba58c1300d9f6f0e073f9d7db2":[8,0,1,0,3,25],
@@ -248,6 +249,5 @@ var NAVTREEINDEX15 =
 "structrtt_1_1ai_1_1GameState.html#ab6e6311de634be55279197837a5dfa20":[9,0,0,0,6,5],
 "structrtt_1_1ai_1_1GameState.html#abb284fc0415590320f3d3251a5879b82":[9,0,0,0,6,6],
 "structrtt_1_1ai_1_1GameState.html#aee23d2e0d9c9d23be78ad66f895fce34":[9,0,0,0,6,1],
-"structrtt_1_1ai_1_1RefGameState.html":[9,0,0,0,9],
-"structrtt_1_1ai_1_1RefGameState.html#a134b0ed0630b2fba3fe874e08d487844":[9,0,0,0,9,6]
+"structrtt_1_1ai_1_1RefGameState.html":[9,0,0,0,9]
 };

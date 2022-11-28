@@ -1,5 +1,6 @@
 var NAVTREEINDEX16 =
 {
+"structrtt_1_1ai_1_1RefGameState.html#a134b0ed0630b2fba3fe874e08d487844":[9,0,0,0,9,6],
 "structrtt_1_1ai_1_1RefGameState.html#a46115cbc7e68884ae55da415be8c4095":[9,0,0,0,9,0],
 "structrtt_1_1ai_1_1RefGameState.html#a4f5c8f0665ed69c4a1b67fd30d307b59":[9,0,0,0,9,7],
 "structrtt_1_1ai_1_1RefGameState.html#a659a0bd20fb301add0b094902d123069":[9,0,0,0,9,3],

@@ -172,11 +172,11 @@ var NAVTREEINDEX =
 "classrtt_1_1ai_1_1stp_1_1play_1_1KeeperKickBall.html#a75285f5ba087c4fec511022d614f1d0a",
 "classrtt_1_1ai_1_1stp_1_1play_1_1PenaltyUsPrepare.html#a4598ba530d29d7f4f53bcec0c9845100",
 "classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a0f136c2ac131c1b44b65cb9eeba823fe",
-"classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ac7dba7916b5fc648439cb51181d01358",
-"classrtt_1_1world_1_1WorldData.html#ae001f33964e99ee79d239c0bb7287d83",
-"functions_v.html",
-"namespacertt_1_1ai_1_1stp.html#a8c7cbfa3bebf24efb4773782dbd9cea3",
-"structrtt_1_1ai_1_1RefGameState.html#a46115cbc7e68884ae55da415be8c4095"
+"classrtt_1_1ai_1_1stp_1_1tactic_1_1OrbitKick.html#ac66cf9fe9def08172b053a6abc869ba1",
+"classrtt_1_1world_1_1WorldData.html#accd954c93e207d9af0f35e8ca4172ad6",
+"functions_u.html",
+"namespacertt_1_1ai_1_1stp.html#a8a168b78725926f5901d2f6370784113aed8e8497a6a4c2315790d3d56b7c5065",
+"structrtt_1_1ai_1_1RefGameState.html#a134b0ed0630b2fba3fe874e08d487844"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

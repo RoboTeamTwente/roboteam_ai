@@ -23,7 +23,7 @@ var searchData=
   ['computedpathsvel_3193',['computedPathsVel',['../classrtt_1_1ai_1_1control_1_1PositionControl.html#abf0ba3ba56d70da646d1d864e6dfbce7',1,'rtt::ai::control::PositionControl']]],
   ['computedtrajectories_3194',['computedTrajectories',['../classrtt_1_1ai_1_1control_1_1PositionControl.html#a77ba3daf9363867a7d4a9ae7007e2334',1,'rtt::ai::control::PositionControl']]],
   ['contentlock_3195',['contentLock',['../classrtt_1_1ai_1_1interface_1_1STPVisualizerWidget.html#a6f40ffb38364072a380349c98c2bac1c',1,'rtt::ai::interface::STPVisualizerWidget']]],
-  ['counter_3196',['counter',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a3b5edaebee0b84aa5f01bbbb4575446c',1,'rtt::ai::stp::skill::Orbit']]],
+  ['counter_3196',['counter',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a3b5edaebee0b84aa5f01bbbb4575446c',1,'rtt::ai::stp::skill::Orbit::counter()'],['../classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a6c6152e21a08243fc140ee63cd49ec8f',1,'rtt::ai::stp::skill::OrbitAngular::counter()']]],
   ['currentfield_3197',['currentField',['../classrtt_1_1world_1_1World.html#a38d89d9dcfcd259fe9ad2f48ea6cc1c2',1,'rtt::world::World']]],
   ['currentindex_3198',['currentIndex',['../classrtt_1_1world_1_1World.html#ad242e19ae0a4f4b3fb3fd7d875241efb',1,'rtt::world::World']]],
   ['currentplay_3199',['currentPlay',['../classrtt_1_1STPManager.html#a398d2b8170beb38ec7f54495c29a0b85',1,'rtt::STPManager']]],

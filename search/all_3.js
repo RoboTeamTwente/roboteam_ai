@@ -103,7 +103,7 @@ var searchData=
   ['correctplaytest_2ecpp_296',['CorrectPlayTest.cpp',['../CorrectPlayTest_8cpp.html',1,'']]],
   ['costfordistance_297',['costForDistance',['../classrtt_1_1ai_1_1Dealer.html#a1ba03074fbebf79d492694b6d304fb0c',1,'rtt::ai::Dealer']]],
   ['costforproperty_298',['costForProperty',['../classrtt_1_1ai_1_1Dealer.html#a18f662b889ef52c85aa211ba5c133c72',1,'rtt::ai::Dealer']]],
-  ['counter_299',['counter',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a3b5edaebee0b84aa5f01bbbb4575446c',1,'rtt::ai::stp::skill::Orbit']]],
+  ['counter_299',['counter',['../classrtt_1_1ai_1_1stp_1_1skill_1_1Orbit.html#a3b5edaebee0b84aa5f01bbbb4575446c',1,'rtt::ai::stp::skill::Orbit::counter()'],['../classrtt_1_1ai_1_1stp_1_1skill_1_1OrbitAngular.html#a6c6152e21a08243fc140ee63cd49ec8f',1,'rtt::ai::stp::skill::OrbitAngular::counter()']]],
   ['createintermediatepoints_300',['createIntermediatePoints',['../classrtt_1_1ai_1_1control_1_1PositionControl.html#a4d30ccdff8213c7421527d5307fd160b',1,'rtt::ai::control::PositionControl']]],
   ['createrobotgroupitem_301',['createRobotGroupItem',['../classrtt_1_1ai_1_1interface_1_1RobotsWidget.html#a13dd8d87b0b9f578293dd522bfe77659',1,'rtt::ai::interface::RobotsWidget']]],
   ['createtestfield_302',['createTestField',['../classrtt_1_1world_1_1Field.html#a8b4f8c7e707dc2f7f0cd046825cab3e4',1,'rtt::world::Field']]],
