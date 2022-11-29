@@ -14,7 +14,7 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     Vector2 directionVector =  info.getRobot()->get()->getAngle().toVector2();  // Vector in direction robot is currently facing
     Angle targetAngle = (info.getPositionToShootAt().value() - info.getRobot()->get()->getPos()).toAngle(); // Angle we want to have
     auto direction = Angle(directionVector).rotateDirection(targetAngle) ? 1.0 : -1.0;  // Direction robot should rotate to
-    double speed = 0.5 + 4 * directionVector.toAngle().shortestAngleDiff(targetAngle); // Speed at which the robot should orbit. I made it relative to the angle so that we don't overshoot
+    double speed = 0.1 + 4 * directionVector.toAngle().shortestAngleDiff(targetAngle); // Speed at which the robot should orbit. I made it relative to the angle so that we don't overshoot
     Vector2 normalVector = directionVector.rotate(-direction * M_PI_2); // Direction robot should move to
 
     // velocity vector the robot should follow
@@ -33,7 +33,7 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     forwardRobotCommand(info.getCurrentWorld());
 
     // Check if successful
-    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI_2 * 0.75; // Can be finetuned. smaller margin means preciser shooting but more prone to overshooting angle
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI_2 * 0.2; // Can be finetuned. smaller margin means preciser shooting but more prone to overshooting angle
     if (directionVector.toAngle().shortestAngleDiff(targetAngle) < errorMargin) {
         counter++;
     }
@@ -42,7 +42,7 @@ Status OrbitAngular::onUpdate(const StpInfo &info) noexcept {
     }
 
     // If the robot is within the error margin for 5 consecutive ticks, return success
-    if (counter > 5) {
+    if (counter > 2) {
         command.dribblerSpeed = 0;
         forwardRobotCommand(info.getCurrentWorld());
         return Status::Success;
