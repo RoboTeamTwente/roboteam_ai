@@ -3,6 +3,7 @@
 //
 
 #include "world/World.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rtt::world {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
@@ -91,6 +92,7 @@ void World::updateTickTime() noexcept {
 }
 
 void World::updatePositionControl() {
+    ZoneScopedN("Update Position Control");
     std::vector<Vector2> robotPositions(getWorld()->getRobotsNonOwning().size());
     std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robotPositions.begin(),
                    [](const auto &robot) -> Vector2 { return (robot->getPos()); });

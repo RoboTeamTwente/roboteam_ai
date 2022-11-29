@@ -6,6 +6,7 @@
 
 #include "control/ControlModule.h"
 #include "world/World.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rtt::ai::stp {
 
@@ -28,6 +29,7 @@ void Skill::refreshRobotCommand() noexcept {
 void Skill::terminate() noexcept {}
 
 Status Skill::update(StpInfo const& info) noexcept {
+    ZoneScopedN("Skill Update");
     robot = info.getRobot();
     auto result = onUpdate(info);
     currentStatus = result;

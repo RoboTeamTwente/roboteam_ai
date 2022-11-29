@@ -6,7 +6,7 @@
 
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include "roboteam_utils/Print.h"
-
+#include "tracy/Tracy.hpp"
 namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
                                                   Vector2 &targetPosition, stp::PIDType pidType) {
@@ -41,6 +41,7 @@ void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) { 
 rtt::BB::CommandCollision PositionControl::computeAndTrackTrajectory(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
                                                                      Vector2 currentVelocity, Vector2 targetPosition, double maxRobotVelocity, stp::PIDType pidType,
                                                                      stp::AvoidObjects avoidObjects) {
+    ZoneScopedN("ComputeAndTrackTrajectory");
     double timeStep = 0.1;
 
     std::optional<BB::CollisionData> firstCollision;

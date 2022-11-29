@@ -5,6 +5,7 @@
 #include "stp/Tactic.h"
 
 #include <roboteam_utils/Print.h>
+#include "tracy/Tracy.hpp"
 
 namespace rtt::ai::stp {
 
@@ -15,6 +16,7 @@ void Tactic::initialize() noexcept {
 }
 
 Status Tactic::update(StpInfo const &info) noexcept {
+    ZoneScopedN("Tactic Update");
     // Update skill info
     auto skill_info = calculateInfoForSkill(info);
 
