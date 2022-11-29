@@ -12,7 +12,7 @@ namespace rtt::ai::stp::tactic {
 
 OrbitKick::OrbitKick() {
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::OrbitAngular()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::OrbitAngular(), skill::Kick()};
 }
 
 std::optional<StpInfo> OrbitKick::calculateInfoForSkill(StpInfo const &info) noexcept {
